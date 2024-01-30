@@ -34,53 +34,53 @@ export const menuItems = [
     icon: <LayoutGrid />,
     hasChildren: false,
   },
-  {
-    menuName: "Inbox",
-    menuSlug: "/inbox",
-    icon: <Mail />,
-    hasChildren: false,
-  },
-  {
-    menuName: "Bill Processing",
-    menuSlug: "/bill-processing",
-    icon: <FileDown />,
-    hasChildren: false,
-  },
-  {
-    menuName: "Bills",
-    menuSlug: "",
-    icon: <User2 />,
-    hasChildren: true,
-    subMenu: [
-      {
-        menuName: "Invoices",
-        menuSlug: "/invoices",
-        icon: <File />,
-      },
-      {
-        menuName: "Vendors",
-        menuSlug: "/vendors",
-        icon: <Building />,
-      },
-      {
-        menuName: "Purchase Orders",
-        menuSlug: "/purchase-orders",
-        icon: <LucideListChecks />,
-      },
-    ],
-  },
-  {
-    menuName: "Departments",
-    menuSlug: "/departments",
-    icon: <LayoutPanelTopIcon />,
-    hasChildren: false,
-  },
-  {
-    menuName: "Projects",
-    menuSlug: "/projects",
-    icon: <FolderClosed />,
-    hasChildren: false,
-  },
+  // {
+  //   menuName: "Inbox",
+  //   menuSlug: "/inbox",
+  //   icon: <Mail />,
+  //   hasChildren: false,
+  // },
+  // {
+  //   menuName: "Bill Processing",
+  //   menuSlug: "/bill-processing",
+  //   icon: <FileDown />,
+  //   hasChildren: false,
+  // },
+  // {
+  //   menuName: "Bills",
+  //   menuSlug: "",
+  //   icon: <User2 />,
+  //   hasChildren: true,
+  //   subMenu: [
+  //     {
+  //       menuName: "Invoices",
+  //       menuSlug: "/invoices",
+  //       icon: <File />,
+  //     },
+  //     {
+  //       menuName: "Vendors",
+  //       menuSlug: "/vendors",
+  //       icon: <Building />,
+  //     },
+  //     {
+  //       menuName: "Purchase Orders",
+  //       menuSlug: "/purchase-orders",
+  //       icon: <LucideListChecks />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   menuName: "Departments",
+  //   menuSlug: "/departments",
+  //   icon: <LayoutPanelTopIcon />,
+  //   hasChildren: false,
+  // },
+  // {
+  //   menuName: "Projects",
+  //   menuSlug: "/projects",
+  //   icon: <FolderClosed />,
+  //   hasChildren: false,
+  // },
   // {
   //   menuName: "Organization",
   //   menuSlug: "",

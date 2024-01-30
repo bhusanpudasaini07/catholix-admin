@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 import Header from "./header";
 import SidebarNew from "./sidebar-new";
-import { FavIcon } from "../lib/image-config";
+// import { FavIcon } from "../lib/image-config";
 import SidebarSheet from "./sidebar-sheet";
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
@@ -22,7 +22,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
     <>
       <Head>
         <title>Orion {title && `| ${title}`}</title>
-        <link rel="icon" type="image/x-icon" href={FavIcon}></link>
+        {/* <link rel="icon" type="image/x-icon" href={FavIcon}></link> */}
       </Head>
 
       {/* Body Content */}

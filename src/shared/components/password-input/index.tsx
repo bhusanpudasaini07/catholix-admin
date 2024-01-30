@@ -18,23 +18,26 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   };
 
   return (
-    <>
+    <div className="relative">
       <FormControl>
         <Input
           type={showPassword ? "text" : "password"}
-          className="placeholder:text-gray-270 text-color border-0 h-auto px-2"
+          className="placeholder:text-gray-270 text-color pr-12"
           placeholder={placeholder}
           {...props}
         />
       </FormControl>
-      <div onClick={toggleShowPassword} className="p-0 h-auto cursor-pointer">
+      <div
+        onClick={toggleShowPassword}
+        className="p-0 h-auto absolute right-4 top-2 cursor-pointer"
+      >
         {showPassword ? (
-          <EyeIcon stroke="#84919A" width={40} />
+          <EyeIcon stroke="#84919A" width={20} />
         ) : (
-          <EyeOffIcon stroke="#84919A" width={40} />
+          <EyeOffIcon stroke="#84919A" width={20} />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

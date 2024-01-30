@@ -1,9 +1,9 @@
-import { IProfile } from "@/interface/profile-interface";
+// import { IProfile } from "@/interface/profile-interface";
 import { create } from "zustand";
 
 interface IProfileProps {
-  profileData: IProfile;
-  setProfile: (profileData: IProfile) => void;
+  profileData: any;
+  setProfile: (profileData: any) => void;
 }
 
 export const useProfileStore = create<IProfileProps>((set, get) => ({
@@ -15,7 +15,7 @@ export const useProfileStore = create<IProfileProps>((set, get) => ({
     email: "",
     image: undefined,
   },
-  setProfile: (data: IProfile) => {
+  setProfile: (data: any) => {
     set(() => ({ profileData: data }));
   },
 }));

@@ -6,12 +6,13 @@ import { httpMethods } from "../enums";
 import { logout } from "@/services/auth/auth-service";
 import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
+import { getAccessToken } from "@/shared/utils/cookie-utils";
 
 const { SESSION_EXPIRED } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY } = config;
 
 export const axiosInstance = axios.create({
-  withCredentials: true,
+  // withCredentials: true,
   baseURL: `${API_BASE_URL}`,
 });
 
@@ -27,20 +28,20 @@ const refreshAuthLogic = (_failedRequest: any) => {
     });
 };
 
-createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
-  shouldRefresh: (error: any) => {
-    let shouldRefresh = false;
-    const responseData = error.response?.data?.detail?.error;
-    const responseStatus = error.response?.status;
-    const errorCode = responseData[0]?.errorCode;
-    if (responseStatus === 401 && errorCode === 1006) {
-      shouldRefresh = true;
-    } else if (responseStatus === 401 && errorCode === 1017) {
-      clearAllSessionAndLocalStates();
-    }
-    return shouldRefresh;
-  },
-});
+// createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
+//   shouldRefresh: (error: any) => {
+//     let shouldRefresh = false;
+//     const responseData = error.response?.data?.detail?.error;
+//     const responseStatus = error.response?.status;
+//     const errorCode = responseData[0]?.errorCode;
+//     if (responseStatus === 401 && errorCode === 1006) {
+//       shouldRefresh = true;
+//     } else if (responseStatus === 401 && errorCode === 1017) {
+//       clearAllSessionAndLocalStates();
+//     }
+//     return shouldRefresh;
+//   },
+// });
 
 const clearAllSessionAndLocalStates = () => {
   logout()
@@ -53,8 +54,8 @@ const clearAllSessionAndLocalStates = () => {
         })
       );
       clearCookie(LOGGED_IN_KEY);
-      clearCookie("_accessToken");
-      clearCookie("_refreshToken");
+      clearCookie("access_token");
+      clearCookie("refresh_token");
       clearCookie("isLoggedIn");
       window.location.href = "/login";
     })
@@ -62,6 +63,16 @@ const clearAllSessionAndLocalStates = () => {
       clearCookie(LOGGED_IN_KEY);
       window.location.href = "/login";
     });
+};
+
+// Function to set the Authorization header dynamically
+const setAuthorizationHeader = () => {
+  const token = getAccessToken();
+  if (token) {
+    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers.common["Authorization"];
+  }
 };
 
 const httpRequest = async (
@@ -72,6 +83,7 @@ const httpRequest = async (
     "Content-Type": "application/json",
   }
 ) => {
+  setAuthorizationHeader();
   try {
     const response = await axiosInstance[method](`${url}`, data, { headers });
     return {
@@ -81,7 +93,7 @@ const httpRequest = async (
       data: response?.data?.data,
     };
   } catch (error: any) {
-    throw error.response?.data?.detail?.error;
+    throw error?.response?.data?.errors;
   }
 };
 

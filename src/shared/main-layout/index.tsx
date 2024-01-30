@@ -21,7 +21,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   return (
     <>
       <Head>
-        <title>Orion {title && `| ${title}`}</title>
+        <title>Resource Planning {title && `| ${title}`}</title>
         {/* <link rel="icon" type="image/x-icon" href={FavIcon}></link> */}
       </Head>
 

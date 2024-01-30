@@ -40,8 +40,8 @@ const ProfileDropdown = () => {
 
   const logoutMutation = useMutation({
     mutationFn: logout,
-    onSuccess: (data) => {
-      showToast(TOAST_TYPES.success, data?.data?.message);
+    onSuccess: () => {
+      showToast(TOAST_TYPES.success, "Logged out successfully.");
       deleteCookie("_accessToken");
       deleteCookie("_refreshToken");
       deleteCookie("isLoggedIn");

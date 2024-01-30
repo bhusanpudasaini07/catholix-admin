@@ -1,11 +1,8 @@
 import { Menu } from "lucide-react";
 import ProfileDropdown from "./profile-dropdown";
 import { useQuery } from "react-query";
-import { getProfile } from "@/services/profile/profile-service";
 import { useLoggedInStore } from "@/store/auth-store";
-import { useProfileStore } from "@/store/profile-store";
-import { getOrganizations } from "@/services/organization/organization-service";
-import { useOrgStore } from "@/store/organization-store";
+// import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;
   setIsExpanded: (arg: boolean) => void;
@@ -21,23 +18,23 @@ const Header = ({
   setOpenSheet,
 }: IHeaderProps) => {
   const { isLoggedIn } = useLoggedInStore();
-  const { setProfile } = useProfileStore();
-  const { setOrgData } = useOrgStore();
+  // const { setProfile } = useProfileStore();
+  // const { setOrgData } = useOrgStore();
 
-  useQuery(["profile"], getProfile, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setProfile(data?.data);
-    },
-  });
-  useQuery(["organization"], getOrganizations, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setOrgData(data?.data);
-    },
-  });
+  // useQuery(["profile"], getProfile, {
+  //   enabled: !!isLoggedIn,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data) => {
+  //     setProfile(data?.data);
+  //   },
+  // });
+  // useQuery(["organization"], getOrganizations, {
+  //   enabled: !!isLoggedIn,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data) => {
+  //     setOrgData(data?.data);
+  //   },
+  // });
 
   return (
     <header className="bg-white shadow px-3 border-b">

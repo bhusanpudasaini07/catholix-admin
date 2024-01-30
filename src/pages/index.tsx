@@ -6,8 +6,6 @@ import { DateRange } from "react-day-picker";
 import { format } from "date-fns";
 
 import { getDashboardData } from "@/services/dashboard/dashboard-service";
-import { IDashboard } from "@/interface/dashboard-interface";
-import DashboardInfoCards from "@/features/Dashboard/info-cards";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,
@@ -16,10 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-
-import InvoiceStatusGraph from "@/features/Dashboard/status-graph";
-import DashboardVendorBar from "@/features/Dashboard/vendor-bar";
-import TopVendorsGraph from "@/features/Dashboard/top-count-graph";
 
 const Home: NextPageWithLayout = () => {
   const monthFilters = [
@@ -44,15 +38,6 @@ const Home: NextPageWithLayout = () => {
 
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [currentFilter, setCurrentFilter] = useState("this_month");
-
-  const { data: dashboardData, isLoading } = useQuery<IDashboard>({
-    queryFn: () =>
-      getDashboardData(
-        dateRange?.from && format(dateRange?.from, "yyyy-MM-dd'T'HH:mm:ss"),
-        dateRange?.to && format(dateRange?.to, "yyyy-MM-dd'T'HH:mm:ss")
-      ),
-    queryKey: ["dashboardData", dateRange?.to],
-  });
 
   const changeDateRange = (value: string) => {
     setCurrentFilter(value);
@@ -94,7 +79,7 @@ const Home: NextPageWithLayout = () => {
       <h1 className="text-2xl font-medium text-purple-90 ">
         Welcome to Dashboard
       </h1>
-      <DashboardInfoCards dashboardData={dashboardData?.data} />
+      {/* <DashboardInfoCards dashboardData={dashboardData?.data} />
 
       <div className="mt-12">
         <div className="flex justify-between mb-6">
@@ -139,7 +124,7 @@ const Home: NextPageWithLayout = () => {
             <TopVendorsGraph dashboardData={dashboardData?.data} />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

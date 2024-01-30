@@ -23,16 +23,16 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Button } from "@/shared/components/ui/button";
 
-import { MessageInput, passwordImages } from "@/shared/lib/image-config";
 import PasswordInput from "@/shared/components/password-input";
 
 import { ILoginFormInput } from "@/interface/auth-interface";
 import { login } from "@/services/auth/auth-service";
+import { setAuthCookies } from "@/shared/utils/cookie-utils";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 import { setCookie } from "cookies-next";
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;
-const { LOGGED_IN_KEY } = config;
 
 const LoginForm = () => {
   const router = useRouter();
@@ -49,8 +49,8 @@ const LoginForm = () => {
     mutationFn: login,
     onSuccess: (data) => {
       form.reset();
+      setAuthCookies(data?.data);
       setLoggedInState(true);
-      setCookie(LOGGED_IN_KEY, true);
       showToast(TOAST_TYPES.success, "Logged in Successfully.");
       router.push("/");
     },
@@ -62,10 +62,6 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
     const payload = {
       ...data,
-      grant_type: "",
-      scope: "",
-      client_id: "",
-      client_secret: "",
     };
     loginMutation.mutate(payload);
   };
@@ -79,23 +75,14 @@ const LoginForm = () => {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-normal">Email</FormLabel>
-                <div className="flex items-center border rounded-lg px-4 py-2">
-                  <Image
-                    alt="passwordLock"
-                    src={MessageInput}
-                    width={24}
-                    height={24}
-                    quality={100}
+                <FormLabel className="font-normal">Username</FormLabel>
+                <FormControl>
+                  <Input
+                    className="placeholder:text-gray-270"
+                    placeholder="Your Username"
+                    {...field}
                   />
-                  <FormControl>
-                    <Input
-                      className="placeholder:text-gray-270 text-color border-0 h-auto px-2"
-                      placeholder="Your Email"
-                      {...field}
-                    />
-                  </FormControl>
-                </div>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -108,30 +95,25 @@ const LoginForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-normal">Password</FormLabel>
-                <div className="flex items-center border rounded-lg px-4 py-2">
-                  <Image
-                    alt="passwordLock"
-                    src={passwordImages?.passwordLock}
-                    width={24}
-                    height={24}
-                    quality={100}
-                  />
-                  <PasswordInput placeholder="Your Password" {...field} />
-                </div>
+                <PasswordInput placeholder="Your Password" {...field} />
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <div className="mb-6 text-right">
-          <Link
-            href={"/forgot-password"}
-            className="text-gray-260 text-xs uppercase font-semibold hover:text-primary"
-          >
-            Forgot Password?
-          </Link>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            variant="primary"
+            id="terms"
+            onCheckedChange={(e) => setCookie("rememberMe", e)}
+          />
+          <label htmlFor="terms" className="text-zinc-700 text-sm font-medium">
+            Remember Me
+          </label>
         </div>
-        <Button disabled={loginMutation.isLoading} className="w-full">
+
+        <Button disabled={loginMutation.isLoading} className="w-full mt-8">
           Login
         </Button>
       </form>

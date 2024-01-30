@@ -1,11 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-const authRoutes = [
-  "/login",
-  "/forgot-password",
-  "/reset-password",
-  "/email-sent",
-];
+const authRoutes = ["/login"];
 
 export async function middleware(req: NextRequest) {
   const verify = req.cookies.get("isLoggedIn")?.value;

@@ -21,7 +21,7 @@ const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
             fill
           />
         </div>
-        <div className="h-full m-auto w-[800px] z-20 bg-white flex justify-center items-center flex-col p-10">
+        <div className="h-full m-auto w-[560px] z-20 bg-white flex justify-center items-center flex-col p-10">
           <div className="w-full mb-4">
             <Image alt="Logo" width={94} height={21} src={Logo} />
           </div>

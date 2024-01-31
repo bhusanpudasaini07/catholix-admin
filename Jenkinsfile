@@ -28,6 +28,7 @@ pipeline {
                             ssh -tt -o StrictHostKeyChecking=no root@$SERVER_IP -p 3030 << EOF
                             cd $DIR_NAME; \
                             git pull origin $PROCESS_NAME; \
+                            nvm use system; \
                             pnpm i; \
                             pnpm build; \
                             pm2 restart $PM2_NAME; \

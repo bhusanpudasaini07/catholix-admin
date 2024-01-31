@@ -1,7 +1,9 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 
@@ -61,47 +63,53 @@ const ProfileDropdown = () => {
             <User width={15} className="text-white" />
           </AvatarFallback>
         </Avatar>
-        <p className="text-sm text-zinc-700">
-          asd
-          {profileData?.first_name} {profileData?.last_name}
-        </p>
-
-        <ChevronDown width={20} />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}
-        sideOffset={12}
-        className="px-4 py-6 flex flex-col gap-2 rounded-t-none w-[253px]"
+        sideOffset={5}
+        className="flex flex-col px-0 gap-2 w-[256px]"
         align="end"
       >
-        <DropdownMenuItem
-          onClick={() => changeRoute("/profile")}
-          className="flex items-center gap-2 p-2 cursor-pointer text-color"
-        >
-          <User2 stroke="#84919A" />
-          My account
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex items-center gap-2 p-2 cursor-pointer text-color"
-          onClick={() => changeRoute("/organization")}
-        >
-          <Building stroke="#84919A" />
-          My Organization
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex items-center gap-2 p-2 cursor-pointer text-color"
-          onClick={() => changeRoute("/change-password")}
-        >
-          <LockKeyhole stroke="#84919A" />
-          Change Password
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="flex items-center gap-2 p-2 cursor-pointer text-color"
-          onClick={logoutHandler}
-        >
-          <ChevronsRight stroke="#84919A" />
-          Logout
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <div className="flex items-start gap-4 p-4">
+            <Avatar className="bg-primary w-[40px] h-[40px]">
+              <AvatarImage src={profileData?.image} />
+              <AvatarFallback>
+                <User width={15} className="text-white" />
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-bold text-zinc-800">John Doe</p>
+              <p className="text-sm text-zinc-500">john@mail.com</p>
+            </div>
+          </div>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+
+        <DropdownMenuGroup className="px-3">
+          <DropdownMenuItem
+            onClick={() => changeRoute("/profile")}
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+          >
+            My account
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+            onClick={() => changeRoute("/organization")}
+          >
+            Account Settings
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup className="px-3 pb-3">
+          <DropdownMenuItem
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+            onClick={logoutHandler}
+          >
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

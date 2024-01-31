@@ -23,7 +23,8 @@
 }
 .shadow-custom {
   &-primary {
-    box-shadow: 0px 4px 20px 0px #686de080;
+    box-shadow: 0px 2px 5px 0px rgba(16, 24, 40, 0.03),
+      0px 3px 7px 0px rgba(41, 120, 221, 0.06);
   }
   &-destructive {
     box-shadow: 0px 4px 20px 0px #f4a4bb;

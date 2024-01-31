@@ -12,10 +12,10 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   const [isExpanded, setIsExpanded] = useState(true);
   const [openSheet, setOpenSheet] = useState(false);
 
-  const sidebarWidth = isExpanded ? "240px" : "64px"; // Adjust as needed
+  const sidebarWidth = isExpanded ? "260px" : "64px"; // Adjust as needed
 
   const bodyWidth = isExpanded
-    ? "lg:max-w-[calc(100vw-240px)]"
+    ? "lg:max-w-[calc(100vw-260px)]"
     : "lg:max-w-[calc(100vw-64px)]";
 
   return (
@@ -41,7 +41,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           <div className="flex-grow ">
             {/* Give css according to header and sidebar  */}
             <div
-              className={`bg-slate-50 px-4 py-7 h-[calc(100vh-180px)] lg:h-[calc(100vh-56px)] max-w-[100vw] ${bodyWidth} overflow-y-scroll`}
+              className={`bg-slate-50 h-[calc(100vh-180px)] lg:h-[calc(100vh-56px)] max-w-[100vw] ${bodyWidth} overflow-y-scroll`}
             >
               {children}
             </div>

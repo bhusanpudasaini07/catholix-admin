@@ -1,31 +1,25 @@
+//Next
+import { useRouter } from "next/router";
+
+// Icons
 import {
-  Building,
   Calculator,
   Clock,
   File,
-  FileDown,
   Folder,
-  FolderClosed,
   Gitlab,
   LayoutGrid,
-  LayoutPanelTopIcon,
-  LucideListChecks,
-  Mail,
   User2,
   Users,
 } from "lucide-react";
-import Link from "next/link";
 
+// UI Components
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { Logo } from "@/shared/lib/image-config";
 import {
   Accordion,
   AccordionContent,
@@ -37,8 +31,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 
@@ -47,6 +39,7 @@ interface ISidebarProps {
   isExpanded: boolean;
 }
 
+// Sidebar Items
 export const menuItems = [
   {
     menuName: "Dashboard",
@@ -187,7 +180,6 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
               <>
                 {subItem?.hasAccordion ? (
                   <>
-                    {" "}
                     {isExpanded ? (
                       <Accordion type="single" collapsible key={subIndex}>
                         <AccordionItem value="item-1" className="border-0">
@@ -233,38 +225,36 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                         </AccordionItem>
                       </Accordion>
                     ) : (
-                      <>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            className={`btn-primary !shadow-none rounded-none w-full ${
-                              isExpanded
-                                ? "justify-start pl-8"
-                                : "justify-center pl-4"
-                            } ${
-                              router.pathname.includes(subItem?.menuSlug) &&
-                              "active"
-                            }`}
-                          >
-                            {subItem?.icon}
-                          </DropdownMenuTrigger>
-                          {subItem?.accordionItem?.length > 0 && (
-                            <DropdownMenuContent align="start" side="left">
-                              {subItem?.accordionItem?.map(
-                                (
-                                  accordionItem: any,
-                                  accordionItemIndex: number
-                                ) => (
-                                  <DropdownMenuItem
-                                    key={`accordion-item-${accordionItemIndex}`}
-                                  >
-                                    {accordionItem?.itemName}
-                                  </DropdownMenuItem>
-                                )
-                              )}
-                            </DropdownMenuContent>
-                          )}
-                        </DropdownMenu>
-                      </>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          className={`btn-primary !shadow-none rounded-none w-full ${
+                            isExpanded
+                              ? "justify-start pl-8"
+                              : "justify-center pl-4"
+                          } ${
+                            router.pathname.includes(subItem?.menuSlug) &&
+                            "active"
+                          }`}
+                        >
+                          {subItem?.icon}
+                        </DropdownMenuTrigger>
+                        {subItem?.accordionItem?.length > 0 && (
+                          <DropdownMenuContent align="start" side="left">
+                            {subItem?.accordionItem?.map(
+                              (
+                                accordionItem: any,
+                                accordionItemIndex: number
+                              ) => (
+                                <DropdownMenuItem
+                                  key={`accordion-item-${accordionItemIndex}`}
+                                >
+                                  {accordionItem?.itemName}
+                                </DropdownMenuItem>
+                              )
+                            )}
+                          </DropdownMenuContent>
+                        )}
+                      </DropdownMenu>
                     )}
                   </>
                 ) : (

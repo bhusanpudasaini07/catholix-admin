@@ -30,6 +30,7 @@ import { login } from "@/services/auth/auth-service";
 import { setAuthCookies } from "@/shared/utils/cookie-utils";
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import { setCookie } from "cookies-next";
+import ButtonLoader from "@/shared/components/loader/button-loader";
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;
@@ -114,6 +115,7 @@ const LoginForm = () => {
         </div>
 
         <Button disabled={loginMutation.isLoading} className="w-full mt-8">
+          {loginMutation.isLoading && <ButtonLoader className="mr-3" />}
           Login
         </Button>
       </form>

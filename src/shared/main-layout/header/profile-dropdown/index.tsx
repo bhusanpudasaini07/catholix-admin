@@ -13,6 +13,7 @@ import {
 
 import {
   Building,
+  ChevronDown,
   ChevronsRight,
   LockKeyhole,
   User,
@@ -22,10 +23,9 @@ import { useRouter } from "next/router";
 import config from "../../../../../config";
 import { useMutation } from "react-query";
 import { logout } from "@/services/auth/auth-service";
-import { clearCookie } from "@/shared/utils/utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { deleteCookie } from "cookies-next";
 import { useProfileStore } from "@/store/profile-store";
+import { removeAuthCookies } from "@/shared/utils/cookie-utils";
 
 const { LOGGED_IN_KEY } = config;
 
@@ -42,9 +42,7 @@ const ProfileDropdown = () => {
     mutationFn: logout,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Logged out successfully.");
-      deleteCookie("_accessToken");
-      deleteCookie("_refreshToken");
-      deleteCookie("isLoggedIn");
+      removeAuthCookies();
       router.push("login");
     },
     onError: (error: any) => {
@@ -56,16 +54,19 @@ const ProfileDropdown = () => {
   };
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="focus:outline-none flex items-center gap-3">
-        <p>
-          {profileData?.first_name} {profileData?.last_name}
-        </p>
-        <Avatar className="bg-primary">
+      <DropdownMenuTrigger className="flex items-center gap-3 focus:outline-none">
+        <Avatar className="bg-primary w-[32px] h-[32px]">
           <AvatarImage src={profileData?.image} />
           <AvatarFallback>
-            <User className="text-white" />
+            <User width={15} className="text-white" />
           </AvatarFallback>
         </Avatar>
+        <p className="text-sm text-zinc-700">
+          asd
+          {profileData?.first_name} {profileData?.last_name}
+        </p>
+
+        <ChevronDown width={20} />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}
@@ -75,27 +76,27 @@ const ProfileDropdown = () => {
       >
         <DropdownMenuItem
           onClick={() => changeRoute("/profile")}
-          className="flex items-center gap-2 cursor-pointer p-2 text-color"
+          className="flex items-center gap-2 p-2 cursor-pointer text-color"
         >
           <User2 stroke="#84919A" />
           My account
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex items-center gap-2 cursor-pointer p-2 text-color"
+          className="flex items-center gap-2 p-2 cursor-pointer text-color"
           onClick={() => changeRoute("/organization")}
         >
           <Building stroke="#84919A" />
           My Organization
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex items-center gap-2 cursor-pointer p-2 text-color"
+          className="flex items-center gap-2 p-2 cursor-pointer text-color"
           onClick={() => changeRoute("/change-password")}
         >
           <LockKeyhole stroke="#84919A" />
           Change Password
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="flex items-center gap-2 cursor-pointer p-2 text-color"
+          className="flex items-center gap-2 p-2 cursor-pointer text-color"
           onClick={logoutHandler}
         >
           <ChevronsRight stroke="#84919A" />

@@ -12,11 +12,11 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   const [isExpanded, setIsExpanded] = useState(true);
   const [openSheet, setOpenSheet] = useState(false);
 
-  const sidebarWidth = isExpanded ? "250px" : "80px"; // Adjust as needed
+  const sidebarWidth = isExpanded ? "240px" : "64px"; // Adjust as needed
 
   const bodyWidth = isExpanded
-    ? "lg:max-w-[calc(100vw-250px)]"
-    : "lg:max-w-[calc(100vw-80px)]";
+    ? "lg:max-w-[calc(100vw-240px)]"
+    : "lg:max-w-[calc(100vw-64px)]";
 
   return (
     <>
@@ -26,24 +26,25 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
       </Head>
 
       {/* Body Content */}
-      <main className="flex transition-all">
-        <SidebarNew sidebarWidth={sidebarWidth} isExpanded={isExpanded} />
+      <main>
+        <Header
+          openSheet={openSheet}
+          setOpenSheet={setOpenSheet}
+          isExpanded={isExpanded}
+          setIsExpanded={setIsExpanded}
+        />
+        <div className="flex transition-all">
+          {/* sidebar sheet when in tabs */}
+          <SidebarNew sidebarWidth={sidebarWidth} isExpanded={isExpanded} />
 
-        {/* sidebar sheet when in tabs */}
-        <SidebarSheet openSheet={openSheet} setOpenSheet={setOpenSheet} />
-
-        <div className="flex-grow">
-          <Header
-            openSheet={openSheet}
-            setOpenSheet={setOpenSheet}
-            isExpanded={isExpanded}
-            setIsExpanded={setIsExpanded}
-          />
-          {/* Give css according to header and sidebar  */}
-          <div
-            className={`bg-white px-4 py-7 h-[calc(100vh-180px)] lg:h-[calc(100vh-65px)] max-w-[100vw] ${bodyWidth} overflow-y-scroll`}
-          >
-            {children}
+          <SidebarSheet openSheet={openSheet} setOpenSheet={setOpenSheet} />
+          <div className="flex-grow ">
+            {/* Give css according to header and sidebar  */}
+            <div
+              className={`bg-slate-50 px-4 py-7 h-[calc(100vh-180px)] lg:h-[calc(100vh-56px)] max-w-[100vw] ${bodyWidth} overflow-y-scroll`}
+            >
+              {children}
+            </div>
           </div>
         </div>
       </main>

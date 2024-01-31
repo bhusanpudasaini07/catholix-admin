@@ -1,5 +1,5 @@
 import { cookieKeys } from "@/enums";
-import { getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 import config from "../../../../config";
 
 const { LOGGED_IN_KEY } = config;
@@ -15,4 +15,11 @@ export const setAuthCookies = (data: any) => {
   });
   setCookie(cookieKeys.REFRESH_TOKEN, data?.refresh_token);
   setCookie(LOGGED_IN_KEY, true);
+};
+
+export const removeAuthCookies = () => {
+  deleteCookie(cookieKeys.ACCESS_TOKEN);
+  deleteCookie(cookieKeys.REFRESH_TOKEN);
+  deleteCookie("rememberMe");
+  deleteCookie("isLoggedIn");
 };

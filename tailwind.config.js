@@ -99,6 +99,12 @@ module.exports = {
         dark: {
           55: "#1D212F",
         },
+        light: {
+          white: "#FEFEFE",
+        },
+        blue: {
+          50: "#E6F2FF",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

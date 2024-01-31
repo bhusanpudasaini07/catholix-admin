@@ -26,6 +26,21 @@ import {
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Logo } from "@/shared/lib/image-config";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/components/ui/accordion";
+import { Button } from "@/shared/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -35,31 +50,57 @@ interface ISidebarProps {
 export const menuItems = [
   {
     menuName: "Dashboard",
-    menuSlug: "/",
     icon: <LayoutGrid width={20} height={20} />,
-    hasChildren: false,
+    subMenu: [
+      {
+        menuName: "Dashboard",
+        menuSlug: "/",
+        icon: <LayoutGrid width={20} height={20} />,
+      },
+    ],
   },
 
   {
     menuName: "Projects",
-    menuSlug: "",
     icon: <User2 />,
-    hasChildren: true,
     subMenu: [
       {
         menuName: "Projects",
         menuSlug: "/projects",
         icon: <Folder width={20} height={20} />,
+        hasAccordion: true,
+        accordionItem: [
+          {
+            itemName: "Test",
+            itemSlug: "/test",
+          },
+          {
+            itemName: "Test",
+            itemSlug: "/test",
+          },
+        ],
       },
       {
         menuName: "Reports",
         menuSlug: "/reports",
         icon: <File width={20} height={20} />,
+        hasAccordion: true,
+        accordionItem: [
+          {
+            itemName: "Test",
+            itemSlug: "/test",
+          },
+          {
+            itemName: "Test",
+            itemSlug: "/test",
+          },
+        ],
       },
       {
         menuName: "Time Spent Reports",
         menuSlug: "/time-spent-reports",
         icon: <Clock width={20} height={20} />,
+        hasAccordion: true,
       },
     ],
   },
@@ -142,30 +183,124 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                 {item?.menuName}
               </h2>
             )}
-            {item?.hasChildren ? (
-              <div className={`flex flex-col gap-2`}>
-                {item?.subMenu.map((subItem: any, subIndex: number) => (
-                  <Link
-                    key={subIndex}
-                    href={subItem.menuSlug}
-                    className={`
-                    btn-primary  ${
-                      isExpanded ? "justify-start pl-8" : "justify-center pl-4"
-                    } ${router.pathname.includes(subItem?.menuSlug) && "active"}
-                    `}
-                  >
+            {item?.subMenu?.map((subItem: any, subIndex: number) => (
+              <>
+                {subItem?.hasAccordion ? (
+                  <>
+                    {" "}
                     {isExpanded ? (
-                      <span
-                        className={`min-w-[20px] [&>svg]:max-w-[20px] h-[20px] flex justify-center `}
+                      <Accordion type="single" collapsible key={subIndex}>
+                        <AccordionItem value="item-1" className="border-0">
+                          <AccordionTrigger
+                            className={`btn-primary !shadow-none rounded-none w-full ${
+                              isExpanded
+                                ? "justify-start pl-8"
+                                : "justify-center pl-4"
+                            } ${
+                              router.pathname.includes(subItem?.menuSlug) &&
+                              "active"
+                            }`}
+                          >
+                            <div className={` w-full flex`}>
+                              <span
+                                className={`min-w-[20px] h-[20px] flex justify-center me-2`}
+                              >
+                                {subItem?.icon}
+                              </span>
+
+                              <span className={isExpanded ? "" : "hidden"}>
+                                {subItem.menuName}
+                              </span>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <ul className={`sidebarList`}>
+                              {subItem?.accordionItem?.map(
+                                (
+                                  accordionItem: any,
+                                  accordionItemIndex: number
+                                ) => (
+                                  <li
+                                    key={`accordion-item-${accordionItemIndex}`}
+                                    className=""
+                                  >
+                                    {accordionItem?.itemName}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    ) : (
+                      <>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger
+                            className={`btn-primary !shadow-none rounded-none w-full ${
+                              isExpanded
+                                ? "justify-start pl-8"
+                                : "justify-center pl-4"
+                            } ${
+                              router.pathname.includes(subItem?.menuSlug) &&
+                              "active"
+                            }`}
+                          >
+                            {subItem?.icon}
+                          </DropdownMenuTrigger>
+                          {subItem?.accordionItem?.length > 0 && (
+                            <DropdownMenuContent align="start" side="left">
+                              {subItem?.accordionItem?.map(
+                                (
+                                  accordionItem: any,
+                                  accordionItemIndex: number
+                                ) => (
+                                  <DropdownMenuItem
+                                    key={`accordion-item-${accordionItemIndex}`}
+                                  >
+                                    {accordionItem?.itemName}
+                                  </DropdownMenuItem>
+                                )
+                              )}
+                            </DropdownMenuContent>
+                          )}
+                        </DropdownMenu>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {isExpanded ? (
+                      <Button
+                        key={subIndex}
+                        className={`
+                      btn-primary !shadow-none rounded-none  ${
+                        isExpanded
+                          ? "justify-start pl-8"
+                          : "justify-center pl-4"
+                      } ${
+                          router.pathname.includes(subItem?.menuSlug) &&
+                          "active"
+                        }
+                      `}
                       >
-                        {subItem?.icon}
-                      </span>
+                        <span
+                          className={`min-w-[20px] [&>svg]:max-w-[20px] h-[20px] flex justify-center `}
+                        >
+                          {subItem?.icon}
+                        </span>
+                        <span className={isExpanded ? "" : "hidden"}>
+                          {subItem.menuName}
+                        </span>
+                      </Button>
                     ) : (
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <span
-                              className={`min-w-[20px] h-[20px] flex justify-center `}
+                              className={`min-w-[20px]  flex justify-center ps-3  btn-primary !shadow-none rounded-none ${
+                                router.pathname.includes(subItem?.menuSlug) &&
+                                "active"
+                              }`}
                             >
                               {subItem?.icon}
                             </span>
@@ -180,54 +315,10 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                         </Tooltip>
                       </TooltipProvider>
                     )}
-                    <span className={isExpanded ? "" : "hidden"}>
-                      {subItem.menuName}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <Link
-                key={index}
-                href={item.menuSlug}
-                className={`
-                    btn-primary  ${
-                      isExpanded ? "justify-start pl-8" : "justify-center pl-4"
-                    } ${
-                  (router.pathname === item?.menuSlug ||
-                    (router.pathname.startsWith(item?.menuSlug) &&
-                      item?.menuSlug !== "/")) &&
-                  "active [&>span>svg]"
-                }
-                    `}
-              >
-                {isExpanded ? (
-                  <span
-                    className={`min-w-[20px] [&>svg]:max-w-[20px] h-auto flex justify-center`}
-                  >
-                    {item.icon}
-                  </span>
-                ) : (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span
-                          className={`min-w-[20px] h-auto flex justify-center `}
-                        >
-                          {item?.icon}
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent side="right" sideOffset={25} className="">
-                        <p>{item.menuName}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  </>
                 )}
-                <span className={isExpanded ? "" : "hidden"}>
-                  {item.menuName}
-                </span>
-              </Link>
-            )}
+              </>
+            ))}
           </div>
         ))}
       </div>

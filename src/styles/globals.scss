@@ -158,3 +158,29 @@
     height: 100% !important;
   }
 }
+
+.sidebarList {
+  list-style-type: disc;
+  li {
+    padding-right: 1rem;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    margin: 0.3rem 0;
+    @apply p-4 ps-[3.7rem] relative cursor-pointer;
+    &:hover {
+      background-color: #f4f4f5;
+    }
+    &.active {
+      @apply border-primary text-primary;
+    }
+    &::before {
+      content: "•";
+      position: absolute;
+      left: 2.5rem;
+      transform: translateY(50%, 0%);
+    }
+    &::marker {
+      display: none !important;
+    }
+  }
+}

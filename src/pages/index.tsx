@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { DataTable } from "@/shared/components/data-table/data-table";
 
 const Home: NextPageWithLayout = () => {
   const monthFilters = [

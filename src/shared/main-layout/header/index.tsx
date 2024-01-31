@@ -2,6 +2,9 @@ import { Menu } from "lucide-react";
 import ProfileDropdown from "./profile-dropdown";
 import { useQuery } from "react-query";
 import { useLoggedInStore } from "@/store/auth-store";
+import Link from "next/link";
+import Image from "next/image";
+import { Logo } from "@/shared/lib/image-config";
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;
@@ -28,24 +31,32 @@ const Header = ({
   //     setProfile(data?.data);
   //   },
   // });
-  // useQuery(["organization"], getOrganizations, {
-  //   enabled: !!isLoggedIn,
-  //   refetchOnWindowFocus: false,
-  //   onSuccess: (data) => {
-  //     setOrgData(data?.data);
-  //   },
-  // });
 
   return (
-    <header className="bg-white shadow px-3 border-b">
-      <div className="flex items-center justify-between  gap-6  h-[64px] ">
-        {/* For sidebar */}
-        <button
-          className="hidden lg:block"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          <Menu />
-        </button>
+    <header className="px-8 border-b border-b-slate-100 bg-light-white">
+      <div className="flex items-center justify-between  gap-6  h-[56px] ">
+        <div className="flex items-center w-[188px] justify-between">
+          <Link
+            href={"/"}
+            className="flex items-center justify-start h-12 rounded-md "
+          >
+            <Image
+              src={Logo}
+              alt="Logo"
+              priority
+              width={63}
+              height={30}
+              quality={100}
+            />
+          </Link>
+          {/* For sidebar */}
+          <button
+            className="hidden lg:block focus:outline-none"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            <Menu />
+          </button>
+        </div>
 
         {/* For sheet */}
         <button className="block lg:hidden" onClick={() => setOpenSheet(true)}>

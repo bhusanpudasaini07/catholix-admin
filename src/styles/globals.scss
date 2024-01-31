@@ -86,6 +86,16 @@
   }
   .sidebar {
     transition: 0.4s ease-in-out all;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      transition: 0.4s ease-in-out all;
+    }
+    &:hover {
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+    }
     span,
     svg,
     a,

@@ -1,13 +1,18 @@
 import {
   Building,
+  Calculator,
+  Clock,
   File,
   FileDown,
+  Folder,
   FolderClosed,
+  Gitlab,
   LayoutGrid,
   LayoutPanelTopIcon,
   LucideListChecks,
   Mail,
   User2,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -31,69 +36,88 @@ export const menuItems = [
   {
     menuName: "Dashboard",
     menuSlug: "/",
-    icon: <LayoutGrid />,
+    icon: <LayoutGrid width={20} height={20} />,
     hasChildren: false,
   },
-  // {
-  //   menuName: "Inbox",
-  //   menuSlug: "/inbox",
-  //   icon: <Mail />,
-  //   hasChildren: false,
-  // },
-  // {
-  //   menuName: "Bill Processing",
-  //   menuSlug: "/bill-processing",
-  //   icon: <FileDown />,
-  //   hasChildren: false,
-  // },
-  // {
-  //   menuName: "Bills",
-  //   menuSlug: "",
-  //   icon: <User2 />,
-  //   hasChildren: true,
-  //   subMenu: [
-  //     {
-  //       menuName: "Invoices",
-  //       menuSlug: "/invoices",
-  //       icon: <File />,
-  //     },
-  //     {
-  //       menuName: "Vendors",
-  //       menuSlug: "/vendors",
-  //       icon: <Building />,
-  //     },
-  //     {
-  //       menuName: "Purchase Orders",
-  //       menuSlug: "/purchase-orders",
-  //       icon: <LucideListChecks />,
-  //     },
-  //   ],
-  // },
-  // {
-  //   menuName: "Departments",
-  //   menuSlug: "/departments",
-  //   icon: <LayoutPanelTopIcon />,
-  //   hasChildren: false,
-  // },
-  // {
-  //   menuName: "Projects",
-  //   menuSlug: "/projects",
-  //   icon: <FolderClosed />,
-  //   hasChildren: false,
-  // },
-  // {
-  //   menuName: "Organization",
-  //   menuSlug: "",
-  //   icon: <User2 />,
-  //   hasChildren: true,
-  //   subMenu: [
-  //     {
-  //       menuName: "Team Members",
-  //       menuSlug: "/list",
-  //       icon: <Users2 />,
-  //     },
-  //   ],
-  // },
+
+  {
+    menuName: "Projects",
+    menuSlug: "",
+    icon: <User2 />,
+    hasChildren: true,
+    subMenu: [
+      {
+        menuName: "Projects",
+        menuSlug: "/projects",
+        icon: <Folder width={20} height={20} />,
+      },
+      {
+        menuName: "Reports",
+        menuSlug: "/reports",
+        icon: <File width={20} height={20} />,
+      },
+      {
+        menuName: "Time Spent Reports",
+        menuSlug: "/time-spent-reports",
+        icon: <Clock width={20} height={20} />,
+      },
+    ],
+  },
+  {
+    menuName: "Team",
+    menuSlug: "",
+    icon: <User2 />,
+    hasChildren: true,
+    subMenu: [
+      {
+        menuName: "Team Leads",
+        menuSlug: "/team-leads",
+        icon: <Users width={20} height={20} />,
+      },
+      {
+        menuName: "Staff Groups",
+        menuSlug: "/reports",
+        icon: <Users width={20} height={20} />,
+      },
+    ],
+  },
+  {
+    menuName: "Calculator",
+    menuSlug: "/calculator",
+    icon: <Calculator width={20} height={20} />,
+    hasChildren: false,
+  },
+  {
+    menuName: "Feedback",
+    menuSlug: "",
+    icon: <User2 />,
+    hasChildren: true,
+    subMenu: [
+      {
+        menuName: "PL Feedback",
+        menuSlug: "/team-leads",
+        icon: <Users width={20} height={20} />,
+      },
+      {
+        menuName: "Feedback Report",
+        menuSlug: "/feedback-report",
+        icon: <Users width={20} height={20} />,
+      },
+    ],
+  },
+  {
+    menuName: "Other",
+    menuSlug: "",
+    icon: <User2 />,
+    hasChildren: true,
+    subMenu: [
+      {
+        menuName: "GitLab Hooks",
+        menuSlug: "/gitlab-hooks",
+        icon: <Gitlab width={20} height={20} />,
+      },
+    ],
+  },
 ];
 
 const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
@@ -105,49 +129,34 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
         width: sidebarWidth,
         maxWidth: sidebarWidth,
       }}
-      className={`bg-sidebar shadow sidebar border-r max-h-[100vh] overflow-y-auto hidden lg:block ${
-        isExpanded ? "p-4" : "p-2"
-      }`}
+      className={`bg-light-white sidebar py-10 border-r border-r-slate-100 max-h-[calc(100vh-56px)] overflow-y-auto hidden lg:block`}
     >
-      <div className="mb-4">
-        <Link
-          href={"/"}
-          className="flex items-center justify-center h-12 rounded-md "
-        >
-          <Image
-            src={Logo}
-            alt="Logo"
-            priority
-            width={117}
-            height={30}
-            quality={100}
-          />
-        </Link>
-      </div>
-
       <div className="flex flex-col gap-6">
         {menuItems?.map((item: any, index) => (
-          <div key={index} className="flex flex-col gap-3">
+          <div
+            key={index}
+            className="flex flex-col gap-4 pb-4 border-b border-b-slate-100"
+          >
             {isExpanded && (
-              <h2 className="text-xs uppercase text-gray-150">
+              <h2 className="px-8 text-xs font-semibold uppercase text-zinc-600">
                 {item?.menuName}
               </h2>
             )}
             {item?.hasChildren ? (
-              <div className={`flex flex-col `}>
+              <div className={`flex flex-col gap-2`}>
                 {item?.subMenu.map((subItem: any, subIndex: number) => (
                   <Link
                     key={subIndex}
                     href={subItem.menuSlug}
                     className={`
                     btn-primary  ${
-                      isExpanded ? "justify-start" : "justify-center"
+                      isExpanded ? "justify-start pl-8" : "justify-center pl-4"
                     } ${router.pathname.includes(subItem?.menuSlug) && "active"}
                     `}
                   >
                     {isExpanded ? (
                       <span
-                        className={`min-w-[20px] [&>svg]:max-w-[20px] h-auto flex justify-center `}
+                        className={`min-w-[20px] [&>svg]:max-w-[20px] h-[20px] flex justify-center `}
                       >
                         {subItem?.icon}
                       </span>
@@ -156,7 +165,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <span
-                              className={`min-w-[20px] h-auto flex justify-center `}
+                              className={`min-w-[20px] h-[20px] flex justify-center `}
                             >
                               {subItem?.icon}
                             </span>
@@ -183,7 +192,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                 href={item.menuSlug}
                 className={`
                     btn-primary  ${
-                      isExpanded ? "justify-start" : "justify-center"
+                      isExpanded ? "justify-start pl-8" : "justify-center pl-4"
                     } ${
                   (router.pathname === item?.menuSlug ||
                     (router.pathname.startsWith(item?.menuSlug) &&

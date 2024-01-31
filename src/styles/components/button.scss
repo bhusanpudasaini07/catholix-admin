@@ -1,12 +1,22 @@
 .btn {
   &-primary {
-    @apply transition-none flex items-center text-sm gap-3 py-3 px-4 rounded-lg text-color bg-transparent shadow-none  hover:bg-gray-200;
+    @apply transition-none relative flex items-center text-sm gap-3 py-3  pr-3 text-zinc-600 font-medium bg-transparent shadow-none  hover:bg-zinc-100;
     span,
     svg {
       @apply transition-none;
     }
     &.active {
-      @apply bg-gradient-to-r from-purple-50 to-primary border-primary text-white;
+      @apply bg-blue-50 border-primary text-primary;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        background: #0a82fd;
+        width: 4px;
+        height: 40px;
+        border-radius: 0 8px 8px 0;
+      }
       // box-shadow: 0px 4px 20px 0px #686de080;
     }
   }

@@ -12,10 +12,10 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   const [isExpanded, setIsExpanded] = useState(true);
   const [openSheet, setOpenSheet] = useState(false);
 
-  const sidebarWidth = isExpanded ? "240px" : "64px"; // Adjust as needed
+  const sidebarWidth = isExpanded ? "260px" : "64px"; // Adjust as needed
 
   const bodyWidth = isExpanded
-    ? "lg:max-w-[calc(100vw-240px)]"
+    ? "lg:max-w-[calc(100vw-260px)]"
     : "lg:max-w-[calc(100vw-64px)]";
 
   return (

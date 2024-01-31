@@ -23,7 +23,7 @@ const buttonVariants = cva(
           "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary text-sm",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "h-10 px-4 py-2 gap-2",
         xs: "text-xs font-normal h-8 px-3",
         sm: "h-8 rounded-md px-3",
         lg: "h-11 rounded-md px-5 min-w-[148px]",

@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {nodejs "nodejs-16"}
     environment {
-        APP_NAME = "orion-frontend"
+        APP_NAME = "rp-revamp-frontend"
         DIR_NAME = getDirName(env.BRANCH_NAME)
         SERVER_IP = getServerIp(env.BRANCH_NAME)
         PROCESS_NAME = getProcessName(env.BRANCH_NAME)
@@ -25,16 +25,12 @@ pipeline {
                         script {
                             sshagent(['72c3455a-de8d-4b39-9f02-771ddb2fdf00']) {
                             sh '''
-                            ssh -tt -o StrictHostKeyChecking=no root@$SERVER_IP -p 1122 << EOF
+                            ssh -tt -o StrictHostKeyChecking=no root@$SERVER_IP -p 3030 << EOF
                             cd $DIR_NAME; \
-                            git stash; \
                             git pull origin $PROCESS_NAME; \
-                            nvm use system; \
-                            su ekbana -c "
                             pnpm i; \
                             pnpm build; \
                             pm2 restart $PM2_NAME; \
-                            "; \
                             exit
                         EOF '''
                         }
@@ -44,30 +40,7 @@ pipeline {
   
         
     }
-        // stage('EK Build') {
-        //     agent any
-        //     when {
-        //         branch 'dev'
-        //     }
-        //     steps {
-        //         script{
-        //                     sshagent(['72c3455a-de8d-4b39-9f02-771ddb2fdf00']) {
-        //                     sh '''
-        //                     ssh -tt -o StrictHostKeyChecking=no root@110.44.123.47 -p 1122 << EOF
-        //                     cd /mnt/disk1/orion/ek/frontend; \
-        //                     git pull origin dev; \
-        //                     nvm use v18.16.0; \
-        //                     su ekbana -c "
-        //                     pnpm i; \
-        //                     pnpm build; \
-        //                     pm2 restart orion_ek_frontend; \
-        //                     "; \
-        //                     exit
-        //                 EOF '''
-        //                 }
-        //         }
-        //     }
-        // }
+
     }
 
     post{
@@ -80,14 +53,17 @@ pipeline {
       failure{
         notifyFailed()
       }
+      aborted{
+        notifyAborted()
+      }
     }
 }
 
 def notifyStarted() {
 mattermostSend (
   color: "#2A42EE",
-  channel: 'orion-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/udaih9mwhir1bjsabtt3qjzx4w',
+  channel: 'rp-revamp-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
   message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
   )
 }
@@ -96,8 +72,8 @@ mattermostSend (
 def notifySuccessful() {
 mattermostSend (
   color: "#00f514",
-  channel: 'orion-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/udaih9mwhir1bjsabtt3qjzx4w',
+  channel: 'rp-revamp-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
   message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>):\n${changeLog}"
   )
 }
@@ -105,11 +81,21 @@ mattermostSend (
 def notifyFailed() {
 mattermostSend (
   color: "#e00707",
-  channel: 'orion-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/udaih9mwhir1bjsabtt3qjzx4w',
+  channel: 'rp-revamp-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
   message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
   )
 }
+
+def notifyAborted(){
+mattermostSend (
+  color: "#e00707",
+  channel: 'rp-revamp-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
+  message: "Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
+  )
+}
+
 def lastSuccessfulBuild(passedBuilds, build) {
   if ((build != null) && (build.result != 'SUCCESS')) {
       passedBuilds.add(build)
@@ -138,38 +124,36 @@ def getChangeLog(passedBuilds) {
 //Getting server ip for respective branches
  def getServerIp(branchName) {
     if("main".equals(branchName)) {
-        return "110.44.123.47";
+        return "157.245.148.131";
     }
     if("dev".equals(branchName)) {
-        return "110.44.123.47";
+        return "157.245.148.131";
     }
     if("qa".equals(branchName)) {
-        return "110.44.123.47";
+        return "157.245.148.131";
     }
     if("uat".equals(branchName)) {
-        return "110.44.123.47";
+        return "157.245.148.131";
     }
     if("dev-ek".equals(branchName)) {
-        return "110.44.123.47";
+        return "157.245.148.131";
     }
     else {
-        return "110.44.123.47";
-    }
+        return "157.245.148.131";
+    }//can use comment to comment else and run like the pm2 in the last 
  }
 
 
 //Getting branch name for respective branches
 def getDirName(branchName) {
     if("dev".equals(branchName)) {
-        return "/mnt/disk1/orion/dev/frontend";
+        return "/var/www/rp/frontend";
     } else if ("qa".equals(branchName)) {
-        return "/mnt/disk1/orion/qa/frontend";
+        return "not-given";
     } else if ("uat".equals(branchName)) {
-        return "/mnt/disk1/orion/uat/frontend";
-    } else if ("dev-ek".equals(branchName)) {
-        return "/mnt/disk1/orion/ek/frontend";
+        return "not-given";
     } else {
-        return "/mnt/disk1/orion/master/frontend";
+        return "not-given";
     }
 }
 
@@ -179,11 +163,9 @@ def getProcessName(branchName) {
     if("dev".equals(branchName)) {
         return "dev";
     } else if ("qa".equals(branchName)) {
-        return "not-given";
+        return "qa";
     } else if ("uat".equals(branchName)) {
         return "not-given";
-    } else if ("dev-ek".equals(branchName)) {
-        return "dev-ek";
     } else {
         return "not-given";
     }
@@ -193,13 +175,11 @@ def getProcessName(branchName) {
 //Getting branch name for PM2 restart
 def getPM2Name(branchName) {
     if("dev".equals(branchName)) {
-        return "orion_dev_frontend";
-    } else if ("dev-ek".equals(branchName)) {
-        return "orion_ek_frontend";
+        return "rp-dev-frontend";
     } else if ("qa".equals(branchName)) {
-        return "orion_qa_frontend";
+        return "not-given";
     } /*else if ("uat".equals(branchName)) {
-        return "orion_uat_frontend";
+        return "uat_frontend";
     } else {
         return "not-given";
     }*/

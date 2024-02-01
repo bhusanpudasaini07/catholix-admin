@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/shared/main-layout";
 import { Plus } from "lucide-react";
-import { Button } from "@/shared/components/ui/button";
 import FilterSearch from "@/shared/components/filter-search";
 import ProjectFilters from "@/features/Projects/filters";
+import NewProject from "@/features/Projects/new-project";
+import ProjectForm from "@/features/Projects/new-project/new-project-form";
+import { Button } from "@/shared/components/ui/button";
 
 const Projects: NextPageWithLayout = () => {
   const [searchText, setSearchText] = useState("");
+  const [sheetOpen, setSheetOpen] = useState(false);
   return (
     <div>
       {/* Page heading */}
@@ -20,10 +23,13 @@ const Projects: NextPageWithLayout = () => {
             The complete dashboard to get insights and overview of the projects.
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setSheetOpen(true)}>
           <Plus width={20} height={20} />
           <span>Add New Project</span>
         </Button>
+
+        <NewProject sheetOpen={sheetOpen} setSheetOpen={setSheetOpen} />
+        {/* <ProjectForm /> */}
       </div>
 
       {/* Filters */}

@@ -12,7 +12,8 @@ const buttonVariants = cva(
         default: "bg-primary border-primary text-white shadow-custom-primary",
         destructive:
           "bg-gradient-to-r from-red-150 to-red-250 text-white hover:bg-red-600/90 shadow-custom-primary",
-        outline: "border bg-white hover:bg-gray-250 hover:bg-gray-250",
+        outline:
+          "border border-primary text-primary bg-white hover:bg-gray-250 hover:bg-gray-250",
         secondary:
           "bg-white border border-purple-60 text-purple-60 hover:bg-purple-60 hover:text-white ",
         ghost: "hover:bg-accent hover:text-accent-foreground",

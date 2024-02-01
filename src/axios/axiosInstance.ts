@@ -87,8 +87,8 @@ const httpRequest = async (
   try {
     const response = await axiosInstance[method](`${url}`, data, { headers });
     return {
-      ...(response?.data?.meta?.pagination && {
-        pagination: response?.data?.meta?.pagination,
+      ...(response?.data?.pagination && {
+        pagination: response?.data?.pagination,
       }),
       data: response?.data?.data,
     };

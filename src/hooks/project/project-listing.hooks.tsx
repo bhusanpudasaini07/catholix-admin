@@ -42,6 +42,7 @@ const useProjectListing = () => {
   const [searchText, setSearchText] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
 
   const { data: projectList, isLoading } = useQuery({
     queryFn: () => getProjectList(pageNumber, perPage),
@@ -421,6 +422,8 @@ const useProjectListing = () => {
     setPageNumber,
     perPage,
     setPerPage,
+    sheetOpen,
+    setSheetOpen,
     projectList,
     isLoading,
     handlePageChange,

@@ -1,40 +1,16 @@
 // ROOT
-import React, { useState } from "react";
+import React from "react";
 import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/shared/main-layout";
 import Link from "next/link";
-import { useQuery } from "react-query";
-
-import { Copy, Plus } from "lucide-react";
-import { cn } from "@/shared/utils/utils";
-import {
-  calculateRpLeft,
-  calculateRpSumAndColor,
-  changeDateDisplay,
-  getRiskStatusBgColor,
-  showDeadline,
-} from "@/shared/utils/rp-utils";
-import { changeDateToMonthYear } from "@/shared/utils/date-utils";
-
 // UI
-
 import { Button } from "@/shared/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { Progress } from "@/shared/components/ui/progress";
-import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
 } from "@/shared/components/ui/dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-
-import { IProjectDetail } from "@/interface/project-interface";
-import { getProjectList } from "@/services/project/project-service";
+import { Plus } from "lucide-react";
 
 // CUSTOM
 import FilterSearch from "@/shared/components/filter-search";
@@ -42,6 +18,7 @@ import ProjectFilters from "@/features/Projects/filters";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import useProjectListing from "@/hooks/project/project-listing.hooks";
+import NewProject from "@/features/Projects/new-project";
 
 const Projects: NextPageWithLayout = () => {
   const {
@@ -57,6 +34,8 @@ const Projects: NextPageWithLayout = () => {
     setPageNumber,
     perPage,
     setPerPage,
+    sheetOpen,
+    setSheetOpen,
     projectList,
     isLoading,
     handlePageChange,
@@ -64,7 +43,6 @@ const Projects: NextPageWithLayout = () => {
     showGitUrl,
     columns,
   } = useProjectListing();
-
   return (
     <div>
       {/* Page heading */}
@@ -77,10 +55,13 @@ const Projects: NextPageWithLayout = () => {
             The complete dashboard to get insights and overview of the projects.
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setSheetOpen(true)}>
           <Plus width={20} height={20} />
           <span>Add New Project</span>
         </Button>
+
+        <NewProject sheetOpen={sheetOpen} setSheetOpen={setSheetOpen} />
+        {/* <ProjectForm /> */}
       </div>
 
       {/* Filters */}

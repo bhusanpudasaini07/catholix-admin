@@ -33,11 +33,7 @@ const LanguageToggler = () => {
   const handleChange = (event: any) => {
     setSelected(event.target.value);
     router.push(pathname, asPath, { locale: event.target.value });
-    // adds locales prior to main route dynamically.Example:
-    console.log("event", event.target.value);
-    console.log("router locale", router.locale);
-    console.log("router >", router);
-    console.log("state >", selected);
+    // Adds locales prior to main route dynamically.Example:
   };
 
   return (

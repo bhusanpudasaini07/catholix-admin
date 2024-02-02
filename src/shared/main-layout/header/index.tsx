@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Logo } from "@/shared/lib/image-config";
 import LanguageToggler from "./language-toggler";
-// import { version } from "../../../../version";
+import { version } from "../../../../version";
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;
@@ -71,10 +71,10 @@ const Header = ({
         <div className="flex items-center gap-6">
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}
-          {/* <p className="text-xs text-zinc-700">v {version}</p> */}
+          <p className="text-xs text-zinc-700">v {version}</p>
           <ProfileDropdown />
+          {/* <LanguageToggler /> */}
         </div>
-        <LanguageToggler />
       </div>
     </header>
   );

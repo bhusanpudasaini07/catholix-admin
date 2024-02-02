@@ -41,6 +41,7 @@ import FilterSearch from "@/shared/components/filter-search";
 import ProjectFilters from "@/features/Projects/filters";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
+import NewProject from "@/features/Projects/new-project";
 
 const Projects: NextPageWithLayout = () => {
   // STATES
@@ -51,6 +52,7 @@ const Projects: NextPageWithLayout = () => {
   const [gitModalOpen, setGitModalOpen] = useState(false);
   const [gitModalId, setGitModalId] = useState(0);
   const [gitUrl, setGitUrl] = useState<string[]>([]);
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   /**
    * For filtering data in project api
    */
@@ -434,10 +436,13 @@ const Projects: NextPageWithLayout = () => {
             The complete dashboard to get insights and overview of the projects.
           </p>
         </div>
-        <Button>
+        <Button onClick={() => setSheetOpen(true)}>
           <Plus width={20} height={20} />
           <span>Add New Project</span>
         </Button>
+
+        <NewProject sheetOpen={sheetOpen} setSheetOpen={setSheetOpen} />
+        {/* <ProjectForm /> */}
       </div>
 
       {/* Filters */}

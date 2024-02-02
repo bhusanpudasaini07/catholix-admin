@@ -156,6 +156,24 @@ export const menuItems = [
 
 const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
   const router = useRouter();
+  console.log("router", router);
+
+  const isActive = (tabRoute: string) => {
+    // if (router.pathname === "/") {
+    //   return true;
+    // }
+    // if (router.pathname == tabRoute) {
+    //   if (router.pathname == "/") {
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // }
+    const result = router.pathname.startsWith(tabRoute);
+    console.log(`Checking ${tabRoute}. Result: ${result}`);
+    return result;
+  };
+
   return (
     <div
       style={{
@@ -188,10 +206,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                               isExpanded
                                 ? "justify-start pl-8"
                                 : "justify-center pl-4"
-                            } ${
-                              router.pathname.includes(subItem?.menuSlug) &&
-                              "active"
-                            }`}
+                            } ${isActive(subItem?.menuSlug) && "active"}`}
                           >
                             <div className={` w-full flex`}>
                               <span
@@ -231,10 +246,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                             isExpanded
                               ? "justify-start pl-8"
                               : "justify-center pl-4"
-                          } ${
-                            router.pathname.includes(subItem?.menuSlug) &&
-                            "active"
-                          }`}
+                          } ${isActive(subItem?.menuSlug) && "active"}`}
                         >
                           {subItem?.icon}
                         </DropdownMenuTrigger>
@@ -260,10 +272,11 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                 ) : (
                   <>
                     {isExpanded ? (
-                      <Button
+                      <>
+                        {/* <Button
                         key={subIndex}
                         className={`
-                      btn-primary !shadow-none rounded-none  ${
+                      btn-primary h-[44px] !shadow-none rounded-none  ${
                         isExpanded
                           ? "justify-start pl-8"
                           : "justify-center pl-4"
@@ -274,14 +287,15 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                       `}
                       >
                         <span
-                          className={`min-w-[20px] [&>svg]:max-w-[20px] h-[20px] flex justify-center `}
+                          className={`min-w-[20px] [&>svg]:max-w-[20px]   h-[20px] flex justify-center `}
                         >
                           {subItem?.icon}
                         </span>
                         <span className={isExpanded ? "" : "hidden"}>
                           {subItem.menuName}
                         </span>
-                      </Button>
+                      </Button> */}
+                      </>
                     ) : (
                       <TooltipProvider>
                         <Tooltip>

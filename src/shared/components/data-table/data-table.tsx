@@ -25,17 +25,19 @@ import { useState } from "react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | any;
+  columnVisibility?: any;
+  setColumnVisibility?: any;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  columnVisibility,
+  setColumnVisibility,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    is_synced: process.env.NEXT_PUBLIC_IS_SYNCED !== "false",
-  });
+  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     data,

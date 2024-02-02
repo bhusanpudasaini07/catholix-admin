@@ -52,6 +52,13 @@ export interface IProjectDetail {
     {
       id: string;
       fullname: string;
+      username: string;
     }
   ];
+
+  task: {
+    open_task_count: string;
+    closed_task_count: string;
+    all_task_count: string;
+  };
 }

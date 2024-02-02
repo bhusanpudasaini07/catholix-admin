@@ -1,4 +1,4 @@
- import { Button } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -45,7 +45,9 @@ const DataTablePagination: React.FC<IPagination> = memo(
             <Button
               variant={"pagination"}
               key={pageNumber}
-              className={`${pageNumber === currentPage && "border-primary"}`}
+              className={`${
+                pageNumber === currentPage && "border-primary text-primary"
+              }`}
               onClick={() => pageChange(pageNumber)}
             >
               {pageNumber}

@@ -22,6 +22,8 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-green-250 to-green-350 border-primary text-white shadow-custom-submit",
         pagination:
           "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary text-sm",
+        table:
+          "border border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

@@ -1,0 +1,26 @@
+{
+  "common": {
+    "langs": {
+      "en-us": "English",
+      "np": "नेपाली"
+    },
+    "theme": {
+      "dark": "Dark",
+      "light": "Light"
+    },
+    "side_nav": {
+      "dashboard": "Dashboard",
+      "projects": "Projects",
+      "reports": "Reports",
+      "time_spent_reports": "Time Spent Reports",
+      "team_leads": "Team Leads",
+      "staff_groups": "Staff Groups",
+      "calculator": "Calculator",
+      "pl_feedback": "PL Feedback",
+      "feedback_report": "Feedback Report",
+      "gitlab_hooks": "Gitlab Hooks"
+    },
+
+    "search": "Input here to search"
+  }
+}

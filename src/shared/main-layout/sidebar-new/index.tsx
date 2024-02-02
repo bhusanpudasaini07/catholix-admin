@@ -33,130 +33,128 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { useTranslation } from "next-i18next";
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 interface ISidebarProps {
   sidebarWidth: string;
   isExpanded: boolean;
 }
 
-// Sidebar Items
-export const menuItems = [
-  {
-    menuName: "Dashboard",
-    icon: <LayoutGrid width={20} height={20} />,
-    subMenu: [
-      {
-        menuName: "Dashboard",
-        menuSlug: "/",
-        icon: <LayoutGrid width={20} height={20} />,
-      },
-    ],
-  },
-
-  {
-    menuName: "Projects",
-    icon: <User2 />,
-    subMenu: [
-      {
-        menuName: "Projects",
-        menuSlug: "/projects",
-        icon: <Folder width={20} height={20} />,
-        hasAccordion: true,
-        accordionItem: [
-          {
-            itemName: "Test",
-            itemSlug: "/test",
-          },
-          {
-            itemName: "Test",
-            itemSlug: "/test",
-          },
-        ],
-      },
-      {
-        menuName: "Reports",
-        menuSlug: "/reports",
-        icon: <File width={20} height={20} />,
-        hasAccordion: true,
-        accordionItem: [
-          {
-            itemName: "Test",
-            itemSlug: "/test",
-          },
-          {
-            itemName: "Test",
-            itemSlug: "/test",
-          },
-        ],
-      },
-      {
-        menuName: "Time Spent Reports",
-        menuSlug: "/time-spent-reports",
-        icon: <Clock width={20} height={20} />,
-        hasAccordion: true,
-      },
-    ],
-  },
-  {
-    menuName: "Team",
-    menuSlug: "",
-    icon: <User2 />,
-    hasChildren: true,
-    subMenu: [
-      {
-        menuName: "Team Leads",
-        menuSlug: "/team-leads",
-        icon: <Users width={20} height={20} />,
-      },
-      {
-        menuName: "Staff Groups",
-        menuSlug: "/reports",
-        icon: <Users width={20} height={20} />,
-      },
-    ],
-  },
-  {
-    menuName: "Calculator",
-    menuSlug: "/calculator",
-    icon: <Calculator width={20} height={20} />,
-    hasChildren: false,
-  },
-  {
-    menuName: "Feedback",
-    menuSlug: "",
-    icon: <User2 />,
-    hasChildren: true,
-    subMenu: [
-      {
-        menuName: "PL Feedback",
-        menuSlug: "/team-leads",
-        icon: <Users width={20} height={20} />,
-      },
-      {
-        menuName: "Feedback Report",
-        menuSlug: "/feedback-report",
-        icon: <Users width={20} height={20} />,
-      },
-    ],
-  },
-  {
-    menuName: "Other",
-    menuSlug: "",
-    icon: <User2 />,
-    hasChildren: true,
-    subMenu: [
-      {
-        menuName: "GitLab Hooks",
-        menuSlug: "/gitlab-hooks",
-        icon: <Gitlab width={20} height={20} />,
-      },
-    ],
-  },
-];
-
 const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
   const router = useRouter();
-  console.log("router", router);
+
+  const { t } = useTranslation("");
+
+  // Sidebar Items
+  const menuItems = [
+    {
+      menuName: t("side_nav.dashboard"),
+      icon: <LayoutGrid width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: t("side_nav.dashboard"),
+          menuSlug: "/",
+          icon: <LayoutGrid width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Projects",
+      icon: <User2 />,
+      subMenu: [
+        {
+          menuName: t("side_nav.projects"),
+          menuSlug: "/projects",
+          icon: <Folder width={20} height={20} />,
+        },
+        {
+          menuName: "Reports",
+          menuSlug: "/reports",
+          icon: <File width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "Test",
+              itemSlug: "/test",
+            },
+            {
+              itemName: "Test",
+              itemSlug: "/test",
+            },
+          ],
+        },
+        {
+          menuName: "Time Spent Reports",
+          menuSlug: "/time-spent-reports",
+          icon: <Clock width={20} height={20} />,
+          hasAccordion: true,
+        },
+      ],
+    },
+    {
+      menuName: "Team",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "Team Leads",
+          menuSlug: "/team-leads",
+          icon: <Users width={20} height={20} />,
+        },
+        {
+          menuName: "Staff Groups",
+          menuSlug: "/reports",
+          icon: <Users width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Calculator",
+      menuSlug: "/calculator",
+      icon: <Calculator width={20} height={20} />,
+      hasChildren: false,
+      subMenu: [
+        {
+          menuName: "Calculator",
+          menuSlug: "/calculator",
+          icon: <Calculator width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Feedback",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "PL Feedback",
+          menuSlug: "/team-leads",
+          icon: <Users width={20} height={20} />,
+        },
+        {
+          menuName: "Feedback Report",
+          menuSlug: "/feedback-report",
+          icon: <Users width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Other",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "GitLab Hooks",
+          menuSlug: "/gitlab-hooks",
+          icon: <Gitlab width={20} height={20} />,
+        },
+      ],
+    },
+  ];
 
   const isActive = (tabRoute: string) => {
     // if (router.pathname === "/") {
@@ -170,7 +168,6 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
     //   }
     // }
     const result = router.pathname.startsWith(tabRoute);
-    console.log(`Checking ${tabRoute}. Result: ${result}`);
     return result;
   };
 
@@ -273,28 +270,28 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                   <>
                     {isExpanded ? (
                       <>
-                        {/* <Button
-                        key={subIndex}
-                        className={`
+                        <Button
+                          key={subIndex}
+                          className={`
                       btn-primary h-[44px] !shadow-none rounded-none  ${
                         isExpanded
                           ? "justify-start pl-8"
                           : "justify-center pl-4"
                       } ${
-                          router.pathname.includes(subItem?.menuSlug) &&
-                          "active"
-                        }
+                            router.pathname.includes(subItem?.menuSlug) &&
+                            "active"
+                          }
                       `}
-                      >
-                        <span
-                          className={`min-w-[20px] [&>svg]:max-w-[20px]   h-[20px] flex justify-center `}
                         >
-                          {subItem?.icon}
-                        </span>
-                        <span className={isExpanded ? "" : "hidden"}>
-                          {subItem.menuName}
-                        </span>
-                      </Button> */}
+                          <span
+                            className={`min-w-[20px] [&>svg]:max-w-[20px]   h-[20px] flex justify-center `}
+                          >
+                            {subItem?.icon}
+                          </span>
+                          <span className={isExpanded ? "" : "hidden"}>
+                            {subItem.menuName}
+                          </span>
+                        </Button>
                       </>
                     ) : (
                       <TooltipProvider>

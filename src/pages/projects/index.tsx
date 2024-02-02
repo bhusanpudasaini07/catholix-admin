@@ -42,6 +42,7 @@ import ProjectFilters from "@/features/Projects/filters";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import NewProject from "@/features/Projects/new-project";
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 const Projects: NextPageWithLayout = () => {
   // STATES
@@ -498,6 +499,7 @@ const Projects: NextPageWithLayout = () => {
 };
 
 export default Projects;
+export const getStaticProps = getI18nProps;
 
 Projects.getLayout = (page) => {
   return <MainLayout title="Projects">{page}</MainLayout>;

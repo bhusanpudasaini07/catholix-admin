@@ -1,11 +1,10 @@
 import { Menu } from "lucide-react";
 import ProfileDropdown from "./profile-dropdown";
-import { useQuery } from "react-query";
 import { useLoggedInStore } from "@/store/auth-store";
 import Link from "next/link";
 import Image from "next/image";
 import { Logo } from "@/shared/lib/image-config";
-// import { useProfileStore } from "@/store/profile-store";
+import LanguageToggler from "./language-toggler";
 interface IHeaderProps {
   isExpanded: boolean;
   setIsExpanded: (arg: boolean) => void;
@@ -51,6 +50,7 @@ const Header = ({
           </Link>
           {/* For sidebar */}
           <button
+            title="menu"
             className="hidden lg:block focus:outline-none"
             onClick={() => setIsExpanded(!isExpanded)}
           >
@@ -59,7 +59,11 @@ const Header = ({
         </div>
 
         {/* For sheet */}
-        <button className="block lg:hidden" onClick={() => setOpenSheet(true)}>
+        <button
+          title="sheet-menu"
+          className="block lg:hidden"
+          onClick={() => setOpenSheet(true)}
+        >
           <Menu />
         </button>
         <div className="flex items-center gap-6">
@@ -67,6 +71,7 @@ const Header = ({
           {/* <InputSearch /> */}
           <ProfileDropdown />
         </div>
+        <LanguageToggler />
       </div>
     </header>
   );

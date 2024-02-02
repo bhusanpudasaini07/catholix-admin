@@ -44,32 +44,32 @@ interface ISidebarProps {
 const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
   const router = useRouter();
 
-  const { t } = useTranslation("");
+  const { t } = useTranslation("common");
 
   // Sidebar Items
   const menuItems = [
     {
-      menuName: t("side_nav.dashboard"),
+      menuName: t("common.side_nav.dashboard"),
       icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: t("side_nav.dashboard"),
+          menuName: t("common.side_nav.dashboard"),
           menuSlug: "/",
           icon: <LayoutGrid width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "Projects",
+      menuName: t("common.side_nav.projects"),
       icon: <User2 />,
       subMenu: [
         {
-          menuName: t("side_nav.projects"),
+          menuName: t("common.side_nav.projects"),
           menuSlug: "/projects",
           icon: <Folder width={20} height={20} />,
         },
         {
-          menuName: "Reports",
+          menuName: t("common.side_nav.reports"),
           menuSlug: "/reports",
           icon: <File width={20} height={20} />,
           hasAccordion: true,
@@ -85,7 +85,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
           ],
         },
         {
-          menuName: "Time Spent Reports",
+          menuName: t("common.side_nav.time_spent_reports"),
           menuSlug: "/time-spent-reports",
           icon: <Clock width={20} height={20} />,
           hasAccordion: true,
@@ -93,62 +93,62 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
       ],
     },
     {
-      menuName: "Team",
+      menuName: t("common.side_nav.team"),
       menuSlug: "",
       icon: <User2 />,
       hasChildren: true,
       subMenu: [
         {
-          menuName: "Team Leads",
+          menuName: t("common.side_nav.team_leads"),
           menuSlug: "/team-leads",
           icon: <Users width={20} height={20} />,
         },
         {
-          menuName: "Staff Groups",
+          menuName: t("common.side_nav.staff_groups"),
           menuSlug: "/reports",
           icon: <Users width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "Calculator",
+      menuName: t("common.side_nav.calculator"),
       menuSlug: "/calculator",
       icon: <Calculator width={20} height={20} />,
       hasChildren: false,
       subMenu: [
         {
-          menuName: "Calculator",
+          menuName: t("common.side_nav.calculator"),
           menuSlug: "/calculator",
           icon: <Calculator width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "Feedback",
+      menuName: t("common.side_nav.feedback"),
       menuSlug: "",
       icon: <User2 />,
       hasChildren: true,
       subMenu: [
         {
-          menuName: "PL Feedback",
+          menuName: t("common.side_nav.pl_feedback"),
           menuSlug: "/team-leads",
           icon: <Users width={20} height={20} />,
         },
         {
-          menuName: "Feedback Report",
+          menuName: t("common.side_nav.feedback_report"),
           menuSlug: "/feedback-report",
           icon: <Users width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "Other",
+      menuName: t("common.side_nav.other"),
       menuSlug: "",
       icon: <User2 />,
       hasChildren: true,
       subMenu: [
         {
-          menuName: "GitLab Hooks",
+          menuName: t("common.side_nav.gitlab_hooks"),
           menuSlug: "/gitlab-hooks",
           icon: <Gitlab width={20} height={20} />,
         },

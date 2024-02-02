@@ -8,14 +8,18 @@
       "dark": "Dark",
       "light": "Light"
     },
+
     "side_nav": {
       "dashboard": "Dashboard",
       "projects": "Projects",
       "reports": "Reports",
       "time_spent_reports": "Time Spent Reports",
+      "team": "Team",
       "team_leads": "Team Leads",
       "staff_groups": "Staff Groups",
       "calculator": "Calculator",
+      "feedback": "Feedback",
+      "other": "Other",
       "pl_feedback": "PL Feedback",
       "feedback_report": "Feedback Report",
       "gitlab_hooks": "Gitlab Hooks"

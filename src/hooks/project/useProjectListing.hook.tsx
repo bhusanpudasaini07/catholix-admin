@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, VisibilityState } from "@tanstack/react-table";
+import moment from "moment";
 
-import { Copy, Plus } from "lucide-react";
+import { Copy, Edit, MoreVertical, Plus, Users } from "lucide-react";
 
 import { IProjectDetail } from "@/interface/project-interface";
 import { getProjectList } from "@/services/project/project-service";
@@ -16,6 +17,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 
 import { changeDateToMonthYear } from "@/shared/utils/date-utils";
 import {
@@ -26,6 +33,8 @@ import {
   showDeadline,
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { useDebounce } from "../debounce.hooks";
 
 const useProjectListing = () => {
   // STATES
@@ -43,10 +52,13 @@ const useProjectListing = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  const debouncedSearchValue = useDebounce(searchText, 300);
 
   const { data: projectList, isLoading } = useQuery({
-    queryFn: () => getProjectList(pageNumber, perPage),
-    queryKey: ["projectList", perPage, pageNumber],
+    queryFn: () => getProjectList(pageNumber, perPage, searchText),
+    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
   });
 
   const handlePageChange = (pageNum: number) => {
@@ -58,7 +70,7 @@ const useProjectListing = () => {
     const serialNumber = (pageNumber - 1) * perPage + rowIndex + 1;
     const bgColor = getRiskStatusBgColor(row?.original?.risk_status);
     return (
-      <div className="text-color w-[40px]">
+      <div className="text-color">
         <div
           className={`absolute top-2 bottom-2 rounded-e left-0 w-[4px] h-auto ${bgColor} `}
         ></div>
@@ -73,12 +85,16 @@ const useProjectListing = () => {
     setGitUrl(data?.git_urls);
   };
 
+  const copyProjectCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    showToast(TOAST_TYPES.success, "Text Copied");
+  };
+
   const columns: ColumnDef<IProjectDetail>[] = [
     {
+      id: "sn",
       accessorKey: "S.N",
-      header: ({ column }) => {
-        return <div>S.N</div>;
-      },
+      header: "S.N",
       cell: (props) => (
         <SerialNumberCell
           {...props}
@@ -86,20 +102,28 @@ const useProjectListing = () => {
           perPage={perPage}
         />
       ),
+      enableHiding: false,
     },
+    // Project Info
     {
+      id: "project_title",
       accessorKey: "project_title",
-      header: ({ column }) => {
-        return <div className="w-[240px]">Project Info</div>;
-      },
+      header: "Project Info",
       cell: ({ row }) => (
-        <div className="capitalize">
-          <Link
-            href={`/projects/${row.original?.code}`}
-            className="mb-1 text-base font-medium transition-all text-zinc-700 hover:text-primary"
-          >
-            {row.getValue("project_title")}
-          </Link>
+        <div className="capitalize w-[240px]">
+          <Tooltip>
+            <TooltipTrigger className="w-full min-w-0 text-start">
+              <Link
+                href={`/projects/${row.original?.code}`}
+                className="block mb-1 text-base font-medium truncate transition-all text-zinc-700 hover:text-primary"
+              >
+                {row.getValue("project_title")}
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-[200px]">
+              {row.getValue("project_title")}
+            </TooltipContent>
+          </Tooltip>
           <p className="my-1 text-xs text-zinc-600">
             Fiscal year:{" "}
             <span className="font-medium">{row?.original?.fiscal_year}</span>
@@ -119,19 +143,24 @@ const useProjectListing = () => {
           </Button>
         </div>
       ),
+      enableHiding: false,
     },
+    // Project Detail
     {
+      id: "project_detail",
       accessorKey: "project_detail",
-      header: ({ column }) => {
-        return <div className="w-[240px]">Project Detail</div>;
-      },
+      header: "Project Detail",
       cell: ({ row }) => (
         <div className="w-[240px] min-w-0">
           <div className="flex items-center min-w-0 gap-2 mb-1 text-xs text-zinc-600">
             <span>Code:</span>{" "}
             <div className="flex items-center gap-1 max-w-[80%]">
               <p className="font-medium truncate">{row.original?.code}</p>
-              <Button variant={"ghost"} className="h-auto p-0">
+              <Button
+                variant={"ghost"}
+                className="h-auto p-0"
+                onClick={() => copyProjectCode(row.original?.code)}
+              >
                 <Copy
                   size={12}
                   className="stroke-zinc-500 hover:stroke-primary"
@@ -158,12 +187,13 @@ const useProjectListing = () => {
           </p>
         </div>
       ),
+      enableHiding: true,
     },
+    // Planned RP
     {
+      id: "planned_rp",
       accessorKey: "planned_rp",
-      header: ({ column }) => {
-        return <div className="w-[154px]">Planned RP</div>;
-      },
+      header: "Planned RP",
       cell: ({ row }: any) => {
         const { sum, color, icon } = calculateRpSumAndColor(
           row?.original?.rp?.approved_rp,
@@ -183,12 +213,13 @@ const useProjectListing = () => {
           </div>
         );
       },
+      enableHiding: true,
     },
+    // RP
     {
+      id: "rp",
       accessorKey: "rp",
-      header: ({ column }) => {
-        return <div className="uppercase">RP</div>;
-      },
+      header: "RP",
       cell: ({ row }) => {
         const { percentageLeft, color } = calculateRpLeft(
           row?.original?.rp?.used_rp ?? 0,
@@ -214,24 +245,25 @@ const useProjectListing = () => {
           </div>
         );
       },
+      enableHiding: true,
     },
+    // Deadline
     {
+      id: "deadline",
       accessorKey: "deadline",
-      header: ({ column }) => {
-        return <div className="w-[150px]">Deadline</div>;
-      },
+      header: "Deadline",
       cell: ({ row }: any) => {
         const { statusText, daysValue } = showDeadline(
           row?.original?.dates?.deadline
         );
         return (
           <div className="w-[200px]">
-            <p className="mb-2 text-base font-medium text-zinc-700">
+            <p className="mb-2 text-sm font-medium text-zinc-700">
               {statusText}
             </p>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Progress className={cn("h-[8px]")} value={daysValue} />
+                <Progress className={cn("h-1.5")} value={daysValue} />
               </TooltipTrigger>
               <TooltipContent align="center" side="right">
                 {}
@@ -246,7 +278,7 @@ const useProjectListing = () => {
               </TooltipContent>
             </Tooltip>
 
-            <p className="mt-2 text-sm text-zinc-600">
+            <p className="mt-2 text-xs text-zinc-600">
               Deadline:{" "}
               <span className="font-medium">
                 {changeDateToMonthYear(row?.original?.dates?.deadline)}
@@ -255,12 +287,13 @@ const useProjectListing = () => {
           </div>
         );
       },
+      enableHiding: true,
     },
+    // Project Lead
     {
+      id: "project_lead",
       accessorKey: "project_lead",
-      header: ({ column }) => {
-        return <div>Project Lead</div>;
-      },
+      header: "Project Lead",
       cell: ({ row }) => (
         <div className="w-[155px]">
           <p className="text-sm font-medium text-zinc-700">
@@ -288,63 +321,77 @@ const useProjectListing = () => {
           </div>
         </div>
       ),
+      enableHiding: true,
     },
+    // Offshore membet
     {
+      id: "offshore_members",
       accessorKey: "offshore_members",
-      header: ({ column }) => {
-        return <div className="uppercase">Offshore Members</div>;
-      },
+      header: "Offshore Members",
       cell: ({ row }) => (
         <div className="w-[150px]">
           <div className="mb-2">
             {row?.original?.offshore_members?.length <= 3 ? (
               row.original.offshore_members.map((member: any, index) => (
-                <p key={index} className="font-medium text-zinc-700">
+                <p key={index} className="text-xs font-medium text-zinc-700">
                   {member?.fullname}
                 </p>
               ))
             ) : (
               <>
                 {row.original?.offshore_members
-                  .slice(0, 3)
+                  .slice(0, 2)
                   .map((member: any, index) => (
-                    <p key={index} className="text-zinc-700">
+                    <p key={index} className="text-xs text-zinc-700">
                       {member?.fullname}
                     </p>
                   ))}
-                <p>+{row.original.offshore_members.length - 3} more</p>
+                <p className="text-xs">
+                  +{row.original.offshore_members.length - 2} more
+                </p>
               </>
             )}
           </div>
 
-          <Button size={"sm"} variant={"outline"} className="gap-1">
+          <Button size={"sm"} variant={"table"} className="gap-1">
             <Plus size={16} />
-            Add members
+            Members
           </Button>
         </div>
       ),
+      enableHiding: true,
     },
+    // Last time log
     {
-      accessorKey: "lastTimeLog",
-      header: ({ column }) => {
-        return <div className="uppercase">Last Time Log</div>;
-      },
+      id: "last_time_log",
+      accessorKey: "last_time_log",
+      header: "Last Time Log",
       cell: ({ row }: any) => (
         <div className="w-[150px] text-zinc-600">
-          <p className="text-sm ">Last Logged</p>
-          <p className="my-1 text-base font-medium">
-            {row?.original?.dates?.last_log_date ?? "-"}
+          <p className="text-xs ">Last Logged</p>
+          <p className="mt-1 text-sm font-medium">
+            {row.original.dates.last_log_date
+              ? moment(row.original.dates.last_log_date).format("MMM Do, YYYY")
+              : "-"}
           </p>
-          <p className="text-sm">
+          <p className="mb-1 text-sm font-medium">
+            {row.original.dates.last_log_date
+              ? moment(row.original.dates.last_log_date).format("HH:mm:ss")
+              : "-"}
+          </p>
+          <p className="text-xs">
             {row?.original?.dates?.last_log_date &&
               changeDateDisplay(row?.original?.dates?.last_log_date)}
           </p>
         </div>
       ),
+      enableHiding: true,
     },
+    // Status
     {
+      id: "status",
       accessorKey: "status",
-      header: "STATUS",
+      header: "Status",
       cell: ({ row }) => {
         return (
           <div className="w-[100px]">
@@ -366,43 +413,109 @@ const useProjectListing = () => {
           </div>
         );
       },
+      enableHiding: true,
     },
+    // Task Status
     {
-      accessorKey: "taskStatus",
-      header: ({ column }) => {
-        return <div>Task Status</div>;
-      },
-      cell: ({ row }: any) => (
-        <div className="w-[100px]">Total Task 58</div>
-        // <Button type="button">{row.getValue("billedDate")}</Button>
+      id: "task_status",
+      accessorKey: "task_status",
+      header: "Task Status",
+      cell: ({ row }) => (
+        <div className="w-[180px]">
+          <p className="text-[15px] text-zinc-800 mb-1">
+            Total Task {row?.original?.task?.all_task_count}
+          </p>
+
+          <Progress
+            className={cn(
+              row?.original?.task?.all_task_count === "0"
+                ? "bg-gray-300"
+                : "bg-orange-500",
+              "h-1.5 [&>div]:bg-green-500"
+            )}
+            value={parseInt(row?.original?.task?.closed_task_count)}
+          />
+
+          <div className="mt-2">
+            <p className="flex items-center gap-2">
+              <span className="w-3 h-3 bg-green-500 rounded-sm"></span>
+              <span className="text-green-500">
+                {row?.original?.task?.closed_task_count}
+              </span>
+              <span className="text-xs font-medium text-zinc-600">
+                Closed Task
+              </span>
+            </p>
+            <p className="flex items-center gap-2">
+              <span className="w-3 h-3 bg-orange-500 rounded-sm"></span>
+              <span className="text-orange-500">
+                {row?.original?.task?.open_task_count}
+              </span>
+              <span className="text-xs font-medium text-zinc-600">
+                Open Task
+              </span>
+            </p>
+          </div>
+        </div>
       ),
+      enableHiding: true,
     },
+    // Action
     {
       id: "actions",
+      accessorKey: "actions",
       enableHiding: false,
-      header: () => <div className="uppercase">ACTIONS</div>,
+      header: "Actions",
       cell: ({ row }) => {
-        const rowData: any = row.original;
+        const rowData = row.original;
 
         return (
           <div className="flex items-center gap-4">
-            {/* <Link href={`/projects/${rowData?.id}`}>
-              <EyeIcon className="stroke-gray-400 hover:stroke-green-150" />
+            <Link href={`/projects/${rowData?.project_id}/edit`}>
+              <Edit
+                size={20}
+                className="stroke-zinc-700 hover:stroke-primary"
+              />
             </Link>
-            <Link href={`/projects/${rowData?.id}/edit`}>
-              <PencilLine className="stroke-gray-400 hover:stroke-blue-300" />
-            </Link>
-            <Button
-              onClick={() => {
-                setProjectId(rowData?.id);
-                setOpen(true);
-              }}
-              variant={"ghost"}
-              className="p-0 hover:bg-transparent hover:[&>svg]:stroke-destructive"
+            <Link
+              href={`/projects/${rowData?.project_id}/team-members`}
+              className="relative "
             >
-              <Trash2 className="stroke-gray-400" />
-            </Button> */}
-            Actions
+              <Badge
+                size={"sm"}
+                variant={"dark"}
+                className="absolute -right-3 -top-3"
+              >
+                2
+              </Badge>
+              <Users
+                size={20}
+                className="stroke-zinc-700 hover:stroke-primary"
+              />
+            </Link>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger>
+                <MoreVertical size={20} className="stroke-zinc-700" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem className="px-5">
+                  Daily RP Consumption Graph
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-5">
+                  Daily RP Consumption List
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-5">
+                  User Stories
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-5">Activities</DropdownMenuItem>
+                <DropdownMenuItem className="px-5">
+                  Label Report & Timelog Pattern
+                </DropdownMenuItem>
+                <DropdownMenuItem className="px-5">
+                  Task & Time Spent
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         );
       },
@@ -418,6 +531,7 @@ const useProjectListing = () => {
     setGitUrl,
     searchText,
     setSearchText,
+    debouncedSearchValue,
     pageNumber,
     setPageNumber,
     perPage,
@@ -430,6 +544,8 @@ const useProjectListing = () => {
     SerialNumberCell,
     showGitUrl,
     columns,
+    columnVisibility,
+    setColumnVisibility,
   };
 };
 

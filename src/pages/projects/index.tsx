@@ -27,13 +27,8 @@ const Projects: NextPageWithLayout = () => {
     gitModalOpen,
     setGitModalOpen,
     gitModalId,
-    setGitModalId,
     gitUrl,
-    setGitUrl,
-    searchText,
     setSearchText,
-    pageNumber,
-    setPageNumber,
     perPage,
     setPerPage,
     sheetOpen,
@@ -41,9 +36,9 @@ const Projects: NextPageWithLayout = () => {
     projectList,
     isLoading,
     handlePageChange,
-    SerialNumberCell,
-    showGitUrl,
     columns,
+    columnVisibility,
+    setColumnVisibility,
   } = useProjectListing();
   return (
     <div>
@@ -73,7 +68,12 @@ const Projects: NextPageWithLayout = () => {
       </div>
 
       <div className="p-8">
-        <DataTable columns={columns} data={projectList?.data ?? []} />
+        <DataTable
+          columnVisibility={columnVisibility}
+          setColumnVisibility={setColumnVisibility}
+          columns={columns}
+          data={projectList?.data ?? []}
+        />
         <DataTablePagination
           currentPage={projectList?.pagination?.page}
           totalPages={projectList?.pagination?.total_page}

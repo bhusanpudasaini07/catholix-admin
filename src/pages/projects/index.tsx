@@ -1,5 +1,4 @@
 // ROOT
-import React from "react";
 import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/shared/main-layout";
 import Link from "next/link";
@@ -19,6 +18,9 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import useProjectListing from "@/hooks/project/useProjectListing.hook";
 import NewProject from "@/features/Projects/new-project";
+
+//language translator props
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 const Projects: NextPageWithLayout = () => {
   const {
@@ -117,6 +119,7 @@ const Projects: NextPageWithLayout = () => {
 };
 
 export default Projects;
+export const getStaticProps = getI18nProps;
 
 Projects.getLayout = (page) => {
   return <MainLayout title="Projects">{page}</MainLayout>;

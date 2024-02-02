@@ -1,5 +1,6 @@
 import MainLayout from "@/shared/main-layout";
 import { NextPageWithLayout } from "./_app";
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 const Home: NextPageWithLayout = () => {
   return (
@@ -12,6 +13,7 @@ const Home: NextPageWithLayout = () => {
 };
 
 export default Home;
+export const getStaticProps = getI18nProps;
 
 Home.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;

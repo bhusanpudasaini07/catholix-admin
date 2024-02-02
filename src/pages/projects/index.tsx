@@ -17,7 +17,7 @@ import FilterSearch from "@/shared/components/filter-search";
 import ProjectFilters from "@/features/Projects/filters";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
-import useProjectListing from "@/hooks/project/project-listing.hooks";
+import useProjectListing from "@/hooks/project/useProjectListing.hook";
 import NewProject from "@/features/Projects/new-project";
 
 const Projects: NextPageWithLayout = () => {

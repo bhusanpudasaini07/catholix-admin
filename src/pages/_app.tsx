@@ -2,6 +2,7 @@ import "@/styles/globals.scss";
 import { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
+import { appWithTranslation } from "next-i18next";
 
 /**
  * Import your scss files here. This helps in enhancing the GT Metrix Grade
@@ -30,7 +31,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export default function App({ Component, pageProps }: AppPropsWithLayout) {
+function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
@@ -52,3 +53,5 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     // </ThemeProvider>
   );
 }
+
+export default appWithTranslation(App);

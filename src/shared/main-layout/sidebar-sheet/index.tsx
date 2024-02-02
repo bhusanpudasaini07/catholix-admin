@@ -3,17 +3,139 @@ import { Logo } from "@/shared/lib/image-config";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { menuItems } from "../sidebar-new";
+
 import { Button } from "@/shared/components/ui/button";
+import { useTranslation } from "next-i18next";
+import {
+  Calculator,
+  Clock,
+  File,
+  Folder,
+  Gitlab,
+  LayoutGrid,
+  User2,
+  Users,
+} from "lucide-react";
 
 interface IProps {
   openSheet: boolean;
   setOpenSheet: (arg: boolean) => void;
 }
 
+// Sidebar Items
 const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
   const router = useRouter();
 
+  const { t } = useTranslation("");
+
+  const menuItems = [
+    {
+      menuName: t("side_nav.dashboard"),
+      icon: <LayoutGrid width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: t("side_nav.dashboard"),
+          menuSlug: "/",
+          icon: <LayoutGrid width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Projects",
+      icon: <User2 />,
+      subMenu: [
+        {
+          menuName: t("side_nav.projects"),
+          menuSlug: "/projects",
+          icon: <Folder width={20} height={20} />,
+        },
+        {
+          menuName: "Reports",
+          menuSlug: "/reports",
+          icon: <File width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "Test",
+              itemSlug: "/test",
+            },
+            {
+              itemName: "Test",
+              itemSlug: "/test",
+            },
+          ],
+        },
+        {
+          menuName: "Time Spent Reports",
+          menuSlug: "/time-spent-reports",
+          icon: <Clock width={20} height={20} />,
+          hasAccordion: true,
+        },
+      ],
+    },
+    {
+      menuName: "Team",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "Team Leads",
+          menuSlug: "/team-leads",
+          icon: <Users width={20} height={20} />,
+        },
+        {
+          menuName: "Staff Groups",
+          menuSlug: "/reports",
+          icon: <Users width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Calculator",
+      menuSlug: "/calculator",
+      icon: <Calculator width={20} height={20} />,
+      hasChildren: false,
+      subMenu: [
+        {
+          menuName: "Calculator",
+          menuSlug: "/calculator",
+          icon: <Calculator width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Feedback",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "PL Feedback",
+          menuSlug: "/team-leads",
+          icon: <Users width={20} height={20} />,
+        },
+        {
+          menuName: "Feedback Report",
+          menuSlug: "/feedback-report",
+          icon: <Users width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: "Other",
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "GitLab Hooks",
+          menuSlug: "/gitlab-hooks",
+          icon: <Gitlab width={20} height={20} />,
+        },
+      ],
+    },
+  ];
   const changeRoute = (route: string) => {
     setOpenSheet(false);
     router.push(route);

@@ -4,7 +4,8 @@ import { useLoggedInStore } from "@/store/auth-store";
 import Link from "next/link";
 import Image from "next/image";
 import { Logo } from "@/shared/lib/image-config";
-import { version } from "../../../../version";
+import LanguageToggler from "./language-toggler";
+// import { version } from "../../../../version";
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;
@@ -51,6 +52,7 @@ const Header = ({
           </Link>
           {/* For sidebar */}
           <button
+            title="menu"
             className="hidden lg:block focus:outline-none"
             onClick={() => setIsExpanded(!isExpanded)}
           >
@@ -59,15 +61,20 @@ const Header = ({
         </div>
 
         {/* For sheet */}
-        <button className="block lg:hidden" onClick={() => setOpenSheet(true)}>
+        <button
+          title="sheet-menu"
+          className="block lg:hidden"
+          onClick={() => setOpenSheet(true)}
+        >
           <Menu />
         </button>
         <div className="flex items-center gap-6">
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}
-          <p className="text-xs text-zinc-700">v {version}</p>
+          {/* <p className="text-xs text-zinc-700">v {version}</p> */}
           <ProfileDropdown />
         </div>
+        <LanguageToggler />
       </div>
     </header>
   );

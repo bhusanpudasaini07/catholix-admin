@@ -14,6 +14,10 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-red-150 to-red-250 text-white hover:bg-red-600/90 shadow-custom-primary",
         outline:
           "border border-primary text-primary bg-white hover:bg-gray-250 hover:bg-gray-250",
+        outline_secondary:
+          "border border-zinc-500 text-zinc-500 bg-white hover:bg-gray-250 ",
+        white:
+          "text-zinc-700 border-zinc-100 border-[1px] border-solid shadow-sm bg-white hover:bg-gray-100 hover:text-zinc-500",
         secondary:
           "bg-white border border-purple-60 text-purple-60 hover:bg-purple-60 hover:text-white ",
         ghost: "hover:bg-accent hover:text-accent-foreground",

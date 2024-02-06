@@ -1,6 +1,21 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
 import { Button } from "@/shared/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 const RpConsumption = () => {
   const option = {
@@ -68,12 +83,23 @@ const RpConsumption = () => {
 
   return (
     <div className="mt-7 card !p-6">
-      <div className="w-full">
+      <div className="w-full flex justify-between items-center">
         <div className="flex justify-start items-center gap-3">
           <p className="font-medium text-lg text-zinc-700">RP Consumption</p>
           <Button variant={"white"}>View Full Graph</Button>
         </div>
-        <div className=""></div>
+        <div className="flex gap-3 items-center">
+          <Select>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="light">Daily</SelectItem>
+              <SelectItem value="dark">Monthly</SelectItem>
+              <SelectItem value="system">Yearly</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       <ReactECharts option={option} />
     </div>

@@ -4,7 +4,22 @@ import { useQuery } from "react-query";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import moment from "moment";
 
-import { Copy, Edit, MoreVertical, Plus, Users } from "lucide-react";
+import {
+  Activity,
+  BarChart,
+  BookOpen,
+  Car,
+  Copy,
+  Edit,
+  MoreVertical,
+  Plus,
+  Table,
+  Tag,
+  Tags,
+  Timer,
+  Trash2,
+  Users,
+} from "lucide-react";
 
 import { IProjectDetail } from "@/interface/project-interface";
 import { getProjectList } from "@/services/project/project-service";
@@ -20,7 +35,9 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 
@@ -35,8 +52,17 @@ import {
 import { cn } from "@/shared/utils/utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useDebounce } from "../debounce.hooks";
+import useProjectFilter from "./overall-filters/useProjectFilter.hook";
 
 const useProjectListing = () => {
+  const {
+    selectedOption,
+    dateRange,
+    filterStates,
+    filterSaved,
+    setFilterSaved,
+  } = useProjectFilter();
+  
   // STATES
   /**
    * For git modal to open and to set its key
@@ -44,7 +70,6 @@ const useProjectListing = () => {
   const [gitModalOpen, setGitModalOpen] = useState(false);
   const [gitModalId, setGitModalId] = useState(0);
   const [gitUrl, setGitUrl] = useState<string[]>([]);
-
   /**
    * For filtering data in project api
    */
@@ -55,10 +80,33 @@ const useProjectListing = () => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const debouncedSearchValue = useDebounce(searchText, 300);
-
+  
   const { data: projectList, isLoading } = useQuery({
-    queryFn: () => getProjectList(pageNumber, perPage, searchText),
-    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
+    queryFn: () =>
+      getProjectList(
+        pageNumber,
+        perPage,
+        searchText,
+        filterStates?.status, //status
+        filterStates?.sources, // source
+        filterStates?.market, // market
+        filterStates?.type, // type
+        filterStates?.leads, // lead
+        selectedOption, //date_type
+        dateRange?.from || dateRange?.to !== undefined
+          ? `${moment(dateRange?.from).format("YYYY-MM-DD")} - ${moment(
+              dateRange?.to
+            ).format("YYYY-MM-DD")}`
+          : "", // date
+        filterStates?.clients //clients
+      ),
+    queryKey: [
+      "projectList",
+      perPage,
+      pageNumber,
+      debouncedSearchValue,
+      filterSaved,
+    ],
   });
 
   const handlePageChange = (pageNum: number) => {
@@ -85,11 +133,17 @@ const useProjectListing = () => {
     setGitUrl(data?.git_urls);
   };
 
+  /**
+   * @param code project code copy
+   */
   const copyProjectCode = (code: string) => {
     navigator.clipboard.writeText(code);
     showToast(TOAST_TYPES.success, "Text Copied");
   };
 
+  const resetFilters = () => {
+    setSearchText("");
+  };
   const columns: ColumnDef<IProjectDetail>[] = [
     {
       id: "sn",
@@ -111,19 +165,13 @@ const useProjectListing = () => {
       header: "Project Info",
       cell: ({ row }) => (
         <div className="capitalize w-[240px]">
-          <Tooltip>
-            <TooltipTrigger className="w-full min-w-0 text-start">
-              <Link
-                href={`/projects/${row.original?.code}`}
-                className="block mb-1 text-base font-medium truncate transition-all text-zinc-700 hover:text-primary"
-              >
-                {row.getValue("project_title")}
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-[200px]">
-              {row.getValue("project_title")}
-            </TooltipContent>
-          </Tooltip>
+          <Link
+            href={`/projects/${row.original?.code}`}
+            className="block mb-1 text-base font-medium transition-all text-zinc-700 hover:text-primary"
+          >
+            {row.getValue("project_title")}
+          </Link>
+
           <p className="my-1 text-xs text-zinc-600">
             Fiscal year:{" "}
             <span className="font-medium">{row?.original?.fiscal_year}</span>
@@ -208,7 +256,7 @@ const useProjectListing = () => {
               )}
             >
               {icon}
-              <span className={color}>{sum}</span>
+              <span className={color}>{sum === 0 ? "N/A" : sum}</span>
             </div>
           </div>
         );
@@ -227,13 +275,15 @@ const useProjectListing = () => {
         );
         return (
           <div className="w-[180px]">
-            <p className={cn(color, "text-base font-medium")}>
-              {percentageLeft}
-            </p>
+            {row?.original?.rp?.sales_rp && (
+              <p className={cn(color, "text-base font-medium")}>
+                {percentageLeft}
+              </p>
+            )}
             <p className="my-1 text-sm text-zinc-600">
               <span>Sales RP:</span>
               <span className="font-medium">
-                {row?.original?.rp?.sales_rp ?? "-"}
+                {row?.original?.rp?.sales_rp ?? "N/A"}
               </span>
             </p>
             <p className="text-sm text-zinc-600">
@@ -296,9 +346,12 @@ const useProjectListing = () => {
       header: "Project Lead",
       cell: ({ row }) => (
         <div className="w-[155px]">
-          <p className="text-sm font-medium text-zinc-700">
+          <Link
+            href={`/staff-details/${row?.original?.project_lead?.username}`}
+            className="text-sm font-medium text-zinc-700 hover:text-primary"
+          >
             {row?.original?.project_lead?.fullname}
-          </p>
+          </Link>
           <div className="flex flex-wrap mt-1 gap-x-2 gap-y-1">
             {Array.from({
               length:
@@ -368,21 +421,29 @@ const useProjectListing = () => {
       header: "Last Time Log",
       cell: ({ row }: any) => (
         <div className="w-[150px] text-zinc-600">
-          <p className="text-xs ">Last Logged</p>
-          <p className="mt-1 text-sm font-medium">
-            {row.original.dates.last_log_date
-              ? moment(row.original.dates.last_log_date).format("MMM Do, YYYY")
-              : "-"}
-          </p>
-          <p className="mb-1 text-sm font-medium">
-            {row.original.dates.last_log_date
-              ? moment(row.original.dates.last_log_date).format("HH:mm:ss")
-              : "-"}
-          </p>
-          <p className="text-xs">
-            {row?.original?.dates?.last_log_date &&
-              changeDateDisplay(row?.original?.dates?.last_log_date)}
-          </p>
+          {row.original.dates.last_log_date ? (
+            <>
+              <p className="text-xs ">Last Logged</p>
+              <p className="mt-1 text-sm font-medium">
+                {row.original.dates.last_log_date
+                  ? moment(row.original.dates.last_log_date).format(
+                      "MMM Do, YYYY"
+                    )
+                  : "-"}
+              </p>
+              <p className="mb-1 text-sm font-medium">
+                {row.original.dates.last_log_date
+                  ? moment(row.original.dates.last_log_date).format("HH:mm")
+                  : "-"}
+              </p>
+              <p className="text-xs">
+                {row?.original?.dates?.last_log_date &&
+                  changeDateDisplay(row?.original?.dates?.last_log_date)}
+              </p>
+            </>
+          ) : (
+            "N/A"
+          )}
         </div>
       ),
       enableHiding: true,
@@ -471,14 +532,14 @@ const useProjectListing = () => {
 
         return (
           <div className="flex items-center gap-4">
-            <Link href={`/projects/${rowData?.project_id}/edit`}>
+            <Link href={`/projects/${rowData?.code}/edit`}>
               <Edit
                 size={20}
                 className="stroke-zinc-700 hover:stroke-primary"
               />
             </Link>
             <Link
-              href={`/projects/${rowData?.project_id}/team-members`}
+              href={`/projects/${rowData?.code}/team-members`}
               className="relative "
             >
               <Badge
@@ -498,22 +559,55 @@ const useProjectListing = () => {
                 <MoreVertical size={20} className="stroke-zinc-700" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="px-5">
-                  Daily RP Consumption Graph
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Daily RP Consumption List
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  User Stories
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">Activities</DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Label Report & Timelog Pattern
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Task & Time Spent
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <BarChart size={16} className="stroke-zinc-700" />
+                    Daily RP Consumption Graph
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Table size={16} className="stroke-zinc-700" /> Daily RP
+                    Consumption List
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <BookOpen size={16} className="stroke-zinc-700" /> User
+                    Stories
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Activity size={16} className="stroke-zinc-700" />{" "}
+                    Activities
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Tag size={16} className="stroke-zinc-700" /> Label Report &
+                    Timelog Pattern
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Timer size={16} className="stroke-zinc-700" /> Task & Time
+                    Spent
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <Tags size={16} className="stroke-zinc-700" /> Manage Time
+                    Log Rule
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Car size={16} className="stroke-zinc-700" /> Add Delivered
+                    Date
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2 text-destructive">
+                    <Trash2 size={16} /> Delete
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -546,6 +640,9 @@ const useProjectListing = () => {
     columns,
     columnVisibility,
     setColumnVisibility,
+    resetFilters,
+    setFilterSaved,
+    filterSaved,
   };
 };
 

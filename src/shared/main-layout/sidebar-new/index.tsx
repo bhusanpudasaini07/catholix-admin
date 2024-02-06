@@ -282,6 +282,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                             "active"
                           }
                       `}
+                          onClick={() => router?.push(subItem?.menuSlug)}
                         >
                           <span
                             className={`min-w-[20px] [&>svg]:max-w-[20px]   h-[20px] flex justify-center `}

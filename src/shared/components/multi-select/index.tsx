@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { User, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import {
@@ -24,7 +24,7 @@ export const MultiSelect = ({
   const [inputValue, setInputValue] = React.useState("");
 
   const handleUnselect = React.useCallback((data: any) => {
-    setSelected((prev: any) => prev.filter((s: any) => s.email !== data.email));
+    setSelected((prev: any) => prev.filter((s: any) => s.id !== data.id));
   }, []);
 
   const handleKeyDown = React.useCallback(
@@ -52,7 +52,7 @@ export const MultiSelect = ({
    * Filters/removes the selected value from options.
    */
   const selectables = dataList?.filter(
-    (data: any) => !selected.some((sel: any) => sel.email === data.email)
+    (data: any) => !selected.some((sel: any) => sel.id === data.id)
   );
 
   return (
@@ -60,18 +60,18 @@ export const MultiSelect = ({
       onKeyDown={handleKeyDown}
       className="overflow-visible bg-transparent"
     >
-      <div className=" px-2 py-4 text-sm border border-gray-300 rounded-md group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="px-2 py-4 text-sm border border-gray-300 rounded-md group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap h-full gap-1">
           {selected.map((item: any) => {
             return (
-              <Badge key={item.email} className="h-auto" variant="select">
-                <span className="text-xs font-medium">
-                  {item.first_name} {item.last_name} ({item.email})
+              <Badge key={item.email} className="h-auto p-2" variant="select">
+                <span className="text-xs font-medium capitalize">
+                  {item?.fullname}
                 </span>
                 <Button
                   variant={"ghost"}
                   type="button"
-                  className="p-0 ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-transparent"
+                  className="h-auto p-0 ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-transparent"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleUnselect(item);
@@ -103,7 +103,7 @@ export const MultiSelect = ({
         {open &&
           (selectables?.length > 0 ? (
             <div className="absolute top-0 z-10 w-full bg-white border rounded-md shadow-md outline-none text-popover-foreground animate-in">
-              <CommandGroup className="h-full overflow-auto">
+              <CommandGroup className="h-[250px] overflow-auto">
                 {selectables.map((item: any) => {
                   return (
                     <CommandItem
@@ -118,7 +118,7 @@ export const MultiSelect = ({
                       }}
                       className={"cursor-pointer"}
                     >
-                      {item.first_name} {item.last_name} ({item.email})
+                      {item?.fullname}
                     </CommandItem>
                   );
                 })}
@@ -126,7 +126,7 @@ export const MultiSelect = ({
             </div>
           ) : (
             <div className="absolute top-0 z-10 w-full bg-white border rounded-md shadow-md outline-none text-popover-foreground animate-in">
-              <CommandGroup className="h-full overflow-auto text-sm p-3 ">
+              <CommandGroup className="h-full p-3 overflow-auto text-sm ">
                 No members available.
               </CommandGroup>
             </div>

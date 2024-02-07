@@ -83,7 +83,7 @@ const Header = ({
           {/* <InputSearch /> */}
           <p className="text-xs text-zinc-700">v {version}</p>
           <ProfileDropdown />
-          {/* <LanguageToggler /> */}
+          <LanguageToggler />
         </div>
       </div>
     </header>

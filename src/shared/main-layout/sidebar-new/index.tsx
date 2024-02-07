@@ -243,7 +243,12 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                             isExpanded
                               ? "justify-start pl-8"
                               : "justify-center pl-4"
-                          } ${isActive(subItem?.menuSlug) && "active"}`}
+                          } ${
+                            (router.pathname === subItem?.menuSlug ||
+                              (router.pathname.startsWith(subItem?.menuSlug) &&
+                                subItem?.menuSlug !== "/")) &&
+                            "active"
+                          }`}
                         >
                           {subItem?.icon}
                         </DropdownMenuTrigger>
@@ -278,7 +283,9 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                           ? "justify-start pl-8"
                           : "justify-center pl-4"
                       } ${
-                            router.pathname.includes(subItem?.menuSlug) &&
+                            (router.pathname === subItem?.menuSlug ||
+                              (router.pathname.startsWith(subItem?.menuSlug) &&
+                                subItem?.menuSlug !== "/")) &&
                             "active"
                           }
                       `}
@@ -297,10 +304,17 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                     ) : (
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger asChild>
+                          <TooltipTrigger
+                            onClick={() => router?.push(subItem?.menuSlug)}
+                            asChild
+                          >
                             <span
                               className={`min-w-[20px]  flex justify-center ps-3  btn-primary !shadow-none rounded-none ${
-                                router.pathname.includes(subItem?.menuSlug) &&
+                                (router.pathname === subItem?.menuSlug ||
+                                  (router.pathname.startsWith(
+                                    subItem?.menuSlug
+                                  ) &&
+                                    subItem?.menuSlug !== "/")) &&
                                 "active"
                               }`}
                             >

@@ -1,11 +1,8 @@
 import { useCommonStore } from "@/store/common-store";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import useProjectListing from "../useProjectListing.hook";
-import { useQueryClient } from "react-query";
 
 const useProjectFilter = () => {
-  const queryClient = useQueryClient();
   const { filterConfig } = useCommonStore();
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("all_date");
@@ -78,7 +75,7 @@ const useProjectFilter = () => {
   };
 
   const saveFilterToLocal = () => {
-    queryClient.invalidateQueries("projectList");
+    setFilterSaved(!filterSaved);
     localStorage.setItem("savedFilter", JSON.stringify(filterStates));
   };
   /**

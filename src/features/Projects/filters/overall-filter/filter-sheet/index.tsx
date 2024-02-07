@@ -1,6 +1,5 @@
 import React from "react";
 
-import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
 import { useCommonStore } from "@/store/common-store";
 
 import {
@@ -25,7 +24,7 @@ import {
 import { Checkbox } from "@/shared/components/ui/checkbox";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import { MultiSelect } from "@/shared/components/multi-select";
-import { useQueryClient } from "react-query";
+import useProjectListing from "@/hooks/project/useProjectListing.hook";
 
 interface IProps {
   filterSheetOpen: boolean;
@@ -33,7 +32,6 @@ interface IProps {
 }
 
 const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
-  const queryClient = useQueryClient();
   const { filterConfig } = useCommonStore();
 
   const {
@@ -53,7 +51,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
     saveFilterToLocal,
     selectedLeads,
     setSelectedLeads,
-  } = useProjectFilter();
+  } = useProjectListing();
 
   return (
     <Sheet open={filterSheetOpen} onOpenChange={setFilterSheetOpen}>
@@ -296,8 +294,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             className="w-full"
             onClick={() => {
               setFilterSheetOpen(false);
-              saveFilterToLocal;
-              // queryClient.invalidateQueries("projectList");
+              saveFilterToLocal();
             }}
           >
             Save

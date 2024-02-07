@@ -5,14 +5,15 @@ const getProjectList = (
   page?: number,
   per_page?: number,
   keyword?: string,
-  status?: string,
+  risk_status?: string,
   source?: string,
   market?: string,
   type?: string,
   lead?: string,
   date_type?: string,
   date?: string,
-  client?: string
+  client?: string,
+  status?: string
 ) => {
   if (
     keyword !== "" ||
@@ -26,7 +27,7 @@ const getProjectList = (
     client
   ) {
     return httpRequest(
-      `/projects?pg=${page}&dataperpage=${per_page}&keyword=${keyword}&status=${status}&source=${source}&market=${market}&type=${type}&lead=${lead}&date_type=${date_type}&date=${date}&client=${client}`,
+      `/projects?pg=${page}&dataperpage=${per_page}&keyword=${keyword}&risk_status=${risk_status}&source=${source}&market=${market}&type=${type}&lead=${lead}&date_type=${date_type}&date=${date}&client=${client}&status=${status}`,
       httpMethods.GET
     );
   } else {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import moment from "moment";
@@ -43,6 +43,7 @@ import {
 
 import { changeDateToMonthYear } from "@/shared/utils/date-utils";
 import {
+  calculateDeadlinePercentValue,
   calculateRpLeft,
   calculateRpSumAndColor,
   changeDateDisplay,
@@ -52,17 +53,11 @@ import {
 import { cn } from "@/shared/utils/utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useDebounce } from "../debounce.hooks";
-import useProjectFilter from "./overall-filters/useProjectFilter.hook";
+import { useCommonStore } from "@/store/common-store";
+import { DateRange } from "react-day-picker";
 
 const useProjectListing = () => {
-  const {
-    selectedOption,
-    dateRange,
-    filterStates,
-    filterSaved,
-    setFilterSaved,
-  } = useProjectFilter();
-  
+  const { filterConfig } = useCommonStore();
   // STATES
   /**
    * For git modal to open and to set its key
@@ -75,19 +70,122 @@ const useProjectListing = () => {
    */
   const [searchText, setSearchText] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(12);
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const debouncedSearchValue = useDebounce(searchText, 300);
-  
-  const { data: projectList, isLoading } = useQuery({
+
+  // filter Hooks
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("all_date");
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
+  // For sources, status, type, risk status , market , leads and client
+  const [filterStates, setFilterStates] = useState({
+    leads: "",
+    clients: "",
+    sources: "",
+    status: "",
+    type: "",
+    risk_status: "",
+    market: "",
+  });
+
+  const [filterSaved, setFilterSaved] = useState(0);
+  const [selectedLeads, setSelectedLeads] = useState<
+    {
+      fullname: string;
+      id: string;
+    }[]
+  >([]);
+  const options = ["all_date", "added_date", "start_date", "end_date"];
+
+  const changeFilterRadio = (type: string) => {
+    setSelectedOption(type);
+    if (type !== "allDates") {
+      setDateRange({ from: undefined, to: undefined });
+    }
+  };
+
+  const changeFilterState = (key: keyof typeof filterStates, value: string) => {
+    setFilterStates((prev) => ({ ...prev, [key]: value }));
+  };
+
+  // Generic function for changing filter to added comma seperated value to filterState
+  const handleCheckboxChange =
+    (filterKey: keyof typeof filterStates, value: string) =>
+    (isChecked: boolean) => {
+      const currentValues = filterStates[filterKey]
+        ? filterStates[filterKey].split(",")
+        : [];
+      const updatedValues = isChecked
+        ? [...currentValues, value]
+        : currentValues.filter((v) => v !== value);
+
+      changeFilterState(filterKey, updatedValues.join(","));
+    };
+
+  // Generic funciton for making it select all checkbox of required key
+  const selectAllCheckbox = (
+    filterConfigKey: string,
+    key: string,
+    value: any
+  ) => {
+    setFilterStates((prev) => ({
+      ...prev,
+      [key]: value
+        ? key === "market"
+          ? filterConfig?.[filterConfigKey]
+              ?.map((item: any) => item.id)
+              .join(",")
+          : filterConfig?.[filterConfigKey]?.map((item: any) => item).join(",")
+        : "",
+    }));
+  };
+
+  const saveFilterToLocal = () => {
+    refetch();
+    setPageNumber(1);
+    localStorage.setItem("savedFilter", JSON.stringify(filterStates));
+  };
+  /**
+   * Clear all selected filters
+   */
+  const clearAllFilter = () => {
+    setDateRange({
+      from: undefined,
+      to: undefined,
+    });
+    setSelectedOption("all_date");
+    setFilterStates({
+      leads: "",
+      clients: "",
+      sources: "",
+      status: "",
+      type: "",
+      risk_status: "",
+      market: "",
+    });
+    setSelectedLeads([]);
+  };
+  // ------------------------------------//
+
+  // API CALL FOR PROJECT LIST
+  const {
+    data: projectList,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryFn: () =>
       getProjectList(
         pageNumber,
         perPage,
         searchText,
-        filterStates?.status, //status
+        filterStates?.risk_status, //status
         filterStates?.sources, // source
         filterStates?.market, // market
         filterStates?.type, // type
@@ -98,17 +196,11 @@ const useProjectListing = () => {
               dateRange?.to
             ).format("YYYY-MM-DD")}`
           : "", // date
-        filterStates?.clients //clients
+        filterStates?.clients, //clients
+        filterStates?.status
       ),
-    queryKey: [
-      "projectList",
-      perPage,
-      pageNumber,
-      debouncedSearchValue,
-      filterSaved,
-    ],
+    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
   });
-
   const handlePageChange = (pageNum: number) => {
     setPageNumber(pageNum);
   };
@@ -143,6 +235,22 @@ const useProjectListing = () => {
 
   const resetFilters = () => {
     setSearchText("");
+    setDateRange({
+      from: undefined,
+      to: undefined,
+    });
+    setSelectedOption("all_date");
+    setFilterStates({
+      leads: "",
+      clients: "",
+      sources: "",
+      status: "",
+      type: "",
+      risk_status: "",
+      market: "",
+    });
+    setSelectedLeads([]);
+    refetch();
   };
   const columns: ColumnDef<IProjectDetail>[] = [
     {
@@ -306,6 +414,11 @@ const useProjectListing = () => {
         const { statusText, daysValue } = showDeadline(
           row?.original?.dates?.deadline
         );
+        const value = calculateDeadlinePercentValue(
+          row?.original?.dates?.start_date,
+          row?.original?.dates?.deadline
+        );
+        const barValue = 100 - value;
         return (
           <div className="w-[200px]">
             <p className="mb-2 text-sm font-medium text-zinc-700">
@@ -313,7 +426,15 @@ const useProjectListing = () => {
             </p>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Progress className={cn("h-1.5")} value={daysValue} />
+                <Progress
+                  className={cn("h-1.5", {
+                    "[&>div]:bg-red-500": barValue >= 90,
+                    "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
+                    "[&>div]:bg-green-500": barValue < 50,
+                    "[&>div]:bg-gray-500": barValue === 0,
+                  })}
+                  value={barValue}
+                />
               </TooltipTrigger>
               <TooltipContent align="center" side="right">
                 {}
@@ -455,19 +576,28 @@ const useProjectListing = () => {
       header: "Status",
       cell: ({ row }) => {
         return (
-          <div className="w-[100px]">
+          <div className="w-[120px]">
             <Badge
               variant={"outline"}
-              className={`${
+              className={`
+              ${
                 row.getValue("status") === "In Progress" &&
-                "border border-[#FD850A] text-[#FD850A]"
+                " border-[#0A82FD] text-[#0A82FD] "
+              }
+              ${
+                ["Client Support", "On Hold"].includes(
+                  row.getValue("status")
+                ) && " border-[#FD850A] text-[#FD850A]"
               }
             ${
-              row.getValue("status") === "completed" ||
-              (row.getValue("status") === "delivered" &&
-                "border border-[#0A82FD] text-[#0A82FD]")
+              ["Closed", "Delivered"].includes(row.getValue("status")) &&
+              " border-green-300 text-green-500"
             }
-             capitalize rounded-md`}
+            ${
+              row.getValue("status") === "Not Started" &&
+              " border-red-300 text-red-500"
+            }
+             capitalize border rounded-md`}
             >
               {row.getValue("status")}
             </Badge>
@@ -616,6 +746,21 @@ const useProjectListing = () => {
     },
   ];
 
+  // For all selected leads to be set inside filterStates
+  useEffect(() => {
+    const leadsIds = selectedLeads.map((lead) => lead.id).join(",");
+    setFilterStates((prev) => ({ ...prev, leads: leadsIds }));
+  }, [selectedLeads, setFilterStates]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedFilters = window.localStorage.getItem("savedFilter");
+      if (savedFilters) {
+        setFilterStates(JSON.parse(savedFilters));
+      }
+    }
+  }, []);
+
   return {
     gitModalOpen,
     setGitModalOpen,
@@ -641,8 +786,29 @@ const useProjectListing = () => {
     columnVisibility,
     setColumnVisibility,
     resetFilters,
-    setFilterSaved,
+
+    // Filter Hooks
+    filterSheetOpen,
+    setFilterSheetOpen,
+    selectedOption,
+    setSelectedOption,
+    dateRangeOpen,
+    setDateRangeOpen,
+    dateRange,
+    setDateRange,
+    options,
+    changeFilterRadio,
+    clearAllFilter,
+    filterStates,
+    setFilterStates,
+    changeFilterState,
+    handleCheckboxChange,
+    selectAllCheckbox,
+    saveFilterToLocal,
     filterSaved,
+    setFilterSaved,
+    selectedLeads,
+    setSelectedLeads,
   };
 };
 

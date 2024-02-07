@@ -3,10 +3,10 @@ import { Button } from "@/shared/components/ui/button";
 
 import { Filter } from "lucide-react";
 import FilterSheet from "./filter-sheet";
-import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
+import useProjectListing from "@/hooks/project/useProjectListing.hook";
 
 const OverallFilter = () => {
-  const { filterSheetOpen, setFilterSheetOpen } = useProjectFilter();
+  const { filterSheetOpen, setFilterSheetOpen } = useProjectListing();
   return (
     <>
       <Button

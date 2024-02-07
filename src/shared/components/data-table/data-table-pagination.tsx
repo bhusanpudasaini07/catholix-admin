@@ -93,7 +93,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
               <SelectValue placeholder={JSON.stringify(perPage)} />
             </SelectTrigger>
             <SelectContent>
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[12, 24, 26, 48, 60].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>

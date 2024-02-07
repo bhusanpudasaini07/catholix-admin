@@ -42,6 +42,7 @@ export interface IProjectDetail {
   project_lead: {
     id: string;
     fullname: string;
+    username: string;
     in_progress_project_count: number | null;
     in_support_project_count: number | null;
   };

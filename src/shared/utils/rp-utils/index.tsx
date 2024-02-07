@@ -29,6 +29,30 @@ const showDeadline = (date: string) => {
 };
 
 /**
+ * Calculates the total days between start date and deadline, then returns a value (1 to 100) after converting it to percent.
+ * @param startDate start date of the project
+ * @param deadline deadline of the project
+ * @returns a value between 1 to 100 based on the percent calculation
+ */
+const calculateDeadlinePercentValue = (startDate: string, deadline: string) => {
+  const startDateObj = new Date(startDate);
+  const deadlineObj = new Date(deadline);
+  const currentDate = new Date();
+
+  const totalDays = differenceInCalendarDays(deadlineObj, startDateObj);
+  const daysPassed = differenceInCalendarDays(currentDate, startDateObj);
+  const percent = (daysPassed / totalDays) * 100;
+
+  // Inverting the percent to get a higher value for lower percentages and vice versa
+  let value = 100 - percent;
+
+  // Ensuring the value is within the 1 to 100 range
+  // value = Math.max(1, Math.min(value, 100));
+
+  return value;
+};
+
+/**
  *  changing the date to yesterday,today, days ago and years ago
  * @param date comes from api/ is passed as props
  * @returns changed date
@@ -124,4 +148,5 @@ export {
   getRiskStatusBgColor,
   calculateRpSumAndColor,
   calculateRpLeft,
+  calculateDeadlinePercentValue,
 };

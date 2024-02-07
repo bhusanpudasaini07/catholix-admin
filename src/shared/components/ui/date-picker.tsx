@@ -11,12 +11,14 @@ interface IProps {
   text?: string;
   className?: string;
   contentClassName?: string;
+  mode: any;
 }
 
 const DatePicker: React.FC<IProps> = ({
   text,
   className,
   contentClassName,
+  mode,
 }) => {
   const [date, setDate] = React.useState<Date>();
 
@@ -30,14 +32,14 @@ const DatePicker: React.FC<IProps> = ({
           ${className && className} `}
         >
           {date ? format(date, "PPP") : <span>{text}</span>}
-          <CalendarIcon className="ml-2 h-4 w-4" />
+          <CalendarIcon className="w-4 h-4 ml-2" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         className={`w-auto p-0 ${contentClassName && contentClassName}`}
         align="start"
       >
-        <Calendar mode="single" selected={date} onSelect={setDate} />
+        <Calendar mode={mode} selected={date} onSelect={setDate} />
       </PopoverContent>
     </Popover>
   );

@@ -1,10 +1,25 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import moment from "moment";
 
-import { Copy, Edit, MoreVertical, Plus, Users } from "lucide-react";
+import {
+  Activity,
+  BarChart,
+  BookOpen,
+  Car,
+  Copy,
+  Edit,
+  MoreVertical,
+  Plus,
+  Table,
+  Tag,
+  Tags,
+  Timer,
+  Trash2,
+  Users,
+} from "lucide-react";
 
 import { IProjectDetail } from "@/interface/project-interface";
 import { getProjectList } from "@/services/project/project-service";
@@ -20,12 +35,15 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 
 import { changeDateToMonthYear } from "@/shared/utils/date-utils";
 import {
+  calculateDeadlinePercentValue,
   calculateRpLeft,
   calculateRpSumAndColor,
   changeDateDisplay,
@@ -35,8 +53,11 @@ import {
 import { cn } from "@/shared/utils/utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useDebounce } from "../debounce.hooks";
+import { useCommonStore } from "@/store/common-store";
+import { DateRange } from "react-day-picker";
 
 const useProjectListing = () => {
+  const { filterConfig } = useCommonStore();
   // STATES
   /**
    * For git modal to open and to set its key
@@ -44,23 +65,142 @@ const useProjectListing = () => {
   const [gitModalOpen, setGitModalOpen] = useState(false);
   const [gitModalId, setGitModalId] = useState(0);
   const [gitUrl, setGitUrl] = useState<string[]>([]);
-
   /**
    * For filtering data in project api
    */
   const [searchText, setSearchText] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(12);
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
   const debouncedSearchValue = useDebounce(searchText, 300);
 
-  const { data: projectList, isLoading } = useQuery({
-    queryFn: () => getProjectList(pageNumber, perPage, searchText),
-    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
+  // filter Hooks
+  const [filterSheetOpen, setFilterSheetOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("all_date");
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
+  // For sources, status, type, risk status , market , leads and client
+  const [filterStates, setFilterStates] = useState({
+    leads: "",
+    clients: "",
+    sources: "",
+    status: "",
+    type: "",
+    risk_status: "",
+    market: "",
   });
 
+  const [filterSaved, setFilterSaved] = useState(0);
+  const [selectedLeads, setSelectedLeads] = useState<
+    {
+      fullname: string;
+      id: string;
+    }[]
+  >([]);
+  const options = ["all_date", "added_date", "start_date", "end_date"];
+
+  const changeFilterRadio = (type: string) => {
+    setSelectedOption(type);
+    if (type !== "allDates") {
+      setDateRange({ from: undefined, to: undefined });
+    }
+  };
+
+  const changeFilterState = (key: keyof typeof filterStates, value: string) => {
+    setFilterStates((prev) => ({ ...prev, [key]: value }));
+  };
+
+  // Generic function for changing filter to added comma seperated value to filterState
+  const handleCheckboxChange =
+    (filterKey: keyof typeof filterStates, value: string) =>
+    (isChecked: boolean) => {
+      const currentValues = filterStates[filterKey]
+        ? filterStates[filterKey].split(",")
+        : [];
+      const updatedValues = isChecked
+        ? [...currentValues, value]
+        : currentValues.filter((v) => v !== value);
+
+      changeFilterState(filterKey, updatedValues.join(","));
+    };
+
+  // Generic funciton for making it select all checkbox of required key
+  const selectAllCheckbox = (
+    filterConfigKey: string,
+    key: string,
+    value: any
+  ) => {
+    setFilterStates((prev) => ({
+      ...prev,
+      [key]: value
+        ? key === "market"
+          ? filterConfig?.[filterConfigKey]
+              ?.map((item: any) => item.id)
+              .join(",")
+          : filterConfig?.[filterConfigKey]?.map((item: any) => item).join(",")
+        : "",
+    }));
+  };
+
+  const saveFilterToLocal = () => {
+    refetch();
+    setPageNumber(1);
+    localStorage.setItem("savedFilter", JSON.stringify(filterStates));
+  };
+  /**
+   * Clear all selected filters
+   */
+  const clearAllFilter = () => {
+    setDateRange({
+      from: undefined,
+      to: undefined,
+    });
+    setSelectedOption("all_date");
+    setFilterStates({
+      leads: "",
+      clients: "",
+      sources: "",
+      status: "",
+      type: "",
+      risk_status: "",
+      market: "",
+    });
+    setSelectedLeads([]);
+  };
+  // ------------------------------------//
+
+  // API CALL FOR PROJECT LIST
+  const {
+    data: projectList,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryFn: () =>
+      getProjectList(
+        pageNumber,
+        perPage,
+        searchText,
+        filterStates?.risk_status, //status
+        filterStates?.sources, // source
+        filterStates?.market, // market
+        filterStates?.type, // type
+        filterStates?.leads, // lead
+        selectedOption, //date_type
+        dateRange?.from || dateRange?.to !== undefined
+          ? `${moment(dateRange?.from).format("YYYY-MM-DD")} - ${moment(
+              dateRange?.to
+            ).format("YYYY-MM-DD")}`
+          : "", // date
+        filterStates?.clients, //clients
+        filterStates?.status
+      ),
+    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
+  });
   const handlePageChange = (pageNum: number) => {
     setPageNumber(pageNum);
   };
@@ -85,11 +225,33 @@ const useProjectListing = () => {
     setGitUrl(data?.git_urls);
   };
 
+  /**
+   * @param code project code copy
+   */
   const copyProjectCode = (code: string) => {
     navigator.clipboard.writeText(code);
     showToast(TOAST_TYPES.success, "Text Copied");
   };
 
+  const resetFilters = () => {
+    setSearchText("");
+    setDateRange({
+      from: undefined,
+      to: undefined,
+    });
+    setSelectedOption("all_date");
+    setFilterStates({
+      leads: "",
+      clients: "",
+      sources: "",
+      status: "",
+      type: "",
+      risk_status: "",
+      market: "",
+    });
+    setSelectedLeads([]);
+    refetch();
+  };
   const columns: ColumnDef<IProjectDetail>[] = [
     {
       id: "sn",
@@ -111,19 +273,13 @@ const useProjectListing = () => {
       header: "Project Info",
       cell: ({ row }) => (
         <div className="capitalize w-[240px]">
-          <Tooltip>
-            <TooltipTrigger className="w-full min-w-0 text-start">
-              <Link
-                href={`/projects/${row.original?.code}`}
-                className="block mb-1 text-base font-medium truncate transition-all text-zinc-700 hover:text-primary"
-              >
-                {row.getValue("project_title")}
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-[200px]">
-              {row.getValue("project_title")}
-            </TooltipContent>
-          </Tooltip>
+          <Link
+            href={`/projects/${row.original?.code}`}
+            className="block mb-1 text-base font-medium transition-all text-zinc-700 hover:text-primary"
+          >
+            {row.getValue("project_title")}
+          </Link>
+
           <p className="my-1 text-xs text-zinc-600">
             Fiscal year:{" "}
             <span className="font-medium">{row?.original?.fiscal_year}</span>
@@ -208,7 +364,7 @@ const useProjectListing = () => {
               )}
             >
               {icon}
-              <span className={color}>{sum}</span>
+              <span className={color}>{sum === 0 ? "N/A" : sum}</span>
             </div>
           </div>
         );
@@ -227,13 +383,15 @@ const useProjectListing = () => {
         );
         return (
           <div className="w-[180px]">
-            <p className={cn(color, "text-base font-medium")}>
-              {percentageLeft}
-            </p>
+            {row?.original?.rp?.sales_rp && (
+              <p className={cn(color, "text-base font-medium")}>
+                {percentageLeft}
+              </p>
+            )}
             <p className="my-1 text-sm text-zinc-600">
               <span>Sales RP:</span>
               <span className="font-medium">
-                {row?.original?.rp?.sales_rp ?? "-"}
+                {row?.original?.rp?.sales_rp ?? "N/A"}
               </span>
             </p>
             <p className="text-sm text-zinc-600">
@@ -256,6 +414,11 @@ const useProjectListing = () => {
         const { statusText, daysValue } = showDeadline(
           row?.original?.dates?.deadline
         );
+        const value = calculateDeadlinePercentValue(
+          row?.original?.dates?.start_date,
+          row?.original?.dates?.deadline
+        );
+        const barValue = 100 - value;
         return (
           <div className="w-[200px]">
             <p className="mb-2 text-sm font-medium text-zinc-700">
@@ -263,7 +426,15 @@ const useProjectListing = () => {
             </p>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Progress className={cn("h-1.5")} value={daysValue} />
+                <Progress
+                  className={cn("h-1.5", {
+                    "[&>div]:bg-red-500": barValue >= 90,
+                    "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
+                    "[&>div]:bg-green-500": barValue < 50,
+                    "[&>div]:bg-gray-500": barValue === 0,
+                  })}
+                  value={barValue}
+                />
               </TooltipTrigger>
               <TooltipContent align="center" side="right">
                 {}
@@ -296,9 +467,12 @@ const useProjectListing = () => {
       header: "Project Lead",
       cell: ({ row }) => (
         <div className="w-[155px]">
-          <p className="text-sm font-medium text-zinc-700">
+          <Link
+            href={`/staff-details/${row?.original?.project_lead?.username}`}
+            className="text-sm font-medium text-zinc-700 hover:text-primary"
+          >
             {row?.original?.project_lead?.fullname}
-          </p>
+          </Link>
           <div className="flex flex-wrap mt-1 gap-x-2 gap-y-1">
             {Array.from({
               length:
@@ -368,21 +542,29 @@ const useProjectListing = () => {
       header: "Last Time Log",
       cell: ({ row }: any) => (
         <div className="w-[150px] text-zinc-600">
-          <p className="text-xs ">Last Logged</p>
-          <p className="mt-1 text-sm font-medium">
-            {row.original.dates.last_log_date
-              ? moment(row.original.dates.last_log_date).format("MMM Do, YYYY")
-              : "-"}
-          </p>
-          <p className="mb-1 text-sm font-medium">
-            {row.original.dates.last_log_date
-              ? moment(row.original.dates.last_log_date).format("HH:mm:ss")
-              : "-"}
-          </p>
-          <p className="text-xs">
-            {row?.original?.dates?.last_log_date &&
-              changeDateDisplay(row?.original?.dates?.last_log_date)}
-          </p>
+          {row.original.dates.last_log_date ? (
+            <>
+              <p className="text-xs ">Last Logged</p>
+              <p className="mt-1 text-sm font-medium">
+                {row.original.dates.last_log_date
+                  ? moment(row.original.dates.last_log_date).format(
+                      "MMM Do, YYYY"
+                    )
+                  : "-"}
+              </p>
+              <p className="mb-1 text-sm font-medium">
+                {row.original.dates.last_log_date
+                  ? moment(row.original.dates.last_log_date).format("HH:mm")
+                  : "-"}
+              </p>
+              <p className="text-xs">
+                {row?.original?.dates?.last_log_date &&
+                  changeDateDisplay(row?.original?.dates?.last_log_date)}
+              </p>
+            </>
+          ) : (
+            "N/A"
+          )}
         </div>
       ),
       enableHiding: true,
@@ -394,19 +576,28 @@ const useProjectListing = () => {
       header: "Status",
       cell: ({ row }) => {
         return (
-          <div className="w-[100px]">
+          <div className="w-[120px]">
             <Badge
               variant={"outline"}
-              className={`${
+              className={`
+              ${
                 row.getValue("status") === "In Progress" &&
-                "border border-[#FD850A] text-[#FD850A]"
+                " border-[#0A82FD] text-[#0A82FD] "
+              }
+              ${
+                ["Client Support", "On Hold"].includes(
+                  row.getValue("status")
+                ) && " border-[#FD850A] text-[#FD850A]"
               }
             ${
-              row.getValue("status") === "completed" ||
-              (row.getValue("status") === "delivered" &&
-                "border border-[#0A82FD] text-[#0A82FD]")
+              ["Closed", "Delivered"].includes(row.getValue("status")) &&
+              " border-green-300 text-green-500"
             }
-             capitalize rounded-md`}
+            ${
+              row.getValue("status") === "Not Started" &&
+              " border-red-300 text-red-500"
+            }
+             capitalize border rounded-md`}
             >
               {row.getValue("status")}
             </Badge>
@@ -471,14 +662,14 @@ const useProjectListing = () => {
 
         return (
           <div className="flex items-center gap-4">
-            <Link href={`/projects/${rowData?.project_id}/edit`}>
+            <Link href={`/projects/${rowData?.code}/edit`}>
               <Edit
                 size={20}
                 className="stroke-zinc-700 hover:stroke-primary"
               />
             </Link>
             <Link
-              href={`/projects/${rowData?.project_id}/team-members`}
+              href={`/projects/${rowData?.code}/team-members`}
               className="relative "
             >
               <Badge
@@ -498,22 +689,55 @@ const useProjectListing = () => {
                 <MoreVertical size={20} className="stroke-zinc-700" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem className="px-5">
-                  Daily RP Consumption Graph
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Daily RP Consumption List
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  User Stories
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">Activities</DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Label Report & Timelog Pattern
-                </DropdownMenuItem>
-                <DropdownMenuItem className="px-5">
-                  Task & Time Spent
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <BarChart size={16} className="stroke-zinc-700" />
+                    Daily RP Consumption Graph
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Table size={16} className="stroke-zinc-700" /> Daily RP
+                    Consumption List
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <BookOpen size={16} className="stroke-zinc-700" /> User
+                    Stories
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Activity size={16} className="stroke-zinc-700" />{" "}
+                    Activities
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Tag size={16} className="stroke-zinc-700" /> Label Report &
+                    Timelog Pattern
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Timer size={16} className="stroke-zinc-700" /> Task & Time
+                    Spent
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2">
+                    <Tags size={16} className="stroke-zinc-700" /> Manage Time
+                    Log Rule
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="gap-2">
+                    <Car size={16} className="stroke-zinc-700" /> Add Delivered
+                    Date
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuGroup>
+                  <DropdownMenuItem className="gap-2 text-destructive">
+                    <Trash2 size={16} /> Delete
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -521,6 +745,21 @@ const useProjectListing = () => {
       },
     },
   ];
+
+  // For all selected leads to be set inside filterStates
+  useEffect(() => {
+    const leadsIds = selectedLeads.map((lead) => lead.id).join(",");
+    setFilterStates((prev) => ({ ...prev, leads: leadsIds }));
+  }, [selectedLeads, setFilterStates]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedFilters = window.localStorage.getItem("savedFilter");
+      if (savedFilters) {
+        setFilterStates(JSON.parse(savedFilters));
+      }
+    }
+  }, []);
 
   return {
     gitModalOpen,
@@ -546,6 +785,30 @@ const useProjectListing = () => {
     columns,
     columnVisibility,
     setColumnVisibility,
+    resetFilters,
+
+    // Filter Hooks
+    filterSheetOpen,
+    setFilterSheetOpen,
+    selectedOption,
+    setSelectedOption,
+    dateRangeOpen,
+    setDateRangeOpen,
+    dateRange,
+    setDateRange,
+    options,
+    changeFilterRadio,
+    clearAllFilter,
+    filterStates,
+    setFilterStates,
+    changeFilterState,
+    handleCheckboxChange,
+    selectAllCheckbox,
+    saveFilterToLocal,
+    filterSaved,
+    setFilterSaved,
+    selectedLeads,
+    setSelectedLeads,
   };
 };
 

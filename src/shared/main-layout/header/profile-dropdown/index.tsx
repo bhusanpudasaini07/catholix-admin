@@ -26,7 +26,7 @@ import config from "../../../../../config";
 import { useMutation } from "react-query";
 import { logout } from "@/services/auth/auth-service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useProfileStore } from "@/store/profile-store";
+import { useCommonStore } from "@/store/common-store";
 import { removeAuthCookies } from "@/shared/utils/cookie-utils";
 
 const { LOGGED_IN_KEY } = config;
@@ -34,7 +34,7 @@ const { LOGGED_IN_KEY } = config;
 const ProfileDropdown = () => {
   const router = useRouter();
 
-  const { profileData } = useProfileStore();
+  const { profileData } = useCommonStore();
 
   const changeRoute = (route: string) => {
     router.push(route);
@@ -79,8 +79,10 @@ const ProfileDropdown = () => {
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="text-sm font-bold text-zinc-800">John Doe</p>
-              <p className="text-sm text-zinc-500">john@mail.com</p>
+              <p className="text-sm font-bold text-zinc-800">
+                {profileData?.fullname}
+              </p>
+              <p className="text-sm text-zinc-500">{profileData?.email}</p>
             </div>
           </div>
         </DropdownMenuGroup>

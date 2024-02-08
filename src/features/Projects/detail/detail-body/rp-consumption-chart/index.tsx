@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactECharts from "echarts-for-react";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -16,8 +16,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import ProfileCardSkeleton from "@/shared/components/skeleton-loading/profile-card-skeleton";
+import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
 
 const RpConsumption = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const option = {
     // title: {
     //   text: "Stacked Line",
@@ -101,7 +105,13 @@ const RpConsumption = () => {
           </Select>
         </div>
       </div>
-      <ReactECharts option={option} />
+      {!isLoading ? (
+        <ReactECharts option={option} />
+      ) : (
+        <div className="w-full">
+          <GraphSkeleton />
+        </div>
+      )}
     </div>
   );
 };

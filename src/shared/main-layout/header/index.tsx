@@ -6,6 +6,9 @@ import Image from "next/image";
 import { Logo } from "@/shared/lib/image-config";
 import LanguageToggler from "./language-toggler";
 import { version } from "../../../../version";
+import { useQuery } from "react-query";
+import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
+import { useCommonStore } from "@/store/common-store";
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;
@@ -22,16 +25,23 @@ const Header = ({
   setOpenSheet,
 }: IHeaderProps) => {
   const { isLoggedIn } = useLoggedInStore();
-  // const { setProfile } = useProfileStore();
-  // const { setOrgData } = useOrgStore();
+  const { setProfile, setFilterConfig } = useCommonStore();
 
-  // useQuery(["profile"], getProfile, {
-  //   enabled: !!isLoggedIn,
-  //   refetchOnWindowFocus: false,
-  //   onSuccess: (data) => {
-  //     setProfile(data?.data);
-  //   },
-  // });
+  useQuery(["profile"], getProfile, {
+    enabled: !!isLoggedIn,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setProfile(data?.data);
+    },
+  });
+
+  useQuery(["config"], getConfig, {
+    enabled: !!isLoggedIn,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setFilterConfig(data?.data);
+    },
+  });
 
   return (
     <header className="px-8 border-b border-b-slate-100 bg-light-white">
@@ -73,7 +83,7 @@ const Header = ({
           {/* <InputSearch /> */}
           <p className="text-xs text-zinc-700">v {version}</p>
           <ProfileDropdown />
-          <LanguageToggler />
+          {/* <LanguageToggler /> */}
         </div>
       </div>
     </header>

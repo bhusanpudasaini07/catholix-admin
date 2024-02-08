@@ -3,7 +3,6 @@ import { Input } from "../ui/input";
 import { SearchIcon } from "lucide-react";
 
 interface IProps {
-  //   searchText: string;
   setSearchText: (arg: string) => void;
 }
 

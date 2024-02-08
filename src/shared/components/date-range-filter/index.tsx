@@ -12,7 +12,6 @@ interface IProps {
   setPageNumber?: (arg: number) => void;
   dateRangeOpen: boolean;
   setDateRangeOpen: (arg: boolean) => void;
-  setCurrentFilter?: (arg: string) => void;
 }
 
 const DateRangeFilter = ({
@@ -21,16 +20,15 @@ const DateRangeFilter = ({
   setPageNumber,
   dateRangeOpen,
   setDateRangeOpen,
-  setCurrentFilter,
 }: IProps) => {
   return (
     <Popover open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
       <PopoverTrigger asChild>
         <Button
           id="date"
-          variant={"outline"}
+          variant={"table"}
           className={cn(
-            "w-[240px] pl-3 text-left font-normal",
+            "w-full pl-3 text-left font-normal",
             !dateRange && "text-muted-foreground"
           )}
         >
@@ -48,7 +46,7 @@ const DateRangeFilter = ({
           )}
           {dateRange?.from ? (
             <X
-              className="ml-auto  h-4 w-4 cursor-pointer"
+              className="w-4 h-4 ml-auto cursor-pointer"
               onClick={() => {
                 setDateRange({
                   from: undefined,
@@ -57,21 +55,18 @@ const DateRangeFilter = ({
                 if (setPageNumber) {
                   setPageNumber(1);
                 }
-                setCurrentFilter && setCurrentFilter("this_month");
               }}
             />
           ) : (
-            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto p-0" align="end">
         <Calendar
           captionLayout="dropdown-buttons"
           initialFocus
           mode="range"
-          // fromYear={1900}
-          // toYear={2050}
           selected={dateRange}
           onSelect={setDateRange}
           numberOfMonths={2}

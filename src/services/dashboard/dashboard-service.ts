@@ -1,7 +1,7 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
-export const getDashboardData = (
+const getDashboardData = (
   start_date?: string | undefined,
   end_date?: string | undefined
 ) => {
@@ -14,3 +14,13 @@ export const getDashboardData = (
     return httpRequest("/dashboard/summary", httpMethods.GET);
   }
 };
+
+const getProfile = () => {
+  return httpRequest("/profile", httpMethods.GET);
+};
+
+const getConfig = () => {
+  return httpRequest("/filter-configs", httpMethods.GET);
+};
+
+export { getDashboardData, getProfile, getConfig };

@@ -20,7 +20,7 @@ import ProfileCardSkeleton from "@/shared/components/skeleton-loading/profile-ca
 import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
 
 const RpConsumption = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const option = {
     // title: {

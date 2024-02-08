@@ -109,7 +109,10 @@ const LoginForm = () => {
             id="terms"
             onCheckedChange={(e) => setCookie("rememberMe", e)}
           />
-          <label htmlFor="terms" className="text-zinc-700 text-sm font-medium">
+          <label
+            htmlFor="terms"
+            className="text-sm font-medium cursor-pointer text-zinc-700"
+          >
             Remember Me
           </label>
         </div>

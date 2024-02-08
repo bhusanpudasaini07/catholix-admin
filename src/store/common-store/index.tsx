@@ -8,6 +8,9 @@ interface ICommonStoreProps {
 
   filterConfig: any;
   setFilterConfig: (filterconfig: any) => void;
+
+  filterSaved: any;
+  setFilterSaved: (filterSaved: any) => void;
 }
 
 export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
@@ -35,5 +38,18 @@ export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
   filterConfig: {},
   setFilterConfig: (data: any) => {
     set(() => ({ filterConfig: data }));
+  },
+
+  filterSaved: {
+    leads: "",
+    clients: "",
+    sources: "",
+    status: "",
+    type: "",
+    risk_status: "",
+    market: "",
+  },
+  setFilterSaved: (data: any) => {
+    set(() => ({ filterSaved: data }));
   },
 }));

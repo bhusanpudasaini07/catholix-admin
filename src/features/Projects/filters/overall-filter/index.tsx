@@ -13,6 +13,7 @@ const OverallFilter = () => {
         onClick={() => setFilterSheetOpen(true)}
         variant={"table"}
         size={"sm"}
+        className="gap-2"
       >
         <Filter size={15} />
         Filter

@@ -45,7 +45,7 @@ const Header = ({
 
   return (
     <header className="px-8 border-b border-b-slate-100 bg-light-white">
-      <div className="flex items-center justify-between  gap-6  h-[56px] ">
+      <div className="flex items-center justify-between  gap-6 h-[56px] ">
         <div className="flex items-center w-[188px] justify-between">
           <Link
             href={"/"}

@@ -107,20 +107,28 @@ const DataTablePagination: React.FC<IPagination> = memo(
         <div className="flex items-center gap-2">
           <Button
             variant={"pagination"}
-            className={currentPage === 1 ? "disabled:bg-gray-290" : ""}
+            className={
+              currentPage === 1
+                ? "disabled:bg-zinc-100 disabled:border-zinc-300 disabled:text-zinc-500"
+                : ""
+            }
             disabled={currentPage === 1}
             onClick={() => pageChange(currentPage - 1)}
           >
-            <ChevronLeft className="max-w-[18px]" stroke="#C4CDD5" />
+            <ChevronLeft className="max-w-[18px]" />
           </Button>
           <div className="flex items-center gap-2">{pageNumber}</div>
           <Button
             variant={"pagination"}
-            className={currentPage === totalPages ? "disabled:bg-gray-290" : ""}
+            className={
+              currentPage === totalPages
+                ? "disabled:bg-zinc-100 disabled:border-zinc-300 disabled:text-zinc-500"
+                : ""
+            }
             disabled={currentPage === totalPages}
             onClick={() => pageChange(currentPage + 1)}
           >
-            <ChevronRight className="max-w-[18px]" stroke="#C4CDD5" />
+            <ChevronRight className="max-w-[18px]" />
           </Button>
         </div>
       </div>

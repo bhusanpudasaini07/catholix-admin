@@ -1,4 +1,5 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const authRoutes = ["/login"];
 
@@ -7,7 +8,6 @@ export async function middleware(req: NextRequest) {
   const url = req.nextUrl.pathname;
 
   const isAuthRoute = authRoutes.includes(url);
-
   if (!verify && !isAuthRoute) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
@@ -22,4 +22,4 @@ export async function middleware(req: NextRequest) {
 /**
  * Add all the protected routes here in the matcher.
  */
-export const config = { matcher: "/((?!.*\\.).*)" };
+export const config = { matcher: ["/((?!.*\\.).*)", "/"] };

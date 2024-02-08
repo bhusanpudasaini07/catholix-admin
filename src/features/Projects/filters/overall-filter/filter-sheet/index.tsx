@@ -64,7 +64,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             </Button>
           </SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-6 mt-8 h-[calc(100vh-160px)] pr-3 overflow-y-scroll">
+        <div className="flex flex-col gap-6 mt-8 h-[calc(100vh-175px)] pr-3 overflow-y-scroll">
           {/* Date Filter */}
           <div>
             <p className="mb-1 text-sm font-medium text-zinc-700">Date</p>
@@ -288,7 +288,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             </div>
           </div>
         </div>
-        <div className="mt-3">
+        <div className="mt-7">
           <Button
             type="button"
             className="w-full"

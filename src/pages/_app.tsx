@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/shared/components/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
+import NextNProgress from "nextjs-progressbar";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -47,7 +48,18 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     <QueryClientProvider client={queryClient}>
       <Toaster position="top-center" reverseOrder={false} />
       <TooltipProvider>
-        {getLayout(<Component {...pageProps} />)}
+        {getLayout(
+          <>
+            <NextNProgress
+              color={"#0a82fd"}
+              options={{ showSpinner: false }}
+              showOnShallow
+              height={5}
+            />
+
+            <Component {...pageProps} />
+          </>
+        )}
       </TooltipProvider>
     </QueryClientProvider>
     // </ThemeProvider>

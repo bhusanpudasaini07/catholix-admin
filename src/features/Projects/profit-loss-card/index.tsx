@@ -43,7 +43,7 @@ const ProfitLossCard = ({ data }: IProps) => {
           </div>
           <div className="flex items-center gap-2 py-0.5 px-2 border text-zinc-700 rounded shadow-sm border-zinc-200 bg-light-white">
             <Clock size={14} />
-            <p className="text-sm font-medium">{statusText}</p>
+            <p className="text-sm font-medium capitalize">{statusText}</p>
           </div>
         </div>
       </CardContent>

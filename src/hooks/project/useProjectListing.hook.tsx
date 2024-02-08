@@ -57,7 +57,7 @@ import { useCommonStore } from "@/store/common-store";
 import { DateRange } from "react-day-picker";
 
 const useProjectListing = () => {
-  const { filterConfig } = useCommonStore();
+  const { filterConfig, filterSaved, setFilterSaved } = useCommonStore();
   // STATES
   /**
    * For git modal to open and to set its key
@@ -95,7 +95,6 @@ const useProjectListing = () => {
     market: "",
   });
 
-  const [filterSaved, setFilterSaved] = useState(0);
   const [selectedLeads, setSelectedLeads] = useState<
     {
       fullname: string;
@@ -148,7 +147,7 @@ const useProjectListing = () => {
   };
 
   const saveFilterToLocal = () => {
-    refetch();
+    setFilterSaved({ ...filterStates });
     setPageNumber(1);
     localStorage.setItem("savedFilter", JSON.stringify(filterStates));
   };
@@ -185,21 +184,27 @@ const useProjectListing = () => {
         pageNumber,
         perPage,
         searchText,
-        filterStates?.risk_status, //status
-        filterStates?.sources, // source
-        filterStates?.market, // market
-        filterStates?.type, // type
-        filterStates?.leads, // lead
+        filterSaved?.risk_status, //status
+        filterSaved?.sources, // source
+        filterSaved?.market, // market
+        filterSaved?.type, // type
+        filterSaved?.leads, // lead
         selectedOption, //date_type
         dateRange?.from || dateRange?.to !== undefined
           ? `${moment(dateRange?.from).format("YYYY-MM-DD")} - ${moment(
               dateRange?.to
             ).format("YYYY-MM-DD")}`
           : "", // date
-        filterStates?.clients, //clients
-        filterStates?.status
+        filterSaved?.clients, //clients
+        filterSaved?.status
       ),
-    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
+    queryKey: [
+      "projectList",
+      perPage,
+      pageNumber,
+      filterSaved,
+      debouncedSearchValue,
+    ],
   });
   const handlePageChange = (pageNum: number) => {
     setPageNumber(pageNum);
@@ -250,7 +255,16 @@ const useProjectListing = () => {
       market: "",
     });
     setSelectedLeads([]);
-    refetch();
+    setFilterSaved({
+      leads: "",
+      clients: "",
+      sources: "",
+      status: "",
+      type: "",
+      risk_status: "",
+      market: "",
+    });
+    localStorage.removeItem("savedFilter");
   };
   const columns: ColumnDef<IProjectDetail>[] = [
     {
@@ -582,20 +596,23 @@ const useProjectListing = () => {
               className={`
               ${
                 row.getValue("status") === "In Progress" &&
-                " border-[#0A82FD] text-[#0A82FD] "
+                " border-blue-500 text-blue-500 "
               }
               ${
-                ["Client Support", "On Hold"].includes(
-                  row.getValue("status")
-                ) && " border-[#FD850A] text-[#FD850A]"
+                row.getValue("status") === "Client Support" &&
+                " border-orange-500 text-orange-500"
+              }
+              ${
+                row.getValue("status") === "On Hold" &&
+                " border-red-500 text-red-500"
               }
             ${
               ["Closed", "Delivered"].includes(row.getValue("status")) &&
-              " border-green-300 text-green-500"
+              " border-green-500 text-green-500"
             }
             ${
               row.getValue("status") === "Not Started" &&
-              " border-red-300 text-red-500"
+              " border-zinc-500 text-zinc-500"
             }
              capitalize border rounded-md`}
             >
@@ -668,25 +685,36 @@ const useProjectListing = () => {
                 className="stroke-zinc-700 hover:stroke-primary"
               />
             </Link>
-            <Link
-              href={`/projects/${rowData?.code}/team-members`}
-              className="relative "
-            >
-              <Badge
-                size={"sm"}
-                variant={"dark"}
-                className="absolute -right-3 -top-3"
-              >
-                2
-              </Badge>
-              <Users
-                size={20}
-                className="stroke-zinc-700 hover:stroke-primary"
-              />
-            </Link>
+            <Tooltip>
+              <TooltipTrigger>
+                <Link
+                  href={`/projects/${rowData?.code}/team-members`}
+                  className="relative "
+                >
+                  <Badge
+                    size={"sm"}
+                    variant={"dark"}
+                    className="absolute -right-3 -top-3"
+                  >
+                    2
+                  </Badge>
+                  <Users
+                    size={20}
+                    className="stroke-zinc-700 hover:stroke-primary"
+                  />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>Estimation and Members</TooltipContent>
+            </Tooltip>
+
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger>
-                <MoreVertical size={20} className="stroke-zinc-700" />
+                <Tooltip>
+                  <TooltipTrigger>
+                    <MoreVertical size={20} className="stroke-zinc-700" />
+                  </TooltipTrigger>
+                  <TooltipContent>More Options</TooltipContent>
+                </Tooltip>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
@@ -734,7 +762,7 @@ const useProjectListing = () => {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className="gap-2 text-destructive">
+                  <DropdownMenuItem className="gap-2 text-destructive hover:!text-destructive">
                     <Trash2 size={16} /> Delete
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -757,6 +785,7 @@ const useProjectListing = () => {
       const savedFilters = window.localStorage.getItem("savedFilter");
       if (savedFilters) {
         setFilterStates(JSON.parse(savedFilters));
+        setFilterSaved(JSON.parse(savedFilters));
       }
     }
   }, []);

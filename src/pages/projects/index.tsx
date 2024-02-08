@@ -24,6 +24,7 @@ import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
 import ProfitLossCard from "@/features/Projects/profit-loss-card";
 import { IProjectDetail } from "@/interface/project-interface";
+import ProjectTableSkeleton from "@/shared/components/skeleton-loading/project/project-table-skeleton";
 
 const Projects: NextPageWithLayout = () => {
   const {
@@ -43,7 +44,7 @@ const Projects: NextPageWithLayout = () => {
     columnVisibility,
     setColumnVisibility,
   } = useProjectListing();
-  
+
   return (
     <div>
       <Tabs defaultValue="list_view">
@@ -75,12 +76,16 @@ const Projects: NextPageWithLayout = () => {
 
         <div className="p-8">
           <TabsContent value="list_view">
-            <DataTable
-              columnVisibility={columnVisibility}
-              setColumnVisibility={setColumnVisibility}
-              columns={columns}
-              data={projectList?.data ?? []}
-            />
+            {isLoading ? (
+              <ProjectTableSkeleton />
+            ) : (
+              <DataTable
+                columnVisibility={columnVisibility}
+                setColumnVisibility={setColumnVisibility}
+                columns={columns}
+                data={projectList?.data ?? []}
+              />
+            )}
           </TabsContent>
 
           <TabsContent value="profit_loss_view">

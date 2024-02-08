@@ -18,6 +18,8 @@ import {
   ChevronDown,
   ChevronsRight,
   LockKeyhole,
+  LogOutIcon,
+  Settings,
   User,
   User2,
 } from "lucide-react";
@@ -78,11 +80,13 @@ const ProfileDropdown = () => {
                 <User width={15} className="text-white" />
               </AvatarFallback>
             </Avatar>
-            <div>
+            <div className="w-full min-w-0">
               <p className="text-sm font-bold text-zinc-800">
                 {profileData?.fullname}
               </p>
-              <p className="text-sm text-zinc-500">{profileData?.email}</p>
+              <p className="text-sm break-words text-zinc-500">
+                {profileData?.email}
+              </p>
             </div>
           </div>
         </DropdownMenuGroup>
@@ -91,24 +95,25 @@ const ProfileDropdown = () => {
         <DropdownMenuGroup className="px-3">
           <DropdownMenuItem
             onClick={() => changeRoute("/profile")}
-            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-700"
           >
-            My account
+            <User size={16} /> My account
           </DropdownMenuItem>
           <DropdownMenuItem
-            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-700"
             onClick={() => changeRoute("/organization")}
           >
-            Account Settings
+            <Settings size={16} /> Account Settings
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
         <DropdownMenuGroup className="px-3 pb-3">
           <DropdownMenuItem
-            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-600"
+            className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-red-500 hover:!text-red-500"
             onClick={logoutHandler}
           >
+            <LogOutIcon size={16} />
             Logout
           </DropdownMenuItem>
         </DropdownMenuGroup>

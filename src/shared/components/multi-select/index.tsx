@@ -60,7 +60,7 @@ export const MultiSelect = ({
       onKeyDown={handleKeyDown}
       className="overflow-visible bg-transparent"
     >
-      <div className="px-2 py-4 text-sm border border-gray-300 rounded-md group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="px-2 py-2 text-sm border border-gray-300 rounded-md group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap h-full gap-1">
           {selected.map((item: any) => {
             return (

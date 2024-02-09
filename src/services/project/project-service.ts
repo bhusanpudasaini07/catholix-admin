@@ -38,4 +38,47 @@ const getProjectList = (
   }
 };
 
-export { getProjectList };
+const getProjectDetail = (code: any) => {
+  return httpRequest(`/get-single-project?project_id=${code}`, httpMethods.GET);
+};
+
+const getRpSummary = (code: any) => {
+  return httpRequest(
+    `/get-project-rp-summary?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
+const getTimeLogs = (code: any, keyword: string, page: any, per_page: any) => {
+  if (keyword) {
+    return httpRequest(
+      `/get-time-logs?project_id=${code}&keyword=${keyword}&pg=${page}&dataperpage=${per_page}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(
+      `/get-time-logs?project_id=${code}&pg=${page}`,
+      httpMethods.GET
+    );
+  }
+};
+
+const getProjectRelases = (code: any) => {
+  return httpRequest(
+    `/get-project-releases?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
+const getProjectStories = (code: any) => {
+  return httpRequest(`/get-user-stories?project_id=${code}`, httpMethods.GET);
+};
+
+export {
+  getProjectList,
+  getProjectDetail,
+  getRpSummary,
+  getTimeLogs,
+  getProjectRelases,
+  getProjectStories,
+};

@@ -131,7 +131,7 @@ const Projects: NextPageWithLayout = () => {
                   <Link
                     href={url}
                     target="_blank"
-                    className="text-sm truncate transition hover:text-primary"
+                    className="text-sm truncate transition text-primary"
                   >
                     {url}
                   </Link>

@@ -46,7 +46,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     //   disableTransitionOnChange
     // >
     <QueryClientProvider client={queryClient}>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-right" reverseOrder={false} />
       <TooltipProvider>
         {getLayout(
           <>

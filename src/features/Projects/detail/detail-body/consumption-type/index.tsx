@@ -1,145 +1,64 @@
 import React from "react";
+import ReactECharts from "echarts-for-react";
 
 import { Button } from "@/shared/components/ui/button";
-import ReactECharts from "echarts-for-react";
 import { DataTable } from "@/shared/components/data-table/data-table";
 
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
+
 const ConsumptionType = () => {
-  const option = {
-    tooltip: {
-      trigger: "item",
-    },
-    legend: {
-      top: "5%",
-      left: "center",
-    },
-    series: [
-      {
-        name: "Access From",
-        type: "pie",
-        radius: ["40%", "70%"],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          position: "center",
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: "bold",
-          },
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [
-          { value: 1048, name: "Search Engine" },
-          { value: 735, name: "Direct" },
-          { value: 580, name: "Email" },
-          { value: 484, name: "Union Ads" },
-          { value: 300, name: "Video Ads" },
-        ],
-      },
-    ],
-  };
+  const { rpSummary, rpLoading } = useProjectDetail();
 
-  const columns = [
-    {
-      id: "sn",
-      accessorKey: "S_N",
-      header: "S. No.",
-      cell: ({ row }: any) => <div>{row?.original?.S_N}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "team_members",
-      accessorKey: "team_members",
-      header: "Team Members",
-      cell: ({ row }: any) => <div>{row?.original?.team_members}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "time_logged",
-      accessorKey: "time_logged",
-      header: "Time Logged",
-      cell: ({ row }: any) => <div>{row?.original?.time_logged}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "rp_consumed",
-      accessorKey: "rp_consumed",
-      header: "Rp Consumed",
-      cell: ({ row }: any) => <div>{row?.original?.rp_consumed}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "percentage",
-      accessorKey: "percentage",
-      header: "%",
-      cell: ({ row }: any) => <div>{row?.original?.percentage}</div>,
-      enableHiding: false,
-    },
-  ];
-
-  const data = [
-    {
-      S_N: 1,
-      team_members: "John Doe",
-      time_logged: "5h 30m",
-      rp_consumed: 100,
-      percentage: 20,
-    },
-    {
-      S_N: 2,
-      team_members: "Jane Smith",
-      time_logged: "3h 45m",
-      rp_consumed: 75,
-      percentage: 15,
-    },
-    // Add more data objects as needed
-  ];
+  const { staffColumns, roleColumns, option } = useConsumptionType();
 
   return (
-    <div className="grid grid-col-2 grid-flow-row mt-4 gap-6">
-      <div className="row-start-1 row-end-4 card">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex justify-start items-center gap-3">
-            <p>Team Wise Consumption</p>
-            <Button variant={"white"}>More Details</Button>
+    <div className="grid grid-cols-12 gap-6 mt-4">
+      {/* Team Wise */}
+      <div className="col-span-6 ">
+        <div className="!p-6 card">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-start gap-3">
+              <p className="text-lg font-medium text-zinc-700">
+                Team Wise Consumption
+              </p>
+              <Button variant={"white"}>More Details</Button>
+            </div>
           </div>
-        </div>
-        <div className="">
-          <ReactECharts option={option} />
-        </div>
-        <div className="grow border-[1px] border-solid border-zinc-300 rounded-md overflow-hidden ">
-          <DataTable
-            // columnVisibility={columnVisibility}
-            // setColumnVisibility={setColumnVisibility}
-
-            columns={columns}
-            data={data}
-          />
+          <div className="">
+            <ReactECharts option={option} />
+          </div>
+          <div className="overflow-hidden rounded-md grow ">
+            <DataTable
+              columns={staffColumns}
+              border={true}
+              data={rpSummary?.data?.staffwise?.slice(0, 5) ?? []}
+            />
+          </div>
         </div>
       </div>
-      <div className="row-start-1 row-end-4 card">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex justify-start items-center gap-3">
-            <p>Role Wise Consumption</p>
-            <Button variant={"white"}>More Details</Button>
-          </div>
-        </div>
-        <div className="">
-          <ReactECharts option={option} />
-        </div>
-        <div className="grow border-[1px] border-solid border-zinc-300 rounded-md overflow-hidden ">
-          <DataTable
-            // columnVisibility={columnVisibility}
-            // setColumnVisibility={setColumnVisibility}
 
-            columns={columns}
-            data={data}
-          />
+      {/* Role Wise */}
+      <div className="col-span-6 ">
+        <div className="card !p-6">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-start gap-3">
+              <p className="text-lg font-medium text-zinc-700">
+                Role Wise Consumption
+              </p>
+              <Button variant={"white"}>More Details</Button>
+            </div>
+          </div>
+          <div className="">
+            <ReactECharts option={option} />
+          </div>
+          <div className="overflow-hidden rounded-md grow ">
+            <DataTable
+              border={true}
+              columns={roleColumns}
+              data={rpSummary?.data?.rolewise.slice(0, 5) ?? []}
+            />
+          </div>
         </div>
       </div>
     </div>

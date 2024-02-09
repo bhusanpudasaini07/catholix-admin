@@ -49,7 +49,7 @@ const calculateDeadlinePercentValue = (startDate: string, deadline: string) => {
   // Ensuring the value is within the 1 to 100 range
   // value = Math.max(1, Math.min(value, 100));
 
-  return value;
+  return { totalDays, value };
 };
 
 /**
@@ -142,6 +142,36 @@ const calculateRpLeft = (usedRp: number, approvedRp: number) => {
   return { percentageLeft: `${percentageLeft.toFixed(2)}% Left`, color };
 };
 
+/**
+ * Calculates the percentage of used and unused RP based on sales RP and used RP
+ * @param salesRp number of sales RP
+ * @param usedRp number of used RP
+ * @returns an object containing the numerical percentage of used and unused RP
+ */
+const calculateUsedAndUnusedRpPercentage = (
+  salesRp: number | null,
+  usedRp: number | null
+) => {
+  if (salesRp === null || usedRp === null || salesRp === 0) {
+    return { usedPercentage: 0, unusedPercentage: 0 };
+  }
+  const usedPercentage = (usedRp / salesRp) * 100;
+  const unusedPercentage = 100 - usedPercentage;
+
+  return {
+    usedPercentage: parseFloat(usedPercentage.toFixed(2)),
+    unusedPercentage: parseFloat(unusedPercentage.toFixed(2)),
+  };
+};
+
+const calculateTimeLog = (time: number) => {
+  const timeInSeconds = time;
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+
+  return { hours, minutes };
+};
+
 export {
   showDeadline,
   changeDateDisplay,
@@ -149,4 +179,6 @@ export {
   calculateRpSumAndColor,
   calculateRpLeft,
   calculateDeadlinePercentValue,
+  calculateUsedAndUnusedRpPercentage,
+  calculateTimeLog,
 };

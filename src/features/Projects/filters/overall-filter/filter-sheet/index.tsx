@@ -64,7 +64,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             </Button>
           </SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-6 mt-8 h-[calc(100vh-175px)] pr-3 overflow-y-scroll">
+        <div className="flex flex-col gap-6 mt-8 h-[calc(100vh-190px)] pr-3 overflow-y-scroll">
           {/* Date Filter */}
           <div>
             <p className="mb-1 text-sm font-medium text-zinc-700">Date</p>
@@ -80,11 +80,16 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
                       value={option}
                       id={option}
                       className={
-                        selectedOption === option ? "border-primary" : ""
+                        selectedOption === option
+                          ? "border-primary"
+                          : "border-zinc-200"
                       }
                       onChange={() => changeFilterRadio(option)}
                     />
-                    <Label className="capitalize" htmlFor={option}>
+                    <Label
+                      className="capitalize cursor-pointer"
+                      htmlFor={option}
+                    >
                       {option
                         .replace(/_/g, " ")
                         .replace(/([A-Z])/g, " $1")
@@ -288,7 +293,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             </div>
           </div>
         </div>
-        <div className="mt-7">
+        <div className="mt-9">
           <Button
             type="button"
             className="w-full"
@@ -297,7 +302,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
               saveFilterToLocal();
             }}
           >
-            Save
+            Apply
           </Button>
         </div>
       </SheetContent>

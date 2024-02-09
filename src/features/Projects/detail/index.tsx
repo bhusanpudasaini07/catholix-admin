@@ -1,14 +1,16 @@
 import React from "react";
 import DetailHeader from "./detail-header";
 import DetailBody from "./detail-body";
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 
-const DetailContent = () => {
+const ProjectDetailContent = () => {
+  const { projectDetail, code } = useProjectDetail();
   return (
-    <div>
-      <DetailHeader />
+    <>
+      <DetailHeader title={projectDetail?.data?.project_title!} code={code} />
       <DetailBody />
-    </div>
+    </>
   );
 };
 
-export default DetailContent;
+export default ProjectDetailContent;

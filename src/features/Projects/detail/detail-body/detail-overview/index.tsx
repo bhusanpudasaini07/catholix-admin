@@ -367,7 +367,10 @@ const DetailOverview = () => {
 
           <div className="flex flex-col gap-3">
             {projectDetail?.data?.assigned_roles_members?.map((member) => (
-              <div className="flex items-center justify-between gap-5">
+              <div
+                className="flex items-center justify-between gap-5"
+                key={member?.role_user?.id}
+              >
                 <div className="flex items-center  w-[55%] text-base text-zinc-500">
                   <User size={20} className="me-2" />
                   <p>{member?.role_name}</p>

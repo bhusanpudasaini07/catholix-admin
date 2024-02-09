@@ -21,12 +21,16 @@ import {
   TableRow,
 } from "@/shared/components/ui/table";
 import { useState } from "react";
+import TableSkeleton from "../skeleton-loading/table-skeleton";
+import { cn } from "@/shared/utils/utils";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | any;
   columnVisibility?: any;
   setColumnVisibility?: any;
+  border?: boolean;
+  loading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -34,6 +38,8 @@ export function DataTable<TData, TValue>({
   data,
   columnVisibility,
   setColumnVisibility,
+  border,
+  loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -65,7 +71,10 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    className={border ? "border-2 border-slate-100" : ""}
+                    key={header.id}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -80,14 +89,23 @@ export function DataTable<TData, TValue>({
         </TableHeader>
 
         <TableBody>
-          {table?.getRowModel().rows?.length ? (
+          {loading ? (
+            <TableRow>
+              {Array.from({ length: columns.length }, (_, index) => (
+                <TableSkeleton key={index} />
+              ))}
+            </TableRow>
+          ) : table?.getRowModel().rows?.length ? (
             table?.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row?.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    className={border ? "border-2 border-slate-100" : ""}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -95,7 +113,14 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell
+                colSpan={columns.length}
+                className={
+                  border
+                    ? "border-2 border-slate-100 h-24 text-center"
+                    : "h-24 text-center"
+                }
+              >
                 No results.
               </TableCell>
             </TableRow>

@@ -1,31 +1,48 @@
 import React from "react";
 import ReactECharts from "echarts-for-react";
+import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 
-const UsedRp = () => {
+interface IProps {
+  rp: {
+    unapproved_estimation: number;
+    approved_estimation: number;
+    approved_rp: number;
+    unapproved_rp: number;
+    sales_rp: number | null;
+    used_rp: number | null;
+  };
+}
+const UsedRp = ({ rp }: IProps) => {
+  const { usedPercentage, unusedPercentage } =
+    calculateUsedAndUnusedRpPercentage(rp?.sales_rp, rp?.used_rp);
+
   const option = {
     tooltip: {
       trigger: "item",
     },
     legend: {
-      top: "5%",
       left: "center",
+      show: false,
     },
     series: [
       {
-        name: "Access From",
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["70%", "100%"],
         avoidLabelOverlap: false,
         label: {
           show: true,
-          position: "center",
-          formatter: `{b} {c}`,
+          position: "center", // Position it in the center
+          formatter: () => {
+            // Custom formatter to display both percentages
+            return `${usedPercentage ?? 0}%\nused`;
+          },
+          fontSize: 16,
+          color: "black",
         },
         emphasis: {
           label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: "bold",
+            show: false,
+            fontSize: 16,
           },
         },
         labelLine: {
@@ -33,13 +50,13 @@ const UsedRp = () => {
         },
         data: [
           {
-            value: 52,
+            value: usedPercentage ?? 0,
             name: "Used",
-            itemStyle: { color: "#0A82FD" },
+            itemStyle: { color: "#FACC15" },
             label: { show: true },
           },
           {
-            value: 48,
+            value: unusedPercentage ?? 0,
             name: "Unused",
             itemStyle: { color: "#F4F4F5" },
             label: { show: false, fontsize: 50 },
@@ -48,7 +65,7 @@ const UsedRp = () => {
       },
     ],
   };
-  return <ReactECharts option={option} />;
+  return <ReactECharts option={option} style={{ height: "120px" }} />;
 };
 
 export default UsedRp;

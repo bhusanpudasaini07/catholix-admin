@@ -21,7 +21,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { IProjectDetail } from "@/interface/project-interface";
+import { IProjectDetail, IProjectProps } from "@/interface/project-interface";
 import { getProjectList } from "@/services/project/project-service";
 
 import { Badge } from "@/shared/components/ui/badge";
@@ -428,27 +428,35 @@ const useProjectListing = () => {
         const { statusText, daysValue } = showDeadline(
           row?.original?.dates?.deadline
         );
-        const value = calculateDeadlinePercentValue(
+        const { value } = calculateDeadlinePercentValue(
           row?.original?.dates?.start_date,
           row?.original?.dates?.deadline
         );
         const barValue = 100 - value;
         return (
           <div className="w-[200px]">
-            <p className="mb-2 text-sm font-medium text-zinc-700">
-              {statusText}
-            </p>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Progress
-                  className={cn("h-1.5", {
-                    "[&>div]:bg-red-500": barValue >= 90,
-                    "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
-                    "[&>div]:bg-green-500": barValue < 50,
-                    "[&>div]:bg-gray-500": barValue === 0,
-                  })}
-                  value={barValue}
-                />
+                <div>
+                  <p className="mb-2 text-sm font-medium text-zinc-700">
+                    {statusText}
+                  </p>
+                  <Progress
+                    className={cn("h-1.5", {
+                      "[&>div]:bg-red-500": barValue >= 90,
+                      "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
+                      "[&>div]:bg-green-500": barValue < 50,
+                      "[&>div]:bg-gray-500": barValue === 0,
+                    })}
+                    value={barValue}
+                  />
+                  <p className="mt-2 text-xs text-zinc-600">
+                    Deadline:{" "}
+                    <span className="font-medium">
+                      {changeDateToMonthYear(row?.original?.dates?.deadline)}
+                    </span>
+                  </p>
+                </div>
               </TooltipTrigger>
               <TooltipContent align="center" side="right">
                 {}
@@ -462,13 +470,6 @@ const useProjectListing = () => {
                 </p>
               </TooltipContent>
             </Tooltip>
-
-            <p className="mt-2 text-xs text-zinc-600">
-              Deadline:{" "}
-              <span className="font-medium">
-                {changeDateToMonthYear(row?.original?.dates?.deadline)}
-              </span>
-            </p>
           </div>
         );
       },
@@ -679,12 +680,17 @@ const useProjectListing = () => {
 
         return (
           <div className="flex items-center gap-4">
-            <Link href={`/projects/${rowData?.code}/edit`}>
-              <Edit
-                size={20}
-                className="stroke-zinc-700 hover:stroke-primary"
-              />
-            </Link>
+            <Tooltip>
+              <TooltipTrigger>
+                <Link href={`/projects/${rowData?.code}/edit`}>
+                  <Edit
+                    size={20}
+                    className="stroke-zinc-700 hover:stroke-primary"
+                  />
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>Edit</TooltipContent>
+            </Tooltip>
             <Tooltip>
               <TooltipTrigger>
                 <Link

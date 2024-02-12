@@ -455,7 +455,10 @@ const DetailOverview = () => {
             </p>
             <div className="flex flex-col gap-4 mt-6 max-h-[calc(100vh-360px)] pr-4 overflow-y-auto">
               {staffDetails?.data?.pl_projects?.map((project) => (
-                <div className="flex items-center justify-between text-sm text-gray-700">
+                <div
+                  className="flex items-center justify-between text-sm text-gray-700"
+                  key={project?.id}
+                >
                   <p className="font-semibold max-w-[70%]">{project?.title}</p>
                   <p>{project?.source}</p>
                 </div>

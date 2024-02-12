@@ -31,7 +31,7 @@ const DetailHeader = ({ title, code }: IProps) => {
       <div className="flex items-center gap-4">
         <Button
           onClick={() => router.push(`/projects/${code}/edit`)}
-          variant={"outline_secondary"}
+          variant={"outline"}
           className="gap-2"
         >
           <Pencil size={16} />

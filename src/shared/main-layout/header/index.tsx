@@ -54,10 +54,11 @@ const Header = ({
             <Image
               src={Logo}
               alt="Logo"
-              priority
+              priority={true}
               width={63}
               height={30}
               quality={100}
+              style={{ width: "auto", height: "auto" }}
             />
           </Link>
           {/* For sidebar */}

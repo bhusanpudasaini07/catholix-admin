@@ -59,6 +59,7 @@ export interface IProjectDetail {
     open_task_count: string;
     closed_task_count: string;
     all_task_count: string;
+    bug_count: string;
   };
   assigned_roles_members: any[];
   member_utilization: any[];
@@ -104,6 +105,8 @@ export interface IStaffWise {
   employee_id: string;
   time: string;
   rp: string;
+  role: string;
+  role_id: string;
 }
 
 export interface IConsumptionData {
@@ -150,6 +153,8 @@ export interface ILogEntry {
     id: string;
     username: string;
     fullname: string;
+    role_id: string;
+    role_name: string;
   };
   label: {
     title: string;
@@ -175,4 +180,15 @@ export interface IProjectUserStories {
   spent_time: number;
   task_count: number;
   title: string;
+}
+
+export interface ISalesRP {
+  data: ISalesRPDetail[];
+}
+
+export interface ISalesRPDetail {
+  added_by: string;
+  added_on: string;
+  remarks: string;
+  rp: number;
 }

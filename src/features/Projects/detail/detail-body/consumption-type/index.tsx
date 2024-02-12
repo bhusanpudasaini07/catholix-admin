@@ -40,7 +40,7 @@ const ConsumptionType = () => {
 
       {/* Role Wise */}
       <div className="col-span-6 ">
-        <div className="card !p-6">
+        <div className="card !p-6 h-full">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center justify-start gap-3">
               <p className="text-lg font-medium text-zinc-700">

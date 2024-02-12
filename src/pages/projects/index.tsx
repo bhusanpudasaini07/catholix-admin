@@ -25,6 +25,7 @@ import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
 import ProfitLossCard from "@/features/Projects/profit-loss-card";
 import { IProjectDetail } from "@/interface/project-interface";
 import ProjectTableSkeleton from "@/shared/components/skeleton-loading/project/project-table-skeleton";
+import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
 
 const Projects: NextPageWithLayout = () => {
   const {
@@ -89,7 +90,9 @@ const Projects: NextPageWithLayout = () => {
           </TabsContent>
 
           <TabsContent value="profit_loss_view">
-            {projectList?.data.length > 0 ? (
+            {isLoading ? (
+              <ProjectProfitViewSkeleton num={12} />
+            ) : projectList?.data.length > 0 ? (
               <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4">
                 {projectList?.data?.map((project: IProjectDetail) => (
                   <ProfitLossCard key={project?.project_id} data={project} />

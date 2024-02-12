@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { showDeadline } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { Clock } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 interface IProps {
@@ -24,7 +25,12 @@ const ProfitLossCard = ({ data }: IProps) => {
         )}
       >
         <div className="text-center text-zinc-700">
-          <p className="text-base font-medium ">{data?.project_title}</p>
+          <Link
+            href={`/projects/${data?.code}`}
+            className="text-base font-medium hover:text-primary "
+          >
+            {data?.project_title}
+          </Link>
 
           <p className="my-3 text-2xl font-semibold">
             {data?.rp?.used_rp ?? 0} / {data?.rp?.sales_rp ?? 0}

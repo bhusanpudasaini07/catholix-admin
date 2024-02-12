@@ -715,12 +715,7 @@ const useProjectListing = () => {
 
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <MoreVertical size={20} className="stroke-zinc-700" />
-                  </TooltipTrigger>
-                  <TooltipContent>More Options</TooltipContent>
-                </Tooltip>
+                <MoreVertical size={20} className="stroke-zinc-700" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuGroup>

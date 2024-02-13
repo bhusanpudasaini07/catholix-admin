@@ -13,11 +13,11 @@ const buttonVariants = cva(
         destructive:
           "bg-gradient-to-r from-red-150 to-red-250 text-white hover:bg-red-600/90 shadow-custom-primary",
         outline:
-          "border border-primary text-primary bg-white hover:bg-gray-250 hover:bg-gray-250",
+          "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
         outline_secondary:
           "border border-zinc-500 text-zinc-500 bg-white hover:bg-gray-250 ",
         white:
-          "text-zinc-700 border-zinc-100 border-[1px] border-solid shadow-sm bg-white hover:bg-gray-100 hover:text-zinc-500",
+          "text-zinc-700 border-zinc-100 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
         secondary:
           "bg-white border border-purple-60 text-purple-60 hover:bg-purple-60 hover:text-white ",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -35,6 +35,7 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md px-3",
         lg: "h-11 rounded-md px-5 min-w-[148px]",
         icon: "h-10 w-10",
+        md: "h-9 py-2 px-4",
       },
     },
     defaultVariants: {

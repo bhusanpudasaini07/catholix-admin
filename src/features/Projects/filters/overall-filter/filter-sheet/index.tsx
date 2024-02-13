@@ -152,7 +152,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
 
           {/* Source */}
           <div>
-            <p className="flex items-center gap-3 mb-2 text-sm font-medium text-zinc-700">
+            <p className="flex items-center gap-2 mb-2 text-sm font-medium text-zinc-700">
               <Checkbox
                 variant="primary"
                 value="all"
@@ -181,7 +181,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
 
           {/* Status */}
           <div>
-            <p className="flex items-center gap-3 mb-2 text-sm font-medium text-zinc-700">
+            <p className="flex items-center gap-2 mb-2 text-sm font-medium text-zinc-700">
               <Checkbox
                 variant="primary"
                 value="all"
@@ -209,7 +209,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
 
           {/* Type */}
           <div>
-            <p className="flex items-center gap-3 mb-2 text-sm font-medium text-zinc-700">
+            <p className="flex items-center gap-2 mb-2 text-sm font-medium text-zinc-700">
               <Checkbox
                 variant="primary"
                 value="all"
@@ -237,7 +237,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
 
           {/* Risk Status */}
           <div>
-            <p className="flex items-center gap-3 mb-2 text-sm font-medium text-zinc-700">
+            <p className="flex items-center gap-2 mb-2 text-sm font-medium text-zinc-700">
               <Checkbox
                 variant="primary"
                 value="all"
@@ -265,7 +265,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
 
           {/* Market */}
           <div>
-            <p className="flex items-center gap-3 mb-2 text-sm font-medium text-zinc-700">
+            <p className="flex items-center gap-2 mb-2 text-sm font-medium text-zinc-700">
               <Checkbox
                 variant="primary"
                 value="all"

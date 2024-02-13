@@ -37,8 +37,10 @@ import {
 } from "@/shared/components/ui/dialog";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
+import { useRouter } from "next/router";
 
 const DetailOverview = () => {
+  const router = useRouter();
   const {
     isLoading,
     gitModalOpen,
@@ -145,7 +147,13 @@ const DetailOverview = () => {
           <div className="mt-4 card">
             <div className="flex items-center justify-start gap-3 mb-4">
               <h5 className="font-medium text-zinc-700">Units Allocation</h5>
-              <Button variant={"white"} size={"sm"}>
+              <Button
+                variant={"white"}
+                onClick={() =>
+                  router?.push(`/projects/${router?.query?.code}/rp-estimation`)
+                }
+                size={"sm"}
+              >
                 View Estimation
               </Button>
             </div>
@@ -336,7 +344,7 @@ const DetailOverview = () => {
                       size={"sm"}
                       onClick={() => setGitModalOpen(true)}
                       disabled={projectDetail?.data?.git_urls?.length === 0}
-                      className="text-green-500 border-green-500 disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+                      className="text-green-500 border-green-500 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
                     >
                       git
                     </Button>

@@ -73,7 +73,7 @@ const RpConsumption = () => {
                 <SelectItem value="individual">Individual</SelectItem>
               </SelectContent>
             </Select>
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-auto grid-cols-2">
               <TabsTrigger value="line">Line Chart</TabsTrigger>
               <TabsTrigger value="bar">Bar Chart</TabsTrigger>
             </TabsList>

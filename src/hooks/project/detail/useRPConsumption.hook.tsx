@@ -1,11 +1,11 @@
 import moment from "moment";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
 import { getRpSummary } from "@/services/project/project-service";
-import { IConsumptionData, IRoleWise } from "@/interface/project-interface";
+import { IConsumptionData } from "@/interface/project-interface";
 import useProjectDetail from "./useProjectDetail.hook";
 
 const useRPConsumption = () => {
@@ -22,10 +22,8 @@ const useRPConsumption = () => {
 
   //   for dateType = daily
   const [date, setDate] = useState<DateRange | undefined>({
-    from: moment().subtract(15, "days").toDate(),
-    to: projectDetail?.data?.dates?.last_log_date
-      ? new Date(projectDetail.data.dates.last_log_date)
-      : undefined,
+    from: undefined,
+    to: undefined,
   });
   //   for dateType = monthly
   const [month, setMonth] = useState<DateRange | undefined>({
@@ -47,7 +45,8 @@ const useRPConsumption = () => {
         return response;
       }
     },
-    queryKey: ["rpConsumption", code, dateType],
+    enabled: !!date?.to,
+    queryKey: ["rpConsumption", code, date, dateType],
   });
 
   const processRolesData = (rolewiseData: { [key: string]: any }) => {
@@ -191,6 +190,26 @@ const useRPConsumption = () => {
       })),
     })),
   };
+
+  useEffect(() => {
+    if (projectDetail?.data?.dates?.last_log_date) {
+      setDate({
+        from: moment(new Date(projectDetail?.data?.dates?.last_log_date))
+          .subtract(15, "days")
+          .toDate(),
+        to: new Date(projectDetail?.data?.dates?.last_log_date),
+      });
+      setMonth({
+        from: moment(new Date(projectDetail?.data?.dates?.last_log_date))
+          .subtract(1, "months")
+          .startOf("month")
+          .toDate(),
+        to: moment(new Date(projectDetail?.data?.dates?.last_log_date))
+          .endOf("month")
+          .toDate(),
+      });
+    }
+  }, [projectDetail, setDate]);
 
   return {
     tab,

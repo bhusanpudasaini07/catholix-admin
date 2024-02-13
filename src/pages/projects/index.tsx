@@ -92,7 +92,7 @@ const Projects: NextPageWithLayout = () => {
           <TabsContent value="profit_loss_view">
             {isLoading ? (
               <ProjectProfitViewSkeleton num={12} />
-            ) : projectList?.data.length > 0 ? (
+            ) : projectList?.data?.length > 0 ? (
               <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4">
                 {projectList?.data?.map((project: IProjectDetail) => (
                   <ProfitLossCard key={project?.project_id} data={project} />

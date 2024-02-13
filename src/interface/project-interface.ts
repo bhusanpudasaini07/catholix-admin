@@ -20,6 +20,7 @@ export interface IProjectDetail {
   closed_by: string | null;
   closed_date: string | null;
   delivered_date: string | null;
+  member_count: number;
   client: {
     name: string | null;
     id: string;
@@ -160,6 +161,7 @@ export interface ILogEntry {
     title: string;
     color: string;
   }[];
+  author: { id: string; name: string };
 }
 
 export interface IReport {

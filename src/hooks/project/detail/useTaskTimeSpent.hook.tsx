@@ -18,7 +18,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { Button } from "@/shared/components/ui/button";
 
 import { Edit } from "lucide-react";
 
@@ -100,7 +99,9 @@ const useTaskTimeSpent = () => {
             ))}
           </div>
 
-          <p className="text-sm text-zinc-700">Author: Remain</p>
+          <p className="text-sm text-zinc-700">
+            Author: {row?.original?.author?.name}
+          </p>
         </div>
       ),
       enableHiding: false,
@@ -128,18 +129,15 @@ const useTaskTimeSpent = () => {
       id: "actions",
       accessorKey: "actions",
       header: "Actions",
-      cell: ({ row }: any) => (
+      cell: ({ row }) => (
         <Tooltip>
           <TooltipTrigger>
-            <Button
+            {/* <Button
               variant={"ghost"}
               className="h-auto p-0 hover:bg-transparent"
-            >
-              <Edit
-                size={20}
-                className="stroke-zinc-700 hover:stroke-primary"
-              />
-            </Button>
+            > */}
+            <Edit size={20} className="stroke-zinc-700 hover:stroke-primary" />
+            {/* </Button> */}
           </TooltipTrigger>
           <TooltipContent>Edit</TooltipContent>
         </Tooltip>

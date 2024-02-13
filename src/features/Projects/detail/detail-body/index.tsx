@@ -9,7 +9,7 @@ import LatestActivity from "./latest-activity";
 
 const DetailBody = () => {
   return (
-    <div className="p-6">
+    <div className="p-8">
       <DetailOverview />
       <RpConsumption />
       <ProjectStories />

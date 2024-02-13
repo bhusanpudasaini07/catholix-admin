@@ -81,8 +81,8 @@ export const useProjectDetail = () => {
       accessorKey: "added_on",
       header: "Added On",
       cell: ({ row }) => (
-        <div className="w-[80px]">
-          <p>{moment(row.getValue("added_on")).format("Do, MMM")}</p>
+        <div className="w-[100px]">
+          <p>{moment(row.getValue("added_on")).format("Do, MMM YYYY")}</p>
           <p>{moment(row.getValue("added_on")).format("hh:mm")}</p>
         </div>
       ),
@@ -99,14 +99,18 @@ export const useProjectDetail = () => {
       id: "remarks",
       accessorKey: "remarks",
       header: "Remarks",
-      cell: ({ row }) => <div>{row.getValue("remarks")}</div>,
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("remarks")}</div>
+      ),
       enableHiding: false,
     },
     {
       id: "added_by",
       accessorKey: "added_by",
       header: "By",
-      cell: ({ row }) => <div>{row.getValue("added_by")}</div>,
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("added_by")}</div>
+      ),
       enableHiding: false,
     },
   ];

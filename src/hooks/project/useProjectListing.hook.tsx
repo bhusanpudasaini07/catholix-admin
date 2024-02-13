@@ -307,7 +307,7 @@ const useProjectListing = () => {
             size={"sm"}
             onClick={() => showGitUrl(row?.original)}
             disabled={row?.original?.git_urls?.length === 0}
-            className="text-green-500 border-green-500 disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+            className="text-green-500 border-green-500 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
           >
             git
           </Button>
@@ -326,16 +326,17 @@ const useProjectListing = () => {
             <span>Code:</span>{" "}
             <div className="flex items-center gap-1 max-w-[80%]">
               <p className="font-medium truncate">{row.original?.code}</p>
-              <Button
-                variant={"ghost"}
-                className="h-auto p-0"
-                onClick={() => copyProjectCode(row.original?.code)}
-              >
-                <Copy
-                  size={12}
-                  className="stroke-zinc-500 hover:stroke-primary"
-                />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger
+                  onClick={() => copyProjectCode(row.original?.code)}
+                >
+                  <Copy
+                    size={12}
+                    className="stroke-zinc-500 hover:stroke-primary"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>Copy</TooltipContent>
+              </Tooltip>
             </div>
           </div>
           <p className="mb-1 text-xs text-zinc-600">
@@ -364,22 +365,47 @@ const useProjectListing = () => {
       id: "planned_rp",
       accessorKey: "planned_rp",
       header: "Planned RP",
-      cell: ({ row }: any) => {
+      cell: ({ row }) => {
         const { sum, color, icon } = calculateRpSumAndColor(
           row?.original?.rp?.approved_rp,
           row?.original?.rp?.unapproved_rp
         );
         return (
           <div className="w-[154px]">
-            <div
-              className={cn(
-                color,
-                "flex items-center gap-1.5 text-base font-medium"
-              )}
-            >
-              {icon}
-              <span className={color}>{sum === 0 ? "N/A" : sum}</span>
-            </div>
+            <Tooltip>
+              <TooltipTrigger>
+                <div
+                  className={cn(
+                    color,
+                    "flex items-center gap-1.5 text-base font-medium"
+                  )}
+                >
+                  {icon}
+                  <span className={color}>{sum === 0 ? "N/A" : sum}</span>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                {sum === 0 ? (
+                  "Not estimated"
+                ) : (
+                  <>
+                    <p>
+                      Total Estimation: #
+                      {row?.original?.rp?.approved_estimation +
+                        row?.original?.rp?.unapproved_estimation}
+                    </p>
+                    <p>
+                      Approved: #{row?.original?.rp?.approved_estimation} (
+                      {row?.original?.rp?.approved_rp} Units)
+                    </p>
+                    <p>
+                      Unapproved: #{row?.original?.rp?.unapproved_estimation} (
+                      {row?.original?.rp?.unapproved_rp} Units)
+                    </p>
+                  </>
+                )}
+              </TooltipContent>
+            </Tooltip>
           </div>
         );
       },
@@ -402,7 +428,7 @@ const useProjectListing = () => {
                 {percentageLeft}
               </p>
             )}
-            <p className="my-1 text-sm text-zinc-600">
+            <p className="my-2 text-sm text-zinc-600">
               <span>Sales RP:</span>
               <span className="font-medium">
                 {row?.original?.rp?.sales_rp ?? "N/A"}
@@ -480,36 +506,60 @@ const useProjectListing = () => {
       id: "project_lead",
       accessorKey: "project_lead",
       header: "Project Lead",
-      cell: ({ row }) => (
-        <div className="w-[155px]">
-          <Link
-            href={`/staff-details/${row?.original?.project_lead?.username}`}
-            className="text-sm font-medium text-zinc-700 hover:text-primary"
-          >
-            {row?.original?.project_lead?.fullname}
-          </Link>
-          <div className="flex flex-wrap mt-1 gap-x-2 gap-y-1">
-            {Array.from({
-              length:
-                row?.original?.project_lead?.in_progress_project_count || 0,
-            }).map((_, index) => (
-              <div
-                key={`progress-${index}`}
-                className="w-1.5 h-1.5 bg-green-500 rounded-full"
-              ></div>
-            ))}
-            {Array.from({
-              length:
-                row?.original?.project_lead?.in_support_project_count || 0,
-            }).map((_, index) => (
-              <div
-                key={`support-${index}`}
-                className="w-1.5 h-1.5 bg-orange-500 rounded-full"
-              ></div>
-            ))}
+      cell: ({ row }: any) => {
+        const totalProjects =
+          parseInt(
+            row?.original?.project_lead?.in_progress_project_count ?? 0
+          ) +
+          parseInt(row?.original?.project_lead?.in_support_project_count ?? 0);
+        return (
+          <div className="w-[155px]">
+            <Tooltip>
+              <TooltipTrigger className="text-start">
+                <Link
+                  href={`/staff-details/${row?.original?.project_lead?.username}`}
+                  className="text-sm font-medium text-zinc-700 hover:text-primary"
+                >
+                  {row?.original?.project_lead?.fullname}
+                </Link>
+                <div className="flex flex-wrap mt-1 gap-x-2 gap-y-1">
+                  {Array.from({
+                    length:
+                      row?.original?.project_lead?.in_progress_project_count ||
+                      0,
+                  }).map((_, index) => (
+                    <div
+                      key={`progress-${index}`}
+                      className="w-1.5 h-1.5 bg-green-500 rounded-full"
+                    ></div>
+                  ))}
+                  {Array.from({
+                    length:
+                      row?.original?.project_lead?.in_support_project_count ||
+                      0,
+                  }).map((_, index) => (
+                    <div
+                      key={`support-${index}`}
+                      className="w-1.5 h-1.5 bg-orange-500 rounded-full"
+                    ></div>
+                  ))}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Projects Involved: {totalProjects} </p>
+                <p>
+                  Active Projects:{" "}
+                  {row?.original?.project_lead?.in_progress_project_count}
+                </p>
+                <p>
+                  Supporting Projects:{" "}
+                  {row?.original?.project_lead?.in_support_project_count ?? 0}
+                </p>
+              </TooltipContent>
+            </Tooltip>
           </div>
-        </div>
-      ),
+        );
+      },
       enableHiding: true,
     },
     // Offshore membet
@@ -691,10 +741,11 @@ const useProjectListing = () => {
               </TooltipTrigger>
               <TooltipContent>Edit</TooltipContent>
             </Tooltip>
+
             <Tooltip>
               <TooltipTrigger>
                 <Link
-                  href={`/projects/${rowData?.code}/team-members`}
+                  href={`/projects/${rowData?.code}/rp-estimation`}
                   className="relative "
                 >
                   <Badge
@@ -702,7 +753,7 @@ const useProjectListing = () => {
                     variant={"dark"}
                     className="absolute -right-3 -top-3"
                   >
-                    2
+                    {rowData?.member_count ?? 0}
                   </Badge>
                   <Users
                     size={20}

@@ -47,7 +47,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     // >
     <QueryClientProvider client={queryClient}>
       <Toaster position="bottom-right" reverseOrder={false} />
-      <TooltipProvider>
+      <TooltipProvider delayDuration={100}>
         {getLayout(
           <>
             <NextNProgress

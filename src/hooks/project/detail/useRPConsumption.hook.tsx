@@ -195,7 +195,7 @@ const useRPConsumption = () => {
     if (projectDetail?.data?.dates?.last_log_date) {
       setDate({
         from: moment(new Date(projectDetail?.data?.dates?.last_log_date))
-          .subtract(15, "days")
+          .subtract(10, "days")
           .toDate(),
         to: new Date(projectDetail?.data?.dates?.last_log_date),
       });

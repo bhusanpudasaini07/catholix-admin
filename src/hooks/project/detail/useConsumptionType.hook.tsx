@@ -27,12 +27,15 @@ const useConsumptionType = () => {
       accessorKey: "name",
       header: "Team Members",
       cell: ({ row }) => (
-        <Link
-          className="hover:text-primary"
-          href={`/staff-details/${row?.original?.username}`}
-        >
-          {row.getValue("name")}
-        </Link>
+        <div>
+          <Link
+            className="hover:text-primary"
+            href={`/staff-details/${row?.original?.username}`}
+          >
+            {row.getValue("name")}
+          </Link>
+          <p className="mt-1 text-xs text-zinc-500">{row?.original?.role}</p>
+        </div>
       ),
       enableHiding: false,
     },
@@ -84,7 +87,12 @@ const useConsumptionType = () => {
       id: "role_name",
       accessorKey: "role_name",
       header: "Role",
-      cell: ({ row }) => <div>{row.getValue("role_name")}</div>,
+      cell: ({ row }) => (
+        <div>
+          <p>{row.getValue("role_name")}</p>
+          {/* <p className="mt-1 text-xs text-zinc-500">{row?.original?.role}</p> */}
+        </div>
+      ),
       enableHiding: false,
     },
     // Time Logged

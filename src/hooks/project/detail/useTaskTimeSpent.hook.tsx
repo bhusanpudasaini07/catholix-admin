@@ -63,7 +63,9 @@ const useTaskTimeSpent = () => {
       cell: ({ row }) => (
         <div className="w-[150px]">
           <p>{row?.original?.log_by?.fullname}</p>
-          <p>role</p>
+          <p className="text-xs text-zinc-500">
+            {row?.original?.log_by?.role_name}
+          </p>
         </div>
       ),
       enableHiding: false,

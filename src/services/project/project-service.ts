@@ -42,11 +42,25 @@ const getProjectDetail = (code: any) => {
   return httpRequest(`/get-single-project?project_id=${code}`, httpMethods.GET);
 };
 
-const getRpSummary = (code: any) => {
-  return httpRequest(
-    `/get-project-rp-summary?project_id=${code}`,
-    httpMethods.GET
-  );
+const getRpSummary = (
+  code: any,
+  date_type?: string,
+  date_from?: string,
+  date_to?: string,
+  month_from?: string,
+  month_to?: string
+) => {
+  if (date_type || date_from || date_to || month_from || month_to) {
+    return httpRequest(
+      `/get-project-rp-summary?project_id=${code}&date_type=${date_type}&date_from=${date_from}&date_to=${date_to}&month_from=${month_from}&month_to=${month_to}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(
+      `/get-project-rp-summary?project_id=${code}`,
+      httpMethods.GET
+    );
+  }
 };
 
 const getTimeLogs = (code: any, keyword: string, page: any, per_page: any) => {
@@ -74,6 +88,10 @@ const getProjectStories = (code: any) => {
   return httpRequest(`/get-user-stories?project_id=${code}`, httpMethods.GET);
 };
 
+const getProjectSales = (code: any) => {
+  return httpRequest(`/project-sales-rp?project_id=${code}`, httpMethods.GET);
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -81,4 +99,5 @@ export {
   getTimeLogs,
   getProjectRelases,
   getProjectStories,
+  getProjectSales,
 };

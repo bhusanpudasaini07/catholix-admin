@@ -9,8 +9,10 @@ import {
   Globe,
   Laptop,
   Link as Links,
+  Projector,
   Star,
   Tag,
+  Timer,
   TrendingDown,
   User,
   UserCircle2,
@@ -33,6 +35,8 @@ import {
   DialogContent,
   DialogHeader,
 } from "@/shared/components/ui/dialog";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
 
 const DetailOverview = () => {
   const {
@@ -42,6 +46,13 @@ const DetailOverview = () => {
     memberModalOpen,
     setMemberModalOpen,
     projectDetail,
+    salesModalOpen,
+    setSalesModalOpen,
+    salesColumn,
+    salesRp,
+    openLeadSheet,
+    setOpenLeadSheet,
+    staffDetails,
   } = useProjectDetail();
 
   const { daysValue } = showDeadline(projectDetail?.data?.dates?.deadline!);
@@ -72,7 +83,12 @@ const DetailOverview = () => {
                   <p className="text-lg font-medium text-zinc-700">
                     Total RP Used
                   </p>{" "}
-                  <Button size={"sm"} className="" variant={"white"}>
+                  <Button
+                    onClick={() => setSalesModalOpen(true)}
+                    size={"sm"}
+                    className=""
+                    variant={"white"}
+                  >
                     Sales RP
                   </Button>
                 </div>
@@ -133,7 +149,7 @@ const DetailOverview = () => {
                 View Estimation
               </Button>
             </div>
-            <div className="flex justify-between gap-5 mt-9">
+            <div className="flex justify-between gap-5 pr-20 mt-9">
               <div className="flex items-start justify-center gap-2">
                 <div className="mt-2 text-blue-500">
                   <Flag size={24} />
@@ -197,21 +213,21 @@ const DetailOverview = () => {
                       className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
-                              " border-blue-500 bg-blue-50 text-blue-500 "
+                              " border-blue-500 text-blue-500 "
                             }
                             ${
                               projectDetail?.data?.status ===
                                 "Client Support" &&
-                              " border-orange-500 bg-orange-50 text-orange-500"
+                              " border-orange-500  text-orange-500"
                             }
                             ${
                               projectDetail?.data?.status === "On Hold" &&
-                              " border-red-500 text-red-500 bg-red-50"
+                              " border-red-500 text-red-500 "
                             }
                           ${
                             ["Closed", "Delivered"].includes(
                               projectDetail?.data?.status!
-                            ) && " border-green-500 text-green-500 bg-green-50"
+                            ) && " border-green-500 text-green-500 "
                           }
                           ${
                             projectDetail?.data?.status === "Not Started" &&
@@ -288,12 +304,12 @@ const DetailOverview = () => {
                     Project Lead
                   </p>
                   <div className="text-sm grow text-start">
-                    <Link
-                      className="underline hover:text-blue-500"
-                      href={`/staff-details/${projectDetail?.data?.project_lead?.username}`}
+                    <p
+                      className="underline cursor-pointer"
+                      onClick={() => setOpenLeadSheet(true)}
                     >
                       {projectDetail?.data?.project_lead?.fullname}
-                    </Link>
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-6 gap-7">
@@ -337,11 +353,11 @@ const DetailOverview = () => {
           <DialogHeader className="text-lg font-bold text-color">
             Git URLs
           </DialogHeader>
-          <div className="min-w-0">
+          <div className="flex flex-col min-w-0">
             {projectDetail?.data?.git_urls?.map((url: string, index) => (
               <div
                 key={index}
-                className="flex items-start gap-4 mb-3 [&:last-child]:mb-0"
+                className="flex items-start gap-4 mb-5 [&:last-child]:mb-0"
               >
                 <p className="text-sm font-medium text-color min-w-[80px] text-end">
                   URL {index + 1} -
@@ -386,6 +402,71 @@ const DetailOverview = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={salesModalOpen} onOpenChange={setSalesModalOpen}>
+        <DialogContent className="p-6">
+          <DialogHeader className="text-lg font-bold text-color">
+            Sales RP
+          </DialogHeader>
+          <DataTable border={true} data={salesRp?.data} columns={salesColumn} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Project Lead sheet */}
+      <Sheet open={openLeadSheet} onOpenChange={setOpenLeadSheet}>
+        <SheetContent className="lg:max-w-[540px]">
+          <SheetHeader className="text-xl font-medium text-zinc-700">
+            Project lead Information
+          </SheetHeader>
+
+          <div className="flex flex-col gap-4 mt-14">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <User size={20} />
+                Project Lead Name
+              </div>
+              <p className="text-sm font-semibold text-gray-700 ">
+                {staffDetails?.data?.fullname}
+              </p>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <Timer size={20} />
+                Working Since
+              </div>
+              <p className="text-sm font-semibold text-gray-700 ">
+                {moment(staffDetails?.data?.join_date).format("Do MMM, YYYY")}
+              </p>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <Projector size={20} />
+                Projects Involved
+              </div>
+              <p className="text-sm font-semibold text-gray-700 ">
+                {staffDetails?.data?.pl_projects?.length}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-10">
+            <p className="pb-2 text-base font-semibold border-b border-b-gray-300 text-zinc-500">
+              Project Involved Details
+            </p>
+            <div className="flex flex-col gap-4 mt-6 max-h-[calc(100vh-360px)] pr-4 overflow-y-auto">
+              {staffDetails?.data?.pl_projects?.map((project) => (
+                <div
+                  className="flex items-center justify-between text-sm text-gray-700"
+                  key={project?.id}
+                >
+                  <p className="font-semibold max-w-[70%]">{project?.title}</p>
+                  <p>{project?.source}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

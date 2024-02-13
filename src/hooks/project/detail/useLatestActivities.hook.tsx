@@ -48,6 +48,7 @@ const useLatestActivities = () => {
           </div>
         );
         break;
+
       case "labels":
         changeText = "Label Update";
         icon = (
@@ -115,6 +116,23 @@ const useLatestActivities = () => {
   };
 
   const columns: ColumnDef<IActivitiesDetail>[] = [
+    // Date
+    {
+      id: "date",
+      accessorKey: "date",
+      header: "Date",
+      cell: ({ row }) => (
+        <div>
+          <p className="font-medium text-zinc-700">
+            {moment(row?.original?.date).format("YYYY-MM-DD")}
+          </p>
+          <p className="text-xs text-zinc-600">
+            {moment(row?.original?.date).format("hh:mm:ss")}
+          </p>
+        </div>
+      ),
+      enableHiding: false,
+    },
     // Activity
     {
       id: "activity",
@@ -123,11 +141,16 @@ const useLatestActivities = () => {
       cell: ({ row }) => {
         const { changeText, icon } = activityTye(row?.original?.change_type);
         return (
-          <div className="flex items-center gap-2">
-            {icon}
-            <span className="text-xs font-medium text-zinc-700">
-              {changeText}
-            </span>
+          <div>
+            <div className="flex items-center gap-2">
+              {icon}
+              <span className="text-xs font-medium text-zinc-700">
+                {changeText}
+              </span>
+            </div>
+            <p className="text-xs font-medium pl-7 text-zinc-700">
+              By: {row?.original?.by}
+            </p>
           </div>
         );
       },
@@ -147,23 +170,6 @@ const useLatestActivities = () => {
           >
             {row?.original?.issue?.title}
           </Link>
-        </div>
-      ),
-      enableHiding: false,
-    },
-    // Date
-    {
-      id: "date",
-      accessorKey: "date",
-      header: "Date",
-      cell: ({ row }) => (
-        <div>
-          <p className="font-medium text-zinc-700">
-            {moment(row?.original?.date).format("YYYY-MM-DD")}
-          </p>
-          <p className="text-xs text-zinc-600">
-            {moment(row?.original?.date).format("hh:mm:ss")}
-          </p>
         </div>
       ),
       enableHiding: false,

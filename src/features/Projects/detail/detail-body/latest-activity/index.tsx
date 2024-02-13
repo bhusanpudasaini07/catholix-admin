@@ -7,7 +7,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 const LatestActivity = () => {
-  const { columns, latestActivities } = useLatestActivities();
+  const { columns, latestActivities, isLoading } = useLatestActivities();
   return (
     <Card className="mt-6 grow">
       <CardContent>
@@ -24,6 +24,7 @@ const LatestActivity = () => {
         <div className="overflow-hidden rounded-md grow">
           <DataTable
             border={true}
+            loading={isLoading}
             columns={columns}
             data={latestActivities?.data?.slice(0, 10) || []}
           />

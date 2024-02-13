@@ -92,6 +92,10 @@ const getProjectSales = (code: any) => {
   return httpRequest(`/project-sales-rp?project_id=${code}`, httpMethods.GET);
 };
 
+const getProjectLatestActivities = (code: any) => {
+  return httpRequest(`/get-activity-logs?project_id=${code}`, httpMethods.GET);
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -100,4 +104,5 @@ export {
   getProjectRelases,
   getProjectStories,
   getProjectSales,
+  getProjectLatestActivities,
 };

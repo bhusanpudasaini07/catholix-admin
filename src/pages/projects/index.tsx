@@ -122,7 +122,7 @@ const Projects: NextPageWithLayout = () => {
             <DialogHeader className="text-lg font-bold text-color">
               Git URLs
             </DialogHeader>
-            <div className="min-w-0">
+            <div className="flex flex-col min-w-0 gap-2">
               {gitUrl?.map((url: string, index) => (
                 <div
                   key={index}

@@ -137,7 +137,7 @@ const DetailOverview = () => {
                   value={barValue}
                 />
                 <p className="text-sm font-normal text-zinc-500">
-                  Total Estimation: {totalDays} Days
+                  Total Estimation: {totalDays >= 0 ? totalDays : "N/A"} Days
                 </p>
               </div>
             </div>
@@ -247,11 +247,11 @@ const DetailOverview = () => {
                     </Badge>
                   </div>
                 </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
+                <div className="flex items-start justify-between mb-6 gap-7">
                   <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                     <CalendarRange className="me-2" size={16} /> Period
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {`${moment(projectDetail?.data?.dates.start_date).format(
                       "MMM Do, YYYY"
                     )} - ${moment(projectDetail?.data?.dates.deadline).format(
@@ -263,7 +263,7 @@ const DetailOverview = () => {
                   <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                     <Zap className="me-2" size={16} /> Type
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {projectDetail?.data?.type}
                   </div>
                 </div>
@@ -272,7 +272,7 @@ const DetailOverview = () => {
                     <Globe className="me-2" size={16} />
                     Market
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {projectDetail?.data?.market_title}
                   </div>
                 </div>
@@ -281,7 +281,7 @@ const DetailOverview = () => {
                     <Star className="me-2" size={16} />
                     Source
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {projectDetail?.data?.source}
                   </div>
                 </div>
@@ -289,7 +289,7 @@ const DetailOverview = () => {
                   <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                     <Laptop className="me-2" size={16} /> Tech Stack
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {projectDetail?.data?.tech_stack}
                   </div>
                 </div>
@@ -298,7 +298,7 @@ const DetailOverview = () => {
                     <BadgeAlert size={16} className="me-2" />
                     Sales RP
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     {projectDetail?.data?.rp?.sales_rp ?? 0}
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const DetailOverview = () => {
                     <UserCircle2 className="me-2" size={16} />
                     Project Lead
                   </p>
-                  <div className="text-sm grow text-start">
+                  <div className="text-sm font-medium grow text-start">
                     <p
                       className="underline cursor-pointer"
                       onClick={() => setOpenLeadSheet(true)}
@@ -344,7 +344,7 @@ const DetailOverview = () => {
                       size={"sm"}
                       onClick={() => setGitModalOpen(true)}
                       disabled={projectDetail?.data?.git_urls?.length === 0}
-                      className="text-green-500 border-green-500 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+                      className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
                     >
                       git
                     </Button>
@@ -361,7 +361,7 @@ const DetailOverview = () => {
           <DialogHeader className="text-lg font-bold text-color">
             Git URLs
           </DialogHeader>
-          <div className="flex flex-col min-w-0">
+          <div className="flex flex-col min-w-0 gap-2">
             {projectDetail?.data?.git_urls?.map((url: string, index) => (
               <div
                 key={index}

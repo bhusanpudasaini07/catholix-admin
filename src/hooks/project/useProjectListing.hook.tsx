@@ -10,6 +10,7 @@ import {
   BookOpen,
   Car,
   Copy,
+  CopyCheck,
   Edit,
   MoreVertical,
   Plus,
@@ -59,6 +60,9 @@ import { DateRange } from "react-day-picker";
 const useProjectListing = () => {
   const { filterConfig, filterSaved, setFilterSaved } = useCommonStore();
   // STATES
+  const [copyTooltipText, setCopyTooltipText] = useState<{
+    [key: string]: string;
+  }>({});
   /**
    * For git modal to open and to set its key
    */
@@ -174,11 +178,7 @@ const useProjectListing = () => {
   // ------------------------------------//
 
   // API CALL FOR PROJECT LIST
-  const {
-    data: projectList,
-    isLoading,
-    refetch,
-  } = useQuery({
+  const { data: projectList, isLoading } = useQuery({
     queryFn: () =>
       getProjectList(
         pageNumber,
@@ -233,9 +233,14 @@ const useProjectListing = () => {
   /**
    * @param code project code copy
    */
-  const copyProjectCode = (code: string) => {
+  const copyProjectCode = (code: string, projectId: string) => {
     navigator.clipboard.writeText(code);
-    showToast(TOAST_TYPES.success, "Text Copied");
+    // Update the tooltip text for the specific row
+    setCopyTooltipText((prev) => ({ ...prev, [projectId]: "Copied!" }));
+    // Set a timeout to revert the tooltip text back to "Copy" after 2 seconds for the specific row
+    setTimeout(() => {
+      setCopyTooltipText((prev) => ({ ...prev, [projectId]: "Copy" }));
+    }, 2000);
   };
 
   const resetFilters = () => {
@@ -324,19 +329,32 @@ const useProjectListing = () => {
         <div className="w-[240px] min-w-0">
           <div className="flex items-center min-w-0 gap-2 mb-1 text-xs text-zinc-600">
             <span>Code:</span>{" "}
-            <div className="flex items-center gap-1 max-w-[80%]">
+            <div className="flex items-center gap-1 max-w-[70%]">
               <p className="font-medium truncate">{row.original?.code}</p>
-              <Tooltip>
-                <TooltipTrigger
-                  onClick={() => copyProjectCode(row.original?.code)}
-                >
-                  <Copy
-                    size={12}
-                    className="stroke-zinc-500 hover:stroke-primary"
-                  />
-                </TooltipTrigger>
-                <TooltipContent>Copy</TooltipContent>
-              </Tooltip>
+
+              {copyTooltipText[row.original.project_id] === "Copied!" ? (
+                <div className="flex items-center gap-1 text-zinc-500">
+                  <CopyCheck size={12} />
+                  <span className="text-[10px]">Copied</span>
+                </div>
+              ) : (
+                <Tooltip>
+                  <TooltipTrigger
+                    onClick={() =>
+                      copyProjectCode(
+                        row.original?.code,
+                        String(row.original.project_id)
+                      )
+                    }
+                  >
+                    <Copy
+                      size={12}
+                      className="stroke-zinc-500 hover:stroke-primary"
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>Copy</TooltipContent>
+                </Tooltip>
+              )}
             </div>
           </div>
           <p className="mb-1 text-xs text-zinc-600">

@@ -1,81 +1,63 @@
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
 import React from "react";
 
+import useLatestActivities from "@/hooks/project/detail/useLatestActivities.hook";
+
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { useRouter } from "next/router";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+
 const LatestActivity = () => {
-  const columns = [
-    {
-      id: "sn",
-      accessorKey: "S_N",
-      header: "S. No.",
-      cell: ({ row }: any) => <div>{row?.original?.S_N}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "team_members",
-      accessorKey: "team_members",
-      header: "Team Members",
-      cell: ({ row }: any) => <div>{row?.original?.team_members}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "time_logged",
-      accessorKey: "time_logged",
-      header: "Time Logged",
-      cell: ({ row }: any) => <div>{row?.original?.time_logged}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "rp_consumed",
-      accessorKey: "rp_consumed",
-      header: "Rp Consumed",
-      cell: ({ row }: any) => <div>{row?.original?.rp_consumed}</div>,
-      enableHiding: false,
-    },
-    {
-      id: "percentage",
-      accessorKey: "percentage",
-      header: "%",
-      cell: ({ row }: any) => <div>{row?.original?.percentage}</div>,
-      enableHiding: false,
-    },
-  ];
-
-  const data = [
-    {
-      S_N: 1,
-      team_members: "John Doe",
-      time_logged: "5h 30m",
-      rp_consumed: 100,
-      percentage: 20,
-    },
-    {
-      S_N: 2,
-      team_members: "Jane Smith",
-      time_logged: "3h 45m",
-      rp_consumed: 75,
-      percentage: 15,
-    },
-    // Add more data objects as needed
-  ];
+  const router = useRouter();
+  const {
+    columns,
+    latestActivities,
+    isLoading,
+    dateRange,
+    setDateRange,
+    dateRangeOpen,
+    setDateRangeOpen,
+  } = useLatestActivities();
   return (
-    <div className="card mt-6 grow">
-      <div className="flex justify-between items-center mb-3">
-        <div className="flex justify-start items-center gap-3">
-          <p>Task & Time Spent</p>
-          <Button variant={"white"}>View All</Button>
+    <Card className="h-auto mt-6">
+      <CardContent>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-start gap-3">
+            <p className="text-lg font-medium text-zinc-700">
+              Latest Activities
+            </p>
+            <Button
+              variant={"white"}
+              onClick={() =>
+                router.push(
+                  `/projects/${router?.query?.code}/latest-activities`
+                )
+              }
+              size={"sm"}
+            >
+              View All
+            </Button>
+          </div>
+          <div className="w-[30%]">
+            <DateRangeFilter
+              dateRangeOpen={dateRangeOpen}
+              setDateRangeOpen={setDateRangeOpen}
+              setDateRange={setDateRange}
+              dateRange={dateRange}
+            />
+          </div>
         </div>
-      </div>
-      <div className="grow border-[1px] border-solid border-zinc-300 rounded-md overflow-hidden">
-        <DataTable
-          // columnVisibility={columnVisibility}
-          // setColumnVisibility={setColumnVisibility}
-
-          columns={columns}
-          data={data}
-        />
-      </div>
-    </div>
+        <div className="overflow-hidden rounded-md grow">
+          <DataTable
+            border={true}
+            loading={isLoading}
+            columns={columns}
+            data={latestActivities?.data || []}
+          />
+        </div>
+      </CardContent>
+    </Card>
   );
 };
 

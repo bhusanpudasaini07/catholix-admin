@@ -15,7 +15,7 @@ const buttonVariants = cva(
         outline:
           "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
         outline_secondary:
-          "border border-zinc-500 text-zinc-500 bg-white hover:bg-gray-250 ",
+          "border border-zinc-500 text-zinc-500 bg-white  hover:border-primary hover:text-primary",
         white:
           "text-zinc-700 border-zinc-100 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
         secondary:
@@ -28,6 +28,7 @@ const buttonVariants = cva(
           "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
         table:
           "border border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary",
+        date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

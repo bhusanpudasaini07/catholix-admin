@@ -194,3 +194,20 @@ export interface ISalesRPDetail {
   remarks: string;
   rp: number;
 }
+
+export interface IProjectActivities {
+  data: IActivitiesDetail[];
+  pagination: IPagination;
+}
+export interface IActivitiesDetail {
+  issue: {
+    title: string;
+    url: string;
+    author: string;
+  };
+  by: string;
+  change_type: string;
+  previous_value: string | null;
+  new_value: string | null;
+  date: string;
+}

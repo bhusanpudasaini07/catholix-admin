@@ -26,7 +26,8 @@ const DateRangeFilter = ({
       <PopoverTrigger asChild>
         <Button
           id="date"
-          variant={"table"}
+          variant={"date_picker"}
+          size={"md"}
           className={cn(
             "w-full pl-3 text-left font-normal",
             !dateRange && "text-muted-foreground"
@@ -42,7 +43,7 @@ const DateRangeFilter = ({
               format(dateRange.from, "LLL dd, y")
             )
           ) : (
-            <span>Pick a date</span>
+            <span>Select Range</span>
           )}
           {dateRange?.from ? (
             <X

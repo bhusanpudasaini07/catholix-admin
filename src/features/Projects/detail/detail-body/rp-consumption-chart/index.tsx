@@ -17,15 +17,13 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const RpConsumption = () => {
   const {
     dateType,
-    date,
     isLoading,
     setDateType,
-    setDate,
-    rpConsumption,
     lineOption,
     barStackOption,
     tab,
@@ -36,77 +34,81 @@ const RpConsumption = () => {
   } = useRPConsumption();
 
   return (
-    <div className="mt-7 card !p-6">
-      <Tabs defaultValue={tab} onValueChange={(e) => setTab(e)}>
-        <div className="flex items-center justify-between w-full mb-10">
-          <div className="flex items-center justify-start gap-3">
-            <p className="text-lg font-medium text-zinc-700">RP Consumption</p>
-            <Button variant={"white"} size={"sm"}>
-              View Full Graph
-            </Button>
-          </div>
-          <div className="flex items-center gap-3">
-            <Select
-              defaultValue={dateType}
-              onValueChange={(e) => setDateType(e)}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="daily">Daily</SelectItem>
-                <SelectItem value="monthly">Monthly</SelectItem>
-              </SelectContent>
-            </Select>
+    <Card className="mt-7">
+      <CardContent>
+        <Tabs defaultValue={tab} onValueChange={(e) => setTab(e)}>
+          <div className="flex items-center justify-between w-full mb-10">
+            <div className="flex items-center justify-start gap-3">
+              <p className="text-lg font-medium text-zinc-700">
+                RP Consumption
+              </p>
+              <Button variant={"white"} size={"sm"}>
+                View Burndown Chart
+              </Button>
+            </div>
+            <div className="flex items-center gap-3">
+              <Select
+                defaultValue={dateType}
+                onValueChange={(e) => setDateType(e)}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="monthly">Monthly</SelectItem>
+                </SelectContent>
+              </Select>
 
-            {/* To change the bar type */}
-            <Select
-              defaultValue={barType}
-              onValueChange={(e) => setBarType(e)}
-              disabled={tab === "line"}
-            >
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="sum">Summed Up</SelectItem>
-                <SelectItem value="individual">Individual</SelectItem>
-              </SelectContent>
-            </Select>
-            <TabsList className="grid w-auto grid-cols-2">
-              <TabsTrigger value="line">Line Chart</TabsTrigger>
-              <TabsTrigger value="bar">Bar Chart</TabsTrigger>
-            </TabsList>
+              {/* To change the bar type */}
+              <Select
+                defaultValue={barType}
+                onValueChange={(e) => setBarType(e)}
+                disabled={tab === "line"}
+              >
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="sum">Summed Up</SelectItem>
+                  <SelectItem value="individual">Individual</SelectItem>
+                </SelectContent>
+              </Select>
+              <TabsList className="grid w-auto grid-cols-2">
+                <TabsTrigger value="line">Line Chart</TabsTrigger>
+                <TabsTrigger value="bar">Bar Chart</TabsTrigger>
+              </TabsList>
+            </div>
           </div>
-        </div>
-        {!isLoading ? (
-          <>
-            {/* Line graph */}
-            <TabsContent value="line">
-              <ReactECharts
-                style={{ minHeight: "500px" }}
-                option={lineOption}
-              />
-            </TabsContent>
+          {!isLoading ? (
+            <>
+              {/* Line graph */}
+              <TabsContent value="line">
+                <ReactECharts
+                  style={{ minHeight: "500px" }}
+                  option={lineOption}
+                />
+              </TabsContent>
 
-            {/* Bar Chart */}
-            <TabsContent value="bar">
-              <ReactECharts
-                option={
-                  barType === "sum" ? barStackOption : barLabelRotationOption
-                }
-                style={{ minHeight: "500px" }}
-              />
-            </TabsContent>
-          </>
-        ) : (
-          // Bar graph
-          <div className="w-full">
-            <GraphSkeleton />
-          </div>
-        )}
-      </Tabs>
-    </div>
+              {/* Bar Chart */}
+              <TabsContent value="bar">
+                <ReactECharts
+                  option={
+                    barType === "sum" ? barStackOption : barLabelRotationOption
+                  }
+                  style={{ minHeight: "500px" }}
+                />
+              </TabsContent>
+            </>
+          ) : (
+            // Bar graph
+            <div className="w-full">
+              <GraphSkeleton />
+            </div>
+          )}
+        </Tabs>
+      </CardContent>
+    </Card>
   );
 };
 

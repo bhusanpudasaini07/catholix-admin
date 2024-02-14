@@ -83,6 +83,7 @@ const useRPConsumption = () => {
     },
     legend: {
       data: uniqueRoleNames,
+      itemGap: 15,
     },
     grid: {
       left: "3%",

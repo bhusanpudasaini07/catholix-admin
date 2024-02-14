@@ -2,6 +2,7 @@ import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
 import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const TeamConsumption = () => {
   const columns = [
@@ -61,43 +62,35 @@ const TeamConsumption = () => {
   ];
 
   return (
-    <div className="grid grid-col-2 grid-flow-row mt-4 gap-6">
-      <div className="row-start-1 row-end-4 card">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex justify-start items-center gap-3">
-            <p>Team Wise Consumption</p>
-            <Button variant={"white"}>More Details</Button>
+    <div className="grid grid-flow-row gap-6 mt-6 grid-col-2">
+      <Card className="row-start-1 row-end-4">
+        <CardContent>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-start gap-3">
+              <p>Team Wise Consumption</p>
+              <Button variant={"white"}>More Details</Button>
+            </div>
           </div>
-        </div>
-
-        <div className="grow border-[1px] border-solid border-zinc-300 rounded-md overflow-hidden">
-          <DataTable
-            // columnVisibility={columnVisibility}
-            // setColumnVisibility={setColumnVisibility}
-
-            columns={columns}
-            data={data}
-          />
-        </div>
-      </div>
-      <div className="row-start-1 row-end-4 card">
-        <div className="flex justify-between items-center mb-3">
-          <div className="flex justify-start items-center gap-3">
-            <p>Department Wise Consumption</p>
-            <Button variant={"white"}>More Details</Button>
+          <div className="overflow-hidden rounded-md grow">
+            <DataTable border={true} columns={columns} data={data} />
           </div>
-        </div>
+        </CardContent>
+      </Card>
 
-        <div className="grow border-[1px] border-solid border-zinc-300 rounded-md overflow-hidden">
-          <DataTable
-            // columnVisibility={columnVisibility}
-            // setColumnVisibility={setColumnVisibility}
+      <Card className="row-start-1 row-end-4">
+        <CardContent>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-start gap-3">
+              <p>Department Wise Consumption</p>
+              <Button variant={"white"}>More Details</Button>
+            </div>
+          </div>
 
-            columns={columns}
-            data={data}
-          />
-        </div>
-      </div>
+          <div className="overflow-hidden rounded-md grow">
+            <DataTable border={true} columns={columns} data={data} />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -307,7 +307,7 @@ const useProjectListing = () => {
             size={"sm"}
             onClick={() => showGitUrl(row?.original)}
             disabled={row?.original?.git_urls?.length === 0}
-            className="text-green-500 border-green-500 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+            className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
           >
             git
           </Button>
@@ -428,13 +428,13 @@ const useProjectListing = () => {
                 {percentageLeft}
               </p>
             )}
-            <p className="my-2 text-sm text-zinc-600">
+            <p className="flex items-center gap-2 my-1 text-sm text-zinc-600">
               <span>Sales RP:</span>
               <span className="font-medium">
                 {row?.original?.rp?.sales_rp ?? "N/A"}
               </span>
             </p>
-            <p className="text-sm text-zinc-600">
+            <p className="flex items-center gap-2 text-sm text-zinc-600">
               <span>Used RP:</span>
               <span className="font-medium">
                 {row?.original?.rp?.used_rp ?? "-"}

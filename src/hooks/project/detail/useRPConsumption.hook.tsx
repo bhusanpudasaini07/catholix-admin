@@ -20,6 +20,7 @@ const useRPConsumption = () => {
 
   const [dateType, setDateType] = useState("daily");
 
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
   //   for dateType = daily
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,
@@ -65,7 +66,6 @@ const useRPConsumption = () => {
       series: Object.entries(seriesData).map(([roleName, dataPoints]) => ({
         name: roleName,
         type: "line",
-        stack: "Total",
         data: dataPoints,
         smooth: true,
       })),
@@ -111,6 +111,7 @@ const useRPConsumption = () => {
     },
     yAxis: {
       type: "value",
+      // data:
     },
     series: series,
   };
@@ -219,6 +220,8 @@ const useRPConsumption = () => {
     setBarType,
     dateType,
     setDateType,
+    dateRangeOpen,
+    setDateRangeOpen,
     date,
     setDate,
     rpConsumption,

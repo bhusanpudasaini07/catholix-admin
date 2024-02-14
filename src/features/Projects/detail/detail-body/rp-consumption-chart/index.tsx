@@ -18,10 +18,15 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import DateRangeFilter from "@/shared/components/date-range-filter";
 
 const RpConsumption = () => {
   const {
     dateType,
+    date,
+    setDate,
+    dateRangeOpen,
+    setDateRangeOpen,
     isLoading,
     setDateType,
     lineOption,
@@ -47,6 +52,14 @@ const RpConsumption = () => {
               </Button>
             </div>
             <div className="flex items-center gap-3">
+              {/* <div className="w-[30%]">
+                <DateRangeFilter
+                  dateRangeOpen={dateRangeOpen}
+                  setDateRangeOpen={setDateRangeOpen}
+                  dateRange={date}
+                  setDateRange={setDate}
+                />
+              </div> */}
               <Select
                 defaultValue={dateType}
                 onValueChange={(e) => setDateType(e)}

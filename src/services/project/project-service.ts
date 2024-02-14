@@ -92,8 +92,24 @@ const getProjectSales = (code: any) => {
   return httpRequest(`/project-sales-rp?project_id=${code}`, httpMethods.GET);
 };
 
-const getProjectLatestActivities = (code: any) => {
-  return httpRequest(`/get-activity-logs?project_id=${code}`, httpMethods.GET);
+const getProjectLatestActivities = (
+  code: any,
+  page: any,
+  per_page: any,
+  type?: string,
+  date?: any
+) => {
+  if ((type && type !== "all") || date) {
+    return httpRequest(
+      `/get-activity-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&type=${type}&date=${date}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(
+      `/get-activity-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}`,
+      httpMethods.GET
+    );
+  }
 };
 
 export {

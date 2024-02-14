@@ -16,9 +16,13 @@ const DetailBody = () => {
       <ConsumptionType />
       <TeamConsumption />
       <TaskTimeSpent />
-      <div className="flex gap-4 mt-4">
-        <ProjectRelease />
-        <LatestActivity />
+      <div className="grid grid-cols-12 gap-4 mt-4">
+        <div className="col-span-5">
+          <ProjectRelease />
+        </div>
+        <div className="col-span-7">
+          <LatestActivity />
+        </div>
       </div>
     </div>
   );

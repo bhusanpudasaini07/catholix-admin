@@ -419,7 +419,7 @@ const useProjectListing = () => {
       cell: ({ row }) => {
         const { percentageLeft, color } = calculateRpLeft(
           row?.original?.rp?.used_rp ?? 0,
-          row?.original?.rp?.approved_rp
+          row?.original?.rp?.sales_rp ?? 0
         );
         return (
           <div className="w-[180px]">

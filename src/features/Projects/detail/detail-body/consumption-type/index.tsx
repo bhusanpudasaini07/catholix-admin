@@ -24,7 +24,9 @@ const ConsumptionType = () => {
                 <p className="text-lg font-medium text-zinc-700">
                   Team Wise Consumption
                 </p>
-                <Button variant={"white"}>More Details</Button>
+                <Button variant={"white"} size={"sm"}>
+                  More Details
+                </Button>
               </div>
             </div>
             <div className="">
@@ -51,7 +53,9 @@ const ConsumptionType = () => {
                 <p className="text-lg font-medium text-zinc-700">
                   Role Wise Consumption
                 </p>
-                <Button variant={"white"}>More Details</Button>
+                <Button variant={"white"} size={"sm"}>
+                  More Details
+                </Button>
               </div>
             </div>
             <div className="">

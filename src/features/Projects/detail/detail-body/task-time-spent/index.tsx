@@ -17,7 +17,9 @@ const TaskTimeSpent = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center justify-start gap-3">
             <p>Task & Time Spent</p>
-            <Button variant={"white"}>View All</Button>
+            <Button variant={"white"} size={"sm"}>
+              View All
+            </Button>
           </div>
 
           <div className="flex items-center gap-2">

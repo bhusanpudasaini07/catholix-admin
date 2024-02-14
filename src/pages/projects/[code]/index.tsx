@@ -14,3 +14,17 @@ export default ProjectDetail;
 ProjectDetail.getLayout = (page) => {
   return <MainLayout title="Projects">{page}</MainLayout>;
 };
+
+// export const getStaticPaths = async ({ locales }: any) => {
+//   const paths = locales.map((locale: any) => ({
+//     params: {
+//       id: 1, // Static id value
+//     },
+//     locale,
+//   }));
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };

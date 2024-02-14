@@ -3,21 +3,30 @@ import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { useRouter } from "next/router";
 
 const ProjectStories = () => {
+  const router = useRouter();
   const { columns, projectStories, isLoading } = useProjectStories();
   const { projectDetail } = useProjectDetail();
   return (
     <Card className="mt-6">
       <CardContent>
-        <div className="flex items-center justify-between mb-9">
+        <div className="flex items-center justify-between mb-10">
           <div className="flex items-center justify-start gap-3">
             <p className="text-lg font-medium text-zinc-700">Stories</p>
-            <Button variant={"white"}>More Details</Button>
+            <Button
+              variant={"white"}
+              size={"sm"}
+              onClick={() =>
+                router.push(`/projects/${router?.query?.code}/project-stories`)
+              }
+            >
+              More Details
+            </Button>
           </div>
-          {/* <div className="">tabs</div> */}
         </div>
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid items-end grid-cols-12 gap-4">
           <div className="col-span-7 overflow-hidden rounded-md grow">
             <DataTable
               border={true}
@@ -29,9 +38,8 @@ const ProjectStories = () => {
           <div className="col-span-5">
             <div className="flex flex-wrap justify-between gap-3 grow">
               <div
-                className={`rounded-md py-8 w-[48%] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
-            border-[1px] border-orange-100
-            `}
+                className="rounded-md py-8 w-[48%] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
+            border-[1px] border-orange-100"
               >
                 <p className="text-4xl font-semibold">
                   {projectDetail?.data?.task?.bug_count ?? 0}

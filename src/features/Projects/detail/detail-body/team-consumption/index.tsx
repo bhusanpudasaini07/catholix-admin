@@ -68,7 +68,9 @@ const TeamConsumption = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center justify-start gap-3">
               <p>Team Wise Consumption</p>
-              <Button variant={"white"}>More Details</Button>
+              <Button variant={"white"} size={"sm"}>
+                More Details
+              </Button>
             </div>
           </div>
           <div className="overflow-hidden rounded-md grow">
@@ -82,7 +84,9 @@ const TeamConsumption = () => {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center justify-start gap-3">
               <p>Department Wise Consumption</p>
-              <Button variant={"white"}>More Details</Button>
+              <Button variant={"white"} size={"sm"}>
+                More Details
+              </Button>
             </div>
           </div>
 

@@ -9,6 +9,7 @@ const ProjectDetail: NextPageWithLayout = () => {
 };
 
 export default ProjectDetail;
+
 // export const getStaticProps = getI18nProps;
 
 ProjectDetail.getLayout = (page) => {

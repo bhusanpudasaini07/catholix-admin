@@ -6,11 +6,11 @@ import {
 } from "@/interface/project-interface";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import useProjectDetail from "./useProjectDetail.hook";
 import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import useProjectRpSummary from "./useProjectRpSummary.hook";
 
 const useConsumptionType = () => {
-  const { rpSummary } = useProjectDetail();
+  const { rpSummary } = useProjectRpSummary();
 
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;

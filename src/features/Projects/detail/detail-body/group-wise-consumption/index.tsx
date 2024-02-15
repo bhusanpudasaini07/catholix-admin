@@ -3,7 +3,6 @@ import React from "react";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
 
 const TeamConsumption = () => {

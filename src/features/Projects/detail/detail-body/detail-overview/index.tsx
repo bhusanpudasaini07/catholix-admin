@@ -292,10 +292,10 @@ const DetailOverview = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                  <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
                     <Laptop className="me-2" size={16} /> Tech Stack
                   </p>
-                  <div className="text-sm font-medium grow text-start">
+                  <div className="text-sm font-medium break-all grow text-start">
                     {projectDetail?.data?.tech_stack}
                   </div>
                 </div>

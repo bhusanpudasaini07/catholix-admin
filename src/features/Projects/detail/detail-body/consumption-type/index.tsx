@@ -7,9 +7,10 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
 
 const ConsumptionType = () => {
-  const { rpSummary, rpLoading } = useProjectDetail();
+  const { rpSummary, rpLoading } = useProjectRpSummary();
 
   const { staffColumns, roleColumns, option } = useConsumptionType();
 

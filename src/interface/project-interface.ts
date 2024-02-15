@@ -61,6 +61,11 @@ export interface IProjectDetail {
     closed_task_count: string;
     all_task_count: string;
     bug_count: string;
+    bug_ratio_percentage: string;
+  };
+  time: {
+    used_time: string;
+    estimated_time: string;
   };
   assigned_roles_members: any[];
   member_utilization: any[];
@@ -109,11 +114,24 @@ export interface IStaffWise {
   role: string;
   role_id: string;
 }
+export interface IRoleGroupWise {
+  percentage: number;
+  rp: number;
+  time: number;
+  title: string;
+}
+export interface IDepartmentGroupWise {
+  percentage: number;
+  rp: string;
+  title: string;
+}
 
 export interface IConsumptionData {
   data: {
     rolewise: IRoleWise[];
     staffwise: IStaffWise[];
+    departmentgroupwise: IDepartmentGroupWise[];
+    rolegroupwise: IRoleGroupWise[];
   };
 }
 

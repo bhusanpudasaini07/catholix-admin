@@ -49,7 +49,7 @@ const useProjectStories = () => {
           <Link
             href={row?.original?.repo_issue_url}
             target="_blank"
-            className="block truncate text-primary hover:text-blue-800"
+            className="block font-medium truncate text-primary hover:text-blue-800"
           >
             {row.getValue("title")}
           </Link>
@@ -87,7 +87,11 @@ const useProjectStories = () => {
       accessorKey: "task_count",
       header: "Task",
       cell: ({ row }) => (
-        <div className={cn(row?.getValue("task_count") ? "text-blue-500" : "")}>
+        <div
+          className={cn(
+            row?.getValue("task_count") ? "text-blue-500 font-medium" : ""
+          )}
+        >
           {row?.getValue("task_count")} Task/s
         </div>
       ),
@@ -100,7 +104,9 @@ const useProjectStories = () => {
       header: "Bugs",
       cell: ({ row }) => (
         <div
-          className={cn(row?.getValue("bug_count") ? "text-orange-500" : "")}
+          className={cn(
+            row?.getValue("bug_count") ? "text-orange-500 font-medium" : ""
+          )}
         >
           {row.getValue("bug_count")} Bug/s
         </div>
@@ -129,7 +135,7 @@ const useProjectStories = () => {
           <Link
             href={row?.original?.repo_issue_url}
             target="_blank"
-            className="block truncate text-primary hover:text-blue-800"
+            className="block font-medium truncate text-primary hover:text-blue-800"
           >
             {row.getValue("title")}
           </Link>
@@ -167,7 +173,11 @@ const useProjectStories = () => {
       accessorKey: "task_count",
       header: "Task",
       cell: ({ row }) => (
-        <div className={cn(row?.getValue("task_count") ? "text-blue-500" : "")}>
+        <div
+          className={cn(
+            row?.getValue("task_count") ? "text-blue-500 font-medium" : ""
+          )}
+        >
           {row?.getValue("task_count")} Task/s
         </div>
       ),
@@ -180,7 +190,9 @@ const useProjectStories = () => {
       header: "Bugs",
       cell: ({ row }) => (
         <div
-          className={cn(row?.getValue("bug_count") ? "text-orange-500" : "")}
+          className={cn(
+            row?.getValue("bug_count") ? "text-orange-500 font-medium" : ""
+          )}
         >
           {row.getValue("bug_count")} Bug/s
         </div>

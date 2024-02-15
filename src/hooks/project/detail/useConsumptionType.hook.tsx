@@ -1,4 +1,9 @@
-import { IRoleWise, IStaffWise } from "@/interface/project-interface";
+import {
+  IDepartmentGroupWise,
+  IRoleGroupWise,
+  IRoleWise,
+  IStaffWise,
+} from "@/interface/project-interface";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import useProjectDetail from "./useProjectDetail.hook";
@@ -29,7 +34,7 @@ const useConsumptionType = () => {
       cell: ({ row }) => (
         <div>
           <Link
-            className="hover:text-primary"
+            className="font-semibold text-primary hover:text-blue-700"
             href={`/staff-details/${row?.original?.username}`}
           >
             {row.getValue("name")}
@@ -89,7 +94,7 @@ const useConsumptionType = () => {
       header: "Role",
       cell: ({ row }) => (
         <div>
-          <p>{row.getValue("role_name")}</p>
+          <p className="font-semibold">{row.getValue("role_name")}</p>
           {/* <p className="mt-1 text-xs text-zinc-500">{row?.original?.role}</p> */}
         </div>
       ),
@@ -126,6 +131,105 @@ const useConsumptionType = () => {
           }, 0) || 0;
         const percentage = (row?.original?.rp / totalRP) * 100;
         return <div>{percentage.toFixed(2)}%</div>;
+      },
+      enableHiding: false,
+    },
+  ];
+
+  // Role Group Wise Column
+  const roleGroupColumn: ColumnDef<IRoleGroupWise>[] = [
+    // SN
+    {
+      id: "sn",
+      accessorKey: "S_N",
+      header: "S. No.",
+      cell: (props) => <SerialNumberCell {...props} />,
+      enableHiding: false,
+    },
+    // Role Group
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Role Group",
+      cell: ({ row }) => (
+        <div>
+          <p className="text-sm font-semibold text-zinc-700">
+            {row.getValue("title")}
+          </p>
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // Time Logged
+    {
+      id: "time",
+      accessorKey: "time",
+      header: "Time Logged",
+      cell: ({ row }: any) => {
+        const { hours, minutes } = calculateTimeLog(row.getValue("time"));
+        return <div>{`${hours}H ${minutes}M`}</div>;
+      },
+      enableHiding: false,
+    },
+    // RP Consumed
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "RP Consumed",
+      cell: ({ row }: any) => <div>{row.getValue("rp").toFixed(2)}</div>,
+      enableHiding: false,
+    },
+    // Percentage
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "%",
+      cell: ({ row }) => {
+        return <div>{row.getValue("percentage")}%</div>;
+      },
+      enableHiding: false,
+    },
+  ];
+
+  // Department Group Wise Column
+  const departmentGroupColumn: ColumnDef<IDepartmentGroupWise>[] = [
+    // SN
+    {
+      id: "sn",
+      accessorKey: "S_N",
+      header: "S. No.",
+      cell: (props) => <SerialNumberCell {...props} />,
+      enableHiding: false,
+    },
+    // Role Group
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Role Group",
+      cell: ({ row }) => (
+        <div>
+          <p className="text-sm font-semibold text-zinc-700">
+            {row.getValue("title")}
+          </p>
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // RP Consumed
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "RP Consumed",
+      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      enableHiding: false,
+    },
+    // Percentage
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "%",
+      cell: ({ row }) => {
+        return <div>{row.getValue("percentage")}%</div>;
       },
       enableHiding: false,
     },
@@ -196,7 +300,13 @@ const useConsumptionType = () => {
     ],
   };
 
-  return { staffColumns, roleColumns, option };
+  return {
+    staffColumns,
+    roleColumns,
+    option,
+    roleGroupColumn,
+    departmentGroupColumn,
+  };
 };
 
 export default useConsumptionType;

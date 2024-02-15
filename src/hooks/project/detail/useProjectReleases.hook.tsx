@@ -31,7 +31,7 @@ const useProjectReleases = () => {
         <Link
           href={row?.original?.url}
           target="_blank"
-          className="underline text-primary hover:text-blue-700"
+          className="font-medium underline text-primary hover:text-blue-700"
         >
           {row.getValue("title")}
         </Link>

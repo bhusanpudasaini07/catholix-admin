@@ -68,7 +68,7 @@ const useTaskTimeSpent = () => {
       header: "Member",
       cell: ({ row }) => (
         <div className="w-[150px]">
-          <p>{row?.original?.log_by?.fullname}</p>
+          <p className="font-semibold">{row?.original?.log_by?.fullname}</p>
           <p className="text-xs text-zinc-500">
             {row?.original?.log_by?.role_name}
           </p>
@@ -84,7 +84,7 @@ const useTaskTimeSpent = () => {
       cell: ({ row }) => (
         <div>
           <Link
-            className="text-base text-primary hover:text-blue-700"
+            className="text-base font-medium text-primary hover:text-blue-700"
             href={row?.original?.task_url}
             target="_blank"
           >

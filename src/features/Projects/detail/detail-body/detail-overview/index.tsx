@@ -38,6 +38,7 @@ import {
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
 import { useRouter } from "next/router";
+import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -51,11 +52,12 @@ const DetailOverview = () => {
     salesModalOpen,
     setSalesModalOpen,
     salesColumn,
-    salesRp,
     openLeadSheet,
     setOpenLeadSheet,
     staffDetails,
   } = useProjectDetail();
+
+  const { salesRp, salesLoading } = useProjectSales();
 
   const { daysValue } = showDeadline(projectDetail?.data?.dates?.deadline!);
 
@@ -116,7 +118,11 @@ const DetailOverview = () => {
                 Project Duration
               </h5>
               <div className="w-full mt-auto">
-                <h4 className="mb-1 text-4xl font-medium text-zinc-800">
+                <h4
+                  className={`mb-1 font-medium text-zinc-800 ${
+                    daysValue && daysValue < 0 ? "text-xl" : "text-4xl"
+                  }`}
+                >
                   {daysValue
                     ? daysValue < 0
                       ? "Deadline Exceeded"
@@ -356,6 +362,7 @@ const DetailOverview = () => {
         </div>
       )}
 
+      {/* Git Modal */}
       <Dialog open={gitModalOpen} onOpenChange={setGitModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
@@ -383,6 +390,7 @@ const DetailOverview = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Member Modal */}
       <Dialog open={memberModalOpen} onOpenChange={setMemberModalOpen}>
         <DialogContent className="p-6 max-w-[550px]">
           <DialogHeader className="text-lg font-bold text-color">
@@ -411,12 +419,18 @@ const DetailOverview = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Sales Modal */}
       <Dialog open={salesModalOpen} onOpenChange={setSalesModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
             Sales RP
           </DialogHeader>
-          <DataTable border={true} data={salesRp?.data} columns={salesColumn} />
+          <DataTable
+            border={true}
+            data={salesRp?.data}
+            loading={salesLoading}
+            columns={salesColumn}
+          />
         </DialogContent>
       </Dialog>
 

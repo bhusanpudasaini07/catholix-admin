@@ -76,7 +76,20 @@ const useProjectListing = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(12);
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    sn: true,
+    project_title: true,
+    project_detail: true,
+    planned_rp: true,
+    rp: true,
+    deadline: true,
+    project_lead: true,
+    offshore_members: true,
+    last_time_log: true,
+    status: true,
+    task_status: true,
+    actions: true,
+  });
 
   const debouncedSearchValue = useDebounce(searchText, 300);
 
@@ -271,6 +284,7 @@ const useProjectListing = () => {
     });
     localStorage.removeItem("savedFilter");
   };
+
   const columns: ColumnDef<IProjectDetail>[] = [
     {
       id: "sn",
@@ -580,7 +594,7 @@ const useProjectListing = () => {
       },
       enableHiding: true,
     },
-    // Offshore membet
+    // Offshore member
     {
       id: "offshore_members",
       accessorKey: "offshore_members",

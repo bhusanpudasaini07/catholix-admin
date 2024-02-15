@@ -23,12 +23,19 @@ import {
 import { useState } from "react";
 import TableSkeleton from "../skeleton-loading/table-skeleton";
 import { cn } from "@/shared/utils/utils";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | any;
-  columnVisibility?: any;
-  setColumnVisibility?: any;
+  // columnVisibility?: VisibilityState;
+  // setColumnVisibility?: any;
   border?: boolean;
   loading?: boolean;
 }
@@ -36,14 +43,14 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
   columns,
   data,
-  columnVisibility,
-  setColumnVisibility,
+  // columnVisibility,
+  // setColumnVisibility,
   border,
   loading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  // const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     data,
@@ -65,6 +72,26 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md">
+      {/* <DropdownMenu>
+        <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {table
+            .getAllColumns()
+            .filter((column) => column.getCanHide())
+            .map((column) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              );
+            })}
+        </DropdownMenuContent>
+      </DropdownMenu> */}
       <Table className="rounded-md bg-light-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

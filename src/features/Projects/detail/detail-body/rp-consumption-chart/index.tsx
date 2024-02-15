@@ -23,6 +23,8 @@ import DateRangeFilter from "@/shared/components/date-range-filter";
 const RpConsumption = () => {
   const {
     dateType,
+    wiseType,
+    setWiseType,
     date,
     setDate,
     dateRangeOpen,
@@ -73,11 +75,23 @@ const RpConsumption = () => {
                 </SelectContent>
               </Select>
 
+              <Select
+                defaultValue={wiseType}
+                onValueChange={(e) => setWiseType(e)}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="role">Role-wise</SelectItem>
+                  <SelectItem value="department">Department-wise</SelectItem>
+                </SelectContent>
+              </Select>
+
               {/* To change the bar type */}
               <Select
                 defaultValue={barType}
                 onValueChange={(e) => setBarType(e)}
-                disabled={tab === "line"}
               >
                 <SelectTrigger className="w-[200px]">
                   <SelectValue placeholder="Select" />

@@ -16,12 +16,12 @@ const ProjectFilters = () => {
       </Button>
 
       <OverallFilter />
+      <ManageColumn />
 
-      <TabsList className="grid w-full grid-cols-2 text-sm rounded-sm ">
+      <TabsList className="grid grid-cols-2 text-sm rounded-sm ">
         <TabsTrigger value="profit_loss_view">Profit/Loss View</TabsTrigger>
         <TabsTrigger value="list_view">List View</TabsTrigger>
       </TabsList>
-      {/* <ManageColumn /> */}
     </div>
   );
 };

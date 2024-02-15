@@ -26,6 +26,13 @@ const ProjectStoriesContent = () => {
                 projectDetail?.data?.task?.all_task_count ?? 0
               ),
               bug_count: Number(projectDetail?.data?.task?.bug_count ?? 0),
+              bug_count_percentage: Number(
+                projectDetail?.data?.task?.bug_ratio_percentage ?? 0
+              ),
+            }}
+            time={{
+              estimated_time: Number(projectDetail?.data?.time?.estimated_time),
+              used_time: Number(projectDetail?.data?.time?.used_time),
             }}
           />
           <ProjectStoriesTable />

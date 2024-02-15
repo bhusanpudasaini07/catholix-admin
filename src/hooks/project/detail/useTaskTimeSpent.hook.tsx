@@ -27,17 +27,24 @@ const useTaskTimeSpent = () => {
 
   //   STATES
   const [searchText, setSearchText] = useState("");
+  const [pageNumber, setPageNumber] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   const debouncedSearchValue = useDebounce(searchText, 300);
 
   const { data: timeLogs, isLoading: timeLogLoading } = useQuery<ITimeLogs>({
     queryFn: async () => {
       if (code) {
-        const response = await getTimeLogs(code, searchText, 1, 10);
+        const response = await getTimeLogs(
+          code,
+          searchText,
+          pageNumber,
+          perPage
+        );
         return response;
       }
     },
-    queryKey: ["timeLogs", code, debouncedSearchValue],
+    queryKey: ["timeLogs", code, debouncedSearchValue, pageNumber],
   });
 
   const columns: ColumnDef<ILogEntry>[] = [
@@ -152,6 +159,9 @@ const useTaskTimeSpent = () => {
     searchText,
     setSearchText,
     columns,
+    perPage,
+    setPerPage,
+    setPageNumber,
   };
 };
 

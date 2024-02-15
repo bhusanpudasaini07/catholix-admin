@@ -81,8 +81,8 @@ const Projects: NextPageWithLayout = () => {
               <ProjectTableSkeleton />
             ) : (
               <DataTable
-                columnVisibility={columnVisibility}
-                setColumnVisibility={setColumnVisibility}
+                // columnVisibility={columnVisibility}
+                // setColumnVisibility={setColumnVisibility}
                 columns={columns}
                 data={projectList?.data ?? []}
               />

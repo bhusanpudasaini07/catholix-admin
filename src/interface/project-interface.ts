@@ -201,6 +201,7 @@ export interface IProjectUserStories {
   spent_time: number;
   task_count: number;
   title: string;
+  tasks?: [];
 }
 
 export interface ISalesRP {

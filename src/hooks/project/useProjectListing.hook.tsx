@@ -679,23 +679,23 @@ const useProjectListing = () => {
               className={`
               ${
                 row.getValue("status") === "In Progress" &&
-                " border-blue-500 text-blue-500 "
+                " border-blue-500 text-blue-500 bg-blue-50 "
               }
               ${
                 row.getValue("status") === "Client Support" &&
-                " border-orange-500 text-orange-500"
+                " border-orange-500 text-orange-500 bg-orange-50"
               }
               ${
                 row.getValue("status") === "On Hold" &&
-                " border-red-500 text-red-500"
+                " border-red-500 text-red-500 bg-red-50"
               }
             ${
               ["Closed", "Delivered"].includes(row.getValue("status")) &&
-              " border-green-500 text-green-500"
+              " border-green-500 text-green-500 bg-green-50"
             }
             ${
               row.getValue("status") === "Not Started" &&
-              " border-zinc-500 text-zinc-500"
+              " border-zinc-500 text-zinc-500 bg-zinc-50"
             }
              capitalize border rounded-md`}
             >

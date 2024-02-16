@@ -9,7 +9,7 @@ import LatestActivity from "./latest-activity";
 
 const DetailBody = () => {
   return (
-    <div className="p-8">
+    <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
       <DetailOverview />
       <RpConsumption />
       <ProjectStories />

@@ -6,7 +6,10 @@ const nextConfig = {
     domains: [""],
   },
   reactStrictMode: true,
-  i18n,
+  i18n: {
+    locales: ["en-US", "np-NP"],
+    defaultLocale: "en-US",
+  },
   webpack: (config, { isServer, webpack }) => {
     if (isServer) {
       config.plugins = [

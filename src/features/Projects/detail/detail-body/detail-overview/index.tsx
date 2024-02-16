@@ -1,3 +1,7 @@
+import { useRouter } from "next/router";
+import moment from "moment";
+import Link from "next/link";
+
 import { Button } from "@/shared/components/ui/button";
 import UsedRp from "../used-rp-chart/usedRp";
 import { Progress } from "@/shared/components/ui/progress";
@@ -19,7 +23,6 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import DataCardSkeleton from "@/shared/components/skeleton-loading/data-card-skeleton";
 
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import {
@@ -28,8 +31,7 @@ import {
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { Badge } from "@/shared/components/ui/badge";
-import moment from "moment";
-import Link from "next/link";
+
 import {
   Dialog,
   DialogContent,
@@ -37,8 +39,13 @@ import {
 } from "@/shared/components/ui/dialog";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
-import { useRouter } from "next/router";
 import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
+
+import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
+import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
+import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
+import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -68,146 +75,166 @@ const DetailOverview = () => {
   const barValue = 100 - value;
 
   return (
-    <div className="flex gap-6">
+    <div className="grid grid-cols-12 gap-6">
       {isLoading ? (
-        <div className="grow max-w-[49%]">
-          <div className="flex gap-4 mb-4">
-            <DataCardSkeleton className="grow" />
-            <DataCardSkeleton className="grow" />
+        <div className="col-span-6">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <TotalSalesSkeleton />
+            <ProjectDurationSkeleton />
           </div>
-          <DataCardSkeleton className="w-full grow" />
+          <div>
+            <UnitAllocationSkeleton />
+          </div>
         </div>
       ) : (
-        <div className="grow">
+        <div className="col-span-6">
           <div className="grid grid-cols-12 gap-3">
             {/* RP Used */}
-            <div className="col-span-6 card">
-              <div className="w-full">
-                <div className="flex items-center justify-start mb-4 gap-7">
-                  <p className="text-lg font-medium text-zinc-700">
-                    Total RP Used
-                  </p>{" "}
-                  <Button
-                    onClick={() => setSalesModalOpen(true)}
-                    size={"sm"}
-                    className=""
-                    variant={"white"}
-                  >
-                    Sales RP
-                  </Button>
-                </div>
-                <div className="flex items-center justify-between mt-10 gap-7">
-                  <div className="">
-                    <h3 className="text-4xl font-semibold text-zinc-800">
-                      {projectDetail?.data?.rp?.used_rp ?? 0}
-                    </h3>
-                    <p className="text-sm font-normal text-zinc-500">
-                      out of {projectDetail?.data?.rp?.sales_rp ?? 0}
-                    </p>
+            <div className="col-span-6">
+              <Card>
+                <CardContent>
+                  <div className="flex items-center justify-start mb-4 gap-7">
+                    <p className="text-lg font-medium text-zinc-700">
+                      Total RP Used
+                    </p>{" "}
+                    <Button
+                      onClick={() => setSalesModalOpen(true)}
+                      size={"sm"}
+                      className=""
+                      variant={"white"}
+                    >
+                      Sales RP
+                    </Button>
                   </div>
-                  <div className=" min-w-[120px]">
-                    <UsedRp rp={projectDetail?.data?.rp!} />
+                  <div className="flex items-center justify-between mt-10 gap-7">
+                    <div className="">
+                      <h3 className="text-4xl font-semibold text-zinc-800">
+                        {projectDetail?.data?.rp?.used_rp ?? 0}
+                      </h3>
+                      <p className="text-sm font-normal text-zinc-500">
+                        out of {projectDetail?.data?.rp?.sales_rp ?? 0}
+                      </p>
+                    </div>
+                    <div className=" min-w-[120px]">
+                      <UsedRp rp={projectDetail?.data?.rp!} />
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Project Duration */}
-            <div className="flex flex-col items-start justify-between col-span-6 card">
-              <h5 className="mb-3 text-lg font-medium text-zinc-700">
-                Project Duration
-              </h5>
-              <div className="w-full mt-auto">
-                <h4
-                  className={`mb-1 font-medium text-zinc-800 ${
-                    daysValue && daysValue < 0 ? "text-xl" : "text-4xl"
-                  }`}
-                >
-                  {daysValue
-                    ? daysValue < 0
-                      ? "Deadline Exceeded"
-                      : daysValue
-                    : 0}
-                </h4>
-                {daysValue && daysValue > 0 && (
-                  <p className="text-sm text-zinc-500">Days Remaining</p>
-                )}
+            <div className="col-span-6 ">
+              <Card>
+                <CardContent className="flex flex-col items-start justify-between h-full">
+                  <h5 className="mb-3 text-lg font-medium text-zinc-700">
+                    Project Duration
+                  </h5>
+                  <div className="w-full mt-auto">
+                    <h4
+                      className={`mb-1 font-medium text-zinc-800 ${
+                        daysValue && daysValue < 0 ? "text-xl" : "text-4xl"
+                      }`}
+                    >
+                      {daysValue
+                        ? daysValue < 0
+                          ? "Deadline Exceeded"
+                          : daysValue
+                        : 0}
+                    </h4>
+                    {daysValue && daysValue > 0 && (
+                      <p className="text-sm text-zinc-500">Days Remaining</p>
+                    )}
 
-                <Progress
-                  className={cn("h-2 my-2", {
-                    "[&>div]:bg-red-500": barValue >= 90,
-                    "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
-                    "[&>div]:bg-green-500": barValue < 50,
-                    "[&>div]:bg-gray-500": barValue === 0,
-                  })}
-                  value={barValue}
-                />
-                <p className="text-sm font-normal text-zinc-500">
-                  Total Estimation: {totalDays >= 0 ? totalDays : "N/A"} Days
-                </p>
-              </div>
+                    <Progress
+                      className={cn("h-2 my-2", {
+                        "[&>div]:bg-red-500": barValue >= 90,
+                        "[&>div]:bg-orange-500":
+                          barValue > 50 && barValue <= 90,
+                        "[&>div]:bg-green-500": barValue < 50,
+                        "[&>div]:bg-gray-500": barValue === 0,
+                      })}
+                      value={barValue}
+                    />
+                    <p className="text-sm font-normal text-zinc-500">
+                      Total Estimation: {totalDays >= 0 ? totalDays : "N/A"}{" "}
+                      Days
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </div>
 
-          {/* Unit Allocation */}
-          <div className="mt-4 card">
-            <div className="flex items-center justify-start gap-3 mb-4">
-              <h5 className="font-medium text-zinc-700">Units Allocation</h5>
-              <Button
-                variant={"white"}
-                onClick={() =>
-                  router?.push(`/projects/${router?.query?.code}/rp-estimation`)
-                }
-                size={"sm"}
-              >
-                View Estimation
-              </Button>
-            </div>
-            <div className="flex justify-between gap-5 pr-20 mt-9">
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-blue-500">
-                  <Flag size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-blue-500">
-                    {projectDetail?.data?.rp?.approved_rp}
-                  </p>
-                  <p className="text-sm text-blue-600">Planned Units</p>
-                </div>
-              </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-orange-500">
-                  <Activity size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-orange-500">
-                    {projectDetail?.data?.rp?.sales_rp ?? 0}
-                  </p>
-                  <p className="text-sm font-normal text-orange-600">
-                    Sales Units
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-red-500">
-                  <TrendingDown size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-red-500">
-                    {projectDetail?.data?.rp?.used_rp ?? 0}
-                  </p>
-                  <p className="text-sm text-red-600">Spent Units</p>
-                </div>
-              </div>
+            {/* Unit Allocation */}
+            <div className="col-span-12">
+              <Card>
+                <CardContent>
+                  <div className="flex items-center justify-start gap-3 mb-4">
+                    <h5 className="font-medium text-zinc-700">
+                      Units Allocation
+                    </h5>
+                    <Button
+                      variant={"white"}
+                      onClick={() =>
+                        router?.push(
+                          `/projects/${router?.query?.code}/rp-estimation`
+                        )
+                      }
+                      size={"sm"}
+                    >
+                      View Estimation
+                    </Button>
+                  </div>
+                  <div className="flex justify-between gap-5 pr-20 mt-9">
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-blue-500">
+                        <Flag size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-blue-500">
+                          {projectDetail?.data?.rp?.approved_rp}
+                        </p>
+                        <p className="text-sm text-blue-600">Planned Units</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-orange-500">
+                        <Activity size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-orange-500">
+                          {projectDetail?.data?.rp?.sales_rp ?? 0}
+                        </p>
+                        <p className="text-sm font-normal text-orange-600">
+                          Sales Units
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-red-500">
+                        <TrendingDown size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-red-500">
+                          {projectDetail?.data?.rp?.used_rp ?? 0}
+                        </p>
+                        <p className="text-sm text-red-600">Spent Units</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
       )}
 
       {isLoading ? (
-        <DataCardSkeleton className="grow max-w-[49%]" />
+        <div className="col-span-6">
+          <ProjectDetailSkeleton />
+        </div>
       ) : (
-        <div className="card !p-4 grow max-w-[790px]">
+        <div className="card !p-4 col-span-6 grow">
           <div className="flex items-center justify-start gap-4 mb-7">
             <p className="text-lg font-medium text-zinc-700">Project Detail</p>
             <Button variant={"white"} size={"sm"}>
@@ -227,25 +254,25 @@ const DetailOverview = () => {
                       className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
-                              " border-blue-500 text-blue-500 "
+                              " border-blue-500 text-blue-500 bg-blue-50"
                             }
                             ${
                               projectDetail?.data?.status ===
                                 "Client Support" &&
-                              " border-orange-500  text-orange-500"
+                              " border-orange-500  text-orange-500 bg-orange-50"
                             }
                             ${
                               projectDetail?.data?.status === "On Hold" &&
-                              " border-red-500 text-red-500 "
+                              " border-red-500 text-red-500 bg-red-50 "
                             }
                           ${
                             ["Closed", "Delivered"].includes(
                               projectDetail?.data?.status!
-                            ) && " border-green-500 text-green-500 "
+                            ) && " border-green-500 text-green-500 bg-green-50 "
                           }
                           ${
                             projectDetail?.data?.status === "Not Started" &&
-                            " border-zinc-500 text-zinc-500"
+                            " border-zinc-500 text-zinc-500 bg-zinc-50"
                           }
                           capitalize border rounded-md`}
                     >

@@ -1,5 +1,4 @@
 import React from "react";
-import Lottie from "react-lottie";
 import notFoundLottie from "../../../../public/lottie/not-found.json";
 import Image from "next/image";
 import { noResult } from "@/shared/lib/image-config";

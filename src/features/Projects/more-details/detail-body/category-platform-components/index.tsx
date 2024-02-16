@@ -9,8 +9,6 @@ import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 const CategoryPlatform = () => {
-  const { rpSummary, rpLoading } = useProjectDetail();
-
   const columns = [
     {
       id: "category",
@@ -67,7 +65,7 @@ const CategoryPlatform = () => {
               <DataTable
                 columns={columns}
                 border={true}
-                loading={rpLoading}
+                // loading={rpLoading}
                 data={data}
               />
             </div>
@@ -96,7 +94,7 @@ const CategoryPlatform = () => {
               <DataTable
                 columns={columns}
                 border={true}
-                loading={rpLoading}
+                // loading={rpLoading}
                 data={data}
               />
             </div>

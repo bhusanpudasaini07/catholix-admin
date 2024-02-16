@@ -55,7 +55,6 @@ const DetailOverviewMoreDetail = () => {
     salesModalOpen,
     setSalesModalOpen,
     salesColumn,
-    salesRp,
     openLeadSheet,
     setOpenLeadSheet,
     staffDetails,
@@ -511,7 +510,7 @@ const DetailOverviewMoreDetail = () => {
           <DialogHeader className="text-lg font-bold text-color">
             Sales RP
           </DialogHeader>
-          <DataTable border={true} data={salesRp?.data} columns={salesColumn} />
+          <DataTable border={true} data={[]} columns={salesColumn} />
         </DialogContent>
       </Dialog>
 

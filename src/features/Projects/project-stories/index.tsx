@@ -12,7 +12,7 @@ const ProjectStoriesContent = () => {
         projectName={projectDetail?.data?.project_title ?? ""}
         loading={isLoading}
       />
-      <div className="p-8">
+      <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           <ProjectStoriesOverview
             task={{

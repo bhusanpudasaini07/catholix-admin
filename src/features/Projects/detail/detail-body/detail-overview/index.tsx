@@ -1,3 +1,7 @@
+import { useRouter } from "next/router";
+import moment from "moment";
+import Link from "next/link";
+
 import { Button } from "@/shared/components/ui/button";
 import UsedRp from "../used-rp-chart/usedRp";
 import { Progress } from "@/shared/components/ui/progress";
@@ -19,7 +23,6 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import DataCardSkeleton from "@/shared/components/skeleton-loading/data-card-skeleton";
 
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import {
@@ -28,8 +31,7 @@ import {
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { Badge } from "@/shared/components/ui/badge";
-import moment from "moment";
-import Link from "next/link";
+
 import {
   Dialog,
   DialogContent,
@@ -37,8 +39,12 @@ import {
 } from "@/shared/components/ui/dialog";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
-import { useRouter } from "next/router";
 import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
+
+import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
+import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
+import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
+import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -68,17 +74,19 @@ const DetailOverview = () => {
   const barValue = 100 - value;
 
   return (
-    <div className="flex gap-6">
+    <div className="grid grid-cols-12 gap-6">
       {isLoading ? (
-        <div className="grow max-w-[49%]">
-          <div className="flex gap-4 mb-4">
-            <DataCardSkeleton className="grow" />
-            <DataCardSkeleton className="grow" />
+        <div className="col-span-6">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <TotalSalesSkeleton />
+            <ProjectDurationSkeleton />
           </div>
-          <DataCardSkeleton className="w-full grow" />
+          <div>
+            <UnitAllocationSkeleton />
+          </div>
         </div>
       ) : (
-        <div className="grow">
+        <div className="col-span-6">
           <div className="grid grid-cols-12 gap-3">
             {/* RP Used */}
             <div className="col-span-6 card">
@@ -205,9 +213,11 @@ const DetailOverview = () => {
       )}
 
       {isLoading ? (
-        <DataCardSkeleton className="grow max-w-[49%]" />
+        <div className="col-span-6">
+          <ProjectDetailSkeleton />
+        </div>
       ) : (
-        <div className="card !p-4 grow max-w-[790px]">
+        <div className="card !p-4 col-span-6 grow">
           <div className="flex items-center justify-start gap-4 mb-7">
             <p className="text-lg font-medium text-zinc-700">Project Detail</p>
             <Button variant={"white"} size={"sm"}>
@@ -227,25 +237,25 @@ const DetailOverview = () => {
                       className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
-                              " border-blue-500 text-blue-500 "
+                              " border-blue-500 text-blue-500 bg-blue-50"
                             }
                             ${
                               projectDetail?.data?.status ===
                                 "Client Support" &&
-                              " border-orange-500  text-orange-500"
+                              " border-orange-500  text-orange-500 bg-orange-50"
                             }
                             ${
                               projectDetail?.data?.status === "On Hold" &&
-                              " border-red-500 text-red-500 "
+                              " border-red-500 text-red-500 bg-red-50 "
                             }
                           ${
                             ["Closed", "Delivered"].includes(
                               projectDetail?.data?.status!
-                            ) && " border-green-500 text-green-500 "
+                            ) && " border-green-500 text-green-500 bg-green-50 "
                           }
                           ${
                             projectDetail?.data?.status === "Not Started" &&
-                            " border-zinc-500 text-zinc-500"
+                            " border-zinc-500 text-zinc-500 bg-zinc-50"
                           }
                           capitalize border rounded-md`}
                     >

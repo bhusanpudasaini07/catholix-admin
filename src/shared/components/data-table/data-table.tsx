@@ -38,6 +38,8 @@ interface DataTableProps<TData, TValue> {
   // setColumnVisibility?: any;
   border?: boolean;
   loading?: boolean;
+  height?: string;
+  headerSticky?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +49,8 @@ export function DataTable<TData, TValue>({
   // setColumnVisibility,
   border,
   loading,
+  height,
+  headerSticky,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -71,7 +75,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md">
+    <div className={`overflow-auto rounded-md ${height && height}`}>
       {/* <DropdownMenu>
         <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -99,7 +103,10 @@ export function DataTable<TData, TValue>({
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
-                    className={border ? "border-2 border-slate-100" : ""}
+                    className={cn(
+                      border ? "border-2 border-slate-100" : "",
+                      headerSticky && "sticky top-[0px] z-[10] bg-light-white"
+                    )}
                     key={header.id}
                   >
                     {header.isPlaceholder

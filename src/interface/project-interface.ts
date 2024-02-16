@@ -11,6 +11,7 @@ export interface IProjectDetail {
   code: string;
   fiscal_year: string;
   type: string;
+  detail?: string;
   source: string;
   market_title: string;
   market_id: number;
@@ -200,6 +201,7 @@ export interface IProjectUserStories {
   spent_time: number;
   task_count: number;
   title: string;
+  tasks?: [];
 }
 
 export interface ISalesRP {

@@ -22,15 +22,6 @@ import {
 } from "@/shared/components/ui/table";
 import { useState } from "react";
 import TableSkeleton from "../skeleton-loading/table-skeleton";
-import { cn } from "@/shared/utils/utils";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import NotFoundLottie from "../not-found";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,10 +30,6 @@ interface DataTableProps<TData, TValue> {
   // setColumnVisibility?: any;
   border?: boolean;
   loading?: boolean;
-  height?: string;
-  headerSticky?: boolean;
-  lottieWidth?: number;
-  lottieHeight?: number;
 }
 
 export function DataTable<TData, TValue>({
@@ -52,10 +39,6 @@ export function DataTable<TData, TValue>({
   // setColumnVisibility,
   border,
   loading,
-  height,
-  headerSticky,
-  lottieWidth,
-  lottieHeight,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -80,7 +63,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className={`overflow-auto rounded-md ${height && height}`}>
+    <div className="overflow-auto rounded-md max-h-[50vh]">
       {/* <DropdownMenu>
         <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -108,10 +91,11 @@ export function DataTable<TData, TValue>({
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
-                    className={cn(
-                      border ? "border-2 border-slate-100" : "",
-                      headerSticky && "sticky top-[0px] z-[10] bg-light-white"
-                    )}
+                    className={
+                      border
+                        ? "border-2 border-slate-100 sticky top-0 z-[100] bg-light-white"
+                        : "sticky top-0 z-[100] bg-light-white"
+                    }
                     key={header.id}
                   >
                     {header.isPlaceholder
@@ -160,7 +144,7 @@ export function DataTable<TData, TValue>({
                     : "h-24 text-center"
                 }
               >
-                <NotFoundLottie width={lottieWidth} height={lottieHeight} />
+                No results.
               </TableCell>
             </TableRow>
           )}

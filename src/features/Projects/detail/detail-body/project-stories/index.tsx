@@ -53,7 +53,7 @@ const ProjectStories = () => {
               >
                 <p className="text-4xl font-semibold">
                   {" "}
-                  {/* {projectDetail?.data?.task?.bug_count_ratio ?? 0} */}0%
+                  {projectDetail?.data?.task?.bug_ratio_percentage ?? 0}%
                 </p>
                 <p className="text-base font-semibold">Bug Ratio</p>
               </div>

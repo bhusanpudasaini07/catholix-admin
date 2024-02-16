@@ -1,4 +1,6 @@
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import moment from "moment";
 import React from "react";
 
 interface IProps {
@@ -7,10 +9,19 @@ interface IProps {
     bug_count: number;
     closed_task_count: number;
     all_task_count: number;
+    bug_count_percentage: number;
+  };
+  time: {
+    estimated_time: number;
+    used_time: number;
   };
 }
 
-const ProjectStoriesOverview = ({ task }: IProps) => {
+const ProjectStoriesOverview = ({ task, time }: IProps) => {
+  const { hours, minutes } = calculateTimeLog(time?.estimated_time);
+  const { hours: spentHours, minutes: spentMinutes } = calculateTimeLog(
+    time?.used_time
+  );
   return (
     <Card>
       <CardContent>
@@ -23,7 +34,7 @@ const ProjectStoriesOverview = ({ task }: IProps) => {
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
             border-[1px] border-orange-100"
           >
-            <p className="text-4xl font-semibold">{0}</p>
+            <p className="text-4xl font-semibold">{`${hours}H ${minutes}M`}</p>
             <p className="text-base font-medium">Total Estimated Time</p>
           </div>
           {/* Total Commits */}
@@ -71,7 +82,10 @@ const ProjectStoriesOverview = ({ task }: IProps) => {
             border-[1px] border-blue-100
             `}
           >
-            <p className="text-4xl font-semibold"> {0}</p>
+            <p className="text-4xl font-semibold">
+              {" "}
+              {`${spentHours}H ${spentMinutes}M`}
+            </p>
             <p className="text-base font-semibold">Total Time Spent</p>
           </div>
           {/* Total Task */}
@@ -93,7 +107,7 @@ const ProjectStoriesOverview = ({ task }: IProps) => {
           >
             <p className="text-4xl font-semibold">
               {" "}
-              {/* {projectDetail?.data?.task?.bug_count_ratio ?? 0} */}0%
+              {task?.bug_count_percentage ?? 0}%
             </p>
             <p className="text-base font-semibold">Bug Ratio</p>
           </div>

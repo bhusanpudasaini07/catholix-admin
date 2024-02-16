@@ -64,6 +64,8 @@ const LatestActivityTable = () => {
             columns={detailsColumn}
             border={true}
             loading={isLoading}
+            headerSticky={true}
+            height="max-h-[55vh]"
             data={latestActivities?.data ?? []}
           />
         </CardContent>

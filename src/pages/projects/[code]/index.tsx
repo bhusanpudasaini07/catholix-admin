@@ -15,3 +15,17 @@ export default ProjectDetail;
 ProjectDetail.getLayout = (page) => {
   return <MainLayout title="Projects">{page}</MainLayout>;
 };
+
+// export const getStaticPaths = async ({ locales }: any) => {
+//   const paths = locales.map((locale: any) => ({
+//     params: {
+//       code: useRouter().query.code,
+//     },
+//     locale,
+//   }));
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };

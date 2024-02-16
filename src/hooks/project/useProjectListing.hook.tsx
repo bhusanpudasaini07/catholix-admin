@@ -76,7 +76,20 @@ const useProjectListing = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [perPage, setPerPage] = useState(12);
   const [sheetOpen, setSheetOpen] = useState<boolean>(false);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    sn: true,
+    project_title: true,
+    project_detail: true,
+    planned_rp: true,
+    rp: true,
+    deadline: true,
+    project_lead: true,
+    offshore_members: true,
+    last_time_log: true,
+    status: true,
+    task_status: true,
+    actions: true,
+  });
 
   const debouncedSearchValue = useDebounce(searchText, 300);
 
@@ -271,6 +284,7 @@ const useProjectListing = () => {
     });
     localStorage.removeItem("savedFilter");
   };
+
   const columns: ColumnDef<IProjectDetail>[] = [
     {
       id: "sn",
@@ -580,7 +594,7 @@ const useProjectListing = () => {
       },
       enableHiding: true,
     },
-    // Offshore membet
+    // Offshore member
     {
       id: "offshore_members",
       accessorKey: "offshore_members",
@@ -665,23 +679,23 @@ const useProjectListing = () => {
               className={`
               ${
                 row.getValue("status") === "In Progress" &&
-                " border-blue-500 text-blue-500 "
+                " border-blue-500 text-blue-500 bg-blue-50 "
               }
               ${
                 row.getValue("status") === "Client Support" &&
-                " border-orange-500 text-orange-500"
+                " border-orange-500 text-orange-500 bg-orange-50"
               }
               ${
                 row.getValue("status") === "On Hold" &&
-                " border-red-500 text-red-500"
+                " border-red-500 text-red-500 bg-red-50"
               }
             ${
               ["Closed", "Delivered"].includes(row.getValue("status")) &&
-              " border-green-500 text-green-500"
+              " border-green-500 text-green-500 bg-green-50"
             }
             ${
               row.getValue("status") === "Not Started" &&
-              " border-zinc-500 text-zinc-500"
+              " border-zinc-500 text-zinc-500 bg-zinc-50"
             }
              capitalize border rounded-md`}
             >

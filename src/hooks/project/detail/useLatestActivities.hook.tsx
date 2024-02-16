@@ -216,7 +216,7 @@ const useLatestActivities = () => {
           <Link
             href={row?.original?.issue?.url}
             target="_blank"
-            className="text-primary hover:text-blue-700"
+            className="font-medium text-primary hover:text-blue-700"
           >
             {row?.original?.issue?.title}
           </Link>
@@ -293,7 +293,7 @@ const useLatestActivities = () => {
           <Link
             href={row?.original?.issue?.url}
             target="_blank"
-            className="text-primary hover:text-blue-700"
+            className="font-medium text-primary hover:text-blue-700"
           >
             {row?.original?.issue?.title}
           </Link>

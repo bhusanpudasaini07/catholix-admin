@@ -1,4 +1,5 @@
 import {
+  IConsumptionData,
   IProjectDetail,
   ISalesRP,
   ISalesRPDetail,
@@ -38,28 +39,6 @@ export const useProjectDetail = () => {
       }
     },
     queryKey: ["projectDetail", code],
-  });
-
-  // Default Call without other query params. For team wise and role wise consumption
-  const { data: rpSummary, isLoading: rpLoading } = useQuery({
-    queryFn: async () => {
-      if (code) {
-        const response = await getRpSummary(code);
-        return response;
-      }
-    },
-    queryKey: ["defaultRpSummary", code],
-  });
-
-  // Sales RP Query
-  const { data: salesRp, isLoading: salesLoading } = useQuery<ISalesRP>({
-    queryFn: async () => {
-      if (code) {
-        const response = await getProjectSales(code);
-        return response;
-      }
-    },
-    queryKey: ["salesRp", code],
   });
 
   // Staff Details
@@ -127,10 +106,7 @@ export const useProjectDetail = () => {
     setOpenLeadSheet,
     projectDetail,
     isLoading,
-    rpSummary,
-    rpLoading,
     salesColumn,
-    salesRp,
     staffDetails,
   };
 };

@@ -21,9 +21,13 @@ const ProfitLossCard = ({ data }: IProps) => {
             : data?.rp?.used_rp! > data?.rp?.sales_rp!
             ? "border-red-300 bg-red-50"
             : "bg-blue-50 border-blue-300",
-          "flex border rounded h-full min-h-[245px] flex-col items-center justify-between px-4 py-5"
+          "flex border relative rounded h-full min-h-[245px] flex-col items-center justify-between px-4 py-5"
         )}
       >
+        <Link
+          href={`/projects/${data?.code}`}
+          className="absolute top-0 bottom-0 left-0 right-0"
+        />
         <div className="text-center text-zinc-700">
           <Link
             href={`/projects/${data?.code}`}

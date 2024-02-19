@@ -65,7 +65,7 @@ const UsedRp = ({ rp }: IProps) => {
       },
     ],
   };
-  return <ReactECharts option={option} style={{ height: "120px" }} />;
+  return <ReactECharts option={option} style={{ height: "100px" }} />;
 };
 
 export default UsedRp;

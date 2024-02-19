@@ -64,21 +64,21 @@ const Header = ({
           {/* For sidebar */}
           <button
             title="menu"
-            className="hidden lg:block focus:outline-none"
+            className="hidden xl:block focus:outline-none"
             onClick={() => setIsExpanded(!isExpanded)}
+          >
+            <Menu />
+          </button>
+          {/* For sheet */}
+          <button
+            title="sheet-menu"
+            className="block xl:hidden"
+            onClick={() => setOpenSheet(true)}
           >
             <Menu />
           </button>
         </div>
 
-        {/* For sheet */}
-        <button
-          title="sheet-menu"
-          className="block lg:hidden"
-          onClick={() => setOpenSheet(true)}
-        >
-          <Menu />
-        </button>
         <div className="flex items-center gap-6">
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}

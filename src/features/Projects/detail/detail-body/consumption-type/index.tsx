@@ -17,7 +17,7 @@ const ConsumptionType = () => {
   return (
     <div className="grid grid-cols-12 gap-6 mt-4">
       {/* Team Wise */}
-      <div className="col-span-6 ">
+      <div className="col-span-12 xl:col-span-6 ">
         <Card>
           <CardContent>
             <div className="flex items-center justify-between mb-3">
@@ -46,7 +46,7 @@ const ConsumptionType = () => {
       </div>
 
       {/* Role Wise */}
-      <div className="col-span-6 ">
+      <div className="col-span-12 xl:col-span-6 ">
         <Card>
           <CardContent>
             <div className="flex items-center justify-between mb-3">

@@ -6,7 +6,19 @@ module.exports = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1450px",
+        mw1024: {
+          raw: "screen and (max-width: 1024px)",
+        },
+        mw991: {
+          raw: "screen and (max-width: 991px)",
+        },
+        mw768: {
+          raw: "screen and (max-width: 768px)",
+        },
+        mw375: {
+          raw: "screen and (max-width: 375px)",
+        },
       },
     },
     extend: {

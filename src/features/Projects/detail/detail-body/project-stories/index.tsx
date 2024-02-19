@@ -27,7 +27,7 @@ const ProjectStories = () => {
           </div>
         </div>
         <div className="grid items-end grid-cols-12 gap-4">
-          <div className="col-span-7 overflow-hidden rounded-md grow">
+          <div className="col-span-12 overflow-hidden rounded-md xl:col-span-7">
             <DataTable
               border={true}
               loading={isLoading}
@@ -35,10 +35,10 @@ const ProjectStories = () => {
               data={projectStories?.data?.slice(0, 5) ?? []}
             />
           </div>
-          <div className="col-span-5">
-            <div className="flex flex-wrap justify-between gap-3 grow">
+          <div className="col-span-12 xl:col-span-5">
+            <div className="grid grid-cols-2 gap-3">
               <div
-                className="rounded-md py-8 w-[48%] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
+                className=" rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
             border-[1px] border-orange-100"
               >
                 <p className="text-4xl font-semibold">
@@ -47,7 +47,7 @@ const ProjectStories = () => {
                 <p className="text-base font-semibold">Bugs</p>
               </div>
               <div
-                className={`rounded-md py-8 w-[48%] flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
+                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
             border-[1px] border-red-100
             `}
               >
@@ -57,8 +57,10 @@ const ProjectStories = () => {
                 </p>
                 <p className="text-base font-semibold">Bug Ratio</p>
               </div>
+            </div>
+            <div className="grid grid-cols-3 gap-3 mt-3">
               <div
-                className={`rounded-md py-8 w-[32%] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
+                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
             border-[1px] border-blue-100
             `}
               >
@@ -69,7 +71,7 @@ const ProjectStories = () => {
                 <p className="text-base font-semibold">Opened</p>
               </div>
               <div
-                className={`rounded-md py-8 w-[32%] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
+                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
             border-[1px] border-green-100
             `}
               >
@@ -80,7 +82,7 @@ const ProjectStories = () => {
                 <p className="text-base font-semibold">Closed</p>
               </div>
               <div
-                className={`rounded-md py-8 w-[32%] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
+                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
             border-[1px] border-blue-100
             `}
               >

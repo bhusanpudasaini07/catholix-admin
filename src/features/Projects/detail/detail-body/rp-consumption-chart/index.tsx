@@ -44,7 +44,7 @@ const RpConsumption = () => {
     <Card className="mt-7">
       <CardContent>
         <Tabs defaultValue={tab} onValueChange={(e) => setTab(e)}>
-          <div className="flex items-center justify-between w-full mb-10">
+          <div className="flex flex-col flex-wrap justify-between w-full gap-4 mb-10 xl:items-center xl:flex-row">
             <div className="flex items-center justify-start gap-3">
               <p className="text-lg font-medium text-zinc-700">
                 RP Consumption
@@ -114,6 +114,7 @@ const RpConsumption = () => {
                 <ReactECharts
                   style={{ minHeight: "500px" }}
                   option={lineOption}
+                  notMerge={true}
                 />
               </TabsContent>
 
@@ -124,6 +125,7 @@ const RpConsumption = () => {
                     barType === "sum" ? barStackOption : barLabelRotationOption
                   }
                   style={{ minHeight: "500px" }}
+                  notMerge={true}
                 />
               </TabsContent>
             </>

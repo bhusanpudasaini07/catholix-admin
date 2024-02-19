@@ -1,7 +1,16 @@
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import React from "react";
 
-const TaskTimeLogs = () => {
+interface IProps {
+  task: string;
+  bugs: string;
+  time: string;
+  rp: string | number;
+}
+
+const TaskTimeLogs = ({ task, bugs, time, rp }: IProps) => {
+  const { hours, minutes } = calculateTimeLog(parseInt(time));
   return (
     <Card>
       <CardContent>
@@ -12,7 +21,7 @@ const TaskTimeLogs = () => {
             border-[1px] border-green-100
             `}
           >
-            <p className="text-4xl font-semibold"> {0}</p>
+            <p className="text-4xl font-semibold"> {task}</p>
             <p className="text-base font-semibold">Total Task</p>
           </div>
           {/* Bugs reported */}
@@ -20,7 +29,7 @@ const TaskTimeLogs = () => {
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
             border-[1px] border-orange-100"
           >
-            <p className="text-4xl font-semibold">{0}</p>
+            <p className="text-4xl font-semibold">{bugs}</p>
             <p className="text-base font-medium">Bugs reported</p>
           </div>
           {/* Total Time */}
@@ -29,7 +38,7 @@ const TaskTimeLogs = () => {
             border-[1px] border-blue-100
             `}
           >
-            <p className="text-4xl font-semibold"> {0}</p>
+            <p className="text-4xl font-semibold"> {`${hours}H ${minutes}M`}</p>
             <p className="text-base font-semibold">Total Time</p>
           </div>
           {/* Total RP */}
@@ -37,7 +46,7 @@ const TaskTimeLogs = () => {
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
             border-[1px] border-red-100"
           >
-            <p className="text-4xl font-semibold"> {0}</p>
+            <p className="text-4xl font-semibold"> {rp}</p>
             <p className="text-base font-semibold">Total RP</p>
           </div>
         </div>

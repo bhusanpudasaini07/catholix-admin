@@ -1,8 +1,17 @@
 import { IProjectUserStories } from "@/interface/project-interface";
 import { getProjectStories } from "@/services/project/project-service";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/components/ui/dialog";
 import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -114,7 +123,77 @@ const useProjectStories = () => {
       enableHiding: false,
     },
   ];
+  const taskColumns: ColumnDef<any>[] = [
+    // Stories
+    {
+      id: "date",
+      accessorKey: "date",
+      header: "Date",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">
+          <p className="text-base font-medium text-zinc-700">
+            {moment(row.getValue("date"))?.format("YYYY-MM-DD")}
+          </p>
+          <p className="text-base font-normal text-zinc-700">
+            {moment(row.getValue("date"))?.format("HH:mm:ss")}
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Task",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">
+          <Link
+            href={row?.original?.url}
+            target="_blank"
+            className="block font-medium truncate text-primary hover:text-blue-800"
+          >
+            {row.getValue("title")}
+          </Link>
+        </div>
+      ),
+    },
 
+    {
+      id: "status",
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">{row.getValue("status")}</div>
+      ),
+    },
+    {
+      id: "commits",
+      accessorKey: "commits",
+      header: "Commits",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">{row.getValue("commits")}</div>
+      ),
+    },
+    {
+      id: "estimated_time",
+      accessorKey: "estimated_time",
+      header: "Estimated Time",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">
+          {row.getValue("estimated_time")}
+        </div>
+      ),
+    },
+    {
+      id: "time_spent",
+      accessorKey: "time_spent",
+      header: "Time Spent",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">
+          {row.getValue("time_spent")}
+        </div>
+      ),
+    },
+  ];
   // inner page column
   const storiesDetailsColumns: ColumnDef<IProjectUserStories>[] = [
     // S.N
@@ -173,12 +252,31 @@ const useProjectStories = () => {
       accessorKey: "task_count",
       header: "Task",
       cell: ({ row }) => (
-        <div
-          className={cn(
-            row?.getValue("task_count") ? "text-blue-500 font-medium" : ""
+        <div className="">
+          {row?.getValue("task_count") ? (
+            <Dialog>
+              <DialogTrigger>
+                <div className={"text-blue-500 font-medium"}>
+                  {row?.getValue("task_count")} Task/s
+                </div>
+              </DialogTrigger>
+              <DialogContent className="min-w-[1200px]">
+                <DialogHeader>
+                  <DialogTitle>{row?.getValue("title")}</DialogTitle>
+                </DialogHeader>
+                <div className="">
+                  <DataTable
+                    border={true}
+                    columns={taskColumns}
+                    loading={isLoading}
+                    data={row?.original?.tasks ?? []}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <p className="font-medium">{row?.getValue("task_count")} Task/s</p>
           )}
-        >
-          {row?.getValue("task_count")} Task/s
         </div>
       ),
       enableHiding: false,
@@ -189,12 +287,31 @@ const useProjectStories = () => {
       accessorKey: "bug_count",
       header: "Bugs",
       cell: ({ row }) => (
-        <div
-          className={cn(
-            row?.getValue("bug_count") ? "text-orange-500 font-medium" : ""
+        <div>
+          {row?.getValue("bug_count") ? (
+            <Dialog>
+              <DialogTrigger>
+                <div className={"text-orange-500 font-medium"}>
+                  {row?.getValue("bug_count")} Bug/s
+                </div>
+              </DialogTrigger>
+              <DialogContent className="min-w-[1200px]">
+                <DialogHeader>
+                  <DialogTitle>{row?.getValue("title")}</DialogTitle>
+                </DialogHeader>
+                <div className="">
+                  <DataTable
+                    border={true}
+                    columns={taskColumns}
+                    loading={isLoading}
+                    data={row?.original?.tasks ?? []}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <p className="font-medium">{row?.getValue("bug_count")} Bug/s</p>
           )}
-        >
-          {row.getValue("bug_count")} Bug/s
         </div>
       ),
       enableHiding: false,

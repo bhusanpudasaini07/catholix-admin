@@ -12,6 +12,7 @@ interface IProps {
   setPageNumber?: (arg: number) => void;
   dateRangeOpen: boolean;
   setDateRangeOpen: (arg: boolean) => void;
+  placeholder?: string;
 }
 
 const DateRangeFilter = ({
@@ -20,6 +21,7 @@ const DateRangeFilter = ({
   setPageNumber,
   dateRangeOpen,
   setDateRangeOpen,
+  placeholder,
 }: IProps) => {
   return (
     <Popover open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
@@ -43,7 +45,7 @@ const DateRangeFilter = ({
               format(dateRange.from, "LLL dd, y")
             )
           ) : (
-            <span>Select Range</span>
+            <span> {placeholder ? placeholder : "Select Range"} </span>
           )}
           {dateRange?.from ? (
             <X
@@ -59,7 +61,7 @@ const DateRangeFilter = ({
               }}
             />
           ) : (
-            <CalendarIcon className="w-4 h-4 ml-auto opacity-50" />
+            <CalendarIcon className="w-4 h-4 ml-auto opacity-50 ms-1" />
           )}
         </Button>
       </PopoverTrigger>

@@ -27,7 +27,7 @@ const ProjectStories = () => {
           </div>
         </div>
         <div className="grid items-end grid-cols-12 gap-4">
-          <div className="col-span-12 overflow-hidden rounded-md lg:col-span-7">
+          <div className="col-span-12 overflow-hidden rounded-md xl:col-span-7">
             <DataTable
               border={true}
               loading={isLoading}
@@ -35,7 +35,7 @@ const ProjectStories = () => {
               data={projectStories?.data?.slice(0, 5) ?? []}
             />
           </div>
-          <div className="col-span-12 lg:col-span-5">
+          <div className="col-span-12 xl:col-span-5">
             <div className="grid grid-cols-2 gap-3">
               <div
                 className=" rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 

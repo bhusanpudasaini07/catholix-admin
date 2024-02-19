@@ -3,8 +3,11 @@ import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+interface IProps {
+  name: string;
+}
 
-const TaskTimeSpentHeader = () => {
+const TaskTimeSpentHeader = ({ name }: IProps) => {
   const router = useRouter();
   return (
     <div className="flex justify-between px-8 py-6 bg-white">
@@ -24,7 +27,7 @@ const TaskTimeSpentHeader = () => {
               {loading ? <Skeleton className="w-20 h-3" /> : projectName}
             </span> */}
           </h4>
-          <p className="text-base font-normal text-zinc-500">Project name</p>
+          <p className="text-base font-normal text-zinc-500">{name}</p>
         </div>
       </div>
     </div>

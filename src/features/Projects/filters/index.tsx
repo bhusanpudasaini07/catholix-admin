@@ -10,7 +10,7 @@ const ProjectFilters = () => {
   const { resetFilters } = useProjectListing();
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center justify-end gap-4 grow">
       <Button onClick={resetFilters} variant={"table"} size={"sm"}>
         Reset
       </Button>

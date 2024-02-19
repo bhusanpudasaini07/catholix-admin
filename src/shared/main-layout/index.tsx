@@ -1,9 +1,10 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./header";
 import SidebarNew from "./sidebar-new";
 // import { FavIcon } from "../lib/image-config";
 import SidebarSheet from "./sidebar-sheet";
+import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   children,
@@ -11,13 +12,19 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [openSheet, setOpenSheet] = useState(false);
+  const [screenSize, setScreenSize] = useState<number | null>(null);
 
   const sidebarWidth = isExpanded ? "260px" : "64px"; // Adjust as needed
 
   const bodyWidth = isExpanded
-    ? "lg:max-w-[calc(100vw-260px)]"
-    : "lg:max-w-[calc(100vw-64px)]";
+    ? "xl:max-w-[calc(100vw-260px)]"
+    : "xl:max-w-[calc(100vw-64px)]";
 
+  useEffect(() => {
+    if (window.innerWidth) {
+      setScreenSize(window.innerWidth);
+    }
+  }, [screenSize]);
   return (
     <>
       <Head>
@@ -47,6 +54,12 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           </div>
         </div>
       </main>
+
+      <AlertDialog open={screenSize! < 1024}>
+        <AlertDialogContent>
+          View this content in laptop or desktop.
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };

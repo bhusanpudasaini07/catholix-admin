@@ -10,7 +10,7 @@ const TeamConsumption = () => {
   const { rpSummary, rpLoading } = useProjectRpSummary();
 
   return (
-    <div className="grid grid-cols-2 gap-6 mt-6">
+    <div className="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-2">
       <Card>
         <CardContent>
           <div className="flex items-center justify-between mb-10">

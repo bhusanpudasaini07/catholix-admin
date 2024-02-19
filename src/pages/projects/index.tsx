@@ -70,7 +70,7 @@ const Projects: NextPageWithLayout = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex items-end justify-between px-8 py-6 border-b bg-light-white border-b-slate-100">
+        <div className="flex items-end justify-between gap-3 px-8 py-6 border-b bg-light-white border-b-slate-100">
           <FilterSearch setSearchText={setSearchText} />
           <ProjectFilters />
         </div>
@@ -93,7 +93,7 @@ const Projects: NextPageWithLayout = () => {
             {isLoading ? (
               <ProjectProfitViewSkeleton num={12} />
             ) : projectList?.data?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-4 max-h-[70vh] overflow-auto">
+              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 mw1024:grid-cols-3 xl:grid-cols-4 max-h-[70vh] overflow-auto">
                 {projectList?.data?.map((project: IProjectDetail) => (
                   <ProfitLossCard key={project?.project_id} data={project} />
                 ))}

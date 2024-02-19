@@ -77,7 +77,7 @@ const DetailOverview = () => {
   return (
     <div className="grid grid-cols-12 gap-6">
       {isLoading ? (
-        <div className="col-span-6">
+        <div className="col-span-12 xl:col-span-6">
           <div className="grid grid-cols-2 gap-4 mb-4">
             <TotalSalesSkeleton />
             <ProjectDurationSkeleton />
@@ -87,7 +87,7 @@ const DetailOverview = () => {
           </div>
         </div>
       ) : (
-        <div className="col-span-12 lg:col-span-6">
+        <div className="col-span-12 xl:col-span-6">
           <div className="grid h-full grid-cols-12 gap-3">
             {/* RP Used */}
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
@@ -106,9 +106,9 @@ const DetailOverview = () => {
                       Sales RP
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between mt-10 gap-7">
+                  <div className="flex items-center justify-between mt-10">
                     <div className="">
-                      <h3 className="text-4xl font-semibold text-zinc-800">
+                      <h3 className="text-3xl font-semibold 2xl:text-4xl text-zinc-800">
                         {projectDetail?.data?.rp?.used_rp ?? 0}
                       </h3>
                       <p className="text-sm font-normal text-zinc-500">
@@ -230,11 +230,11 @@ const DetailOverview = () => {
       )}
 
       {isLoading ? (
-        <div className="col-span-12 lg:col-span-6">
+        <div className="col-span-12 xl:col-span-6">
           <ProjectDetailSkeleton />
         </div>
       ) : (
-        <div className="col-span-12 lg:col-span-6">
+        <div className="col-span-12 xl:col-span-6">
           <Card>
             <CardContent>
               <div className="flex items-center justify-start gap-4 mb-7">

@@ -87,10 +87,10 @@ const DetailOverview = () => {
           </div>
         </div>
       ) : (
-        <div className="col-span-6">
-          <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-12 lg:col-span-6">
+          <div className="grid h-full grid-cols-12 gap-3">
             {/* RP Used */}
-            <div className="col-span-6">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
                 <CardContent>
                   <div className="flex items-center justify-start mb-4 gap-7">
@@ -124,7 +124,7 @@ const DetailOverview = () => {
             </div>
 
             {/* Project Duration */}
-            <div className="col-span-6 ">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6 ">
               <Card>
                 <CardContent className="flex flex-col items-start justify-between h-full">
                   <h5 className="mb-3 text-lg font-medium text-zinc-700">
@@ -230,28 +230,40 @@ const DetailOverview = () => {
       )}
 
       {isLoading ? (
-        <div className="col-span-6">
+        <div className="col-span-12 lg:col-span-6">
           <ProjectDetailSkeleton />
         </div>
       ) : (
-        <div className="card !p-4 col-span-6 grow">
-          <div className="flex items-center justify-start gap-4 mb-7">
-            <p className="text-lg font-medium text-zinc-700">Project Detail</p>
-            <Button variant={"white"} size={"sm"}>
-              More Details
-            </Button>
-          </div>
-          <div className="flex items-stretch justify-between gap-7">
-            <div className="w-[50%]">
-              <div className="">
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <Tag className="me-2" size={16} /> Status
-                  </p>
-                  <div className="grow text-start">
-                    <Badge
-                      variant={"outline"}
-                      className={`
+        <div className="col-span-12 lg:col-span-6">
+          <Card>
+            <CardContent>
+              <div className="flex items-center justify-start gap-4 mb-7">
+                <p className="text-lg font-medium text-zinc-700">
+                  Project Detail
+                </p>
+                <Button
+                  variant={"white"}
+                  size={"sm"}
+                  onClick={() =>
+                    router?.push(
+                      `/projects/${router?.query?.code}/more-details`
+                    )
+                  }
+                >
+                  More Details
+                </Button>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                <div>
+                  <div className="">
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Tag className="me-2" size={16} /> Status
+                      </p>
+                      <div className="grow text-start">
+                        <Badge
+                          variant={"outline"}
+                          className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
                               " border-blue-500 text-blue-500 bg-blue-50"
@@ -275,117 +287,119 @@ const DetailOverview = () => {
                             " border-zinc-500 text-zinc-500 bg-zinc-50"
                           }
                           capitalize border rounded-md`}
-                    >
-                      {projectDetail?.data?.status}
-                    </Badge>
+                        >
+                          {projectDetail?.data?.status}
+                        </Badge>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <CalendarRange className="me-2" size={16} /> Period
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {`${moment(
+                          projectDetail?.data?.dates.start_date
+                        ).format("MMM Do, YYYY")} - ${moment(
+                          projectDetail?.data?.dates.deadline
+                        ).format("MMM Do, YYYY")}`}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Zap className="me-2" size={16} /> Type
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.type}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Globe className="me-2" size={16} />
+                        Market
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.market_title}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Star className="me-2" size={16} />
+                        Source
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.source}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
+                        <Laptop className="me-2" size={16} /> Tech Stack
+                      </p>
+                      <div className="text-sm font-medium break-all grow text-start">
+                        {projectDetail?.data?.tech_stack}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <BadgeAlert size={16} className="me-2" />
+                        Sales RP
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.rp?.sales_rp ?? 0}
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="flex items-start justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <CalendarRange className="me-2" size={16} /> Period
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    {`${moment(projectDetail?.data?.dates.start_date).format(
-                      "MMM Do, YYYY"
-                    )} - ${moment(projectDetail?.data?.dates.deadline).format(
-                      "MMM Do, YYYY"
-                    )}`}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <Zap className="me-2" size={16} /> Type
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    {projectDetail?.data?.type}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <Globe className="me-2" size={16} />
-                    Market
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    {projectDetail?.data?.market_title}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <Star className="me-2" size={16} />
-                    Source
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    {projectDetail?.data?.source}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
-                    <Laptop className="me-2" size={16} /> Tech Stack
-                  </p>
-                  <div className="text-sm font-medium break-all grow text-start">
-                    {projectDetail?.data?.tech_stack}
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                    <BadgeAlert size={16} className="me-2" />
-                    Sales RP
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    {projectDetail?.data?.rp?.sales_rp ?? 0}
+                <div>
+                  <div className="">
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <UserCircle2 className="me-2" size={16} />
+                        Project Lead
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        <p
+                          className="underline cursor-pointer"
+                          onClick={() => setOpenLeadSheet(true)}
+                        >
+                          {projectDetail?.data?.project_lead?.fullname}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <Users size={16} className="me-2" /> Members & Role
+                      </p>
+                      <div className="grow text-start ">
+                        <Button
+                          onClick={() => setMemberModalOpen(true)}
+                          variant={"outline_secondary"}
+                          size={"sm"}
+                        >
+                          View Members
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <Links size={16} className="me-2" /> Repo Link
+                      </p>
+                      <div className="grow text-start">
+                        <Button
+                          variant={"outline"}
+                          size={"sm"}
+                          onClick={() => setGitModalOpen(true)}
+                          disabled={projectDetail?.data?.git_urls?.length === 0}
+                          className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+                        >
+                          git
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="w-[50%]">
-              <div className="">
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                    <UserCircle2 className="me-2" size={16} />
-                    Project Lead
-                  </p>
-                  <div className="text-sm font-medium grow text-start">
-                    <p
-                      className="underline cursor-pointer"
-                      onClick={() => setOpenLeadSheet(true)}
-                    >
-                      {projectDetail?.data?.project_lead?.fullname}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                    <Users size={16} className="me-2" /> Members & Role
-                  </p>
-                  <div className="grow text-start ">
-                    <Button
-                      onClick={() => setMemberModalOpen(true)}
-                      variant={"outline_secondary"}
-                      size={"sm"}
-                    >
-                      View Members
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between mb-6 gap-7">
-                  <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                    <Links size={16} className="me-2" /> Repo Link
-                  </p>
-                  <div className="grow text-start">
-                    <Button
-                      variant={"outline"}
-                      size={"sm"}
-                      onClick={() => setGitModalOpen(true)}
-                      disabled={projectDetail?.data?.git_urls?.length === 0}
-                      className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
-                    >
-                      git
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 

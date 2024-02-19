@@ -114,6 +114,7 @@ const RpConsumption = () => {
                 <ReactECharts
                   style={{ minHeight: "500px" }}
                   option={lineOption}
+                  notMerge={true}
                 />
               </TabsContent>
 
@@ -124,6 +125,7 @@ const RpConsumption = () => {
                     barType === "sum" ? barStackOption : barLabelRotationOption
                   }
                   style={{ minHeight: "500px" }}
+                  notMerge={true}
                 />
               </TabsContent>
             </>

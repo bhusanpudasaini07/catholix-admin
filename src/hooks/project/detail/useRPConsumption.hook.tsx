@@ -33,7 +33,11 @@ const useRPConsumption = () => {
     to: moment().endOf("month").toDate(),
   });
 
-  const { data: rpConsumption, isLoading } = useQuery<IConsumptionData>({
+  const {
+    data: rpConsumption,
+    isLoading,
+    refetch,
+  } = useQuery<IConsumptionData>({
     queryFn: async () => {
       if (code) {
         const response = await getRpSummary(
@@ -51,6 +55,7 @@ const useRPConsumption = () => {
     queryKey: ["rpConsumption", code, date, dateType],
   });
 
+  // rolewise data processing
   const processRolesData = (rolewiseData: { [key: string]: any }) => {
     const seriesData: { [roleName: string]: number[] } = {};
     const uniqueRoleNames: Set<string> = new Set();
@@ -75,16 +80,53 @@ const useRPConsumption = () => {
     };
   };
 
+  // departmentwise data processing
+  const processDepartmentData = (departmentwiseData: {
+    [key: string]: any;
+  }) => {
+    const seriesData: { [departmentName: string]: number[] } = {};
+    const uniqueRoleNames: Set<string> = new Set();
+
+    Object.entries(departmentwiseData).forEach(([date, department]) => {
+      department.forEach(({ department_name, rp }: any) => {
+        uniqueRoleNames.add(department_name);
+        seriesData[department_name] = seriesData[department_name] || [];
+        seriesData[department_name].push(Number(rp));
+      });
+    });
+
+    return {
+      departmentSeries: Object.entries(seriesData).map(
+        ([departmentName, dataPoints]) => ({
+          name: departmentName,
+          type: "line",
+          stack: barType === "sum" ? "Total" : "",
+          data: dataPoints,
+          smooth: true,
+        })
+      ),
+      departmentUniqueNames: Array.from(uniqueRoleNames),
+    };
+  };
+
   const { series, uniqueRoleNames } = rpConsumption?.data?.rolewise
     ? processRolesData(rpConsumption.data.rolewise)
     : { series: [], uniqueRoleNames: [] };
+
+  const { departmentSeries, departmentUniqueNames } = rpConsumption?.data
+    ?.departmentwise
+    ? processDepartmentData(rpConsumption?.data?.departmentwise)
+    : {
+        departmentSeries: [],
+        departmentUniqueNames: [],
+      };
 
   const lineOption = {
     tooltip: {
       trigger: "axis",
     },
     legend: {
-      data: uniqueRoleNames,
+      data: wiseType === "role" ? uniqueRoleNames : departmentUniqueNames,
       itemGap: 15,
     },
     grid: {
@@ -101,7 +143,10 @@ const useRPConsumption = () => {
     xAxis: {
       type: "category",
       boundaryGap: false,
-      data: Object.keys(rpConsumption?.data?.rolewise || {}),
+      data:
+        wiseType === "role"
+          ? Object.keys(rpConsumption?.data?.rolewise || {})
+          : Object.keys(rpConsumption?.data?.departmentwise || {}),
       axisLabel: {
         formatter: (value: any) => {
           return `${moment(value).format("MMM DD") ?? 0}\n\n ${
@@ -114,7 +159,7 @@ const useRPConsumption = () => {
     yAxis: {
       type: "value",
     },
-    series: series,
+    series: wiseType === "role" ? series : departmentSeries,
   };
 
   //   for barType == sum
@@ -126,7 +171,7 @@ const useRPConsumption = () => {
       },
     },
     legend: {
-      data: uniqueRoleNames,
+      data: wiseType === "role" ? uniqueRoleNames : departmentUniqueNames,
     },
     grid: {
       left: "3%",
@@ -136,7 +181,10 @@ const useRPConsumption = () => {
     },
     xAxis: {
       type: "category",
-      data: Object.keys(rpConsumption?.data?.rolewise || {}),
+      data:
+        wiseType === "role"
+          ? Object.keys(rpConsumption?.data?.rolewise || {})
+          : Object.keys(rpConsumption?.data?.departmentwise || {}),
       axisLabel: {
         formatter: (value: any) => {
           return `${moment(value).format("MMM DD") ?? 0}\n ${
@@ -152,46 +200,85 @@ const useRPConsumption = () => {
         formatter: "{value}",
       },
     },
-    series: series.map((item) => ({
-      ...item,
-      type: "bar",
-      stack: barType === "sum",
-      emphasis: {
-        focus: "series",
-      },
-      data: item.data.map((point) => ({
-        value: point,
-      })),
-      label: {
-        show: true,
-        position: "insideBottom",
-        formatter: "{c}",
-      },
-    })),
+    series:
+      wiseType === "role"
+        ? series.map((item) => ({
+            ...item,
+            type: "bar",
+            stack: barType === "sum",
+            emphasis: {
+              focus: "series",
+            },
+            data: item.data.map((point) => ({
+              value: point,
+            })),
+            label: {
+              show: true,
+              position: "insideBottom",
+              formatter: "{c}",
+            },
+          }))
+        : departmentSeries.map((item) => ({
+            ...item,
+            type: "bar",
+            stack: barType === "sum",
+            emphasis: {
+              focus: "series",
+            },
+            data: item.data.map((point) => ({
+              value: point,
+            })),
+            label: {
+              show: true,
+              position: "insideBottom",
+              formatter: "{c}",
+            },
+          })),
   };
 
   //   for barType == individual
   const barLabelRotationOption = {
     ...barStackOption,
-    series: series.map((item) => ({
-      ...item,
-      type: "bar",
-      stack: barType === "sum",
-      emphasis: {
-        focus: "series",
-      },
-      data: item.data.map((point) => ({
-        value: point,
-        label: {
-          show: false,
-          position: "top",
-          rotate: 90,
-          formatter: "{c}",
-          fontSize: 14,
-          color: "black",
-        },
-      })),
-    })),
+    series:
+      wiseType === "role"
+        ? series.map((item) => ({
+            ...item,
+            type: "bar",
+            stack: barType === "sum",
+            emphasis: {
+              focus: "series",
+            },
+            data: item.data.map((point) => ({
+              value: point,
+              label: {
+                show: false,
+                position: "top",
+                rotate: 90,
+                formatter: "{c}",
+                fontSize: 14,
+                color: "black",
+              },
+            })),
+          }))
+        : departmentSeries.map((item) => ({
+            ...item,
+            type: "bar",
+            stack: barType === "sum",
+            emphasis: {
+              focus: "series",
+            },
+            data: item.data.map((point) => ({
+              value: point,
+              label: {
+                show: false,
+                position: "top",
+                rotate: 90,
+                formatter: "{c}",
+                fontSize: 14,
+                color: "black",
+              },
+            })),
+          })),
   };
 
   useEffect(() => {

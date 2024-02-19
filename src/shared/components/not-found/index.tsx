@@ -33,8 +33,10 @@ const NotFoundLottie = ({ height, width }: IProps) => {
         height={height ? height : 150}
         alt="No Result"
         className="m-auto"
+        quality={100}
+        priority
       />
-      <p className="text-base text-zinc-500">No Results Found</p>
+      <p className="text-base font-medium text-zinc-500">No Results Found</p>
     </div>
   );
 };

@@ -126,13 +126,19 @@ export interface IDepartmentGroupWise {
   rp: string;
   title: string;
 }
-
+export interface IDepartmentWise {
+  department_id: string;
+  department_name: string;
+  rp: string;
+  time: string;
+}
 export interface IConsumptionData {
   data: {
     rolewise: IRoleWise[];
     staffwise: IStaffWise[];
     departmentgroupwise: IDepartmentGroupWise[];
     rolegroupwise: IRoleGroupWise[];
+    departmentwise: IDepartmentWise[];
   };
 }
 

@@ -198,7 +198,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
         width: sidebarWidth,
         maxWidth: sidebarWidth,
       }}
-      className={`bg-light-white sidebar py-10 border-r border-r-slate-100 max-h-[calc(100vh-56px)] overflow-y-auto hidden lg:block`}
+      className={`bg-light-white sidebar py-10 border-r border-r-slate-100 max-h-[calc(100vh-56px)] overflow-y-auto hidden xl:block`}
     >
       <div className="flex flex-col gap-6">
         {menuItems?.map((item: any, index) => (

@@ -28,7 +28,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
         <div className="flex items-center justify-between mb-10">
           <p className="text-lg font-medium text-zinc-700">Overview</p>
         </div>
-        <div className="grid grid-flow-row-dense grid-cols-5 grid-rows-2 gap-6">
+        <div className="grid grid-flow-row-dense grid-cols-3 gap-6 xl:grid-rows-2 2xl:grid-cols-5">
           {/* Total Estimated Time */}
           <div
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
@@ -90,7 +90,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Total Task */}
           <div
-            className={`col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
+            className={`2xl:col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
             border-[1px] border-blue-100
             `}
           >

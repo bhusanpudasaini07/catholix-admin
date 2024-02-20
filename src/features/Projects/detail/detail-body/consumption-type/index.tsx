@@ -4,7 +4,6 @@ import ReactECharts from "echarts-for-react";
 import { Button } from "@/shared/components/ui/button";
 import { DataTable } from "@/shared/components/data-table/data-table";
 
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
@@ -12,7 +11,8 @@ import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook
 const ConsumptionType = () => {
   const { rpSummary, rpLoading } = useProjectRpSummary();
 
-  const { staffColumns, roleColumns, option } = useConsumptionType();
+  const { staffColumns, roleColumns, staffWiseOption, roleWiseOption } =
+    useConsumptionType();
 
   return (
     <div className="grid grid-cols-12 gap-6 mt-4">
@@ -31,7 +31,7 @@ const ConsumptionType = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={option} />
+              <ReactECharts option={staffWiseOption} />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
@@ -60,7 +60,7 @@ const ConsumptionType = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={option} />
+              <ReactECharts option={roleWiseOption} />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable

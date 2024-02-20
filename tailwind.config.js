@@ -7,6 +7,8 @@ module.exports = {
       padding: "2rem",
       screens: {
         "2xl": "1450px",
+        smallLaptop: "1280px",
+        tablet: "1024px",
         mw1024: {
           raw: "screen and (max-width: 1024px)",
         },

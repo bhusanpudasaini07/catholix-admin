@@ -93,14 +93,13 @@ const DetailOverview = () => {
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start mb-4 gap-7">
+                  <div className="flex items-center justify-start gap-4 mb-4">
                     <p className="text-lg font-medium text-zinc-700">
                       Total RP Used
                     </p>{" "}
                     <Button
                       onClick={() => setSalesModalOpen(true)}
                       size={"sm"}
-                      className=""
                       variant={"white"}
                     >
                       Sales RP
@@ -115,7 +114,7 @@ const DetailOverview = () => {
                         out of {projectDetail?.data?.rp?.sales_rp ?? 0}
                       </p>
                     </div>
-                    <div className=" min-w-[120px]">
+                    <div className="min-w-[120px]">
                       <UsedRp rp={projectDetail?.data?.rp!} />
                     </div>
                   </div>
@@ -255,15 +254,14 @@ const DetailOverview = () => {
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
                 <div>
-                  <div className="">
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <Tag className="me-2" size={16} /> Status
-                      </p>
-                      <div className="grow text-start">
-                        <Badge
-                          variant={"outline"}
-                          className={`
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <Tag className="me-2" size={16} /> Status
+                    </p>
+                    <div className="grow text-start">
+                      <Badge
+                        variant={"outline"}
+                        className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
                               " border-blue-500 text-blue-500 bg-blue-50"
@@ -287,72 +285,71 @@ const DetailOverview = () => {
                             " border-zinc-500 text-zinc-500 bg-zinc-50"
                           }
                           capitalize border rounded-md`}
-                        >
-                          {projectDetail?.data?.status}
-                        </Badge>
-                      </div>
+                      >
+                        {projectDetail?.data?.status}
+                      </Badge>
                     </div>
-                    <div className="flex items-start justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <CalendarRange className="me-2" size={16} /> Period
-                      </p>
-                      <div className="text-sm font-medium grow text-start">
-                        {`${moment(
-                          projectDetail?.data?.dates.start_date
-                        ).format("MMM Do, YYYY")} - ${moment(
-                          projectDetail?.data?.dates.deadline
-                        ).format("MMM Do, YYYY")}`}
-                      </div>
+                  </div>
+                  <div className="flex items-start justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <CalendarRange className="me-2" size={16} /> Period
+                    </p>
+                    <div className="text-sm font-medium grow text-start">
+                      {`${moment(projectDetail?.data?.dates.start_date).format(
+                        "MMM Do, YYYY"
+                      )} - ${moment(projectDetail?.data?.dates.deadline).format(
+                        "MMM Do, YYYY"
+                      )}`}
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <Zap className="me-2" size={16} /> Type
-                      </p>
-                      <div className="text-sm font-medium grow text-start">
-                        {projectDetail?.data?.type}
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <Zap className="me-2" size={16} /> Type
+                    </p>
+                    <div className="text-sm font-medium grow text-start">
+                      {projectDetail?.data?.type}
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <Globe className="me-2" size={16} />
-                        Market
-                      </p>
-                      <div className="text-sm font-medium grow text-start">
-                        {projectDetail?.data?.market_title}
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <Globe className="me-2" size={16} />
+                      Market
+                    </p>
+                    <div className="text-sm font-medium grow text-start">
+                      {projectDetail?.data?.market_title}
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <Star className="me-2" size={16} />
-                        Source
-                      </p>
-                      <div className="text-sm font-medium grow text-start">
-                        {projectDetail?.data?.source}
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <Star className="me-2" size={16} />
+                      Source
+                    </p>
+                    <div className="text-sm font-medium grow text-start">
+                      {projectDetail?.data?.source}
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
-                        <Laptop className="me-2" size={16} /> Tech Stack
-                      </p>
-                      <div className="text-sm font-medium break-all grow text-start">
-                        {projectDetail?.data?.tech_stack}
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <Laptop className="me-2" size={16} /> Tech Stack
+                    </p>
+                    <div className="text-sm font-medium break-all grow text-start">
+                      {projectDetail?.data?.tech_stack}
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                        <BadgeAlert size={16} className="me-2" />
-                        Sales RP
-                      </p>
-                      <div className="text-sm font-medium grow text-start">
-                        {projectDetail?.data?.rp?.sales_rp ?? 0}
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                    <p className="text-zinc-500 lg:w-[120px] xl:w-[80px] 2xl:w-[120px] font-normal text-sm flex items-center">
+                      <BadgeAlert size={16} className="me-2" />
+                      Sales RP
+                    </p>
+                    <div className="text-sm font-medium grow text-start">
+                      {projectDetail?.data?.rp?.sales_rp ?? 0}
                     </div>
                   </div>
                 </div>
                 <div>
                   <div className="">
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                    <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                      <p className="text-zinc-500 lg:w-[160px] xl:w-[80px] 2xl:w-[160px] font-normal text-sm flex items-center">
                         <UserCircle2 className="me-2" size={16} />
                         Project Lead
                       </p>
@@ -365,8 +362,8 @@ const DetailOverview = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                    <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                      <p className="text-zinc-500 lg:w-[160px] xl:w-[80px] 2xl:w-[160px] font-normal text-sm flex items-center">
                         <Users size={16} className="me-2" /> Members & Role
                       </p>
                       <div className="grow text-start ">
@@ -379,8 +376,8 @@ const DetailOverview = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
-                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                    <div className="flex items-center justify-between mb-6 gap-7 xl:gap-3 2xl:gap-7">
+                      <p className="text-zinc-500 lg:w-[160px] xl:w-[80px] 2xl:w-[160px] font-normal text-sm flex items-center">
                         <Links size={16} className="me-2" /> Repo Link
                       </p>
                       <div className="grow text-start">

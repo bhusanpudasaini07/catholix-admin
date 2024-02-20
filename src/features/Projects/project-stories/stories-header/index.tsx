@@ -13,7 +13,7 @@ interface IProps {
 const ProjectStoriesHeader = ({ projectName, loading }: IProps) => {
   const router = useRouter();
   return (
-    <div className="flex justify-between px-8 py-6 bg-white">
+    <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex items-start gap-4">
         <Button
           onClick={() => router.push(`/projects/${router?.query?.code}`)}

@@ -11,5 +11,5 @@ export default LeadReport;
 export const getStaticProps = getI18nProps;
 
 LeadReport.getLayout = (page: any) => {
-  return <MainLayout title="Projects">{page}</MainLayout>;
+  return <MainLayout title="Lead Report">{page}</MainLayout>;
 };

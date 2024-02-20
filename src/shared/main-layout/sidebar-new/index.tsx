@@ -111,7 +111,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
           accordionItem: [
             {
               itemName: "Report",
-              itemSlug: "/test",
+              itemSlug: "/team-leads/report",
             },
             {
               itemName: "Lead Targets",

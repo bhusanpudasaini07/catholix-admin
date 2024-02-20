@@ -136,7 +136,7 @@ const useConsumptionType = () => {
     },
   ];
 
-  // Role Group Wise Column
+// Role Group Wise Column
   const roleGroupColumn: ColumnDef<IRoleGroupWise>[] = [
     // SN
     {
@@ -235,39 +235,40 @@ const useConsumptionType = () => {
     },
   ];
 
-  const option = {
+  // team wise chart option
+  const staffWiseOption = {
     tooltip: {
       trigger: "item",
     },
     series: [
-      {
-        type: "pie",
-        radius: ["82%", "78%"],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 5,
-          borderColor: "#fff",
-          borderWidth: 2,
-        },
-        label: {
-          show: true,
-          position: "outside",
-        },
-        emphasis: {
-          label: {
-            show: false,
-          },
-        },
-        labelLine: {
-          show: true,
-        },
-        data: [
-          { value: 3, name: "Developers" },
-          { value: 2, name: "QA" },
-        ],
-        animationType: "scale",
-        animationDuration: 1000,
-      },
+      // {
+      //   type: "pie",
+      //   radius: ["82%", "78%"],
+      //   avoidLabelOverlap: false,
+      //   itemStyle: {
+      //     borderRadius: 5,
+      //     borderColor: "#fff",
+      //     borderWidth: 2,
+      //   },
+      //   label: {
+      //     show: true,
+      //     position: "outside",
+      //   },
+      //   emphasis: {
+      //     label: {
+      //       show: false,
+      //     },
+      //   },
+      //   labelLine: {
+      //     show: true,
+      //   },
+      //   data: [
+      //     { value: 3, name: "Developers" },
+      //     { value: 2, name: "QA" },
+      //   ],
+      //   animationType: "scale",
+      //   animationDuration: 1000,
+      // },
       {
         type: "pie",
         radius: ["30%", "70%"],
@@ -289,21 +290,53 @@ const useConsumptionType = () => {
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1, name: "Developer A" },
-          { value: 1, name: "Developer B" },
-          { value: 1, name: "Developer C" },
-          { value: 1, name: "QA 1" },
-          { value: 1, name: "QA 2" },
-        ],
+        data: rpSummary?.data?.staffwise?.map((staff) => ({
+          value: staff?.rp,
+          name: staff?.name,
+        })),
       },
     ],
   };
 
+  // rolewise chart option
+  const roleWiseOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        type: "pie",
+        radius: ["30%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 5,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: rpSummary?.data?.rolewise?.map((role) => ({
+          value: role?.rp,
+          name: role?.role_name,
+        })),
+      },
+    ],
+  };
   return {
     staffColumns,
     roleColumns,
-    option,
+    staffWiseOption,
+    roleWiseOption,
     roleGroupColumn,
     departmentGroupColumn,
   };

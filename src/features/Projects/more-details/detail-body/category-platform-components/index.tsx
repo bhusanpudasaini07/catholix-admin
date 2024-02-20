@@ -42,7 +42,7 @@ const CategoryPlatform = () => {
     },
     // Add more data objects as needed
   ];
-  const { staffColumns, roleColumns, option } = useConsumptionType();
+  const { staffColumns, roleColumns, roleWiseOption } = useConsumptionType();
 
   return (
     <div className="grid grid-cols-12 gap-6 mt-4 mb-4">
@@ -59,7 +59,7 @@ const CategoryPlatform = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={option} />
+              <ReactECharts option={roleWiseOption} />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
@@ -88,7 +88,7 @@ const CategoryPlatform = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={option} />
+              <ReactECharts option={roleWiseOption} />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable

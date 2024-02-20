@@ -31,7 +31,7 @@ const DateRangeFilter = ({
           variant={"date_picker"}
           size={"md"}
           className={cn(
-            "w-full pl-3 text-left font-normal",
+            "w-full justify-between pl-3 text-left font-normal",
             !dateRange && "text-muted-foreground"
           )}
         >

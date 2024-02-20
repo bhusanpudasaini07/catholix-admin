@@ -1,0 +1,136 @@
+import moment from "moment";
+import { useMemo, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
+import { ColumnDef } from "@tanstack/react-table";
+
+import {
+  ILeadDetail,
+  ILeadReportSummary,
+} from "@/interface/team-leads-interface";
+import { getTeamLeadRPSummary } from "@/services/teams/report-service";
+
+const useReport = () => {
+  const [dateRangeOpen, setDateRangeOpen] = useState(false);
+
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: oneMonthAgo,
+    to: new Date(),
+  });
+
+  const { data: leadReportSummary, isLoading } = useQuery<ILeadReportSummary>({
+    queryFn: () =>
+      getTeamLeadRPSummary(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD")
+      ),
+    queryKey: ["leadReportSummary", dateRange?.to],
+  });
+
+  //   Total RP collection
+  const totalRP: number = useMemo(
+    () =>
+      leadReportSummary?.data
+        ? leadReportSummary?.data?.reduce(
+            (acc, item) => acc + item?.summary?.total_rp,
+            0
+          )
+        : 0,
+    [leadReportSummary?.data]
+  );
+
+  //   Total Commercial (Client) RP collection
+  const totalCommercialRP: number = useMemo(
+    () =>
+      leadReportSummary?.data
+        ? leadReportSummary?.data?.reduce(
+            (acc, item) => acc + item?.summary?.commercial_rp,
+            0
+          )
+        : 0,
+    [leadReportSummary?.data]
+  );
+
+  //   Total InHouse RP collection
+  const totalInhouseRP: number = useMemo(
+    () =>
+      leadReportSummary?.data
+        ? leadReportSummary?.data?.reduce(
+            (acc, item) => acc + item?.summary?.inhouse_rp,
+            0
+          )
+        : 0,
+    [leadReportSummary?.data]
+  );
+
+  const SerialNumberCell = ({ row }: any) => {
+    const rowIndex = row.index;
+    const serialNumber = rowIndex + 1;
+    return <div className="font-medium text-zinc-700">{serialNumber}.</div>;
+  };
+
+  const columns: ColumnDef<ILeadDetail>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S.No.",
+      cell: ({ row }) => <SerialNumberCell row={row} />,
+    },
+    {
+      id: "fullname",
+      accessorKey: "fullname",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="font-semibold">{row.getValue("fullname")}</div>
+      ),
+    },
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "Total RP Executed",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.summary?.total_rp ?? 0}
+        </div>
+      ),
+    },
+    {
+      id: "client_rp",
+      accessorKey: "client_rp",
+      header: "Total RP Executed (Client)",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.summary?.commercial_rp ?? 0}
+        </div>
+      ),
+    },
+    {
+      id: "inhouse_rp",
+      accessorKey: "inhouse_rp",
+      header: "Total RP Executed (In-House)",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.summary?.inhouse_rp ?? 0}
+        </div>
+      ),
+    },
+  ];
+
+  return {
+    dateRange,
+    setDateRange,
+    dateRangeOpen,
+    setDateRangeOpen,
+    leadReportSummary,
+    isLoading,
+    columns,
+    totalRP,
+    totalCommercialRP,
+    totalInhouseRP,
+  };
+};
+
+export default useReport;

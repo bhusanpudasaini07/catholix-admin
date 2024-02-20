@@ -54,8 +54,8 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           </div>
         </div>
       </main>
-
-      {/* <AlertDialog open={screenSize! < 1024}>
+      {/* 
+      <AlertDialog open={screenSize! < 1024}>
         <AlertDialogContent>
           View this content in laptop or desktop.
         </AlertDialogContent>

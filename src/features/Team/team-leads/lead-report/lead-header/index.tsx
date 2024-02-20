@@ -1,3 +1,4 @@
+import { getLeadsList } from "@/services/lead-report/lead-report.service";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,
@@ -12,17 +13,23 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-import React, { useState } from "react";
+import { useRouter } from "next/router";
+import React, { FC, useState } from "react";
+import { useQuery } from "react-query";
 
-const LeadHeader = () => {
+interface IProps {
+  setDateRange?: any;
+  dateRange?: any;
+}
+
+const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
+  const router = useRouter();
+  const current_id = router.query?.lead_id || undefined;
+
   const [selected, setSelected] = useState<string>("");
 
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
-
-  const [dateRange, setDateRange] = useState<any | undefined>({
-    from: undefined,
-    to: undefined,
-  });
+  const [activeLeads, setActiveLeads] = useState([]);
 
   const handleChange = (value: any) => {
     setSelected(value);
@@ -33,6 +40,18 @@ const LeadHeader = () => {
     { value: "2022-10-24", label: "October 24, 2022" },
   ];
 
+  const { data: leadList, isLoading: leadsLoading } = useQuery<any>(
+    ["getTeamLeadList"],
+    async () => {
+      const response = getLeadsList();
+      return response;
+    }
+  );
+
+  const handleLeadsId = (id: string) => {
+    router.push(`/team-leads/lead-report?lead_id=${id}`);
+  };
+
   return (
     <div className="flex justify-between items-center bg-white p-8">
       <div className="">
@@ -42,6 +61,25 @@ const LeadHeader = () => {
         <p className="text-base text-zinc-500">Report of all the members</p>
       </div>
       <div className="flex justify-end items-center gap-2">
+        <Select
+          value={current_id ? current_id?.toString() : "all"}
+          onValueChange={(e) => handleLeadsId(e)}
+        >
+          <SelectTrigger className="w-[220px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All</SelectItem>
+            {leadList?.data
+              .filter((lead: any) => lead.status === "Active")
+              .map((lead: any) => (
+                <SelectItem key={lead.id} value={lead.id}>
+                  {lead.fullname}
+                </SelectItem>
+              ))}
+          </SelectContent>
+        </Select>
+
         <Tabs
           defaultValue="weekly"
           className=" flex items-center flex-row-reverse gap-3"

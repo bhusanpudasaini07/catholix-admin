@@ -30,13 +30,13 @@ const ProjectOverview: FC<IProps> = ({ total, success, ongoing, risk }) => {
             <p className="text-3xl font-semibold mb-1">
               {success ? success : "N/A"}
             </p>
-            <p className="text-sm font-normal">Successful Project</p>
+            <p className="text-sm font-normal">Client Project</p>
           </div>
           <div className="!border-0 !items-start !h-[94px] p-4 !gap-0  data-card-orange">
             <p className="text-3xl font-semibold mb-1">
               {ongoing ? ongoing : "N/A"}
             </p>
-            <p className="text-sm font-normal">On-going Projects</p>
+            <p className="text-sm font-normal">In-House Projects</p>
           </div>
           <div className="!border-0 !items-start !h-[94px] p-4 !gap-0  data-card-red">
             <p className="text-3xl font-semibold mb-1">{risk ? risk : "N/A"}</p>

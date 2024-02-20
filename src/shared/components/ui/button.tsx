@@ -30,6 +30,8 @@ const buttonVariants = cva(
         table:
           "border border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary",
         date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
+        success:
+          "bg-green-500 border border-green-500 shadow-sm py-2 px-3 text-white",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

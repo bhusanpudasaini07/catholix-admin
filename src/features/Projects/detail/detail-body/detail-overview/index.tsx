@@ -114,7 +114,7 @@ const DetailOverview = () => {
                         out of {projectDetail?.data?.rp?.sales_rp ?? 0}
                       </p>
                     </div>
-                    <div className=" min-w-[120px]">
+                    <div className="min-w-[120px]">
                       <UsedRp rp={projectDetail?.data?.rp!} />
                     </div>
                   </div>

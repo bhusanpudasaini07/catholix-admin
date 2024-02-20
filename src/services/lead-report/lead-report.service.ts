@@ -21,7 +21,6 @@ export const getStaffRpSummary = (
   end_date: string,
   id: any
 ) => {
-  console.log("id", id);
   return httpRequest(
     `/get-staff-rp-summary?date_from=${start_date}&date_to=${end_date}`,
     httpMethods.GET,

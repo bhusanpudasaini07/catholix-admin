@@ -52,13 +52,6 @@ const LeadReportContent = () => {
       }
     });
 
-  console.log("staffIdJson", staffIdJson);
-  console.log("staffRpSummaryData", staffRpSummaryData);
-
-  // useEffect(() => {
-  //   // useStaffRpSummary(idArray, dateRange?.from, dateRange?.to);
-  //   console.log("updated:");
-  // }, [dateRange, idArray]);
   return (
     <div>
       <LeadHeader setDateRange={setDateRange} dateRange={dateRange} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RpUtilization from "./lead-rp-utilize";
 import TimeUtilization from "./lead-time-utilize";
 import RpSummary from "./lead-rp-summary";
@@ -6,6 +6,13 @@ import OtherInfo from "./lead-other-info";
 import ProjectOverview from "./lead-projects-overview";
 import RoleCountryTable from "./lead-role-country";
 import ProjectRpConsumptionTable from "./lead-role-rp-table";
+import { useQuery } from "react-query";
+import { useRouter } from "next/router";
+import {
+  getStaffRpSummary,
+  getTeamLeadReport,
+  getTeamLeadStaff,
+} from "@/services/lead-report/lead-report.service";
 
 const LeadReportBody = () => {
   return (

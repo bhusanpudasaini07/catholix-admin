@@ -22,9 +22,10 @@ export const getStaffRpSummary = (
   id: any
 ) => {
   return httpRequest(
-    `/get-staff-rp-summary?date_from=${start_date}&date_to=${end_date}`,
-    httpMethods.GET,
-    id
+    `/get-staff-rp-summary?date_from=${start_date}&date_to=${end_date}&id=${JSON.parse(
+      id
+    )}`,
+    httpMethods.GET
   );
 };
 

@@ -1,3 +1,24 @@
 .card {
   @apply bg-white py-4 px-7 pb-8 rounded-lg shadow-sm;
 }
+.data-card-blue,
+.data-card-orange,
+.data-card-red,
+.data-card-zinc {
+  @apply rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center 
+  border-[1px];
+}
+.data-card {
+  &-blue {
+    @apply bg-blue-50 text-blue-500 border-blue-100;
+  }
+  &-orange {
+    @apply bg-orange-50 text-orange-500 border-orange-100;
+  }
+  &-red {
+    @apply bg-red-50 text-red-500 border-red-100;
+  }
+  &-zinc {
+    @apply bg-zinc-50 text-zinc-700 border-zinc-100;
+  }
+}

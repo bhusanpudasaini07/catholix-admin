@@ -76,11 +76,15 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
           hasAccordion: true,
           accordionItem: [
             {
-              itemName: "Test",
+              itemName: "Report",
               itemSlug: "/test",
             },
             {
-              itemName: "Test",
+              itemName: "Lead Targets",
+              itemSlug: "/test",
+            },
+            {
+              itemName: "Lead Report",
               itemSlug: "/test",
             },
           ],
@@ -103,6 +107,21 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
           menuName: t("common.side_nav.team_leads"),
           menuSlug: "/team-leads",
           icon: <Users width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "Report",
+              itemSlug: "/test",
+            },
+            {
+              itemName: "Lead Targets",
+              itemSlug: "/test",
+            },
+            {
+              itemName: "Lead Report",
+              itemSlug: `${`/team-leads/lead-report`}`,
+            },
+          ],
         },
         {
           menuName: t("common.side_nav.staff_groups"),
@@ -132,7 +151,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
       subMenu: [
         {
           menuName: t("common.side_nav.pl_feedback"),
-          menuSlug: "/team-leads",
+          menuSlug: "/pl-feedback",
           icon: <Users width={20} height={20} />,
         },
         {
@@ -226,7 +245,13 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                               ) => (
                                 <li
                                   key={`accordion-item-${accordionItemIndex}`}
-                                  className=""
+                                  onClick={() =>
+                                    router?.push(accordionItem?.itemSlug)
+                                  }
+                                  className={`${
+                                    isActive(accordionItem?.itemSlug) &&
+                                    "text-blue-500"
+                                  }`}
                                 >
                                   {accordionItem?.itemName}
                                 </li>

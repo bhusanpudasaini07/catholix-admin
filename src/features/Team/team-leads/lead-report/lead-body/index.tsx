@@ -13,6 +13,9 @@ import {
   getTeamLeadReport,
   getTeamLeadStaff,
 } from "@/services/lead-report/lead-report.service";
+import ClientVsInHouseProject from "./client-n-inhouse-project";
+import InHouseMarketRp from "./inhouse-market-rp";
+import ClientMarketRP from "./client-market-rp";
 
 const LeadReportBody = () => {
   return (
@@ -27,6 +30,11 @@ const LeadReportBody = () => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
         <RoleCountryTable />
         <ProjectRpConsumptionTable />
+      </div>
+      <ClientVsInHouseProject />
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
+        <InHouseMarketRp />
+        <ClientMarketRP />
       </div>
     </div>
   );

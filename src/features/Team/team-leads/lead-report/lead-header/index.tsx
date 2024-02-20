@@ -65,7 +65,7 @@ const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
           value={current_id ? current_id?.toString() : "all"}
           onValueChange={(e) => handleLeadsId(e)}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[220px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

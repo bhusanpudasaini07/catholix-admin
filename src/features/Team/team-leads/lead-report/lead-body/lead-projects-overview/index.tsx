@@ -3,13 +3,13 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import React, { FC } from "react";
 
 interface IProps {
-  total?: number;
-  success?: number;
-  ongoing?: number;
-  risk?: number;
+  total?: string;
+  client?: string;
+  in_house?: string;
+  risk?: string;
 }
 
-const ProjectOverview: FC<IProps> = ({ total, success, ongoing, risk }) => {
+const ProjectOverview: FC<IProps> = ({ total, client, in_house, risk }) => {
   return (
     <Card>
       <CardContent>
@@ -28,13 +28,13 @@ const ProjectOverview: FC<IProps> = ({ total, success, ongoing, risk }) => {
           </div>
           <div className="!border-0 !items-start !h-[94px] p-4 !gap-0  data-card-blue">
             <p className="text-3xl font-semibold mb-1">
-              {success ? success : "N/A"}
+              {client ? client : "N/A"}
             </p>
             <p className="text-sm font-normal">Client Project</p>
           </div>
           <div className="!border-0 !items-start !h-[94px] p-4 !gap-0  data-card-orange">
             <p className="text-3xl font-semibold mb-1">
-              {ongoing ? ongoing : "N/A"}
+              {in_house ? in_house : "N/A"}
             </p>
             <p className="text-sm font-normal">In-House Projects</p>
           </div>

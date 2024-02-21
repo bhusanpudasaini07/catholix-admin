@@ -1,21 +1,30 @@
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Activity, Flag, TrendingDown } from "lucide-react";
+import { useRouter } from "next/router";
 import React, { FC } from "react";
 
 interface IProps {
   available?: string;
-  sales?: string;
+  spent?: string;
   loss?: string;
 }
 
-const RpSummary: FC<IProps> = ({ available, sales, loss }) => {
+const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
+  const router = useRouter();
+
   return (
     <Card>
       <CardContent>
         <div className="flex items-center justify-start gap-3 mb-4">
           <h5 className="font-medium text-zinc-700">RP Summary</h5>
-          <Button variant={"white"} size={"sm"}>
+          <Button
+            onClick={() =>
+              router.push("/team-leads/lead-report/trending-graph")
+            }
+            variant={"white"}
+            size={"sm"}
+          >
             View Timeline
           </Button>
         </div>
@@ -37,9 +46,9 @@ const RpSummary: FC<IProps> = ({ available, sales, loss }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-green-500">
-                {sales ? sales : "N/A"}
+                {spent ? spent : "N/A"}
               </p>
-              <p className="text-sm font-normal text-green-600">Sales RP</p>
+              <p className="text-sm font-normal text-green-600">spent RP</p>
             </div>
           </div>
           <div className="flex items-start justify-center gap-2">

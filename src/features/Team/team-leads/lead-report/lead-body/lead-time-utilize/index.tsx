@@ -1,8 +1,23 @@
 import { Card, CardContent } from "@/shared/components/ui/card";
-import React from "react";
+import React, { FC } from "react";
 import PercentageGraph from "../../../../../../shared/components/percentage-graph";
 
-const TimeUtilization = () => {
+interface IProps {
+  overallTime: string;
+  overallUsedPercentage: number;
+  overallEmptyPercentage: number;
+  clientTime: string;
+  clientUsedPercentage: number;
+  clientEmptyPercentage: number;
+}
+const TimeUtilization: FC<IProps> = ({
+  overallTime,
+  clientUsedPercentage,
+  clientEmptyPercentage,
+  clientTime,
+  overallUsedPercentage,
+  overallEmptyPercentage,
+}) => {
   return (
     <Card>
       <CardContent>
@@ -13,14 +28,14 @@ const TimeUtilization = () => {
           <div className="flex items-center justify-center grow gap-6">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                42,632.28
+                {overallTime}
               </h3>
               <p className="text-sm font-normal text-zinc-500">Overall Time</p>
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
-                fillPercentage={43}
-                emptyPercentage={57}
+                fillPercentage={overallUsedPercentage}
+                emptyPercentage={overallEmptyPercentage}
                 fillColor="#22C55E"
               />
             </div>
@@ -28,7 +43,7 @@ const TimeUtilization = () => {
           <div className="flex items-center justify-center grow gap-6">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                42,632.28
+                {clientTime}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Time
@@ -36,8 +51,8 @@ const TimeUtilization = () => {
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
-                fillPercentage={43}
-                emptyPercentage={57}
+                fillPercentage={clientUsedPercentage}
+                emptyPercentage={clientEmptyPercentage}
                 fillLabel={" "}
                 fillColor="#22C55E"
               />

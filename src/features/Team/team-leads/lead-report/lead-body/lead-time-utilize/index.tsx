@@ -50,12 +50,12 @@ const TimeUtilization: FC<IProps> = ({
               </p>
             </div>
             <div className=" min-w-[120px]">
-              <PercentageGraph
+              {/* <PercentageGraph
                 fillPercentage={clientUsedPercentage}
                 emptyPercentage={clientEmptyPercentage}
                 fillLabel={" "}
                 fillColor="#22C55E"
-              />
+              /> */}
             </div>
           </div>
         </div>

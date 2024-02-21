@@ -1,10 +1,6 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
-export const getTeamLeadStaff = (id: string) => {
-  return httpRequest(`/all-team-leads?id=${id}&status=active`, httpMethods.GET);
-};
-
 export const getStaffRpSummary = (
   start_date: string,
   end_date: string,
@@ -16,6 +12,13 @@ export const getStaffRpSummary = (
   );
 };
 
-export const getLeadsList = () => {
-  return httpRequest(`/all-team-leads?status=active`, httpMethods.GET);
+export const getLeadsList = (id?: any) => {
+  if (id) {
+    return httpRequest(
+      `/all-team-leads?id=${id}&status=active`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(`/all-team-leads?status=active`, httpMethods.GET);
+  }
 };

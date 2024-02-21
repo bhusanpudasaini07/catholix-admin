@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import LeadHeader from "./lead-header";
 import LeadReportBody from "./lead-body";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import {
+  getLeadsList,
   getStaffRpSummary,
-  getTeamLeadStaff,
 } from "@/services/lead-report/lead-report.service";
 import { DateRange } from "react-day-picker";
 import moment from "moment";
@@ -24,11 +24,11 @@ const LeadReportContent = () => {
     ["getTeamLeadStaffs", current_id],
     async () => {
       if (current_id === "all") {
-        const response = getTeamLeadStaff(`2`);
+        const response = getLeadsList(`2`);
 
         return response;
       } else {
-        const response = getTeamLeadStaff(`${current_id}`);
+        const response = getLeadsList(`${current_id}`);
         return response;
       }
     }

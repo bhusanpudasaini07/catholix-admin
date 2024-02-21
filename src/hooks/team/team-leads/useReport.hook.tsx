@@ -10,10 +10,6 @@ import {
 } from "@/interface/team-leads-interface";
 import { getTeamLeadRPSummary } from "@/services/teams/report-service";
 import { useRouter } from "next/router";
-import {
-  getStaffRpSummary,
-  getTeamLeadIds,
-} from "@/services/lead-report/lead-report.service";
 
 const useReport = () => {
   const router = useRouter();

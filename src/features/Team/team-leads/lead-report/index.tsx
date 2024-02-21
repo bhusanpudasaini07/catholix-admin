@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import {
   getLeadsList,
   getStaffRpSummary,
-} from "@/services/lead-report/lead-report.service";
+} from "@/services/lead-report/lead-report-service";
 import { DateRange } from "react-day-picker";
 import moment from "moment";
 

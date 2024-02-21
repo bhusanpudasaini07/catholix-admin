@@ -16,7 +16,7 @@ import { getTeamLeadRPSummary } from "@/services/teams/report-service";
 import {
   getLeadsList,
   getStaffRpSummary,
-} from "@/services/lead-report/lead-report.service";
+} from "@/services/lead-report/lead-report-service";
 
 const useReport = () => {
   const router = useRouter();

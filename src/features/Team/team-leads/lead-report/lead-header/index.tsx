@@ -71,8 +71,8 @@ const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             {leadList?.data
-              .filter((lead: any) => lead.status === "Active")
-              .map((lead: any) => (
+              ?.filter((lead: any) => lead?.status === "Active")
+              ?.map((lead: any) => (
                 <SelectItem key={lead.id} value={lead.id}>
                   {lead.fullname}
                 </SelectItem>
@@ -81,7 +81,7 @@ const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
         </Select>
 
         <Tabs
-          defaultValue="weekly"
+          defaultValue="monthly"
           className=" flex items-center flex-row-reverse gap-3"
         >
           <TabsList>

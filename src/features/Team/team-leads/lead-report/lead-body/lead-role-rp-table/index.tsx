@@ -11,10 +11,24 @@ import {
 } from "@/shared/components/ui/select";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
-const ProjectRpConsumptionTable = () => {
+interface IProps {
+  data: any;
+}
+const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const total = data?.reduce(
+    (acc: number, obj: any) => acc + parseFloat(obj.total_rp),
+    0
+  );
+
+  const calculatePercentage = (used: number, total: number): number => {
+    if (total === 0) {
+      return 0; // to avoid division by zero
+    }
+    return (used / total) * 100;
+  };
 
   const countries = [
     {
@@ -41,37 +55,44 @@ const ProjectRpConsumptionTable = () => {
       accessorKey: "sn",
       header: "S. No.",
       cell: ({ row }) => (
-        <div className="font-medium underline text-primary hover:text-blue-700"></div>
+        <div className="">
+          {/* {row?.getValue('')} */}
+          {row.index + 1}
+        </div>
       ),
       enableHiding: false,
     },
     // Date
     {
-      id: "role",
-      accessorKey: "role",
-      header: "Role",
-      cell: ({ row }) => <div></div>,
+      id: "title",
+      accessorKey: "title",
+      header: "Project",
+      cell: ({ row }) => <div>{row?.getValue("title")}</div>,
       enableHiding: false,
     },
     {
-      id: "country",
-      accessorKey: "country",
+      id: "market",
+      accessorKey: "market",
       header: "Country",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row?.getValue("market")}</div>,
       enableHiding: false,
     },
     {
-      id: "man_days",
-      accessorKey: "man_days",
-      header: "Man Days",
-      cell: ({ row }) => <div></div>,
+      id: "total_rp",
+      accessorKey: "total_rp",
+      header: "RP Consumption",
+      cell: ({ row }) => <div>{row?.getValue("total_rp")}</div>,
       enableHiding: false,
     },
     {
-      id: "man_month",
-      accessorKey: "man_month",
-      header: "Man Month",
-      cell: ({ row }) => <div></div>,
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "%",
+      cell: ({ row }) => (
+        <div>
+          {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%
+        </div>
+      ),
       enableHiding: false,
     },
   ];
@@ -134,9 +155,11 @@ const ProjectRpConsumptionTable = () => {
         </div>
         <DataTable
           // loading={isLoading}
+          height={"max-h-[500px]"}
+          headerSticky
           border={true}
           columns={columns}
-          data={[]}
+          data={data || []}
         />
       </CardContent>
     </Card>

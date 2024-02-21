@@ -55,7 +55,7 @@ const ReportSummaryTable = ({
             </div>
             <div>
               {loading || staffRPLoading ? (
-                <PieChartSkeleton height={220} width={220} />
+                <PieChartSkeleton height={250} width={250} />
               ) : (
                 <ReactECharts option={countryOptions} />
               )}

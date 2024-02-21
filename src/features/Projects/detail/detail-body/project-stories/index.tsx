@@ -26,7 +26,7 @@ const ProjectStories = () => {
             </Button>
           </div>
         </div>
-        <div className="grid items-end grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4">
           <div className="col-span-12 overflow-hidden rounded-md xl:col-span-7">
             <DataTable
               border={true}

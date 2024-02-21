@@ -40,6 +40,7 @@ const SummaryPieChart = ({ totalRP, totalAdditionalRP }: IProps) => {
             show: false,
             fontSize: 16,
           },
+          scale: false,
         },
         labelLine: {
           show: false,

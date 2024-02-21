@@ -15,7 +15,7 @@ const useRPConsumption = () => {
   } = useRouter();
 
   // STATES
-  const [barType, setBarType] = useState("sum");
+  const [barType, setBarType] = useState("individual");
   const [tab, setTab] = useState("line");
 
   const [dateType, setDateType] = useState("daily");
@@ -33,11 +33,7 @@ const useRPConsumption = () => {
     to: moment().endOf("month").toDate(),
   });
 
-  const {
-    data: rpConsumption,
-    isLoading,
-    refetch,
-  } = useQuery<IConsumptionData>({
+  const { data: rpConsumption, isLoading } = useQuery<IConsumptionData>({
     queryFn: async () => {
       if (code) {
         const response = await getRpSummary(

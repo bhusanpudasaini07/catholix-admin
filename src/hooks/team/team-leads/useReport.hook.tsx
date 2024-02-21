@@ -1,20 +1,29 @@
 import moment from "moment";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery, useQueryClient } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/shared/utils/utils";
+import { useRouter } from "next/router";
 
 import {
   ILeadDetail,
   ILeadReportSummary,
+  IStaffRPReport,
 } from "@/interface/team-leads-interface";
 import { getTeamLeadRPSummary } from "@/services/teams/report-service";
-import { useRouter } from "next/router";
+
+import {
+  getLeadsList,
+  getStaffRpSummary,
+} from "@/services/lead-report/lead-report-service";
 
 const useReport = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [leadDetail, setLeadDetail] = useState<ILeadDetail>();
+  const [countryProjectData, setCountryProjectData] = useState([]);
 
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -35,35 +44,64 @@ const useReport = () => {
   });
 
   //   For getting team leads staff
-  //   const { data: teamLeads } = useQuery({
-  //     queryFn: async () => {
-  //       if (router?.query?.id) {
-  //         const response = await getTeamLeadIds(String(router?.query?.id)); //need to change
-  //         return response;
-  //       }
-  //     },
-  //     queryKey: ["teamLeads", router?.query?.id],
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("staffRPSummary");
-  //     },
-  //   });
+  const { data: teamLeads } = useQuery({
+    queryFn: async () => {
+      if (router?.query?.id) {
+        const response = await getLeadsList(String(router?.query?.id)); //need to change
+        return response;
+      }
+    },
+    queryKey: ["teamLeads", router?.query?.id],
+    onSuccess: () => {
+      queryClient.invalidateQueries("staffRPSummary");
+    },
+  });
 
-  //   const teamLeadStaffs = teamLeads?.data[0]?.staffs?.map(
-  //     (staff: any) => staff?.id
-  //   );
+  const teamLeadStaffs = teamLeads?.data[0]?.staffs?.map(
+    (staff: any) => staff?.id
+  );
 
-  //   const { data: staffRPSummary, isLoading: staffRPLoading } = useQuery({
-  //     queryFn: async () => {
-  //       debugger;
-  //       const response = await getStaffRpSummary(
-  //         moment(dateRange?.from).format("YYYY-MM-DD"),
-  //         moment(dateRange?.to).format("YYYY-MM-DD"),
-  //         teamLeadStaffs
-  //       );
-  //       return response;
-  //     },
-  //     queryKey: ["staffRPSummary", teamLeadStaffs, router?.query?.id],
-  //   });
+  const { data: staffRPSummary, isLoading: staffRPLoading } =
+    useQuery<IStaffRPReport>({
+      queryFn: async () => {
+        if (teamLeadStaffs) {
+          const response = await getStaffRpSummary(
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            teamLeadStaffs
+          );
+          return response;
+        }
+      },
+      queryKey: ["staffRPSummary", teamLeadStaffs, router?.query?.id],
+    });
+
+  /**
+   * In order to group the number of projects country wise
+   */
+  const extractGroupedCountry = () => {
+    if (staffRPSummary) {
+      const countryCount: any = {};
+
+      staffRPSummary?.data?.projects?.forEach((project) => {
+        const country = project?.market;
+        if (countryCount[country]) {
+          countryCount[country] += 1;
+        } else {
+          countryCount[country] = 1;
+        }
+      });
+
+      // Convert the countryCount object into an array suitable for the chart
+      const chartData: any = Object.entries(countryCount).map(
+        ([name, value]) => ({
+          name,
+          value,
+        })
+      );
+      setCountryProjectData(chartData);
+    }
+  };
 
   //   Total RP collection
   const totalRP: number = useMemo(
@@ -120,7 +158,12 @@ const useReport = () => {
       header: "Name",
       cell: ({ row }) => (
         <div
-          className="font-semibold cursor-pointer hover:text-primary"
+          className={cn(
+            router?.query?.id &&
+              router?.query?.id === row?.original?.username &&
+              "text-primary",
+            "font-semibold cursor-pointer hover:text-primary"
+          )}
           onClick={() => router.push(`?id=${row?.original?.username}`)}
         >
           {row.getValue("fullname")}
@@ -163,13 +206,14 @@ const useReport = () => {
     tooltip: {
       trigger: "item",
     },
+    color: ["#FACC15", "#84CC16"],
     series: [
       {
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["50%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
           borderWidth: 2,
         },
@@ -177,30 +221,44 @@ const useReport = () => {
           show: false,
           position: "center",
           fontSize: 20,
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 25,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
-            fontSize: 20,
+            show: true,
           },
         },
         labelLine: {
           show: false,
         },
-        data: [
-          {
-            value: 0,
-            name: "Client Overall",
-          },
-          {
-            value: 0,
-            name: "In House",
-          },
-        ],
-        // data: rpSummary?.data?.rolewise?.map((role) => ({
-        //   value: role?.rp,
-        //   name: role?.role_name,
-        // })),
+        data: leadDetail
+          ? [
+              {
+                name: "Client Overall",
+                value: leadDetail?.summary?.commercial_rp,
+                selected: true,
+              },
+              {
+                name: "In-house Overall",
+                value: leadDetail?.summary?.inhouse_rp,
+              },
+            ]
+          : [],
       },
     ],
   };
@@ -209,36 +267,71 @@ const useReport = () => {
     tooltip: {
       trigger: "item",
     },
+    color: ["#FACC15", "#84CC16", "#2DD4BF", "#0891B2", "#F472B6"],
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["50%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
           borderWidth: 2,
         },
         label: {
           show: false,
           position: "center",
+          fontSize: 20,
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 25,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
           show: false,
         },
-        data: [],
-        // data: rpSummary?.data?.rolewise?.map((role) => ({
-        //   value: role?.rp,
-        //   name: role?.role_name,
-        // })),
+        data: countryProjectData ?? [],
       },
     ],
   };
+
+  //   EFFECTS
+
+  /**
+   * For setting each team lead detail when clicked their name in table.
+   */
+  useEffect(() => {
+    if (router?.query?.id) {
+      const detail = leadReportSummary?.data?.find(
+        (lead) => lead?.username === router?.query?.id
+      );
+      setLeadDetail(detail);
+    }
+  }, [router?.query?.id, setLeadDetail, leadReportSummary]);
+
+  /**
+   * For grouping the projects and displaying it in chart
+   */
+  useEffect(() => {
+    extractGroupedCountry();
+  }, [staffRPSummary]);
 
   return {
     dateRange,
@@ -253,6 +346,7 @@ const useReport = () => {
     totalInhouseRP,
     rpOptions,
     countryOptions,
+    staffRPLoading,
   };
 };
 

@@ -7,11 +7,13 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { DownloadCloud } from "lucide-react";
+import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];
   data: any;
   loading: boolean;
+  staffRPLoading: boolean;
   countryOptions: any;
   rpOptions: any;
 }
@@ -20,6 +22,7 @@ const ReportSummaryTable = ({
   columns,
   data,
   loading,
+  staffRPLoading,
   countryOptions,
   rpOptions,
 }: IProps) => {
@@ -43,8 +46,20 @@ const ReportSummaryTable = ({
             />
           </div>
           <div className="col-span-12 2xl:col-span-4">
-            <ReactECharts option={rpOptions} />
-            <ReactECharts option={rpOptions} />
+            <div className="mb-5">
+              {loading || staffRPLoading ? (
+                <PieChartSkeleton height={250} width={250} />
+              ) : (
+                <ReactECharts option={rpOptions} notMerge={true} />
+              )}
+            </div>
+            <div>
+              {loading || staffRPLoading ? (
+                <PieChartSkeleton height={250} width={250} />
+              ) : (
+                <ReactECharts option={countryOptions} />
+              )}
+            </div>
           </div>
         </div>
       </CardContent>

@@ -17,6 +17,7 @@ const ReportSummaryContent = () => {
     totalInhouseRP,
     rpOptions,
     countryOptions,
+    staffRPLoading,
   } = useReport();
   return (
     <>
@@ -35,6 +36,7 @@ const ReportSummaryContent = () => {
         loading={isLoading}
         rpOptions={rpOptions}
         countryOptions={countryOptions}
+        staffRPLoading={staffRPLoading}
       />
     </>
   );

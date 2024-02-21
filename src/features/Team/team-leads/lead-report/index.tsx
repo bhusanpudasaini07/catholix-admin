@@ -49,7 +49,6 @@ const LeadReportContent = () => {
             moment(dateRange?.to).format("YYYY-MM-DD"),
             JSON.parse(staffIdJson)
           );
-          console.log("staffRpSummaryData", response);
           return response;
         }
       }

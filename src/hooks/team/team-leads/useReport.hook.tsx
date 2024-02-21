@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
 
 import {
@@ -10,9 +10,14 @@ import {
 } from "@/interface/team-leads-interface";
 import { getTeamLeadRPSummary } from "@/services/teams/report-service";
 import { useRouter } from "next/router";
+import {
+  getStaffRpSummary,
+  getTeamLeadIds,
+} from "@/services/lead-report/lead-report.service";
 
 const useReport = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
 
   const oneMonthAgo = new Date();
@@ -23,6 +28,7 @@ const useReport = () => {
     to: new Date(),
   });
 
+  //   Lead Report Summary
   const { data: leadReportSummary, isLoading } = useQuery<ILeadReportSummary>({
     queryFn: () =>
       getTeamLeadRPSummary(
@@ -31,6 +37,37 @@ const useReport = () => {
       ),
     queryKey: ["leadReportSummary", dateRange?.to],
   });
+
+  //   For getting team leads staff
+  //   const { data: teamLeads } = useQuery({
+  //     queryFn: async () => {
+  //       if (router?.query?.id) {
+  //         const response = await getTeamLeadIds(String(router?.query?.id)); //need to change
+  //         return response;
+  //       }
+  //     },
+  //     queryKey: ["teamLeads", router?.query?.id],
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries("staffRPSummary");
+  //     },
+  //   });
+
+  //   const teamLeadStaffs = teamLeads?.data[0]?.staffs?.map(
+  //     (staff: any) => staff?.id
+  //   );
+
+  //   const { data: staffRPSummary, isLoading: staffRPLoading } = useQuery({
+  //     queryFn: async () => {
+  //       debugger;
+  //       const response = await getStaffRpSummary(
+  //         moment(dateRange?.from).format("YYYY-MM-DD"),
+  //         moment(dateRange?.to).format("YYYY-MM-DD"),
+  //         teamLeadStaffs
+  //       );
+  //       return response;
+  //     },
+  //     queryKey: ["staffRPSummary", teamLeadStaffs, router?.query?.id],
+  //   });
 
   //   Total RP collection
   const totalRP: number = useMemo(
@@ -206,6 +243,7 @@ const useReport = () => {
       },
     ],
   };
+
   return {
     dateRange,
     setDateRange,

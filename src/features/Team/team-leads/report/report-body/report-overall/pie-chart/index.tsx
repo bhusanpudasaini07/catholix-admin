@@ -69,7 +69,7 @@ const SummaryPieChart = ({ totalRP, totalAdditionalRP }: IProps) => {
       },
     ],
   };
-  return <ReactECharts option={option} style={{ height: "100px" }} />;
+  return <ReactECharts option={option} loadingOption={true} style={{ height: "100px" }} />;
 };
 
 export default SummaryPieChart;

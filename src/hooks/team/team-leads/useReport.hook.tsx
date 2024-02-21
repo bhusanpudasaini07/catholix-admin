@@ -85,18 +85,21 @@ const useReport = () => {
 
       staffRPSummary?.data?.projects?.forEach((project) => {
         const country = project?.market;
+
+        if (!country) return;
+
         if (countryCount[country]) {
-          countryCount[country] += 1;
+          countryCount[country] += Number(project?.total_rp);
         } else {
-          countryCount[country] = 1;
+          countryCount[country] = Number(project?.total_rp);
         }
       });
 
       // Convert the countryCount object into an array suitable for the chart
       const chartData: any = Object.entries(countryCount).map(
-        ([name, value]) => ({
+        ([name, value]: any) => ({
           name,
-          value,
+          value: value?.toFixed(2),
         })
       );
       setCountryProjectData(chartData);
@@ -347,6 +350,7 @@ const useReport = () => {
     rpOptions,
     countryOptions,
     staffRPLoading,
+    leadDetail,
   };
 };
 

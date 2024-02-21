@@ -38,7 +38,9 @@ const ConsumptionType = () => {
                 columns={staffColumns}
                 border={true}
                 loading={rpLoading}
-                data={rpSummary?.data?.staffwise?.slice(0, 5) ?? []}
+                headerSticky={true}
+                height="max-h-[340px]"
+                data={rpSummary?.data?.staffwise ?? []}
               />
             </div>
           </CardContent>
@@ -67,7 +69,9 @@ const ConsumptionType = () => {
                 border={true}
                 columns={roleColumns}
                 loading={rpLoading}
-                data={rpSummary?.data?.rolewise.slice(0, 5) ?? []}
+                headerSticky={true}
+                height="max-h-[340px]"
+                data={rpSummary?.data?.rolewise ?? []}
               />
             </div>
           </CardContent>

@@ -246,17 +246,19 @@ const useReport = () => {
         labelLine: {
           show: false,
         },
-        data: [
-          {
-            name: "Client Overall",
-            value: leadDetail?.summary?.commercial_rp ?? 0,
-            selected: true,
-          },
-          {
-            name: "In-house Overall",
-            value: leadDetail?.summary?.inhouse_rp ?? 0,
-          },
-        ],
+        data: leadDetail
+          ? [
+              {
+                name: "Client Overall",
+                value: leadDetail?.summary?.commercial_rp,
+                selected: true,
+              },
+              {
+                name: "In-house Overall",
+                value: leadDetail?.summary?.inhouse_rp,
+              },
+            ]
+          : [],
       },
     ],
   };
@@ -330,6 +332,7 @@ const useReport = () => {
   useEffect(() => {
     extractGroupedCountry();
   }, [staffRPSummary]);
+
   return {
     dateRange,
     setDateRange,

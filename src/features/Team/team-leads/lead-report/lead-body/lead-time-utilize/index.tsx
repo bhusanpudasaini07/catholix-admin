@@ -33,11 +33,11 @@ const TimeUtilization: FC<IProps> = ({
               <p className="text-sm font-normal text-zinc-500">Overall Time</p>
             </div>
             <div className=" min-w-[120px]">
-              <PercentageGraph
+              {/* <PercentageGraph
                 fillPercentage={overallUsedPercentage}
                 emptyPercentage={overallEmptyPercentage}
                 fillColor="#22C55E"
-              />
+              /> */}
             </div>
           </div>
           <div className="flex items-center justify-center grow gap-6">

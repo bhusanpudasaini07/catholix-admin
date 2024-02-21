@@ -12,6 +12,7 @@ interface IProps {
 
 const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
   const router = useRouter();
+  const current_id = router.query?.lead_id || undefined;
 
   return (
     <Card>
@@ -20,7 +21,9 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
           <h5 className="font-medium text-zinc-700">RP Summary</h5>
           <Button
             onClick={() =>
-              router.push("/team-leads/lead-report/trending-graph")
+              router.push(
+                `/team-leads/lead-report/trending-graph?lead_id=${current_id}`
+              )
             }
             variant={"white"}
             size={"sm"}

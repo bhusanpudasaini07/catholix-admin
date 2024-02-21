@@ -11,9 +11,13 @@ import {
 } from "@/shared/components/ui/select";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
-const RoleCountryTable = () => {
+interface IProps {
+  data: any;
+}
+
+const RoleCountryTable: FC<IProps> = ({ data }) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
   const countries = [
@@ -40,9 +44,7 @@ const RoleCountryTable = () => {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => (
-        <div className="font-medium underline text-primary hover:text-blue-700"></div>
-      ),
+      cell: ({ row }) => <div>{row.getValue("sn")}</div>,
       enableHiding: false,
     },
     // Date
@@ -50,28 +52,28 @@ const RoleCountryTable = () => {
       id: "role",
       accessorKey: "role",
       header: "Role",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row.getValue("role")}</div>,
       enableHiding: false,
     },
     {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row.getValue("country")}</div>,
       enableHiding: false,
     },
     {
-      id: "man_days",
-      accessorKey: "man_days",
+      id: "manDays",
+      accessorKey: "manDays",
       header: "Man Days",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row.getValue("manDays")}</div>,
       enableHiding: false,
     },
     {
-      id: "man_month",
-      accessorKey: "man_month",
+      id: "manMonths",
+      accessorKey: "manMonths",
       header: "Man Month",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row.getValue("manMonths")}</div>,
       enableHiding: false,
     },
   ];
@@ -84,7 +86,14 @@ const RoleCountryTable = () => {
       }
     });
   };
-
+  const tableData = data?.map((staff: any, index: any) => ({
+    sn: index + 1,
+    role: staff?.role_name,
+    // country: staff?.department_name, // Assuming department_name represents the country
+    country: "Nepal", // Assuming department_name represents the country
+    manDays: parseFloat(staff?.used_time) / (8 * 3600), // Converting seconds to man-days
+    manMonths: parseFloat(staff?.used_time) / (8 * 3600 * 20), // Converting seconds to man-months (assuming 20 working days per month)
+  }));
   return (
     <Card>
       <CardContent>
@@ -145,7 +154,7 @@ const RoleCountryTable = () => {
           // loading={isLoading}
           border={true}
           columns={columns}
-          data={[]}
+          data={tableData || []}
         />
       </CardContent>
     </Card>

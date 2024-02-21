@@ -53,10 +53,10 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
             <SelectContent>
               <SelectItem value="all">All</SelectItem>
               {leadList?.data
-                .filter((lead: any) => lead.status === "Active")
+                .filter((lead: any) => lead?.status === "Active")
                 .map((lead: any) => (
-                  <SelectItem key={lead.id} value={lead.id}>
-                    {lead.fullname}
+                  <SelectItem key={lead?.id} value={lead?.id}>
+                    {lead?.fullname}
                   </SelectItem>
                 ))}
             </SelectContent>

@@ -4,11 +4,11 @@ import PercentageGraph from "../../../../../../shared/components/percentage-grap
 
 interface IProps {
   overallTime: string;
-  overallUsedPercentage: number;
-  overallEmptyPercentage: number;
+  overallUsedPercentage: string;
+  overallEmptyPercentage: string;
   clientTime: string;
-  clientUsedPercentage: number;
-  clientEmptyPercentage: number;
+  clientUsedPercentage: string;
+  clientEmptyPercentage: string;
 }
 const TimeUtilization: FC<IProps> = ({
   overallTime,

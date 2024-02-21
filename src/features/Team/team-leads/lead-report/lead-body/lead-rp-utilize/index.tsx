@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import PercentageGraph from "../../../../../../shared/components/percentage-graph";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 interface IProps {
   overallRP: string;
-  overallUsedPercentage: number;
-  overallEmptyPercentage: number;
+  overallUsedPercentage: string;
+  overallEmptyPercentage: string;
   clientRP: string;
-  clientUsedPercentage: number;
-  clientEmptyPercentage: number;
+  clientUsedPercentage: string;
+  clientEmptyPercentage: string;
 }
 const RpUtilization: FC<IProps> = ({
   overallRP,

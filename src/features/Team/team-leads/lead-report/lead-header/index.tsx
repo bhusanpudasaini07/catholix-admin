@@ -81,7 +81,7 @@ const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
         </Select>
 
         <Tabs
-          defaultValue="weekly"
+          defaultValue="monthly"
           className=" flex items-center flex-row-reverse gap-3"
         >
           <TabsList>

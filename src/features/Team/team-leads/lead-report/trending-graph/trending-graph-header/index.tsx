@@ -1,5 +1,6 @@
 import { getLeadsList } from "@/services/lead-report/lead-report.service";
 import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Button } from "@/shared/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -7,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { ArrowLeft } from "lucide-react";
 
 import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
@@ -35,11 +37,24 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
   };
   return (
     <div className="flex justify-between items-center bg-white p-8">
-      <div className="">
-        <h3 className="mb-1.5 text-2xl font-medium text-zinc-700">
-          Trendline Graph
-        </h3>
-        <p className="text-base text-zinc-500">Report of all the members</p>
+      <div className="flex justify-start items-start gap-3">
+        <div className="">
+          <Button
+            onClick={() =>
+              router.push(`/team-leads/lead-report?lead_id=${current_id}`)
+            }
+            className="!py-3 px-3 mt-[3px]"
+            variant={"white"}
+          >
+            <ArrowLeft size={18} />
+          </Button>
+        </div>
+        <div className="">
+          <h3 className="mb-1.5 text-2xl font-medium text-zinc-700">
+            Trendline Graph
+          </h3>
+          <p className="text-base text-zinc-500">Report of all the members</p>
+        </div>
       </div>
       <div className="flex justify-end items-center gap-2">
         <div className="">

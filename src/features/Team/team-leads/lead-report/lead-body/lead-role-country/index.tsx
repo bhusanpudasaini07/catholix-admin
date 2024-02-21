@@ -94,7 +94,6 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
     manDays: parseFloat(staff?.used_time) / (8 * 3600), // Converting seconds to man-days
     manMonths: parseFloat(staff?.used_time) / (8 * 3600 * 20), // Converting seconds to man-months (assuming 20 working days per month)
   }));
-  console.log("tableData", tableData);
   return (
     <Card>
       <CardContent>

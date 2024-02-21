@@ -4,11 +4,11 @@ import PercentageGraph from "../../../../../../shared/components/percentage-grap
 
 interface IProps {
   overallTime: string;
-  overallUsedPercentage: number;
-  overallEmptyPercentage: number;
+  overallUsedPercentage: string;
+  overallEmptyPercentage: string;
   clientTime: string;
-  clientUsedPercentage: number;
-  clientEmptyPercentage: number;
+  clientUsedPercentage: string;
+  clientEmptyPercentage: string;
 }
 const TimeUtilization: FC<IProps> = ({
   overallTime,
@@ -33,11 +33,11 @@ const TimeUtilization: FC<IProps> = ({
               <p className="text-sm font-normal text-zinc-500">Overall Time</p>
             </div>
             <div className=" min-w-[120px]">
-              {/* <PercentageGraph
+              <PercentageGraph
                 fillPercentage={overallUsedPercentage}
                 emptyPercentage={overallEmptyPercentage}
                 fillColor="#22C55E"
-              /> */}
+              />
             </div>
           </div>
           <div className="flex items-center justify-center grow gap-6">
@@ -50,12 +50,12 @@ const TimeUtilization: FC<IProps> = ({
               </p>
             </div>
             <div className=" min-w-[120px]">
-              {/* <PercentageGraph
+              <PercentageGraph
                 fillPercentage={clientUsedPercentage}
                 emptyPercentage={clientEmptyPercentage}
                 fillLabel={" "}
                 fillColor="#22C55E"
-              /> */}
+              />
             </div>
           </div>
         </div>

@@ -111,7 +111,6 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
     }
   }, [staffRpSummaryData]);
 
-  console.log("staffRpSummaryData", staffRpSummaryData);
   return (
     <div className="p-8">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
@@ -143,11 +142,11 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
         />
         <TimeUtilization
           overallTime="100"
-          overallEmptyPercentage={20}
-          overallUsedPercentage={80}
+          overallEmptyPercentage={"20"}
+          overallUsedPercentage={"80"}
           clientTime="200"
-          clientEmptyPercentage={50}
-          clientUsedPercentage={50}
+          clientEmptyPercentage={"50"}
+          clientUsedPercentage={"50"}
         />
 
         <RpSummary

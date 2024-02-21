@@ -136,7 +136,7 @@ const useConsumptionType = () => {
     },
   ];
 
-// Role Group Wise Column
+  // Role Group Wise Column
   const roleGroupColumn: ColumnDef<IRoleGroupWise>[] = [
     // SN
     {
@@ -274,7 +274,7 @@ const useConsumptionType = () => {
         radius: ["30%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
           borderWidth: 2,
         },
@@ -309,7 +309,7 @@ const useConsumptionType = () => {
         radius: ["30%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
           borderWidth: 2,
         },
@@ -332,6 +332,75 @@ const useConsumptionType = () => {
       },
     ],
   };
+
+  // roleGroupWise chart option
+  const roleGroupWiseOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        type: "pie",
+        radius: ["30%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: rpSummary?.data?.rolegroupwise?.map((role) => ({
+          value: role?.rp.toFixed(2),
+          name: role?.title,
+        })),
+      },
+    ],
+  };
+
+  const departmentGroupWiseOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        type: "pie",
+        radius: ["30%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: rpSummary?.data?.departmentgroupwise?.map((department) => ({
+          value: department?.rp,
+          name: department?.title,
+        })),
+      },
+    ],
+  };
   return {
     staffColumns,
     roleColumns,
@@ -339,6 +408,8 @@ const useConsumptionType = () => {
     roleWiseOption,
     roleGroupColumn,
     departmentGroupColumn,
+    roleGroupWiseOption,
+    departmentGroupWiseOption,
   };
 };
 

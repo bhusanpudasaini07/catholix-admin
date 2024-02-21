@@ -4,9 +4,19 @@ import TaskTimeLogs from "./task-time-logs";
 import TopTimeConsumed from "./top-time-consumed";
 import TaskTimeTable from "./task-time-table";
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
 
 const TaskTimeSpentContent = () => {
   const { projectDetail } = useProjectDetail();
+  const {
+    timeLogLoading,
+    timeLogs,
+    columns,
+    setSearchText,
+    perPage,
+    setPerPage,
+    timeConusmedOption,
+  } = useTaskTimeSpent();
   return (
     <>
       <TaskTimeSpentHeader name={projectDetail?.data?.project_title!} />
@@ -18,8 +28,15 @@ const TaskTimeSpentContent = () => {
             bugs={projectDetail?.data?.task?.bug_count ?? "0"}
             rp={projectDetail?.data?.rp?.used_rp ?? 0}
           />
-          <TopTimeConsumed />
-          <TaskTimeTable />
+          <TopTimeConsumed timeConusmedOption={timeConusmedOption} />
+          <TaskTimeTable
+            timeLogLoading={timeLogLoading}
+            timeLogs={timeLogs}
+            columns={columns}
+            setSearchText={setSearchText}
+            perPage={perPage}
+            setPerPage={setPerPage}
+          />
         </div>
       </div>
     </>

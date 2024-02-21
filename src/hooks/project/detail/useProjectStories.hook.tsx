@@ -102,7 +102,7 @@ const useProjectStories = () => {
             row?.getValue("task_count") ? "text-blue-500 font-medium" : ""
           )}
         >
-          {row?.getValue("task_count") ? (
+          {row?.getValue("task_count") !== 0 ? (
             <Dialog>
               <DialogTrigger>
                 <div className={"text-blue-500 font-medium"}>
@@ -283,7 +283,7 @@ const useProjectStories = () => {
       header: "Task",
       cell: ({ row }) => (
         <div className="">
-          {row?.getValue("task_count") ? (
+          {row?.getValue("task_count") !== 0 ? (
             <Dialog>
               <DialogTrigger>
                 <div className={"text-blue-500 font-medium"}>

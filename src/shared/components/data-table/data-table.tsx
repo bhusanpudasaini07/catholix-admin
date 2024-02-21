@@ -80,7 +80,11 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className={`overflow-auto rounded-md ${height && height}`}>
+    <div
+      className={`overflow-auto ${
+        border && "border-2 border-slate-100"
+      } rounded-md ${height && height}`}
+    >
       {/* <DropdownMenu>
         <DropdownMenuTrigger>Columns</DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -109,7 +113,9 @@ export function DataTable<TData, TValue>({
                 return (
                   <TableHead
                     className={cn(
-                      border ? "border-2 border-slate-100" : "",
+                      border
+                        ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
+                        : "",
                       headerSticky && "sticky top-[0px] z-[10] bg-light-white"
                     )}
                     key={header.id}
@@ -139,11 +145,16 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className="[&>*]:last:border-b-0"
               >
                 {row?.getVisibleCells().map((cell) => (
                   <TableCell
                     key={cell.id}
-                    className={border ? "border-2 border-slate-100" : ""}
+                    className={
+                      border
+                        ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
+                        : ""
+                    }
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>

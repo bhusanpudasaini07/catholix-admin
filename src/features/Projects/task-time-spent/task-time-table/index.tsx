@@ -1,34 +1,33 @@
-import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
+import { ILogEntry, ITimeLogs } from "@/interface/project-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
-const TaskTimeTable = () => {
-  const {
-    timeLogLoading,
-    timeLogs,
-    columns,
-    setSearchText,
-    perPage,
-    setPerPage,
-  } = useTaskTimeSpent();
+interface IProps {
+  timeLogLoading: boolean;
+  timeLogs: ITimeLogs | undefined;
+  columns: ColumnDef<ILogEntry>[];
+  setSearchText: (arg: string) => void;
+  perPage: number;
+  setPerPage: (arg: number) => void;
+}
+
+const TaskTimeTable = ({
+  timeLogLoading,
+  timeLogs,
+  columns,
+  setPerPage,
+  setSearchText,
+  perPage,
+}: IProps) => {
   return (
     <Card>
       <CardContent>
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center justify-start gap-3">
             <p>Task & Time Spent</p>
-            {/* <Button
-              variant={"white"}
-              onClick={() =>
-                router.push(`/projects/${router?.query?.code}/task-time-spent`)
-              }
-              size={"sm"}
-            >
-              View All
-            </Button> */}
           </div>
 
           <div className="flex items-center gap-2">

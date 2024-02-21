@@ -15,6 +15,8 @@ const ReportSummaryContent = () => {
     totalRP,
     totalCommercialRP,
     totalInhouseRP,
+    rpOptions,
+    countryOptions,
   } = useReport();
   return (
     <>
@@ -31,6 +33,8 @@ const ReportSummaryContent = () => {
         columns={columns}
         data={leadReportSummary?.data}
         loading={isLoading}
+        rpOptions={rpOptions}
+        countryOptions={countryOptions}
       />
     </>
   );

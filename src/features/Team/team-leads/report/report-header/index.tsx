@@ -29,6 +29,7 @@ const ReportSummaryHeader = ({
           setDateRange={setDateRange}
           setDateRangeOpen={setDateRangeOpen}
           dateRangeOpen={dateRangeOpen}
+          disabled={true}
         />
       </div>
     </div>

@@ -13,6 +13,7 @@ interface IProps {
   dateRangeOpen: boolean;
   setDateRangeOpen: (arg: boolean) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const DateRangeFilter = ({
@@ -22,6 +23,7 @@ const DateRangeFilter = ({
   dateRangeOpen,
   setDateRangeOpen,
   placeholder,
+  disabled,
 }: IProps) => {
   return (
     <Popover open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
@@ -48,8 +50,12 @@ const DateRangeFilter = ({
             <span> {placeholder ? placeholder : "Select Range"} </span>
           )}
           {dateRange?.from ? (
-            <X
-              className="w-4 h-4 ml-auto cursor-pointer"
+            <div
+              className={cn(
+                disabled &&
+                  "text-gray-400 cursor-not-allowed pointer-events-none",
+                "h-auto p-0 hover:bg-transparent"
+              )}
               onClick={() => {
                 setDateRange({
                   from: undefined,
@@ -59,7 +65,9 @@ const DateRangeFilter = ({
                   setPageNumber(1);
                 }
               }}
-            />
+            >
+              <X className="w-4 h-4 ml-auto cursor-pointer" />
+            </div>
           ) : (
             <CalendarIcon className="w-4 h-4 ml-auto opacity-50 ms-1" />
           )}

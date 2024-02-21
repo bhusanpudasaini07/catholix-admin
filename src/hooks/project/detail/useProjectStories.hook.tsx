@@ -1,6 +1,7 @@
 import { IProjectUserStories } from "@/interface/project-interface";
 import { getProjectStories } from "@/services/project/project-service";
 import { DataTable } from "@/shared/components/data-table/data-table";
+import { Badge } from "@/shared/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -101,7 +102,32 @@ const useProjectStories = () => {
             row?.getValue("task_count") ? "text-blue-500 font-medium" : ""
           )}
         >
-          {row?.getValue("task_count")} Task/s
+          {row?.getValue("task_count") !== 0 ? (
+            <Dialog>
+              <DialogTrigger>
+                <div className={"text-blue-500 font-medium"}>
+                  {row?.getValue("task_count")} Task/s
+                </div>
+              </DialogTrigger>
+              <DialogContent className="max-w-[1200px]">
+                <DialogHeader>
+                  <DialogTitle>{row?.getValue("title")}</DialogTitle>
+                </DialogHeader>
+                <div className="">
+                  <DataTable
+                    border={true}
+                    columns={taskColumns}
+                    loading={isLoading}
+                    headerSticky={true}
+                    height="max-h-[400px]"
+                    data={row?.original?.tasks ?? []}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <p className="font-medium">{row?.getValue("task_count")} Task/s</p>
+          )}
         </div>
       ),
       enableHiding: false,
@@ -123,6 +149,7 @@ const useProjectStories = () => {
       enableHiding: false,
     },
   ];
+
   const taskColumns: ColumnDef<any>[] = [
     // Stories
     {
@@ -131,10 +158,10 @@ const useProjectStories = () => {
       header: "Date",
       cell: ({ row }) => (
         <div className="max-w-[300px] min-w-0">
-          <p className="text-base font-medium text-zinc-700">
+          <p className="text-sm font-medium text-zinc-700">
             {moment(row.getValue("date"))?.format("YYYY-MM-DD")}
           </p>
-          <p className="text-base font-normal text-zinc-700">
+          <p className="text-sm font-normal text-zinc-700">
             {moment(row.getValue("date"))?.format("HH:mm:ss")}
           </p>
         </div>
@@ -162,15 +189,18 @@ const useProjectStories = () => {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <div className="max-w-[300px] min-w-0">{row.getValue("status")}</div>
-      ),
-    },
-    {
-      id: "commits",
-      accessorKey: "commits",
-      header: "Commits",
-      cell: ({ row }) => (
-        <div className="max-w-[300px] min-w-0">{row.getValue("commits")}</div>
+        <div className="max-w-[300px] min-w-0">
+          <Badge
+            className={cn(
+              row?.getValue("status") === "Open" &&
+                "bg-green-100 border-green-500 text-green-500 rounded-md",
+              row?.getValue("status") === "Closed" &&
+                "bg-red-100 border-red-500 text-red-500 rounded-md"
+            )}
+          >
+            {row.getValue("status")}
+          </Badge>
+        </div>
       ),
     },
     {
@@ -253,14 +283,14 @@ const useProjectStories = () => {
       header: "Task",
       cell: ({ row }) => (
         <div className="">
-          {row?.getValue("task_count") ? (
+          {row?.getValue("task_count") !== 0 ? (
             <Dialog>
               <DialogTrigger>
                 <div className={"text-blue-500 font-medium"}>
                   {row?.getValue("task_count")} Task/s
                 </div>
               </DialogTrigger>
-              <DialogContent className="min-w-[1200px]">
+              <DialogContent className="max-w-[1200px]">
                 <DialogHeader>
                   <DialogTitle>{row?.getValue("title")}</DialogTitle>
                 </DialogHeader>
@@ -269,6 +299,8 @@ const useProjectStories = () => {
                     border={true}
                     columns={taskColumns}
                     loading={isLoading}
+                    headerSticky={true}
+                    height="max-h-[400px]"
                     data={row?.original?.tasks ?? []}
                   />
                 </div>

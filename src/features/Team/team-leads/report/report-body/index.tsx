@@ -11,6 +11,8 @@ interface IProps {
   totalRp: number;
   totalCommercialRp: number;
   totalInhouseRP: number;
+  rpOptions: any;
+  countryOptions: any;
 }
 
 const ReportSummaryBody = ({
@@ -20,6 +22,8 @@ const ReportSummaryBody = ({
   totalRp,
   totalCommercialRp,
   totalInhouseRP,
+  rpOptions,
+  countryOptions,
 }: IProps) => {
   return (
     <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
@@ -30,7 +34,13 @@ const ReportSummaryBody = ({
           totalInhouseRP={totalInhouseRP}
           loading={loading}
         />
-        <ReportSummaryTable columns={columns} data={data} loading={loading} />
+        <ReportSummaryTable
+          rpOptions={rpOptions}
+          countryOptions={countryOptions}
+          columns={columns}
+          data={data}
+          loading={loading}
+        />
       </div>
     </div>
   );

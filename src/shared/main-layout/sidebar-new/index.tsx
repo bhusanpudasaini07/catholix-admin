@@ -9,6 +9,7 @@ import {
   Folder,
   Gitlab,
   LayoutGrid,
+  User,
   User2,
   Users,
 } from "lucide-react";
@@ -106,7 +107,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
         {
           menuName: t("common.side_nav.team_leads"),
           menuSlug: "/team-leads",
-          icon: <Users width={20} height={20} />,
+          icon: <User width={20} height={20} />,
           hasAccordion: true,
           accordionItem: [
             {
@@ -190,7 +191,6 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
     const result = router.pathname.startsWith(tabRoute);
     return result;
   };
-
   return (
     <div
       style={{
@@ -215,7 +215,15 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
               subItem?.hasAccordion ? (
                 <React.Fragment key={subIndex}>
                   {isExpanded ? (
-                    <Accordion type="single" collapsible key={subIndex}>
+                    <Accordion
+                      type="single"
+                      collapsible
+                      defaultValue={
+                        router?.pathname.startsWith(subItem?.menuSlug)
+                          ? "item-1"
+                          : ""
+                      }
+                    >
                       <AccordionItem value="item-1" className="border-0">
                         <AccordionTrigger
                           className={`btn-primary !shadow-none rounded-none w-full ${
@@ -236,7 +244,7 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
                             </span>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent>
+                        <AccordionContent className="[&>div]:pb-0">
                           <ul className={`sidebarList`}>
                             {subItem?.accordionItem?.map(
                               (

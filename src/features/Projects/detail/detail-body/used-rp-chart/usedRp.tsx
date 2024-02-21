@@ -44,6 +44,7 @@ const UsedRp = ({ rp }: IProps) => {
             show: false,
             fontSize: 16,
           },
+          scale: false,
         },
         labelLine: {
           show: false,

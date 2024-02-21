@@ -15,7 +15,7 @@ const LeadReportContent = () => {
   const current_id = router.query?.lead_id;
 
   const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 31);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: oneWeekAgo,
     to: new Date(),

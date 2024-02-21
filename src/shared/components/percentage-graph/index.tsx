@@ -2,8 +2,8 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 
 interface IProps {
-  fillPercentage: number;
-  emptyPercentage: number;
+  fillPercentage: string;
+  emptyPercentage: string;
   fillColor?: string;
   emptyColor?: string;
   fillLabel?: string;

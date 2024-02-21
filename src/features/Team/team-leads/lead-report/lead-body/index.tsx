@@ -9,6 +9,7 @@ import ProjectRpConsumptionTable from "./lead-role-rp-table";
 import ClientVsInHouseProject from "./client-n-inhouse-project";
 import InHouseMarketRp from "./inhouse-market-rp";
 import ClientMarketRP from "./client-market-rp";
+import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 
 interface IProps {
   staffRpSummaryData: any;
@@ -24,14 +25,33 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
   const [totalClientProjects, setTotalClientProjects] = useState<string>("0");
   const [totalInhouseProjects, setTotalInhouseProjects] = useState<string>("0");
   const [totalUsedRP, setTotalUsedRP] = useState<string>("0");
-  const [totalAvailableTime, setTotalAvailableTime] = useState<number>(0);
-  const [totalCommercialTime, setTotalCommercialTime] = useState<number>(0);
-  const [totalUsedTime, setTotalUsedTime] = useState<number>(0);
-  const [totalLossTime, setTotalLossTime] = useState<number>(0);
+
   const [totalHighRiskProjects, setTotalHighRiskProjects] =
     useState<string>("0");
-  // const { usedPercentage, unusedPercentage } =
-  //   calculateUsedAndUnusedRpPercentage(staffRpSummaryData?.data?.summary?.?.sales_rp, rp?.used_rp);
+
+  const totalRP =
+    staffRpSummaryData?.data?.summary?.available_rp +
+    staffRpSummaryData?.data?.summary?.total_rp;
+
+  const calculateUsedPercentage = (
+    usedData: number,
+    totalData: number
+  ): number => {
+    if (totalData === 0) {
+      return 0; // to avoid division by zero
+    }
+    return (usedData / totalData) * 100;
+  };
+
+  const calculateUnusedPercentage = (
+    unusedData: number,
+    totalData: number
+  ): number => {
+    if (totalData === 0) {
+      return 0; // to avoid division by zero
+    }
+    return (unusedData / totalData) * 100;
+  };
 
   useEffect(() => {
     if (staffRpSummaryData) {
@@ -41,10 +61,6 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
       let commercialRPSum = 0;
       let activeStaffCount = 0;
       let spentRPCount = 0;
-      let availableTimeSum = 0;
-      let commercialTimeSum = 0;
-      let usedTimeSum = 0;
-      let lossTimeSum = 0;
 
       // Iterate over staff array and sum up available RP, loss RP, inhouse RP, and commercial RP
       staffRpSummaryData.data.staff.forEach((staff: any) => {
@@ -53,10 +69,6 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
         inhouseRPSum += parseFloat(staff.used_rp);
         commercialRPSum += parseFloat(staff.commercial_rp);
         spentRPCount += parseFloat(staff.used_rp);
-        availableTimeSum += parseFloat(staff.available_time);
-        commercialTimeSum += parseFloat(staff.commercial_time);
-        usedTimeSum += parseFloat(staff.used_time);
-        lossTimeSum += parseFloat(staff.loss_time);
 
         // Count active staff
         if (parseFloat(staff.used_time) > 0) {
@@ -71,10 +83,6 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
       setTotalCommercialRP(commercialRPSum.toFixed(2));
       setTotalUsedRP(spentRPCount.toFixed(2));
       setTotalActiveStaff(activeStaffCount.toString());
-      setTotalAvailableTime(availableTimeSum);
-      setTotalCommercialTime(commercialTimeSum);
-      setTotalUsedTime(usedTimeSum);
-      setTotalLossTime(lossTimeSum);
 
       // Calculate project statistics
       let clientProjectCount = 0;
@@ -108,12 +116,30 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
     <div className="p-8">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
         <RpUtilization
-          clientRP="200"
-          overallEmptyPercentage={20}
-          overallUsedPercentage={80}
-          clientEmptyPercentage={50}
-          clientUsedPercentage={50}
-          overallRP="100"
+          clientRP={staffRpSummaryData?.data?.summary?.total_rp}
+          overallEmptyPercentage={calculateUnusedPercentage(
+            staffRpSummaryData?.data?.summary?.available_rp,
+            totalRP
+          ).toFixed(2)}
+          overallUsedPercentage={(
+            100 -
+            calculateUsedPercentage(
+              staffRpSummaryData?.data?.summary?.total_rp,
+              totalRP
+            )
+          ).toFixed(2)}
+          clientEmptyPercentage={(
+            100 -
+            calculateUsedPercentage(
+              staffRpSummaryData?.data?.summary?.commercial_rp,
+              totalRP
+            )
+          ).toFixed(2)}
+          clientUsedPercentage={calculateUsedPercentage(
+            staffRpSummaryData?.data?.summary?.commercial_rp,
+            totalRP
+          ).toFixed(2)}
+          overallRP={staffRpSummaryData?.data?.summary?.commercial_rp}
         />
         <TimeUtilization
           overallTime="100"
@@ -123,16 +149,7 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
           clientEmptyPercentage={50}
           clientUsedPercentage={50}
         />
-        {/* <div className="card m-5">
-          totalAvailableTime:{totalAvailableTime} <br />
-          totalCommercialTime: {totalCommercialTime}
-          <br />
-          totalUsedTime: {totalUsedTime}
-          <br />
-          totalLossTime : {totalLossTime}
-          <br />
-          <br />
-        </div> */}
+
         <RpSummary
           available={totalAvailableRP}
           spent={totalUsedRP}
@@ -151,8 +168,8 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
         client={totalClientProjects}
       />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <RoleCountryTable />
-        <ProjectRpConsumptionTable />
+        <RoleCountryTable data={staffRpSummaryData?.data?.staff} />
+        <ProjectRpConsumptionTable data={staffRpSummaryData?.data?.projects} />
       </div>
       <ClientVsInHouseProject />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">

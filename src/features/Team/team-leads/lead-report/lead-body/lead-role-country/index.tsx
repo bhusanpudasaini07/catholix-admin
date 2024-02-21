@@ -66,7 +66,9 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
       id: "manDays",
       accessorKey: "manDays",
       header: "Man Days",
-      cell: ({ row }) => <div>{row.getValue("manDays")}</div>,
+      cell: ({ row }) => (
+        <div>{parseInt(row.getValue("manDays")).toFixed(2)}</div>
+      ),
       enableHiding: false,
     },
     {
@@ -91,14 +93,14 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
     role: staff?.role_name,
     // country: staff?.department_name, // Assuming department_name represents the country
     country: "Nepal", // Assuming department_name represents the country
-    manDays: parseFloat(staff?.used_time) / (8 * 3600), // Converting seconds to man-days
-    manMonths: parseFloat(staff?.used_time) / (8 * 3600 * 20), // Converting seconds to man-months (assuming 20 working days per month)
+    manDays: (parseFloat(staff?.used_time) / (8 * 3600)).toFixed(2), // Converting seconds to man-days
+    manMonths: (parseFloat(staff?.used_time) / (8 * 3600 * 20)).toFixed(2), // Converting seconds to man-months (assuming 20 working days per month)
   }));
   return (
     <Card>
       <CardContent>
         <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-2">
             <h5 className="font-medium text-zinc-700">
               Role-Wise Country Project
             </h5>
@@ -106,7 +108,7 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
               Detail View
             </Button>
           </div>
-          <div className="flex gap-2 justify-end items-center flex-wrap">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <Input
               placeholder="Search Keywords"
               className="w-[160px] h-[36px]"
@@ -121,10 +123,10 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
             </Select>
           </div>
         </div>
-        <div className="flex items-center flex-wrap justify-end gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3">
           {countries.map((country) => (
             <div
-              className="flex justify-start items-center gap-1"
+              className="flex items-center justify-start gap-1"
               key={country.code}
             >
               <input

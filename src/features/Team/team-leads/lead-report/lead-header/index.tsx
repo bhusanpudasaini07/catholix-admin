@@ -1,4 +1,4 @@
-import { getLeadsList } from "@/services/lead-report/lead-report.service";
+import { getLeadsList } from "@/services/lead-report/lead-report-service";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,

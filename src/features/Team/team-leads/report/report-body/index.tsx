@@ -13,6 +13,7 @@ interface IProps {
   totalInhouseRP: number;
   rpOptions: any;
   countryOptions: any;
+  staffRPLoading: boolean;
 }
 
 const ReportSummaryBody = ({
@@ -24,6 +25,7 @@ const ReportSummaryBody = ({
   totalInhouseRP,
   rpOptions,
   countryOptions,
+  staffRPLoading,
 }: IProps) => {
   return (
     <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
@@ -40,6 +42,7 @@ const ReportSummaryBody = ({
           columns={columns}
           data={data}
           loading={loading}
+          staffRPLoading={staffRPLoading}
         />
       </div>
     </div>

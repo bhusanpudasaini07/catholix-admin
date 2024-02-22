@@ -1,9 +1,14 @@
-import { IPropsTeamLeadData } from "@/interface/team-lead-report-interface";
+import {
+  ICountryProjectDetails,
+  IPropsTeamLeadData,
+} from "@/interface/team-lead-report-interface";
 import {
   getLeadsList,
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
+import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
@@ -28,6 +33,9 @@ const useLeadReport = () => {
   const [selected, setSelected] = useState<string>("");
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [activeLeads, setActiveLeads] = useState([]);
+
+  // ----------------------------
+  const [searchText, setSearchText] = useState("");
 
   const handleChange = (value: any) => {
     setSelected(value);
@@ -112,6 +120,80 @@ const useLeadReport = () => {
       }
     );
 
+  // --------------------- //
+  /**
+   * For grouping projects according to countries.
+   */
+  const countryWiseGroupProject: any =
+    staffRpSummaryData?.data?.projects.reduce(
+      (acc: { [key: string]: any[] }, project: any) => {
+        const { market: country } = project;
+        if (!acc[country]) {
+          acc[country] = [];
+        }
+        acc[country].push(project);
+        return acc;
+      },
+      {}
+    );
+  const SerialNumberCell = ({ row }: any) => {
+    const rowIndex = row.index;
+    const serialNumber = rowIndex + 1;
+    return <div className="text-color">{serialNumber}.</div>;
+  };
+
+  /**
+   * project-rp-consumption tables column
+   */
+  const countryProjectColumn: ColumnDef<ICountryProjectDetails>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S.No.",
+      cell: (props) => <SerialNumberCell {...props} />,
+    },
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Project",
+      cell: ({ row }) => (
+        <Link
+          className="font-semibold text-primary hover:text-blue-700"
+          href={`/projects/${row?.original?.code}`}
+        >
+          {row?.getValue("title")}
+        </Link>
+      ),
+    },
+    {
+      id: "total_rp",
+      accessorKey: "total_rp",
+      header: () => <div className="truncate">RP Consumed</div>,
+      cell: ({ row }) => (
+        <div className="font-semibold">{row?.getValue("total_rp")}</div>
+      ),
+    },
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "%",
+      cell: ({ row }: any) => {
+        const totalRP: any = Object.entries(countryWiseGroupProject).reduce(
+          (acc, [_, projects]: any) => {
+            const totalRpForCountry = projects?.reduce(
+              (accInner: number, project: any) =>
+                accInner + parseFloat(project?.total_rp || "0"),
+              0
+            );
+            return acc + totalRpForCountry;
+          },
+          0
+        );
+        const percentage = (row?.original?.total_rp / totalRP) * 100;
+        return <div>{percentage.toFixed(2)}%</div>;
+      },
+    },
+  ];
   return {
     router,
     current_id,
@@ -156,6 +238,12 @@ const useLeadReport = () => {
     handleLeadsId,
     teamLeadStaffsLoading,
     staffDataLoading,
+
+    // ----------
+    countryWiseGroupProject,
+    countryProjectColumn,
+    searchText,
+    setSearchText,
   };
 };
 

@@ -16,7 +16,7 @@ const FilterSearch = ({ setSearchText }: IProps) => {
         className="cursor-pointer"
       />
       <Input
-        placeholder="Type here to search"
+        placeholder="Search Keyword"
         className="h-auto p-0 border-0 rounded-none shadow-none"
         onChange={(e) => setSearchText(e.target.value)}
       />

@@ -1,4 +1,4 @@
-import { getLeadsList } from "@/services/lead-report/lead-report-service";
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,
@@ -13,50 +13,29 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
-import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
-import { useQuery } from "react-query";
 
-interface IProps {
-  setDateRange?: any;
-  dateRange?: any;
-}
-
-const LeadHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
-  const router = useRouter();
-  const current_id = router.query?.lead_id || undefined;
-
-  const [selected, setSelected] = useState<string>("");
-
-  const [dateRangeOpen, setDateRangeOpen] = useState(false);
-  const [activeLeads, setActiveLeads] = useState([]);
-
-  const handleChange = (value: any) => {
-    setSelected(value);
-  };
-  const weeklyData = [
-    { value: "2022-10-10", label: "October 10, 2022" },
-    { value: "2022-10-17", label: "October 17, 2022" },
-    { value: "2022-10-24", label: "October 24, 2022" },
-  ];
-
-  const { data: leadList, isLoading: leadsLoading } = useQuery<any>(
-    ["getTeamLeadList"],
-    async () => {
-      const response = getLeadsList();
-      return response;
-    }
-  );
-
-  const handleLeadsId = (id: string) => {
-    router.push(`/team-leads/lead-report?lead_id=${id}`);
-  };
+const LeadHeader = () => {
+  const {
+    router,
+    current_id,
+    setDateRange,
+    dateRange,
+    selected,
+    dateRangeOpen,
+    setDateRangeOpen,
+    handleChange,
+    weeklyData,
+    leadsLoading,
+    leadList,
+    current_page,
+    handleLeadsId,
+  } = useLeadReport();
 
   return (
     <div className="flex justify-between items-center bg-white p-8">
       <div className="">
         <h3 className="mb-1.5 text-2xl font-medium text-zinc-700">
-          Lead Report - All
+          Lead Report -&nbsp;{current_page}
         </h3>
         <p className="text-base text-zinc-500">Report of all the members</p>
       </div>

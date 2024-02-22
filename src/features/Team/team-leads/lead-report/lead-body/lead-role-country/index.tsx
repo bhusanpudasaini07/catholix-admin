@@ -93,9 +93,10 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
     role: staff?.role_name,
     // country: staff?.department_name, // Assuming department_name represents the country
     country: "Nepal", // Assuming department_name represents the country
-    manDays: (parseFloat(staff?.used_time) / (8 * 3600)).toFixed(2), // Converting seconds to man-days
-    manMonths: (parseFloat(staff?.used_time) / (8 * 3600 * 20)).toFixed(2), // Converting seconds to man-months (assuming 20 working days per month)
+    manDays: (parseFloat(staff?.used_time) / (7 * 3600)).toFixed(2), // Converting seconds to man-days -> (assuming 7 working hours per day)
+    manMonths: (parseFloat(staff?.used_time) / (7 * 3600 * 22)).toFixed(2), // Converting seconds to man-months (assuming 22 working days per month)
   }));
+
   return (
     <Card>
       <CardContent>

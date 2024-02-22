@@ -1,4 +1,7 @@
-import { FC, useEffect, useState } from "react";
+// React
+import { useEffect } from "react";
+
+// Features
 import RpUtilization from "./lead-rp-utilize";
 import TimeUtilization from "./lead-time-utilize";
 import RpSummary from "./lead-rp-summary";
@@ -9,29 +12,45 @@ import ProjectRpConsumptionTable from "./lead-role-rp-table";
 import ClientVsInHouseProject from "./client-n-inhouse-project";
 import InHouseMarketRp from "./inhouse-market-rp";
 import ClientMarketRP from "./client-market-rp";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 
-interface IProps {
-  staffRpSummaryData: any;
-}
+//Hooks
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
+import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 
-const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
-  const [totalAvailableRP, setTotalAvailableRP] = useState<string>("0");
-  const [totalLossRP, setTotalLossRP] = useState<string>("0");
-  const [totalActiveStaff, setTotalActiveStaff] = useState<string>("0");
-  const [totalInhouseRP, setTotalInhouseRP] = useState<string>("0");
-  const [totalCommercialRP, setTotalCommercialRP] = useState<string>("0");
-  const [totalProjects, setTotalProjects] = useState<string>("0");
-  const [totalClientProjects, setTotalClientProjects] = useState<string>("0");
-  const [totalInhouseProjects, setTotalInhouseProjects] = useState<string>("0");
-  const [totalUsedRP, setTotalUsedRP] = useState<string>("0");
-
-  const [totalHighRiskProjects, setTotalHighRiskProjects] =
-    useState<string>("0");
+const LeadReportBody = () => {
+  const {
+    staffRpSummaryData,
+    staffDataLoading,
+    totalAvailableRP,
+    setTotalAvailableRP,
+    totalLossRP,
+    setTotalLossRP,
+    totalActiveStaff,
+    setTotalActiveStaff,
+    totalInhouseRP,
+    setTotalInhouseRP,
+    totalCommercialRP,
+    setTotalCommercialRP,
+    totalProjects,
+    setTotalProjects,
+    totalClientProjects,
+    setTotalClientProjects,
+    totalInhouseProjects,
+    setTotalInhouseProjects,
+    totalUsedRP,
+    setTotalUsedRP,
+    totalHighRiskProjects,
+    setTotalHighRiskProjects,
+  } = useLeadReport();
 
   const totalRP =
     staffRpSummaryData?.data?.summary?.available_rp +
     staffRpSummaryData?.data?.summary?.total_rp;
+
+  const totalTime =
+    staffRpSummaryData?.data?.summary?.available_time +
+    staffRpSummaryData?.data?.summary?.total_time;
 
   const calculateUsedPercentage = (
     usedData: number,
@@ -114,40 +133,66 @@ const LeadReportBody: FC<IProps> = ({ staffRpSummaryData }) => {
   return (
     <div className="p-8">
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
-        <RpUtilization
-          clientRP={staffRpSummaryData?.data?.summary?.total_rp}
-          overallEmptyPercentage={calculateUnusedPercentage(
-            staffRpSummaryData?.data?.summary?.available_rp,
-            totalRP
-          ).toFixed(2)}
-          overallUsedPercentage={(
-            100 -
-            calculateUsedPercentage(
-              staffRpSummaryData?.data?.summary?.total_rp,
+        {!staffDataLoading ? (
+          <RpUtilization
+            clientRP={staffRpSummaryData?.data?.summary?.total_rp}
+            overallEmptyPercentage={calculateUnusedPercentage(
+              staffRpSummaryData?.data?.summary?.available_rp,
               totalRP
-            )
-          ).toFixed(2)}
-          clientEmptyPercentage={(
-            100 -
-            calculateUsedPercentage(
+            ).toFixed(2)}
+            overallUsedPercentage={(
+              100 -
+              calculateUsedPercentage(
+                staffRpSummaryData?.data?.summary?.total_rp,
+                totalRP
+              )
+            ).toFixed(2)}
+            clientEmptyPercentage={(
+              100 -
+              calculateUsedPercentage(
+                staffRpSummaryData?.data?.summary?.commercial_rp,
+                totalRP
+              )
+            ).toFixed(2)}
+            clientUsedPercentage={calculateUsedPercentage(
               staffRpSummaryData?.data?.summary?.commercial_rp,
               totalRP
-            )
-          ).toFixed(2)}
-          clientUsedPercentage={calculateUsedPercentage(
-            staffRpSummaryData?.data?.summary?.commercial_rp,
-            totalRP
-          ).toFixed(2)}
-          overallRP={staffRpSummaryData?.data?.summary?.commercial_rp}
-        />
-        <TimeUtilization
-          overallTime="100"
-          overallEmptyPercentage={"20"}
-          overallUsedPercentage={"80"}
-          clientTime="200"
-          clientEmptyPercentage={"50"}
-          clientUsedPercentage={"50"}
-        />
+            ).toFixed(2)}
+            overallRP={staffRpSummaryData?.data?.summary?.commercial_rp}
+          />
+        ) : (
+          <UtilizationSkeletonCard />
+        )}
+        {!staffDataLoading ? (
+          <TimeUtilization
+            overallTime={staffRpSummaryData?.data?.summary?.total_time}
+            overallEmptyPercentage={calculateUnusedPercentage(
+              staffRpSummaryData?.data?.summary?.available_time,
+              totalTime
+            ).toFixed(2)}
+            overallUsedPercentage={(
+              100 -
+              calculateUsedPercentage(
+                staffRpSummaryData?.data?.summary?.total_time,
+                totalTime
+              )
+            ).toFixed(2)}
+            clientTime={staffRpSummaryData?.data?.summary?.commercial_time}
+            clientEmptyPercentage={(
+              100 -
+              calculateUsedPercentage(
+                staffRpSummaryData?.data?.summary?.commercial_time,
+                totalTime
+              )
+            ).toFixed(2)}
+            clientUsedPercentage={calculateUsedPercentage(
+              staffRpSummaryData?.data?.summary?.commercial_time,
+              totalTime
+            ).toFixed(2)}
+          />
+        ) : (
+          <UtilizationSkeletonCard />
+        )}
 
         <RpSummary
           available={totalAvailableRP}

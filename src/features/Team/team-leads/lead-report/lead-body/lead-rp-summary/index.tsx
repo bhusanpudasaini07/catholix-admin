@@ -28,7 +28,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             variant={"white"}
             size={"sm"}
           >
-            View Timeline
+            View Trendline
           </Button>
         </div>
         <div className="flex justify-between gap-5 pr-20 mt-9">

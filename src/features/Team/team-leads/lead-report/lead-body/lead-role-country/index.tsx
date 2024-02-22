@@ -1,4 +1,5 @@
 import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
@@ -19,6 +20,7 @@ interface IProps {
 
 const RoleCountryTable: FC<IProps> = ({ data }) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [searchText, setSearchText] = useState("");
 
   const countries = [
     {
@@ -110,10 +112,11 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
             </Button>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">
-            <Input
+            {/* <Input
               placeholder="Search Keywords"
               className="w-[160px] h-[36px]"
-            />
+            /> */}
+            <FilterSearch setSearchText={setSearchText} />
             <Select>
               <SelectTrigger className="w-[160px]">
                 <SelectValue placeholder="Role" />
@@ -155,6 +158,8 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
         </div>
         <DataTable
           // loading={isLoading}
+          height={"max-h-[500px]"}
+          headerSticky
           border={true}
           columns={columns}
           data={tableData || []}

@@ -1,45 +1,62 @@
-import React from "react";
 import { DataTable } from "@/shared/components/data-table/data-table";
-import PercentageGraph from "@/shared/components/percentage-graph";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
-import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 
 const InHouseMarketRp = () => {
-  const Option = {
+  const { countryInHouseTotalRP, staffDataLoading, sumTotalRp } =
+    useLeadReport();
+
+  const PieData = countryInHouseTotalRP.map((item) => ({
+    name: `${item?.country} In-House`, // Add "In-House" suffix to country name
+    value: item?.percentage, // Use totalRP as value
+  }));
+  const option = {
     tooltip: {
       trigger: "item",
     },
+    color: ["#2DD4BF", "#0891B2", "#818CF8", "#7C3AED", "#FACC15", "#84CC16"],
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["50%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
           borderWidth: 2,
         },
         label: {
           show: false,
           position: "center",
+          fontSize: 20,
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 25,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
           show: false,
         },
-        data: [
-          { value: 1048, name: "Search Engine" },
-          { value: 735, name: "Direct" },
-          { value: 580, name: "Email" },
-          { value: 484, name: "Union Ads" },
-          { value: 300, name: "Video Ads" },
-        ],
+        data: PieData || [],
       },
     ],
   };
@@ -48,21 +65,20 @@ const InHouseMarketRp = () => {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div></div>,
-      enableHiding: false,
+      cell: ({ row }) => <div>{row?.getValue("country")}</div>,
     },
     {
-      id: "rp",
-      accessorKey: "rp",
+      id: "totalRP",
+      accessorKey: "totalRP",
       header: "RP",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row?.getValue("totalRP")}</div>,
       enableHiding: false,
     },
     {
       id: "percentage",
       accessorKey: "percentage",
       header: "%",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row?.getValue("percentage")}%</div>,
       enableHiding: false,
     },
   ];
@@ -76,14 +92,15 @@ const InHouseMarketRp = () => {
             </h5>
           </div>
           <div className="my-auto">
-            <ReactECharts className="min-h-[500px]" option={Option} />
+            <ReactECharts className="min-h-[500px]" option={option} />
           </div>
           <div className="">
             <DataTable
-              // loading={isLoading}
+              loading={staffDataLoading}
               border={true}
               columns={columns}
-              data={[]}
+              data={countryInHouseTotalRP || []}
+              height="max-h-[400px]"
             />
           </div>
         </div>

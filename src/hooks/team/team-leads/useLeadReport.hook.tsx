@@ -1,4 +1,3 @@
-import { IPropsTeamLeadData } from "@/interface/team-lead-report-interface";
 import {
   getLeadsList,
   getStaffRpSummary,
@@ -8,6 +7,18 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
+
+interface IProject {
+  id: string;
+  title: string;
+  code: string;
+  risk_status: string;
+  source: string;
+  market_id: string;
+  market: string;
+  total_rp: string;
+  total_time: string;
+}
 
 const useLeadReport = () => {
   const router = useRouter();
@@ -112,6 +123,123 @@ const useLeadReport = () => {
       }
     );
 
+  // >> Client & In House Project RP Table according to country START <<
+
+  // Total RP used By all Projects
+  const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
+    (total: number, project: IProject) => total + parseFloat(project.total_rp),
+    0
+  );
+  // In House >>
+  const countryInHouseTotalRP: {
+    country: string;
+    totalRP: number;
+    percentage: number;
+  }[] = [];
+
+  staffRpSummaryData?.data?.projects?.forEach((project: IProject) => {
+    // Check if the project meets the condition (source='In-House')
+    if (project.source === "In-House") {
+      const existingCountryIndex = countryInHouseTotalRP.findIndex(
+        (item) => item.country === project.market
+      );
+      const totalRPToAdd = parseFloat(project.total_rp);
+      if (!isNaN(totalRPToAdd)) {
+        // Ensure totalRPToAdd is a valid number
+        if (existingCountryIndex === -1) {
+          // Country not found, add a new entry
+          countryInHouseTotalRP.push({
+            country: project.market,
+            totalRP: totalRPToAdd,
+            percentage: (totalRPToAdd / sumTotalRp) * 100, // Calculate percentage
+          });
+        } else {
+          // Country found, update total RP and percentage
+          countryInHouseTotalRP[existingCountryIndex].totalRP += totalRPToAdd;
+          countryInHouseTotalRP[existingCountryIndex].percentage =
+            (countryInHouseTotalRP[existingCountryIndex].totalRP / sumTotalRp) *
+            100; // Recalculate percentage
+        }
+      }
+    }
+  });
+
+  // digit limit after .
+  countryInHouseTotalRP.forEach((item) => {
+    item.totalRP = parseFloat(item.totalRP.toFixed(2));
+    item.percentage = parseFloat(item.percentage.toFixed(2));
+  });
+
+  // Client >>
+  const countryClientTotalRP: {
+    country: string;
+    totalRP: number;
+    percentage: number;
+  }[] = [];
+
+  staffRpSummaryData?.data?.projects?.forEach((project: IProject) => {
+    if (project.source === "Client") {
+      const existingCountryIndex = countryClientTotalRP.findIndex(
+        (item) => item.country === project.market
+      );
+      const totalRPToAdd = parseFloat(project.total_rp);
+      if (!isNaN(totalRPToAdd)) {
+        // Ensure totalRPToAdd is a valid number
+        if (existingCountryIndex === -1) {
+          // Country not found, add a new entry
+          countryClientTotalRP.push({
+            country: project.market,
+            totalRP: totalRPToAdd,
+            percentage: (totalRPToAdd / sumTotalRp) * 100, // Calculate percentage
+          });
+        } else {
+          // Country found, update total RP and percentage
+          countryClientTotalRP[existingCountryIndex].totalRP += totalRPToAdd;
+          countryClientTotalRP[existingCountryIndex].percentage =
+            (countryClientTotalRP[existingCountryIndex].totalRP / sumTotalRp) *
+            100; // Recalculate percentage
+        }
+      }
+    }
+  });
+  // digit limit after .
+  countryClientTotalRP.forEach((item) => {
+    item.totalRP = parseFloat(item.totalRP.toFixed(2));
+    item.percentage = parseFloat(item.percentage.toFixed(2));
+  });
+
+  // >> Client & In House Project RP Table according to country END <<
+
+  const totalRP =
+    staffRpSummaryData?.data?.summary?.available_rp +
+    staffRpSummaryData?.data?.summary?.total_rp;
+
+  const totalTime =
+    staffRpSummaryData?.data?.summary?.available_time +
+    staffRpSummaryData?.data?.summary?.total_time;
+
+  const UsedTotalRP = staffRpSummaryData?.data?.summary?.total_time;
+
+  const calculateUsedPercentage = (
+    usedData: number,
+    totalData: number
+  ): number => {
+    if (totalData === 0) {
+      return 0; // to avoid division by zero
+    }
+    return (usedData / totalData) * 100;
+  };
+
+  const calculateUnusedPercentage = (
+    unusedData: number,
+    totalData: number
+  ): number => {
+    if (totalData === 0) {
+      return 0; // to avoid division by zero
+    }
+    return (unusedData / totalData) * 100;
+  };
+
   return {
     router,
     current_id,
@@ -156,6 +284,14 @@ const useLeadReport = () => {
     handleLeadsId,
     teamLeadStaffsLoading,
     staffDataLoading,
+    totalRP,
+    totalTime,
+    calculateUsedPercentage,
+    calculateUnusedPercentage,
+    UsedTotalRP,
+    countryInHouseTotalRP,
+    countryClientTotalRP,
+    sumTotalRp,
   };
 };
 

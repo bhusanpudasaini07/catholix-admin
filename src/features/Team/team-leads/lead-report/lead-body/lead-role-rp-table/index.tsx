@@ -2,17 +2,9 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { Input } from "@/shared/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 
 interface IProps {
   data: any;
@@ -57,12 +49,7 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => (
-        <div className="">
-          {/* {row?.getValue('')} */}
-          {row.index + 1}
-        </div>
-      ),
+      cell: ({ row }) => <div className="">{row.index + 1}</div>,
       enableHiding: false,
     },
     // Date

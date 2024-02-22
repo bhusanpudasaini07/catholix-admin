@@ -8,6 +8,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { DownloadCloud } from "lucide-react";
 import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];
@@ -16,6 +17,7 @@ interface IProps {
   staffRPLoading: boolean;
   countryOptions: any;
   rpOptions: any;
+  leadDetail: ILeadDetail | undefined;
 }
 
 const ReportSummaryTable = ({
@@ -25,6 +27,7 @@ const ReportSummaryTable = ({
   staffRPLoading,
   countryOptions,
   rpOptions,
+  leadDetail,
 }: IProps) => {
   return (
     <Card>
@@ -36,8 +39,13 @@ const ReportSummaryTable = ({
           </Button>
         </div>
 
-        <div className="grid grid-cols-12 gap-7">
-          <div className="col-span-12 2xl:col-span-8">
+        <div className="grid grid-cols-12 transition-all gap-7">
+          <div
+            className={cn(
+              leadDetail !== undefined ? "lg:col-span-8" : "lg:col-span-12",
+              "col-span-12 "
+            )}
+          >
             <DataTable
               border={true}
               loading={loading}
@@ -45,22 +53,24 @@ const ReportSummaryTable = ({
               data={data ?? []}
             />
           </div>
-          <div className="col-span-12 2xl:col-span-4">
-            <div className="mb-5">
-              {loading || staffRPLoading ? (
-                <PieChartSkeleton height={250} width={250} />
-              ) : (
+          {leadDetail !== undefined && (
+            <div className="col-span-12 lg:col-span-4">
+              <div className="mb-5">
+                {/* {loading || staffRPLoading ? (
+                  <PieChartSkeleton height={250} width={250} />
+                ) : ( */}
                 <ReactECharts option={rpOptions} notMerge={true} />
-              )}
-            </div>
-            <div>
-              {loading || staffRPLoading ? (
-                <PieChartSkeleton height={250} width={250} />
-              ) : (
+                {/* )} */}
+              </div>
+              <div>
+                {/* {loading || staffRPLoading ? (
+                  <PieChartSkeleton height={250} width={250} />
+                ) : ( */}
                 <ReactECharts option={countryOptions} />
-              )}
+                {/* )} */}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </CardContent>
     </Card>

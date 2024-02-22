@@ -18,6 +18,7 @@ const ReportSummaryContent = () => {
     rpOptions,
     countryOptions,
     staffRPLoading,
+    leadDetail,
   } = useReport();
   return (
     <>
@@ -37,6 +38,7 @@ const ReportSummaryContent = () => {
         rpOptions={rpOptions}
         countryOptions={countryOptions}
         staffRPLoading={staffRPLoading}
+        leadDetail={leadDetail}
       />
     </>
   );

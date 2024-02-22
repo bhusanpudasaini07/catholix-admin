@@ -1,7 +1,7 @@
 import ProjectDetailContent from "@/features/Projects/detail";
 import { NextPageWithLayout } from "@/pages/_app";
 import MainLayout from "@/shared/main-layout";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
 
 const ProjectDetail: NextPageWithLayout = () => {
@@ -10,22 +10,27 @@ const ProjectDetail: NextPageWithLayout = () => {
 
 export default ProjectDetail;
 
-// export const getStaticProps = getI18nProps;
+export const getServerSideProps = async ({ query, locale }: any) => {
+  const paths = [
+    {
+      params: {
+        id: query?.code,
+      },
+      locale,
+    },
+  ];
+
+  const translations = await serverSideTranslations(locale, ["common"]); // Pass the locale argument to serverSideTranslations
+
+  return {
+    props: {
+      ...translations,
+      paths,
+      fallback: false,
+    },
+  };
+};
 
 ProjectDetail.getLayout = (page) => {
   return <MainLayout title="Projects">{page}</MainLayout>;
 };
-
-// export const getStaticPaths = async ({ locales }: any) => {
-//   const paths = locales.map((locale: any) => ({
-//     params: {
-//       code: useRouter().query.code,
-//     },
-//     locale,
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };

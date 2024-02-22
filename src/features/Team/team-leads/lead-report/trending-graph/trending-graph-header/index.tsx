@@ -36,15 +36,16 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
     router.push(`/team-leads/lead-report/trending-graph?lead_id=${id}`);
   };
   return (
-    <div className="flex justify-between items-center bg-white p-8">
-      <div className="flex justify-start items-start gap-3">
+    <div className="flex items-center justify-between p-8 bg-white">
+      <div className="flex items-start justify-start gap-3">
         <div className="">
           <Button
             onClick={() =>
               router.push(`/team-leads/lead-report?lead_id=${current_id}`)
             }
-            className="!py-3 px-3 mt-[3px]"
-            variant={"white"}
+            variant={"table"}
+            className="h-auto gap-2 p-2.5"
+            size={"sm"}
           >
             <ArrowLeft size={18} />
           </Button>
@@ -56,7 +57,7 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
           <p className="text-base text-zinc-500">Report of all the members</p>
         </div>
       </div>
-      <div className="flex justify-end items-center gap-2">
+      <div className="flex items-center justify-end gap-2">
         <div className="">
           <Select
             value={current_id ? current_id?.toString() : "all"}

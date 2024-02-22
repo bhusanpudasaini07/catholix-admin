@@ -4,12 +4,14 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import { FC, useState } from "react";
+import { useRouter } from "next/router";
+import React, { FC, useState } from "react";
 
 interface IProps {
   data: any;
 }
 const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
+  const router = useRouter();
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");
 
@@ -99,22 +101,30 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
     <Card>
       <CardContent>
         <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-2">
             <h5 className="font-medium text-zinc-700">
               Project RP Consumption
             </h5>
-            <Button variant={"white"} size={"sm"}>
+            <Button
+              variant={"white"}
+              onClick={() =>
+                router?.push(
+                  `/team-leads/lead-report/project-rp-consumption?lead_id=${router?.query?.lead_id}`
+                )
+              }
+              size={"sm"}
+            >
               View All
             </Button>
           </div>
-          <div className="flex gap-2 justify-end items-center flex-wrap">
+          <div className="flex flex-wrap items-center justify-end gap-2">
             <FilterSearch setSearchText={setSearchText} />
           </div>
         </div>
-        <div className="flex items-center flex-wrap justify-end gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-3">
           {countries.map((country) => (
             <div
-              className="flex justify-start items-center gap-1"
+              className="flex items-center justify-start gap-1"
               key={country.code}
             >
               <input

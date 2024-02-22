@@ -15,3 +15,15 @@ export interface IPropsTeamLeadData {
 export interface IPropsTeamLeadList {
   data: IPropsTeamLeadData[];
 }
+
+export interface ICountryProjectDetails {
+  code: string;
+  id: string;
+  market: string;
+  market_id: string;
+  risk_status: string;
+  source: string;
+  title: string;
+  total_rp: string;
+  total_time: string;
+}

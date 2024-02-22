@@ -1,10 +1,33 @@
 import React from "react";
 import ProjectCountryTable from "./project-country-table";
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { ICountryProjectDetails } from "@/interface/team-lead-report-interface";
 
 const ProjectRPConsumptionBody = () => {
+  const {
+    staffDataLoading,
+    countryWiseGroupProject,
+    countryProjectColumn,
+    searchText,
+    setSearchText,
+  } = useLeadReport();
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-      <ProjectCountryTable />
+      {countryWiseGroupProject &&
+        Object?.entries(countryWiseGroupProject)?.map(
+          ([country, projects], index) => (
+            <ProjectCountryTable
+              key={index}
+              country={country}
+              projects={projects}
+              countryProjectColumn={countryProjectColumn}
+              searchText={searchText}
+              setSearchText={setSearchText}
+              staffDataLoading={staffDataLoading}
+            />
+          )
+        )}
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Input } from "@/shared/components/ui/input";
@@ -18,6 +19,8 @@ interface IProps {
 }
 const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [searchText, setSearchText] = useState("");
+
   const total = data?.reduce(
     (acc: number, obj: any) => acc + parseFloat(obj.total_rp),
     0
@@ -118,10 +121,7 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
             </Button>
           </div>
           <div className="flex gap-2 justify-end items-center flex-wrap">
-            <Input
-              placeholder="Search Keywords"
-              className="w-[160px] h-[36px]"
-            />
+            <FilterSearch setSearchText={setSearchText} />
           </div>
         </div>
         <div className="flex items-center flex-wrap justify-end gap-3">

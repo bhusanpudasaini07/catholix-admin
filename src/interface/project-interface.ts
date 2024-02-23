@@ -288,3 +288,44 @@ export interface IBurndownDate {
     real_sales_rp?: number;
   };
 }
+
+export interface IProjectEstimation {
+  data: {
+    project_info: {
+      title: string;
+      code: string;
+      start_date: string;
+    };
+    estimation: IProjectEstimationDetail[];
+  };
+}
+
+export interface IProjectEstimationDetail {
+  title: string;
+  status: string;
+  added_on: string;
+  total_man_month: number;
+  total_rp: number;
+  allocated_rp: number;
+  members: IMember[];
+}
+
+export interface IMember {
+  role_id: number;
+  role_name: string;
+  days: number;
+  man_month: number;
+  rp: number;
+  percentage_allocation: number;
+  staff_id: number;
+  staff_name: string;
+  dates: IMemberDate[];
+  sum_rp: number;
+}
+
+export interface IMemberDate {
+  start_date: string;
+  end_date: string;
+  utilization: number;
+  total_rp: number;
+}

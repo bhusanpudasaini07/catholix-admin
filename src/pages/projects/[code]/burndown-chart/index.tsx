@@ -32,5 +32,5 @@ export const getServerSideProps = async ({ query, locale }: any) => {
 };
 
 ProjectBurndownChart.getLayout = (page) => {
-  return <MainLayout>{page}</MainLayout>;
+  return <MainLayout title="Burndown Chart">{page}</MainLayout>;
 };

@@ -120,6 +120,13 @@ const getProjectBurndown = (code: any) => {
   );
 };
 
+const getProjectEstimation = (code: any) => {
+  return httpRequest(
+    `/project-estimations?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -130,4 +137,5 @@ export {
   getProjectSales,
   getProjectLatestActivities,
   getProjectBurndown,
+  getProjectEstimation,
 };

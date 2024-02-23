@@ -139,7 +139,8 @@ export function DataTable<TData, TValue>({
                       border
                         ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
                         : "",
-                      headerSticky && "sticky top-[0px] z-[10] bg-light-white"
+                      headerSticky && "sticky top-[0px] z-[10] bg-light-white",
+                      "whitespace-nowrap"
                     )}
                     key={header.id}
                   >
@@ -209,11 +210,7 @@ export function DataTable<TData, TValue>({
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className={
-                  border
-                    ? "border-2 border-slate-100 h-24 text-center"
-                    : "h-24 text-center"
-                }
+                className={border ? "h-24 text-center" : "h-24 text-center"}
               >
                 <NotFoundLottie width={lottieWidth} height={lottieHeight} />
               </TableCell>

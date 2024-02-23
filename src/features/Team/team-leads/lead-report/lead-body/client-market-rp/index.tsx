@@ -8,7 +8,7 @@ import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 const ClientMarketRP = () => {
   const { countryClientTotalRP, staffDataLoading, sumTotalRp } =
     useLeadReport();
-  const PieData = countryClientTotalRP.map((item) => ({
+  const PieData = countryClientTotalRP?.map((item) => ({
     name: `${item?.country} Client`, // Add "In-House" suffix to country name
     value: item?.percentage, // Use totalRP as value
   }));
@@ -32,7 +32,7 @@ const ClientMarketRP = () => {
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+            return "{a|" + item?.value + "}\n{b|" + item?.name + "}";
           },
           rich: {
             a: {

@@ -8,7 +8,7 @@ const InHouseMarketRp = () => {
   const { countryInHouseTotalRP, staffDataLoading, sumTotalRp } =
     useLeadReport();
 
-  const PieData = countryInHouseTotalRP.map((item) => ({
+  const PieData = countryInHouseTotalRP?.map((item) => ({
     name: `${item?.country} In-House`, // Add "In-House" suffix to country name
     value: item?.percentage, // Use totalRP as value
   }));
@@ -32,7 +32,7 @@ const InHouseMarketRp = () => {
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+            return "{a|" + item?.value + "}\n{b|" + item?.name + "}";
           },
           rich: {
             a: {

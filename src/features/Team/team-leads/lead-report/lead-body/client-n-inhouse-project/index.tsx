@@ -8,7 +8,8 @@ import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 
 const ClientVsInHouseProject = () => {
-  const { staffRpSummaryData, calculateUsedPercentage } = useLeadReport();
+  const { staffRpSummaryData, calculateUsedPercentage, staffDataLoading } =
+    useLeadReport();
   const totalInhouseRpPercentage = calculateUsedPercentage(
     staffRpSummaryData?.data?.summary?.inhouse_rp,
     staffRpSummaryData?.data?.summary?.total_rp
@@ -77,6 +78,7 @@ const ClientVsInHouseProject = () => {
       },
     ],
   };
+
   const rows = [
     {
       category: "Inhouse's Project",
@@ -100,21 +102,35 @@ const ClientVsInHouseProject = () => {
       id: "category",
       accessorKey: "category",
       header: "Category",
-      cell: ({ row }) => <div>{row.getValue("category")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("category")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "rp",
       accessorKey: "rp",
       header: "RP",
-      cell: ({ row }) => <div> {row.getValue("rp")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {" "}
+          {row.getValue("rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "percentage",
       accessorKey: "percentage",
       header: "%",
-      cell: ({ row }) => <div> {row.getValue("percentage")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {" "}
+          {row.getValue("percentage")}
+        </div>
+      ),
       enableHiding: false,
     },
   ];
@@ -129,7 +145,7 @@ const ClientVsInHouseProject = () => {
               </h5>
             </div>
             <DataTable
-              // loading={isLoading}
+              loading={staffDataLoading}
               border={true}
               columns={columns}
               data={rows || []}

@@ -34,12 +34,12 @@ interface IStaff {
 }
 
 const MemberWiseLogTable = () => {
-  const { staffRpSummaryData } = useLeadReport();
+  const { staffRpSummaryData, staffDataLoading } = useLeadReport();
   const [searchText, setSearchText] = useState("");
   const convertSecondsToHoursAndMinutes = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
-    return `${hours}h ${minutes}m`;
+    return `${hours}H ${minutes}M`;
   };
   const StaffLogData = staffRpSummaryData?.data?.staff?.map(
     (staff: IStaff, index: any) => ({
@@ -76,77 +76,121 @@ const MemberWiseLogTable = () => {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => <div>{row.getValue("sn")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-medium w-[40px] ps-3">
+          {row.getValue("sn")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "name",
       accessorKey: "name",
       header: "Name",
-      cell: ({ row }) => <div>{row.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="text-blue-500 text-base font-semibold">
+          {row.getValue("name")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "role",
       accessorKey: "role",
       header: "Role",
-      cell: ({ row }) => <div>{row.getValue("role")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-500 text-base font-semibold">
+          {row.getValue("role")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "spent_rp",
       accessorKey: "spent_rp",
       header: "Spent RP",
-      cell: ({ row }) => <div>{row.getValue("spent_rp")}</div>,
+      cell: ({ row }) => (
+        <div className="text-blue-500 text-base font-semibold">
+          {row.getValue("spent_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "spent_client_rp",
       accessorKey: "spent_client_rp",
       header: "Spent RP (Client)",
-      cell: ({ row }) => <div>{row.getValue("spent_client_rp")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("spent_client_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "loss_rp",
       accessorKey: "loss_rp",
       header: "Loss RP",
-      cell: ({ row }) => <div>{row.getValue("loss_rp")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("loss_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "rp_percentage",
       accessorKey: "rp_percentage",
       header: "% RP",
-      cell: ({ row }) => <div>{row.getValue("rp_percentage")}%</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("rp_percentage")}%
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "client_rp_percentage",
       accessorKey: "client_rp_percentage",
       header: "% RP Client",
-      cell: ({ row }) => <div>{row.getValue("client_rp_percentage")}%</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("client_rp_percentage")}%
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "total_time",
       accessorKey: "total_time",
       header: "Total Time",
-      cell: ({ row }) => <div>{row.getValue("total_time")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("total_time")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "spent_time",
       accessorKey: "spent_time",
       header: "Spent Time",
-      cell: ({ row }) => <div>{row.getValue("spent_time")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("spent_time")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "time_percentage",
       accessorKey: "time_percentage",
       header: "% Time",
-      cell: ({ row }) => <div>{row.getValue("time_percentage")}%</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("time_percentage")}%
+        </div>
+      ),
       enableHiding: false,
     },
     {
@@ -154,7 +198,7 @@ const MemberWiseLogTable = () => {
       accessorKey: "client_time_percentage",
       header: "% Time (Client)",
       cell: ({ row }) => (
-        <div>
+        <div className="text-zinc-700 text-base font-semibold">
           {parseInt(row.getValue("client_time_percentage")).toFixed(2)}%
         </div>
       ),
@@ -189,7 +233,7 @@ const MemberWiseLogTable = () => {
         </div>
 
         <DataTable
-          // loading={isLoading}
+          loading={staffDataLoading}
           height={"max-h-[500px]"}
           headerSticky
           border={true}

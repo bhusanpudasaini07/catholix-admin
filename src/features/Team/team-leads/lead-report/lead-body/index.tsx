@@ -188,8 +188,8 @@ const LeadReportBody = () => {
         client={totalClientProjects}
       />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <RoleCountryTable data={staffRpSummaryData?.data?.staff} />
-        <ProjectRpConsumptionTable data={staffRpSummaryData?.data?.projects} />
+        <RoleCountryTable />
+        <ProjectRpConsumptionTable />
       </div>
       <ClientVsInHouseProject />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">

@@ -1,3 +1,4 @@
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
@@ -14,11 +15,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import React, { FC, useState } from "react";
 
-interface IProps {
-  data: any;
-}
+// interface IProps {
+//   data: any;
+// }
 
-const RoleCountryTable: FC<IProps> = ({ data }) => {
+const RoleCountryTable = () => {
+  const { staffDataLoading, staffRpSummaryData } = useLeadReport();
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");
 
@@ -41,44 +43,55 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
   ];
 
   const columns: ColumnDef<any>[] = [
-    // Title
     {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => <div>{row.getValue("sn")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-medium ps-3">
+          {row.getValue("sn")}
+        </div>
+      ),
     },
-    // Date
     {
       id: "role",
       accessorKey: "role",
       header: "Role",
-      cell: ({ row }) => <div>{row.getValue("role")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("role")}
+        </div>
+      ),
     },
     {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div>{row.getValue("country")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("country")}
+        </div>
+      ),
     },
     {
       id: "manDays",
       accessorKey: "manDays",
       header: "Man Days",
       cell: ({ row }) => (
-        <div>{parseInt(row.getValue("manDays")).toFixed(2)}</div>
+        <div className="text-zinc-700 text-base font-semibold">
+          {parseInt(row.getValue("manDays")).toFixed(2)}
+        </div>
       ),
-      enableHiding: false,
     },
     {
       id: "manMonths",
       accessorKey: "manMonths",
       header: "Man Month",
-      cell: ({ row }) => <div>{row.getValue("manMonths")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("manMonths")}
+        </div>
+      ),
     },
   ];
   const handleCountryToggle = (code: any) => {
@@ -90,14 +103,16 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
       }
     });
   };
-  const tableData = data?.map((staff: any, index: any) => ({
-    sn: index + 1,
-    role: staff?.role_name,
-    // country: staff?.department_name, // Assuming department_name represents the country
-    country: "Nepal", // Assuming department_name represents the country
-    manDays: (parseFloat(staff?.used_time) / (7 * 3600)).toFixed(2), // Converting seconds to man-days -> (assuming 7 working hours per day)
-    manMonths: (parseFloat(staff?.used_time) / (7 * 3600 * 22)).toFixed(2), // Converting seconds to man-months (assuming 22 working days per month)
-  }));
+  const tableData = staffRpSummaryData?.data?.staff?.map(
+    (staff: any, index: any) => ({
+      sn: index + 1,
+      role: staff?.role_name,
+      // country: staff?.department_name, // Assuming department_name represents the country
+      country: "Nepal", // Assuming department_name represents the country
+      manDays: (parseFloat(staff?.used_time) / (7 * 3600)).toFixed(2), // Converting seconds to man-days -> (assuming 7 working hours per day)
+      manMonths: (parseFloat(staff?.used_time) / (7 * 3600 * 22)).toFixed(2), // Converting seconds to man-months (assuming 22 working days per month)
+    })
+  );
 
   return (
     <Card>
@@ -112,10 +127,6 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
             </Button>
           </div>
           <div className="flex items-center justify-end gap-2">
-            {/* <Input
-              placeholder="Search Keywords"
-              className="w-[160px] h-[36px]"
-            /> */}
             <FilterSearch setSearchText={setSearchText} />
             <Select>
               <SelectTrigger className="w-[160px]">
@@ -157,7 +168,7 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
           ))}
         </div>
         <DataTable
-          // loading={isLoading}
+          loading={staffDataLoading}
           height={"max-h-[500px]"}
           headerSticky
           border={true}

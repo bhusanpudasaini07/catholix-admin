@@ -1,21 +1,21 @@
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 
-interface IProps {
-  data: any;
-}
-const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
+const ProjectRpConsumptionTable = () => {
+  const { staffDataLoading, staffRpSummaryData } = useLeadReport();
   const router = useRouter();
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");
 
-  const total = data?.reduce(
+  const total = staffRpSummaryData?.data?.projects?.reduce(
     (acc: number, obj: any) => acc + parseFloat(obj.total_rp),
     0
   );
@@ -46,34 +46,51 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
   ];
 
   const columns: ColumnDef<any>[] = [
-    // Title
     {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => <div className="">{row.index + 1}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-medium ps-3 w-[40px]">
+          {row.index + 1}
+        </div>
+      ),
       enableHiding: false,
     },
-    // Date
     {
       id: "title",
       accessorKey: "title",
       header: "Project",
-      cell: ({ row }) => <div>{row?.getValue("title")}</div>,
+      cell: ({ row }) => (
+        <Link
+          href={`/projects/${row?.original?.code}`}
+          className="text-blue-500 text-base font-semibold"
+        >
+          {row?.getValue("title")}
+        </Link>
+      ),
       enableHiding: false,
     },
     {
       id: "market",
       accessorKey: "market",
       header: "Country",
-      cell: ({ row }) => <div>{row?.getValue("market")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("market")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "total_rp",
       accessorKey: "total_rp",
       header: "RP Consumption",
-      cell: ({ row }) => <div>{row?.getValue("total_rp")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("total_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
@@ -81,7 +98,7 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div>
+        <div className="text-zinc-700 text-base font-semibold">
           {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%
         </div>
       ),
@@ -151,12 +168,12 @@ const ProjectRpConsumptionTable: FC<IProps> = ({ data }) => {
           ))}
         </div>
         <DataTable
-          // loading={isLoading}
+          loading={staffDataLoading}
           height={"max-h-[500px]"}
           headerSticky
           border={true}
           columns={columns}
-          data={data || []}
+          data={staffRpSummaryData?.data?.projects || []}
         />
       </CardContent>
     </Card>

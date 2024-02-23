@@ -65,20 +65,32 @@ const ClientMarketRP = () => {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div>{row?.getValue("country")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("country")}
+        </div>
+      ),
     },
     {
       id: "totalRP",
       accessorKey: "totalRP",
       header: "RP",
-      cell: ({ row }) => <div>{row?.getValue("totalRP")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("totalRP")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "percentage",
       accessorKey: "percentage",
       header: "%",
-      cell: ({ row }) => <div>{row?.getValue("percentage")}%</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("percentage")}%
+        </div>
+      ),
       enableHiding: false,
     },
   ];

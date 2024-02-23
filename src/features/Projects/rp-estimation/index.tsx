@@ -1,7 +1,7 @@
 import React from "react";
 import EstimationHeader from "./estimation-header";
 import EstimationTable from "./estimation-table";
-import useProjecetEstimation from "@/hooks/project/detail/useProjecetEstimation.hook";
+import useProjecetEstimation from "@/hooks/project/detail/useProjectEstimation.hook";
 
 const RpEstimationContent = () => {
   const { estimationData, estimationDataLoading, columns } =

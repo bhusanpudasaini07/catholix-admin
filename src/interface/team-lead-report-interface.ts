@@ -26,4 +26,5 @@ export interface ICountryProjectDetails {
   title: string;
   total_rp: string;
   total_time: string;
+  percentage: string;
 }

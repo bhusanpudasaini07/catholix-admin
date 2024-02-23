@@ -112,6 +112,14 @@ const getProjectLatestActivities = (
   }
 };
 
+// RP Consumption burndown chart
+const getProjectBurndown = (code: any) => {
+  return httpRequest(
+    `/project-rp-burndown?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -121,4 +129,5 @@ export {
   getProjectStories,
   getProjectSales,
   getProjectLatestActivities,
+  getProjectBurndown,
 };

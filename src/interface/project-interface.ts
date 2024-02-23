@@ -237,3 +237,54 @@ export interface IActivitiesDetail {
   new_value: string | null;
   date: string;
 }
+
+export interface IBurndownDetail {
+  data: {
+    project_id: string;
+    project_title: string;
+    code: string;
+    fiscal_year: string;
+    type: string;
+    source: string;
+    market_title: string;
+    market_id: string;
+    tech_stack: string;
+    risk_status: string;
+    status: string;
+    closed_by: string | null;
+    closed_date: string | null;
+    delivered_date: string | null;
+    detail: string;
+    rp: {
+      unapproved_estimation: number;
+      approved_estimation: number;
+      approved_rp: number;
+      unapproved_rp: number;
+      sales_rp: number;
+      used_rp: number;
+    };
+    time: {
+      used_time: number;
+      estimated_time: number;
+    };
+    dates: {
+      added_date: string;
+      start_date: string;
+      deadline: string;
+      last_log_date: string;
+    };
+    project_lead: {
+      id: string;
+      username: string;
+      fullname: string;
+    };
+    daily_data: IBurndownDate;
+  };
+}
+
+export interface IBurndownDate {
+  [key: string]: {
+    ideal_sales_rp: number;
+    real_sales_rp?: number;
+  };
+}

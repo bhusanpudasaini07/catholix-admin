@@ -25,26 +25,26 @@ const ProjectCountryTable = ({
   searchText,
   staffDataLoading,
 }: IProps) => {
-  const [countryName, setCountryName] = useState("");
-  const filteredProjects = React.useMemo(() => {
-    if (countryName === country) {
-      return (
-        projects?.filter((project: ICountryProjectDetails) =>
-          project?.title
-            .toLowerCase()
-            .replace(/\s+/g, "")
-            .includes(searchText.toLowerCase().replace(/\s+/g, ""))
-        ) || projects
-      );
-    } else {
-      return projects;
-    }
-  }, [projects, searchText, countryName]);
+  // const [countryName, setCountryName] = useState("");
+  // const filteredProjects = React.useMemo(() => {
+  //   if (countryName === country) {
+  //     return (
+  //       projects?.filter((project: ICountryProjectDetails) =>
+  //         project?.title
+  //           .toLowerCase()
+  //           .replace(/\s+/g, "")
+  //           .includes(searchText.toLowerCase().replace(/\s+/g, ""))
+  //       ) || projects
+  //     );
+  //   } else {
+  //     return projects;
+  //   }
+  // }, [projects, searchText, countryName]);
 
-  const handleSearch = (text: string, value: string) => {
-    setSearchText(text);
-    setCountryName(value);
-  };
+  // const handleSearch = (text: string, value: string) => {
+  //   setSearchText(text);
+  //   setCountryName(value);
+  // };
 
   return (
     <Card>
@@ -53,7 +53,7 @@ const ProjectCountryTable = ({
           <p className="text-lg font-medium text-zinc-700">
             Project of {country}
           </p>
-          <div className="flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] mw1024:max-w-[300px] border rounded-md shadow-sm border-zinc-200 text-zinc-700 bg-light-white">
+          {/* <div className="flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] mw1024:max-w-[300px] border rounded-md shadow-sm border-zinc-200 text-zinc-700 bg-light-white">
             <SearchIcon
               width={20}
               height={20}
@@ -65,15 +65,21 @@ const ProjectCountryTable = ({
               className="h-auto p-0 border-0 rounded-none shadow-none"
               onChange={(e) => handleSearch(e.target.value, country)}
             />
-          </div>
+          </div> */}
         </div>
         <DataTable
           columns={countryProjectColumn}
-          data={filteredProjects}
+          data={projects}
           border={true}
           headerSticky={true}
           loading={staffDataLoading}
           height="max-h-[400px]"
+          total={[
+            {
+              columnId: "total_rp",
+              format: (value) => `${value.toFixed(2)}`,
+            },
+          ]}
         />
       </CardContent>
     </Card>

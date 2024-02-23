@@ -15,8 +15,8 @@ import ClientMarketRP from "./client-market-rp";
 
 //Hooks
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
-import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
 import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
+import MemberWiseLogTable from "./member-wise-log-table";
 
 const LeadReportBody = () => {
   const {
@@ -42,35 +42,11 @@ const LeadReportBody = () => {
     setTotalUsedRP,
     totalHighRiskProjects,
     setTotalHighRiskProjects,
+    totalRP,
+    totalTime,
+    calculateUsedPercentage,
+    calculateUnusedPercentage,
   } = useLeadReport();
-
-  const totalRP =
-    staffRpSummaryData?.data?.summary?.available_rp +
-    staffRpSummaryData?.data?.summary?.total_rp;
-
-  const totalTime =
-    staffRpSummaryData?.data?.summary?.available_time +
-    staffRpSummaryData?.data?.summary?.total_time;
-
-  const calculateUsedPercentage = (
-    usedData: number,
-    totalData: number
-  ): number => {
-    if (totalData === 0) {
-      return 0; // to avoid division by zero
-    }
-    return (usedData / totalData) * 100;
-  };
-
-  const calculateUnusedPercentage = (
-    unusedData: number,
-    totalData: number
-  ): number => {
-    if (totalData === 0) {
-      return 0; // to avoid division by zero
-    }
-    return (unusedData / totalData) * 100;
-  };
 
   useEffect(() => {
     if (staffRpSummaryData) {
@@ -220,6 +196,7 @@ const LeadReportBody = () => {
         <InHouseMarketRp />
         <ClientMarketRP />
       </div>
+      <MemberWiseLogTable />
     </div>
   );
 };

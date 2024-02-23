@@ -1,0 +1,204 @@
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { ColumnDef } from "@tanstack/react-table";
+import { DownloadCloud } from "lucide-react";
+import { useState } from "react";
+
+interface IStaff {
+  id: string;
+  fullname: string;
+  username: string;
+  employee_id: string;
+  department_id: string;
+  department_name: string;
+  role_id: string;
+  role_name: string;
+  used_time: string;
+  used_rp: string;
+  loss_time: string;
+  loss_rp: string;
+  available_time: string;
+  available_rp: string;
+  commercial_time: string;
+  commercial_rp: string;
+}
+
+const MemberWiseLogTable = () => {
+  const { staffRpSummaryData } = useLeadReport();
+  const [searchText, setSearchText] = useState("");
+  const convertSecondsToHoursAndMinutes = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+  };
+  const StaffLogData = staffRpSummaryData?.data?.staff?.map(
+    (staff: IStaff, index: any) => ({
+      sn: index + 1, // Assuming sNo starts from 1
+      name: staff.fullname,
+      role: staff.role_name,
+      spent_rp: parseFloat(staff.used_rp).toFixed(2), // Convert and ensure two digits after decimal
+      spent_client_rp: parseFloat(staff.commercial_rp).toFixed(2), // Convert and ensure two digits after decimal
+      loss_rp: parseFloat(staff.loss_rp).toFixed(2), // Convert and ensure two digits after decimal
+      rp_percentage: (
+        (parseFloat(staff.loss_rp) / parseFloat(staff.used_rp)) *
+        100
+      ).toFixed(2), // Calculate and ensure two digits after decimal
+      client_rp_percentage: (
+        (parseFloat(staff.commercial_rp) / parseFloat(staff.used_rp)) *
+        100
+      ).toFixed(2), // Calculate and ensure two digits after decimal
+      total_time: convertSecondsToHoursAndMinutes(
+        parseFloat(staff.available_time)
+      ), // Convert seconds to hours and minutes
+      spent_time: convertSecondsToHoursAndMinutes(parseFloat(staff.used_time)), // Convert seconds to hours and minutes
+      time_percentage: (
+        (parseFloat(staff.used_time) / parseFloat(staff.available_time)) *
+        100
+      ).toFixed(2), // Calculate and ensure two digits after decimal
+      client_time_percentage: (
+        (parseFloat(staff.commercial_time) / parseFloat(staff.available_time)) *
+        100
+      ).toFixed(2), // Calculate and ensure two digits after decimal
+    })
+  );
+  const columns: ColumnDef<any>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S. No.",
+      cell: ({ row }) => <div>{row.getValue("sn")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "name",
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => <div>{row.getValue("name")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "role",
+      accessorKey: "role",
+      header: "Role",
+      cell: ({ row }) => <div>{row.getValue("role")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "spent_rp",
+      accessorKey: "spent_rp",
+      header: "Spent RP",
+      cell: ({ row }) => <div>{row.getValue("spent_rp")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "spent_client_rp",
+      accessorKey: "spent_client_rp",
+      header: "Spent RP (Client)",
+      cell: ({ row }) => <div>{row.getValue("spent_client_rp")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "loss_rp",
+      accessorKey: "loss_rp",
+      header: "Loss RP",
+      cell: ({ row }) => <div>{row.getValue("loss_rp")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "rp_percentage",
+      accessorKey: "rp_percentage",
+      header: "% RP",
+      cell: ({ row }) => <div>{row.getValue("rp_percentage")}%</div>,
+      enableHiding: false,
+    },
+    {
+      id: "client_rp_percentage",
+      accessorKey: "client_rp_percentage",
+      header: "% RP Client",
+      cell: ({ row }) => <div>{row.getValue("client_rp_percentage")}%</div>,
+      enableHiding: false,
+    },
+    {
+      id: "total_time",
+      accessorKey: "total_time",
+      header: "Total Time",
+      cell: ({ row }) => <div>{row.getValue("total_time")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "spent_time",
+      accessorKey: "spent_time",
+      header: "Spent Time",
+      cell: ({ row }) => <div>{row.getValue("spent_time")}</div>,
+      enableHiding: false,
+    },
+    {
+      id: "time_percentage",
+      accessorKey: "time_percentage",
+      header: "% Time",
+      cell: ({ row }) => <div>{row.getValue("time_percentage")}%</div>,
+      enableHiding: false,
+    },
+    {
+      id: "client_time_percentage",
+      accessorKey: "client_time_percentage",
+      header: "% Time (Client)",
+      cell: ({ row }) => (
+        <div>
+          {parseInt(row.getValue("client_time_percentage")).toFixed(2)}%
+        </div>
+      ),
+      enableHiding: false,
+    },
+  ];
+
+  return (
+    <Card>
+      <CardContent>
+        <div className="flex items-center justify-between gap-3 mb-6 ">
+          <div className="flex flex-wrap items-center gap-2">
+            <h5 className="font-medium text-zinc-700">Member-Wise Log</h5>
+            {/* <Button variant={"white"} size={"sm"}>
+              View All
+            </Button> */}
+          </div>
+          <div className="flex items-center justify-end gap-2">
+            <FilterSearch setSearchText={setSearchText} />
+            <Select>
+              <SelectTrigger className="w-[160px]">
+                <SelectValue placeholder="Role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pm">PM</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button size={"sm"} variant={"success"}>
+              <DownloadCloud size={16} />
+            </Button>
+          </div>
+        </div>
+
+        <DataTable
+          // loading={isLoading}
+          height={"max-h-[500px]"}
+          headerSticky
+          border={true}
+          columns={columns}
+          data={StaffLogData || []}
+        />
+      </CardContent>
+    </Card>
+  );
+};
+
+export default MemberWiseLogTable;

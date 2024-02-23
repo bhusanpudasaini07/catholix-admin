@@ -413,7 +413,9 @@ const useProjectListing = () => {
                   )}
                 >
                   {icon}
-                  <span className={color}>{sum === 0 ? "N/A" : sum}</span>
+                  <span className={color}>
+                    {sum === 0 ? "N/A" : sum?.toFixed(2)}
+                  </span>
                 </div>
               </TooltipTrigger>
               <TooltipContent>

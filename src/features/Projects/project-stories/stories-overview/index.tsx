@@ -54,7 +54,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
             <p className="text-4xl font-semibold">
               {task?.open_task_count ?? 0}
             </p>
-            <p className="text-base font-medium">Opened</p>
+            <p className="text-base font-medium">Open</p>
           </div>
           {/* Closed */}
           <div

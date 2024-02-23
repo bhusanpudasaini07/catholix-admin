@@ -68,7 +68,7 @@ const ProjectStories = () => {
                   {" "}
                   {projectDetail?.data?.task?.open_task_count ?? 0}
                 </p>
-                <p className="text-base font-semibold">Opened</p>
+                <p className="text-base font-semibold">Open</p>
               </div>
               <div
                 className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 

@@ -22,28 +22,24 @@ const LanguageToggler = () => {
     { value: "np", text: "नेपाली" },
   ];
 
-  const [selected, setSelected] = useState<string>("");
+  // const [selected, setSelected] = useState<string>("en-US");
 
   useEffect(() => {
     setIsMounted(true);
-    setSelected(router.locale);
+    // setSelected(router.locale);
   }, [router.locale]);
   if (!isMounted) return null;
 
   const handleChange = (event: any) => {
-    setSelected(event.target.value);
-    router.push(pathname, asPath, { locale: event.target.value });
+    // setSelected(event);
+    router.push(pathname, asPath, { locale: event });
     // Adds locales prior to main route dynamically.Example:
   };
 
   return (
     <div>
-      {/* <Select>
-        <SelectTrigger
-          value={selected}
-          onChange={handleChange}
-          className="w-[180px]"
-        >
+      <Select defaultValue="en" onValueChange={(e) => handleChange(e)}>
+        <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Language" />
         </SelectTrigger>
         <SelectContent>
@@ -53,16 +49,7 @@ const LanguageToggler = () => {
             </SelectItem>
           ))}
         </SelectContent>
-      </Select> */}
-      <label htmlFor="language-select">Select:</label>
-
-      <select id="language-select" value={selected} onChange={handleChange}>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.text}
-          </option>
-        ))}
-      </select>
+      </Select>
     </div>
   );
 };

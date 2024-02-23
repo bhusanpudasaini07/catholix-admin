@@ -56,8 +56,8 @@ const useRPConsumption = () => {
     const seriesData: { [roleName: string]: number[] } = {};
     const uniqueRoleNames: Set<string> = new Set();
 
-    Object.entries(rolewiseData).forEach(([date, roles]) => {
-      Object.values(roles).forEach(({ role_name, rp }: any) => {
+    Object?.entries(rolewiseData).forEach(([date, roles]) => {
+      Object?.values(roles).forEach(({ role_name, rp }: any) => {
         uniqueRoleNames.add(role_name);
         seriesData[role_name] = seriesData[role_name] || [];
         seriesData[role_name].push(Number(rp));
@@ -83,8 +83,8 @@ const useRPConsumption = () => {
     const seriesData: { [departmentName: string]: number[] } = {};
     const uniqueRoleNames: Set<string> = new Set();
 
-    Object.entries(departmentwiseData).forEach(([date, department]) => {
-      Object.values(department).forEach(({ department_name, rp }: any) => {
+    Object?.entries(departmentwiseData).forEach(([date, department]) => {
+      Object?.values(department).forEach(({ department_name, rp }: any) => {
         uniqueRoleNames.add(department_name);
         seriesData[department_name] = seriesData[department_name] || [];
         seriesData[department_name].push(Number(rp));

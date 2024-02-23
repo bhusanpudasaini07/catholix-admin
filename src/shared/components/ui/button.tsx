@@ -13,7 +13,7 @@ const buttonVariants = cva(
         default:
           "bg-primary border-primary text-white shadow-custom-primary hover:bg-blue-700",
         destructive:
-          "bg-gradient-to-r from-red-150 to-red-250 text-white hover:bg-red-600/90 shadow-custom-primary",
+          "bg-destructive text-white hover:bg-red-600/90 shadow-custom-primary",
         outline:
           "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
         outline_secondary:
@@ -32,7 +32,7 @@ const buttonVariants = cva(
           "border border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary",
         date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
         success:
-          "bg-green-500 border border-green-500 shadow-sm py-2 px-3 text-white",
+          "bg-green-500 border border-green-500 shadow-sm py-2 px-3 text-white hover:bg-green-600 hover:border-green-600",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

@@ -237,3 +237,95 @@ export interface IActivitiesDetail {
   new_value: string | null;
   date: string;
 }
+
+export interface IBurndownDetail {
+  data: {
+    project_id: string;
+    project_title: string;
+    code: string;
+    fiscal_year: string;
+    type: string;
+    source: string;
+    market_title: string;
+    market_id: string;
+    tech_stack: string;
+    risk_status: string;
+    status: string;
+    closed_by: string | null;
+    closed_date: string | null;
+    delivered_date: string | null;
+    detail: string;
+    rp: {
+      unapproved_estimation: number;
+      approved_estimation: number;
+      approved_rp: number;
+      unapproved_rp: number;
+      sales_rp: number;
+      used_rp: number;
+    };
+    time: {
+      used_time: number;
+      estimated_time: number;
+    };
+    dates: {
+      added_date: string;
+      start_date: string;
+      deadline: string;
+      last_log_date: string;
+    };
+    project_lead: {
+      id: string;
+      username: string;
+      fullname: string;
+    };
+    daily_data: IBurndownDate;
+  };
+}
+
+export interface IBurndownDate {
+  [key: string]: {
+    ideal_sales_rp: number;
+    real_sales_rp?: number;
+  };
+}
+
+export interface IProjectEstimation {
+  data: {
+    project_info: {
+      title: string;
+      code: string;
+      start_date: string;
+    };
+    estimation: IProjectEstimationDetail[];
+  };
+}
+
+export interface IProjectEstimationDetail {
+  title: string;
+  status: string;
+  added_on: string;
+  total_man_month: number;
+  total_rp: number;
+  allocated_rp: number;
+  members: IMember[];
+}
+
+export interface IMember {
+  role_id: number;
+  role_name: string;
+  days: number;
+  man_month: number;
+  rp: number;
+  percentage_allocation: number;
+  staff_id: number;
+  staff_name: string;
+  dates: IMemberDate[];
+  sum_rp: number;
+}
+
+export interface IMemberDate {
+  start_date: string;
+  end_date: string;
+  utilization: number;
+  total_rp: number;
+}

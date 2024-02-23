@@ -5,64 +5,116 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
 import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 
 const ClientVsInHouseProject = () => {
-  const Option = {
+  const { staffRpSummaryData, calculateUsedPercentage } = useLeadReport();
+  const totalInhouseRpPercentage = calculateUsedPercentage(
+    staffRpSummaryData?.data?.summary?.inhouse_rp,
+    staffRpSummaryData?.data?.summary?.total_rp
+  );
+
+  const totalClientRpPercentage = calculateUsedPercentage(
+    staffRpSummaryData?.data?.summary?.commercial_rp,
+    staffRpSummaryData?.data?.summary?.total_rp
+  );
+
+  const option = {
     tooltip: {
       trigger: "item",
     },
+    color: ["#FACC15", "#84CC16"],
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["50%", "75%"],
         avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 5,
+          borderRadius: 0,
           borderColor: "#fff",
-          borderWidth: 2,
+          borderWidth: 0,
         },
         label: {
           show: false,
           position: "center",
+          fontSize: 20,
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 25,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
           show: false,
         },
         data: [
-          { value: 1048, name: "Search Engine" },
-          { value: 735, name: "Direct" },
-          { value: 580, name: "Email" },
-          { value: 484, name: "Union Ads" },
-          { value: 300, name: "Video Ads" },
+          {
+            name: "Client's Projects",
+            value: totalClientRpPercentage.toFixed(2),
+            selected: true,
+          },
+          {
+            name: "In-house's Projects",
+            value: totalInhouseRpPercentage.toFixed(2),
+          },
         ],
       },
     ],
   };
+  const rows = [
+    {
+      category: "Inhouse's Project",
+      rp: staffRpSummaryData?.data?.summary?.inhouse_rp,
+      percentage: `${totalInhouseRpPercentage.toFixed(2)}%`,
+    },
+    {
+      category: "Client's Project",
+      rp: staffRpSummaryData?.data?.summary?.commercial_rp,
+      percentage: `${totalClientRpPercentage.toFixed(2)}%`,
+    },
+    {
+      category: "Total",
+      rp: staffRpSummaryData?.data?.summary?.total_rp,
+      percentage: "100%",
+    },
+  ];
+
   const columns: ColumnDef<any>[] = [
     {
       id: "category",
       accessorKey: "category",
       header: "Category",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div>{row.getValue("category")}</div>,
       enableHiding: false,
     },
     {
       id: "rp",
       accessorKey: "rp",
       header: "RP",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div> {row.getValue("rp")}</div>,
       enableHiding: false,
     },
     {
       id: "percentage",
       accessorKey: "percentage",
       header: "%",
-      cell: ({ row }) => <div></div>,
+      cell: ({ row }) => <div> {row.getValue("percentage")}</div>,
       enableHiding: false,
     },
   ];
@@ -71,7 +123,7 @@ const ClientVsInHouseProject = () => {
       <CardContent>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
           <div className="">
-            <div className="flex items-center gap-2 flex-wrap mb-8">
+            <div className="flex items-center gap-2 flex-wrap mb-16">
               <h5 className="font-medium text-zinc-700">
                 Client Projects VS In-House Project
               </h5>
@@ -80,11 +132,11 @@ const ClientVsInHouseProject = () => {
               // loading={isLoading}
               border={true}
               columns={columns}
-              data={[]}
+              data={rows || []}
             />
           </div>
           <div className="my-auto">
-            <ReactECharts className="min-h-[500px]" option={Option} />
+            <ReactECharts className="min-h-[400px]" option={option} />
           </div>
         </div>
       </CardContent>

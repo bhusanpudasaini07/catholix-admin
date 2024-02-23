@@ -37,7 +37,8 @@ const PercentageGraph = ({
             // Custom formatter to display both percentages
             return `${fillPercentage ?? 0}%${fillLabel ? fillLabel : "\nUsed"}`;
           },
-          fontSize: 19,
+          fontSize: 18,
+          fontWeight: "bold",
           color: "black",
         },
         emphasis: {

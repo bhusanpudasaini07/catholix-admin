@@ -111,7 +111,7 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
               Detail View
             </Button>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className="flex items-center justify-end gap-2">
             {/* <Input
               placeholder="Search Keywords"
               className="w-[160px] h-[36px]"

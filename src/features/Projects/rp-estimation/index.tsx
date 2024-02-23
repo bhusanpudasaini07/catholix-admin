@@ -17,8 +17,9 @@ const RpEstimationContent = () => {
         <div className="grid grid-cols-1 gap-6">
           {estimationDataLoading
             ? "Loading"
-            : estimationData?.data?.estimation?.map((estimation) => (
+            : estimationData?.data?.estimation?.map((estimation, index) => (
                 <EstimationTable
+                  key={index}
                   estimation={estimation}
                   columns={columns}
                   estimationDataLoading={estimationDataLoading}

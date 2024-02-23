@@ -95,8 +95,8 @@ const useProjecetEstimation = () => {
       cell: ({ row }) => (
         <div className="w-[100px]">
           {row?.original?.dates?.length > 0
-            ? row?.original?.dates?.map((date) => (
-                <div className="font-medium text-zinc-700">
+            ? row?.original?.dates?.map((date, index) => (
+                <div className="font-medium text-zinc-700" key={index}>
                   <p>{date?.start_date}</p>
                   <p>
                     <span className="text-zinc-500">to</span> {date?.end_date}
@@ -115,8 +115,8 @@ const useProjecetEstimation = () => {
       cell: ({ row }) => (
         <div className="w-[120px]">
           {row?.original?.dates?.length > 0
-            ? row?.original?.dates?.map((date) => (
-                <div className="font-medium text-zinc-700">
+            ? row?.original?.dates?.map((date, index) => (
+                <div className="font-medium text-zinc-700" key={index}>
                   {date?.utilization}% / {date?.total_rp}
                 </div>
               ))

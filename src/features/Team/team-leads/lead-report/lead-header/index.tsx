@@ -33,12 +33,12 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
   return (
     <div className="flex justify-between items-center bg-white p-8">
       <div className="">
-        <h3 className="mb-1.5 text-2xl font-medium text-zinc-700">
+        <h3 className="mb-1.5 text-2xl font-medium text-zinc-700 whitespace-nowrap">
           Lead Report -&nbsp;{current_page}
         </h3>
         <p className="text-base text-zinc-500">Report of all the members</p>
       </div>
-      <div className="flex justify-end items-center gap-2">
+      <div className="flex justify-end items-center flex-wrap gap-2">
         <Select
           value={current_id ? current_id?.toString() : "all"}
           onValueChange={(e) => handleLeadsId(e)}

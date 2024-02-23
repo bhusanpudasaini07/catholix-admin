@@ -7,7 +7,6 @@ import {
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
 import { ColumnDef } from "@tanstack/react-table";
-import { Console } from "console";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -222,14 +221,6 @@ const useLeadReport = () => {
 
   // >> Client & In House Project RP Table according to country END <<
 
-  const totalRP =
-    staffRpSummaryData?.data?.summary?.available_rp +
-    staffRpSummaryData?.data?.summary?.total_rp;
-
-  const totalTime =
-    staffRpSummaryData?.data?.summary?.available_time +
-    staffRpSummaryData?.data?.summary?.total_time;
-
   const UsedTotalRP = staffRpSummaryData?.data?.summary?.total_time;
 
   const calculateUsedPercentage = (
@@ -372,8 +363,8 @@ const useLeadReport = () => {
     handleLeadsId,
     teamLeadStaffsLoading,
     // staffDataLoading,
-    totalRP,
-    totalTime,
+    // totalRP,
+    // totalTime,
     calculateUsedPercentage,
     calculateUnusedPercentage,
     UsedTotalRP,

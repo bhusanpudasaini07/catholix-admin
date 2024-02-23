@@ -140,7 +140,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       <CardContent>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
           <div className="">
-            <div className="flex items-center gap-2 flex-wrap mb-16">
+            <div className="flex items-center gap-2 flex-wrap mb-4">
               <h5 className="font-medium text-zinc-700">
                 Client Projects VS In-House Project
               </h5>

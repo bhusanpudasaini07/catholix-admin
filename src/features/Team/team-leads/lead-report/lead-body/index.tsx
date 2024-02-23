@@ -8,7 +8,7 @@ import RpSummary from "./lead-rp-summary";
 import OtherInfo from "./lead-other-info";
 import ProjectOverview from "./lead-projects-overview";
 import RoleCountryTable from "./lead-role-country";
-import ProjectRpConsumptionTable from "./lead-role-rp-table";
+import ProjectRpConsumptionTable from "./project-rp-consumption";
 import ClientVsInHouseProject from "./client-n-inhouse-project";
 import InHouseMarketRp from "./inhouse-market-rp";
 import ClientMarketRP from "./client-market-rp";
@@ -45,12 +45,9 @@ const LeadReportBody = ({ dateRange }: any) => {
     setTotalUsedRP,
     totalHighRiskProjects,
     setTotalHighRiskProjects,
-    totalRP,
-    totalTime,
     calculateUsedPercentage,
     calculateUnusedPercentage,
     staffIdJson,
-    // dateRange,
     current_id,
   } = useLeadReport();
 
@@ -72,8 +69,13 @@ const LeadReportBody = ({ dateRange }: any) => {
       }
     );
 
-  console.log("api call", staffRpSummaryData);
-  console.log("api set", leadReportData);
+  const totalRP =
+    staffRpSummaryData?.data?.summary?.available_rp +
+    staffRpSummaryData?.data?.summary?.total_rp;
+
+  const totalTime =
+    staffRpSummaryData?.data?.summary?.available_time +
+    staffRpSummaryData?.data?.summary?.total_time;
 
   useEffect(() => {
     if (staffRpSummaryData) {

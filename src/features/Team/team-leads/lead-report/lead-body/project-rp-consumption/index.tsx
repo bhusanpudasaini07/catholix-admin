@@ -1,21 +1,46 @@
-import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
+import {
+  IProject,
+  IRpStaffSummaryProps,
+} from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
+import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 
 const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
   staffRpSummaryData,
 }) => {
   const router = useRouter();
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const { filterConfig } = useCommonStore();
   const [searchText, setSearchText] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState<any>();
+  const [filterStates, setFilterStates] = useState({
+    markets: "",
+  });
+
+  const changeFilterState = (key: keyof typeof filterStates, value: string) => {
+    setFilterStates((prev) => ({ ...prev, [key]: value }));
+  };
+  const handleCheckboxChange =
+    (filterKey: keyof typeof filterStates, value: string) =>
+    (isChecked: boolean) => {
+      const currentValues = filterStates[filterKey]
+        ? filterStates[filterKey].split(",")
+        : [];
+      const updatedValues = isChecked
+        ? [...currentValues, value]
+        : currentValues.filter((v) => v !== value);
+
+      changeFilterState(filterKey, updatedValues.join(","));
+    };
 
   const total = staffRpSummaryData?.data?.projects?.reduce(
     (acc: number, obj: any) => acc + parseFloat(obj.total_rp),
@@ -28,24 +53,6 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
     }
     return (used / total) * 100;
   };
-
-  const countries = [
-    {
-      name: "Nepal",
-      code: "NP",
-      flagUrl: "",
-    },
-    {
-      name: "US",
-      code: "US",
-      flagUrl: "",
-    },
-    {
-      name: "UK",
-      code: "UK",
-      flagUrl: "",
-    },
-  ];
 
   const columns: ColumnDef<any>[] = [
     {
@@ -107,15 +114,31 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
   ];
-  const handleCountryToggle = (code: any) => {
-    setSelectedCountries((prevSelectedCountries) => {
-      if (prevSelectedCountries.includes(code)) {
-        return prevSelectedCountries.filter((c) => c !== code);
-      } else {
-        return [...prevSelectedCountries, code];
-      }
-    });
-  };
+
+  useEffect(() => {
+    // Filtering projects based on the selected countries if filterStates.markets is not empty
+    if (filterStates.markets && filterStates.markets.length > 0) {
+      const filteredProjects = staffRpSummaryData?.data?.projects?.filter(
+        (project: IProject) =>
+          filterStates.markets.split(",").includes(project.market)
+      );
+      const filteredAndSearchedProjects = filteredProjects?.filter(
+        (project: IProject) =>
+          !searchText ||
+          project.title.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredProjects(filteredAndSearchedProjects || []);
+    } else {
+      // If filterStates.markets is empty, display all projects
+      const filteredAndSearchedProjects =
+        staffRpSummaryData?.data?.projects?.filter(
+          (project: IProject) =>
+            !searchText ||
+            project.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+      setFilteredProjects(filteredAndSearchedProjects || []);
+    }
+  }, [staffRpSummaryData, filterStates, searchText]);
   return (
     <Card>
       <CardContent>
@@ -140,33 +163,18 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
             <FilterSearch setSearchText={setSearchText} />
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          {countries.map((country) => (
-            <div
-              className="flex items-center justify-start gap-1"
-              key={country.code}
-            >
-              <input
-                type="checkbox"
-                id={country.code}
-                value={country.code}
-                checked={selectedCountries.includes(country.code)}
-                onChange={() => handleCountryToggle(country.code)}
-              />
-              <label htmlFor={country.code}>
-                {country.flagUrl && (
-                  <Image
-                    src={country.flagUrl}
-                    alt={country.name}
-                    width={64}
-                    height={64}
-                  />
-                )}
-                <span className="text-sm font-normal text-zinc-700">
-                  {country.name}
-                </span>
-              </label>
-            </div>
+        <div className="flex flex-wrap items-center justify-end gap-1 mb-3">
+          {filterConfig?.markets?.map((market: any) => (
+            <CountryButtonCheckbox
+              label={market?.title}
+              value={market?.title}
+              key={market?.title}
+              checked={filterStates?.markets
+                ?.split(",")
+                .includes(market?.title)}
+              onCheckedChange={handleCheckboxChange("markets", market?.title)}
+              flagImageUrl={market.flag}
+            />
           ))}
         </div>
         <DataTable
@@ -175,7 +183,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
           headerSticky
           border={true}
           columns={columns}
-          data={staffRpSummaryData?.data?.projects || []}
+          data={filteredProjects || []}
         />
       </CardContent>
     </Card>

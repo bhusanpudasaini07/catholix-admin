@@ -32,7 +32,6 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     return `${hours}H ${minutes}M`;
   };
 
-  console.log("props pass", staffRpSummaryData);
   const StaffLogData = useMemo(
     () =>
       staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => ({
@@ -69,6 +68,12 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     [staffRpSummaryData]
   );
 
+  const filteredStaffLogData = useMemo(() => {
+    if (!searchText) return StaffLogData;
+    return StaffLogData.filter((staff: any) =>
+      staff.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }, [StaffLogData, searchText]);
   const columns: ColumnDef<any>[] = [
     {
       id: "sn",
@@ -232,11 +237,11 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
 
         <DataTable
           loading={staffDataLoading}
-          height={"max-h-[500px]"}
+          height={"max-h-[700px]"}
           headerSticky
           border={true}
           columns={columns}
-          data={StaffLogData || []}
+          data={filteredStaffLogData || []}
         />
       </CardContent>
     </Card>

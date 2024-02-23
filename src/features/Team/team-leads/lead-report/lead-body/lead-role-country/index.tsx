@@ -1,9 +1,8 @@
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { Input } from "@/shared/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -13,14 +12,12 @@ import {
 } from "@/shared/components/ui/select";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
 
-// interface IProps {
-//   data: any;
-// }
-
-const RoleCountryTable = () => {
-  const { staffDataLoading, staffRpSummaryData } = useLeadReport();
+const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");
 

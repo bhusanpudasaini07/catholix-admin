@@ -7,10 +7,11 @@ import {
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
 import { ColumnDef } from "@tanstack/react-table";
+import { Console } from "console";
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
@@ -25,6 +26,10 @@ interface IProject {
   total_rp: string;
   total_time: string;
 }
+
+// for default date to be one week from now date
+export const oneWeekAgo = new Date();
+oneWeekAgo.setDate(oneWeekAgo.getDate() - 31); // currently one mont
 
 const useLeadReport = () => {
   const router = useRouter();
@@ -45,6 +50,10 @@ const useLeadReport = () => {
   const [selected, setSelected] = useState<string>("");
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [activeLeads, setActiveLeads] = useState([]);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: oneWeekAgo,
+    to: new Date(),
+  });
 
   // ----------------------------
   const [searchText, setSearchText] = useState("");
@@ -52,6 +61,7 @@ const useLeadReport = () => {
   const handleChange = (value: any) => {
     setSelected(value);
   };
+
   const weeklyData = [
     { value: "2022-10-10", label: "October 10, 2022" },
     { value: "2022-10-17", label: "October 17, 2022" },
@@ -88,14 +98,6 @@ const useLeadReport = () => {
     router.push(`/team-leads/lead-report?lead_id=${id}`);
   };
 
-  // for default date to be one week from now date
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 31); // currently one month
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: oneWeekAgo,
-    to: new Date(),
-  });
-
   // teamLeadStaffs ID based on all the team lead
   const { data: teamLeadStaffs, isLoading: teamLeadStaffsLoading } =
     useQuery<any>(["getTeamLeadStaffs", current_id], async () => {
@@ -113,12 +115,13 @@ const useLeadReport = () => {
   const staffIdArray = teamLeadStaffs?.data[0]?.staffs?.map(
     (item: any) => item?.id
   );
+
   const staffIdJson = JSON.stringify(staffIdArray); // Stringified Staff Array
 
   // Get Staff Summary Data Based on Staff ID and Date Range
   const { data: staffRpSummaryData, isLoading: staffDataLoading } =
     useQuery<any>(
-      ["getStaffRpSummaryData", staffIdJson, dateRange, current_id],
+      ["getStaffRpSummaryData", staffIdJson, dateRange?.to, current_id],
       async () => {
         // if (current_id) {
         // if (current_id && current_id !== "all") {
@@ -265,6 +268,7 @@ const useLeadReport = () => {
       },
       {}
     );
+
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
     const serialNumber = rowIndex + 1;
@@ -323,6 +327,7 @@ const useLeadReport = () => {
       },
     },
   ];
+
   return {
     router,
     current_id,
@@ -330,9 +335,9 @@ const useLeadReport = () => {
     teamLeadStaffs,
     staffIdArray,
     staffIdJson,
-    staffRpSummaryData,
-    setDateRange,
-    dateRange,
+    // staffRpSummaryData,
+    // setDateRange,
+    // dateRange,
     totalAvailableRP,
     setTotalAvailableRP,
     totalLossRP,
@@ -366,7 +371,7 @@ const useLeadReport = () => {
     current_page,
     handleLeadsId,
     teamLeadStaffsLoading,
-    staffDataLoading,
+    // staffDataLoading,
     totalRP,
     totalTime,
     calculateUsedPercentage,

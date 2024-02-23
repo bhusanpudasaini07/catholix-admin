@@ -2,11 +2,69 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import {
+  IProject,
+  IRpStaffSummaryProps,
+} from "@/interface/team-lead-report-interface";
+import { FC } from "react";
 
-const InHouseMarketRp = () => {
-  const { countryInHouseTotalRP, staffDataLoading, sumTotalRp } =
-    useLeadReport();
+const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
+  // const { countryInHouseTotalRP } = useLeadReport();
+
+  const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
+    (total: number, project: IProject) => total + parseFloat(project.total_rp),
+    0
+  );
+  const calculateCountryInHouseTotalRP = (
+    projects: IProject[],
+    sumTotalRp: number
+  ) => {
+    const countryInHouseTotalRP: {
+      country: string;
+      totalRP: number;
+      percentage: number;
+    }[] = [];
+
+    projects.forEach((project: IProject) => {
+      if (project.source === "In-House") {
+        const existingCountryIndex = countryInHouseTotalRP.findIndex(
+          (item) => item.country === project.market
+        );
+        const totalRPToAdd = parseFloat(project.total_rp);
+        if (!isNaN(totalRPToAdd)) {
+          if (existingCountryIndex === -1) {
+            countryInHouseTotalRP.push({
+              country: project.market,
+              totalRP: totalRPToAdd,
+              percentage: (totalRPToAdd / sumTotalRp) * 100,
+            });
+          } else {
+            countryInHouseTotalRP[existingCountryIndex].totalRP += totalRPToAdd;
+            countryInHouseTotalRP[existingCountryIndex].percentage =
+              (countryInHouseTotalRP[existingCountryIndex].totalRP /
+                sumTotalRp) *
+              100;
+          }
+        }
+      }
+    });
+
+    // Adjust digit limit after .
+    countryInHouseTotalRP.forEach((item) => {
+      item.totalRP = parseFloat(item.totalRP.toFixed(2));
+      item.percentage = parseFloat(item.percentage.toFixed(2));
+    });
+
+    return countryInHouseTotalRP;
+  };
+
+  const countryInHouseTotalRP = calculateCountryInHouseTotalRP(
+    staffRpSummaryData?.data?.projects || [],
+    sumTotalRp || 0
+  );
 
   const PieData = countryInHouseTotalRP?.map((item) => ({
     name: `${item?.country} In-House`, // Add "In-House" suffix to country name

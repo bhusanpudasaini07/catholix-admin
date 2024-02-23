@@ -1,5 +1,5 @@
 // React
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Features
 import RpUtilization from "./lead-rp-utilize";
@@ -17,11 +17,14 @@ import ClientMarketRP from "./client-market-rp";
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 import MemberWiseLogTable from "./member-wise-log-table";
+import { useQuery } from "react-query";
+import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
+import moment from "moment";
 
-const LeadReportBody = () => {
+const LeadReportBody = ({ dateRange }: any) => {
   const {
-    staffRpSummaryData,
-    staffDataLoading,
+    // staffRpSummaryData,
+    // staffDataLoading,
     totalAvailableRP,
     setTotalAvailableRP,
     totalLossRP,
@@ -46,7 +49,31 @@ const LeadReportBody = () => {
     totalTime,
     calculateUsedPercentage,
     calculateUnusedPercentage,
+    staffIdJson,
+    // dateRange,
+    current_id,
   } = useLeadReport();
+
+  const [leadReportData, setLeadReportData] = useState<any>();
+
+  const { data: staffRpSummaryData, isLoading: staffDataLoading } =
+    useQuery<any>(
+      ["getStaffRpSummaryData", staffIdJson, dateRange?.to, current_id],
+      async () => {
+        // if (current_id) {
+        // if (current_id && current_id !== "all") {
+        const response = await getStaffRpSummary(
+          moment(dateRange?.from).format("YYYY-MM-DD"),
+          moment(dateRange?.to).format("YYYY-MM-DD"),
+          JSON.parse(staffIdJson)
+        );
+        return response;
+        // }
+      }
+    );
+
+  console.log("api call", staffRpSummaryData);
+  console.log("api set", leadReportData);
 
   useEffect(() => {
     if (staffRpSummaryData) {
@@ -56,6 +83,7 @@ const LeadReportBody = () => {
       let commercialRPSum = 0;
       let activeStaffCount = 0;
       let spentRPCount = 0;
+      setLeadReportData(staffRpSummaryData);
 
       // Iterate over staff array and sum up available RP, loss RP, inhouse RP, and commercial RP
       staffRpSummaryData.data.staff.forEach((staff: any) => {
@@ -188,15 +216,33 @@ const LeadReportBody = () => {
         client={totalClientProjects}
       />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <RoleCountryTable />
-        <ProjectRpConsumptionTable />
+        <RoleCountryTable
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
+        <ProjectRpConsumptionTable
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
       </div>
-      <ClientVsInHouseProject />
+      <ClientVsInHouseProject
+        staffRpSummaryData={staffRpSummaryData}
+        staffDataLoading={staffDataLoading}
+      />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <InHouseMarketRp />
-        <ClientMarketRP />
+        <InHouseMarketRp
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
+        <ClientMarketRP
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
       </div>
-      <MemberWiseLogTable />
+      <MemberWiseLogTable
+        staffRpSummaryData={leadReportData}
+        staffDataLoading={staffDataLoading}
+      />
     </div>
   );
 };

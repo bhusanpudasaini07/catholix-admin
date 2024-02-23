@@ -1,4 +1,4 @@
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
@@ -9,8 +9,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 
-const ProjectRpConsumptionTable = () => {
-  const { staffDataLoading, staffRpSummaryData } = useLeadReport();
+const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
+  staffDataLoading,
+  staffRpSummaryData,
+}) => {
   const router = useRouter();
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");

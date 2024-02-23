@@ -1,4 +1,8 @@
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import {
+  IRpStaffSummaryProps,
+  IStaff,
+} from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
@@ -12,65 +16,59 @@ import {
 } from "@/shared/components/ui/select";
 import { ColumnDef } from "@tanstack/react-table";
 import { DownloadCloud } from "lucide-react";
-import { useState } from "react";
+import { FC, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
-interface IStaff {
-  id: string;
-  fullname: string;
-  username: string;
-  employee_id: string;
-  department_id: string;
-  department_name: string;
-  role_id: string;
-  role_name: string;
-  used_time: string;
-  used_rp: string;
-  loss_time: string;
-  loss_rp: string;
-  available_time: string;
-  available_rp: string;
-  commercial_time: string;
-  commercial_rp: string;
-}
+const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
+  // const { staffRpSummaryData, staffDataLoading } = useLeadReport();
 
-const MemberWiseLogTable = () => {
-  const { staffRpSummaryData, staffDataLoading } = useLeadReport();
   const [searchText, setSearchText] = useState("");
   const convertSecondsToHoursAndMinutes = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     return `${hours}H ${minutes}M`;
   };
-  const StaffLogData = staffRpSummaryData?.data?.staff?.map(
-    (staff: IStaff, index: any) => ({
-      sn: index + 1, // Assuming sNo starts from 1
-      name: staff.fullname,
-      role: staff.role_name,
-      spent_rp: parseFloat(staff.used_rp).toFixed(2), // Convert and ensure two digits after decimal
-      spent_client_rp: parseFloat(staff.commercial_rp).toFixed(2), // Convert and ensure two digits after decimal
-      loss_rp: parseFloat(staff.loss_rp).toFixed(2), // Convert and ensure two digits after decimal
-      rp_percentage: (
-        (parseFloat(staff.loss_rp) / parseFloat(staff.used_rp)) *
-        100
-      ).toFixed(2), // Calculate and ensure two digits after decimal
-      client_rp_percentage: (
-        (parseFloat(staff.commercial_rp) / parseFloat(staff.used_rp)) *
-        100
-      ).toFixed(2), // Calculate and ensure two digits after decimal
-      total_time: convertSecondsToHoursAndMinutes(
-        parseFloat(staff.available_time)
-      ), // Convert seconds to hours and minutes
-      spent_time: convertSecondsToHoursAndMinutes(parseFloat(staff.used_time)), // Convert seconds to hours and minutes
-      time_percentage: (
-        (parseFloat(staff.used_time) / parseFloat(staff.available_time)) *
-        100
-      ).toFixed(2), // Calculate and ensure two digits after decimal
-      client_time_percentage: (
-        (parseFloat(staff.commercial_time) / parseFloat(staff.available_time)) *
-        100
-      ).toFixed(2), // Calculate and ensure two digits after decimal
-    })
+
+  console.log("props pass", staffRpSummaryData);
+  const StaffLogData = useMemo(
+    () =>
+      staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => ({
+        sn: index + 1,
+        name: staff?.fullname,
+        role: staff?.role_name,
+        spent_rp: staff.used_rp,
+        spent_client_rp: parseFloat(staff.commercial_rp).toFixed(2),
+        loss_rp: parseFloat(staff.loss_rp).toFixed(2),
+        rp_percentage: (
+          (parseFloat(staff.loss_rp) / parseFloat(staff.used_rp)) *
+          100
+        ).toFixed(2),
+        client_rp_percentage: (
+          (parseFloat(staff.commercial_rp) / parseFloat(staff.used_rp)) *
+          100
+        ).toFixed(2),
+        total_time: convertSecondsToHoursAndMinutes(
+          parseFloat(staff.available_time)
+        ),
+        spent_time: convertSecondsToHoursAndMinutes(
+          parseFloat(staff.used_time)
+        ),
+        time_percentage: (
+          (parseFloat(staff.used_time) / parseFloat(staff.available_time)) *
+          100
+        ).toFixed(2),
+        client_time_percentage: (
+          (parseFloat(staff.commercial_time) /
+            parseFloat(staff.available_time)) *
+          100
+        ).toFixed(2),
+      })),
+    [staffRpSummaryData]
   );
+
   const columns: ColumnDef<any>[] = [
     {
       id: "sn",

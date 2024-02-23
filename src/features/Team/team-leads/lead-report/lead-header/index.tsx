@@ -14,12 +14,11 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/tabs";
 
-const LeadHeader = () => {
+const LeadHeader = ({ setDateRange, dateRange }: any) => {
   const {
     router,
     current_id,
-    setDateRange,
-    dateRange,
+
     selected,
     dateRangeOpen,
     setDateRangeOpen,

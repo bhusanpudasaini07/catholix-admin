@@ -1,15 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { DataTable } from "@/shared/components/data-table/data-table";
-import PercentageGraph from "@/shared/components/percentage-graph";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
-import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
 
-const ClientVsInHouseProject = () => {
-  const { staffRpSummaryData, calculateUsedPercentage, staffDataLoading } =
-    useLeadReport();
+const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
+  const { calculateUsedPercentage } = useLeadReport();
   const totalInhouseRpPercentage = calculateUsedPercentage(
     staffRpSummaryData?.data?.summary?.inhouse_rp,
     staffRpSummaryData?.data?.summary?.total_rp

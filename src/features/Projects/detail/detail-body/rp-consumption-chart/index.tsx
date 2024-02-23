@@ -19,8 +19,11 @@ import {
 } from "@/shared/components/ui/tabs";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import DateRangeFilter from "@/shared/components/date-range-filter";
+import { useRouter } from "next/router";
 
 const RpConsumption = () => {
+  const router = useRouter();
+
   const {
     dateType,
     wiseType,
@@ -49,9 +52,15 @@ const RpConsumption = () => {
               <p className="text-lg font-medium text-zinc-700">
                 RP Consumption
               </p>
-              <Button variant={"white"} size={"sm"}>
+              <Button
+                variant={"white"}
+                onClick={() =>
+                  router.push(`/projects/${router?.query.code}/burndown-chart`)
+                }
+                size={"sm"}
+              >
                 View Burndown Chart
-              </Button>
+              </Button> 
             </div>
             <div className="flex items-center gap-3">
               {/* <div className="w-[30%]">

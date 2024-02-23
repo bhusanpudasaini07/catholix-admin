@@ -1,9 +1,21 @@
 import { Button } from "@/shared/components/ui/button";
-import { ChevronLeft, Plus } from "lucide-react";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import { CalendarDays, ChevronLeft, Plus } from "lucide-react";
+import moment from "moment";
 import { useRouter } from "next/router";
 import React from "react";
 
-const EstimationHeader = () => {
+interface IProps {
+  estimation_total_data: number;
+  start_date: string;
+  estimationDataLoading: boolean;
+}
+
+const EstimationHeader = ({
+  estimation_total_data,
+  start_date,
+  estimationDataLoading,
+}: IProps) => {
   const router = useRouter();
 
   return (
@@ -17,21 +29,45 @@ const EstimationHeader = () => {
         >
           <ChevronLeft size={16} />
         </Button>
-        <div className="">
-          <h4 className="mb-1 text-2xl font-medium text-zinc-700">
-            RP Estimation
-          </h4>
-          <p className="text-base font-normal text-zinc-500">
-            Roles and Members of Wonder Trivia
-          </p>
+        <div className="flex items-start gap-4">
+          <div>
+            <h4 className="flex items-center gap-2 mb-1 text-2xl font-medium text-zinc-700">
+              RP Estimation
+              {estimationDataLoading ? (
+                <Skeleton className="w-10 h-4" />
+              ) : (
+                estimation_total_data > 0 && ` [${estimation_total_data}]`
+              )}
+            </h4>
+            <div className="flex items-center gap-2 mt-4">
+              <div className="flex items-center gap-2 text-sm text-zinc-500 min-w-[95px]">
+                <CalendarDays size={20} />
+                <span>Started On:</span>
+              </div>
+              <div className="text-sm text-zinc-700">
+                {estimationDataLoading ? (
+                  <Skeleton className="w-10 h-3" />
+                ) : (
+                  <p className="mb-0.5 font-medium">
+                    {moment(start_date).format("YYYY-MM-DD")}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          {estimationDataLoading ? (
+            <Skeleton className="w-20 h-6" />
+          ) : (
+            estimation_total_data > 0 && (
+              <Button size={"sm"} variant={"white"}>
+                Day View
+              </Button>
+            )
+          )}
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <Button
-          //   onClick={() => router.push(`/projects/${code}/edit`)}
-          variant={"outline"}
-          className="gap-2"
-        >
+        <Button variant={"outline"} className="gap-2">
           <Plus size={16} />
           Create New CR Estimation
         </Button>

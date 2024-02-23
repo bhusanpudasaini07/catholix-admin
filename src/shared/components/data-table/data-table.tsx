@@ -32,6 +32,10 @@ import {
 import { Button } from "../ui/button";
 import NotFoundLottie from "../not-found";
 
+interface TotalColumn<TData> {
+  columnId: keyof TData;
+  format?: (value: number) => React.ReactNode;
+}
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | any;
@@ -43,6 +47,7 @@ interface DataTableProps<TData, TValue> {
   headerSticky?: boolean;
   lottieWidth?: number;
   lottieHeight?: number;
+  total?: TotalColumn<TData>[];
 }
 
 export function DataTable<TData, TValue>({
@@ -56,6 +61,7 @@ export function DataTable<TData, TValue>({
   headerSticky,
   lottieWidth,
   lottieHeight,
+  total,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -79,6 +85,23 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const calculateTotals = (
+    data: TData[],
+    totalColumns: TotalColumn<TData>[]
+  ) => {
+    return totalColumns.map((totalColumn) => {
+      const sum = data.reduce((acc, curr) => {
+        const value = curr[totalColumn.columnId];
+        return acc + Number(value);
+      }, 0);
+      return {
+        columnId: totalColumn.columnId,
+        value: totalColumn.format ? totalColumn.format(sum) : sum,
+      };
+    });
+  };
+
+  const totals = total ? calculateTotals(data, total) : [];
   return (
     <div
       className={`overflow-auto ${
@@ -116,7 +139,8 @@ export function DataTable<TData, TValue>({
                       border
                         ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
                         : "",
-                      headerSticky && "sticky top-[0px] z-[10] bg-light-white"
+                      headerSticky && "sticky top-[0px] z-[10] bg-light-white",
+                      "whitespace-nowrap"
                     )}
                     key={header.id}
                   >
@@ -141,35 +165,52 @@ export function DataTable<TData, TValue>({
               ))}
             </TableRow>
           ) : table?.getRowModel().rows?.length ? (
-            table?.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className="[&>*]:last:border-b-0"
-              >
-                {row?.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className={
-                      border
-                        ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
-                        : ""
-                    }
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
+            <>
+              {table?.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                  className="[&>*]:last:border-b-0"
+                >
+                  {row?.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        border
+                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
+                          : ""
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+              {totals.length > 0 && (
+                <TableRow className={cn("font-semibold bg-slate-100")}>
+                  {columns.map((column, index) => {
+                    const totalColumn = totals.find(
+                      (t) => t.columnId === column?.id
+                    );
+                    return (
+                      <>
+                        <TableCell key={index}>
+                          {totalColumn ? totalColumn.value : ""}
+                        </TableCell>
+                      </>
+                    );
+                  })}
+                </TableRow>
+              )}
+            </>
           ) : (
             <TableRow>
               <TableCell
                 colSpan={columns.length}
-                className={
-                  border
-                    ? "border-2 border-slate-100 h-24 text-center"
-                    : "h-24 text-center"
-                }
+                className={border ? "h-24 text-center" : "h-24 text-center"}
               >
                 <NotFoundLottie width={lottieWidth} height={lottieHeight} />
               </TableCell>

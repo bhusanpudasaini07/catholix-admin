@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
 import {
+  ICountryInHouseTotalRP,
   IProject,
   IRpStaffSummaryProps,
 } from "@/interface/team-lead-report-interface";
@@ -15,36 +16,32 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
   // const { countryInHouseTotalRP } = useLeadReport();
 
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
-    (total: number, project: IProject) => total + parseFloat(project.total_rp),
+    (total: number, project: IProject) => total + parseFloat(project?.total_rp),
     0
   );
   const calculateCountryInHouseTotalRP = (
     projects: IProject[],
     sumTotalRp: number
   ) => {
-    const countryInHouseTotalRP: {
-      country: string;
-      totalRP: number;
-      percentage: number;
-    }[] = [];
+    const countryInHouseTotalRP: ICountryInHouseTotalRP[] = [];
 
     projects.forEach((project: IProject) => {
       if (project.source === "In-House") {
         const existingCountryIndex = countryInHouseTotalRP.findIndex(
-          (item) => item.country === project.market
+          (item) => item.country === project?.market
         );
-        const totalRPToAdd = parseFloat(project.total_rp);
+        const totalRPToAdd = parseFloat(project?.total_rp);
         if (!isNaN(totalRPToAdd)) {
           if (existingCountryIndex === -1) {
             countryInHouseTotalRP.push({
-              country: project.market,
+              country: project?.market,
               totalRP: totalRPToAdd,
               percentage: (totalRPToAdd / sumTotalRp) * 100,
             });
           } else {
             countryInHouseTotalRP[existingCountryIndex].totalRP += totalRPToAdd;
             countryInHouseTotalRP[existingCountryIndex].percentage =
-              (countryInHouseTotalRP[existingCountryIndex].totalRP /
+              (countryInHouseTotalRP[existingCountryIndex]?.totalRP /
                 sumTotalRp) *
               100;
           }
@@ -54,8 +51,8 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
 
     // Adjust digit limit after .
     countryInHouseTotalRP.forEach((item) => {
-      item.totalRP = parseFloat(item.totalRP.toFixed(2));
-      item.percentage = parseFloat(item.percentage.toFixed(2));
+      item.totalRP = parseFloat(item?.totalRP.toFixed(2));
+      item.percentage = parseFloat(item?.percentage.toFixed(2));
     });
 
     return countryInHouseTotalRP;

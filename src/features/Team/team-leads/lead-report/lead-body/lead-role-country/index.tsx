@@ -34,7 +34,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
     (filterKey: keyof typeof filterStates, value: string) =>
     (isChecked: boolean) => {
       const currentValues = filterStates[filterKey]
-        ? filterStates[filterKey].split(",")
+        ? filterStates[filterKey]?.split(",")
         : [];
       const updatedValues = isChecked
         ? [...currentValues, value]

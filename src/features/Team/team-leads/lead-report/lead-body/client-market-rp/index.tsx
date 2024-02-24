@@ -13,7 +13,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
 }) => {
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
-    (total: number, project: IProject) => total + parseFloat(project.total_rp),
+    (total: number, project: IProject) => total + parseFloat(project?.total_rp),
     0
   );
   const calculateCountryClientTotalRP = (
@@ -26,16 +26,16 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       percentage: number;
     }[] = [];
 
-    projects.forEach((project: IProject) => {
+    projects?.forEach((project: IProject) => {
       if (project.source === "Client") {
-        const existingCountryIndex = countryClientTotalRP.findIndex(
-          (item) => item.country === project.market
+        const existingCountryIndex = countryClientTotalRP?.findIndex(
+          (item) => item?.country === project?.market
         );
-        const totalRPToAdd = parseFloat(project.total_rp);
+        const totalRPToAdd = parseFloat(project?.total_rp);
         if (!isNaN(totalRPToAdd)) {
           if (existingCountryIndex === -1) {
             countryClientTotalRP.push({
-              country: project.market,
+              country: project?.market,
               totalRP: totalRPToAdd,
               percentage: (totalRPToAdd / sumTotalRp) * 100,
             });
@@ -52,8 +52,8 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
 
     // Adjust digit limit after .
     countryClientTotalRP.forEach((item) => {
-      item.totalRP = parseFloat(item.totalRP.toFixed(2));
-      item.percentage = parseFloat(item.percentage.toFixed(2));
+      item.totalRP = parseFloat(item?.totalRP?.toFixed(2));
+      item.percentage = parseFloat(item?.percentage?.toFixed(2));
     });
 
     return countryClientTotalRP;

@@ -117,24 +117,24 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
 
   useEffect(() => {
     // Filtering projects based on the selected countries if filterStates.markets is not empty
-    if (filterStates.markets && filterStates.markets.length > 0) {
+    if (filterStates?.markets && filterStates?.markets?.length > 0) {
       const filteredProjects = staffRpSummaryData?.data?.projects?.filter(
         (project: IProject) =>
-          filterStates.markets.split(",").includes(project.market)
+          filterStates?.markets.split(",").includes(project?.market)
       );
       const filteredAndSearchedProjects = filteredProjects?.filter(
         (project: IProject) =>
           !searchText ||
-          project.title.toLowerCase().includes(searchText.toLowerCase())
+          project?.title?.toLowerCase().includes(searchText.toLowerCase())
       );
       setFilteredProjects(filteredAndSearchedProjects || []);
     } else {
-      // If filterStates.markets is empty, display all projects
+      // If filterStates?.markets is empty, display all projects
       const filteredAndSearchedProjects =
         staffRpSummaryData?.data?.projects?.filter(
           (project: IProject) =>
             !searchText ||
-            project.title.toLowerCase().includes(searchText.toLowerCase())
+            project?.title?.toLowerCase().includes(searchText.toLowerCase())
         );
       setFilteredProjects(filteredAndSearchedProjects || []);
     }

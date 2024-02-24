@@ -60,6 +60,12 @@ export interface IProject {
   total_time: string;
 }
 
+export interface ICountryInHouseTotalRP {
+  country: string;
+  totalRP: number;
+  percentage: number;
+}
+
 export interface ISummary {
   total_rp: number;
   total_time: number;

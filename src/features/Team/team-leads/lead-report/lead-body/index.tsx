@@ -1,5 +1,5 @@
 // React
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Features
 import RpUtilization from "./lead-rp-utilize";
@@ -8,7 +8,7 @@ import RpSummary from "./lead-rp-summary";
 import OtherInfo from "./lead-other-info";
 import ProjectOverview from "./lead-projects-overview";
 import RoleCountryTable from "./lead-role-country";
-import ProjectRpConsumptionTable from "./lead-role-rp-table";
+import ProjectRpConsumptionTable from "./project-rp-consumption";
 import ClientVsInHouseProject from "./client-n-inhouse-project";
 import InHouseMarketRp from "./inhouse-market-rp";
 import ClientMarketRP from "./client-market-rp";
@@ -17,11 +17,14 @@ import ClientMarketRP from "./client-market-rp";
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 import MemberWiseLogTable from "./member-wise-log-table";
+import { useQuery } from "react-query";
+import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
+import moment from "moment";
 
-const LeadReportBody = () => {
+const LeadReportBody = ({ dateRange }: any) => {
   const {
-    staffRpSummaryData,
-    staffDataLoading,
+    // staffRpSummaryData,
+    // staffDataLoading,
     totalAvailableRP,
     setTotalAvailableRP,
     totalLossRP,
@@ -42,11 +45,37 @@ const LeadReportBody = () => {
     setTotalUsedRP,
     totalHighRiskProjects,
     setTotalHighRiskProjects,
-    totalRP,
-    totalTime,
     calculateUsedPercentage,
     calculateUnusedPercentage,
+    staffIdJson,
+    current_id,
   } = useLeadReport();
+
+  const [leadReportData, setLeadReportData] = useState<any>();
+
+  const { data: staffRpSummaryData, isLoading: staffDataLoading } =
+    useQuery<any>(
+      ["getStaffRpSummaryData", staffIdJson, dateRange?.to, current_id],
+      async () => {
+        // if (current_id) {
+        // if (current_id && current_id !== "all") {
+        const response = await getStaffRpSummary(
+          moment(dateRange?.from).format("YYYY-MM-DD"),
+          moment(dateRange?.to).format("YYYY-MM-DD"),
+          JSON.parse(staffIdJson)
+        );
+        return response;
+        // }
+      }
+    );
+
+  const totalRP =
+    staffRpSummaryData?.data?.summary?.available_rp +
+    staffRpSummaryData?.data?.summary?.total_rp;
+
+  const totalTime =
+    staffRpSummaryData?.data?.summary?.available_time +
+    staffRpSummaryData?.data?.summary?.total_time;
 
   useEffect(() => {
     if (staffRpSummaryData) {
@@ -56,6 +85,7 @@ const LeadReportBody = () => {
       let commercialRPSum = 0;
       let activeStaffCount = 0;
       let spentRPCount = 0;
+      setLeadReportData(staffRpSummaryData);
 
       // Iterate over staff array and sum up available RP, loss RP, inhouse RP, and commercial RP
       staffRpSummaryData.data.staff.forEach((staff: any) => {
@@ -188,15 +218,33 @@ const LeadReportBody = () => {
         client={totalClientProjects}
       />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <RoleCountryTable data={staffRpSummaryData?.data?.staff} />
-        <ProjectRpConsumptionTable data={staffRpSummaryData?.data?.projects} />
+        <RoleCountryTable
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
+        <ProjectRpConsumptionTable
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
       </div>
-      <ClientVsInHouseProject />
+      <ClientVsInHouseProject
+        staffRpSummaryData={staffRpSummaryData}
+        staffDataLoading={staffDataLoading}
+      />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <InHouseMarketRp />
-        <ClientMarketRP />
+        <InHouseMarketRp
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
+        <ClientMarketRP
+          staffRpSummaryData={staffRpSummaryData}
+          staffDataLoading={staffDataLoading}
+        />
       </div>
-      <MemberWiseLogTable />
+      <MemberWiseLogTable
+        staffRpSummaryData={leadReportData}
+        staffDataLoading={staffDataLoading}
+      />
     </div>
   );
 };

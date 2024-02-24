@@ -1,8 +1,10 @@
+import useProjectListing from "@/hooks/project/useProjectListing.hook";
+import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { Input } from "@/shared/components/ui/input";
+import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
 import {
   Select,
   SelectContent,
@@ -10,94 +12,102 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import { FC, useState } from "react";
+import { useQuery } from "react-query";
 
-interface IProps {
-  data: any;
-}
+const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
+  const { filterConfig } = useCommonStore();
 
-const RoleCountryTable: FC<IProps> = ({ data }) => {
+  const [filterStates, setFilterStates] = useState({
+    markets: "",
+  });
+  const changeFilterState = (key: keyof typeof filterStates, value: string) => {
+    setFilterStates((prev) => ({ ...prev, [key]: value }));
+  };
+  const handleCheckboxChange =
+    (filterKey: keyof typeof filterStates, value: string) =>
+    (isChecked: boolean) => {
+      const currentValues = filterStates[filterKey]
+        ? filterStates[filterKey]?.split(",")
+        : [];
+      const updatedValues = isChecked
+        ? [...currentValues, value]
+        : currentValues.filter((v) => v !== value);
+
+      changeFilterState(filterKey, updatedValues.join(","));
+    };
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [searchText, setSearchText] = useState("");
 
-  const countries = [
-    {
-      name: "Nepal",
-      code: "NP",
-      flagUrl: "",
-    },
-    {
-      name: "US",
-      code: "US",
-      flagUrl: "",
-    },
-    {
-      name: "UK",
-      code: "UK",
-      flagUrl: "",
-    },
-  ];
-
   const columns: ColumnDef<any>[] = [
-    // Title
     {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
-      cell: ({ row }) => <div>{row.getValue("sn")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-medium ps-3">
+          {row.getValue("sn")}
+        </div>
+      ),
     },
-    // Date
     {
       id: "role",
       accessorKey: "role",
       header: "Role",
-      cell: ({ row }) => <div>{row.getValue("role")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("role")}
+        </div>
+      ),
     },
     {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div>{row.getValue("country")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("country")}
+        </div>
+      ),
     },
     {
       id: "manDays",
       accessorKey: "manDays",
       header: "Man Days",
       cell: ({ row }) => (
-        <div>{parseInt(row.getValue("manDays")).toFixed(2)}</div>
+        <div className="text-zinc-700 text-base font-semibold">
+          {parseInt(row.getValue("manDays")).toFixed(2)}
+        </div>
       ),
-      enableHiding: false,
     },
     {
       id: "manMonths",
       accessorKey: "manMonths",
       header: "Man Month",
-      cell: ({ row }) => <div>{row.getValue("manMonths")}</div>,
-      enableHiding: false,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row.getValue("manMonths")}
+        </div>
+      ),
     },
   ];
-  const handleCountryToggle = (code: any) => {
-    setSelectedCountries((prevSelectedCountries) => {
-      if (prevSelectedCountries.includes(code)) {
-        return prevSelectedCountries.filter((c) => c !== code);
-      } else {
-        return [...prevSelectedCountries, code];
-      }
-    });
-  };
-  const tableData = data?.map((staff: any, index: any) => ({
-    sn: index + 1,
-    role: staff?.role_name,
-    // country: staff?.department_name, // Assuming department_name represents the country
-    country: "Nepal", // Assuming department_name represents the country
-    manDays: (parseFloat(staff?.used_time) / (7 * 3600)).toFixed(2), // Converting seconds to man-days -> (assuming 7 working hours per day)
-    manMonths: (parseFloat(staff?.used_time) / (7 * 3600 * 22)).toFixed(2), // Converting seconds to man-months (assuming 22 working days per month)
-  }));
+
+  const tableData = staffRpSummaryData?.data?.staff?.map(
+    (staff: any, index: any) => ({
+      sn: index + 1,
+      role: staff?.role_name,
+      // country: staff?.department_name, // Assuming department_name represents the country
+      country: "Nepal", // Assuming department_name represents the country
+      manDays: (parseFloat(staff?.used_time) / (7 * 3600)).toFixed(2), // Converting seconds to man-days -> (assuming 7 working hours per day)
+      manMonths: (parseFloat(staff?.used_time) / (7 * 3600 * 22)).toFixed(2), // Converting seconds to man-months (assuming 22 working days per month)
+    })
+  );
 
   return (
     <Card>
@@ -111,11 +121,7 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
               Detail View
             </Button>
           </div>
-          <div className="flex items-center justify-end gap-2">
-            {/* <Input
-              placeholder="Search Keywords"
-              className="w-[160px] h-[36px]"
-            /> */}
+          {/* <div className="flex items-center justify-end gap-2">
             <FilterSearch setSearchText={setSearchText} />
             <Select>
               <SelectTrigger className="w-[160px]">
@@ -125,39 +131,26 @@ const RoleCountryTable: FC<IProps> = ({ data }) => {
                 <SelectItem value="pm">PM</SelectItem>
               </SelectContent>
             </Select>
-          </div>
+          </div> */}
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          {countries.map((country) => (
-            <div
-              className="flex items-center justify-start gap-1"
-              key={country.code}
-            >
-              <input
-                type="checkbox"
-                id={country.code}
-                value={country.code}
-                checked={selectedCountries.includes(country.code)}
-                onChange={() => handleCountryToggle(country.code)}
-              />
-              <label htmlFor={country.code}>
-                {country.flagUrl && (
-                  <Image
-                    src={country.flagUrl}
-                    alt={country.name}
-                    width={64}
-                    height={64}
-                  />
-                )}
-                <span className="text-sm font-normal text-zinc-700">
-                  {country.name}
-                </span>
-              </label>
-            </div>
+        <div className="flex flex-wrap items-center justify-end gap-3 mb-3">
+          {filterConfig?.markets?.map((market: any) => (
+            <CountryButtonCheckbox
+              label={market?.title}
+              value={market?.title}
+              key={market?.title}
+              checked={filterStates?.markets
+                ?.split(",")
+                .includes(market?.title)}
+              onCheckedChange={handleCheckboxChange("markets", market?.title)}
+              flagImageUrl={market.flag}
+            />
           ))}
         </div>
+
+        <div className="flex flex-wrap items-center justify-end gap-3"></div>
         <DataTable
-          // loading={isLoading}
+          loading={staffDataLoading}
           height={"max-h-[500px]"}
           headerSticky
           border={true}

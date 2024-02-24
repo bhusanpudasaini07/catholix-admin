@@ -2,11 +2,66 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactECharts from "echarts-for-react";
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import {
+  ICountryInHouseTotalRP,
+  IProject,
+  IRpStaffSummaryProps,
+} from "@/interface/team-lead-report-interface";
+import { FC } from "react";
 
-const InHouseMarketRp = () => {
-  const { countryInHouseTotalRP, staffDataLoading, sumTotalRp } =
-    useLeadReport();
+const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
+  staffRpSummaryData,
+  staffDataLoading,
+}) => {
+  // const { countryInHouseTotalRP } = useLeadReport();
+
+  const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
+    (total: number, project: IProject) => total + parseFloat(project?.total_rp),
+    0
+  );
+  const calculateCountryInHouseTotalRP = (
+    projects: IProject[],
+    sumTotalRp: number
+  ) => {
+    const countryInHouseTotalRP: ICountryInHouseTotalRP[] = [];
+
+    projects.forEach((project: IProject) => {
+      if (project.source === "In-House") {
+        const existingCountryIndex = countryInHouseTotalRP.findIndex(
+          (item) => item.country === project?.market
+        );
+        const totalRPToAdd = parseFloat(project?.total_rp);
+        if (!isNaN(totalRPToAdd)) {
+          if (existingCountryIndex === -1) {
+            countryInHouseTotalRP.push({
+              country: project?.market,
+              totalRP: totalRPToAdd,
+              percentage: (totalRPToAdd / sumTotalRp) * 100,
+            });
+          } else {
+            countryInHouseTotalRP[existingCountryIndex].totalRP += totalRPToAdd;
+            countryInHouseTotalRP[existingCountryIndex].percentage =
+              (countryInHouseTotalRP[existingCountryIndex]?.totalRP /
+                sumTotalRp) *
+              100;
+          }
+        }
+      }
+    });
+
+    // Adjust digit limit after .
+    countryInHouseTotalRP.forEach((item) => {
+      item.totalRP = parseFloat(item?.totalRP.toFixed(2));
+      item.percentage = parseFloat(item?.percentage.toFixed(2));
+    });
+
+    return countryInHouseTotalRP;
+  };
+
+  const countryInHouseTotalRP = calculateCountryInHouseTotalRP(
+    staffRpSummaryData?.data?.projects || [],
+    sumTotalRp || 0
+  );
 
   const PieData = countryInHouseTotalRP?.map((item) => ({
     name: `${item?.country} In-House`, // Add "In-House" suffix to country name
@@ -65,20 +120,32 @@ const InHouseMarketRp = () => {
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => <div>{row?.getValue("country")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("country")}
+        </div>
+      ),
     },
     {
       id: "totalRP",
       accessorKey: "totalRP",
       header: "RP",
-      cell: ({ row }) => <div>{row?.getValue("totalRP")}</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("totalRP")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
       id: "percentage",
       accessorKey: "percentage",
       header: "%",
-      cell: ({ row }) => <div>{row?.getValue("percentage")}%</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 text-base font-semibold">
+          {row?.getValue("percentage")}%
+        </div>
+      ),
       enableHiding: false,
     },
   ];

@@ -63,10 +63,23 @@ const getRpSummary = (
   }
 };
 
-const getTimeLogs = (code: any, keyword: string, page: any, per_page: any) => {
-  if (keyword) {
+const getTimeLogs = (
+  code: any,
+  keyword: string,
+  page: any,
+  per_page: any,
+  fields?: any,
+  date_from?: string,
+  date_to?: string
+) => {
+  if (keyword !== "") {
     return httpRequest(
       `/get-time-logs?project_id=${code}&keyword=${keyword}&pg=${page}&dataperpage=${per_page}`,
+      httpMethods.GET
+    );
+  } else if (fields) {
+    return httpRequest(
+      `/get-time-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&fields=${fields}&date_from=${date_from}&date_to=${date_to}`,
       httpMethods.GET
     );
   } else {
@@ -127,6 +140,20 @@ const getProjectEstimation = (code: any) => {
   );
 };
 
+const getProjectTaskLabelRp = (code: any) => {
+  return httpRequest(
+    `/get-project-task-label-rp?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
+const getProjectTaskBugRatio = (code: any) => {
+  return httpRequest(
+    `/get-project-task-bug-ratio?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -138,4 +165,6 @@ export {
   getProjectLatestActivities,
   getProjectBurndown,
   getProjectEstimation,
+  getProjectTaskLabelRp,
+  getProjectTaskBugRatio,
 };

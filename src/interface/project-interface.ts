@@ -329,3 +329,28 @@ export interface IMemberDate {
   utilization: number;
   total_rp: number;
 }
+
+// More details status, category, platform table
+export interface ITypeCount {
+  title: string;
+  rp: string;
+}
+
+export interface IType {
+  type: string;
+  count: ITypeCount[];
+}
+
+export interface ITypes {
+  data: IType[];
+}
+
+// Bug task ratio interface
+export interface IProjectTaskBugRatios {
+  data: IProjectTaskBugRatio[];
+}
+export interface IProjectTaskBugRatio {
+  title: string;
+  task_rp: number;
+  bug_rp: number;
+}

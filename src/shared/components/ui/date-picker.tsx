@@ -12,6 +12,8 @@ interface IProps {
   className?: string;
   contentClassName?: string;
   mode: any;
+  date: any;
+  setDate: any;
 }
 
 const DatePicker: React.FC<IProps> = ({
@@ -19,16 +21,17 @@ const DatePicker: React.FC<IProps> = ({
   className,
   contentClassName,
   mode,
+  date,
+  setDate,
 }) => {
-  const [date, setDate] = React.useState<Date>();
-
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant={"date_picker"}
+          size={"md"}
           className={`
-          bg-white border-gray-300 justify-between text-left font-normal text-gray-400 
+          bg-white justify-between text-left font-normal 
           ${className && className} `}
         >
           {date ? format(date, "PPP") : <span>{text}</span>}

@@ -1,6 +1,7 @@
-import { Button } from "@/shared/components/ui/button";
-import UsedRp from "../used-rp-chart/usedRp";
-import { Progress } from "@/shared/components/ui/progress";
+import { useRouter } from "next/router";
+import moment from "moment";
+import Link from "next/link";
+
 import {
   Activity,
   AlertCircle,
@@ -21,30 +22,41 @@ import {
   Users,
   Zap,
 } from "lucide-react";
-import DataCardSkeleton from "@/shared/components/skeleton-loading/data-card-skeleton";
 
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
+
 import {
   calculateDeadlinePercentValue,
+  calculateTimeLog,
   showDeadline,
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
+
+import UsedRp from "../used-rp-chart/usedRp";
+
 import { Badge } from "@/shared/components/ui/badge";
-import moment from "moment";
-import Link from "next/link";
+import { Progress } from "@/shared/components/ui/progress";
+import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
 } from "@/shared/components/ui/dialog";
-import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { DataTable } from "@/shared/components/data-table/data-table";
+
+// Skeleton Loaders
+import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
+import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
+import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
+import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
+import TaskTimeLogsSkeleton from "@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton";
+import AboutSkeleton from "@/shared/components/skeleton-loading/project/detail/about-skeleton";
 
 const DetailOverviewMoreDetail = () => {
   const router = useRouter();
-  // const [elapsedDays, setElapsedDays] = useState<number>(0);
   const {
     isLoading,
     gitModalOpen,
@@ -60,6 +72,8 @@ const DetailOverviewMoreDetail = () => {
     staffDetails,
   } = useProjectDetail();
 
+  const { salesRp, salesLoading } = useProjectSales();
+
   const { daysValue } = showDeadline(projectDetail?.data?.dates?.deadline!);
 
   const { value, totalDays } = calculateDeadlinePercentValue(
@@ -68,388 +82,451 @@ const DetailOverviewMoreDetail = () => {
   );
   const barValue = 100 - value;
 
+  // Calcualting total time into hours and minutes
+  const { hours, minutes } = calculateTimeLog(
+    Number(projectDetail?.data?.time?.used_time)
+  );
+
   return (
-    <div className="flex gap-6">
+    <div className="grid grid-cols-12 gap-6">
       {isLoading ? (
-        <div className="grow max-w-[49%]">
-          <div className="flex gap-4 mb-4">
-            <DataCardSkeleton className="grow" />
-            <DataCardSkeleton className="grow" />
+        <div className="col-span-12 xl:col-span-6">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <TotalSalesSkeleton />
+            <ProjectDurationSkeleton />
           </div>
-          <DataCardSkeleton className="w-full grow" />
+          <div className="grid grid-cols-1 gap-4">
+            <UnitAllocationSkeleton />
+            <TaskTimeLogsSkeleton />
+          </div>
         </div>
       ) : (
-        <div className="grow">
-          <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-12 xl:col-span-6">
+          <div className="grid h-full grid-cols-12 gap-6">
             {/* RP Used */}
-            <div className="col-span-6 card">
-              <div className="w-full">
-                <div className="flex items-center justify-start mb-4 gap-6">
-                  <p className="text-lg font-medium text-zinc-700">RP</p>
-                  <Button
-                    onClick={() => setSalesModalOpen(true)}
-                    size={"sm"}
-                    className=""
-                    variant={"white"}
-                  >
-                    Sales RP
-                  </Button>
-                </div>
-                <div className="flex items-center justify-between mt-4 gap-7">
-                  <div className="">
-                    <h3 className="text-3xl font-semibold text-zinc-800">
-                      {projectDetail?.data?.rp?.used_rp ?? 0}
-                    </h3>
-                    <p className="text-sm font-normal text-zinc-500 mb-4">
-                      Used
-                    </p>
-                    <h3 className="text-3xl font-semibold text-zinc-800">
-                      {projectDetail?.data?.rp?.sales_rp ?? 0}
-                    </h3>
-                    <p className="text-sm font-normal text-zinc-500">
-                      Estimated
-                    </p>
+            <div className="col-span-12 md:col-span-6 lg:col-span-6">
+              <Card>
+                <CardContent>
+                  <div className="flex items-center justify-start gap-6 mb-7">
+                    <p className="text-lg font-medium text-zinc-700">Budget</p>
+                    <Button
+                      onClick={() => setSalesModalOpen(true)}
+                      size={"sm"}
+                      className=""
+                      variant={"white"}
+                    >
+                      Sales Budget
+                    </Button>
                   </div>
-                  <div className=" min-w-[120px]">
-                    <UsedRp rp={projectDetail?.data?.rp!} />
+                  <div className="flex items-center justify-between mt-4 gap-7">
+                    <div className="">
+                      <h3 className="text-2xl font-semibold text-zinc-800">
+                        {projectDetail?.data?.rp?.used_rp ?? 0}
+                      </h3>
+                      <p className="mb-4 text-xs font-normal text-zinc-500">
+                        Used
+                      </p>
+                      <h3 className="text-2xl font-semibold text-zinc-800">
+                        {projectDetail?.data?.rp?.sales_rp ?? 0}
+                      </h3>
+                      <p className="text-xs font-normal text-zinc-500">
+                        Estimated
+                      </p>
+                    </div>
+                    <div className=" min-w-[120px]">
+                      <UsedRp rp={projectDetail?.data?.rp!} />
+                    </div>
                   </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             </div>
-
             {/* Project Duration */}
-            <div className="flex flex-col items-start justify-between col-span-6 card">
-              <h5 className="mb-3 text-lg font-medium text-zinc-700">
-                Project Duration
-              </h5>
-              <div className="w-full mt-auto">
-                <div className="flex justify-between items-center">
-                  <div className="">
-                    <h4 className="mb-1 text-4xl font-medium text-zinc-800">
-                      {daysValue
-                        ? daysValue < 0
-                          ? "Deadline Exceeded"
-                          : daysValue
-                        : 0}
-                    </h4>
-                    {daysValue && daysValue > 0 && (
-                      <p className="text-sm text-zinc-500">Days Remaining</p>
-                    )}
-                  </div>
-                  <div className="">
-                    <h4 className="mb-1 text-4xl font-medium text-zinc-800">
-                      {daysValue && daysValue > 0 && totalDays >= 0
-                        ? Number(totalDays) - Number(daysValue)
-                        : ""}
-                    </h4>
-                    {daysValue && daysValue > 0 && (
-                      <p className="text-sm text-zinc-500">Days Elapsed</p>
-                    )}
-                  </div>
-                </div>
+            <div className="col-span-12 md:col-span-6 lg:col-span-6">
+              <Card>
+                <CardContent className="flex flex-col items-start justify-between h-full">
+                  <h5 className="mb-3 text-lg font-medium text-zinc-700">
+                    Project Duration
+                  </h5>
+                  <div className="w-full mt-auto">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4
+                          className={`mb-1 font-medium text-zinc-800 ${
+                            daysValue && daysValue < 0 ? "text-xl" : "text-4xl"
+                          }`}
+                        >
+                          {daysValue
+                            ? daysValue < 0
+                              ? "Deadline Exceeded"
+                              : daysValue
+                            : 0}
+                        </h4>
+                        {daysValue && daysValue > 0 && (
+                          <p className="text-sm text-zinc-500">
+                            Days Remaining
+                          </p>
+                        )}
+                      </div>
+                      <div className="">
+                        <h4 className="mb-1 text-4xl font-medium text-zinc-800">
+                          {daysValue && daysValue > 0 && totalDays >= 0
+                            ? Number(totalDays) - Number(daysValue)
+                            : ""}
+                        </h4>
+                        {daysValue && daysValue > 0 && (
+                          <p className="text-sm text-zinc-500">Days Elapsed</p>
+                        )}
+                      </div>
+                    </div>
 
-                <Progress
-                  className={cn("h-2 my-2", {
-                    "[&>div]:bg-red-500": barValue >= 90,
-                    "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
-                    "[&>div]:bg-green-500": barValue < 50,
-                    "[&>div]:bg-gray-500": barValue === 0,
-                  })}
-                  value={barValue}
-                />
-                <div className="flex justify-between items-center mb-1">
-                  <p className="text-sm text-zinc-700">
-                    {moment(projectDetail?.data?.dates?.start_date).format(
-                      "Do MMM, YYYY"
-                    )}
-                  </p>
-                  <p className="text-sm text-zinc-700">
-                    {moment(projectDetail?.data?.dates?.deadline).format(
-                      "Do MMM, YYYY"
-                    )}
-                  </p>
-                </div>
-                <p className="text-sm font-normal text-zinc-500">
-                  Total Estimation: {totalDays >= 0 ? totalDays : "N/A"} Days
-                </p>
-              </div>
+                    <Progress
+                      className={cn("h-2 my-2", {
+                        "[&>div]:bg-red-500": barValue >= 90,
+                        "[&>div]:bg-orange-500":
+                          barValue > 50 && barValue <= 90,
+                        "[&>div]:bg-green-500": barValue < 50,
+                        "[&>div]:bg-gray-500": barValue === 0,
+                      })}
+                      value={barValue}
+                    />
+                    <div className="flex items-center justify-between mb-1">
+                      <p className="text-sm text-zinc-700">
+                        {moment(projectDetail?.data?.dates?.start_date).format(
+                          "Do MMM, YYYY"
+                        )}
+                      </p>
+                      <p className="text-sm text-zinc-700">
+                        {moment(projectDetail?.data?.dates?.deadline).format(
+                          "Do MMM, YYYY"
+                        )}
+                      </p>
+                    </div>
+                    <p className="text-sm font-normal text-zinc-500">
+                      Total Estimation: {totalDays >= 0 ? totalDays : "N/A"}{" "}
+                      Days
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-          </div>
 
-          {/* Unit Allocation */}
-          <div className="mt-4 card mb-4">
-            <div className="flex items-center justify-start gap-3 mb-4">
-              <h5 className="font-medium text-zinc-700">Units Allocation</h5>
-              <Button
-                variant={"white"}
-                onClick={() =>
-                  router?.push(`/projects/${router?.query?.code}/rp-estimation`)
-                }
-                size={"sm"}
-              >
-                View Estimation
-              </Button>
+            {/* Unit Allocation */}
+            <div className="col-span-12">
+              <Card>
+                <CardContent>
+                  <div className="flex items-center justify-start gap-3 mb-4">
+                    <h5 className="font-medium text-zinc-700">
+                      Units Allocation
+                    </h5>
+                    <Button
+                      variant={"white"}
+                      onClick={() =>
+                        router?.push(
+                          `/projects/${router?.query?.code}/rp-estimation`
+                        )
+                      }
+                      size={"sm"}
+                    >
+                      View Estimation
+                    </Button>
+                  </div>
+                  <div className="flex justify-between gap-5 pr-20 mt-9">
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-blue-500">
+                        <Flag size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-blue-500">
+                          {projectDetail?.data?.rp?.approved_rp}
+                        </p>
+                        <p className="text-sm text-blue-600">Planned Units</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-orange-500">
+                        <Activity size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-orange-500">
+                          {projectDetail?.data?.rp?.sales_rp ?? 0}
+                        </p>
+                        <p className="text-sm font-normal text-orange-600">
+                          Sales Units
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start justify-center gap-2">
+                      <div className="mt-2 text-red-500">
+                        <TrendingDown size={24} />
+                      </div>
+                      <div className="ml-1">
+                        <p className="text-3xl font-semibold text-red-500">
+                          {projectDetail?.data?.rp?.used_rp ?? 0}
+                        </p>
+                        <p className="text-sm text-red-600">Spent Units</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
-            <div className="flex justify-between gap-5 pr-20 mt-9">
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-blue-500">
-                  <Flag size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-blue-500">
-                    {projectDetail?.data?.rp?.approved_rp}
-                  </p>
-                  <p className="text-sm text-blue-600">Planned Units</p>
-                </div>
-              </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-orange-500">
-                  <Activity size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-orange-500">
-                    {projectDetail?.data?.rp?.sales_rp ?? 0}
-                  </p>
-                  <p className="text-sm font-normal text-orange-600">
-                    Sales Units
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-2 text-red-500">
-                  <TrendingDown size={24} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-red-500">
-                    {projectDetail?.data?.rp?.used_rp ?? 0}
-                  </p>
-                  <p className="text-sm text-red-600">Spent Units</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="flex items-center justify-start gap-3 mb-4">
-              <h5 className="font-medium text-zinc-700">Task & Time Logs</h5>
-              <Button variant={"white"} size={"sm"}>
-                More Details
-              </Button>
-            </div>
-            <div className=" grid grid-cols-4 gap-4">
-              <div
-                className={`rounded-md py-8 px-8  flex gap-2 justify-start flex-col items-start bg-zinc-100 text-zinc-700 `}
-              >
-                <h3 className="text-3xl font-medium text-zinc-500">zxc</h3>
-                <p className="text-zinc-900">Total Tasks</p>
-              </div>
-              <div
-                className={`rounded-md py-8 px-8  flex gap-2 justify-start flex-col items-start bg-blue-50 text-blue-500 `}
-              >
-                <h3 className="text-3xl font-medium">zxc</h3>
-                <p className=" text-blue-700">Total Time Log</p>
-              </div>
-              <div
-                className={`rounded-md py-8 px-8  flex gap-2 justify-start flex-col items-start bg-orange-50 text-orange-500 `}
-              >
-                <h3 className="text-3xl font-medium ">zxc</h3>
-                <p className=" text-orange-700">Task</p>
-              </div>
-              <div
-                className={`rounded-md py-8 px-8  flex gap-2 justify-start flex-col items-start bg-red-50 text-red-500`}
-              >
-                <h3 className="text-3xl font-medium text-red-500">zxc</h3>
-                <p className=" text-red-700">Bugs</p>
-              </div>
+
+            {/* Task and Time Logs */}
+            <div className="col-span-12">
+              <Card>
+                <CardContent>
+                  <div className="flex items-center justify-start gap-3 mb-8">
+                    <h5 className="font-medium text-zinc-700">
+                      Task & Time Logs
+                    </h5>
+                    <Button
+                      variant={"white"}
+                      onClick={() =>
+                        router?.push(
+                          `/projects/${router?.query?.code}/task-time-spent`
+                        )
+                      }
+                      size={"sm"}
+                    >
+                      More Details
+                    </Button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 xl:grid-cols-4 ">
+                    {/* Total */}
+                    <div
+                      className={`rounded-md p-4 bg-zinc-100 text-zinc-700 `}
+                    >
+                      <h3 className="mb-2 text-2xl font-medium text-zinc-500">
+                        {projectDetail?.data?.task?.all_task_count ?? 0}
+                      </h3>
+                      <p className="text-sm text-zinc-900">Total Tasks</p>
+                    </div>
+
+                    {/* Open */}
+                    <div className={`rounded-md p-4 bg-blue-50 text-blue-500 `}>
+                      <h3 className="mb-2 text-2xl font-medium">
+                        {projectDetail?.data?.task?.open_task_count ?? 0}
+                      </h3>
+                      <p className="text-sm text-blue-700">Open</p>
+                    </div>
+
+                    {/* Bugs */}
+                    <div
+                      className={`rounded-md p-4 bg-orange-50 text-orange-500 `}
+                    >
+                      <h3 className="mb-2 text-2xl font-medium">
+                        {projectDetail?.data?.task?.bug_count ?? 0}
+                      </h3>
+                      <p className="text-sm text-orange-700">Bugs</p>
+                    </div>
+
+                    {/* Total Time Spent */}
+                    <div
+                      className={`rounded-md p-4 flex gap-2 justify-start flex-col items-start bg-green-50 text-green-500`}
+                    >
+                      <h3 className="text-2xl font-medium text-green-500">
+                        {`${hours}H ${minutes}M`}
+                      </h3>
+                      <p className="text-sm text-green-700">Total Time Spent</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
       )}
 
       {isLoading ? (
-        <DataCardSkeleton className="grow max-w-[49%]" />
-      ) : (
-        <div className="">
-          <div className="card !p-4 grow max-w-[790px] mb-4">
-            <div className="">
-              <p className="text-lg font-medium text-zinc-700 mb-7">About</p>
-              <div className="flex items-start justify-start mb-3 gap-7">
-                <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
-                  <AlertCircle className="me-2" size={16} />
-                  About
-                </p>
-                <div className="text-zinc-700 text-sm font-medium grow text-start">
-                  {projectDetail?.data?.detail}
-                </div>
-              </div>
-              <div className="flex items-center justify-start mb-3 gap-7">
-                <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
-                  <BadgePlus className="me-2" size={16} />
-                  Prior Name
-                </p>
-                <div className="text-zinc-700 text-sm font-medium grow text-start">
-                  {projectDetail?.data?.market_title}
-                </div>
-              </div>
-            </div>
+        <div className="col-span-12 xl:col-span-6">
+          <div className="grid h-full grid-cols-1 gap-4">
+            <AboutSkeleton />
+            <ProjectDetailSkeleton />
           </div>
-          <div className="card !p-4 grow max-w-[790px]">
-            <div className="flex items-center justify-start gap-4 mb-7">
-              <p className="text-lg font-medium text-zinc-700">
-                Project Detail
-              </p>
-              <Button variant={"white"} size={"sm"}>
-                More Details
-              </Button>
-            </div>
-            <div className="flex items-stretch justify-between gap-7">
-              <div className="w-[50%]">
-                <div className="">
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <Tag className="me-2" size={16} /> Status
-                    </p>
-                    <div className="grow text-start">
-                      <Badge
-                        variant={"outline"}
-                        className={`
+        </div>
+      ) : (
+        <div className="col-span-12 xl:col-span-6">
+          <div className="grid h-full grid-cols-1 gap-6">
+            {/* About */}
+            <Card>
+              <CardContent>
+                <p className="text-lg font-medium text-zinc-700 mb-7">About</p>
+                <div className="flex items-start justify-start mb-3 gap-7">
+                  <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
+                    <AlertCircle className="me-2" size={16} />
+                    About
+                  </p>
+                  <div className="text-sm font-medium text-zinc-700 grow text-start">
+                    {projectDetail?.data?.detail}
+                  </div>
+                </div>
+                <div className="flex items-center justify-start mb-3 gap-7">
+                  <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
+                    <BadgePlus className="me-2" size={16} />
+                    Prior Name
+                  </p>
+                  <div className="text-sm font-medium text-zinc-700 grow text-start">
+                    {projectDetail?.data?.market_title}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            {/* Project Detail */}
+            <Card className="h-full">
+              <CardContent>
+                <div className="flex items-center justify-start gap-4 mb-7">
+                  <p className="text-lg font-medium text-zinc-700">
+                    Project Detail
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                  <div className="">
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Tag className="me-2" size={16} /> Status
+                      </p>
+                      <div className="grow text-start">
+                        <Badge
+                          variant={"outline"}
+                          className={`
                             ${
                               projectDetail?.data?.status === "In Progress" &&
-                              " border-blue-500 text-blue-500 "
+                              " border-blue-500 bg-blue-50 text-blue-500 "
                             }
                             ${
                               projectDetail?.data?.status ===
                                 "Client Support" &&
-                              " border-orange-500  text-orange-500"
+                              " border-orange-500 bg-orange-50 text-orange-500"
                             }
                             ${
                               projectDetail?.data?.status === "On Hold" &&
-                              " border-red-500 text-red-500 "
+                              " border-red-500 bg-red-50 text-red-500 "
                             }
                           ${
                             ["Closed", "Delivered"].includes(
                               projectDetail?.data?.status!
-                            ) && " border-green-500 text-green-500 "
+                            ) && " border-green-500 bg-green-50 text-green-500 "
                           }
                           ${
                             projectDetail?.data?.status === "Not Started" &&
-                            " border-zinc-500 text-zinc-500"
+                            " border-zinc-500 bg-zinc-50 text-zinc-500"
                           }
                           capitalize border rounded-md`}
-                      >
-                        {projectDetail?.data?.status}
-                      </Badge>
+                        >
+                          {projectDetail?.data?.status}
+                        </Badge>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-start justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <CalendarRange className="me-2" size={16} /> Period
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {`${moment(projectDetail?.data?.dates.start_date).format(
-                        "MMM Do, YYYY"
-                      )} - ${moment(projectDetail?.data?.dates.deadline).format(
-                        "MMM Do, YYYY"
-                      )}`}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <Zap className="me-2" size={16} /> Type
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {projectDetail?.data?.type}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <Globe className="me-2" size={16} />
-                      Market
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {projectDetail?.data?.market_title}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <Star className="me-2" size={16} />
-                      Source
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {projectDetail?.data?.source}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <Laptop className="me-2" size={16} /> Tech Stack
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {projectDetail?.data?.tech_stack}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
-                      <BadgeAlert size={16} className="me-2" />
-                      Sales RP
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      {projectDetail?.data?.rp?.sales_rp ?? 0}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="w-[50%]">
-                <div className="">
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                      <UserCircle2 className="me-2" size={16} />
-                      Project Lead
-                    </p>
-                    <div className="text-sm font-medium grow text-start">
-                      <p
-                        className="underline cursor-pointer"
-                        onClick={() => setOpenLeadSheet(true)}
-                      >
-                        {projectDetail?.data?.project_lead?.fullname}
+                    <div className="flex items-start justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <CalendarRange className="me-2" size={16} /> Period
                       </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {`${moment(
+                          projectDetail?.data?.dates.start_date
+                        ).format("MMM Do, YYYY")} - ${moment(
+                          projectDetail?.data?.dates.deadline
+                        ).format("MMM Do, YYYY")}`}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Zap className="me-2" size={16} /> Type
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.type}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Globe className="me-2" size={16} />
+                        Market
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.market_title}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Star className="me-2" size={16} />
+                        Source
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.source}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <Laptop className="me-2" size={16} /> Tech Stack
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.tech_stack}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
+                        <BadgeAlert size={16} className="me-2" />
+                        Sales RP
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        {projectDetail?.data?.rp?.sales_rp ?? 0}
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                      <Users size={16} className="me-2" /> Members & Role
-                    </p>
-                    <div className="grow text-start ">
-                      <Button
-                        onClick={() => setMemberModalOpen(true)}
-                        variant={"outline_secondary"}
-                        size={"sm"}
-                      >
-                        View Members
-                      </Button>
+                  <div className="">
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <UserCircle2 className="me-2" size={16} />
+                        Project Lead
+                      </p>
+                      <div className="text-sm font-medium grow text-start">
+                        <p
+                          className="underline cursor-pointer"
+                          onClick={() => setOpenLeadSheet(true)}
+                        >
+                          {projectDetail?.data?.project_lead?.fullname}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between mb-6 gap-7">
-                    <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
-                      <Links size={16} className="me-2" /> Repo Link
-                    </p>
-                    <div className="grow text-start">
-                      <Button
-                        variant={"outline"}
-                        size={"sm"}
-                        onClick={() => setGitModalOpen(true)}
-                        disabled={projectDetail?.data?.git_urls?.length === 0}
-                        className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
-                      >
-                        git
-                      </Button>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <Users size={16} className="me-2" /> Members & Role
+                      </p>
+                      <div className="grow text-start ">
+                        <Button
+                          onClick={() => setMemberModalOpen(true)}
+                          variant={"outline_secondary"}
+                          size={"sm"}
+                        >
+                          View Members
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between mb-6 gap-7">
+                      <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
+                        <Links size={16} className="me-2" /> Repo Link
+                      </p>
+                      <div className="grow text-start">
+                        <Button
+                          variant={"outline"}
+                          size={"sm"}
+                          onClick={() => setGitModalOpen(true)}
+                          disabled={projectDetail?.data?.git_urls?.length === 0}
+                          className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+                        >
+                          git
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </div>
         </div>
       )}
 
+      {/* Git Modal */}
       <Dialog open={gitModalOpen} onOpenChange={setGitModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
@@ -477,6 +554,7 @@ const DetailOverviewMoreDetail = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Member Modal */}
       <Dialog open={memberModalOpen} onOpenChange={setMemberModalOpen}>
         <DialogContent className="p-6 max-w-[550px]">
           <DialogHeader className="text-lg font-bold text-color">
@@ -505,12 +583,18 @@ const DetailOverviewMoreDetail = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Sales Modal */}
       <Dialog open={salesModalOpen} onOpenChange={setSalesModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
             Sales RP
           </DialogHeader>
-          <DataTable border={true} data={[]} columns={salesColumn} />
+          <DataTable
+            border={true}
+            data={salesRp?.data}
+            loading={salesLoading}
+            columns={salesColumn}
+          />
         </DialogContent>
       </Dialog>
 

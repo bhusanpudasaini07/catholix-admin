@@ -3,6 +3,7 @@ import {
   IPropsTeamLeadData,
 } from "@/interface/team-lead-report-interface";
 import {
+  getAllStaffId,
   getLeadsList,
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
@@ -101,7 +102,7 @@ const useLeadReport = () => {
   const { data: teamLeadStaffs, isLoading: teamLeadStaffsLoading } =
     useQuery<any>(["getTeamLeadStaffs", current_id], async () => {
       if (current_id === "all" || current_id === undefined) {
-        const response = getLeadsList(`2`); // there is no ALL Team Lead API (will change after that api gets implemented)
+        const response = getLeadsList("2"); // there is no ALL Team Lead API (will change after that api gets implemented)
 
         return response;
       } else {
@@ -110,10 +111,22 @@ const useLeadReport = () => {
       }
     });
 
-  // array of staff ID
-  const staffIdArray = teamLeadStaffs?.data[0]?.staffs?.map(
-    (item: any) => item?.id
+  // allStaffId ID based on all the team lead
+  const { data: allStaffId, isLoading: allStaffIdLoading } = useQuery<any>(
+    ["getAllStaffId", current_id],
+    async () => {
+      const response = await getAllStaffId();
+      return response;
+    }
   );
+
+  // getAllStaffId
+
+  // array of staff ID
+  const staffIdArray =
+    current_id === "all" || current_id === undefined
+      ? allStaffId?.data?.map((item: any) => item?.id)
+      : teamLeadStaffs?.data[0]?.staffs?.map((item: any) => item?.id);
 
   const staffIdJson = JSON.stringify(staffIdArray); // Stringified Staff Array
 
@@ -348,6 +361,7 @@ const useLeadReport = () => {
     setTotalHighRiskProjects,
     setSelected,
     selected,
+    dateRange,
     dateRangeOpen,
     setDateRangeOpen,
     activeLeads,

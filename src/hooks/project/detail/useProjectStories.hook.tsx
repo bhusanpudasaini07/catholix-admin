@@ -167,13 +167,13 @@ const useProjectStories = () => {
         </div>
       ),
     },
-    // Tasj
+    // Task
     {
       id: "title",
       accessorKey: "title",
       header: "Task",
       cell: ({ row }) => (
-        <div className="max-w-[300px] min-w-0">
+        <div className="max-w-[400px] min-w-0">
           <Link
             href={row?.original?.url}
             target="_blank"

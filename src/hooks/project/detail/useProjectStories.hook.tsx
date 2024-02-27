@@ -151,7 +151,7 @@ const useProjectStories = () => {
   ];
 
   const taskColumns: ColumnDef<any>[] = [
-    // Stories
+    // Date
     {
       id: "date",
       accessorKey: "date",
@@ -167,6 +167,7 @@ const useProjectStories = () => {
         </div>
       ),
     },
+    // Tasj
     {
       id: "title",
       accessorKey: "title",
@@ -183,7 +184,7 @@ const useProjectStories = () => {
         </div>
       ),
     },
-
+    // Status
     {
       id: "status",
       accessorKey: "status",
@@ -203,25 +204,35 @@ const useProjectStories = () => {
         </div>
       ),
     },
+    //Estimated Time
     {
       id: "estimated_time",
       accessorKey: "estimated_time",
       header: "Estimated Time",
-      cell: ({ row }) => (
-        <div className="max-w-[300px] min-w-0">
-          {row.getValue("estimated_time")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(
+          row.getValue("estimated_time")
+        );
+        return (
+          <div className="max-w-[300px] min-w-0">
+            {hours}H {minutes}M
+          </div>
+        );
+      },
     },
+    // Spent Time
     {
-      id: "time_spent",
-      accessorKey: "time_spent",
+      id: "spent_time",
+      accessorKey: "spent_time",
       header: "Time Spent",
-      cell: ({ row }) => (
-        <div className="max-w-[300px] min-w-0">
-          {row.getValue("time_spent")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(row.getValue("spent_time"));
+        return (
+          <div className="max-w-[300px] min-w-0">
+            {hours}H {minutes}M
+          </div>
+        );
+      },
     },
   ];
   // inner page column

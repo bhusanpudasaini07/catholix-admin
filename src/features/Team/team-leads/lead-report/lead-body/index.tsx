@@ -242,6 +242,7 @@ const LeadReportBody = ({ dateRange }: any) => {
         />
       </div>
       <MemberWiseLogTable
+        dateRange={dateRange}
         staffRpSummaryData={leadReportData}
         staffDataLoading={staffDataLoading}
       />

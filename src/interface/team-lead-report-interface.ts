@@ -87,6 +87,7 @@ export interface IStaffRpSummary {
 }
 
 export interface IRpStaffSummaryProps {
+  dateRange?: any;
   staffRpSummaryData: any;
   staffDataLoading: boolean;
 }

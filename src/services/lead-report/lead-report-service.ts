@@ -12,6 +12,17 @@ export const getStaffRpSummary = (
   );
 };
 
+export const getStaffDailyTimelog = (
+  start_date: string,
+  end_date: string,
+  id: any
+) => {
+  return httpRequest(
+    `/staff-daily-time-logs?staff_id=${id}&start_date=${start_date}&end_date=${end_date}`,
+    httpMethods.GET
+  );
+};
+
 export const getLeadsList = (id?: any) => {
   if (id) {
     return httpRequest(
@@ -21,4 +32,8 @@ export const getLeadsList = (id?: any) => {
   } else {
     return httpRequest(`/all-team-leads?status=active`, httpMethods.GET);
   }
+};
+
+export const getAllStaffId = () => {
+  return httpRequest(`/all-staffs?status=active`, httpMethods.GET);
 };

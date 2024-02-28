@@ -3,6 +3,7 @@ import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
 
 import { cn } from "@/shared/utils/utils";
+import Image from "next/image";
 
 type CheckboxProps = React.ComponentPropsWithoutRef<
   typeof CheckboxPrimitive.Root
@@ -24,7 +25,15 @@ const CountryButtonCheckbox = React.forwardRef<
       )}
       {...props}
     >
-      {flagImageUrl && <img src={flagImageUrl} alt="Flag" />}{" "}
+      {flagImageUrl && (
+        <Image
+          src={flagImageUrl}
+          height={16}
+          width={16}
+          style={{ objectFit: "contain" }}
+          alt="Flag"
+        />
+      )}{" "}
       <span>{label}</span>
       {/* Render flag image if provided */}
     </CheckboxPrimitive.Root>

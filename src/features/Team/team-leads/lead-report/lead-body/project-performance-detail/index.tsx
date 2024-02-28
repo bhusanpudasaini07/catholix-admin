@@ -1,19 +1,20 @@
-import React, { FC, useEffect, useState } from "react";
-import Link from "next/link";
 import {
   IProject,
   IRpStaffSummaryProps,
 } from "@/interface/team-lead-report-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import FilterSearch from "@/shared/components/filter-search";
+import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { FC, useEffect, useState } from "react";
 
-const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
+const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
   staffRpSummaryData,
 }) => {
@@ -80,6 +81,43 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
     {
+      id: "status",
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="w-[70px]">
+          <Badge
+            variant={"outline"}
+            className={`whitespace-nowrap 
+          ${
+            row.getValue("status") === "In Progress" &&
+            " border-blue-500 text-blue-500 bg-blue-50 "
+          }
+          ${
+            row.getValue("status") === "Client Support" &&
+            " border-orange-500 text-orange-500 bg-orange-50"
+          }
+          ${
+            row.getValue("status") === "On Hold" &&
+            " border-red-500 text-red-500 bg-red-50"
+          }
+        ${
+          ["Closed", "Delivered"].includes(row.getValue("status")) &&
+          " border-green-500 text-green-500 bg-green-50"
+        }
+        ${
+          row.getValue("status") === "Not Started" &&
+          " border-zinc-500 text-zinc-500 bg-zinc-50"
+        }
+         capitalize border rounded-md`}
+          >
+            {row.getValue("status")}
+          </Badge>
+        </div>
+      ),
+      enableHiding: false,
+    },
+    {
       id: "market",
       accessorKey: "market",
       header: "Country",
@@ -93,7 +131,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "total_rp",
       accessorKey: "total_rp",
-      header: "RP Consumption",
+      header: "RP",
       cell: ({ row }) => (
         <div className="text-zinc-700 text-sm font-semibold">
           {row?.getValue("total_rp")}
@@ -114,8 +152,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
     },
   ];
 
-  useEffect(() => {
-    // Filtering projects based on the selected countries if filterStates.markets is not empty
+  function filterProjects() {
     if (filterStates?.markets && filterStates?.markets?.length > 0) {
       const filteredProjects = staffRpSummaryData?.data?.projects?.filter(
         (project: IProject) =>
@@ -128,7 +165,6 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       );
       setFilteredProjects(filteredAndSearchedProjects || []);
     } else {
-      // If filterStates?.markets is empty, display all projects
       const filteredAndSearchedProjects =
         staffRpSummaryData?.data?.projects?.filter(
           (project: IProject) =>
@@ -137,6 +173,9 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
         );
       setFilteredProjects(filteredAndSearchedProjects || []);
     }
+  }
+  useEffect(() => {
+    filterProjects();
   }, [staffRpSummaryData, filterStates, searchText]);
   return (
     <Card>
@@ -144,7 +183,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
         <div className="flex items-center justify-between gap-3 mb-6 ">
           <div className="flex flex-wrap items-center gap-2">
             <h5 className="font-medium text-zinc-700">
-              Project RP Consumption
+              Project Details and Performance
             </h5>
             <Button
               variant={"white"}
@@ -182,6 +221,12 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
           headerSticky
           border={true}
           columns={columns}
+          total={[
+            {
+              columnId: "total_rp",
+              format: (value) => `${value.toFixed(2)}`,
+            },
+          ]}
           data={filteredProjects || []}
         />
       </CardContent>
@@ -189,4 +234,4 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   );
 };
 
-export default ProjectRpConsumptionTable;
+export default ProjectPerformanceDetail;

@@ -281,12 +281,30 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
       const rowData: any = {};
       rowData["S.N"] = index + 1;
-      columnKeys?.forEach((key: string) => {
-        rowData[key] = item[key] || "N/A";
-      });
+      rowData["ID"] = item?.id;
+      rowData["Name"] = item?.name;
+      rowData["Role"] = item?.role;
+      rowData["Spent RP"] = item?.spent_rp;
+      rowData["Spent RP (Client)"] = item?.spent_client_rp;
+      rowData["Loss RP"] = item?.loss_rp;
+      rowData["% RP"] = item?.rp_percentage;
+      rowData["% RP Client"] = item?.client_rp_percentage;
+      rowData["Total Time"] = item?.total_time;
+      rowData["Spent Time"] = item?.spent_time;
+      rowData["% Time"] = item?.time_percentage;
+      rowData["% Time(Client)"] = item?.client_time_percentage;
+      // columnKeys?.forEach((key: string) => {
+      //   rowData[key] = item[key] || "N/A";
+      // });
       return rowData;
     });
-    DownloadExcel(mappedData, `Report`);
+    DownloadExcel(
+      mappedData,
+      `member_log_from${moment(dateRange?.from).format(
+        "YYYY-MM-DD"
+      )}_to_${moment(dateRange?.to).format("YYYY-MM-DD")}
+      `
+    );
   };
 
   return (

@@ -26,7 +26,6 @@ import DateRangeFilter from "@/shared/components/date-range-filter";
 import { MultiSelect } from "@/shared/components/multi-select";
 import useProjectListing from "@/hooks/project/useProjectListing.hook";
 import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
-import CustomDateRangeFilter from "@/shared/components/custom-date-range";
 
 interface IProps {
   filterSheetOpen: boolean;

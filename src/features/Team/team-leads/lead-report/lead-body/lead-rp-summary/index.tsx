@@ -31,7 +31,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             View Trendline
           </Button>
         </div>
-        <div className="flex justify-between gap-5 pr-20 mt-9">
+        <div className="flex justify-between gap-5 pr-20 mt-9 flex-wrap">
           <div className="flex items-start justify-center gap-2">
             <div className="mt-2 text-blue-500">
               <Flag size={24} />

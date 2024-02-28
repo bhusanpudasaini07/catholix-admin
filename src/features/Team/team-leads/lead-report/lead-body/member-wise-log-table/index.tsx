@@ -22,14 +22,15 @@ import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
 import moment from "moment";
 import Link from "next/link";
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import { DownloadExcel } from "@/shared/utils/download/download.utils";
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
   staffRpSummaryData,
   staffDataLoading,
 }) => {
-  // const { dateRange } = useLeadReport();
-
+  const [role, setRole] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState("");
   const [staffId, setStaffId] = useState<string>("2");
@@ -39,40 +40,55 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     return `${hours}H ${minutes}M`;
   };
 
+  const { data: filterDate, isLoading: filterLoading } = useQuery<any>(
+    "getConfig",
+    async () => {
+      const response = getConfig();
+      return response;
+    }
+  );
+
   const StaffLogData = useMemo(
     () =>
-      staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => ({
-        sn: index + 1,
-        id: staff?.id,
-        name: staff?.fullname,
-        role: staff?.role_name,
-        spent_rp: staff.used_rp,
-        spent_client_rp: parseFloat(staff.commercial_rp).toFixed(2),
-        loss_rp: parseFloat(staff.loss_rp).toFixed(2),
-        rp_percentage: (
-          (parseFloat(staff.loss_rp) / parseFloat(staff.used_rp)) *
-          100
-        ).toFixed(2),
-        client_rp_percentage: (
-          (parseFloat(staff.commercial_rp) / parseFloat(staff.used_rp)) *
-          100
-        ).toFixed(2),
-        total_time: convertSecondsToHoursAndMinutes(
-          parseFloat(staff.available_time)
-        ),
-        spent_time: convertSecondsToHoursAndMinutes(
-          parseFloat(staff.used_time)
-        ),
-        time_percentage: (
-          (parseFloat(staff.used_time) / parseFloat(staff.available_time)) *
-          100
-        ).toFixed(2),
-        client_time_percentage: (
-          (parseFloat(staff.commercial_time) /
-            parseFloat(staff.available_time)) *
-          100
-        ).toFixed(2),
-      })),
+      staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => {
+        const usedRp = parseFloat(staff?.used_rp || "0");
+        const commercialRp = parseFloat(staff?.commercial_rp || "0");
+        const lossRp = parseFloat(staff?.loss_rp || "0");
+        const availableTime = parseFloat(staff?.available_time || "0");
+        const usedTime = parseFloat(staff?.used_time || "0");
+
+        const rpPercentage =
+          usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
+        const clientRpPercentage =
+          usedRp !== 0 ? ((commercialRp / usedRp) * 100).toFixed(2) : "0.00";
+        const timePercentage =
+          availableTime !== 0
+            ? ((usedTime / availableTime) * 100).toFixed(2)
+            : "0.00";
+        const clientTimePercentage =
+          availableTime !== 0
+            ? (
+                (parseFloat(staff?.commercial_time) / availableTime) *
+                100
+              ).toFixed(2)
+            : "0.00";
+
+        return {
+          sn: index + 1,
+          id: staff?.id,
+          name: staff?.fullname,
+          role: staff?.role_name,
+          spent_rp: staff?.used_rp,
+          spent_client_rp: commercialRp?.toFixed(2),
+          loss_rp: lossRp?.toFixed(2),
+          rp_percentage: rpPercentage,
+          client_rp_percentage: clientRpPercentage,
+          total_time: convertSecondsToHoursAndMinutes(availableTime),
+          spent_time: convertSecondsToHoursAndMinutes(usedTime),
+          time_percentage: timePercentage,
+          client_time_percentage: clientTimePercentage,
+        };
+      }),
     [staffRpSummaryData]
   );
 
@@ -97,11 +113,27 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   };
 
   const filteredStaffLogData = useMemo(() => {
-    if (!searchText) return StaffLogData;
-    return StaffLogData.filter((staff: any) =>
-      staff.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-  }, [StaffLogData, searchText]);
+    // If no search text and role selected, return all data
+    if (!searchText && !role) return StaffLogData;
+
+    let filteredData = StaffLogData;
+
+    // Filter by name if searchText is provided
+    if (searchText) {
+      filteredData = filteredData?.filter((staff: any) =>
+        staff?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
+      );
+    }
+
+    // Filter by role if role is selected
+    if (role) {
+      filteredData = filteredData?.filter((staff: any) =>
+        staff?.role?.toLowerCase()?.includes(role?.toLowerCase())
+      );
+    }
+
+    return filteredData;
+  }, [StaffLogData, searchText, role]);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -241,6 +273,37 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     },
   ];
 
+  const handleDownloadSubFeature = () => {
+    const columnKeys =
+      filteredStaffLogData?.length > 0
+        ? Object?.keys(filteredStaffLogData[0])
+        : [];
+    const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
+      const rowData: any = {};
+      rowData["S.N"] = index + 1;
+      rowData["ID"] = item?.id;
+      rowData["Name"] = item?.name;
+      rowData["Role"] = item?.role;
+      rowData["Spent RP"] = item?.spent_rp;
+      rowData["Spent RP (Client)"] = item?.spent_client_rp;
+      rowData["Loss RP"] = item?.loss_rp;
+      rowData["% RP"] = item?.rp_percentage;
+      rowData["% RP Client"] = item?.client_rp_percentage;
+      rowData["Total Time"] = item?.total_time;
+      rowData["Spent Time"] = item?.spent_time;
+      rowData["% Time"] = item?.time_percentage;
+      rowData["% Time(Client)"] = item?.client_time_percentage;
+      return rowData;
+    });
+    DownloadExcel(
+      mappedData,
+      `member_log_from${moment(dateRange?.from).format(
+        "YYYY-MM-DD"
+      )}_to_${moment(dateRange?.to).format("YYYY-MM-DD")}
+      `
+    );
+  };
+
   return (
     <Card>
       <CardContent>
@@ -252,16 +315,24 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
             </Button> */}
           </div>
           <div className="flex items-center justify-end gap-2">
-            <FilterSearch setSearchText={setSearchText} />
-            <Select>
-              <SelectTrigger className="w-[160px]">
+            <FilterSearch className="!py-2" setSearchText={setSearchText} />
+            <Select onValueChange={(value) => setRole(value)}>
+              <SelectTrigger className="min-w-[260px]">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pm">PM</SelectItem>
+              <SelectContent className="max-h-[300px] overflow-auto">
+                {filterDate?.data?.roles?.map((roles: any) => (
+                  <SelectItem key={roles?.index} value={roles?.title}>
+                    {roles?.title}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
-            <Button size={"sm"} variant={"success"}>
+            <Button
+              size={"sm"}
+              onClick={handleDownloadSubFeature}
+              variant={"success"}
+            >
               <DownloadCloud size={16} />
             </Button>
           </div>

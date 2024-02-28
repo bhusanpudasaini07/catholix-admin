@@ -24,7 +24,7 @@ const OtherInfo: FC<IProps> = ({ in_house, client, staff }) => {
           <h5 className="font-medium text-zinc-700">Other Information</h5>
         </div>
 
-        <div className="flex justify-between gap-5 pr-20 mt-9">
+        <div className="flex flex-wrap justify-between gap-5 pr-20 mt-9">
           <div className="flex items-start justify-center gap-2">
             <div className="mt-2 text-zinc-700">
               <Warehouse size={24} />

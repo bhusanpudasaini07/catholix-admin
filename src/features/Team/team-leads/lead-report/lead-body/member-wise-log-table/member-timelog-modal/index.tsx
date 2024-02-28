@@ -10,14 +10,14 @@ interface IProps {
   staffDailyLog: any;
   staffDailyLogLoading: boolean;
 }
-
+const calculateHoursAndMinutes = (data: any) => {
+  const { hours, minutes } = calculateTimeLog(Number(data));
+  return `${hours}H ${minutes}M`;
+};
 const MemberTimeLogModal: FC<IProps> = ({
   staffDailyLog,
   staffDailyLogLoading,
 }) => {
-  const { hours, minutes } = calculateTimeLog(
-    Number(staffDailyLog?.data?.used_time)
-  );
   const columns: ColumnDef<any>[] = [
     {
       id: "time",
@@ -70,58 +70,61 @@ const MemberTimeLogModal: FC<IProps> = ({
 
   return (
     <div className="flex flex-col max-h-[700px] overflow-auto">
-      <div className="mb-4">
-        <Card className="h-[200px] mb-2">
-          <CardContent>
-            <div className="flex items-center justify-start gap-3 mb-4">
-              <h5 className="font-medium text-zinc-700">
-                {staffDailyLog?.data?.date}
-              </h5>
-            </div>
-            <div className="flex justify-between gap-5 pr-20 mt-9">
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-0 text-blue-500">
-                  <Hourglass size={36} />
+      {staffDailyLog?.data?.map((daily: any) => (
+        <div className="mb-4" key="">
+          <Card className="h-[200px] mb-2">
+            <CardContent>
+              <div className="flex items-center justify-start gap-3 mb-4">
+                <h5 className="font-medium text-zinc-700">{daily?.date}</h5>
+              </div>
+              <div className="flex justify-between gap-5 pr-20 mt-9">
+                <div className="flex items-start justify-center gap-2">
+                  <div className="mt-0 text-blue-500">
+                    <Hourglass size={36} />
+                  </div>
+                  <div className="ml-1">
+                    <p className="text-3xl font-semibold text-blue-500">
+                      {/* {hours}H {minutes}M */}
+                      {calculateHoursAndMinutes(daily?.used_time)}
+                    </p>
+                    <p className="text-sm text-blue-600">Total Time Logged</p>
+                  </div>
                 </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-blue-500">
-                    {hours}H {minutes}M
-                  </p>
-                  <p className="text-sm text-blue-600">Total Time Logged</p>
+                <div className="flex items-start justify-center gap-2">
+                  <div className="mt-0 text-green-500">
+                    <Activity size={36} />
+                  </div>
+                  <div className="ml-1">
+                    <p className="text-3xl font-semibold text-green-500">
+                      {daily?.used_rp}
+                    </p>
+                    <p className="text-sm font-normal text-green-600">
+                      spent RP
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start justify-center gap-2">
+                  <div className="mt-0 text-red-500">
+                    <TrendingDown size={36} />
+                  </div>
+                  <div className="ml-1">
+                    <p className="text-3xl font-semibold text-red-500">
+                      {daily?.loss_rp}
+                    </p>
+                    <p className="text-sm text-red-600">Loss RP</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-0 text-green-500">
-                  <Activity size={36} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-green-500">
-                    {staffDailyLog?.data?.used_rp}
-                  </p>
-                  <p className="text-sm font-normal text-green-600">spent RP</p>
-                </div>
-              </div>
-              <div className="flex items-start justify-center gap-2">
-                <div className="mt-0 text-red-500">
-                  <TrendingDown size={36} />
-                </div>
-                <div className="ml-1">
-                  <p className="text-3xl font-semibold text-red-500">
-                    {staffDailyLog?.data?.loss_rp}
-                  </p>
-                  <p className="text-sm text-red-600">Loss RP</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <DataTable
-          loading={staffDailyLogLoading}
-          border
-          columns={columns}
-          data={staffDailyLog?.data?.task || []}
-        />
-      </div>
+            </CardContent>
+          </Card>
+          <DataTable
+            loading={staffDailyLogLoading}
+            border
+            columns={columns}
+            data={daily?.task || []}
+          />
+        </div>
+      ))}
     </div>
   );
 };

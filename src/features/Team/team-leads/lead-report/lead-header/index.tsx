@@ -36,7 +36,9 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
         <h3 className="mb-1.5 text-2xl font-medium text-zinc-700 whitespace-nowrap">
           Lead Report -&nbsp;{current_page}
         </h3>
-        <p className="text-base text-zinc-500">Report of all the members</p>
+        <p className="text-base text-zinc-500 whitespace-nowrap">
+          Report of all the members
+        </p>
       </div>
       <div className="flex justify-end items-center flex-wrap gap-2">
         <Select
@@ -76,6 +78,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
               setDateRangeOpen={setDateRangeOpen}
               setDateRange={setDateRange}
               dateRange={dateRange}
+              buttonClassName="min-w-[240px]"
             />
           </TabsContent>
           <TabsContent className="!m-0" value="daily">
@@ -85,6 +88,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
               setDateRangeOpen={setDateRangeOpen}
               setDateRange={setDateRange}
               dateRange={dateRange}
+              buttonClassName="min-w-[240px]"
             />
           </TabsContent>
           <TabsContent className="!m-0" value="weekly">
@@ -108,6 +112,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
               setDateRangeOpen={setDateRangeOpen}
               setDateRange={setDateRange}
               dateRange={dateRange}
+              buttonClassName="min-w-[240px]"
             />
           </TabsContent>
         </Tabs>

@@ -152,8 +152,7 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
     },
   ];
 
-  useEffect(() => {
-    // Filtering projects based on the selected countries if filterStates.markets is not empty
+  function filterProjects() {
     if (filterStates?.markets && filterStates?.markets?.length > 0) {
       const filteredProjects = staffRpSummaryData?.data?.projects?.filter(
         (project: IProject) =>
@@ -166,7 +165,6 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       );
       setFilteredProjects(filteredAndSearchedProjects || []);
     } else {
-      // If filterStates?.markets is empty, display all projects
       const filteredAndSearchedProjects =
         staffRpSummaryData?.data?.projects?.filter(
           (project: IProject) =>
@@ -175,6 +173,9 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
         );
       setFilteredProjects(filteredAndSearchedProjects || []);
     }
+  }
+  useEffect(() => {
+    filterProjects();
   }, [staffRpSummaryData, filterStates, searchText]);
   return (
     <Card>

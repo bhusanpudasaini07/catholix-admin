@@ -42,7 +42,8 @@ const useTimeLog = () => {
           2000000, //perpage
           "log_by,time,date", //fields
           date_from, //date_from,
-          date_to //date_to
+          date_to, //date_to,
+          "ASC"
         );
         return response;
       }

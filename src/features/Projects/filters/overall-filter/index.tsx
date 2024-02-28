@@ -3,15 +3,16 @@ import { Button } from "@/shared/components/ui/button";
 
 import { Filter } from "lucide-react";
 import FilterSheet from "./filter-sheet";
-import useProjectListing from "@/hooks/project/useProjectListing.hook";
+
+import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
 
 const OverallFilter = () => {
-  const { filterSheetOpen, setFilterSheetOpen } = useProjectListing();
+  const { filterSheetOpen, setFilterSheetOpen } = useProjectFilter();
   return (
     <>
       <Button
         onClick={() => setFilterSheetOpen(true)}
-        variant={"table"}
+        variant={"white"}
         size={"sm"}
         className="gap-2"
       >

@@ -48,6 +48,8 @@ export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
     type: "",
     risk_status: "",
     market: "",
+    date: "",
+    date_type: "",
   },
   setFilterSaved: (data: any) => {
     set(() => ({ filterSaved: data }));

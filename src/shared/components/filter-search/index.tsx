@@ -4,11 +4,14 @@ import { SearchIcon } from "lucide-react";
 
 interface IProps {
   setSearchText: (arg: string) => void;
+  className?: string;
 }
 
-const FilterSearch = ({ setSearchText }: IProps) => {
+const FilterSearch = ({ setSearchText, className }: IProps) => {
   return (
-    <div className="flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] mw1024:max-w-[300px] border rounded-md shadow-sm border-zinc-200 text-zinc-700 bg-light-white">
+    <div
+      className={`flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] mw1024:max-w-[300px] border rounded-md shadow-sm border-zinc-200 text-zinc-700 bg-light-white ${className}`}
+    >
       <SearchIcon
         width={20}
         height={20}

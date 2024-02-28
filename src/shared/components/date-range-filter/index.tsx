@@ -13,6 +13,7 @@ interface IProps {
   dateRangeOpen: boolean;
   setDateRangeOpen: (arg: boolean) => void;
   placeholder?: string;
+  buttonClassName?: string;
   disabled?: boolean;
 }
 
@@ -23,6 +24,7 @@ const DateRangeFilter = ({
   dateRangeOpen,
   setDateRangeOpen,
   placeholder,
+  buttonClassName,
   disabled,
 }: IProps) => {
   return (
@@ -34,7 +36,8 @@ const DateRangeFilter = ({
           size={"md"}
           className={cn(
             "w-full justify-between pl-3 text-left font-normal",
-            !dateRange && "text-muted-foreground"
+            !dateRange && "text-muted-foreground",
+            buttonClassName
           )}
         >
           {dateRange?.from ? (

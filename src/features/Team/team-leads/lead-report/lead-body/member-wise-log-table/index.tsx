@@ -1,4 +1,3 @@
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import {
   IRpStaffSummaryProps,
   IStaff,
@@ -18,14 +17,22 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DownloadCloud } from "lucide-react";
 import { FC, useMemo, useState } from "react";
 import { useQuery } from "react-query";
+import MemberTimeLogModal from "./member-timelog-modal";
+import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
+import moment from "moment";
+import Link from "next/link";
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
+  dateRange,
   staffRpSummaryData,
   staffDataLoading,
 }) => {
-  // const { staffRpSummaryData, staffDataLoading } = useLeadReport();
+  // const { dateRange } = useLeadReport();
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState("");
+  const [staffId, setStaffId] = useState<string>("2");
   const convertSecondsToHoursAndMinutes = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -36,6 +43,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     () =>
       staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => ({
         sn: index + 1,
+        id: staff?.id,
         name: staff?.fullname,
         role: staff?.role_name,
         spent_rp: staff.used_rp,
@@ -68,19 +76,40 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     [staffRpSummaryData]
   );
 
+  const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
+    useQuery<any>(
+      ["getStaffDailyLog", dateRange?.to, dateRange?.from, staffId, modalOpen],
+      async () => {
+        if (staffId) {
+          const response = await getStaffDailyTimelog(
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            staffId
+          );
+          return response;
+        }
+      }
+    );
+
+  const ModelHandler = (id: string) => {
+    setStaffId(id);
+    setModalOpen(true);
+  };
+
   const filteredStaffLogData = useMemo(() => {
     if (!searchText) return StaffLogData;
     return StaffLogData.filter((staff: any) =>
       staff.name.toLowerCase().includes(searchText.toLowerCase())
     );
   }, [StaffLogData, searchText]);
+
   const columns: ColumnDef<any>[] = [
     {
       id: "sn",
       accessorKey: "sn",
       header: "S. No.",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-medium w-[40px] ps-3">
+        <div className="text-zinc-700 text-sm font-medium w-[40px] ps-3">
           {row.getValue("sn")}
         </div>
       ),
@@ -91,9 +120,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => (
-        <div className="text-blue-500 text-base font-semibold">
+        <Link href={""} className="text-blue-500 text-sm font-semibold">
           {row.getValue("name")}
-        </div>
+        </Link>
       ),
       enableHiding: false,
     },
@@ -102,7 +131,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <div className="text-zinc-500 text-base font-semibold">
+        <div className="text-zinc-500 text-sm font-semibold">
           {row.getValue("role")}
         </div>
       ),
@@ -113,7 +142,10 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "spent_rp",
       header: "Spent RP",
       cell: ({ row }) => (
-        <div className="text-blue-500 text-base font-semibold">
+        <div
+          onClick={() => ModelHandler(row?.original?.id)}
+          className="text-blue-500 text-sm font-semibold cursor-pointer"
+        >
           {row.getValue("spent_rp")}
         </div>
       ),
@@ -124,7 +156,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "spent_client_rp",
       header: "Spent RP (Client)",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("spent_client_rp")}
         </div>
       ),
@@ -135,7 +167,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "loss_rp",
       header: "Loss RP",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("loss_rp")}
         </div>
       ),
@@ -146,7 +178,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "rp_percentage",
       header: "% RP",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("rp_percentage")}%
         </div>
       ),
@@ -157,7 +189,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "client_rp_percentage",
       header: "% RP Client",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("client_rp_percentage")}%
         </div>
       ),
@@ -168,7 +200,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "total_time",
       header: "Total Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("total_time")}
         </div>
       ),
@@ -179,7 +211,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "spent_time",
       header: "Spent Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("spent_time")}
         </div>
       ),
@@ -190,7 +222,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "time_percentage",
       header: "% Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {row.getValue("time_percentage")}%
         </div>
       ),
@@ -201,7 +233,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "client_time_percentage",
       header: "% Time (Client)",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-zinc-700 text-sm font-semibold">
           {parseInt(row.getValue("client_time_percentage")).toFixed(2)}%
         </div>
       ),
@@ -243,6 +275,14 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
           columns={columns}
           data={filteredStaffLogData || []}
         />
+        <Dialog onOpenChange={setModalOpen} open={modalOpen}>
+          <DialogContent className="min-w-[800px]">
+            <MemberTimeLogModal
+              staffDailyLog={staffDailyLog}
+              staffDailyLogLoading={staffDailyLogLoading}
+            />
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   );

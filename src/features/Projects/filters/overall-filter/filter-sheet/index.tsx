@@ -25,6 +25,7 @@ import { Checkbox } from "@/shared/components/ui/checkbox";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import { MultiSelect } from "@/shared/components/multi-select";
 import useProjectListing from "@/hooks/project/useProjectListing.hook";
+import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
 
 interface IProps {
   filterSheetOpen: boolean;
@@ -48,10 +49,12 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
     setFilterStates,
     handleCheckboxChange,
     selectAllCheckbox,
-    saveFilterToLocal,
     selectedLeads,
     setSelectedLeads,
-  } = useProjectListing();
+    handleDateRangeChange,
+  } = useProjectFilter();
+
+  const { applyFilter } = useProjectListing();
 
   return (
     <Sheet open={filterSheetOpen} onOpenChange={setFilterSheetOpen}>
@@ -71,7 +74,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             <RadioGroup
               value={selectedOption}
               defaultValue={selectedOption}
-              onValueChange={(e) => setSelectedOption(e)}
+              onValueChange={(e) => changeFilterRadio(e)}
             >
               {options.map((option) => (
                 <div className="mb-2" key={option}>
@@ -84,7 +87,6 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
                           ? "border-primary"
                           : "border-zinc-200"
                       }
-                      onChange={() => changeFilterRadio(option)}
                     />
                     <Label
                       className="capitalize cursor-pointer"
@@ -102,7 +104,7 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
                         <DateRangeFilter
                           dateRangeOpen={dateRangeOpen}
                           setDateRangeOpen={setDateRangeOpen}
-                          setDateRange={setDateRange}
+                          setDateRange={handleDateRangeChange}
                           dateRange={dateRange}
                         />
                       </div>
@@ -299,7 +301,11 @@ const FilterSheet = ({ filterSheetOpen, setFilterSheetOpen }: IProps) => {
             className="w-full"
             onClick={() => {
               setFilterSheetOpen(false);
-              saveFilterToLocal();
+              applyFilter(
+                filterStates,
+                dateRange,
+                selectedOption === "all_dates" ? "" : selectedOption
+              );
             }}
           >
             Apply

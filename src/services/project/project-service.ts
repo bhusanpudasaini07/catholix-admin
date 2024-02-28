@@ -70,7 +70,8 @@ const getTimeLogs = (
   per_page: any,
   fields?: any,
   date_from?: string,
-  date_to?: string
+  date_to?: string,
+  timelog_date_order?: "DESC" | string
 ) => {
   if (keyword !== "") {
     return httpRequest(
@@ -79,7 +80,7 @@ const getTimeLogs = (
     );
   } else if (fields) {
     return httpRequest(
-      `/get-time-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&fields=${fields}&date_from=${date_from}&date_to=${date_to}`,
+      `/get-time-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&fields=${fields}&date_from=${date_from}&date_to=${date_to}&timelog_date_order=${timelog_date_order}`,
       httpMethods.GET
     );
   } else {

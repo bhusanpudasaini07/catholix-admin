@@ -40,9 +40,10 @@ const useTimeLog = () => {
           "", //Keyword
           1, //page
           2000000, //perpage
-          "log_by,time", //fields
+          "log_by,time,date", //fields
           date_from, //date_from,
-          date_to //date_to
+          date_to, //date_to,
+          "ASC"
         );
         return response;
       }
@@ -50,6 +51,7 @@ const useTimeLog = () => {
     queryKey: ["timeLogs", code, date_to],
   });
 
+  // For unique roles in select option
   const uniqueRoles = Array.from(
     new Set(
       timeLogs?.data?.map(
@@ -58,36 +60,25 @@ const useTimeLog = () => {
     )
   );
 
-  //   const filteredTimeLogs = timeLogs?.data?.filter(
-  //     (log: { log_by: { role_name: string } }) =>
-  //       !selectedRole || log.log_by.role_name === selectedRole
-  //   );
-
-  //   const handleRoleSelect = (role: string) => {
-  //     setSelectedRole(role);
-  //   };
-
-  //   const lineOptionFiltered = {
-  //     ...lineOption,
-  //     series: [
-  //       {
-  //         ...lineOption.series[0],
-  //         data: filteredTimeLogs?.map((item: { time: number }) =>
-  //           (item?.time / 3600).toFixed(2)
-  //         ),
-  //       },
-  //     ],
-  //   };
-
   const lineOption = {
     color: ["#74b9ff"],
     xAxis: {
       type: "category",
+      // Format dates for xAxis data, ensuring it defaults to an empty array if undefined
+      data:
+        timeLogs?.data
+          ?.filter(
+            (item: any) =>
+              selectedRole === "all" || item.log_by.role_name === selectedRole
+          )
+          .map((item: any) => moment(item.date).format("ll")) ?? [],
+
       axisLabel: {
-        show: false,
+        show: true,
+        formatter: (value: string) => value,
       },
       axisTick: {
-        show: false,
+        show: true,
       },
     },
     yAxis: {
@@ -98,19 +89,27 @@ const useTimeLog = () => {
       axisPointer: {
         type: "shadow",
       },
-      formatter: function (params: any) {
-        // Assuming params[0] is the current data point. This might need adjustment based on your data structure.
-        let value = params[0]?.value;
-        return `Time(Hours): ${value}`;
+      formatter: (params: any) => {
+        const value = params[0]?.value;
+        const date = moment(params[0]?.name).format("ll");
+        return `Date: ${date}<br/>Time(Hours): ${value}`;
       },
     },
     series: [
       {
         type: "bar",
-        data: timeLogs?.data?.map((item: { time: number }) =>
-          (item?.time / 3600).toFixed(2)
-        ),
         large: true,
+        // Process data once, applying filter only if selectedRole is not 'all'
+        data:
+          timeLogs?.data
+            ?.filter(
+              (item: any) =>
+                selectedRole === "all" || item.log_by.role_name === selectedRole
+            )
+            .map((item: any) => ({
+              value: (item.time / 3600).toFixed(2),
+              name: item.date,
+            })) ?? [],
       },
     ],
   };

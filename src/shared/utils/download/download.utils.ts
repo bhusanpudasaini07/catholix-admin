@@ -10,7 +10,7 @@ function s2ab(s: any) {
 export const DownloadExcel = (data: any, filename: any) => {
   const mappedData = data;
   const excelData = [
-    Object.keys(mappedData[0]),
+    Object.keys(mappedData[0] || {}),
     ...mappedData?.map((item: any) => Object.values(item)),
   ];
   // Create a new Workbook

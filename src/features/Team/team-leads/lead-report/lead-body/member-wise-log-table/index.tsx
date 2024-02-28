@@ -51,11 +51,11 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   const StaffLogData = useMemo(
     () =>
       staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => {
-        const usedRp = parseFloat(staff.used_rp);
-        const commercialRp = parseFloat(staff.commercial_rp);
-        const lossRp = parseFloat(staff.loss_rp);
-        const availableTime = parseFloat(staff.available_time);
-        const usedTime = parseFloat(staff.used_time);
+        const usedRp = parseFloat(staff?.used_rp || "0");
+        const commercialRp = parseFloat(staff?.commercial_rp || "0");
+        const lossRp = parseFloat(staff?.loss_rp || "0");
+        const availableTime = parseFloat(staff?.available_time || "0");
+        const usedTime = parseFloat(staff?.used_time || "0");
 
         const rpPercentage =
           usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
@@ -68,7 +68,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
         const clientTimePercentage =
           availableTime !== 0
             ? (
-                (parseFloat(staff.commercial_time) / availableTime) *
+                (parseFloat(staff?.commercial_time) / availableTime) *
                 100
               ).toFixed(2)
             : "0.00";
@@ -78,9 +78,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
           id: staff?.id,
           name: staff?.fullname,
           role: staff?.role_name,
-          spent_rp: staff.used_rp,
-          spent_client_rp: commercialRp.toFixed(2),
-          loss_rp: lossRp.toFixed(2),
+          spent_rp: staff?.used_rp,
+          spent_client_rp: commercialRp?.toFixed(2),
+          loss_rp: lossRp?.toFixed(2),
           rp_percentage: rpPercentage,
           client_rp_percentage: clientRpPercentage,
           total_time: convertSecondsToHoursAndMinutes(availableTime),
@@ -120,15 +120,15 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
 
     // Filter by name if searchText is provided
     if (searchText) {
-      filteredData = filteredData.filter((staff: any) =>
-        staff?.name?.toLowerCase().includes(searchText.toLowerCase())
+      filteredData = filteredData?.filter((staff: any) =>
+        staff?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
     }
 
     // Filter by role if role is selected
     if (role) {
-      filteredData = filteredData.filter((staff: any) =>
-        staff?.role?.toLowerCase().includes(role.toLowerCase())
+      filteredData = filteredData?.filter((staff: any) =>
+        staff?.role?.toLowerCase()?.includes(role?.toLowerCase())
       );
     }
 
@@ -293,9 +293,6 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       rowData["Spent Time"] = item?.spent_time;
       rowData["% Time"] = item?.time_percentage;
       rowData["% Time(Client)"] = item?.client_time_percentage;
-      // columnKeys?.forEach((key: string) => {
-      //   rowData[key] = item[key] || "N/A";
-      // });
       return rowData;
     });
     DownloadExcel(

@@ -126,7 +126,7 @@ const useMoreDetail = () => {
       {
         name: "Status",
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -199,7 +199,7 @@ const useMoreDetail = () => {
       {
         name: "Category",
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -270,7 +270,7 @@ const useMoreDetail = () => {
       {
         name: "Platform/Component",
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,

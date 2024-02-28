@@ -9,7 +9,7 @@ import {
   DialogContent,
   DialogHeader,
 } from "@/shared/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 // CUSTOM
 import FilterSearch from "@/shared/components/filter-search";
@@ -26,13 +26,16 @@ import ProfitLossCard from "@/features/Projects/profit-loss-card";
 import { IProjectDetail } from "@/interface/project-interface";
 import ProjectTableSkeleton from "@/shared/components/skeleton-loading/project/project-table-skeleton";
 import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
+import { useCommonStore } from "@/store/common-store";
+import moment from "moment";
+import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
 
 const Projects: NextPageWithLayout = () => {
+  const { filterSaved } = useCommonStore();
+
   const {
-    gitModalOpen,
-    setGitModalOpen,
-    gitModalId,
-    gitUrl,
+    gitState,
+    setGitState,
     setSearchText,
     perPage,
     setPerPage,
@@ -42,9 +45,9 @@ const Projects: NextPageWithLayout = () => {
     isLoading,
     handlePageChange,
     columns,
-    columnVisibility,
-    setColumnVisibility,
   } = useProjectListing();
+
+  const { showFilterName, handleFilterRemoveAndUpdate } = useProjectFilter();
 
   return (
     <div>
@@ -74,6 +77,81 @@ const Projects: NextPageWithLayout = () => {
           <FilterSearch setSearchText={setSearchText} />
           <ProjectFilters />
         </div>
+
+        {/* Show Applied filter */}
+        {Object.keys(filterSaved).some((key) => filterSaved[key] !== "") && (
+          <div className="flex items-center gap-6 px-8 py-6 border-b bg-light-white border-b-slate-100">
+            <p className="border-r-2 border-r-gray-300 min-w-[120px] text-gray-500 py-1.5 pr-3">
+              Applied Filters
+            </p>
+            <div className="flex flex-wrap items-center gap-4 ">
+              {filterSaved?.date && filterSaved?.date_type !== "all_date" && (
+                <div className="border rounded-sm border-zinc-200 py-1.5 px-3 flex items-center gap-2">
+                  <span className="text-sm text-gray-500">Date:</span>{" "}
+                  <div className="flex items-center gap-1 px-2 py-1 border rounded bg-slate-100">
+                    <p className="text-xs font-medium capitalize">
+                      {filterSaved?.date_type !== "all_date" &&
+                        `${filterSaved?.date_type.replace(/_/g, " ")}: ${
+                          filterSaved?.date
+                        }`}
+                    </p>
+                    <Button
+                      onClick={() => {
+                        handleFilterRemoveAndUpdate("date", filterSaved?.date);
+                        handleFilterRemoveAndUpdate(
+                          "date_type",
+                          filterSaved?.date_type
+                        );
+                      }}
+                      variant={"ghost"}
+                      className="h-auto p-0"
+                    >
+                      <X size={12} />
+                    </Button>
+                  </div>
+                </div>
+              )}
+              {Object.entries(filterSaved)
+                .filter(([key]) => key !== "date" && key !== "date_type")
+                .map(([key, value]: any) => {
+                  if (value) {
+                    return (
+                      <div
+                        key={key}
+                        className="border rounded-sm border-zinc-200 py-1.5 px-3 flex items-center gap-2"
+                      >
+                        <span className="text-sm text-gray-500 capitalize">
+                          {key}:
+                        </span>
+                        {value?.split(",").map((val: string, index: number) => (
+                          <div
+                            key={index}
+                            className="flex flex-wrap items-center gap-1 px-2 py-1 text-sm border rounded bg-slate-100"
+                          >
+                            <div className="flex items-center gap-2">
+                              <p className="text-xs font-medium">
+                                {showFilterName(val, key)}
+                              </p>
+                              <Button
+                                onClick={() => {
+                                  handleFilterRemoveAndUpdate(key, val);
+                                }}
+                                variant={"ghost"}
+                                className="h-auto p-0"
+                              >
+                                <X size={12} />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+            </div>
+          </div>
+        )}
 
         <div className="p-8">
           <TabsContent value="list_view">
@@ -114,16 +192,16 @@ const Projects: NextPageWithLayout = () => {
 
         {/* Git modal */}
         <Dialog
-          key={gitModalId}
-          open={gitModalOpen}
-          onOpenChange={setGitModalOpen}
+          key={gitState?.modalId}
+          open={gitState?.modalOpen}
+          onOpenChange={() => setGitState({ ...gitState, modalOpen: false })}
         >
           <DialogContent className="p-6">
             <DialogHeader className="text-lg font-bold text-color">
               Git URLs
             </DialogHeader>
             <div className="flex flex-col min-w-0 gap-2">
-              {gitUrl?.map((url: string, index) => (
+              {gitState?.url?.map((url: string, index) => (
                 <div
                   key={index}
                   className="flex items-start gap-4 mb-3 [&:last-child]:mb-0"

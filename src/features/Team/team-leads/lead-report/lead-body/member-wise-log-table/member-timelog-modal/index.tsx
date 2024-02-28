@@ -24,7 +24,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       accessorKey: "time",
       header: "Time Logged",
       cell: ({ row }) => (
-        <div className="text-zinc-500 text-base font-medium">
+        <div className="text-zinc-500 text-sm font-medium">
           {row.getValue("time")}
         </div>
       ),
@@ -35,7 +35,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       accessorKey: "rp",
       header: "RP",
       cell: ({ row }) => (
-        <div className="text-zinc-500 text-base font-medium">
+        <div className="text-zinc-500 text-sm font-medium">
           {row.getValue("rp")}
         </div>
       ),
@@ -47,7 +47,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       header: "Project",
       cell: ({ row }) => (
         <Link
-          className="text-blue-500 text-base font-medium"
+          className="text-blue-500 text-sm font-medium"
           href={`/projects/${row?.original?.project_code}`}
         >
           {row.getValue("project_title")}
@@ -60,7 +60,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       accessorKey: "task_title",
       header: "Task",
       cell: ({ row }) => (
-        <Link href={""} className="text-blue-500 text-base font-medium">
+        <Link href={""} className="text-blue-500 text-sm font-medium">
           {row.getValue("task_title")}
         </Link>
       ),

@@ -20,11 +20,10 @@ import MemberWiseLogTable from "./member-wise-log-table";
 import { useQuery } from "react-query";
 import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
 import moment from "moment";
+import ProjectPerformanceDetail from "./project-performance-detail";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
-    // staffRpSummaryData,
-    // staffDataLoading,
     totalAvailableRP,
     setTotalAvailableRP,
     totalLossRP,
@@ -51,6 +50,7 @@ const LeadReportBody = ({ dateRange }: any) => {
     current_id,
   } = useLeadReport();
 
+  const [currentPage, setCurrentPage] = useState<string>("");
   const [leadReportData, setLeadReportData] = useState<any>();
 
   const { data: staffRpSummaryData, isLoading: staffDataLoading } =
@@ -78,6 +78,11 @@ const LeadReportBody = ({ dateRange }: any) => {
     staffRpSummaryData?.data?.summary?.total_time;
 
   useEffect(() => {
+    if (current_id) {
+      setCurrentPage(String(current_id));
+    } else {
+      setCurrentPage("all");
+    }
     if (staffRpSummaryData) {
       let availableRPSum = 0;
       let lossRPSum = 0;
@@ -217,20 +222,40 @@ const LeadReportBody = ({ dateRange }: any) => {
         in_house={totalInhouseProjects}
         client={totalClientProjects}
       />
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
-        <RoleCountryTable
-          staffRpSummaryData={staffRpSummaryData}
-          staffDataLoading={staffDataLoading}
-        />
-        <ProjectRpConsumptionTable
+      {currentPage && currentPage !== "all" ? (
+        <div className="mt-4">
+          <ProjectPerformanceDetail
+            staffRpSummaryData={staffRpSummaryData}
+            staffDataLoading={staffDataLoading}
+          />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
+          <RoleCountryTable
+            staffRpSummaryData={staffRpSummaryData}
+            staffDataLoading={staffDataLoading}
+          />
+          <ProjectRpConsumptionTable
+            staffRpSummaryData={staffRpSummaryData}
+            staffDataLoading={staffDataLoading}
+          />
+        </div>
+      )}
+      {currentPage && currentPage !== "all" && (
+        <div className="mt-4">
+          <MemberWiseLogTable
+            dateRange={dateRange}
+            staffRpSummaryData={leadReportData}
+            staffDataLoading={staffDataLoading}
+          />
+        </div>
+      )}
+      <div className="mt-4">
+        <ClientVsInHouseProject
           staffRpSummaryData={staffRpSummaryData}
           staffDataLoading={staffDataLoading}
         />
       </div>
-      <ClientVsInHouseProject
-        staffRpSummaryData={staffRpSummaryData}
-        staffDataLoading={staffDataLoading}
-      />
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
         <InHouseMarketRp
           staffRpSummaryData={staffRpSummaryData}
@@ -241,11 +266,15 @@ const LeadReportBody = ({ dateRange }: any) => {
           staffDataLoading={staffDataLoading}
         />
       </div>
-      <MemberWiseLogTable
-        dateRange={dateRange}
-        staffRpSummaryData={leadReportData}
-        staffDataLoading={staffDataLoading}
-      />
+      {currentPage && currentPage === "all" && (
+        <div className="">
+          <MemberWiseLogTable
+            dateRange={dateRange}
+            staffRpSummaryData={leadReportData}
+            staffDataLoading={staffDataLoading}
+          />
+        </div>
+      )}
     </div>
   );
 };

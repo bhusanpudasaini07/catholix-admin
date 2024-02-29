@@ -4,4 +4,8 @@ const NoImage = "/placeholder.jpg";
 
 const noResult = "/no-result.svg";
 
-export { loginImg, Logo, noResult };
+const projects = {
+  pointer: "/projects/Pointer.svg",
+};
+
+export { loginImg, Logo, noResult, projects };

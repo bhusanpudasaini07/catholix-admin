@@ -6,10 +6,12 @@ import TeamConsumption from "./group-wise-consumption";
 import TaskTimeSpent from "./task-time-spent";
 import ProjectRelease from "./project-release";
 import LatestActivity from "./latest-activity";
+import ProjectSummaryReport from "./summary-report";
 
 const DetailBody = () => {
   return (
-    <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
+    <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <ProjectSummaryReport />
       <DetailOverview />
       <RpConsumption />
       <ProjectStories />

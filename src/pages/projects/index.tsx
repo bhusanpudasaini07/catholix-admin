@@ -121,7 +121,7 @@ const Projects: NextPageWithLayout = () => {
                         className="border rounded-sm border-zinc-200 py-1.5 px-3 flex items-center gap-2"
                       >
                         <span className="text-sm text-gray-500 capitalize">
-                          {key}:
+                          {key.split("_").join(" ")}:
                         </span>
                         {value?.split(",").map((val: string, index: number) => (
                           <div

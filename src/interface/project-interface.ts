@@ -71,6 +71,14 @@ export interface IProjectDetail {
   assigned_roles_members: any[];
   member_utilization: any[];
   role_utilization: any[];
+
+  health: {
+    task_completion_percentage: number;
+    rp_completion_percentage: number;
+    time_completion_percentage: number;
+    overall_completion_percentage: number;
+    grade: string;
+  };
 }
 
 export interface ProjectData {

@@ -12,7 +12,6 @@ if (!fs.existsSync(fileName)) {
   // File doesn't exist, create it synchronously
 
   try {
-    console.log("asdfasdfasdfasdfdsf");
     fs.writeFileSync(fileName, fileContent);
     console.log("File created successfully!");
   } catch (error) {

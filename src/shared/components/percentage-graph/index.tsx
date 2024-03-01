@@ -68,7 +68,13 @@ const PercentageGraph = ({
       },
     ],
   };
-  return <ReactECharts option={option} style={{ height: "120px" }} />;
+  return (
+    <ReactECharts
+      option={option}
+      style={{ height: "120px" }}
+      opts={{ renderer: "svg" }}
+    />
+  );
 };
 
 export default PercentageGraph;

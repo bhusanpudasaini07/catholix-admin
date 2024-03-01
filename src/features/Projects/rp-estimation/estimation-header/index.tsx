@@ -1,3 +1,4 @@
+import { IProjectEstimation } from "@/interface/project-interface";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { CalendarDays, ChevronLeft, Plus } from "lucide-react";
@@ -9,15 +10,21 @@ interface IProps {
   estimation_total_data: number;
   start_date: string;
   estimationDataLoading: boolean;
+  estimationData: IProjectEstimation | undefined;
 }
 
 const EstimationHeader = ({
   estimation_total_data,
   start_date,
   estimationDataLoading,
+  estimationData,
 }: IProps) => {
   const router = useRouter();
-
+  console.log(
+    estimationData?.data?.estimation?.every(
+      (estimate) => estimate?.status !== "Pending"
+    )
+  );
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex items-start gap-4">
@@ -67,10 +74,14 @@ const EstimationHeader = ({
         </div>
       </div>
       <div className="flex items-center gap-4">
-        <Button variant={"outline"} className="gap-2">
-          <Plus size={16} />
-          Create New CR Estimation
-        </Button>
+        {estimationData?.data?.estimation?.every(
+          (estimate) => estimate?.status !== "Pending"
+        ) && (
+          <Button variant={"outline"} className="gap-2">
+            <Plus size={16} />
+            Create New CR Estimation
+          </Button>
+        )}
       </div>
     </div>
   );

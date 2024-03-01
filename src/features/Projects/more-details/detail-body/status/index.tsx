@@ -67,7 +67,7 @@ const Status = ({
             />
           </div>
           <div className="col-span-6 max-h-[400px] w-auto">
-            <ReactECharts option={typeOption} />
+            <ReactECharts option={typeOption} opts={{ renderer: "svg" }} />
           </div>
         </div>
       </CardContent>

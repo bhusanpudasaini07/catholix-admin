@@ -305,7 +305,7 @@ const useLeadReport = () => {
     {
       id: "total_rp",
       accessorKey: "total_rp",
-      header: () => <div className="truncate">RP Consumed</div>,
+      header: () => <div className="truncate">Budget Consumed</div>,
       cell: ({ row }) => (
         <div className="font-semibold">{row?.getValue("total_rp")}</div>
       ),

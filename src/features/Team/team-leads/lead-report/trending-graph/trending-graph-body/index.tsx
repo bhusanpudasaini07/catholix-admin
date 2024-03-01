@@ -211,7 +211,11 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
         <CardContent>
           <h5 className="font-medium text-zinc-700">Trendline Chart</h5>
           <div className="w-full h-[500px]">
-            <ReactECharts option={option} style={{ height: "500px" }} />
+            <ReactECharts
+              option={option}
+              style={{ height: "500px" }}
+              opts={{ renderer: "svg" }}
+            />
           </div>
         </CardContent>
       </Card>

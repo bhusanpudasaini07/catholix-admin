@@ -40,12 +40,7 @@ const ReportSummaryTable = ({
         </div>
 
         <div className="grid grid-cols-12 transition-all gap-7">
-          <div
-            className={cn(
-              leadDetail !== undefined ? "lg:col-span-8" : "lg:col-span-12",
-              "col-span-12 "
-            )}
-          >
+          <div className={cn("lg:col-span-8", "col-span-12 ")}>
             <DataTable
               border={true}
               loading={loading}
@@ -53,24 +48,29 @@ const ReportSummaryTable = ({
               data={data ?? []}
             />
           </div>
-          {leadDetail !== undefined && (
-            <div className="col-span-12 lg:col-span-4">
-              <div className="mb-5">
-                {/* {loading || staffRPLoading ? (
+          <div className="col-span-12 lg:col-span-4">
+            <div className="mb-5">
+              {/* {loading || staffRPLoading ? (
                   <PieChartSkeleton height={250} width={250} />
                 ) : ( */}
-                <ReactECharts option={rpOptions} notMerge={true} />
-                {/* )} */}
-              </div>
-              <div>
-                {/* {loading || staffRPLoading ? (
-                  <PieChartSkeleton height={250} width={250} />
-                ) : ( */}
-                <ReactECharts option={countryOptions} />
-                {/* )} */}
-              </div>
+              <ReactECharts
+                option={rpOptions}
+                notMerge={true}
+                opts={{ renderer: "svg" }}
+              />
+              {/* )} */}
             </div>
-          )}
+            <div>
+              {/* {loading || staffRPLoading ? (
+                  <PieChartSkeleton height={250} width={250} />
+                ) : ( */}
+              <ReactECharts
+                option={countryOptions}
+                opts={{ renderer: "svg" }}
+              />
+              {/* )} */}
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

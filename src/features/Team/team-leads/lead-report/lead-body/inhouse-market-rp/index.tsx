@@ -121,7 +121,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       accessorKey: "country",
       header: "Country",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {row?.getValue("country")}
         </div>
       ),
@@ -131,7 +131,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       accessorKey: "totalRP",
       header: "RP",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {row?.getValue("totalRP")}
         </div>
       ),
@@ -142,7 +142,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {row?.getValue("percentage")}%
         </div>
       ),
@@ -153,13 +153,17 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
     <Card>
       <CardContent>
         <div className="grid grid-row-1">
-          <div className="flex items-center gap-2 flex-wrap mb-8">
+          <div className="flex flex-wrap items-center gap-2 mb-8">
             <h5 className="font-medium text-zinc-700">
               In-House Market Wise RP
             </h5>
           </div>
           <div className="my-auto">
-            <ReactECharts className="min-h-[500px]" option={option} />
+            <ReactECharts
+              className="min-h-[500px]"
+              option={option}
+              opts={{ renderer: "svg" }}
+            />
           </div>
           <div className="">
             <DataTable

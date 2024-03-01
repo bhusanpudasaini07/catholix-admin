@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import ProjectDetailStatus from "./status";
 import useProjectReleases from "@/hooks/project/detail/useProjectReleases.hook";
+import BurndownSvg from "@/shared/svg/burndown";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -87,7 +88,7 @@ const DetailOverview = () => {
     {
       value: "burndown",
       title: "Burndown Chart",
-      icon: <LineChart size={18} />,
+      icon: <BurndownSvg size={18} />,
     },
     {
       value: "estimated_actual",
@@ -102,7 +103,7 @@ const DetailOverview = () => {
   ];
 
   return (
-    <div className="grid grid-cols-12 gap-6">
+    <div className="grid grid-cols-12 gap-4">
       {isLoading ? (
         <div className="col-span-12 xl:col-span-6">
           <div className="grid grid-cols-2 gap-4 mb-4">
@@ -115,33 +116,35 @@ const DetailOverview = () => {
         </div>
       ) : (
         <div className="col-span-12 xl:col-span-6">
-          <div className="grid h-full grid-cols-12 gap-6">
+          <div className="grid h-full grid-cols-12 gap-4">
             {/* RP Used */}
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start gap-4 mb-4">
+                  <div className="flex items-center justify-start gap-4 mb-4 relative z-[2]">
                     <p className="text-base font-medium text-zinc-700">
                       Budget Utilization
                     </p>{" "}
-                    <Button
-                      variant={"white"}
-                      onClick={() =>
-                        router?.push(
-                          `/projects/${router?.query?.code}/rp-estimation`
-                        )
-                      }
-                      size={"sm"}
-                    >
-                      Estimation
-                    </Button>
-                    <Button
-                      onClick={() => setSalesModalOpen(true)}
-                      size={"sm"}
-                      variant={"white"}
-                    >
-                      Sales
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant={"white"}
+                        onClick={() =>
+                          router?.push(
+                            `/projects/${router?.query?.code}/rp-estimation`
+                          )
+                        }
+                        size={"sm"}
+                      >
+                        Estimation
+                      </Button>
+                      <Button
+                        onClick={() => setSalesModalOpen(true)}
+                        size={"sm"}
+                        variant={"white"}
+                      >
+                        Sales
+                      </Button>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between mt-10">
                     <div>
@@ -345,7 +348,10 @@ const DetailOverview = () => {
                   />
                 </TabsContent>
                 <TabsContent value="burndown">
-                  <ReactEcharts option={burndownOption} />
+                  <ReactEcharts
+                    option={burndownOption}
+                    opts={{ renderer: "svg" }}
+                  />
                 </TabsContent>
                 <TabsContent value="estimated_actual">No Data</TabsContent>
                 <TabsContent value="project_release">

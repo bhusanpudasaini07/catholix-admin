@@ -44,13 +44,13 @@ const RpConsumption = () => {
   } = useRPConsumption();
 
   return (
-    <Card className="mt-7">
+    <Card className="mt-4">
       <CardContent>
         <Tabs defaultValue={tab} onValueChange={(e) => setTab(e)}>
           <div className="flex flex-col flex-wrap justify-between w-full gap-4 mb-10 xl:items-center xl:flex-row">
             <div className="flex items-center justify-start gap-3">
               <p className="text-lg font-medium text-zinc-700">
-                RP Consumption
+                Budget Consumption
               </p>
               <Button
                 variant={"white"}
@@ -60,7 +60,7 @@ const RpConsumption = () => {
                 size={"sm"}
               >
                 View Burndown Chart
-              </Button> 
+              </Button>
             </div>
             <div className="flex items-center gap-3">
               {/* <div className="w-[30%]">
@@ -121,6 +121,7 @@ const RpConsumption = () => {
               {/* Line graph */}
               <TabsContent value="line">
                 <ReactECharts
+                  opts={{ renderer: "svg" }}
                   style={{ minHeight: "500px" }}
                   option={lineOption}
                   notMerge={true}
@@ -130,6 +131,7 @@ const RpConsumption = () => {
               {/* Bar Chart */}
               <TabsContent value="bar">
                 <ReactECharts
+                  opts={{ renderer: "svg" }}
                   option={
                     barType === "sum" ? barStackOption : barLabelRotationOption
                   }

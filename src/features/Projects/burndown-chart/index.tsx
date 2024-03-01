@@ -31,7 +31,7 @@ const BurndownContent = () => {
               Burndown Chart
             </h4>
             <p className="text-base font-normal text-zinc-500">
-              Detailed view of RP consumed.
+              Detailed view of Budget consumed.
             </p>
           </div>
         </div>

@@ -127,7 +127,7 @@ const useTaskTimeSpent = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => <div className="w-[80px]">{row.getValue("rp")}</div>,
       enableHiding: false,
     },

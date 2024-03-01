@@ -104,7 +104,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "category",
       header: "Category",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {row.getValue("category")}
         </div>
       ),
@@ -115,7 +115,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "rp",
       header: "RP",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {" "}
           {row.getValue("rp")}
         </div>
@@ -127,7 +127,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-base font-semibold">
+        <div className="text-base font-semibold text-zinc-700">
           {" "}
           {row.getValue("percentage")}
         </div>
@@ -138,9 +138,9 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
   return (
     <Card className="mb-4">
       <CardContent>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 ">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 ">
           <div className="">
-            <div className="flex items-center gap-2 flex-wrap mb-4">
+            <div className="flex flex-wrap items-center gap-2 mb-4">
               <h5 className="font-medium text-zinc-700">
                 Client Projects VS In-House Project
               </h5>
@@ -153,7 +153,11 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
             />
           </div>
           <div className="my-auto">
-            <ReactECharts className="min-h-[400px]" option={option} />
+            <ReactECharts
+              className="min-h-[400px]"
+              option={option}
+              opts={{ renderer: "svg" }}
+            />
           </div>
         </div>
       </CardContent>

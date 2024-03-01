@@ -6,6 +6,7 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ColumnDef } from "@tanstack/react-table";
 import { CalendarDays, Check, Plus, Trash2 } from "lucide-react";
 import moment from "moment";
@@ -31,21 +32,25 @@ const EstimationTable = ({
               <p className="text-lg font-medium text-zinc-700">
                 {estimation?.title}
               </p>
-              <Badge
-                variant={"outline"}
-                className={`
-                    ${
-                      estimation?.status === "Pending" &&
-                      " border-orange-500 bg-orange-50  text-orange-500"
-                    }
-                    ${
-                      estimation?.status === "Approved" &&
-                      " border-green-500 bg-green-50 text-green-500 "
-                    }
-          capitalize border rounded-md`}
-              >
-                {estimation?.status}
-              </Badge>
+              {estimationDataLoading ? (
+                <Skeleton className="w-16 h-4" />
+              ) : (
+                <Badge
+                  variant={"outline"}
+                  className={`
+                      ${
+                        estimation?.status === "Pending" &&
+                        " border-orange-500 bg-orange-50  text-orange-500"
+                      }
+                      ${
+                        estimation?.status === "Approved" &&
+                        " border-green-500 bg-green-50 text-green-500 "
+                      }
+            capitalize border rounded-md`}
+                >
+                  {estimation?.status}
+                </Badge>
+              )}
             </div>
             <div className="flex items-start gap-2 mt-4">
               <div className="flex items-center gap-2 text-sm text-zinc-500 min-w-[95px]">
@@ -53,9 +58,13 @@ const EstimationTable = ({
                 <span>Added On</span>
               </div>
               <div className="text-sm text-zinc-700">
-                <p className="mb-0.5 font-medium">
-                  {moment(estimation?.added_on).format("YYYY-MM-DD HH:mm:ss")}
-                </p>
+                {estimationDataLoading ? (
+                  <Skeleton className="w-16 h-4" />
+                ) : (
+                  <p className="mb-0.5 font-medium">
+                    {moment(estimation?.added_on).format("YYYY-MM-DD HH:mm:ss")}
+                  </p>
+                )}
               </div>
             </div>
           </div>

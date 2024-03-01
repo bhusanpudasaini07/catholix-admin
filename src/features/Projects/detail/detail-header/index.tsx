@@ -127,11 +127,11 @@ const DetailHeader = ({
               value="project-details"
               className="p-0 border-0 [&>h3]:w-fit"
             >
-              <AccordionTrigger className="gap-4 p-0 text-base font-normal border-0 w-fit text-zinc-500">
+              <AccordionTrigger className="gap-1 p-0 text-base font-normal border-0 w-fit text-zinc-500">
                 Project Overview
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex flex-wrap gap-12 mt-8">
+                <div className="flex flex-wrap mt-8 gap-x-12 gap-y-5">
                   {/* Start */}
                   <div className="">
                     <p className="flex items-center text-sm font-normal text-zinc-500">

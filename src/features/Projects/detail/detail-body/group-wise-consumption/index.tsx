@@ -16,7 +16,7 @@ const TeamConsumption = () => {
   const { rpSummary, rpLoading } = useProjectRpSummary();
 
   return (
-    <div className="grid grid-cols-1 gap-6 mt-6 xl:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 mt-4 xl:grid-cols-2">
       <Card>
         <CardContent>
           <div className="flex items-center justify-between mb-10">
@@ -25,7 +25,10 @@ const TeamConsumption = () => {
             </div>
           </div>
           <div className="">
-            <ReactECharts option={roleGroupWiseOption} />
+            <ReactECharts
+              opts={{ renderer: "svg" }}
+              option={roleGroupWiseOption}
+            />
           </div>
           <div className="overflow-hidden rounded-md grow">
             <DataTable
@@ -46,7 +49,10 @@ const TeamConsumption = () => {
             </div>
           </div>
           <div className="">
-            <ReactECharts option={departmentGroupWiseOption} />
+            <ReactECharts
+              opts={{ renderer: "svg" }}
+              option={departmentGroupWiseOption}
+            />
           </div>
           <div className="overflow-hidden rounded-md grow">
             <DataTable

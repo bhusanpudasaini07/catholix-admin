@@ -10,7 +10,7 @@ const ProjectStories = () => {
   const { columns, projectStories, isLoading } = useProjectStories();
   const { projectDetail } = useProjectDetail();
   return (
-    <Card className="mt-6">
+    <Card className="mt-4">
       <CardContent>
         <div className="flex items-center justify-between mb-10">
           <div className="flex items-center justify-start gap-3">

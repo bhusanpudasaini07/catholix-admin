@@ -406,6 +406,8 @@ export const useProjectDetail = () => {
             name: "",
           },
         ],
+        responsive: true,
+        maintainAspectRatio: false,
         detail: {
           show: true,
           fontSize: 18,

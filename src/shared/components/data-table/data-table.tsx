@@ -48,6 +48,7 @@ interface DataTableProps<TData, TValue> {
   lottieWidth?: number;
   lottieHeight?: number;
   total?: TotalColumn<TData>[];
+  loadingDataNum?: number | 1;
 }
 
 export function DataTable<TData, TValue>({
@@ -62,6 +63,7 @@ export function DataTable<TData, TValue>({
   lottieWidth,
   lottieHeight,
   total,
+  loadingDataNum,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -159,11 +161,16 @@ export function DataTable<TData, TValue>({
 
         <TableBody>
           {loading ? (
-            <TableRow>
-              {Array.from({ length: columns.length }, (_, index) => (
-                <TableSkeleton key={index} />
-              ))}
-            </TableRow>
+            Array.from(
+              { length: loadingDataNum ? loadingDataNum : 1 },
+              (_, index) => (
+                <TableRow key={index}>
+                  {Array.from({ length: columns.length }, (_, index) => (
+                    <TableSkeleton key={index} />
+                  ))}
+                </TableRow>
+              )
+            )
           ) : table?.getRowModel().rows?.length ? (
             <>
               {table?.getRowModel().rows.map((row) => (

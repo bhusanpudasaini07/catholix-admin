@@ -1,10 +1,27 @@
-import React from "react";
+import React, { FC } from "react";
 import ReactECharts from "echarts-for-react";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { ColumnDef } from "@tanstack/react-table";
+import { useQuery } from "react-query";
+import { getStaffDailySummary } from "@/services/lead-report/lead-report-service";
+import moment from "moment";
 
-const TrendingGraphBody = () => {
+interface IProps {
+  start_date: Date | undefined;
+  end_date: Date | undefined;
+  id: any;
+}
+
+interface StaffSummaryData {
+  [date: string]: {
+    available: string;
+    used: string;
+    commercial_rp?: string;
+  };
+}
+
+const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
   const colors = ["#FACC15", "#EE6666"];
 
   const option = {
@@ -109,44 +126,82 @@ const TrendingGraphBody = () => {
     ],
   };
 
+  const { data: staffDailySummary, isLoading: staffDailySummaryLoading } =
+    useQuery<any>(
+      ["getStaffDailySummary", start_date, end_date, id],
+      async () => {
+        if (id) {
+          const response = await getStaffDailySummary(
+            moment(start_date).format("YYYY-MM-DD"),
+            moment(end_date).format("YYYY-MM-DD"),
+            id
+          );
+          return response;
+        }
+      }
+    );
+
+  const staffData: StaffSummaryData = staffDailySummary?.data || {};
+
+  const tableData =
+    staffData &&
+    Object.entries(staffData)?.map(
+      ([date, { available, used, commercial_rp }]) => ({
+        date,
+        available_rp: parseFloat(available).toFixed(2),
+        used_rp: parseFloat(used).toFixed(2),
+        commercial_rp: commercial_rp
+          ? parseFloat(commercial_rp).toFixed(2)
+          : undefined,
+      })
+    );
+
   const columns: ColumnDef<any>[] = [
-    // Title
     {
-      id: "sn",
-      accessorKey: "sn",
-      header: "S. No.",
+      id: "date",
+      accessorKey: "date",
+      header: "Date",
       cell: ({ row }) => (
-        <div className="font-medium underline text-primary hover:text-blue-700"></div>
+        <div>
+          <p className="text-sm text-zinc-500">
+            {moment(row.getValue("date"))?.format("MMM DD")}
+          </p>
+          <p className="text-sm text-zinc-500">
+            {moment(row.getValue("date"))?.format("ddd")}
+          </p>
+        </div>
       ),
       enableHiding: false,
     },
-    // Date
     {
-      id: "role",
-      accessorKey: "role",
-      header: "Role",
-      cell: ({ row }) => <div></div>,
+      id: "available_rp",
+      accessorKey: "available_rp",
+      header: "Available RP",
+      cell: ({ row }) => (
+        <div className="text-sm text-zinc-500">
+          {row.getValue("available_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
     {
-      id: "country",
-      accessorKey: "country",
-      header: "Country",
-      cell: ({ row }) => <div></div>,
+      id: "used_rp",
+      accessorKey: "used_rp",
+      header: "Used RP",
+      cell: ({ row }) => (
+        <div className="text-sm text-zinc-500">{row.getValue("used_rp")}</div>
+      ),
       enableHiding: false,
     },
     {
-      id: "man_days",
-      accessorKey: "man_days",
-      header: "Man Days",
-      cell: ({ row }) => <div></div>,
-      enableHiding: false,
-    },
-    {
-      id: "man_month",
-      accessorKey: "man_month",
-      header: "Man Month",
-      cell: ({ row }) => <div></div>,
+      id: "commercial_rp",
+      accessorKey: "commercial_rp",
+      header: "Commercial RP",
+      cell: ({ row }) => (
+        <div className="text-sm text-zinc-500">
+          {row.getValue("commercial_rp")}
+        </div>
+      ),
       enableHiding: false,
     },
   ];
@@ -163,15 +218,17 @@ const TrendingGraphBody = () => {
       <Card>
         <CardContent>
           <div>
-            <p className="text-center text-zinc-700 font-medium text-lg my-6">
+            <p className="my-6 text-lg font-medium text-center text-zinc-700">
               RP Consumption List
             </p>
           </div>
           <DataTable
-            // loading={isLoading}
+            loading={staffDailySummaryLoading}
             border={true}
             columns={columns}
-            data={[]}
+            headerSticky
+            height="max-h-[500px]"
+            data={tableData || []}
           />
         </CardContent>
       </Card>

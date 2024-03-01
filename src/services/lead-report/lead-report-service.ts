@@ -23,6 +23,17 @@ export const getStaffDailyTimelog = (
   );
 };
 
+export const getStaffDailySummary = (
+  start_date: string,
+  end_date: string,
+  id: any
+) => {
+  return httpRequest(
+    `/get-staff-daily-rp-summary?date_from=${start_date}&date_to=${end_date}&staffs=${id}`,
+    httpMethods.GET
+  );
+};
+
 export const getLeadsList = (id?: any) => {
   if (id) {
     return httpRequest(

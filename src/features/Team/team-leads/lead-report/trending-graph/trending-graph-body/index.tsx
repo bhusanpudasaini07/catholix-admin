@@ -154,8 +154,6 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
     })
   );
 
-  console.log("tableData", tableData);
-
   const columns: ColumnDef<any>[] = [
     {
       id: "date",

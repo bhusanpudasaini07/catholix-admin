@@ -8,8 +8,8 @@ import { getStaffDailySummary } from "@/services/lead-report/lead-report-service
 import moment from "moment";
 
 interface IProps {
-  start_date: any;
-  end_date: any;
+  start_date: Date | undefined;
+  end_date: Date | undefined;
   id: any;
 }
 
@@ -143,16 +143,18 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
 
   const staffData: StaffSummaryData = staffDailySummary?.data || {};
 
-  const tableData = Object.entries(staffData).map(
-    ([date, { available, used, commercial_rp }]) => ({
-      date,
-      available_rp: parseFloat(available).toFixed(2),
-      used_rp: parseFloat(used).toFixed(2),
-      commercial_rp: commercial_rp
-        ? parseFloat(commercial_rp).toFixed(2)
-        : undefined,
-    })
-  );
+  const tableData =
+    staffData &&
+    Object.entries(staffData)?.map(
+      ([date, { available, used, commercial_rp }]) => ({
+        date,
+        available_rp: parseFloat(available).toFixed(2),
+        used_rp: parseFloat(used).toFixed(2),
+        commercial_rp: commercial_rp
+          ? parseFloat(commercial_rp).toFixed(2)
+          : undefined,
+      })
+    );
 
   const columns: ColumnDef<any>[] = [
     {
@@ -162,10 +164,10 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       cell: ({ row }) => (
         <div>
           <p className="text-sm text-zinc-500">
-            {moment(row.getValue("date")).format("MMM DD")}
+            {moment(row.getValue("date"))?.format("MMM DD")}
           </p>
           <p className="text-sm text-zinc-500">
-            {moment(row.getValue("date")).format("ddd")}
+            {moment(row.getValue("date"))?.format("ddd")}
           </p>
         </div>
       ),
@@ -216,7 +218,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       <Card>
         <CardContent>
           <div>
-            <p className="text-center text-zinc-700 font-medium text-lg my-6">
+            <p className="my-6 text-lg font-medium text-center text-zinc-700">
               RP Consumption List
             </p>
           </div>

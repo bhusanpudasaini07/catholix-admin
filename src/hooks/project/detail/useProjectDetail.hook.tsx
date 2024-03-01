@@ -424,6 +424,7 @@ export const useProjectDetail = () => {
         type: "pie",
         selectedMode: "single",
         radius: ["80%", "100%"],
+        padAngle: 3,
         label: {
           show: false,
         },
@@ -460,6 +461,7 @@ export const useProjectDetail = () => {
         type: "pie",
         selectedMode: "single",
         radius: ["70%", "55%"],
+        padAngle: 3,
         label: {
           show: false,
         },
@@ -495,6 +497,7 @@ export const useProjectDetail = () => {
         name: "Project Detail",
         type: "pie",
         radius: ["45%", "30%"],
+        padAngle: 3,
         labelLine: {
           length: 30,
         },

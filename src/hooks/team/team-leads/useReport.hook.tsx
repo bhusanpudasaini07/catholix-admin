@@ -73,7 +73,12 @@ const useReport = () => {
           return response;
         }
       },
-      queryKey: ["staffRPSummary", teamLeadStaffs, router?.query?.id],
+      queryKey: [
+        "staffRPSummary",
+        teamLeadStaffs,
+        router?.query?.id,
+        dateRange?.to,
+      ],
     });
 
   /**
@@ -179,7 +184,7 @@ const useReport = () => {
       header: "Total RP Executed",
       cell: ({ row }) => (
         <div className="font-medium">
-          {row?.original?.summary?.total_rp ?? 0}
+          {Number(row?.original?.summary?.total_rp) ?? 0}
         </div>
       ),
     },
@@ -335,6 +340,21 @@ const useReport = () => {
   useEffect(() => {
     extractGroupedCountry();
   }, [staffRPSummary]);
+
+  /**
+   * Changes route if the id is not there to username of 1st index of leadReportSummary array
+   */
+  useEffect(() => {
+    if (router?.query?.id) {
+      router?.push(`/team-leads/report?id=${router?.query?.id}`);
+    } else {
+      if (leadReportSummary) {
+        router?.push(
+          `/team-leads/report?id=${leadReportSummary?.data[0]?.username}`
+        );
+      }
+    }
+  }, [router?.query?.id, leadReportSummary]);
 
   return {
     dateRange,

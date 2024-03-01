@@ -8,7 +8,7 @@ const ProjectRelease = () => {
   const { columns, projectReleases, isLoading } = useProjectReleases();
 
   return (
-    <Card className="h-auto mt-6 grow">
+    <Card className="h-auto grow">
       <CardContent>
         <div className="flex items-center justify-between mb-7">
           <div className="flex items-center justify-start gap-3">

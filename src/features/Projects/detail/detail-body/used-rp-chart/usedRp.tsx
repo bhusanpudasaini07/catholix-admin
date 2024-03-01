@@ -66,7 +66,13 @@ const UsedRp = ({ rp }: IProps) => {
       },
     ],
   };
-  return <ReactECharts option={option} style={{ height: "100px" }} />;
+  return (
+    <ReactECharts
+      option={option}
+      opts={{ renderer: "svg" }}
+      style={{ height: "100px" }}
+    />
+  );
 };
 
 export default UsedRp;

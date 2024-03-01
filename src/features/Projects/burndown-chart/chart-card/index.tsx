@@ -19,7 +19,11 @@ const ChartCard = ({ option }: IProps) => {
           </Button>
         </div>
         <div>
-          <ReactECharts style={{ height: "500px" }} option={option} />
+          <ReactECharts
+            style={{ height: "500px" }}
+            opts={{ renderer: "svg" }}
+            option={option}
+          />
         </div>
       </CardContent>
     </Card>

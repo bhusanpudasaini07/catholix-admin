@@ -41,6 +41,7 @@ const TopTimeConsumed = ({ timeConusmedOption }: IProps) => {
               option={timeConusmedOption}
               showLoading={true}
               loadingOption={true}
+              opts={{ renderer: "svg" }}
             />
           </div>
         </CardContent>
@@ -71,6 +72,7 @@ const TopTimeConsumed = ({ timeConusmedOption }: IProps) => {
               option={timeConusmedOption}
               showLoading={true}
               loadingOption={true}
+              opts={{ renderer: "svg" }}
             />
           </div>
         </CardContent>

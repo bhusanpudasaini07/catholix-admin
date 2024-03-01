@@ -27,7 +27,7 @@ const ProjectSummaryReport = () => {
     // RP
     {
       id: "rp",
-      title: "RP Consumption",
+      title: "Budget Consumption",
       data: projectDetail?.data?.health?.rp_completion_percentage ?? 0,
       color: "bg-green-500",
     },
@@ -46,15 +46,12 @@ const ProjectSummaryReport = () => {
             Historical Data
           </Button>
         </div>
-        <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-8 xl:grid-cols-5">
           {/* Gauge Meter and Grade */}
-          <div className="col-span-1 xl:col-span-1">
+          <div className="col-span-1 xl:col-span-2">
             <div className="flex items-center justify-between">
-              <div className="">
-                <ReactECharts
-                  style={{ height: 200, width: 300 }}
-                  option={gaugeOption}
-                />
+              <div className="h-[200px] w-[300px]">
+                <ReactECharts option={gaugeOption} opts={{ renderer: "svg" }} />
               </div>
               <div className="flex flex-col items-center justify-center gap-3">
                 <p className="text-6xl font-semibold">
@@ -87,7 +84,7 @@ const ProjectSummaryReport = () => {
             </div>
           </div>
           {/* Task Project RP  */}
-          <div className="col-span-1 xl:pl-8 xl:border-l xl:col-span-1">
+          <div className="col-span-1 xl:pl-8 xl:border-l xl:col-span-3">
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-8">
                 <div className="flex flex-col justify-between h-full">
@@ -118,6 +115,7 @@ const ProjectSummaryReport = () => {
               </div>
               <div className="col-span-4">
                 <ReactECharts
+                  opts={{ renderer: "svg" }}
                   style={{ height: 200 }}
                   option={nestedPieOption}
                 />

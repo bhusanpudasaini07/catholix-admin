@@ -15,7 +15,7 @@ const ConsumptionType = () => {
     useConsumptionType();
 
   return (
-    <div className="grid grid-cols-12 gap-6 mt-4">
+    <div className="grid grid-cols-12 gap-4 mt-4">
       {/* Team Wise */}
       <div className="col-span-12 xl:col-span-6 ">
         <Card>
@@ -31,7 +31,10 @@ const ConsumptionType = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={staffWiseOption} />
+              <ReactECharts
+                opts={{ renderer: "svg" }}
+                option={staffWiseOption}
+              />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
@@ -62,7 +65,10 @@ const ConsumptionType = () => {
               </div>
             </div>
             <div className="">
-              <ReactECharts option={roleWiseOption} />
+              <ReactECharts
+                option={roleWiseOption}
+                opts={{ renderer: "svg" }}
+              />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable

@@ -31,7 +31,7 @@ const ProjectDetailStatus = ({
       </div>
 
       <div className="col-span-2">
-        <ReactECharts option={option} />
+        <ReactECharts opts={{ renderer: "svg" }} option={option} />
       </div>
     </div>
   );

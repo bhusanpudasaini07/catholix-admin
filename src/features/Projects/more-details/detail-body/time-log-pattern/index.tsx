@@ -106,6 +106,7 @@ const TimeLogPattern = () => {
             <ReactECharts
               style={{ width: "100%", height: "500px" }}
               option={lineOption}
+              opts={{ renderer: "svg" }}
             />
           ) : (
             // Bar graph

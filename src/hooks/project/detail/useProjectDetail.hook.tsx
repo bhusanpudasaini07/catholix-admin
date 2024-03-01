@@ -143,7 +143,7 @@ export const useProjectDetail = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumption",
+      header: "Budget Consumption",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
       ),
@@ -333,16 +333,25 @@ export const useProjectDetail = () => {
 
   // SUMMARY REPORT CONTENT
   const gaugeOption = {
+    grid: {
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      height: "200px",
+      width: "300px",
+    },
     series: [
       {
         type: "gauge",
         startAngle: 180,
         endAngle: 0,
-        center: ["50%", "60%"],
+        center: ["50%", "45%"],
         radius: "90%",
         min: 0,
         max: 100,
         splitNumber: 8,
+
         pointer: {
           // icon: "path://M10,0 L20,40 L0,40 Z",
           // length: "12%",
@@ -355,30 +364,6 @@ export const useProjectDetail = () => {
         },
         progress: {
           show: false,
-        },
-        itemStyle: {
-          color: {
-            type: "linear",
-            x: 0,
-            y: 0,
-            x2: 1,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0,
-                color: "red", // color at 0% position
-              },
-              {
-                offset: 1,
-                color: "blue", // color at 100% position
-              },
-            ],
-            global: false, // false by default
-          },
-          shadowColor: "rgba(0,138,255,0.45)",
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowOffsetY: 0,
         },
         axisLine: {
           lineStyle: {
@@ -406,8 +391,6 @@ export const useProjectDetail = () => {
             name: "",
           },
         ],
-        responsive: true,
-        maintainAspectRatio: false,
         detail: {
           show: true,
           fontSize: 18,
@@ -440,7 +423,7 @@ export const useProjectDetail = () => {
         name: "Project Detail",
         type: "pie",
         selectedMode: "single",
-        radius: ["60%", "70%"],
+        radius: ["80%", "100%"],
         label: {
           show: false,
         },
@@ -476,7 +459,7 @@ export const useProjectDetail = () => {
         name: "Project Detail",
         type: "pie",
         selectedMode: "single",
-        radius: ["50%", "40%"],
+        radius: ["70%", "55%"],
         label: {
           show: false,
         },
@@ -511,7 +494,7 @@ export const useProjectDetail = () => {
       {
         name: "Project Detail",
         type: "pie",
-        radius: ["30%", "20%"],
+        radius: ["45%", "30%"],
         labelLine: {
           length: 30,
         },

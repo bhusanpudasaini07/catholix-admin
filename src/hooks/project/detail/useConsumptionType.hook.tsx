@@ -57,7 +57,7 @@ const useConsumptionType = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumed",
+      header: "Budget Consumed",
       cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
       enableHiding: false,
     },
@@ -111,11 +111,11 @@ const useConsumptionType = () => {
       },
       enableHiding: false,
     },
-    // RP consumed
+    // Budget Consumed
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumed",
+      header: "Budget Consumed",
       cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
       enableHiding: false,
     },
@@ -171,11 +171,11 @@ const useConsumptionType = () => {
       },
       enableHiding: false,
     },
-    // RP Consumed
+    // Budget Consumed
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumed",
+      header: "Budget Consumed",
       cell: ({ row }: any) => <div>{row.getValue("rp").toFixed(2)}</div>,
       enableHiding: false,
     },
@@ -215,11 +215,11 @@ const useConsumptionType = () => {
       ),
       enableHiding: false,
     },
-    // RP Consumed
+    // Budget Consumed
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumed",
+      header: "Budget Consumed",
       cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
       enableHiding: false,
     },

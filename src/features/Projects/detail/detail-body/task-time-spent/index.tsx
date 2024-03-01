@@ -14,7 +14,7 @@ const TaskTimeSpent = () => {
     useTaskTimeSpent();
 
   return (
-    <Card className="mt-6">
+    <Card className="mt-4">
       <CardContent>
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center justify-start gap-3">

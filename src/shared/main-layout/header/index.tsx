@@ -46,21 +46,7 @@ const Header = ({
   return (
     <header className="px-8 border-b border-b-slate-100 bg-light-white">
       <div className="flex items-center justify-between  gap-6 h-[56px] ">
-        <div className="flex items-center w-[188px] justify-between">
-          <Link
-            href={"/"}
-            className="flex items-center justify-start h-12 rounded-md "
-          >
-            <Image
-              src={Logo}
-              alt="Logo"
-              priority={true}
-              width={63}
-              height={30}
-              quality={100}
-              style={{ width: "auto", height: "auto" }}
-            />
-          </Link>
+        <div className="flex items-center w-[140px] justify-between">
           {/* For sidebar */}
           <button
             title="menu"
@@ -77,6 +63,20 @@ const Header = ({
           >
             <Menu />
           </button>
+          <Link
+            href={"/"}
+            className="flex items-center justify-start h-12 rounded-md "
+          >
+            <Image
+              src={Logo}
+              alt="Logo"
+              priority={true}
+              width={63}
+              height={30}
+              quality={100}
+              style={{ width: "auto", height: "auto" }}
+            />
+          </Link>
         </div>
 
         <div className="flex items-center gap-6">

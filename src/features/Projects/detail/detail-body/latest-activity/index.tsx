@@ -20,7 +20,7 @@ const LatestActivity = () => {
     setDateRangeOpen,
   } = useLatestActivities();
   return (
-    <Card className="h-auto mt-6">
+    <Card className="h-auto">
       <CardContent>
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center justify-start gap-3">

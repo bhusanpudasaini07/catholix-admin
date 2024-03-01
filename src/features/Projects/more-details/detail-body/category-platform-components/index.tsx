@@ -62,7 +62,10 @@ const CategoryPlatform = ({
               </Select>
             </div>
             <div>
-              <ReactECharts option={categoryOption} />
+              <ReactECharts
+                option={categoryOption}
+                opts={{ renderer: "svg" }}
+              />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
@@ -100,7 +103,10 @@ const CategoryPlatform = ({
               </Select>
             </div>
             <div className="">
-              <ReactECharts option={platformComponentOption} />
+              <ReactECharts
+                option={platformComponentOption}
+                opts={{ renderer: "svg" }}
+              />
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable

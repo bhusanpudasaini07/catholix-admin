@@ -1,13 +1,18 @@
 import {
+  IBurndownDetail,
   IConsumptionData,
   IProjectDetail,
   ISalesRP,
   ISalesRPDetail,
+  ITypeCount,
+  ITypes,
 } from "@/interface/project-interface";
 import { IStaff } from "@/interface/staff-interface";
 import {
+  getProjectBurndown,
   getProjectDetail,
   getProjectSales,
+  getProjectTaskLabelRp,
   getRpSummary,
 } from "@/services/project/project-service";
 import { getStaffDetails } from "@/services/staff/staff-service";
@@ -30,6 +35,7 @@ export const useProjectDetail = () => {
   const [memberModalOpen, setMemberModalOpen] = useState(false);
   const [salesModalOpen, setSalesModalOpen] = useState(false);
   const [openLeadSheet, setOpenLeadSheet] = useState(false);
+  const [tabValue, setTabValue] = useState("status");
 
   const { data: projectDetail, isLoading } = useQuery<IProps>({
     queryFn: async () => {
@@ -53,6 +59,31 @@ export const useProjectDetail = () => {
     },
     queryKey: ["staffDetails", projectDetail],
   });
+
+  //   Project TASK LABEL DATA
+  const { data: projectTaskLabelData, isLoading: projectTaskLabelLoading } =
+    useQuery<ITypes>({
+      queryFn: async () => {
+        if (code) {
+          const response = await getProjectTaskLabelRp(code);
+          return response;
+        }
+      },
+      queryKey: ["projectTaskLabelData", code],
+    });
+
+  // Burndown data fetch
+  const { data: burndownData, isLoading: burndownLoading } =
+    useQuery<IBurndownDetail>({
+      queryFn: async () => {
+        if (code) {
+          const response = await getProjectBurndown(code);
+          return response;
+        }
+      },
+      queryKey: ["burndownData", code],
+      enabled: !!(tabValue === "burndown"),
+    });
 
   const salesColumn: ColumnDef<ISalesRPDetail>[] = [
     {
@@ -94,6 +125,423 @@ export const useProjectDetail = () => {
     },
   ];
 
+  //   Status Column
+  const statusColumn: ColumnDef<ITypeCount>[] = [
+    // status
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">
+          {row.getValue("title")}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // RP consumption
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "RP Consumption",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
+      ),
+      enableHiding: false,
+    },
+    // Utilization
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "Utilization",
+      cell: ({ row }) => {
+        const totalRP = projectTaskLabelData
+          ? projectTaskLabelData?.data[2]?.count?.reduce(
+              (total: number, item: ITypeCount) => total + Number(item?.rp),
+              0
+            )
+          : 0;
+
+        const utilizedPercentage = (Number(row?.original?.rp) / totalRP) * 100;
+        return (
+          <div className="font-semibold text-zinc-700">
+            {utilizedPercentage?.toFixed(2)}%
+          </div>
+        );
+      },
+
+      enableHiding: false,
+    },
+  ];
+  //   STATUS PIE OPTION
+  const statusOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    color: [
+      "#0891B2",
+      "#FACC15",
+      "#84CC16",
+      "#2DD4BF",
+      "#818CF8",
+      "#7C3AED",
+      "#D8B4FE",
+      "#F472B6",
+      "#FB923C",
+      "#F87171",
+      "#A8A29E",
+    ],
+    series: [
+      {
+        name: "Status",
+        type: "pie",
+        radius: ["40%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "outer",
+          //   formatter: "{b}: {c} ({d}%)",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+          labelLine: {
+            show: true,
+          },
+        },
+        labelLine: {
+          show: true,
+          length: 20,
+          minTurnAngle: 0,
+          maxSurfaceAngle: 360,
+        },
+        data: projectTaskLabelData
+          ? projectTaskLabelData?.data[2]?.count?.map((item) => {
+              const totalRP = projectTaskLabelData
+                ? projectTaskLabelData?.data[2]?.count?.reduce(
+                    (total: number, item: ITypeCount) =>
+                      total + Number(item?.rp),
+                    0
+                  )
+                : 0;
+
+              const utilizedPercentage = (Number(item?.rp) / totalRP) * 100;
+              return {
+                value: utilizedPercentage?.toFixed(2),
+                name: item?.title,
+              };
+            })
+          : [],
+      },
+    ],
+  };
+
+  // Burndown Opotion
+  const burndownOption = {
+    color: ["#60a5fa", "#f87171"],
+
+    dataset: [
+      {
+        // Original dataset
+        id: "burndown_data",
+        source: burndownData
+          ? Object?.entries(burndownData?.data?.daily_data).map(
+              ([key, value]: any) => {
+                return [key, value?.ideal_sales_rp, value?.real_sales_rp];
+              }
+            )
+          : [],
+      },
+      // ideal_data
+      {
+        id: "burndown_ideal_data",
+        fromDatasetId: "burndown_data",
+        transform: {
+          type: "filter",
+          config: {
+            // Adjust the condition according to your needs
+            and: [{ dimension: 1, ">": 0 }],
+          },
+        },
+      },
+      // real_data
+      {
+        id: "burndown_real_data",
+        fromDatasetId: "burndown_data",
+        transform: {
+          type: "filter",
+          config: {
+            // Corrected to filter out entries where real_sales_rp (third column, hence dimension: 2) is greater than 0
+            and: [{ dimension: 2, ">": 0 }],
+          },
+        },
+      },
+    ],
+    series: [
+      {
+        type: "line", // or 'bar', depending on your chart type
+        dataSetId: "burndown_ideal_data",
+        encode: {
+          // Assuming the first column is 'date', the second is 'ideal_sales_rp', and the third is 'real_sales_rp'
+          x: 0, // date
+          y: 1, // ideal_sales_rp
+        },
+      },
+      {
+        type: "line", // or 'bar', depending on your chart type
+        dataSetId: "burndown_real_data", // Use the filtered dataset
+        encode: {
+          x: 0, // date
+          y: 2, // real_sales_rp
+        },
+      },
+    ],
+    xAxis: {
+      type: "category",
+      nameLocation: "middle",
+    },
+    yAxis: {
+      name: "",
+    },
+    tooltip: {
+      trigger: "axis",
+    },
+  };
+
+  // for dynamic content more details button
+  const changeRoute = () => {
+    switch (tabValue) {
+      case "status":
+        router?.push(`/projects/${code}/more-details`);
+        break;
+      case "burndown":
+        router?.push(`/projects/${code}/burndown-chart`);
+        break;
+      case "estimated_actual":
+        router?.push(`/projects/${code}`);
+        break;
+      default:
+        router?.push(`/projects/${code}`);
+    }
+  };
+
+  // SUMMARY REPORT CONTENT
+  const gaugeOption = {
+    series: [
+      {
+        type: "gauge",
+        startAngle: 180,
+        endAngle: 0,
+        center: ["50%", "60%"],
+        radius: "90%",
+        min: 0,
+        max: 100,
+        splitNumber: 8,
+        pointer: {
+          // icon: "path://M10,0 L20,40 L0,40 Z",
+          // length: "12%",
+          // width: 20,
+          // offsetCenter: [0, "-60%"],
+          itemStyle: {
+            color: "auto",
+          },
+          show: true,
+        },
+        progress: {
+          show: false,
+        },
+        itemStyle: {
+          color: {
+            type: "linear",
+            x: 0,
+            y: 0,
+            x2: 1,
+            y2: 1,
+            colorStops: [
+              {
+                offset: 0,
+                color: "red", // color at 0% position
+              },
+              {
+                offset: 1,
+                color: "blue", // color at 100% position
+              },
+            ],
+            global: false, // false by default
+          },
+          shadowColor: "rgba(0,138,255,0.45)",
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowOffsetY: 0,
+        },
+        axisLine: {
+          lineStyle: {
+            width: 50,
+            color: [
+              [0.25, "rgba(239, 68, 68, 1)"],
+              [0.5, "rgba(250, 204, 21, 1)"],
+              [0.75, "rgba(250, 204, 21, 1)"],
+              [1, "rgba(54, 139, 55, 1)"],
+            ],
+          },
+        },
+        splitLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
+          show: false,
+        },
+        data: [
+          {
+            value: projectDetail?.data?.health?.overall_completion_percentage,
+            name: "",
+          },
+        ],
+        detail: {
+          show: true,
+          fontSize: 18,
+          fontWeight: 500,
+          color: "auto",
+          formatter: (value: number) => {
+            if (value >= 80) {
+              return "Doing great";
+            } else if (value >= 60) {
+              return "Need help";
+            } else {
+              return "In danger";
+            }
+          },
+        },
+      },
+    ],
+  };
+
+  const nestedPieOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    legend: {
+      show: false,
+    },
+    series: [
+      // Task Completion
+      {
+        name: "Project Detail",
+        type: "pie",
+        selectedMode: "single",
+        radius: ["60%", "70%"],
+        label: {
+          show: false,
+        },
+        itemStyle: {
+          borderRadius: 20,
+        },
+        color: ["#0A82FD", "#F4F4F5"],
+        labelLine: {
+          show: false,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+          scale: false,
+        },
+        data: [
+          {
+            value: projectDetail?.data?.health?.task_completion_percentage ?? 0,
+            name: "Task Completion",
+          },
+          {
+            value: projectDetail?.data?.health?.task_completion_percentage
+              ? 100 - projectDetail?.data?.health?.task_completion_percentage
+              : 0,
+            name: "Task remaining",
+          },
+        ],
+      },
+
+      // Project Duration
+      {
+        name: "Project Detail",
+        type: "pie",
+        selectedMode: "single",
+        radius: ["50%", "40%"],
+        label: {
+          show: false,
+        },
+        itemStyle: {
+          borderRadius: 20,
+        },
+        color: ["#FD850A", "#F4F4F5"],
+        labelLine: {
+          show: false,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+          scale: false,
+        },
+        data: [
+          {
+            value: projectDetail?.data?.health?.time_completion_percentage ?? 0,
+            name: "Project Duration",
+          },
+          {
+            value: projectDetail?.data?.health?.time_completion_percentage
+              ? 100 - projectDetail?.data?.health?.time_completion_percentage
+              : 0,
+            name: "Remaining Project Duration",
+          },
+        ],
+      },
+
+      // RP Consumption
+      {
+        name: "Project Detail",
+        type: "pie",
+        radius: ["30%", "20%"],
+        labelLine: {
+          length: 30,
+        },
+        label: {
+          show: false,
+        },
+        itemStyle: {
+          borderRadius: 20,
+        },
+        color: ["#22C55E", "#F4F4F5"],
+        emphasis: {
+          label: {
+            show: false,
+          },
+          scale: false,
+        },
+        data: [
+          {
+            value: projectDetail?.data?.health?.rp_completion_percentage ?? 0,
+            name: "RP Consumption",
+          },
+          {
+            value: projectDetail?.data?.health?.rp_completion_percentage
+              ? 100 - projectDetail?.data?.health?.rp_completion_percentage
+              : 0,
+            name: "Remaining RP",
+          },
+        ],
+      },
+    ],
+  };
+
   return {
     code,
     gitModalOpen,
@@ -104,10 +552,24 @@ export const useProjectDetail = () => {
     setSalesModalOpen,
     openLeadSheet,
     setOpenLeadSheet,
+    tabValue,
+    setTabValue,
     projectDetail,
     isLoading,
     salesColumn,
     staffDetails,
+    gaugeOption,
+    nestedPieOption,
+    // Status
+    projectTaskLabelData,
+    projectTaskLabelLoading,
+    statusColumn,
+    statusOption,
+    // Burndown
+    burndownData,
+    burndownLoading,
+    burndownOption,
+    changeRoute,
   };
 };
 

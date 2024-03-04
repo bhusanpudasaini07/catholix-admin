@@ -82,8 +82,8 @@ const ProjectStories = () => {
                 <p className="text-base font-semibold">Closed</p>
               </div>
               <div
-                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
-            border-[1px] border-blue-100
+                className={`rounded-md py-8 flex gap-3 justify-center flex-col items-center bg-zinc-50 text-zinc-700 
+            border-[1px] border-zinc-100
             `}
               >
                 <p className="text-4xl font-semibold">

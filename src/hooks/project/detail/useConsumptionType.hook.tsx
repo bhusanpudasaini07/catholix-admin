@@ -35,7 +35,7 @@ const useConsumptionType = () => {
         <div>
           <Link
             className="font-semibold text-primary hover:text-blue-700"
-            href={`/staff-details/${row?.original?.username}`}
+            href={`/staffs/${row?.original?.username}`}
           >
             {row.getValue("name")}
           </Link>

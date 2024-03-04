@@ -23,10 +23,14 @@ const TaskTimeSpentContent = () => {
       <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           <TaskTimeLogs
-            time={projectDetail?.data?.time?.used_time ?? "0"}
+            time={projectDetail?.data?.time?.estimated_time ?? "0"}
+            timeSpent={projectDetail?.data?.time?.used_time ?? "0"}
             task={projectDetail?.data?.task?.all_task_count ?? "0"}
             bugs={projectDetail?.data?.task?.bug_count ?? "0"}
             rp={projectDetail?.data?.rp?.used_rp ?? 0}
+            open={projectDetail?.data?.task?.open_task_count ?? 0}
+            closed={projectDetail?.data?.task?.closed_task_count ?? 0}
+            bugPercentage={projectDetail?.data?.task?.bug_ratio_percentage ?? 0}
           />
           <TopTimeConsumed timeConusmedOption={timeConusmedOption} />
           <TaskTimeTable

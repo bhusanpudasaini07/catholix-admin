@@ -488,7 +488,7 @@ const useProjectListing = () => {
             <Tooltip>
               <TooltipTrigger className="text-start">
                 <Link
-                  href={`/staff-details/${row?.original?.project_lead?.username}`}
+                  href={`/staffs/${row?.original?.project_lead?.username}`}
                   className="text-sm font-medium text-zinc-700 hover:text-primary"
                 >
                   {row?.original?.project_lead?.fullname}

@@ -48,8 +48,8 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Opened */}
           <div
-            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
-            border-[1px] border-orange-100"
+            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
+            border-[1px] border-blue-100"
           >
             <p className="text-4xl font-semibold">
               {task?.open_task_count ?? 0}
@@ -70,8 +70,8 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Bugs */}
           <div
-            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
-            border-[1px] border-red-100"
+            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
+            border-[1px] border-orange-100"
           >
             <p className="text-4xl font-semibold"> {task?.bug_count ?? 0}</p>
             <p className="text-base font-semibold">Bugs</p>
@@ -90,8 +90,8 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Total Task */}
           <div
-            className={`2xl:col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
-            border-[1px] border-blue-100
+            className={`2xl:col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-zinc-50 text-zinc-500 
+            border-[1px] border-zinc-100
             `}
           >
             <p className="text-4xl font-semibold">

@@ -37,12 +37,14 @@ const useRPBurndown = () => {
   // Consumption List Data
   const burndownTableData: any =
     burndownData &&
-    Object?.entries(burndownData?.data?.daily_data).map(([key, value]: any) => {
-      return {
-        date: key,
-        rp: value?.real_sales_rp ?? 0,
-      };
-    });
+    Object?.entries(burndownData?.data?.daily_data)
+      .reverse()
+      .map(([key, value]: any) => {
+        return {
+          date: key,
+          rp: value?.real_sales_rp ?? 0,
+        };
+      });
 
   const burndownOption = {
     color: ["#60a5fa", "#f87171"],
@@ -88,6 +90,7 @@ const useRPBurndown = () => {
       {
         type: "line", // or 'bar', depending on your chart type
         dataSetId: "burndown_ideal_data",
+        showSymbol: false,
         encode: {
           // Assuming the first column is 'date', the second is 'ideal_sales_rp', and the third is 'real_sales_rp'
           x: 0, // date
@@ -97,6 +100,7 @@ const useRPBurndown = () => {
       {
         type: "line", // or 'bar', depending on your chart type
         dataSetId: "burndown_real_data", // Use the filtered dataset
+        showSymbol: false,
         encode: {
           x: 0, // date
           y: 2, // real_sales_rp
@@ -112,6 +116,19 @@ const useRPBurndown = () => {
     },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let result = params[0].axisValueLabel + "<br/>";
+        params.forEach(function (item: any) {
+          result +=
+            item.marker +
+            " " +
+            (item.seriesIndex === 0 ? "Ideal" : "Utilized") +
+            ": " +
+            item.value[item.seriesIndex + 1] +
+            "<br/>";
+        });
+        return result;
+      },
     },
   };
 

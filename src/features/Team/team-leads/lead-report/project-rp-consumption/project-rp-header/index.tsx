@@ -74,7 +74,7 @@ const ProjectRPConsumptionHeader = () => {
         </Button>
         <div>
           <h3 className="mb-1.5 text-2xl font-medium text-zinc-700">
-            Consumption
+            Project Budget Consumption
           </h3>
           <p className="text-base text-zinc-500">List by country</p>
         </div>

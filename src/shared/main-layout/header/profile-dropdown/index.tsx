@@ -59,10 +59,10 @@ const ProfileDropdown = () => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="flex items-center gap-3 focus:outline-none">
-        <Avatar className="bg-primary w-[32px] h-[32px]">
+        <Avatar className="w-[32px] h-[32px]">
           <AvatarImage src={profileData?.image} />
           <AvatarFallback>
-            <User width={15} className="text-white" />
+            <User width={15} className="text-zinc-700" />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -74,10 +74,12 @@ const ProfileDropdown = () => {
       >
         <DropdownMenuGroup>
           <div className="flex items-start gap-4 p-4">
-            <Avatar className="bg-primary w-[40px] h-[40px]">
+            <Avatar className="w-[40px] h-[40px]">
               <AvatarImage src={profileData?.image} />
-              <AvatarFallback>
-                <User width={15} className="text-white" />
+              <AvatarFallback className="">
+                {profileData?.fullname
+                  .split(" ")
+                  .map((item: string) => item[0])}
               </AvatarFallback>
             </Avatar>
             <div className="w-full min-w-0">

@@ -572,7 +572,7 @@ const DetailOverviewMoreDetail = () => {
                   <p>{member?.role_name}</p>
                 </div>
                 <Link
-                  href={`/staff-details/${member?.role_user?.username}`}
+                  href={`/staffs/${member?.role_user?.username}`}
                   className="text-start w-[40%] text-base hover:text-primary"
                 >
                   {member?.role_user?.fullname}

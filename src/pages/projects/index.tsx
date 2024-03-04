@@ -29,6 +29,8 @@ import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/proj
 import { useCommonStore } from "@/store/common-store";
 import moment from "moment";
 import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import NotFoundLottie from "@/shared/components/not-found";
 
 const Projects: NextPageWithLayout = () => {
   const { filterSaved } = useCommonStore();
@@ -177,7 +179,11 @@ const Projects: NextPageWithLayout = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-base text-center text-zinc-700">No Data</p>
+              <Card>
+                <CardContent className="text-center">
+                  <NotFoundLottie width={200} height={200} />
+                </CardContent>
+              </Card>
             )}
           </TabsContent>
 

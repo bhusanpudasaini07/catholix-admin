@@ -333,7 +333,7 @@ const useProjectListing = () => {
     {
       id: "planned_rp",
       accessorKey: "planned_rp",
-      header: "Planned RP",
+      header: "Planned Budget",
       cell: ({ row }) => {
         const { sum, color, icon } = calculateRpSumAndColor(
           row?.original?.rp?.approved_rp,
@@ -386,7 +386,7 @@ const useProjectListing = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => {
         const { percentageLeft, color } = calculateRpLeft(
           row?.original?.rp?.used_rp ?? 0,

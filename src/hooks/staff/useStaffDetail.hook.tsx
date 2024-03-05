@@ -1,11 +1,43 @@
+import { IStaff, IStaffDetails, IStaffLogs } from "@/interface/staff-interface";
+import {
+  getStaffDetails,
+  getStaffTimeLogs,
+} from "@/services/staff/staff-service";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
 const useStaffDetail = () => {
+  const {
+    query: { username },
+  } = useRouter();
+
+  const { data: staffDetails, isLoading: staffDetailsLoading } =
+    useQuery<IStaff>({
+      queryFn: async () => {
+        if (username) {
+          const response = await getStaffDetails(username);
+          return response;
+        }
+      },
+      queryKey: ["staffDetails", username],
+    });
+
+  const { data: staffLog, isLoading: staffLogLoading } = useQuery<IStaffLogs>({
+    queryFn: async () => {
+      if (username) {
+        const response = await getStaffTimeLogs(username);
+        return response;
+      }
+    },
+    queryKey: ["staffLog", username],
+  });
+
   // Projects List Column
   const projectsOverviewColumns: ColumnDef<any>[] = [
     {
@@ -109,14 +141,14 @@ const useStaffDetail = () => {
     {
       id: "available_rp",
       accessorKey: "available_rp",
-      header: "Available RP",
+      header: "Available Budget",
       cell: ({ row }: any) => <div>asd</div>,
     },
     // RP Provided
     {
       id: "provided_rp",
       accessorKey: "provided_rp",
-      header: "RP Provided",
+      header: "Budget Provided",
       cell: ({ row }: any) => <div>asd</div>,
     },
     // %
@@ -147,14 +179,14 @@ const useStaffDetail = () => {
     {
       id: "available_rp",
       accessorKey: "available_rp",
-      header: "Available RP",
+      header: "Available Budget",
       cell: ({ row }: any) => <div>asd</div>,
     },
     // RP Provided
     {
       id: "provided_rp",
       accessorKey: "provided_rp",
-      header: "RP Provided",
+      header: "Budget Provided",
       cell: ({ row }: any) => <div>asd</div>,
     },
     // %
@@ -170,6 +202,10 @@ const useStaffDetail = () => {
     projectsOverviewColumns,
     dailyRpColumn,
     monthlyRpColumn,
+    staffDetails,
+    staffDetailsLoading,
+    staffLog,
+    staffLogLoading,
   };
 };
 

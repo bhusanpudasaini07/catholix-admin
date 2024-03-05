@@ -104,7 +104,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "category",
       header: "Category",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {row.getValue("category")}
         </div>
       ),
@@ -113,12 +113,9 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
-          {" "}
-          {row.getValue("rp")}
-        </div>
+        <div className="font-semibold text-zinc-700"> {row.getValue("rp")}</div>
       ),
       enableHiding: false,
     },
@@ -127,7 +124,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {" "}
           {row.getValue("percentage")}
         </div>

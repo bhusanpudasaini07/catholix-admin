@@ -122,7 +122,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       accessorKey: "country",
       header: "Country",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold  text-zinc-700">
           {row?.getValue("country")}
         </div>
       ),
@@ -130,9 +130,9 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
     {
       id: "totalRP",
       accessorKey: "totalRP",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold  text-zinc-700">
           {row?.getValue("totalRP")}
         </div>
       ),
@@ -143,7 +143,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold  text-zinc-700">
           {row?.getValue("percentage")}%
         </div>
       ),
@@ -155,7 +155,9 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       <CardContent>
         <div className="grid grid-row-1">
           <div className="flex flex-wrap items-center gap-2 mb-8">
-            <h5 className="font-medium text-zinc-700">Client Market Wise RP</h5>
+            <h5 className="font-medium text-zinc-700">
+              Client Market Wise Budget
+            </h5>
           </div>
           <div className="my-auto">
             <ReactECharts

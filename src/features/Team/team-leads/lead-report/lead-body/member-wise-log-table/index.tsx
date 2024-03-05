@@ -56,7 +56,6 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
         const lossRp = parseFloat(staff?.loss_rp || "0");
         const availableTime = parseFloat(staff?.available_time || "0");
         const usedTime = parseFloat(staff?.used_time || "0");
-
         const rpPercentage =
           usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
         const clientRpPercentage =
@@ -77,6 +76,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
           sn: index + 1,
           id: staff?.id,
           name: staff?.fullname,
+          username: staff?.username,
           role: staff?.role_name,
           spent_rp: staff?.used_rp,
           spent_client_rp: commercialRp?.toFixed(2),
@@ -152,7 +152,10 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "name",
       header: "Name",
       cell: ({ row }) => (
-        <Link href={""} className="text-blue-500 text-sm font-semibold">
+        <Link
+          href={`/staffs/${row?.original?.username}`}
+          className="text-sm font-semibold text-blue-500"
+        >
           {row.getValue("name")}
         </Link>
       ),
@@ -163,7 +166,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <div className="text-zinc-500 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-500">
           {row.getValue("role")}
         </div>
       ),
@@ -172,11 +175,11 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "spent_rp",
       accessorKey: "spent_rp",
-      header: "Spent RP",
+      header: "Spent Budget",
       cell: ({ row }) => (
         <div
           onClick={() => ModelHandler(row?.original?.id)}
-          className="text-blue-500 text-sm font-semibold cursor-pointer"
+          className="text-sm font-semibold text-blue-500 cursor-pointer"
         >
           {row.getValue("spent_rp")}
         </div>
@@ -186,9 +189,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "spent_client_rp",
       accessorKey: "spent_client_rp",
-      header: "Spent RP (Client)",
+      header: "Spent Budget (Client)",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("spent_client_rp")}
         </div>
       ),
@@ -197,9 +200,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "loss_rp",
       accessorKey: "loss_rp",
-      header: "Loss RP",
+      header: "Loss Budget",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("loss_rp")}
         </div>
       ),
@@ -208,9 +211,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "rp_percentage",
       accessorKey: "rp_percentage",
-      header: "% RP",
+      header: "% Budget",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("rp_percentage")}%
         </div>
       ),
@@ -219,9 +222,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "client_rp_percentage",
       accessorKey: "client_rp_percentage",
-      header: "% RP Client",
+      header: "% Budget Client",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("client_rp_percentage")}%
         </div>
       ),
@@ -232,7 +235,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "total_time",
       header: "Total Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("total_time")}
         </div>
       ),
@@ -243,7 +246,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "spent_time",
       header: "Spent Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("spent_time")}
         </div>
       ),
@@ -254,7 +257,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "time_percentage",
       header: "% Time",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("time_percentage")}%
         </div>
       ),
@@ -265,7 +268,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "client_time_percentage",
       header: "% Time (Client)",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {parseInt(row.getValue("client_time_percentage")).toFixed(2)}%
         </div>
       ),

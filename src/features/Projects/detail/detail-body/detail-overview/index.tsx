@@ -374,7 +374,7 @@ const DetailOverview = () => {
       <Dialog open={salesModalOpen} onOpenChange={setSalesModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
-            Sales RP
+            Sales Budget
           </DialogHeader>
           <DataTable
             border={true}

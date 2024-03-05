@@ -176,7 +176,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
     {
       id: "available_rp",
       accessorKey: "available_rp",
-      header: "Available RP",
+      header: "Available Budget",
       cell: ({ row }) => (
         <div className="text-sm text-zinc-500">
           {row.getValue("available_rp")}
@@ -187,7 +187,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
     {
       id: "used_rp",
       accessorKey: "used_rp",
-      header: "Used RP",
+      header: "Used Budget",
       cell: ({ row }) => (
         <div className="text-sm text-zinc-500">{row.getValue("used_rp")}</div>
       ),
@@ -196,7 +196,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
     {
       id: "commercial_rp",
       accessorKey: "commercial_rp",
-      header: "Commercial RP",
+      header: "Commercial Budget",
       cell: ({ row }) => (
         <div className="text-sm text-zinc-500">
           {row.getValue("commercial_rp")}
@@ -223,7 +223,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
         <CardContent>
           <div>
             <p className="my-6 text-lg font-medium text-center text-zinc-700">
-              RP Consumption List
+              Budget Consumption List
             </p>
           </div>
           <DataTable

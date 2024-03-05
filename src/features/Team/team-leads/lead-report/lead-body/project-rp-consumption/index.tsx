@@ -72,7 +72,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       cell: ({ row }) => (
         <Link
           href={`/projects/${row?.original?.code}`}
-          className="text-blue-500 text-sm font-semibold"
+          className="text-sm font-semibold text-blue-500"
         >
           {row?.getValue("title")}
         </Link>
@@ -84,7 +84,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "market",
       header: "Country",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row?.getValue("market")}
         </div>
       ),
@@ -93,9 +93,9 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
     {
       id: "total_rp",
       accessorKey: "total_rp",
-      header: "RP Consumption",
+      header: "Budget Consumed",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row?.getValue("total_rp")}
         </div>
       ),
@@ -106,7 +106,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%
         </div>
       ),
@@ -144,7 +144,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
         <div className="flex items-center justify-between gap-3 mb-6 ">
           <div className="flex flex-wrap items-center gap-2">
             <h5 className="font-medium text-zinc-700">
-              Project RP Consumption
+              Project Budget Consumption
             </h5>
             <Button
               variant={"white"}

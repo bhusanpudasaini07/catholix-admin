@@ -20,11 +20,7 @@ const EstimationHeader = ({
   estimationData,
 }: IProps) => {
   const router = useRouter();
-  console.log(
-    estimationData?.data?.estimation?.every(
-      (estimate) => estimate?.status !== "Pending"
-    )
-  );
+
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex items-start gap-4">
@@ -39,7 +35,7 @@ const EstimationHeader = ({
         <div className="flex items-start gap-4">
           <div>
             <h4 className="flex items-center gap-2 mb-1 text-2xl font-medium text-zinc-700">
-              RP Estimation
+              Budget Estimation
               {estimationDataLoading ? (
                 <Skeleton className="w-10 h-4" />
               ) : (

@@ -1,4 +1,6 @@
+import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
 import { Button } from "@/shared/components/ui/button";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -6,6 +8,7 @@ import React from "react";
 const StaffHeader = () => {
   const router = useRouter();
 
+  const { staffDetails, staffDetailsLoading } = useStaffDetail();
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex items-start gap-4">
@@ -17,13 +20,22 @@ const StaffHeader = () => {
         >
           <ChevronLeft size={16} />
         </Button>
-        <div className="">
-          <h4 className="mb-1 text-2xl font-medium text-zinc-700">
-            Sunil Gamal
-          </h4>
-          <p className="text-base font-normal text-zinc-500">
-            Senior UI/UX Designer (Design Department)
-          </p>
+        <div>
+          {staffDetailsLoading ? (
+            <>
+              <Skeleton className="w-20 h-3 mb-4" />
+              <Skeleton className="w-10 h-3 mb-5" />
+            </>
+          ) : (
+            <>
+              <h4 className="mb-1 text-2xl font-medium text-zinc-700">
+                {staffDetails?.data?.fullname}
+              </h4>
+              <p className="text-base font-normal text-zinc-500">
+                {staffDetails?.data?.role?.name}
+              </p>
+            </>
+          )}
         </div>
       </div>
     </div>

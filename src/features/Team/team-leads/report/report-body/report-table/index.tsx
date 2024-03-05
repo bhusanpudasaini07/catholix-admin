@@ -50,9 +50,7 @@ const ReportSummaryTable = ({
           </div>
           <div className="col-span-12 lg:col-span-4">
             <div className="mb-5">
-              {/* {loading || staffRPLoading ? (
-                  <PieChartSkeleton height={250} width={250} />
-                ) : ( */}
+              <p className="font-semibold text-zinc-700">Project Type</p>
               <ReactECharts
                 option={rpOptions}
                 notMerge={true}
@@ -61,9 +59,8 @@ const ReportSummaryTable = ({
               {/* )} */}
             </div>
             <div>
-              {/* {loading || staffRPLoading ? (
-                  <PieChartSkeleton height={250} width={250} />
-                ) : ( */}
+              <p className="font-semibold text-zinc-700">Project market</p>
+
               <ReactECharts
                 option={countryOptions}
                 opts={{ renderer: "svg" }}

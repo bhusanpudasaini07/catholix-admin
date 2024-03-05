@@ -466,7 +466,7 @@ const DetailOverviewMoreDetail = () => {
                     <div className="flex items-center justify-between mb-6 gap-7">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <BadgeAlert size={16} className="me-2" />
-                        Sales RP
+                        Sales Budget
                       </p>
                       <div className="text-sm font-medium grow text-start">
                         {projectDetail?.data?.rp?.sales_rp ?? 0}
@@ -587,7 +587,7 @@ const DetailOverviewMoreDetail = () => {
       <Dialog open={salesModalOpen} onOpenChange={setSalesModalOpen}>
         <DialogContent className="p-6">
           <DialogHeader className="text-lg font-bold text-color">
-            Sales RP
+            Sales Budget
           </DialogHeader>
           <DataTable
             border={true}

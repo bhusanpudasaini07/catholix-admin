@@ -241,37 +241,9 @@ const useConsumptionType = () => {
       trigger: "item",
     },
     series: [
-      // {
-      //   type: "pie",
-      //   radius: ["82%", "78%"],
-      //   avoidLabelOverlap: false,
-      //   itemStyle: {
-      //     borderRadius: 5,
-      //     borderColor: "#fff",
-      //     borderWidth: 2,
-      //   },
-      //   label: {
-      //     show: true,
-      //     position: "outside",
-      //   },
-      //   emphasis: {
-      //     label: {
-      //       show: false,
-      //     },
-      //   },
-      //   labelLine: {
-      //     show: true,
-      //   },
-      //   data: [
-      //     { value: 3, name: "Developers" },
-      //     { value: 2, name: "QA" },
-      //   ],
-      //   animationType: "scale",
-      //   animationDuration: 1000,
-      // },
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["35%", "60%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -294,6 +266,39 @@ const useConsumptionType = () => {
           value: staff?.rp,
           name: staff?.name,
         })),
+      },
+      {
+        type: "pie",
+        radius: ["65%", "68%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "outer",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+          scale: false,
+        },
+        labelLine: {
+          show: true,
+        },
+        data: [
+          {
+            name: "QA",
+            value: 40,
+          },
+          {
+            name: "Dev",
+            value: 40,
+          },
+        ],
       },
     ],
   };

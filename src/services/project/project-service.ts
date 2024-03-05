@@ -78,7 +78,7 @@ const getTimeLogs = (
       `/get-time-logs?project_id=${code}&keyword=${keyword}&pg=${page}&dataperpage=${per_page}`,
       httpMethods.GET
     );
-  } else if (fields) {
+  } else if (fields || date_to) {
     return httpRequest(
       `/get-time-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&fields=${fields}&date_from=${date_from}&date_to=${date_to}&timelog_date_order=${timelog_date_order}`,
       httpMethods.GET

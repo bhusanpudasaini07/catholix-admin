@@ -101,7 +101,7 @@ export const useProjectDetail = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Unit",
+      header: "Budget Unit",
       cell: ({ row }) => <div className="w-[50px]">{row.getValue("rp")}</div>,
       enableHiding: false,
     },
@@ -143,7 +143,7 @@ export const useProjectDetail = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget Consumption",
+      header: "Budget",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
       ),

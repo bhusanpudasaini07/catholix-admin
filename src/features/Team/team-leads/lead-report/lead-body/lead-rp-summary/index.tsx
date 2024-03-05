@@ -18,7 +18,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
     <Card>
       <CardContent>
         <div className="flex items-center justify-start gap-3 mb-4">
-          <h5 className="font-medium text-zinc-700">RP Summary</h5>
+          <h5 className="font-medium text-zinc-700">Budget Summary</h5>
           <Button
             onClick={() =>
               router.push(
@@ -31,7 +31,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             View Trendline
           </Button>
         </div>
-        <div className="flex justify-between gap-5 pr-20 mt-9 flex-wrap">
+        <div className="flex flex-wrap justify-between gap-5 pr-20 mt-9">
           <div className="flex items-start justify-center gap-2">
             <div className="mt-2 text-blue-500">
               <Flag size={24} />
@@ -40,7 +40,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
               <p className="text-3xl font-semibold text-blue-500">
                 {available ? available : "N/A"}
               </p>
-              <p className="text-sm text-blue-600">Available RP</p>
+              <p className="text-sm text-blue-600">Available Budget</p>
             </div>
           </div>
           <div className="flex items-start justify-center gap-2">
@@ -51,7 +51,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
               <p className="text-3xl font-semibold text-green-500">
                 {spent ? spent : "N/A"}
               </p>
-              <p className="text-sm font-normal text-green-600">spent RP</p>
+              <p className="text-sm font-normal text-green-600">Spent Budget</p>
             </div>
           </div>
           <div className="flex items-start justify-center gap-2">
@@ -62,7 +62,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
               <p className="text-3xl font-semibold text-red-500">
                 {loss ? loss : "N/A"}
               </p>
-              <p className="text-sm text-red-600">Loss RP</p>
+              <p className="text-sm text-red-600">Loss Budget</p>
             </div>
           </div>
         </div>

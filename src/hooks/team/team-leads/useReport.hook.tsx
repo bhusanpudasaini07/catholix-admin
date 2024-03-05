@@ -181,7 +181,7 @@ const useReport = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Total RP Executed",
+      header: "Total Budget Executed",
       cell: ({ row }) => (
         <div className="font-medium">
           {Number(row?.original?.summary?.total_rp) ?? 0}
@@ -191,7 +191,7 @@ const useReport = () => {
     {
       id: "client_rp",
       accessorKey: "client_rp",
-      header: "Total RP Executed (Client)",
+      header: "Total Budget Executed (Client)",
       cell: ({ row }) => (
         <div className="font-medium">
           {row?.original?.summary?.commercial_rp ?? 0}
@@ -201,7 +201,7 @@ const useReport = () => {
     {
       id: "inhouse_rp",
       accessorKey: "inhouse_rp",
-      header: "Total RP Executed (In-House)",
+      header: "Total Budget Executed (In-House)",
       cell: ({ row }) => (
         <div className="font-medium">
           {row?.original?.summary?.inhouse_rp ?? 0}

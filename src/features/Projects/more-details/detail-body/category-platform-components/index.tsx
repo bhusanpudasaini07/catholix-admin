@@ -56,8 +56,12 @@ const CategoryPlatform = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="utilization">RP Utilization</SelectItem>
-                  <SelectItem value="consumption">RP Consumption</SelectItem>
+                  <SelectItem value="utilization">
+                    Budget Utilization
+                  </SelectItem>
+                  <SelectItem value="consumption">
+                    Budget Consumption
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -97,8 +101,12 @@ const CategoryPlatform = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="utilization">RP Utilization</SelectItem>
-                  <SelectItem value="consumption">RP Consumption</SelectItem>
+                  <SelectItem value="utilization">
+                    Budget Utilization
+                  </SelectItem>
+                  <SelectItem value="consumption">
+                    Budget Consumption
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>

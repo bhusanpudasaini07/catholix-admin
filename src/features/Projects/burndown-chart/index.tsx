@@ -11,8 +11,16 @@ import useRPBurndown from "@/hooks/project/detail/useRPBurndown.hook";
 
 const BurndownContent = () => {
   const router = useRouter();
-  const { columns, isLoading, burndownTableData, burndownOption } =
-    useRPBurndown();
+  const {
+    columns,
+    isLoading,
+    burndownTableData,
+    burndownOption,
+    date,
+    dailyRPColumns,
+    dailyRPLoading,
+    dailyRPTableData,
+  } = useRPBurndown();
 
   return (
     <div>
@@ -44,6 +52,10 @@ const BurndownContent = () => {
             columns={columns}
             data={burndownTableData ?? []}
             loading={isLoading}
+            date={date}
+            dailyTableData={dailyRPTableData}
+            dailyRPColumns={dailyRPColumns}
+            dailyLoading={dailyRPLoading}
           />
         </div>
       </div>

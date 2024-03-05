@@ -1,3 +1,6 @@
+import { IPagination } from "./pagination-interface";
+import { ILogEntry } from "./project-interface";
+
 export interface IStaff {
   data: IStaffDetails;
 }
@@ -17,6 +20,11 @@ export interface IStaffDetails {
   is_project_lead: string;
   is_team_lead: string;
   viber_receiver_id: string;
+  profile_image: string;
+  phone: string;
+  address: string;
+  ic_level: string;
+  career_date: string;
   department: {
     id: string;
     name: string;
@@ -33,4 +41,19 @@ export interface IStaffDetails {
     source: string;
   }>;
   tl_projects: Array<{}>;
+}
+
+export interface IStaffLogs {
+  data: {
+    report: {
+      available_rp: number;
+      available_time: number;
+      total_rp: number;
+      total_time: number;
+      client_rp: number;
+    };
+    time_logs: ILogEntry[];
+    staff_info: IStaffDetails;
+  };
+  pagination: IPagination;
 }

@@ -113,7 +113,6 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
   ];
-
   useEffect(() => {
     // Filtering projects based on the selected countries if filterStates.markets is not empty
     if (filterStates?.markets && filterStates?.markets?.length > 0) {

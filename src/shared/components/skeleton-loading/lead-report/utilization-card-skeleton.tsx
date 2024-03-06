@@ -11,7 +11,7 @@ const UtilizationSkeletonCard = () => {
           <div className="mx-auto">
             <div className="flex items-center justify-between">
               <div className="m-4">
-                <Skeleton className="w-56 h-9 mb-4" />
+                <Skeleton className="w-45 h-9 mb-4" />
                 <Skeleton className="w-36 h-4" />
               </div>
               <div className="relative m-4">
@@ -23,7 +23,7 @@ const UtilizationSkeletonCard = () => {
           <div className="mx-auto">
             <div className="flex items-center justify-between">
               <div className="m-4">
-                <Skeleton className="w-56 h-9 mb-4" />
+                <Skeleton className="w-45 h-9 mb-4" />
                 <Skeleton className="w-36 h-4" />
               </div>
               <div className="relative m-4">

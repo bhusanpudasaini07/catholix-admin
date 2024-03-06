@@ -12,7 +12,7 @@ interface IProps {
 
 const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
   const router = useRouter();
-  const current_id = router.query?.lead_id || undefined;
+  const current_id = router.query?.lead_id || "all";
 
   return (
     <Card>

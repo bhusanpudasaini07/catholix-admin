@@ -62,7 +62,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
 
         <Tabs
           defaultValue="monthly"
-          className=" flex items-center flex-row-reverse gap-3"
+          className=" flex items-center flex-wrap flex-row-reverse gap-3"
         >
           <TabsList>
             <TabsTrigger value="monthly">Monthly</TabsTrigger>

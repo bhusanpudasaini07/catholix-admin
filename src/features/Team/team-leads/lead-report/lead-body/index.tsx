@@ -21,6 +21,8 @@ import { useQuery } from "react-query";
 import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
 import moment from "moment";
 import ProjectPerformanceDetail from "./project-performance-detail";
+import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
+import ProjectsOverviewSkeleton from "@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -204,24 +206,35 @@ const LeadReportBody = ({ dateRange }: any) => {
         ) : (
           <UtilizationSkeletonCard />
         )}
-
-        <RpSummary
-          available={totalAvailableRP}
-          spent={totalUsedRP}
-          loss={totalLossRP}
-        />
-        <OtherInfo
-          staff={totalActiveStaff}
-          client={totalCommercialRP}
-          in_house={totalInhouseRP}
-        />
+        {staffDataLoading ? (
+          <SummaryCardSkeleton />
+        ) : (
+          <RpSummary
+            available={totalAvailableRP}
+            spent={totalUsedRP}
+            loss={totalLossRP}
+          />
+        )}
+        {staffDataLoading ? (
+          <SummaryCardSkeleton />
+        ) : (
+          <OtherInfo
+            staff={totalActiveStaff}
+            client={totalCommercialRP}
+            in_house={totalInhouseRP}
+          />
+        )}
       </div>
-      <ProjectOverview
-        total={totalProjects}
-        risk={totalHighRiskProjects}
-        in_house={totalInhouseProjects}
-        client={totalClientProjects}
-      />
+      {staffDataLoading ? (
+        <ProjectsOverviewSkeleton />
+      ) : (
+        <ProjectOverview
+          total={totalProjects}
+          risk={totalHighRiskProjects}
+          in_house={totalInhouseProjects}
+          client={totalClientProjects}
+        />
+      )}
       {currentPage && currentPage !== "all" ? (
         <div className="mt-4">
           <ProjectPerformanceDetail

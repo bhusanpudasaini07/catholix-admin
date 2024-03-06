@@ -85,7 +85,7 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <div className="w-[70px]">
+        <div className="w-[120px]">
           <Badge
             variant={"outline"}
             className={`whitespace-nowrap 

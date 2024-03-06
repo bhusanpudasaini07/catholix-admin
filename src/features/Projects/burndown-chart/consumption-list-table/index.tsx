@@ -1,6 +1,7 @@
 import { IBurndownDate, IDailyRP } from "@/interface/project-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import React from "react";
@@ -58,10 +59,8 @@ const ConsumptionListTable = ({
                 {
                   columnId: "time",
                   format: (value) => {
-                    return `${
-                      moment.duration(value, "seconds").hours() > 0 &&
-                      moment.duration(value, "seconds").hours() + "H"
-                    } ${moment.duration(value, "seconds").minutes() + "M"}`;
+                    const { hours, minutes } = calculateTimeLog(value);
+                    return `${hours > 0 && hours + "H"} ${minutes + "M"}`;
                   },
                 },
                 {

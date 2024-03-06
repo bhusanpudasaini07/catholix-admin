@@ -253,11 +253,9 @@ const useRPBurndown = () => {
   /**
    * To make default selected date
    */
-  // useEffect(() => {
-  //   if (burndownTableData) {
-  //     setDate(burndownTableData[0]?.date);
-  //   }
-  // }, [burndownTableData]);
+  useEffect(() => {
+    burndownTableData && date === "" && setDate(burndownTableData[0]?.date);
+  }, [burndownTableData]);
 
   return {
     burndownData,

@@ -93,7 +93,7 @@ const httpRequest = async (
       data: response?.data?.data,
     };
   } catch (error: any) {
-    if (error?.status === 401) {
+    if (error?.response?.status === 401) {
       window.location.href = "/not-found";
     }
     throw error?.response?.data?.errors;

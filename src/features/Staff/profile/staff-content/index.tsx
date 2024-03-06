@@ -9,8 +9,16 @@ import AllTimeProjects from "./all-time-projects";
 import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
 
 const StaffContent = () => {
-  const { staffDetails, staffDetailsLoading, staffLog, staffLogLoading } =
-    useStaffDetail();
+  const {
+    staffDetails,
+    staffDetailsLoading,
+    staffLog,
+    staffLogLoading,
+    rpDate,
+    rpDateOpen,
+    setRpDateOpen,
+    changeRPDate,
+  } = useStaffDetail();
   return (
     <div className="grid grid-cols-1 gap-4">
       <StaffDetailOverview
@@ -38,6 +46,10 @@ const StaffContent = () => {
               : 0,
           }}
           loading={staffLogLoading}
+          date={rpDate}
+          setDate={changeRPDate}
+          dateOpen={rpDateOpen}
+          setDateOpen={setRpDateOpen}
         />
         <ProjectsOverview />
       </div>

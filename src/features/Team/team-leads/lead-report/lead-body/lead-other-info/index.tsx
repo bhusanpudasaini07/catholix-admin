@@ -33,7 +33,7 @@ const OtherInfo: FC<IProps> = ({ in_house, client, staff }) => {
               <p className="text-3xl font-semibold text-zinc-700">
                 {in_house ? in_house : "N/A"}
               </p>
-              <p className="text-sm text-zinc-600">In-House Project RP</p>
+              <p className="text-sm text-zinc-600">In-House Project Budget</p>
             </div>
           </div>
           <div className="flex items-start justify-center gap-2">
@@ -45,7 +45,7 @@ const OtherInfo: FC<IProps> = ({ in_house, client, staff }) => {
                 {client ? client : "N/A"}
               </p>
               <p className="text-sm font-normal text-zinc-600">
-                Client&apos;s Project RP
+                Client&apos;s Project Budget
               </p>
             </div>
           </div>

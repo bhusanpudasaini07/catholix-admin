@@ -73,7 +73,7 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       cell: ({ row }) => (
         <Link
           href={`/projects/${row?.original?.code}`}
-          className="text-blue-500 text-sm font-semibold"
+          className="text-sm font-semibold text-blue-500"
         >
           {row?.getValue("title")}
         </Link>
@@ -122,7 +122,7 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       accessorKey: "market",
       header: "Country",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row?.getValue("market")}
         </div>
       ),
@@ -131,9 +131,9 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
     {
       id: "total_rp",
       accessorKey: "total_rp",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row?.getValue("total_rp")}
         </div>
       ),
@@ -144,7 +144,7 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%
         </div>
       ),

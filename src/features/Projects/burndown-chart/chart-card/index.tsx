@@ -13,7 +13,9 @@ const ChartCard = ({ option }: IProps) => {
     <Card>
       <CardContent>
         <div className="flex items-center gap-4 mb-10">
-          <p className="text-lg font-medium text-zinc-700">RP Burndown Chart</p>
+          <p className="text-lg font-medium text-zinc-700">
+            Budget Burndown Chart
+          </p>
           <Button variant={"white"} size={"sm"}>
             View Team RP
           </Button>

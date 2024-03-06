@@ -53,7 +53,15 @@ const SummaryReportSkeleton = () => {
                 </div>
               </div>
               <div className="col-span-4">
-                <Skeleton className="size-[200px] rounded-full m-auto" />
+                <div className="relative">
+                  <Skeleton className="size-[200px] rounded-full m-auto" />
+                  <div className="absolute top-0 bottom-0 left-0 right-0 flex items-center justify-center">
+                    <div className="relative">
+                      <Skeleton className="size-[150px] bg-white  rounded-full m-auto" />
+                      <Skeleton className="size-[120px] absolute top-[10%] left-[10%] rounded-full m-auto" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

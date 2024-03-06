@@ -73,7 +73,7 @@ const useMoreDetail = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP Consumption",
+      header: "Budget Consumed",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
       ),

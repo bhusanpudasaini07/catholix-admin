@@ -121,7 +121,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       accessorKey: "country",
       header: "Country",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {row?.getValue("country")}
         </div>
       ),
@@ -129,9 +129,9 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
     {
       id: "totalRP",
       accessorKey: "totalRP",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {row?.getValue("totalRP")}
         </div>
       ),
@@ -142,7 +142,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="text-base font-semibold text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {row?.getValue("percentage")}%
         </div>
       ),
@@ -155,7 +155,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
         <div className="grid grid-row-1">
           <div className="flex flex-wrap items-center gap-2 mb-8">
             <h5 className="font-medium text-zinc-700">
-              In-House Market Wise RP
+              In-House Market Wise Budget
             </h5>
           </div>
           <div className="my-auto">

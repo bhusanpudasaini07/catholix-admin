@@ -123,7 +123,7 @@ const useRPConsumption = () => {
     },
     legend: {
       data: wiseType === "role" ? uniqueRoleNames : departmentUniqueNames,
-      itemGap: 15,
+      itemGap: 12,
     },
     grid: {
       left: "3%",
@@ -131,11 +131,7 @@ const useRPConsumption = () => {
       bottom: "0%",
       containLabel: true,
     },
-    toolbox: {
-      feature: {
-        saveAsImage: {},
-      },
-    },
+
     xAxis: {
       type: "category",
       boundaryGap: false,

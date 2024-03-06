@@ -9,7 +9,7 @@ const StaffDetail: NextPageWithLayout = () => {
   return (
     <>
       <StaffHeader />
-      <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
         <StaffContent />
       </div>
     </>
@@ -40,5 +40,5 @@ export const getServerSideProps = async ({ query, locale }: any) => {
 };
 
 StaffDetail.getLayout = (page) => {
-  return <MainLayout title="Projects">{page}</MainLayout>;
+  return <MainLayout title="Staff">{page}</MainLayout>;
 };

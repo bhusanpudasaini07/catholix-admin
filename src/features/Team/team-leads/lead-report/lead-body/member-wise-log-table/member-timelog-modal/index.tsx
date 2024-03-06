@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Activity, Hourglass, TrendingDown } from "lucide-react";
+import moment from "moment";
 import Link from "next/link";
 import { FC } from "react";
 
@@ -23,19 +24,25 @@ const MemberTimeLogModal: FC<IProps> = ({
       id: "time",
       accessorKey: "time",
       header: "Time Logged",
-      cell: ({ row }) => (
-        <div className="text-zinc-500 text-sm font-medium">
-          {row.getValue("time")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        return (
+          <div className="text-sm font-medium text-zinc-500">
+            {moment.duration(row?.original?.time, "seconds").hours() > 0 &&
+              moment.duration(row?.original?.time, "seconds").hours() +
+                "H" +
+                " "}
+            {moment.duration(row?.original?.time, "seconds").minutes()}M
+          </div>
+        );
+      },
       enableHiding: false,
     },
     {
       id: "rp",
       accessorKey: "rp",
-      header: "RP",
+      header: "Budget",
       cell: ({ row }) => (
-        <div className="text-zinc-500 text-sm font-medium">
+        <div className="text-sm font-medium text-zinc-500">
           {row.getValue("rp")}
         </div>
       ),
@@ -47,7 +54,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       header: "Project",
       cell: ({ row }) => (
         <Link
-          className="text-blue-500 text-sm font-medium"
+          className="text-sm font-medium text-blue-500"
           href={`/projects/${row?.original?.project_code}`}
         >
           {row.getValue("project_title")}
@@ -60,7 +67,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       accessorKey: "task_title",
       header: "Task",
       cell: ({ row }) => (
-        <Link href={""} className="text-blue-500 text-sm font-medium">
+        <Link href={""} className="text-sm font-medium text-blue-500">
           {row.getValue("task_title")}
         </Link>
       ),
@@ -99,7 +106,7 @@ const MemberTimeLogModal: FC<IProps> = ({
                       {daily?.used_rp}
                     </p>
                     <p className="text-sm font-normal text-green-600">
-                      spent RP
+                      Spent Budget
                     </p>
                   </div>
                 </div>
@@ -111,7 +118,7 @@ const MemberTimeLogModal: FC<IProps> = ({
                     <p className="text-3xl font-semibold text-red-500">
                       {daily?.loss_rp}
                     </p>
-                    <p className="text-sm text-red-600">Loss RP</p>
+                    <p className="text-sm text-red-600">Loss Budget</p>
                   </div>
                 </div>
               </div>

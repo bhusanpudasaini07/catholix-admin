@@ -21,10 +21,10 @@ const ReportOverall = ({
       <CardContent>
         <div className="flex items-center justify-between mb-10">
           <p className="text-lg font-medium text-zinc-700">
-            RP Executed (Overall)
+            Budget Executed (Overall)
           </p>
         </div>
-        <div className="grid items-center grid-cols-2 2xl:grid-cols-4">
+        <div className="flex flex-wrap items-center gap-x-[120px] gap-y-10">
           {/* Total RP */}
           <div>
             {loading ? (
@@ -35,14 +35,16 @@ const ReportOverall = ({
               </p>
             )}
 
-            <p className="text-sm text-zinc-500">Total RP</p>
+            <p className="text-sm text-zinc-500">Total Budget</p>
           </div>
           {/* RP Used (Commercial) */}
           {loading ? (
             <div className="flex items-center gap-6">
               <div>
                 <Skeleton className="w-40 h-5 mb-2" />
-                <p className="text-sm text-zinc-500">RP Used (Commercial)</p>
+                <p className="text-sm text-zinc-500">
+                  Budget Used (Commercial)
+                </p>
               </div>
               <div className="relative">
                 <Skeleton className="w-20 h-20 rounded-full" />
@@ -55,7 +57,9 @@ const ReportOverall = ({
                 <p className="mb-1 text-3xl font-semibold text-zinc-800">
                   {totalCommercialRp.toFixed(2)}
                 </p>
-                <p className="text-sm text-zinc-500">RP Used (Commercial)</p>
+                <p className="text-sm text-zinc-500">
+                  Budget Used (Commercial)
+                </p>
               </div>
               <div className="min-w-[120px]">
                 <SummaryPieChart
@@ -71,7 +75,7 @@ const ReportOverall = ({
             <div className="flex items-center gap-6">
               <div>
                 <Skeleton className="w-40 h-5 mb-2" />
-                <p className="text-sm text-zinc-500">RP Used (In-House)</p>
+                <p className="text-sm text-zinc-500">Budget Used (In-House)</p>
               </div>
               <div className="relative">
                 <Skeleton className="w-20 h-20 rounded-full" />
@@ -89,7 +93,7 @@ const ReportOverall = ({
                   </p>
                 )}
 
-                <p className="text-sm text-zinc-500">RP Used (In-House)</p>
+                <p className="text-sm text-zinc-500">Budget Used (In-House)</p>
               </div>
               <div className="min-w-[120px]">
                 <SummaryPieChart

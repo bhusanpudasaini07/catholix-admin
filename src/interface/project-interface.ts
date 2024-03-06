@@ -362,3 +362,12 @@ export interface IProjectTaskBugRatio {
   task_rp: number;
   bug_rp: number;
 }
+
+// Daily RP interface
+
+export interface IDailyRP {
+  name: string;
+  time: number;
+  rp: number;
+  username: string;
+}

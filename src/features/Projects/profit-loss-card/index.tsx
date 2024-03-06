@@ -39,12 +39,12 @@ const ProfitLossCard = ({ data }: IProps) => {
           <p className="my-3 text-2xl font-semibold">
             {data?.rp?.used_rp ?? 0} / {data?.rp?.sales_rp ?? 0}
           </p>
-          <p className="text-sm">Total RP Used</p>
+          <p className="text-sm">Total Budget Used</p>
         </div>
 
         <div className="flex items-end justify-between w-full pt-4 border-t border-t-zinc-200">
           <div className="text-zinc-700">
-            <p className="text-xs">RP Left:</p>
+            <p className="text-xs">Budget Left:</p>
             <p className="text-base font-semibold">
               {((data?.rp?.sales_rp ?? 0) - (data?.rp?.used_rp ?? 0)).toFixed(
                 2

@@ -1,5 +1,7 @@
+import React from "react";
 import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
+import DateRangeFilter from "@/shared/components/date-range-filter";
 import FilterSearch from "@/shared/components/filter-search";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -10,10 +12,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import React from "react";
 
 const StaffProjectsList = () => {
-  const { projectsOverviewColumns } = useStaffDetail();
+  const {
+    projectsOverviewColumns,
+    staffProjects,
+    staffProjectsLoading,
+    setSearchText,
+    changeDate,
+    date,
+    dateRangeOpen,
+    setDateRangeOpen,
+    status,
+    setStatus,
+  } = useStaffDetail();
   return (
     <Card>
       <CardContent>
@@ -28,25 +40,30 @@ const StaffProjectsList = () => {
           </div>
           <div className="flex items-center justify-end gap-4 grow">
             {/* Filter Search */}
-            <FilterSearch className="h-10" setSearchText={() => ""} />
+            <FilterSearch className="h-10" setSearchText={setSearchText} />
 
             {/* Role */}
-            <Select defaultValue="role">
-              <SelectTrigger className="max-w-[200px] h-auto">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="role">Role</SelectItem>
-              </SelectContent>
-            </Select>
+            <DateRangeFilter
+              dateRange={date}
+              setDateRange={changeDate}
+              dateRangeOpen={dateRangeOpen}
+              setDateRangeOpen={setDateRangeOpen}
+              buttonClassName="max-w-[300px]"
+            />
 
             {/* Status */}
-            <Select defaultValue="status">
+            <Select defaultValue={status} onValueChange={(e) => setStatus(e)}>
               <SelectTrigger className="max-w-[200px] h-auto">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="role">Status</SelectItem>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="In Progress">In Progress</SelectItem>
+                <SelectItem value="Client Support">Client Support</SelectItem>
+                <SelectItem value="Delivered">Delivered</SelectItem>
+                <SelectItem value="Closed">Closed</SelectItem>
+                <SelectItem value="On Hold">On Hold</SelectItem>
+                <SelectItem value="Not Started">Not Started</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -54,7 +71,9 @@ const StaffProjectsList = () => {
 
         <DataTable
           columns={projectsOverviewColumns}
-          data={[]}
+          data={staffProjects?.data?.projects ?? []}
+          loading={staffProjectsLoading}
+          loadingDataNum={5}
           border
           headerSticky
           height="max-h-[500px]"

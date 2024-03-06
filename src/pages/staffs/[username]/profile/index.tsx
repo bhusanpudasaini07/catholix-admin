@@ -1,11 +1,11 @@
-import React from "react";
+import StaffContent from "@/features/Staff/profile/staff-content";
+import StaffHeader from "@/features/Staff/profile/staff-header";
 import { NextPageWithLayout } from "@/pages/_app";
 import MainLayout from "@/shared/main-layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import StaffHeader from "@/features/Staff/profile/staff-header";
-import StaffContent from "@/features/Staff/profile/staff-content";
+import React from "react";
 
-const StaffDetail: NextPageWithLayout = () => {
+const StaffProfile: NextPageWithLayout = () => {
   return (
     <>
       <StaffHeader />
@@ -16,7 +16,7 @@ const StaffDetail: NextPageWithLayout = () => {
   );
 };
 
-export default StaffDetail;
+export default StaffProfile;
 
 export const getServerSideProps = async ({ query, locale }: any) => {
   const paths = [
@@ -39,6 +39,6 @@ export const getServerSideProps = async ({ query, locale }: any) => {
   };
 };
 
-StaffDetail.getLayout = (page) => {
+StaffProfile.getLayout = (page) => {
   return <MainLayout title="Staff">{page}</MainLayout>;
 };

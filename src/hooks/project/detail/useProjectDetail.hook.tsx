@@ -311,6 +311,19 @@ export const useProjectDetail = () => {
     },
     tooltip: {
       trigger: "axis",
+      formatter: function (params: any) {
+        let result = params[0].axisValueLabel + "<br/>";
+        params.forEach(function (item: any) {
+          result +=
+            item.marker +
+            " " +
+            (item.seriesIndex === 0 ? "Ideal" : "Utilized") +
+            ": " +
+            item.value[item.seriesIndex + 1] +
+            "<br/>";
+        });
+        return result;
+      },
     },
   };
 

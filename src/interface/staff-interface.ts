@@ -73,10 +73,40 @@ export interface IStaffProjectsDetail {
   source: string;
   status: string;
   time: number;
+  project_lead_username: string;
 }
 export interface IStaffProjects {
   data: {
     projects: IStaffProjectsDetail[];
     staff_info: IStaffDetails;
   };
+}
+
+interface IStaffUtilizationDetail {
+  [key: string]: {
+    available_rp: string;
+    available_time: string;
+    commercial_rp: string;
+    commercial_time: string;
+    holiday: string;
+    on_leave: string;
+    rp: string;
+    time: string;
+  };
+}
+
+export interface IStaffUtilizationTable {
+  available_rp: string;
+  available_time: string;
+  commercial_rp: string;
+  commercial_time: string;
+  holiday: string;
+  on_leave: string;
+  rp: string;
+  time: string;
+  date: string;
+}
+
+export interface IStaffUtilization {
+  data: IStaffUtilizationDetail[];
 }

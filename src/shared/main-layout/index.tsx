@@ -28,7 +28,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   return (
     <>
       <Head>
-        <title>Resource Planning{title && `| ${title}`}</title>
+        <title>Resource Planning</title>
       </Head>
 
       {/* Body Content */}

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/utils";
 import { CircleDot, UserCircle2, Warehouse } from "lucide-react";
 import React from "react";
+import { DateRange } from "react-day-picker";
 
 interface IProps {
   report: {
@@ -13,9 +14,21 @@ interface IProps {
     inhouse: number | string;
   };
   loading: boolean;
+
+  date: DateRange | undefined;
+  setDate: (arg: any) => void;
+  dateOpen: boolean;
+  setDateOpen: (arg: boolean) => void;
 }
 
-const RPAllocation = ({ report, loading }: IProps) => {
+const RPAllocation = ({
+  report,
+  loading,
+  date,
+  setDate,
+  dateOpen,
+  setDateOpen,
+}: IProps) => {
   const rpData = [
     // Total RP
     {
@@ -58,14 +71,13 @@ const RPAllocation = ({ report, loading }: IProps) => {
                   More Details
                 </Button>
               </div>
-              <div className="w-[200px]">
-                <DateRangeFilter
-                  dateRange={undefined}
-                  setDateRange={() => ""}
-                  dateRangeOpen={false}
-                  setDateRangeOpen={() => ""}
-                />
-              </div>
+              <DateRangeFilter
+                buttonClassName="max-w-[250px]"
+                dateRange={date}
+                setDateRange={setDate}
+                dateRangeOpen={dateOpen}
+                setDateRangeOpen={setDateOpen}
+              />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3">
               {rpData?.map((rp) => (

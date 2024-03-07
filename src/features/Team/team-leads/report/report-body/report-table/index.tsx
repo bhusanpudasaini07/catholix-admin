@@ -7,7 +7,6 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { DownloadCloud } from "lucide-react";
-import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
 import { cn } from "@/shared/utils/utils";
 
 interface IProps {
@@ -24,7 +23,6 @@ const ReportSummaryTable = ({
   columns,
   data,
   loading,
-  staffRPLoading,
   countryOptions,
   rpOptions,
   leadDetail,

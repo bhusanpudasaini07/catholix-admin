@@ -39,10 +39,8 @@ const StaffContent = () => {
             total: staffLog?.data?.report?.total_rp ?? 0,
             client: staffLog?.data?.report?.client_rp ?? 0,
             inhouse: staffLog
-              ? (
-                  staffLog?.data?.report?.total_rp -
-                  staffLog?.data?.report?.client_rp
-                ).toFixed(2)
+              ? staffLog?.data?.report?.total_rp -
+                staffLog?.data?.report?.client_rp
               : 0,
           }}
           loading={staffLogLoading}

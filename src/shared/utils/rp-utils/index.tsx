@@ -172,6 +172,15 @@ const calculateTimeLog = (time: number) => {
   return { hours, minutes };
 };
 
+const changeNumberFormat = (num: number) => {
+  const changedValue = new Intl.NumberFormat(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(num);
+
+  return changedValue;
+};
+
 export {
   showDeadline,
   changeDateDisplay,
@@ -181,4 +190,5 @@ export {
   calculateDeadlinePercentValue,
   calculateUsedAndUnusedRpPercentage,
   calculateTimeLog,
+  changeNumberFormat,
 };

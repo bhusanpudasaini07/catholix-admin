@@ -21,8 +21,8 @@ const MoreDetailBody = () => {
   } = useMoreDetail();
 
   return (
-    <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
-      <DetailOverviewMoreDetail />
+    <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      {/* <DetailOverviewMoreDetail /> */}
       <TimeLogPattern />
       <Status
         setSelectValue={setSelectValue}

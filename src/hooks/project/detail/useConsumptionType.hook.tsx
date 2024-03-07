@@ -6,7 +6,7 @@ import {
 } from "@/interface/project-interface";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import useProjectRpSummary from "./useProjectRpSummary.hook";
 
 const useConsumptionType = () => {
@@ -58,7 +58,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     {
@@ -116,7 +118,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // %
@@ -176,7 +180,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp").toFixed(2)}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // Percentage
@@ -220,7 +226,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // Percentage

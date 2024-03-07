@@ -3,6 +3,7 @@ import {
   IStaffUtilizationTable,
 } from "@/interface/staff-interface";
 import { getStaffUtilization } from "@/services/staff/staff-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
@@ -126,7 +127,7 @@ const useStaffUtilization = () => {
               : "text-zinc-500"
           )}
         >
-          {row?.getValue("available_rp")}
+          {changeNumberFormat(row?.getValue("available_rp"))}
         </div>
       ),
     },
@@ -143,7 +144,7 @@ const useStaffUtilization = () => {
               : "text-zinc-500"
           )}
         >
-          {row?.getValue("rp")}
+          {changeNumberFormat(row?.getValue("rp"))}
         </div>
       ),
     },
@@ -216,7 +217,7 @@ const useStaffUtilization = () => {
               : "text-zinc-500"
           )}
         >
-          {row?.getValue("available_rp")}
+          {changeNumberFormat(row?.getValue("available_rp"))}
         </div>
       ),
     },
@@ -233,7 +234,7 @@ const useStaffUtilization = () => {
               : "text-zinc-500"
           )}
         >
-          {row?.getValue("rp")}
+          {changeNumberFormat(row?.getValue("rp"))}
         </div>
       ),
     },

@@ -2,6 +2,7 @@ import DateRangeFilter from "@/shared/components/date-range-filter";
 import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { CircleDot, UserCircle2, Warehouse } from "lucide-react";
 import React from "react";
@@ -11,7 +12,7 @@ interface IProps {
   report: {
     total: number;
     client: number;
-    inhouse: number | string;
+    inhouse: number;
   };
   loading: boolean;
 
@@ -33,7 +34,7 @@ const RPAllocation = ({
     // Total RP
     {
       title: "Total RP",
-      data: report?.total,
+      data: changeNumberFormat(report?.total),
       icon: <CircleDot size={24} />,
       color: "text-green-500",
       titleColor: "text-green-700",
@@ -41,7 +42,7 @@ const RPAllocation = ({
     // Client RP
     {
       title: "Client RP",
-      data: report?.client,
+      data: changeNumberFormat(report?.client),
       icon: <UserCircle2 size={24} />,
       color: "text-blue-500",
       titleColor: "text-blue-700",
@@ -49,7 +50,7 @@ const RPAllocation = ({
     // IN-House RP
     {
       title: "In-House RP",
-      data: report?.inhouse,
+      data: changeNumberFormat(report?.inhouse),
       icon: <Warehouse size={24} />,
       color: "text-orange-500",
       titleColor: "text-orange-700",

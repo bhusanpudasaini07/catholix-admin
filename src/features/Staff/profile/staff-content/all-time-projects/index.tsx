@@ -2,6 +2,7 @@ import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
 import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -48,7 +49,8 @@ const AllTimeProjects = () => {
                     </Link>
 
                     <p className="my-3 text-2xl font-semibold">
-                      {project?.overall_used_rp ?? 0} / {project?.sales_rp ?? 0}
+                      {changeNumberFormat(project?.overall_used_rp) ?? 0} /{" "}
+                      {changeNumberFormat(project?.sales_rp) ?? 0}
                     </p>
                     <p className="text-sm">Total RP Used</p>
                   </div>

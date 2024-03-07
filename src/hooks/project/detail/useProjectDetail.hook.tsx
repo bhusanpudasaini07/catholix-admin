@@ -16,6 +16,7 @@ import {
   getRpSummary,
 } from "@/services/project/project-service";
 import { getStaffDetails } from "@/services/staff/staff-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { useRouter } from "next/router";
@@ -102,7 +103,9 @@ export const useProjectDetail = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Unit",
-      cell: ({ row }) => <div className="w-[50px]">{row.getValue("rp")}</div>,
+      cell: ({ row }) => (
+        <div className="w-[50px]">{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     {
@@ -145,7 +148,9 @@ export const useProjectDetail = () => {
       accessorKey: "rp",
       header: "Budget",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
+        <div className="font-semibold text-zinc-700">
+          {changeNumberFormat(row.getValue("rp"))}
+        </div>
       ),
       enableHiding: false,
     },

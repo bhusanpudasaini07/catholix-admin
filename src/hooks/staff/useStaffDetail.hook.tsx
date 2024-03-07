@@ -215,32 +215,65 @@ const useStaffDetail = () => {
     {
       id: "sales_rp",
       accessorKey: "sales_rp",
-      header: "Sales Budget",
-      cell: ({ row }: any) => <div>{row?.getValue("sales_rp")}</div>,
+      header: () => (
+        <div>
+          Sales <br /> Budget
+        </div>
+      ),
+      cell: ({ row }: any) => (
+        <div>
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("sales_rp"))}
+        </div>
+      ),
     },
     // Used RP
     {
       id: "overall_used_rp",
       accessorKey: "overall_used_rp",
-      header: "Used Budget",
+      header: () => (
+        <div>
+          Used <br /> Budget
+        </div>
+      ),
       cell: ({ row }: any) => (
-        <div className="font-medium">{row?.getValue("overall_used_rp")}</div>
+        <div className="font-medium">
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("overall_used_rp"))}
+        </div>
       ),
     },
     // RP Contribution
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget Contribution",
+      header: () => (
+        <div>
+          Budget <br /> Contribution
+        </div>
+      ),
       cell: ({ row }: any) => (
-        <div className="font-medium">{row?.getValue("rp")}</div>
+        <div className="font-medium">
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("rp"))}
+        </div>
       ),
     },
     // Time Contribution
     {
       id: "time",
       accessorKey: "time",
-      header: "Time Contribution",
+      header: () => (
+        <div>
+          Time <br /> Contribution
+        </div>
+      ),
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
         return (

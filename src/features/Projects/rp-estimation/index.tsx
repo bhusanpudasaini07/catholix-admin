@@ -15,7 +15,7 @@ const RpEstimationContent = () => {
         estimationData={estimationData}
         estimation_total_data={estimationData?.data?.estimation?.length ?? 0}
       />
-      <div className="p-8 max-h-[calc(100vh-175px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-175px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           {estimationDataLoading ? (
             <RPEstimationSkeleton />

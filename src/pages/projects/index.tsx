@@ -155,7 +155,7 @@ const Projects: NextPageWithLayout = () => {
           </div>
         )}
 
-        <div className="p-8">
+        <div className="p-6">
           <TabsContent value="list_view">
             {isLoading ? (
               <ProjectTableSkeleton />

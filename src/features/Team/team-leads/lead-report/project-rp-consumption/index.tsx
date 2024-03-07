@@ -8,7 +8,7 @@ const ProjectRPConsumptionContent = () => {
     <>
       <ProjectRPConsumptionHeader />
 
-      <div className="p-8 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
         <ProjectRPConsumptionBody />
       </div>
     </>

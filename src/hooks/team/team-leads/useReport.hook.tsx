@@ -17,6 +17,7 @@ import {
   getLeadsList,
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const useReport = () => {
   const router = useRouter();
@@ -184,7 +185,7 @@ const useReport = () => {
       header: "Total Budget Executed",
       cell: ({ row }) => (
         <div className="font-medium">
-          {Number(row?.original?.summary?.total_rp) ?? 0}
+          {changeNumberFormat(row?.original?.summary?.total_rp) ?? 0}
         </div>
       ),
     },
@@ -194,7 +195,7 @@ const useReport = () => {
       header: "Total Budget Executed (Client)",
       cell: ({ row }) => (
         <div className="font-medium">
-          {row?.original?.summary?.commercial_rp ?? 0}
+          {changeNumberFormat(row?.original?.summary?.commercial_rp) ?? 0}
         </div>
       ),
     },
@@ -204,7 +205,7 @@ const useReport = () => {
       header: "Total Budget Executed (In-House)",
       cell: ({ row }) => (
         <div className="font-medium">
-          {row?.original?.summary?.inhouse_rp ?? 0}
+          {changeNumberFormat(row?.original?.summary?.inhouse_rp) ?? 0}
         </div>
       ),
     },

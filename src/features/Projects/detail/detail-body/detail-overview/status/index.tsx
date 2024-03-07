@@ -1,6 +1,6 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts from "echarts-for-react";
+import ReactECharts, { EChartsOption } from "echarts-for-react";
 import { IType, ITypeCount } from "@/interface/project-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 
@@ -8,7 +8,8 @@ interface IProps {
   columns: ColumnDef<ITypeCount>[];
   statusData: IType | undefined;
   loading: boolean;
-  option: any;
+  option: EChartsOption;
+  chartRef: any;
 }
 
 const ProjectDetailStatus = ({
@@ -16,6 +17,7 @@ const ProjectDetailStatus = ({
   statusData,
   loading,
   option,
+  chartRef,
 }: IProps) => {
   return (
     <div className="grid grid-cols-5">
@@ -31,7 +33,11 @@ const ProjectDetailStatus = ({
       </div>
 
       <div className="col-span-2">
-        <ReactECharts opts={{ renderer: "svg" }} option={option} />
+        <ReactECharts
+          ref={chartRef}
+          opts={{ renderer: "svg" }}
+          option={option}
+        />
       </div>
     </div>
   );

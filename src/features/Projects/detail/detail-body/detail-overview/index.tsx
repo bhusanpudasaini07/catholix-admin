@@ -61,6 +61,7 @@ const DetailOverview = () => {
     statusOption,
     burndownOption,
     changeRoute,
+    chartRef,
   } = useProjectDetail();
 
   const { salesRp, salesLoading } = useProjectSales();
@@ -353,6 +354,7 @@ const DetailOverview = () => {
                     columns={statusColumn}
                     statusData={projectTaskLabelData?.data[2]}
                     loading={projectTaskLabelLoading}
+                    chartRef={chartRef}
                   />
                 </TabsContent>
                 <TabsContent value="burndown">

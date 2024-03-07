@@ -11,8 +11,14 @@ import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook
 const ConsumptionType = () => {
   const { rpSummary, rpLoading } = useProjectRpSummary();
 
-  const { staffColumns, roleColumns, staffWiseOption, roleWiseOption } =
-    useConsumptionType();
+  const {
+    staffColumns,
+    roleColumns,
+    staffWiseOption,
+    roleWiseOption,
+    teamChartRef,
+    roleChartRef,
+  } = useConsumptionType();
 
   return (
     <div className="grid grid-cols-12 gap-4 mt-4">
@@ -32,6 +38,7 @@ const ConsumptionType = () => {
             </div>
             <div className="">
               <ReactECharts
+                ref={teamChartRef}
                 opts={{ renderer: "svg" }}
                 option={staffWiseOption}
               />
@@ -67,6 +74,7 @@ const ConsumptionType = () => {
             <div className="">
               <ReactECharts
                 option={roleWiseOption}
+                ref={roleChartRef}
                 opts={{ renderer: "svg" }}
               />
             </div>

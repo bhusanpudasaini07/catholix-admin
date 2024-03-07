@@ -18,9 +18,10 @@ import {
 import { getStaffDetails } from "@/services/staff/staff-service";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { EChartsInstance } from "echarts-for-react";
 import moment from "moment";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 
 interface IProps {
@@ -30,6 +31,7 @@ interface IProps {
 export const useProjectDetail = () => {
   const router = useRouter();
   const { code } = router?.query;
+  const chartRef = useRef<EChartsInstance>(null);
 
   // STATES
   const [gitModalOpen, setGitModalOpen] = useState(false);
@@ -180,9 +182,6 @@ export const useProjectDetail = () => {
   ];
   //   STATUS PIE OPTION
   const statusOption = {
-    tooltip: {
-      trigger: "item",
-    },
     color: [
       "#0891B2",
       "#FACC15",
@@ -209,22 +208,34 @@ export const useProjectDetail = () => {
         },
         label: {
           show: true,
-          position: "outer",
-          //   formatter: "{b}: {c} ({d}%)",
+          position: "center",
+          formatter: (item: any) => {
+            return "{a|" + item.value + "%" + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
           labelLine: {
-            show: true,
+            show: false,
           },
         },
         labelLine: {
-          show: true,
-          length: 20,
-          minTurnAngle: 0,
-          maxSurfaceAngle: 360,
+          show: false,
         },
         data: projectTaskLabelData
           ? projectTaskLabelData?.data[2]?.count?.map((item) => {
@@ -387,10 +398,11 @@ export const useProjectDetail = () => {
           lineStyle: {
             width: 50,
             color: [
-              [0.25, "rgba(239, 68, 68, 1)"],
-              [0.5, "rgba(250, 204, 21, 1)"],
-              [0.75, "rgba(250, 204, 21, 1)"],
-              [1, "rgba(54, 139, 55, 1)"],
+              [0.2, "#B91C1C"],
+              [0.4, "#EF4444"],
+              [0.6, "#FD850A"],
+              [0.8, "#FACC15"],
+              [1, "#22C55E"],
             ],
           },
         },
@@ -413,14 +425,14 @@ export const useProjectDetail = () => {
           show: true,
           fontSize: 18,
           fontWeight: 500,
-          color: "auto",
+          color: "inherit",
           formatter: (value: number) => {
             if (value >= 80) {
-              return "Doing great";
+              return "Doing Great";
             } else if (value >= 60) {
-              return "Need help";
+              return "Need Help";
             } else {
-              return "In danger";
+              return "In Danger";
             }
           },
         },
@@ -548,6 +560,46 @@ export const useProjectDetail = () => {
     ],
   };
 
+  useEffect(() => {
+    const myChart = chartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return (
+                  "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                );
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    statusOption && myChart.setOption(statusOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [statusOption]);
+
   return {
     code,
     gitModalOpen,
@@ -576,6 +628,7 @@ export const useProjectDetail = () => {
     burndownLoading,
     burndownOption,
     changeRoute,
+    chartRef,
   };
 };
 

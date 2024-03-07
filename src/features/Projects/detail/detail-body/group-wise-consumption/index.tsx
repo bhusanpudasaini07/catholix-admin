@@ -12,6 +12,8 @@ const TeamConsumption = () => {
     departmentGroupColumn,
     roleGroupWiseOption,
     departmentGroupWiseOption,
+    departmentGroupChartRef,
+    roleGroupChartRef,
   } = useConsumptionType();
   const { rpSummary, rpLoading } = useProjectRpSummary();
 
@@ -28,6 +30,7 @@ const TeamConsumption = () => {
             <ReactECharts
               opts={{ renderer: "svg" }}
               option={roleGroupWiseOption}
+              ref={roleGroupChartRef}
             />
           </div>
           <div className="overflow-hidden rounded-md grow">
@@ -51,6 +54,7 @@ const TeamConsumption = () => {
           <div className="">
             <ReactECharts
               opts={{ renderer: "svg" }}
+              ref={departmentGroupChartRef}
               option={departmentGroupWiseOption}
             />
           </div>

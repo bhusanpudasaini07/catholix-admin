@@ -33,7 +33,7 @@ const RPAllocation = ({
   const rpData = [
     // Total RP
     {
-      title: "Total RP",
+      title: "Total Budget",
       data: changeNumberFormat(report?.total),
       icon: <CircleDot size={24} />,
       color: "text-green-500",
@@ -41,7 +41,7 @@ const RPAllocation = ({
     },
     // Client RP
     {
-      title: "Client RP",
+      title: "Client Budget",
       data: changeNumberFormat(report?.client),
       icon: <UserCircle2 size={24} />,
       color: "text-blue-500",
@@ -49,7 +49,7 @@ const RPAllocation = ({
     },
     // IN-House RP
     {
-      title: "In-House RP",
+      title: "In-House Budget",
       data: changeNumberFormat(report?.inhouse),
       icon: <Warehouse size={24} />,
       color: "text-orange-500",

@@ -26,7 +26,7 @@ const NotFound = () => {
             quality={100}
           />
           <div className="text-center">
-            <p className="mb-6 text-3xl font-medium text-zinc-400">
+            <p className="mb-2 text-3xl font-medium text-zinc-400">
               Page Not Found
             </p>
             <p className="mb-6 text-base text-zinc-500">

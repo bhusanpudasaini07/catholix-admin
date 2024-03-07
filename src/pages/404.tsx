@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
-const Custom404 = () => {
+const NotFound = () => {
   const router = useRouter();
   return (
     <>
@@ -43,4 +43,4 @@ const Custom404 = () => {
   );
 };
 
-export default Custom404;
+export default NotFound;

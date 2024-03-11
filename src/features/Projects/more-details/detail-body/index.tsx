@@ -18,6 +18,9 @@ const MoreDetailBody = () => {
     bugTaskRatioData,
     bugTaskLoading,
     bugTaskRatioColumn,
+    statusChartRef,
+    categoryRef,
+    platformRef,
   } = useMoreDetail();
 
   return (
@@ -28,6 +31,7 @@ const MoreDetailBody = () => {
         setSelectValue={setSelectValue}
         selectValue={selectValues?.status}
         typeOption={statusOption}
+        chartRef={statusChartRef}
         columns={typeColumn}
         statusData={projectTaskLabelData?.data[2]}
         loading={isLoading}
@@ -41,6 +45,8 @@ const MoreDetailBody = () => {
         loading={isLoading}
         categoryOption={categoryOption}
         platformComponentOption={platformComponentOption}
+        categoryRef={categoryRef}
+        platformRef={platformRef}
       />
       <BugTaskRatio
         columns={bugTaskRatioColumn}

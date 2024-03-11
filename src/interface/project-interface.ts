@@ -40,6 +40,7 @@ export interface IProjectDetail {
     start_date: string;
     deadline: string;
     last_log_date: string | null;
+    time_completion_percentage: number;
   };
   project_lead: {
     id: string;

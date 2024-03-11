@@ -1,6 +1,6 @@
 import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts from "echarts-for-react";
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
 import { ILeadDetail } from "@/interface/team-leads-interface";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
@@ -17,6 +17,8 @@ interface IProps {
   countryOptions: any;
   rpOptions: any;
   leadDetail: ILeadDetail | undefined;
+  rpChartRef: EChartsInstance;
+  countryChartRef: EChartsInstance;
 }
 
 const ReportSummaryTable = ({
@@ -26,6 +28,8 @@ const ReportSummaryTable = ({
   countryOptions,
   rpOptions,
   leadDetail,
+  rpChartRef,
+  countryChartRef,
 }: IProps) => {
   return (
     <Card>
@@ -52,6 +56,7 @@ const ReportSummaryTable = ({
               <ReactECharts
                 option={rpOptions}
                 notMerge={true}
+                ref={rpChartRef}
                 opts={{ renderer: "svg" }}
               />
               {/* )} */}
@@ -62,6 +67,7 @@ const ReportSummaryTable = ({
               <ReactECharts
                 option={countryOptions}
                 opts={{ renderer: "svg" }}
+                ref={countryChartRef}
               />
               {/* )} */}
             </div>

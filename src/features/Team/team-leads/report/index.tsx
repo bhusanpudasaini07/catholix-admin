@@ -19,6 +19,8 @@ const ReportSummaryContent = () => {
     countryOptions,
     staffRPLoading,
     leadDetail,
+    rpChartRef,
+    countryChartRef,
   } = useReport();
   return (
     <>
@@ -29,6 +31,8 @@ const ReportSummaryContent = () => {
         setDateRangeOpen={setDateRangeOpen}
       />
       <ReportSummaryBody
+        rpChartRef={rpChartRef}
+        countryChartRef={countryChartRef}
         totalRp={totalRP}
         totalCommercialRp={totalCommercialRP}
         totalInhouseRP={totalInhouseRP}

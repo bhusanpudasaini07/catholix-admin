@@ -58,7 +58,7 @@ const useRPConsumption = () => {
 
     Object?.entries(rolewiseData).forEach(([date, roles]) => {
       Object?.values(roles).forEach(({ role_name, rp }: any) => {
-        uniqueRoleNames.add(role_name);
+        uniqueRoleNames.add(role_name ?? "");
         seriesData[role_name] = seriesData[role_name] || [];
         seriesData[role_name].push(Number(rp));
       });
@@ -85,7 +85,7 @@ const useRPConsumption = () => {
 
     Object?.entries(departmentwiseData).forEach(([date, department]) => {
       Object?.values(department).forEach(({ department_name, rp }: any) => {
-        uniqueRoleNames.add(department_name);
+        uniqueRoleNames.add(department_name ?? "");
         seriesData[department_name] = seriesData[department_name] || [];
         seriesData[department_name].push(Number(rp));
       });

@@ -10,14 +10,18 @@ import {
 } from "@/services/project/project-service";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { EChartsInstance } from "echarts-for-react";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
 
 const useMoreDetail = () => {
   const {
     query: { code },
   } = useRouter();
+  const statusChartRef = useRef<EChartsInstance>(null);
+  const categoryRef = useRef<EChartsInstance>(null);
+  const platformRef = useRef<EChartsInstance>(null);
 
   //   STATES
   const [selectValues, setSelectValues] = useState({
@@ -138,15 +142,34 @@ const useMoreDetail = () => {
         },
         label: {
           show: true,
-          position: "outer",
-          //   formatter: "{b}: {c} ({d}%)",
+          position: "center",
+          formatter: (params: any) => {
+            if (selectValues?.status === "utilization") {
+              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+            } else {
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
+            }
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
           labelLine: {
-            show: true,
+            show: false,
           },
         },
         labelLine: {
@@ -211,21 +234,38 @@ const useMoreDetail = () => {
         },
         label: {
           show: true,
-          position: "outer",
+          position: "center",
+          formatter: (params: any) => {
+            if (selectValues?.category === "utilization") {
+              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+            } else {
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
+            }
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
           labelLine: {
-            show: true,
+            show: false,
           },
         },
         labelLine: {
-          show: true,
-          length: 20,
-          minTurnAngle: 0,
-          maxSurfaceAngle: 360,
+          show: false,
         },
         data: projectTaskLabelData
           ? projectTaskLabelData?.data[0]?.count?.map((item) => {
@@ -282,21 +322,38 @@ const useMoreDetail = () => {
         },
         label: {
           show: true,
-          position: "outer",
+          position: "center",
+          formatter: (params: any) => {
+            if (selectValues?.platform === "utilization") {
+              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+            } else {
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
+            }
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
           labelLine: {
-            show: true,
+            show: false,
           },
         },
         labelLine: {
-          show: true,
-          length: 20,
-          minTurnAngle: 0,
-          maxSurfaceAngle: 360,
+          show: false,
         },
         data: projectTaskLabelData
           ? projectTaskLabelData?.data[1]?.count?.map((item) => {
@@ -323,7 +380,6 @@ const useMoreDetail = () => {
   };
 
   //   Bug task ratio column
-
   const bugTaskRatioColumn: ColumnDef<IProjectTaskBugRatio>[] = [
     {
       id: "title",
@@ -370,6 +426,141 @@ const useMoreDetail = () => {
     },
   ];
 
+  // Hover effect for status piechart
+  useEffect(() => {
+    const myChart = statusChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                if (selectValues?.status === "utilization") {
+                  return (
+                    "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                  );
+                } else {
+                  return "{a|" + params.value + "}\n{b|" + params.name + "}";
+                }
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    statusOption && myChart.setOption(statusOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [statusOption]);
+
+  // Hover effect for category piechart
+  useEffect(() => {
+    const myChart = categoryRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                if (selectValues?.category === "utilization") {
+                  return (
+                    "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                  );
+                } else {
+                  return "{a|" + params.value + "}\n{b|" + params.name + "}";
+                }
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    categoryOption && myChart.setOption(categoryOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [categoryOption]);
+
+  // Hover effect for platform/component piechart
+  useEffect(() => {
+    const myChart = platformRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                if (selectValues?.platform === "utilization") {
+                  return (
+                    "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                  );
+                } else {
+                  return "{a|" + params.value + "}\n{b|" + params.name + "}";
+                }
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    platformComponentOption && myChart.setOption(platformComponentOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [platformComponentOption]);
+
   return {
     projectTaskLabelData,
     isLoading,
@@ -382,6 +573,9 @@ const useMoreDetail = () => {
     bugTaskRatioData,
     bugTaskLoading,
     bugTaskRatioColumn,
+    statusChartRef,
+    categoryRef,
+    platformRef,
   };
 };
 

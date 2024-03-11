@@ -360,6 +360,25 @@ export const useProjectDetail = () => {
     }
   };
 
+  // Gauge color change
+  const gaugeColor = () => {
+    let color = "";
+    if (projectDetail?.data?.health?.overall_completion_percentage) {
+      if (projectDetail?.data?.health?.overall_completion_percentage >= 80) {
+        color = "#15803D";
+      } else if (
+        projectDetail?.data?.health?.overall_completion_percentage >= 40 &&
+        projectDetail?.data?.health?.overall_completion_percentage < 80
+      ) {
+        color = "#FD850A ";
+      } else {
+        color = "#EF4444";
+      }
+    }
+
+    return color;
+  };
+
   // SUMMARY REPORT CONTENT
   const gaugeOption = {
     grid: {
@@ -425,12 +444,13 @@ export const useProjectDetail = () => {
           show: true,
           fontSize: 18,
           fontWeight: 500,
-          color: "inherit",
+          // color: "inherit",
+          color: gaugeColor(),
           formatter: (value: number) => {
             if (value >= 80) {
               return "Doing Great";
-            } else if (value >= 60) {
-              return "Need Help";
+            } else if (value >= 40 && value < 80) {
+              return "Need to be watched";
             } else {
               return "In Danger";
             }
@@ -560,6 +580,81 @@ export const useProjectDetail = () => {
     ],
   };
 
+  // Estimated VS Actual Graph
+  const estimatedActualGraph = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    legend: {
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+      data: ["Profit", "Expenses", "Income"],
+    },
+    grid: {
+      left: "0%",
+      right: "4%",
+      bottom: "3%",
+      top: "12%",
+      containLabel: true,
+    },
+    xAxis: [
+      {
+        type: "value",
+      },
+    ],
+    yAxis: [
+      {
+        type: "category",
+        axisTick: {
+          show: false,
+        },
+        data: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+      },
+    ],
+    series: [
+      {
+        name: "Profit",
+        type: "bar",
+        label: {
+          show: true,
+          position: "inside",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [200, 170, 240, 244, 200],
+      },
+      {
+        name: "Income",
+        type: "bar",
+        stack: "Total",
+        label: {
+          show: true,
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [320, 302, 341, 374, 390],
+      },
+      {
+        name: "Expenses",
+        type: "bar",
+        stack: "Total",
+        label: {
+          show: true,
+          position: "left",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: [-120, -132, -101, -210, -190],
+      },
+    ],
+  };
   useEffect(() => {
     const myChart = chartRef.current?.getEchartsInstance();
     if (!myChart) return;
@@ -629,6 +724,8 @@ export const useProjectDetail = () => {
     burndownOption,
     changeRoute,
     chartRef,
+    estimatedActualGraph,
+    gaugeColor,
   };
 };
 

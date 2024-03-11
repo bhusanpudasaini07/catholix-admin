@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery, useQueryClient } from "react-query";
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,10 +18,14 @@ import {
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { EChartsInstance } from "echarts-for-react";
 
 const useReport = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const rpChartRef = useRef<EChartsInstance>(null);
+  const countryChartRef = useRef<EChartsInstance>(null);
+
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [leadDetail, setLeadDetail] = useState<ILeadDetail>();
   const [countryProjectData, setCountryProjectData] = useState([]);
@@ -227,9 +231,8 @@ const useReport = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
-          fontSize: 20,
           formatter: (item: any) => {
             return "{a|" + item.value + "}\n{b|" + item.name + "}";
           },
@@ -288,7 +291,7 @@ const useReport = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
@@ -357,6 +360,84 @@ const useReport = () => {
     }
   }, [router?.query?.id, leadReportSummary]);
 
+  //hover effect to show data in rp chart
+  useEffect(() => {
+    const myChart = rpChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    rpOptions && myChart.setOption(rpOptions);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [rpOptions]);
+
+  //hover effect to show data in country chart
+  useEffect(() => {
+    const myChart = countryChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    countryOptions && myChart.setOption(countryOptions);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [countryOptions]);
+
   return {
     dateRange,
     setDateRange,
@@ -372,6 +453,8 @@ const useReport = () => {
     countryOptions,
     staffRPLoading,
     leadDetail,
+    rpChartRef,
+    countryChartRef,
   };
 };
 

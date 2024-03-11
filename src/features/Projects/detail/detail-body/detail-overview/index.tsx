@@ -16,6 +16,7 @@ import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import {
   calculateDeadlinePercentValue,
   calculateTimeLog,
+  changeNumberFormat,
   showDeadline,
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
@@ -60,6 +61,7 @@ const DetailOverview = () => {
     statusOption,
     burndownOption,
     changeRoute,
+    chartRef,
   } = useProjectDetail();
 
   const { salesRp, salesLoading } = useProjectSales();
@@ -150,7 +152,11 @@ const DetailOverview = () => {
                     <div>
                       <div className="mb-3">
                         <h3 className="text-3xl font-semibold 2xl:text-4xl text-zinc-800">
-                          {projectDetail?.data?.rp?.used_rp ?? 0}
+                          {projectDetail?.data?.rp?.used_rp
+                            ? changeNumberFormat(
+                                projectDetail?.data?.rp?.used_rp
+                              )
+                            : 0}
                         </h3>
                         <p className="text-sm font-normal text-zinc-500">
                           Units Spent
@@ -160,8 +166,11 @@ const DetailOverview = () => {
                         <span className="font-normal text-zinc-500 ">
                           Sales Units:
                         </span>{" "}
-                        {Number(projectDetail?.data?.rp?.sales_rp).toFixed(2) ??
-                          0}
+                        {projectDetail?.data?.rp?.sales_rp
+                          ? changeNumberFormat(
+                              projectDetail?.data?.rp?.sales_rp
+                            )
+                          : 0}
                       </p>
                     </div>
                     <div className="min-w-[120px]">
@@ -345,6 +354,7 @@ const DetailOverview = () => {
                     columns={statusColumn}
                     statusData={projectTaskLabelData?.data[2]}
                     loading={projectTaskLabelLoading}
+                    chartRef={chartRef}
                   />
                 </TabsContent>
                 <TabsContent value="burndown">

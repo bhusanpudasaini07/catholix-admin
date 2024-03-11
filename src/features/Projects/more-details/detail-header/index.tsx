@@ -24,7 +24,7 @@ const MoreDetailHeader = ({ title, code }: IProps) => {
         </Button>
         <div className="">
           {title ? (
-            <h4 className="mb-1 text-2xl font-medium text-zinc-700">{title}</h4>
+            <h4 className="mb-1 text-2xl font-medium text-zinc-700">{`Status and Details - [${title}]`}</h4>
           ) : (
             <Skeleton className="w-[80px] mb-2 h-5" />
           )}

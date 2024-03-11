@@ -8,6 +8,7 @@ import {
   getProjectTaskBugRatio,
   getProjectTaskLabelRp,
 } from "@/services/project/project-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
@@ -75,7 +76,9 @@ const useMoreDetail = () => {
       accessorKey: "rp",
       header: "Budget Consumed",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">{row.getValue("rp")}</div>
+        <div className="font-semibold text-zinc-700">
+          {changeNumberFormat(row.getValue("rp"))}
+        </div>
       ),
       enableHiding: false,
     },
@@ -338,7 +341,7 @@ const useMoreDetail = () => {
       header: "Regular",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">
-          {row?.getValue("task_rp")}
+          {changeNumberFormat(row?.getValue("task_rp"))}
         </div>
       ),
     },
@@ -348,7 +351,7 @@ const useMoreDetail = () => {
       header: "Bug",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">
-          {row?.getValue("bug_rp")}
+          {changeNumberFormat(row?.getValue("bug_rp"))}
         </div>
       ),
     },

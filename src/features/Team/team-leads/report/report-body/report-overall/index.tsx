@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import React from "react";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import SummaryPieChart from "./pie-chart";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   totalRP: number;
@@ -31,7 +32,7 @@ const ReportOverall = ({
               <Skeleton className="w-20 h-4 mb-3" />
             ) : (
               <p className="mb-1 text-3xl font-semibold text-zinc-800">
-                {totalRP.toFixed(2)}
+                {changeNumberFormat(totalRP)}
               </p>
             )}
 
@@ -55,7 +56,7 @@ const ReportOverall = ({
             <div className="flex items-center gap-6">
               <div>
                 <p className="mb-1 text-3xl font-semibold text-zinc-800">
-                  {totalCommercialRp.toFixed(2)}
+                  {changeNumberFormat(totalCommercialRp)}
                 </p>
                 <p className="text-sm text-zinc-500">
                   Budget Used (Commercial)
@@ -89,7 +90,7 @@ const ReportOverall = ({
                   <Skeleton className="w-20 h-4 mb-3" />
                 ) : (
                   <p className="mb-1 text-3xl font-semibold text-zinc-800">
-                    {totalInhouseRP.toFixed(2)}
+                    {changeNumberFormat(totalInhouseRP)}
                   </p>
                 )}
 

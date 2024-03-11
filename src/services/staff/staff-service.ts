@@ -39,4 +39,28 @@ const getStaffProjects = (
   }
 };
 
-export { getStaffDetails, getStaffTimeLogs, getStaffProjects };
+const getStaffUtilization = (
+  username: any,
+  date_type: string,
+  from: string,
+  to: string
+) => {
+  if (date_type === "monthly") {
+    return httpRequest(
+      `/staff-daily-monthly-time-logs?staff_id=${username}&date_type=${date_type}&month_from=${from}&month_to=${to}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(
+      `/staff-daily-monthly-time-logs?staff_id=${username}&date_type=${date_type}&date_from=${from}&date_to=${to}`,
+      httpMethods.GET
+    );
+  }
+};
+
+export {
+  getStaffDetails,
+  getStaffTimeLogs,
+  getStaffProjects,
+  getStaffUtilization,
+};

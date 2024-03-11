@@ -95,6 +95,12 @@ const useTimeLog = () => {
         return `Date: ${date}<br/>Time(Hours): ${value}`;
       },
     },
+    grid: {
+      left: "2%",
+      right: "2%",
+      bottom: "3%",
+      containLabel: true,
+    },
     series: [
       {
         type: "bar",

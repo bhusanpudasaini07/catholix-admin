@@ -17,7 +17,7 @@ const ChartCard = ({ option }: IProps) => {
             Budget Burndown Chart
           </p>
           <Button variant={"white"} size={"sm"}>
-            View Team RP
+            View Team Budget
           </Button>
         </div>
         <div>

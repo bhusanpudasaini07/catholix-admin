@@ -49,6 +49,7 @@ import {
   calculateRpLeft,
   calculateRpSumAndColor,
   changeDateDisplay,
+  changeNumberFormat,
   getRiskStatusBgColor,
   showDeadline,
 } from "@/shared/utils/rp-utils";
@@ -351,7 +352,7 @@ const useProjectListing = () => {
                 >
                   {icon}
                   <span className={color}>
-                    {sum === 0 ? "N/A" : sum?.toFixed(2)}
+                    {sum === 0 ? "N/A" : changeNumberFormat(sum)}
                   </span>
                 </div>
               </TooltipTrigger>
@@ -367,11 +368,13 @@ const useProjectListing = () => {
                     </p>
                     <p>
                       Approved: #{row?.original?.rp?.approved_estimation} (
-                      {row?.original?.rp?.approved_rp} Units)
+                      {changeNumberFormat(row?.original?.rp?.approved_rp)}{" "}
+                      Units)
                     </p>
                     <p>
                       Unapproved: #{row?.original?.rp?.unapproved_estimation} (
-                      {row?.original?.rp?.unapproved_rp} Units)
+                      {changeNumberFormat(row?.original?.rp?.unapproved_rp)}{" "}
+                      Units)
                     </p>
                   </>
                 )}
@@ -400,15 +403,19 @@ const useProjectListing = () => {
               </p>
             )}
             <p className="flex items-center gap-2 my-1 text-sm text-zinc-600">
-              <span>Sales RP:</span>
+              <span>Sales Budget:</span>
               <span className="font-medium">
-                {row?.original?.rp?.sales_rp ?? "N/A"}
+                {row?.original?.rp?.sales_rp! > 0
+                  ? changeNumberFormat(Number(row?.original?.rp?.sales_rp))
+                  : "N/A"}
               </span>
             </p>
             <p className="flex items-center gap-2 text-sm text-zinc-600">
-              <span>Used RP:</span>
+              <span>Used Budget:</span>
               <span className="font-medium">
-                {row?.original?.rp?.used_rp ?? "-"}
+                {row?.original?.rp?.used_rp
+                  ? changeNumberFormat(Number(row?.original?.rp?.used_rp))
+                  : "N/A"}
               </span>
             </p>
           </div>

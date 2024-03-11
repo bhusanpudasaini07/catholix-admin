@@ -7,6 +7,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { CalendarDays, Check, Plus, Trash2 } from "lucide-react";
 import moment from "moment";
@@ -98,9 +99,11 @@ const EstimationTable = ({
             },
             {
               columnId: "rp",
+              format: (value) => changeNumberFormat(value),
             },
             {
               columnId: "sum_rp",
+              format: (value) => changeNumberFormat(value),
             },
           ]}
         />

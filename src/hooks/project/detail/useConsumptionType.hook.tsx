@@ -6,11 +6,17 @@ import {
 } from "@/interface/project-interface";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import useProjectRpSummary from "./useProjectRpSummary.hook";
+import { useEffect, useRef } from "react";
+import { EChartsInstance } from "echarts-for-react";
 
 const useConsumptionType = () => {
   const { rpSummary } = useProjectRpSummary();
+  const teamChartRef = useRef<EChartsInstance>(null);
+  const roleChartRef = useRef<EChartsInstance>(null);
+  const roleGroupChartRef = useRef<EChartsInstance>(null);
+  const departmentGroupChartRef = useRef<EChartsInstance>(null);
 
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
@@ -58,7 +64,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     {
@@ -116,7 +124,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // %
@@ -176,7 +186,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp").toFixed(2)}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // Percentage
@@ -220,7 +232,9 @@ const useConsumptionType = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget Consumed",
-      cell: ({ row }: any) => <div>{row.getValue("rp")}</div>,
+      cell: ({ row }: any) => (
+        <div>{changeNumberFormat(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // Percentage
@@ -237,9 +251,6 @@ const useConsumptionType = () => {
 
   // team wise chart option
   const staffWiseOption = {
-    tooltip: {
-      trigger: "item",
-    },
     series: [
       {
         type: "pie",
@@ -251,16 +262,29 @@ const useConsumptionType = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 12,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
-        },
-        labelLine: {
-          show: false,
         },
         data: rpSummary?.data?.staffwise?.map((staff) => ({
           value: staff?.rp,
@@ -305,13 +329,10 @@ const useConsumptionType = () => {
 
   // rolewise chart option
   const roleWiseOption = {
-    tooltip: {
-      trigger: "item",
-    },
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -319,12 +340,28 @@ const useConsumptionType = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 12,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
@@ -346,7 +383,7 @@ const useConsumptionType = () => {
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -354,12 +391,28 @@ const useConsumptionType = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 12,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
@@ -380,7 +433,7 @@ const useConsumptionType = () => {
     series: [
       {
         type: "pie",
-        radius: ["30%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -388,12 +441,28 @@ const useConsumptionType = () => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
+          formatter: (item: any) => {
+            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 12,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
         },
         emphasis: {
           label: {
-            show: false,
+            show: true,
           },
         },
         labelLine: {
@@ -406,6 +475,173 @@ const useConsumptionType = () => {
       },
     ],
   };
+
+  // EFFECTS
+
+  /**
+   * For team chart change
+   */
+  useEffect(() => {
+    const myChart = teamChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params?.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 12,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    staffWiseOption && myChart.setOption(staffWiseOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [staffWiseOption]);
+
+  /*
+   * For role chart change
+   */
+  useEffect(() => {
+    const myChart = roleChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params?.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 12,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    roleWiseOption && myChart.setOption(roleWiseOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [roleWiseOption]);
+
+  /*
+   * For role group chart change
+   */
+  useEffect(() => {
+    const myChart = roleGroupChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params?.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 12,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    roleGroupWiseOption && myChart.setOption(roleGroupWiseOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [roleGroupWiseOption]);
+
+  /*
+   * For department group chart change
+   */
+  useEffect(() => {
+    const myChart = departmentGroupChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params?.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 12,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    departmentGroupWiseOption && myChart.setOption(departmentGroupWiseOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [departmentGroupWiseOption]);
+
   return {
     staffColumns,
     roleColumns,
@@ -415,6 +651,12 @@ const useConsumptionType = () => {
     departmentGroupColumn,
     roleGroupWiseOption,
     departmentGroupWiseOption,
+
+    //refs
+    roleChartRef,
+    teamChartRef,
+    roleGroupChartRef,
+    departmentGroupChartRef,
   };
 };
 

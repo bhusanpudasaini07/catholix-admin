@@ -1,6 +1,7 @@
 import { IMember, IProjectEstimation } from "@/interface/project-interface";
 import { getProjectEstimation } from "@/services/project/project-service";
 import { Button } from "@/shared/components/ui/button";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit, Trash2 } from "lucide-react";
 import { useRouter } from "next/router";
@@ -65,7 +66,11 @@ const useProjecetEstimation = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Allocated Units",
-      cell: ({ row }) => <div className="w-[100px]">{row?.getValue("rp")}</div>,
+      cell: ({ row }) => (
+        <div className="w-[100px]">
+          {changeNumberFormat(row?.getValue("rp"))}
+        </div>
+      ),
     },
     // % Allocated
     {
@@ -130,7 +135,9 @@ const useProjecetEstimation = () => {
       accessorKey: "sum_rp",
       header: "Allocated RP",
       cell: ({ row }) => (
-        <div className="w-[80px]">{row?.getValue("sum_rp")}</div>
+        <div className="w-[80px]">
+          {changeNumberFormat(row?.getValue("sum_rp"))}
+        </div>
       ),
     },
 

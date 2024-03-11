@@ -167,7 +167,14 @@ const useStaffDetail = () => {
       id: "project_lead_name",
       accessorKey: "project_lead_name",
       header: "Project Lead",
-      cell: ({ row }: any) => <div>{row?.getValue("project_lead_name")}</div>,
+      cell: ({ row }) => (
+        <Link
+          className="hover:text-primary"
+          href={`/staffs/${row?.original?.project_lead_username}`}
+        >
+          {row?.getValue("project_lead_name")}
+        </Link>
+      ),
     },
     // Status
     {
@@ -208,32 +215,65 @@ const useStaffDetail = () => {
     {
       id: "sales_rp",
       accessorKey: "sales_rp",
-      header: "Sales Budget",
-      cell: ({ row }: any) => <div>{row?.getValue("sales_rp")}</div>,
+      header: () => (
+        <div>
+          Sales <br /> Budget
+        </div>
+      ),
+      cell: ({ row }: any) => (
+        <div>
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("sales_rp"))}
+        </div>
+      ),
     },
     // Used RP
     {
       id: "overall_used_rp",
       accessorKey: "overall_used_rp",
-      header: "Used Budget",
+      header: () => (
+        <div>
+          Used <br /> Budget
+        </div>
+      ),
       cell: ({ row }: any) => (
-        <div className="font-medium">{row?.getValue("overall_used_rp")}</div>
+        <div className="font-medium">
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("overall_used_rp"))}
+        </div>
       ),
     },
     // RP Contribution
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget Contribution",
+      header: () => (
+        <div>
+          Budget <br /> Contribution
+        </div>
+      ),
       cell: ({ row }: any) => (
-        <div className="font-medium">{row?.getValue("rp")}</div>
+        <div className="font-medium">
+          {new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }).format(row?.getValue("rp"))}
+        </div>
       ),
     },
     // Time Contribution
     {
       id: "time",
       accessorKey: "time",
-      header: "Time Contribution",
+      header: () => (
+        <div>
+          Time <br /> Contribution
+        </div>
+      ),
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
         return (
@@ -259,79 +299,8 @@ const useStaffDetail = () => {
     },
   ];
 
-  const dailyRpColumn: ColumnDef<any>[] = [
-    // Date
-    {
-      id: "date",
-      accessorKey: "date",
-      header: "Date",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // Available RP
-    {
-      id: "available_rp",
-      accessorKey: "available_rp",
-      header: "Available Budget",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // RP Provided
-    {
-      id: "provided_rp",
-      accessorKey: "provided_rp",
-      header: "Budget Provided",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // %
-    {
-      id: "percentage",
-      accessorKey: "percentage",
-      header: "%",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // Remarks
-    {
-      id: "remarks",
-      accessorKey: "remarks",
-      header: "Remarks",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-  ];
-
-  const monthlyRpColumn: ColumnDef<any>[] = [
-    // Month
-    {
-      id: "month",
-      accessorKey: "month",
-      header: "Month",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // Available RP
-    {
-      id: "available_rp",
-      accessorKey: "available_rp",
-      header: "Available Budget",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // RP Provided
-    {
-      id: "provided_rp",
-      accessorKey: "provided_rp",
-      header: "Budget Provided",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-    // %
-    {
-      id: "percentage",
-      accessorKey: "percentage",
-      header: "%",
-      cell: ({ row }: any) => <div>asd</div>,
-    },
-  ];
-
   return {
     projectsOverviewColumns,
-    dailyRpColumn,
-    monthlyRpColumn,
     staffDetails,
     staffDetailsLoading,
     staffLog,

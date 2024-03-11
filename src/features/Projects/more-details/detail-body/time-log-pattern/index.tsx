@@ -43,7 +43,7 @@ const TimeLogPattern = () => {
   } = useTimeLog();
 
   return (
-    <Card className="mt-6">
+    <Card>
       <CardContent>
         <Tabs
           defaultValue={tab}

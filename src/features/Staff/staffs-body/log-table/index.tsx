@@ -17,7 +17,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DownloadCloud } from "lucide-react";
 import { FC, useMemo, useState } from "react";
 import { useQuery } from "react-query";
-import MemberTimeLogModal from "./member-timelog-modal";
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
 import moment from "moment";
@@ -25,7 +24,7 @@ import Link from "next/link";
 import { getConfig } from "@/services/dashboard/dashboard-service";
 import { DownloadExcel } from "@/shared/utils/download/download.utils";
 
-const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
+const LogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
   staffRpSummaryData,
   staffDataLoading,
@@ -151,16 +150,31 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
     {
-      id: "name",
-      accessorKey: "name",
-      header: "Name",
+      id: "date",
+      accessorKey: "date",
+      header: "Date",
+      cell: ({ row }) => <div className="">Date</div>,
+      enableHiding: false,
+    },
+    {
+      id: "project",
+      accessorKey: "project",
+      header: "Project",
       cell: ({ row }) => (
-        <Link
-          href={`/staffs/${row?.original?.username}`}
-          className="text-sm font-semibold text-blue-500"
-        >
-          {row.getValue("name")}
-        </Link>
+        <div className="text-sm font-semibold text-zinc-500">
+          {row.getValue("project")}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    {
+      id: "project_type",
+      accessorKey: "project_type",
+      header: "Project Type",
+      cell: ({ row }) => (
+        <div className="text-sm font-semibold text-zinc-500">
+          {row.getValue("project_type")}
+        </div>
       ),
       enableHiding: false,
     },
@@ -171,6 +185,17 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
           {row.getValue("role")}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    {
+      id: "task",
+      accessorKey: "task",
+      header: "Task",
+      cell: ({ row }) => (
+        <div className="text-sm font-semibold text-zinc-500">
+          {row.getValue("task")}
         </div>
       ),
       enableHiding: false,
@@ -190,89 +215,12 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
     {
-      id: "spent_client_rp",
-      accessorKey: "spent_client_rp",
-      header: "Spent Budget (Client)",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("spent_client_rp")}
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "loss_rp",
-      accessorKey: "loss_rp",
-      header: "Loss Budget",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("loss_rp")}
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "rp_percentage",
-      accessorKey: "rp_percentage",
-      header: "% Budget",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("rp_percentage")}%
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "client_rp_percentage",
-      accessorKey: "client_rp_percentage",
-      header: "% Budget Client",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("client_rp_percentage")}%
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "total_time",
-      accessorKey: "total_time",
-      header: "Total Time",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("total_time")}
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
       id: "spent_time",
       accessorKey: "spent_time",
       header: "Spent Time",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("spent_time")}
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "time_percentage",
-      accessorKey: "time_percentage",
-      header: "% Time",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("time_percentage")}%
-        </div>
-      ),
-      enableHiding: false,
-    },
-    {
-      id: "client_time_percentage",
-      accessorKey: "client_time_percentage",
-      header: "% Time (Client)",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {parseInt(row.getValue("client_time_percentage")).toFixed(2)}%
         </div>
       ),
       enableHiding: false,
@@ -314,10 +262,10 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       <CardContent>
         <div className="flex items-center justify-between gap-3 mb-6 ">
           <div className="flex flex-wrap items-center gap-2">
-            <h5 className="font-medium text-zinc-700">Member-Wise Log</h5>
-            {/* <Button variant={"white"} size={"sm"}>
+            <h5 className="font-medium text-zinc-700">Log Table</h5>
+            <Button variant={"white"} size={"sm"}>
               View All
-            </Button> */}
+            </Button>
           </div>
           <div className="flex items-center justify-end gap-2">
             <FilterSearch className="!py-2" setSearchText={setSearchText} />
@@ -354,17 +302,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
           columns={columns}
           data={filteredStaffLogData || []}
         />
-        <Dialog onOpenChange={setModalOpen} open={modalOpen}>
-          <DialogContent className="min-w-[800px]">
-            <MemberTimeLogModal
-              staffDailyLog={staffDailyLog}
-              staffDailyLogLoading={staffDailyLogLoading}
-            />
-          </DialogContent>
-        </Dialog>
       </CardContent>
     </Card>
   );
 };
 
-export default MemberWiseLogTable;
+export default LogTable;

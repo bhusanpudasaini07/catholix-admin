@@ -1,5 +1,10 @@
 import * as XLSX from "xlsx";
-function s2ab(s: any) {
+
+interface DataItem {
+  [key: string]: any;
+}
+
+function s2ab(s: string): ArrayBuffer {
   const buf = new ArrayBuffer(s.length);
   const view = new Uint8Array(buf);
   for (let i = 0; i < s.length; i++) {
@@ -7,19 +12,32 @@ function s2ab(s: any) {
   }
   return buf;
 }
-export const DownloadExcel = (data: any, filename: any) => {
-  const mappedData = data;
-  const excelData = [
-    Object.keys(mappedData[0] || {}),
-    ...mappedData?.map((item: any) => Object.values(item)),
-  ];
+
+export function DownloadExcel(
+  data: DataItem[] | null | undefined,
+  filename: string
+): void {
+  if (!data || data.length === 0) {
+    console.error("No data to export");
+    return;
+  }
+
   // Create a new Workbook
   const wb = XLSX.utils.book_new();
 
+  // Convert data to Excel format
+  const excelData = [
+    Object.keys(data[0] || []),
+    ...data.map((item: DataItem) => Object.values(item)),
+  ];
+
+  // Convert Excel data to worksheet
   const ws = XLSX.utils.aoa_to_sheet(excelData);
+
+  // Append worksheet to workbook
   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-  // Write the Workbook to a binary string
+  // Write the workbook to a binary string
   const excelBinaryString = XLSX.write(wb, {
     bookType: "xlsx",
     type: "binary",
@@ -36,4 +54,4 @@ export const DownloadExcel = (data: any, filename: any) => {
   link.setAttribute("download", `${filename}.xlsx`);
   document.body.appendChild(link);
   link.click();
-};
+}

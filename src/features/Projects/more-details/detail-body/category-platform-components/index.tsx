@@ -1,5 +1,5 @@
 import React from "react";
-import ReactECharts from "echarts-for-react";
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 
@@ -26,6 +26,8 @@ interface IProps {
     type: "status" | "category" | "platform",
     value: string
   ) => void;
+  categoryRef: EChartsInstance;
+  platformRef: EChartsInstance;
 }
 
 const CategoryPlatform = ({
@@ -37,6 +39,8 @@ const CategoryPlatform = ({
   categoryValue,
   platformValue,
   setSelectValue,
+  categoryRef,
+  platformRef,
 }: IProps) => {
   return (
     <div className="grid grid-cols-12 gap-6 mt-6 mb-6">
@@ -67,6 +71,7 @@ const CategoryPlatform = ({
             </div>
             <div>
               <ReactECharts
+                ref={categoryRef}
                 option={categoryOption}
                 opts={{ renderer: "svg" }}
               />
@@ -112,6 +117,7 @@ const CategoryPlatform = ({
             </div>
             <div className="">
               <ReactECharts
+                ref={platformRef}
                 option={platformComponentOption}
                 opts={{ renderer: "svg" }}
               />

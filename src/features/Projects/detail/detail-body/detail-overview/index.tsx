@@ -62,6 +62,7 @@ const DetailOverview = () => {
     burndownOption,
     changeRoute,
     chartRef,
+    estimatedActualGraph,
   } = useProjectDetail();
 
   const { salesRp, salesLoading } = useProjectSales();
@@ -74,7 +75,12 @@ const DetailOverview = () => {
     projectDetail?.data?.dates?.start_date!,
     projectDetail?.data?.dates?.deadline!
   );
-  const barValue = 100 - value;
+  const { totalDays: completedDays } = calculateDeadlinePercentValue(
+    projectDetail?.data?.dates?.start_date!,
+    projectDetail?.data?.dates?.last_log_date!
+  );
+
+  const barValue = projectDetail?.data?.dates?.time_completion_percentage!;
 
   // Calcualting total time into hours and minutes
   const { hours, minutes } = calculateTimeLog(
@@ -101,6 +107,27 @@ const DetailOverview = () => {
       value: "project_release",
       title: "Project Releases",
       icon: <FileCheck2 size={18} />,
+    },
+  ];
+
+  const estimatedActualData = [
+    {
+      title: "Actual Spent Budget",
+      value: changeNumberFormat(projectDetail?.data?.rp?.used_rp ?? 0),
+      color: "bg-blue-500",
+    },
+    {
+      title: "Budget",
+      value: changeNumberFormat(projectDetail?.data?.rp?.sales_rp ?? 0),
+      color: "bg-green-500",
+    },
+    {
+      title: "Estimated",
+      value: changeNumberFormat(
+        Number(projectDetail?.data?.rp?.approved_rp) +
+          Number(projectDetail?.data?.rp?.unapproved_rp) ?? 0
+      ),
+      color: "bg-orange-500",
     },
   ];
 
@@ -190,33 +217,48 @@ const DetailOverview = () => {
                   </h5>
                   <div className="w-full mt-auto">
                     <div className="flex items-center justify-between">
-                      <div>
-                        <h4
-                          className={`mb-1 font-medium text-zinc-800 ${
-                            daysValue && daysValue < 0 ? "text-xl" : "text-4xl"
-                          }`}
-                        >
-                          {daysValue
-                            ? daysValue < 0
-                              ? "Deadline Exceeded"
-                              : daysValue
-                            : 0}
+                      {projectDetail?.data?.status === "Closed" ? (
+                        <h4 className="mb-1 text-2xl font-medium text-green-500">
+                          Completed
                         </h4>
-                        {daysValue && daysValue > 0 && (
-                          <p className="text-sm text-zinc-500">
-                            Days Remaining
-                          </p>
-                        )}
-                      </div>
-                      <div className="">
-                        <h4 className="mb-1 text-4xl font-medium text-zinc-800">
-                          {daysValue && daysValue > 0 && totalDays >= 0
-                            ? Number(totalDays) - Number(daysValue)
-                            : ""}
+                      ) : projectDetail?.data?.status === "On Hold" ? (
+                        <h4 className="mb-1 text-2xl font-medium text-red-500">
+                          On Hold
                         </h4>
-                        {daysValue && daysValue > 0 && (
-                          <p className="text-sm text-zinc-500">Days Elapsed</p>
-                        )}
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          <h4
+                            className={cn(
+                              daysValue && daysValue > 0
+                                ? "text-zinc-800"
+                                : "text-red-500",
+                              "mb-1 font-medium text-xl"
+                            )}
+                          >
+                            {daysValue && Math.abs(daysValue)}
+                          </h4>
+                          {daysValue && daysValue > 0 ? (
+                            <p className="text-sm text-zinc-500">
+                              Days Remaining
+                            </p>
+                          ) : (
+                            <p className="text-sm text-red-500">
+                              Additional Days
+                            </p>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="flex items-center gap-1">
+                        <h4 className="mb-1 text-xl font-medium text-zinc-800">
+                          {projectDetail?.data?.status &&
+                          ["Closed", "On Hold"].includes(
+                            projectDetail?.data?.status
+                          )
+                            ? completedDays ?? 0
+                            : Number(totalDays) - Number(daysValue) ?? 0}
+                        </h4>
+                        <p className="text-sm text-zinc-500">Days Elapsed</p>
                       </div>
                     </div>
 
@@ -363,14 +405,41 @@ const DetailOverview = () => {
                     opts={{ renderer: "svg" }}
                   />
                 </TabsContent>
-                <TabsContent value="estimated_actual">No Data</TabsContent>
+                <TabsContent value="estimated_actual">
+                  <div className="grid items-center grid-cols-3">
+                    <div className="col-span-1">
+                      {estimatedActualData?.map((item) => (
+                        <div key={item?.title} className="mb-6 last:mb-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className={cn(item?.color, "w-2 h-6")}></div>
+                            <p className="text-sm text-zinc-700">
+                              {item?.title}
+                            </p>
+                          </div>
+                          <p className="pl-4 text-2xl font-semibold text-zinc-700">
+                            {item?.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="col-span-2">
+                      <ReactEcharts
+                        option={estimatedActualGraph}
+                        style={{ height: "300px" }}
+                        opts={{ renderer: "svg" }}
+                      />
+                    </div>
+                  </div>
+                </TabsContent>
                 <TabsContent value="project_release">
                   <DataTable
                     columns={columns}
                     data={projectReleases?.data?.slice(0, 3) ?? []}
                     border
+                    lottieHeight={100}
+                    lottieWidth={100}
                     loading={loading}
-                    height="max-h-[350px]"
+                    height="max-h-[320px]"
                     headerSticky
                   />
                 </TabsContent>

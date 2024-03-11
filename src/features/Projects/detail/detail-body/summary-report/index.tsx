@@ -8,7 +8,7 @@ import { cn } from "@/shared/utils/utils";
 import SummaryReportSkeleton from "@/shared/components/skeleton-loading/project/detail/summary-report-skeleton";
 
 const ProjectSummaryReport = () => {
-  const { projectDetail, isLoading, gaugeOption, nestedPieOption } =
+  const { projectDetail, isLoading, gaugeOption, nestedPieOption, gaugeColor } =
     useProjectDetail();
 
   const summaryData = [
@@ -65,7 +65,10 @@ const ProjectSummaryReport = () => {
                     />
                   </div>
                   <div className="flex flex-col items-center justify-center gap-3">
-                    <p className="text-6xl font-semibold">
+                    <p
+                      className={cn("text-6xl font-semibold")}
+                      style={{ color: gaugeColor() }}
+                    >
                       {projectDetail?.data?.health?.grade}
                     </p>
                     <p className="flex items-center gap-2 text-sm">
@@ -108,9 +111,16 @@ const ProjectSummaryReport = () => {
                               <div className={cn("w-2 h-7", item?.color)} />
                               <p className="text-zinc-700">{item?.title}</p>
                             </div>
-                            <p className="pl-4 mt-2 text-2xl font-medium text-zinc-700">
-                              {item?.data}%
-                            </p>
+                            <div className="flex items-end gap-1 mt-2">
+                              <p className="pl-4 text-2xl font-medium text-zinc-700">
+                                {item?.data > 100 ? 100 : item?.data}%
+                              </p>
+                              {item?.data > 100 && (
+                                <span className="text-sm font-medium text-red-500">
+                                  + Extra {item?.data - 100}%
+                                </span>
+                              )}
+                            </div>
                           </div>
                         ))}
                       </div>

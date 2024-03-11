@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts from "echarts-for-react";
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -24,6 +24,7 @@ interface IProps {
     type: "status" | "category" | "platform",
     value: string
   ) => void;
+  chartRef: EChartsInstance;
 }
 
 const Status = ({
@@ -33,6 +34,7 @@ const Status = ({
   typeOption,
   selectValue,
   setSelectValue,
+  chartRef,
 }: IProps) => {
   return (
     <Card className="mt-6">
@@ -67,7 +69,11 @@ const Status = ({
             />
           </div>
           <div className="col-span-6 max-h-[400px] w-auto">
-            <ReactECharts option={typeOption} opts={{ renderer: "svg" }} />
+            <ReactECharts
+              ref={chartRef}
+              option={typeOption}
+              opts={{ renderer: "svg" }}
+            />
           </div>
         </div>
       </CardContent>

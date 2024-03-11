@@ -293,14 +293,9 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
   ];
 
   const handleDownloadSubFeature = () => {
-    // const columnKeys =
-    //   filteredStaffLogData?.length > 0
-    //     ? Object?.keys(filteredStaffLogData[0])
-    //     : [];
     const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
       const rowData: any = {};
       rowData["S.N"] = index + 1;
-      // rowData["ID"] = item?.id;
       rowData["Name"] = item?.name;
       rowData["Role"] = item?.role;
       rowData["Spent Budget"] = item?.spent_rp;

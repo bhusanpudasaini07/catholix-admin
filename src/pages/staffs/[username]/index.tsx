@@ -3,13 +3,34 @@ import MainLayout from "@/shared/main-layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import StaffsHeader from "@/features/Staff/staffs-header";
 import StaffsBody from "@/features/Staff/staffs-body";
+import { DateRange } from "react-day-picker";
+import { useState } from "react";
+import moment from "moment";
 
 const StaffDetail: NextPageWithLayout = () => {
+  const getDefaultDateRange = () => {
+    const today = moment();
+    const sixMonthsAgo = moment().subtract(6, "months");
+    return {
+      from: sixMonthsAgo.toDate(),
+      to: today.toDate(),
+    };
+  };
+
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    getDefaultDateRange()
+  );
+  const [dateRangeOpen, setdateRangeOpen] = useState(false);
   return (
     <>
-      <StaffsHeader />
+      <StaffsHeader
+        dateRange={dateRange}
+        dateRangeOpen={dateRangeOpen}
+        setDateRange={setDateRange}
+        setDateRangeOpen={setdateRangeOpen}
+      />
       <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
-        <StaffsBody />
+        <StaffsBody dateRange={dateRange} />
       </div>
     </>
   );

@@ -21,12 +21,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import { Badge } from "@/shared/components/ui/badge";
+import IStaffsProfileProject from "@/interface/staff-profile";
+import ProjectSummaryGraph from "./project-summary-graph";
+import Image from "next/image";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
 
-const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
-  staffDataLoading,
-  staffRpSummaryData,
+interface IChartData {
+  name: string;
+  value: number;
+}
+
+interface IProps {
+  projectSummaryLoading: boolean;
+  projectSummaryData: any;
+}
+
+const StaffsProjectSummary: FC<IProps> = ({
+  projectSummaryLoading,
+  projectSummaryData,
 }) => {
-  const router = useRouter();
   const { filterConfig } = useCommonStore();
   const [searchText, setSearchText] = useState("");
 
@@ -51,76 +65,6 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
       changeFilterState(filterKey, updatedValues.join(","));
     };
 
-  const total = staffRpSummaryData?.data?.projects?.reduce(
-    (acc: number, obj: any) => acc + parseFloat(obj.total_rp),
-    0
-  );
-
-  const calculatePercentage = (used: number, total: number): number => {
-    if (total === 0) {
-      return 0; // to avoid division by zero
-    }
-    return (used / total) * 100;
-  };
-  const option = {
-    tooltip: {
-      trigger: "item",
-    },
-    color: ["#FACC15", "#84CC16"],
-    series: [
-      {
-        type: "pie",
-        radius: ["50%", "75%"],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 0,
-          borderColor: "#fff",
-          borderWidth: 0,
-        },
-        label: {
-          show: false,
-          position: "center",
-          fontSize: 20,
-          formatter: (item: any) => {
-            return "{a|" + item.value + "}\n{b|" + item.name + "}";
-          },
-          rich: {
-            a: {
-              fontSize: 25,
-              color: "#3F3F46",
-              lineHeight: 20,
-              fontWeight: 600,
-            },
-            b: {
-              fontSize: 14,
-              color: "#3F3F46",
-              lineHeight: 30,
-            },
-          },
-        },
-        emphasis: {
-          label: {
-            show: true,
-          },
-        },
-        labelLine: {
-          show: false,
-        },
-        data: [
-          {
-            name: "Client's Projects",
-            value: 90,
-            selected: true,
-          },
-          {
-            name: "In-house's Projects",
-            value: 10,
-          },
-        ],
-      },
-    ],
-  };
-
   const columns: ColumnDef<any>[] = [
     {
       id: "sn",
@@ -134,15 +78,15 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
     {
-      id: "title",
-      accessorKey: "title",
+      id: "name",
+      accessorKey: "name",
       header: "Project",
       cell: ({ row }) => (
         <Link
           href={`/projects/${row?.original?.code}`}
           className="text-sm font-semibold text-blue-500"
         >
-          {row?.getValue("title")}
+          {row?.getValue("name")}
         </Link>
       ),
       enableHiding: false,
@@ -152,8 +96,34 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("status")}
+        <div className="w-[120px]">
+          <Badge
+            variant={"outline"}
+            className={`whitespace-nowrap 
+        ${
+          row.getValue("status") === "In Progress" &&
+          " border-blue-500 text-blue-500 bg-blue-50 "
+        }
+        ${
+          row.getValue("status") === "Client Support" &&
+          " border-orange-500 text-orange-500 bg-orange-50"
+        }
+        ${
+          row.getValue("status") === "On Hold" &&
+          " border-red-500 text-red-500 bg-red-50"
+        }
+      ${
+        ["Closed", "Delivered"].includes(row.getValue("status")) &&
+        " border-green-500 text-green-500 bg-green-50"
+      }
+      ${
+        row.getValue("status") === "Not Started" &&
+        " border-zinc-500 text-zinc-500 bg-zinc-50"
+      }
+       capitalize border rounded-md`}
+          >
+            {row.getValue("status")}
+          </Badge>
         </div>
       ),
       enableHiding: false,
@@ -161,34 +131,40 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
     {
       id: "market",
       accessorKey: "market",
-      header: "Country",
+      header: "Market",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("market")}
+        <div className="">
+          <Image
+            src={row?.original?.flag}
+            height={16}
+            width={16}
+            style={{ objectFit: "contain" }}
+            alt="Flag"
+          />
         </div>
       ),
       enableHiding: false,
     },
 
     {
-      id: "type",
-      accessorKey: "type",
+      id: "source",
+      accessorKey: "source",
       header: "Type",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%
+          {row?.getValue("source")}
         </div>
       ),
       enableHiding: false,
     },
 
     {
-      id: "budget",
-      accessorKey: "budget",
+      id: "rp",
+      accessorKey: "rp",
       header: "Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("budget")}
+          {row?.getValue("rp")}
         </div>
       ),
       enableHiding: false,
@@ -197,38 +173,100 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
       id: "time",
       accessorKey: "time",
       header: "Time",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("time")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
+        return (
+          <div className="text-sm font-semibold text-zinc-700">
+            {hours ? `${hours}H` : ""}
+            {minutes}M
+          </div>
+        );
+      },
       enableHiding: false,
     },
   ];
+
+  const calculateTotalRp = (projects: IStaffsProfileProject[]) => {
+    let totalClientRp = 0;
+    let totalInHouseRp = 0;
+
+    projects.forEach((project: IStaffsProfileProject) => {
+      if (project?.source === "Client") {
+        totalClientRp += parseFloat(String(project?.rp));
+      }
+      if (project?.source === "In-House") {
+        totalInHouseRp += parseFloat(String(project?.rp));
+      }
+    });
+    return { totalClientRp, totalInHouseRp };
+  };
+  const handleTotalRpCalculation = (
+    projects: IStaffsProfileProject
+  ): IChartData[] => {
+    if (!projects || !Array.isArray(projects)) {
+      return [];
+    }
+
+    const { totalClientRp, totalInHouseRp } = calculateTotalRp(projects);
+
+    return [
+      { name: "Client Overall", value: totalClientRp },
+      { name: "In-House Overall", value: totalInHouseRp },
+    ];
+  };
+  const plotData = filteredProjects?.map((item: IStaffsProfileProject) => ({
+    name: item?.name,
+    value: item?.rp,
+  }));
+
   useEffect(() => {
-    // Filtering projects based on the selected countries if filterStates.markets is not empty
+    if (
+      !projectSummaryData ||
+      !projectSummaryData.data ||
+      !projectSummaryData.data.projects
+    )
+      return;
+
+    const projectArray = projectSummaryData?.data?.projects.map(
+      (project: IStaffsProfileProject) => {
+        const market = filterConfig?.markets?.find(
+          (market: any) => market?.id === project?.market_id
+        );
+        const marketTitle = market ? market.title : "Unknown Market";
+        const marketFlag = market ? market.flag : "";
+        return {
+          ...project,
+          market: marketTitle,
+          flag: marketFlag,
+        };
+      }
+    );
+
     if (filterStates?.markets && filterStates?.markets?.length > 0) {
-      const filteredProjects = staffRpSummaryData?.data?.projects?.filter(
-        (project: IProject) =>
-          filterStates?.markets.split(",").includes(project?.market)
+      const filteredProjects = projectArray?.filter((project: IProject) =>
+        filterStates?.markets?.split(",").includes(project?.market)
       );
+
       const filteredAndSearchedProjects = filteredProjects?.filter(
         (project: IProject) =>
           !searchText ||
-          project?.title?.toLowerCase().includes(searchText.toLowerCase())
+          searchText?.toLowerCase() === "all" ||
+          project?.title?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
+
       setFilteredProjects(filteredAndSearchedProjects || []);
     } else {
-      // If filterStates?.markets is empty, display all projects
-      const filteredAndSearchedProjects =
-        staffRpSummaryData?.data?.projects?.filter(
-          (project: IProject) =>
-            !searchText ||
-            project?.title?.toLowerCase().includes(searchText.toLowerCase())
-        );
+      const filteredAndSearchedProjects = projectArray?.filter(
+        (project: IProject) =>
+          !searchText ||
+          searchText?.toLowerCase() === "all" ||
+          project?.source?.toLowerCase().includes(searchText?.toLowerCase())
+      );
+
       setFilteredProjects(filteredAndSearchedProjects || []);
     }
-  }, [staffRpSummaryData, filterStates, searchText]);
+  }, [projectSummaryData, filterStates, searchText]);
+
   return (
     <Card>
       <CardContent>
@@ -240,19 +278,18 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
             </Button>
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">
-            {/* <FilterSearch setSearchText={setSearchText} /> */}
             <Select onValueChange={(value) => setSearchText(value)}>
               <SelectTrigger className="min-w-[240px]">
                 <SelectValue placeholder="All Project" />
               </SelectTrigger>
               <SelectContent className="max-h-[300px] overflow-auto">
-                <SelectItem key={"all"} value={"all"}>
+                <SelectItem key={"all"} value={"All"}>
                   All Project
                 </SelectItem>
-                <SelectItem key={"client"} value={"all"}>
+                <SelectItem key={"client"} value={"Client"}>
                   Client Project
                 </SelectItem>
-                <SelectItem key={"in_house"} value={"all"}>
+                <SelectItem key={"in_house"} value={"In-House"}>
                   In-House Project
                 </SelectItem>
               </SelectContent>
@@ -273,10 +310,10 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
             />
           ))}
         </div>
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
-          <div className="col-span-3">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
+          <div className="col-span-2">
             <DataTable
-              loading={staffDataLoading}
+              loading={projectSummaryLoading}
               height={"max-h-[500px]"}
               headerSticky
               border={true}
@@ -285,17 +322,14 @@ const StaffsProjectSummary: FC<IRpStaffSummaryProps> = ({
             />
           </div>
 
-          <div className="grid gap-4 grid-cols-2 col-span-2">
-            <ReactECharts
-              className="min-h-[300px]"
-              option={option}
-              opts={{ renderer: "svg" }}
+          <div className="grid gap-2 grid-cols-2 col-span-2">
+            <ProjectSummaryGraph
+              title="Project Type"
+              chartData={handleTotalRpCalculation(
+                projectSummaryData?.data?.projects
+              )}
             />
-            <ReactECharts
-              className="min-h-[300px]"
-              option={option}
-              opts={{ renderer: "svg" }}
-            />
+            <ProjectSummaryGraph title="Projects" chartData={plotData} />
           </div>
         </div>
       </CardContent>

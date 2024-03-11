@@ -3,12 +3,12 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 import PercentageGraph from "@/shared/components/percentage-graph";
 interface IProps {
-  spentTime: string;
-  clientTimePercentage: string;
-  clientEmptyPercentage: string;
-  clientTime: string;
-  spentTimePercentage: string;
-  emptyTimePercentage: string;
+  spentTime: string | number | undefined;
+  clientTimePercentage: string | number | undefined;
+  clientEmptyPercentage: string | number | undefined;
+  clientTime: string | number | undefined;
+  spentTimePercentage: string | number | undefined;
+  emptyTimePercentage: string | number | undefined;
 }
 const TimeUtilization: FC<IProps> = ({
   spentTime,
@@ -34,9 +34,9 @@ const TimeUtilization: FC<IProps> = ({
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
-                fillPercentage={"30"}
+                fillPercentage={spentTimePercentage}
                 fillLabel={" "}
-                emptyPercentage={"70"}
+                emptyPercentage={emptyTimePercentage}
                 fillColor="#22C55E"
               />
             </div>
@@ -52,8 +52,8 @@ const TimeUtilization: FC<IProps> = ({
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
-                fillPercentage={"40"}
-                emptyPercentage={"60"}
+                fillPercentage={clientTimePercentage}
+                emptyPercentage={clientEmptyPercentage}
                 fillLabel={" "}
                 fillColor="#22C55E"
               />

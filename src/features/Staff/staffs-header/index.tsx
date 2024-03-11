@@ -1,14 +1,27 @@
 import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
+import useStaffProjectOverview from "@/hooks/staff/useStaffProjectOverview.hook";
+import DateRangeFilter from "@/shared/components/date-range-filter";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { FC } from "react";
 
-const StaffsHeader = () => {
+interface IProps {
+  dateRange: any;
+  setDateRange: any;
+  dateRangeOpen: any;
+  setDateRangeOpen: (isOpen: boolean) => void;
+}
+const StaffsHeader: FC<IProps> = ({
+  dateRange,
+  setDateRange,
+  dateRangeOpen,
+  setDateRangeOpen,
+}) => {
   const router = useRouter();
-
   const { staffDetails, staffDetailsLoading } = useStaffDetail();
+
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex items-start gap-4">
@@ -48,6 +61,14 @@ const StaffsHeader = () => {
             </>
           )}
         </div>
+      </div>
+      <div className="">
+        <DateRangeFilter
+          dateRange={dateRange}
+          setDateRange={setDateRange}
+          dateRangeOpen={dateRangeOpen}
+          setDateRangeOpen={setDateRangeOpen}
+        />
       </div>
     </div>
   );

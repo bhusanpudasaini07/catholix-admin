@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import React, { FC } from "react";
 
 interface IProps {
-  available?: string;
-  spent?: string;
-  loss?: string;
+  available?: string | undefined | number;
+  spent?: string | undefined | number;
+  loss?: string | undefined | number;
 }
 
 const RpSummary: FC<IProps> = ({ available, spent, loss }) => {

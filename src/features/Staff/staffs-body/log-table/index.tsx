@@ -24,11 +24,7 @@ import Link from "next/link";
 import { getConfig } from "@/services/dashboard/dashboard-service";
 import { DownloadExcel } from "@/shared/utils/download/download.utils";
 
-const LogTable: FC<IRpStaffSummaryProps> = ({
-  dateRange,
-  staffRpSummaryData,
-  staffDataLoading,
-}) => {
+const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
   const [role, setRole] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState("");
@@ -49,46 +45,18 @@ const LogTable: FC<IRpStaffSummaryProps> = ({
 
   const StaffLogData = useMemo(
     () =>
-      staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => {
-        const usedRp = parseFloat(staff?.used_rp || "0");
-        const commercialRp = parseFloat(staff?.commercial_rp || "0");
-        const lossRp = parseFloat(staff?.loss_rp || "0");
-        const availableTime = parseFloat(staff?.available_time || "0");
-        const usedTime = parseFloat(staff?.used_time || "0");
-        const rpPercentage =
-          usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
-        const clientRpPercentage =
-          usedRp !== 0 ? ((commercialRp / usedRp) * 100).toFixed(2) : "0.00";
-        const timePercentage =
-          availableTime !== 0
-            ? ((usedTime / availableTime) * 100).toFixed(2)
-            : "0.00";
-        const clientTimePercentage =
-          availableTime !== 0
-            ? (
-                (parseFloat(staff?.commercial_time) / availableTime) *
-                100
-              ).toFixed(2)
-            : "0.00";
-
-        return {
-          sn: index + 1,
-          id: staff?.id,
-          name: staff?.fullname,
-          username: staff?.username,
-          role: staff?.role_name,
-          spent_rp: staff?.used_rp,
-          spent_client_rp: commercialRp?.toFixed(2),
-          loss_rp: lossRp?.toFixed(2),
-          rp_percentage: rpPercentage,
-          client_rp_percentage: clientRpPercentage,
-          total_time: convertSecondsToHoursAndMinutes(availableTime),
-          spent_time: convertSecondsToHoursAndMinutes(usedTime),
-          time_percentage: timePercentage,
-          client_time_percentage: clientTimePercentage,
-        };
-      }),
-    [staffRpSummaryData]
+      logTableData?.data?.time_logs?.map((log: any, index: any) => ({
+        sn: index + 1,
+        date: moment(log?.date).format("YYYY-MM-DD HH:mm:ss"),
+        project: log?.project?.title || "N/A",
+        code: log?.project?.code || "",
+        project_type: log?.project?.source || "N/A",
+        role: log?.log_by?.role_name || "N/A",
+        task: log?.title || "N/A",
+        spent_rp: log?.rp || "N/A",
+        spent_time: convertSecondsToHoursAndMinutes(log?.time) || "N/A",
+      })),
+    [logTableData]
   );
 
   const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
@@ -153,7 +121,16 @@ const LogTable: FC<IRpStaffSummaryProps> = ({
       id: "date",
       accessorKey: "date",
       header: "Date",
-      cell: ({ row }) => <div className="">Date</div>,
+      cell: ({ row }) => (
+        <div className="text-zinc-700 font-medium">
+          <p className="whitespace-nowrap">
+            {moment(row.getValue("date")).format("YYYY-MM-DD")}
+          </p>
+          <p className="text-xs">
+            {moment(row.getValue("date")).format("hh:MM")}
+          </p>
+        </div>
+      ),
       enableHiding: false,
     },
     {
@@ -161,9 +138,12 @@ const LogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "project",
       header: "Project",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500">
+        <Link
+          href={`/projects/${row?.original?.code}`}
+          className="text-sm font-semibold text-primary"
+        >
           {row.getValue("project")}
-        </div>
+        </Link>
       ),
       enableHiding: false,
     },
@@ -295,7 +275,7 @@ const LogTable: FC<IRpStaffSummaryProps> = ({
         </div>
 
         <DataTable
-          loading={staffDataLoading}
+          loading={logTableLoading}
           height={"max-h-[700px]"}
           headerSticky
           border={true}

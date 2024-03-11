@@ -3,12 +3,12 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
 import PercentageGraph from "@/shared/components/percentage-graph";
 interface IProps {
-  spentBudget: string;
-  clientBudgetPercentage: string;
-  clientEmptyPercentage: string;
-  clientBudget: string;
-  spentBudgetPercentage: string;
-  emptyBudgetPercentage: string;
+  spentBudget: string | number | undefined;
+  clientBudgetPercentage: string | number | undefined;
+  clientEmptyPercentage: string | number | undefined;
+  clientBudget: string | number | undefined;
+  spentBudgetPercentage: string | number | undefined;
+  emptyBudgetPercentage: string | number | undefined;
 }
 const BudgetUtilization: FC<IProps> = ({
   spentBudget,
@@ -38,10 +38,10 @@ const BudgetUtilization: FC<IProps> = ({
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
-                fillColor="#22C55E"
-                fillPercentage={"30"}
+                fillColor={"#22C55E"}
+                fillPercentage={spentBudgetPercentage}
                 fillLabel={" "}
-                emptyPercentage={"70"}
+                emptyPercentage={emptyBudgetPercentage}
               />
             </div>
           </div>
@@ -57,8 +57,8 @@ const BudgetUtilization: FC<IProps> = ({
             <div className=" min-w-[120px]">
               <PercentageGraph
                 fillColor="#22C55E"
-                fillPercentage={"40"}
-                emptyPercentage={"60"}
+                fillPercentage={clientBudgetPercentage}
+                emptyPercentage={clientEmptyPercentage}
                 fillLabel={" "}
               />
             </div>

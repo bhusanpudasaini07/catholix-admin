@@ -2,12 +2,12 @@ import React from "react";
 import ReactECharts from "echarts-for-react";
 
 interface IProps {
-  fillPercentage: string;
-  emptyPercentage: string;
-  fillColor?: string;
-  emptyColor?: string;
-  fillLabel?: string;
-  emptyLabel?: string;
+  fillPercentage: string | number | undefined;
+  emptyPercentage: string | number | undefined;
+  fillColor?: string | number | undefined;
+  emptyColor?: string | number | undefined;
+  fillLabel?: string | number | undefined;
+  emptyLabel?: string | number | undefined;
 }
 const PercentageGraph = ({
   fillPercentage,

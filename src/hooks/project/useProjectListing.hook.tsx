@@ -657,44 +657,50 @@ const useProjectListing = () => {
       id: "task_status",
       accessorKey: "task_status",
       header: "Task Status",
-      cell: ({ row }) => (
-        <div className="w-[180px]">
-          <p className="text-[15px] text-zinc-800 mb-1">
-            Total Task {row?.original?.task?.all_task_count}
-          </p>
-
-          <Progress
-            className={cn(
-              row?.original?.task?.all_task_count === "0"
-                ? "bg-gray-300"
-                : "bg-orange-500",
-              "h-1.5 [&>div]:bg-green-500"
-            )}
-            value={parseInt(row?.original?.task?.closed_task_count)}
-          />
-
-          <div className="mt-2">
-            <p className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-green-500 rounded-sm"></span>
-              <span className="text-green-500">
-                {row?.original?.task?.closed_task_count}
-              </span>
-              <span className="text-xs font-medium text-zinc-600">
-                Closed Task
-              </span>
+      cell: ({ row }) => {
+        const barData =
+          (Number(row?.original?.task?.closed_task_count) /
+            Number(row?.original?.task?.all_task_count)) *
+          100;
+        return (
+          <div className="w-[180px]">
+            <p className="text-[15px] text-zinc-800 mb-1">
+              Total Task {row?.original?.task?.all_task_count}
             </p>
-            <p className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-orange-500 rounded-sm"></span>
-              <span className="text-orange-500">
-                {row?.original?.task?.open_task_count}
-              </span>
-              <span className="text-xs font-medium text-zinc-600">
-                Open Task
-              </span>
-            </p>
+
+            <Progress
+              className={cn(
+                row?.original?.task?.all_task_count === "0"
+                  ? "bg-gray-300"
+                  : "bg-orange-500",
+                "h-1.5 [&>div]:bg-green-500"
+              )}
+              value={isNaN(barData) ? 0 : barData}
+            />
+
+            <div className="mt-2">
+              <p className="flex items-center gap-2">
+                <span className="w-3 h-3 bg-green-500 rounded-sm"></span>
+                <span className="text-green-500">
+                  {row?.original?.task?.closed_task_count}
+                </span>
+                <span className="text-xs font-medium text-zinc-600">
+                  Closed Task
+                </span>
+              </p>
+              <p className="flex items-center gap-2">
+                <span className="w-3 h-3 bg-orange-500 rounded-sm"></span>
+                <span className="text-orange-500">
+                  {row?.original?.task?.open_task_count}
+                </span>
+                <span className="text-xs font-medium text-zinc-600">
+                  Open Task
+                </span>
+              </p>
+            </div>
           </div>
-        </div>
-      ),
+        );
+      },
       enableHiding: true,
     },
     // Action

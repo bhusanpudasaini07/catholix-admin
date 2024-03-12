@@ -1,18 +1,18 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
-const getDashboardData = (
-  start_date?: string | undefined,
-  end_date?: string | undefined
-) => {
-  if (start_date || end_date) {
-    return httpRequest(
-      `/dashboard/summary?start_date=${start_date}&end_date=${end_date}`,
-      httpMethods.GET
-    );
-  } else {
-    return httpRequest("/dashboard/summary", httpMethods.GET);
-  }
+const getDashboardProjectSummary = (date_from: string, date_to: string) => {
+  return httpRequest(
+    `/dashboard-project-summary?date_from=${date_from}&date_to=${date_to}`,
+    httpMethods.GET
+  );
+};
+
+const getDashboardStaffTimelog = (date: string) => {
+  return httpRequest(
+    `/dashboard-staff-timelog-summary?date=${date}`,
+    httpMethods.GET
+  );
 };
 
 const getProfile = () => {
@@ -23,4 +23,9 @@ const getConfig = () => {
   return httpRequest("/filter-configs", httpMethods.GET);
 };
 
-export { getDashboardData, getProfile, getConfig };
+export {
+  getDashboardProjectSummary,
+  getDashboardStaffTimelog,
+  getProfile,
+  getConfig,
+};

@@ -1,12 +1,12 @@
-import ReactECharts from 'echarts-for-react';
-import { AlertTriangle, TrendingUp } from 'lucide-react';
-import React from 'react';
+import ReactECharts from "echarts-for-react";
+import { AlertTriangle, TrendingUp } from "lucide-react";
+import React from "react";
 
-import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
-import SummaryReportSkeleton from '@/shared/components/skeleton-loading/project/detail/summary-report-skeleton';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { cn } from '@/shared/utils/utils';
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import SummaryReportSkeleton from "@/shared/components/skeleton-loading/project/detail/summary-report-skeleton";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/utils";
 
 const ProjectSummaryReport = () => {
   const { projectDetail, isLoading, gaugeOption, nestedPieOption, gaugeColor } =
@@ -117,8 +117,8 @@ const ProjectSummaryReport = () => {
                                 {item?.data > 100 ? 100 : item?.data}%
                               </p>
                               {item?.data > 100 && (
-                                <span className="text-sm font-medium text-red-500">
-                                  + Extra {item?.data - 100}%
+                                <span className="text-base font-medium text-red-500">
+                                  + Over {item?.data - 100}%
                                 </span>
                               )}
                             </div>

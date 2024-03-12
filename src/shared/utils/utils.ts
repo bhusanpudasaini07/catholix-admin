@@ -1,7 +1,7 @@
-import { ClassValue, clsx, type } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-import { showToast, TOAST_TYPES } from './toast-utils/toast.utils';
+import { showToast, TOAST_TYPES } from "./toast-utils/toast.utils";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

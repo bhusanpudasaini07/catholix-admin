@@ -1,10 +1,10 @@
-import { cva, type, VariantProps } from 'class-variance-authority';
-import * as React from 'react';
+import { cva, VariantProps } from "class-variance-authority";
+import * as React from "react";
 
-import { cn } from '@/shared/utils/utils';
-import { Slot } from '@radix-ui/react-slot';
+import { cn } from "@/shared/utils/utils";
+import { Slot } from "@radix-ui/react-slot";
 
-import ButtonLoader from '../loader/button-loader';
+import ButtonLoader from "../loader/button-loader";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm break-normal font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2  disabled:opacity-50 disabled:cursor-not-allowed",

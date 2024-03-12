@@ -1,12 +1,12 @@
-import ReactECharts from 'echarts-for-react';
-import moment from 'moment';
-import React, { FC } from 'react';
-import { useQuery } from 'react-query';
+import ReactECharts from "echarts-for-react";
+import moment from "moment";
+import React, { FC } from "react";
+import { useQuery } from "react-query";
 
-import { getStaffDailySummary } from '@/services/lead-report/lead-report-service';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { ColumnDef } from '@tanstack/react-table';
+import { getStaffDailySummary } from "@/services/lead-report/lead-report-service";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   start_date: Date | undefined;
@@ -18,13 +18,11 @@ interface StaffSummaryData {
   [date: string]: {
     available: string;
     used: string;
-    commercial_rp?: string;
+    commercial: string;
   };
 }
 
 const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
-  const colors = ["#FACC15", "#EE6666"];
-
   const { data: staffDailySummary, isLoading: staffDailySummaryLoading } =
     useQuery<any>(
       ["getStaffDailySummary", start_date, end_date, id],
@@ -45,13 +43,11 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
   const tableData =
     staffData &&
     Object.entries(staffData)?.map(
-      ([date, { available, used, commercial_rp }]) => ({
+      ([date, { available, used, commercial }]) => ({
         date,
         available_rp: parseFloat(available).toFixed(2),
         used_rp: parseFloat(used).toFixed(2),
-        commercial_rp: commercial_rp
-          ? parseFloat(commercial_rp).toFixed(2)
-          : undefined,
+        commercial: parseFloat(commercial).toFixed(2),
       })
     );
 
@@ -93,12 +89,12 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       enableHiding: false,
     },
     {
-      id: "commercial_rp",
-      accessorKey: "commercial_rp",
+      id: "commercial",
+      accessorKey: "commercial",
       header: "Commercial Budget",
       cell: ({ row }) => (
         <div className="text-sm text-zinc-500">
-          {row.getValue("commercial_rp")}
+          {row.getValue("commercial")}
         </div>
       ),
       enableHiding: false,
@@ -166,7 +162,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
         name: "Commercial RP",
         type: "line",
         stack: "Total",
-        data: tableData?.map((item) => item?.commercial_rp),
+        data: tableData?.map((item) => item?.commercial),
         lineStyle: {
           color: "#3F3F46",
         },

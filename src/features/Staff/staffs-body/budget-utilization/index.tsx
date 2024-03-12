@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import PercentageGraph from '@/shared/components/percentage-graph';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import PercentageGraph from "@/shared/components/percentage-graph";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 interface IProps {
   spentBudget: string | number | undefined | null;

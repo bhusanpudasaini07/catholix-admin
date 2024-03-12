@@ -1,8 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import PercentageGraph from '@/shared/components/percentage-graph';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
+import PercentageGraph from "@/shared/components/percentage-graph";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import {
+  calculateTimeLog,
+  calculateUsedAndUnusedRpPercentage,
+} from "@/shared/utils/rp-utils";
 
 interface IProps {
   spentTime: string | number | undefined | null;
@@ -20,6 +23,10 @@ const TimeUtilization: FC<IProps> = ({
   clientTimePercentage,
   clientEmptyPercentage,
 }) => {
+  const { hours, minutes } = calculateTimeLog(Number(clientTime));
+  const { hours: spentHour, minutes: spentMinute } = calculateTimeLog(
+    Number(spentTime)
+  );
   return (
     <Card>
       <CardContent>
@@ -30,7 +37,8 @@ const TimeUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {spentTime}
+                {spentHour ? `${spentHour}H ` : ""}
+                {spentMinute}M
               </h3>
               <p className="text-sm font-normal text-zinc-500">Spent Time</p>
             </div>
@@ -46,7 +54,8 @@ const TimeUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {clientTime}
+                {hours ? `${hours}H ` : ""}
+                {minutes}M
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Time

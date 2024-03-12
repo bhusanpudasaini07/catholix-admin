@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { Card, CardContent } from "@/shared/components/ui/card";
 
-import PercentageGraph from '../../../../../../shared/components/percentage-graph';
+import PercentageGraph from "../../../../../../shared/components/percentage-graph";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
 
 interface IProps {
   overallTime: string;
@@ -20,6 +21,10 @@ const TimeUtilization: FC<IProps> = ({
   overallUsedPercentage,
   overallEmptyPercentage,
 }) => {
+  const { hours, minutes } = calculateTimeLog(Number(clientTime));
+  const { hours: overallHour, minutes: overallMinute } = calculateTimeLog(
+    Number(overallTime)
+  );
   return (
     <Card>
       <CardContent>
@@ -30,7 +35,8 @@ const TimeUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center grow gap-6">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {overallTime}
+                {overallHour ? `${overallHour}H ` : ""}
+                {overallMinute}M
               </h3>
               <p className="text-sm font-normal text-zinc-500">Overall Time</p>
             </div>
@@ -45,7 +51,8 @@ const TimeUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center grow gap-6">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {clientTime}
+                {hours ? `${hours}H ` : ""}
+                {minutes}M
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Time

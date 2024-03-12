@@ -1,28 +1,28 @@
-import moment from 'moment';
+import moment from "moment";
 // React
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
 //Hooks
-import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
-import { getStaffRpSummary } from '@/services/lead-report/lead-report-service';
-import ProjectsOverviewSkeleton from '@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton';
-import SummaryCardSkeleton from '@/shared/components/skeleton-loading/lead-report/summary-skeleton';
-import UtilizationSkeletonCard from '@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton';
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
+import ProjectsOverviewSkeleton from "@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton";
+import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
+import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 
-import ClientMarketRP from './client-market-rp';
-import ClientVsInHouseProject from './client-n-inhouse-project';
-import InHouseMarketRp from './inhouse-market-rp';
-import OtherInfo from './lead-other-info';
-import ProjectOverview from './lead-projects-overview';
-import RoleCountryTable from './lead-role-country';
-import RpSummary from './lead-rp-summary';
+import ClientMarketRP from "./client-market-rp";
+import ClientVsInHouseProject from "./client-n-inhouse-project";
+import InHouseMarketRp from "./inhouse-market-rp";
+import OtherInfo from "./lead-other-info";
+import ProjectOverview from "./lead-projects-overview";
+import RoleCountryTable from "./lead-role-country";
+import RpSummary from "./lead-rp-summary";
 // Features
-import RpUtilization from './lead-rp-utilize';
-import TimeUtilization from './lead-time-utilize';
-import MemberWiseLogTable from './member-wise-log-table';
-import ProjectPerformanceDetail from './project-performance-detail';
-import ProjectRpConsumptionTable from './project-rp-consumption';
+import RpUtilization from "./lead-rp-utilize";
+import TimeUtilization from "./lead-time-utilize";
+import MemberWiseLogTable from "./member-wise-log-table";
+import ProjectPerformanceDetail from "./project-performance-detail";
+import ProjectRpConsumptionTable from "./project-rp-consumption";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -148,7 +148,7 @@ const LeadReportBody = ({ dateRange }: any) => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
         {!staffDataLoading ? (
           <RpUtilization
-            clientRP={staffRpSummaryData?.data?.summary?.total_rp}
+            clientRP={staffRpSummaryData?.data?.summary?.commercial_rp}
             overallEmptyPercentage={calculateUnusedPercentage(
               staffRpSummaryData?.data?.summary?.available_rp,
               totalRP
@@ -171,7 +171,7 @@ const LeadReportBody = ({ dateRange }: any) => {
               staffRpSummaryData?.data?.summary?.commercial_rp,
               totalRP
             ).toFixed(2)}
-            overallRP={staffRpSummaryData?.data?.summary?.commercial_rp}
+            overallRP={staffRpSummaryData?.data?.summary?.total_rp}
           />
         ) : (
           <UtilizationSkeletonCard />

@@ -275,7 +275,7 @@ const useProjectListing = () => {
       accessorKey: "project_detail",
       header: "Project Detail",
       cell: ({ row }) => (
-        <div className="w-[240px] min-w-0">
+        <div className="w-[200px] min-w-0">
           <div className="flex items-center min-w-0 gap-2 mb-1 text-xs text-zinc-600">
             <span>Code:</span>{" "}
             <div className="flex items-center gap-1 max-w-[70%]">
@@ -321,7 +321,9 @@ const useProjectListing = () => {
           </p>
           <p className="text-xs text-zinc-600">
             Techstack:{" "}
-            <span className="font-medium">{row.original?.tech_stack}</span>
+            <span className="font-medium break-words">
+              {row.original?.tech_stack}
+            </span>
           </p>
         </div>
       ),
@@ -338,7 +340,7 @@ const useProjectListing = () => {
           row?.original?.rp?.unapproved_rp
         );
         return (
-          <div className="w-[154px]">
+          <div className="w-[100px] max-w-[154px]">
             <Tooltip>
               <TooltipTrigger>
                 <div
@@ -393,7 +395,7 @@ const useProjectListing = () => {
           row?.original?.rp?.sales_rp ?? 0
         );
         return (
-          <div className="w-[180px]">
+          <div className="w-[160px]">
             {row?.original?.rp?.sales_rp && (
               <p className={cn(color, "text-base font-medium")}>
                 {percentageLeft}
@@ -581,7 +583,7 @@ const useProjectListing = () => {
       accessorKey: "last_time_log",
       header: "Last Time Log",
       cell: ({ row }: any) => (
-        <div className="w-[150px] text-zinc-600">
+        <div className="min-w-[120px] max-w-[120px] text-zinc-600">
           {row.original.dates.last_log_date ? (
             <>
               <p className="text-xs ">Last Logged</p>

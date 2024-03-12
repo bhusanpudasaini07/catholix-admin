@@ -1,12 +1,13 @@
-import moment from "moment";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { useQuery } from 'react-query';
 
-import { getRpSummary } from "@/services/project/project-service";
-import { IConsumptionData } from "@/interface/project-interface";
-import useProjectDetail from "./useProjectDetail.hook";
+import { IConsumptionData } from '@/interface/project-interface';
+import { getRpSummary } from '@/services/project/project-service';
+
+import useProjectDetail from './useProjectDetail.hook';
 
 const useRPConsumption = () => {
   const { projectDetail } = useProjectDetail();

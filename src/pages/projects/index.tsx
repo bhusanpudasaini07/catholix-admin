@@ -1,36 +1,32 @@
-// ROOT
-import { NextPageWithLayout } from "../_app";
-import MainLayout from "@/shared/main-layout";
-import Link from "next/link";
-// UI
-import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/shared/components/ui/dialog";
-import { Plus, X } from "lucide-react";
+import { Plus, X } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
 
+import ProjectFilters from '@/features/Projects/filters';
+import NewProject from '@/features/Projects/new-project';
+import ProfitLossCard from '@/features/Projects/profit-loss-card';
+import useProjectFilter from '@/hooks/project/overall-filters/useProjectFilter.hook';
+import useProjectListing from '@/hooks/project/useProjectListing.hook';
+import { IProjectDetail } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { DataTablePagination } from '@/shared/components/data-table/data-table-pagination';
 // CUSTOM
-import FilterSearch from "@/shared/components/filter-search";
-import ProjectFilters from "@/features/Projects/filters";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
-import useProjectListing from "@/hooks/project/useProjectListing.hook";
-import NewProject from "@/features/Projects/new-project";
-
+import FilterSearch from '@/shared/components/filter-search';
+import NotFoundLottie from '@/shared/components/not-found';
+import ProjectProfitViewSkeleton from '@/shared/components/skeleton-loading/project/project-profit-view-skeleton';
+import ProjectTableSkeleton from '@/shared/components/skeleton-loading/project/project-table-skeleton';
+// UI
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
+import { Tabs, TabsContent } from '@/shared/components/ui/tabs';
+import MainLayout from '@/shared/main-layout';
 //language translator props
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
-import ProfitLossCard from "@/features/Projects/profit-loss-card";
-import { IProjectDetail } from "@/interface/project-interface";
-import ProjectTableSkeleton from "@/shared/components/skeleton-loading/project/project-table-skeleton";
-import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
-import { useCommonStore } from "@/store/common-store";
-import moment from "moment";
-import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import NotFoundLottie from "@/shared/components/not-found";
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
+import { useCommonStore } from '@/store/common-store';
+
+// ROOT
+import { NextPageWithLayout } from '../_app';
 
 const Projects: NextPageWithLayout = () => {
   const { filterSaved } = useCommonStore();

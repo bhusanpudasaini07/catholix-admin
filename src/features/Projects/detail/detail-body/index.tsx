@@ -1,12 +1,12 @@
-import RpConsumption from "./rp-consumption-chart";
-import DetailOverview from "./detail-overview";
-import ProjectStories from "./project-stories";
-import ConsumptionType from "./consumption-type";
-import TeamConsumption from "./group-wise-consumption";
-import TaskTimeSpent from "./task-time-spent";
-import ProjectRelease from "./project-release";
-import LatestActivity from "./latest-activity";
-import ProjectSummaryReport from "./summary-report";
+import ConsumptionType from './consumption-type';
+import DetailOverview from './detail-overview';
+import TeamConsumption from './group-wise-consumption';
+import LatestActivity from './latest-activity';
+import ProjectRelease from './project-release';
+import ProjectStories from './project-stories';
+import RpConsumption from './rp-consumption-chart';
+import ProjectSummaryReport from './summary-report';
+import TaskTimeSpent from './task-time-spent';
 
 const DetailBody = () => {
   return (

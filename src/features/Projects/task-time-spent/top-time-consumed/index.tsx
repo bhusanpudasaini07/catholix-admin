@@ -1,13 +1,9 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/shared/components/ui/select";
-import { SelectValue } from "@radix-ui/react-select";
+import ReactECharts from 'echarts-for-react';
+import React from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/shared/components/ui/select';
+import { SelectValue } from '@radix-ui/react-select';
 
 interface IProps {
   timeConusmedOption: any;

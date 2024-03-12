@@ -1,10 +1,12 @@
-import React from "react";
-import TaskTimeSpentHeader from "./task-time-header";
-import TaskTimeLogs from "./task-time-logs";
-import TopTimeConsumed from "./top-time-consumed";
-import TaskTimeTable from "./task-time-table";
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
-import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
+import React from 'react';
+
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useTaskTimeSpent from '@/hooks/project/detail/useTaskTimeSpent.hook';
+
+import TaskTimeSpentHeader from './task-time-header';
+import TaskTimeLogs from './task-time-logs';
+import TaskTimeTable from './task-time-table';
+import TopTimeConsumed from './top-time-consumed';
 
 const TaskTimeSpentContent = () => {
   const { projectDetail } = useProjectDetail();

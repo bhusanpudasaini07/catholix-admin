@@ -1,7 +1,8 @@
-import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import React from "react";
+import React from 'react';
+
+import useProjectStories from '@/hooks/project/detail/useProjectStories.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const ProjectStoriesTable = () => {
   const {

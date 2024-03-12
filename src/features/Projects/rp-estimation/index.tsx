@@ -1,8 +1,10 @@
-import React from "react";
-import EstimationHeader from "./estimation-header";
-import EstimationTable from "./estimation-table";
-import useProjecetEstimation from "@/hooks/project/detail/useProjectEstimation.hook";
-import RPEstimationSkeleton from "@/shared/components/skeleton-loading/project/rp-estimation-skeleton";
+import React from 'react';
+
+import useProjecetEstimation from '@/hooks/project/detail/useProjectEstimation.hook';
+import RPEstimationSkeleton from '@/shared/components/skeleton-loading/project/rp-estimation-skeleton';
+
+import EstimationHeader from './estimation-header';
+import EstimationTable from './estimation-table';
 
 const RpEstimationContent = () => {
   const { estimationData, estimationDataLoading, columns } =

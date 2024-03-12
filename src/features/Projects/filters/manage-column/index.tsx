@@ -1,15 +1,13 @@
-import React from "react";
-import { Checkbox } from "@/shared/components/ui/checkbox";
+import { Columns } from 'lucide-react';
+import React from 'react';
+
+import useProjectListing from '@/hooks/project/useProjectListing.hook';
+import { Button } from '@/shared/components/ui/button';
+import { Checkbox } from '@/shared/components/ui/checkbox';
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
-import { Label } from "@/shared/components/ui/label";
-import { Button } from "@/shared/components/ui/button";
-import useProjectListing from "@/hooks/project/useProjectListing.hook";
-import { Columns } from "lucide-react";
+    DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger
+} from '@/shared/components/ui/dropdown-menu';
+import { Label } from '@/shared/components/ui/label';
 
 const ManageColumn = () => {
   const { columns, columnVisibility, setColumnVisibility } =

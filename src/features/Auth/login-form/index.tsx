@@ -1,36 +1,29 @@
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Link from "next/link";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useMutation } from "react-query";
-import { useRouter } from "next/router";
+import { setCookie } from 'cookies-next';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
-import { LoginSchema } from "@/schema/auth-schema/login-schema";
-import { useLoggedInStore } from "@/store/auth-store";
-
-import { constants } from "@/constants";
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import config from "../../../../config";
+import { constants } from '@/constants';
+import { ILoginFormInput } from '@/interface/auth-interface';
+import { LoginSchema } from '@/schema/auth-schema/login-schema';
+import { login } from '@/services/auth/auth-service';
+import ButtonLoader from '@/shared/components/loader/button-loader';
+import PasswordInput from '@/shared/components/password-input';
+import { Button } from '@/shared/components/ui/button';
+import { Checkbox } from '@/shared/components/ui/checkbox';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/shared/components/ui/form";
-import { Input } from "@/shared/components/ui/input";
-import { Button } from "@/shared/components/ui/button";
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage
+} from '@/shared/components/ui/form';
+import { Input } from '@/shared/components/ui/input';
+import { setAuthCookies } from '@/shared/utils/cookie-utils';
+import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
+import { useLoggedInStore } from '@/store/auth-store';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import PasswordInput from "@/shared/components/password-input";
-
-import { ILoginFormInput } from "@/interface/auth-interface";
-import { login } from "@/services/auth/auth-service";
-import { setAuthCookies } from "@/shared/utils/cookie-utils";
-import { Checkbox } from "@/shared/components/ui/checkbox";
-import { setCookie } from "cookies-next";
-import ButtonLoader from "@/shared/components/loader/button-loader";
+import config from '../../../../config';
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;

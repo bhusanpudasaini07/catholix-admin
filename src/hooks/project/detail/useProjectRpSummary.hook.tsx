@@ -1,7 +1,8 @@
-import { IConsumptionData } from "@/interface/project-interface";
-import { getRpSummary } from "@/services/project/project-service";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+
+import { IConsumptionData } from '@/interface/project-interface';
+import { getRpSummary } from '@/services/project/project-service';
 
 const useProjectRpSummary = () => {
   const router = useRouter();

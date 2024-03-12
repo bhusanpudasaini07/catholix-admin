@@ -1,8 +1,9 @@
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { Activity, Flag, TrendingDown } from "lucide-react";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { Activity, Flag, TrendingDown } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
+
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   available?: string;
@@ -12,7 +13,7 @@ interface IProps {
 
 const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
   const router = useRouter();
-  const current_id = router.query?.lead_id || undefined;
+  const current_id = router.query?.lead_id || "all";
 
   return (
     <Card>

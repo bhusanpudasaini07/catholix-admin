@@ -1,6 +1,8 @@
-import { cookieKeys } from "@/enums";
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
-import config from "../../../../config";
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
+
+import { cookieKeys } from '@/enums';
+
+import config from '../../../../config';
 
 const { LOGGED_IN_KEY } = config;
 

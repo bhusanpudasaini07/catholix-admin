@@ -1,5 +1,6 @@
-import { cn } from "@/shared/utils/utils";
-import React from "react";
+import React from 'react';
+
+import { cn } from '@/shared/utils/utils';
 
 interface IProps {
   className?: string;

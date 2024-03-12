@@ -1,7 +1,8 @@
-import TrendingGraphContent from "@/features/Team/team-leads/lead-report/trending-graph";
-import MainLayout from "@/shared/main-layout";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import React from "react";
+import React from 'react';
+
+import TrendingGraphContent from '@/features/Team/team-leads/lead-report/trending-graph';
+import MainLayout from '@/shared/main-layout';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
 
 const TrendingGraph = () => {
   return <TrendingGraphContent />;

@@ -1,7 +1,9 @@
-import React from "react";
-import ProjectCountryTable from "./project-country-table";
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
-import { ICountryProjectDetails } from "@/interface/team-lead-report-interface";
+import React from 'react';
+
+import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
+import { ICountryProjectDetails } from '@/interface/team-lead-report-interface';
+
+import ProjectCountryTable from './project-country-table';
 
 const ProjectRPConsumptionBody = () => {
   const {

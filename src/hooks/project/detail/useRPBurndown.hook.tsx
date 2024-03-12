@@ -1,18 +1,12 @@
-import {
-  IBurndownDate,
-  IBurndownDetail,
-  IDailyRP,
-} from "@/interface/project-interface";
-import {
-  getProjectBurndown,
-  getTimeLogs,
-} from "@/services/project/project-service";
-import { cn } from "@/shared/utils/utils";
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { useQuery } from "react-query";
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { IBurndownDate, IBurndownDetail, IDailyRP } from '@/interface/project-interface';
+import { getProjectBurndown, getTimeLogs } from '@/services/project/project-service';
+import { cn } from '@/shared/utils/utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useRPBurndown = () => {
   const router = useRouter();

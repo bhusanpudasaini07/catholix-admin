@@ -1,16 +1,37 @@
-import React from "react";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import StaffHeader from "@/features/Staff/profile/staff-header";
-import StaffContent from "@/features/Staff/profile/staff-content";
+import moment from 'moment';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+
+import StaffsBody from '@/features/Staff/staffs-body';
+import StaffsHeader from '@/features/Staff/staffs-header';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const StaffDetail: NextPageWithLayout = () => {
+  const getDefaultDateRange = () => {
+    const today = moment();
+    const sixMonthsAgo = moment().subtract(6, "months");
+    return {
+      from: sixMonthsAgo.toDate(),
+      to: today.toDate(),
+    };
+  };
+
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(
+    getDefaultDateRange()
+  );
+  const [dateRangeOpen, setdateRangeOpen] = useState<boolean>(false);
   return (
     <>
-      <StaffHeader />
+      <StaffsHeader
+        dateRange={dateRange}
+        dateRangeOpen={dateRangeOpen}
+        setDateRange={setDateRange}
+        setDateRangeOpen={setdateRangeOpen}
+      />
       <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
-        <StaffContent />
+        <StaffsBody dateRange={dateRange} />
       </div>
     </>
   );

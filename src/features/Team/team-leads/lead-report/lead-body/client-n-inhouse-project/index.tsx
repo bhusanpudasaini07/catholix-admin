@@ -1,10 +1,11 @@
-import React, { FC } from "react";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts from "echarts-for-react";
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
-import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
+import ReactECharts from 'echarts-for-react';
+import React, { FC } from 'react';
+
+import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
+import { IRpStaffSummaryProps } from '@/interface/team-lead-report-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { ColumnDef } from '@tanstack/react-table';
 
 const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,

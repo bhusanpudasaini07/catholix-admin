@@ -1,8 +1,9 @@
-import BurndownContent from "@/features/Projects/burndown-chart";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import BurndownContent from '@/features/Projects/burndown-chart';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const ProjectBurndownChart: NextPageWithLayout = () => {
   return <BurndownContent />;

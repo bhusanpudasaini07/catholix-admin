@@ -1,10 +1,11 @@
-import ProjectDetailContent from "@/features/Projects/detail";
-import ProjectMoreDetailContent from "@/features/Projects/more-details";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import ProjectDetailContent from '@/features/Projects/detail';
+import ProjectMoreDetailContent from '@/features/Projects/more-details';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
 
 const ProjectMoreDetail: NextPageWithLayout = () => {
   return <ProjectMoreDetailContent />;

@@ -1,7 +1,9 @@
-import React from "react";
-import notFoundLottie from "../../../../public/lottie/not-found.json";
-import Image from "next/image";
-import { noResult } from "@/shared/lib/image-config";
+import Image from 'next/image';
+import React from 'react';
+
+import { noResult } from '@/shared/lib/image-config';
+
+import notFoundLottie from '../../../../public/lottie/not-found.json';
 
 interface IProps {
   height?: number;

@@ -1,8 +1,9 @@
-import RpEstimationContent from "@/features/Projects/rp-estimation";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import RpEstimationContent from '@/features/Projects/rp-estimation';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const RpEstimation: NextPageWithLayout = () => {
   return <RpEstimationContent />;

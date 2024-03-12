@@ -1,8 +1,10 @@
-import React from "react";
-import { Card, CardContent } from "../../ui/card";
-import { Skeleton } from "../../ui/skeleton";
-import { DataTable } from "../../data-table/data-table";
-import { ColumnDef } from "@tanstack/react-table";
+import React from 'react';
+
+import { ColumnDef } from '@tanstack/react-table';
+
+import { DataTable } from '../../data-table/data-table';
+import { Card, CardContent } from '../../ui/card';
+import { Skeleton } from '../../ui/skeleton';
 
 const RPEstimationSkeleton = () => {
   const columns: ColumnDef<any>[] = [

@@ -1,25 +1,16 @@
-import React, { useState } from "react";
-import ReactECharts from "echarts-for-react";
-import { Button } from "@/shared/components/ui/button";
+import ReactECharts from 'echarts-for-react';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 
+import useRPConsumption from '@/hooks/project/detail/useRPConsumption.hook';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import GraphSkeleton from '@/shared/components/skeleton-loading/graph-skeleton';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
-import useRPConsumption from "@/hooks/project/detail/useRPConsumption.hook";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import { useRouter } from "next/router";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
 const RpConsumption = () => {
   const router = useRouter();

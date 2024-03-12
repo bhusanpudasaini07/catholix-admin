@@ -1,5 +1,6 @@
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import React from "react";
+import React from 'react';
+
+import DateRangeFilter from '@/shared/components/date-range-filter';
 
 interface IProps {
   dateRange: any;

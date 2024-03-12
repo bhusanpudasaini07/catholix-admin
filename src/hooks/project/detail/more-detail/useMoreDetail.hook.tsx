@@ -1,19 +1,14 @@
+import { EChartsInstance } from 'echarts-for-react';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
+
 import {
-  IProjectTaskBugRatio,
-  IProjectTaskBugRatios,
-  ITypeCount,
-  ITypes,
-} from "@/interface/project-interface";
-import {
-  getProjectTaskBugRatio,
-  getProjectTaskLabelRp,
-} from "@/services/project/project-service";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { EChartsInstance } from "echarts-for-react";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
+    IProjectTaskBugRatio, IProjectTaskBugRatios, ITypeCount, ITypes
+} from '@/interface/project-interface';
+import { getProjectTaskBugRatio, getProjectTaskLabelRp } from '@/services/project/project-service';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useMoreDetail = () => {
   const {

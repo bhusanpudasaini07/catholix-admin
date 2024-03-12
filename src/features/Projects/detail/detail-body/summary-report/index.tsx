@@ -1,11 +1,12 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { AlertTriangle, TrendingUp } from "lucide-react";
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
-import { cn } from "@/shared/utils/utils";
-import SummaryReportSkeleton from "@/shared/components/skeleton-loading/project/detail/summary-report-skeleton";
+import ReactECharts from 'echarts-for-react';
+import { AlertTriangle, TrendingUp } from 'lucide-react';
+import React from 'react';
+
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import SummaryReportSkeleton from '@/shared/components/skeleton-loading/project/detail/summary-report-skeleton';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { cn } from '@/shared/utils/utils';
 
 const ProjectSummaryReport = () => {
   const { projectDetail, isLoading, gaugeOption, nestedPieOption, gaugeColor } =

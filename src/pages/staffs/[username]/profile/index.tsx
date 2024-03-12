@@ -1,9 +1,10 @@
-import StaffContent from "@/features/Staff/profile/staff-content";
-import StaffHeader from "@/features/Staff/profile/staff-header";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import StaffContent from '@/features/Staff/profile/staff-content';
+import StaffHeader from '@/features/Staff/profile/staff-header';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const StaffProfile: NextPageWithLayout = () => {
   return (

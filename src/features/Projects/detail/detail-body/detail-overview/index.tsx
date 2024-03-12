@@ -1,49 +1,31 @@
-import { useRouter } from "next/router";
-import moment from "moment";
-import ReactEcharts from "echarts-for-react";
+import ReactEcharts from 'echarts-for-react';
+import { AlignCenterVertical, FileCheck2, LineChart, PieChart } from 'lucide-react';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 
-import { Button } from "@/shared/components/ui/button";
-import UsedRp from "../used-rp-chart/usedRp";
-import { Progress } from "@/shared/components/ui/progress";
-
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useProjectReleases from '@/hooks/project/detail/useProjectReleases.hook';
+import useProjectSales from '@/hooks/project/detail/useProjectSales.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import ProjectDetailSkeleton from '@/shared/components/skeleton-loading/project/detail/detail-skeleton';
+import ProjectDurationSkeleton from '@/shared/components/skeleton-loading/project/detail/project-duration-skeleton';
+import TaskTimeLogsSkeleton from '@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton';
+import TotalSalesSkeleton from '@/shared/components/skeleton-loading/project/detail/total-sales-skeleton';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
+import { Progress } from '@/shared/components/ui/progress';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/shared/components/ui/dialog";
-
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+    Tabs, TabsContent, TabsList, TabsTrigger
+} from '@/shared/components/ui/project-details-tab';
+import BurndownSvg from '@/shared/svg/burndown';
 import {
-  calculateDeadlinePercentValue,
-  calculateTimeLog,
-  changeNumberFormat,
-  showDeadline,
-} from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
+    calculateDeadlinePercentValue, calculateTimeLog, changeNumberFormat, showDeadline
+} from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
 
-import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
-
-import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
-import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
-import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import TaskTimeLogsSkeleton from "@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/project-details-tab";
-import {
-  AlignCenterVertical,
-  FileCheck2,
-  LineChart,
-  PieChart,
-} from "lucide-react";
-import ProjectDetailStatus from "./status";
-import useProjectReleases from "@/hooks/project/detail/useProjectReleases.hook";
-import BurndownSvg from "@/shared/svg/burndown";
+import UsedRp from '../used-rp-chart/usedRp';
+import ProjectDetailStatus from './status';
 
 const DetailOverview = () => {
   const router = useRouter();

@@ -1,10 +1,3 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-import { ColumnDef, VisibilityState } from "@tanstack/react-table";
-import moment from "moment";
-import { DateRange } from "react-day-picker";
-
 import {
   Activity,
   BarChart,
@@ -22,18 +15,16 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
 import { IProjectDetail, IProjectProps } from "@/interface/project-interface";
 import { getProjectList } from "@/services/project/project-service";
-
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
-import { Progress } from "@/shared/components/ui/progress";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +33,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-
+import { Progress } from "@/shared/components/ui/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { changeDateToMonthYear } from "@/shared/utils/date-utils";
 import {
   calculateDeadlinePercentValue,
@@ -54,9 +50,10 @@ import {
   showDeadline,
 } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
-import { useDebounce } from "../debounce.hooks";
-
 import { useCommonStore } from "@/store/common-store";
+import { ColumnDef, VisibilityState } from "@tanstack/react-table";
+
+import { useDebounce } from "../debounce.hooks";
 import useProjectFilter from "./overall-filters/useProjectFilter.hook";
 
 const useProjectListing = () => {

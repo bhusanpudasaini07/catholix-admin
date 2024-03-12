@@ -1,6 +1,7 @@
-import React from "react";
-import { Input } from "../ui/input";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon } from 'lucide-react';
+import React from 'react';
+
+import { Input } from '../ui/input';
 
 interface IProps {
   setSearchText: (arg: string) => void;

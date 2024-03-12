@@ -1,29 +1,24 @@
+import { DownloadCloud } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { FC, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { IRpStaffSummaryProps, IStaff } from '@/interface/team-lead-report-interface';
+import { getConfig } from '@/services/dashboard/dashboard-service';
+import { getStaffDailyTimelog } from '@/services/lead-report/lead-report-service';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Dialog, DialogContent } from '@/shared/components/ui/dialog';
 import {
-  IRpStaffSummaryProps,
-  IStaff,
-} from "@/interface/team-lead-report-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { ColumnDef } from "@tanstack/react-table";
-import { DownloadCloud } from "lucide-react";
-import { FC, useMemo, useState } from "react";
-import { useQuery } from "react-query";
-import MemberTimeLogModal from "./member-timelog-modal";
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
-import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
-import moment from "moment";
-import Link from "next/link";
-import { getConfig } from "@/services/dashboard/dashboard-service";
-import { DownloadExcel } from "@/shared/utils/download/download.utils";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { DownloadExcel } from '@/shared/utils/download/download.utils';
+import { ColumnDef } from '@tanstack/react-table';
+
+import MemberTimeLogModal from './member-timelog-modal';
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
@@ -115,6 +110,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   const filteredStaffLogData = useMemo(() => {
     // If no search text and role selected, return all data
     if (!searchText && !role) return StaffLogData;
+    // if () return StaffLogData;
 
     let filteredData = StaffLogData;
 
@@ -126,7 +122,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     }
 
     // Filter by role if role is selected
-    if (role) {
+    if (role === "all") {
+      // filteredData = filteredData;
+    } else if (role) {
       filteredData = filteredData?.filter((staff: any) =>
         staff?.role?.toLowerCase()?.includes(role?.toLowerCase())
       );
@@ -277,21 +275,21 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   ];
 
   const handleDownloadSubFeature = () => {
-    const columnKeys =
-      filteredStaffLogData?.length > 0
-        ? Object?.keys(filteredStaffLogData[0])
-        : [];
+    // const columnKeys =
+    //   filteredStaffLogData?.length > 0
+    //     ? Object?.keys(filteredStaffLogData[0])
+    //     : [];
     const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
       const rowData: any = {};
       rowData["S.N"] = index + 1;
-      rowData["ID"] = item?.id;
+      // rowData["ID"] = item?.id;
       rowData["Name"] = item?.name;
       rowData["Role"] = item?.role;
-      rowData["Spent RP"] = item?.spent_rp;
-      rowData["Spent RP (Client)"] = item?.spent_client_rp;
-      rowData["Loss RP"] = item?.loss_rp;
-      rowData["% RP"] = item?.rp_percentage;
-      rowData["% RP Client"] = item?.client_rp_percentage;
+      rowData["Spent Budget"] = item?.spent_rp;
+      rowData["Spent Budget (Client)"] = item?.spent_client_rp;
+      rowData["Loss Budget"] = item?.loss_rp;
+      rowData["% Budget"] = item?.rp_percentage;
+      rowData["% Budget Client"] = item?.client_rp_percentage;
       rowData["Total Time"] = item?.total_time;
       rowData["Spent Time"] = item?.spent_time;
       rowData["% Time"] = item?.time_percentage;
@@ -300,10 +298,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
     });
     DownloadExcel(
       mappedData,
-      `member_log_from${moment(dateRange?.from).format(
-        "YYYY-MM-DD"
-      )}_to_${moment(dateRange?.to).format("YYYY-MM-DD")}
-      `
+      `MEMBER_LOG_${moment(dateRange?.from).format("YYYY-MM-DD")}_TO_${moment(
+        dateRange?.to
+      ).format("YYYY-MM-DD")}`
     );
   };
 
@@ -324,6 +321,9 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
               <SelectContent className="max-h-[300px] overflow-auto">
+                <SelectItem key={"all"} value={"all"}>
+                  All
+                </SelectItem>
                 {filterDate?.data?.roles?.map((roles: any) => (
                   <SelectItem key={roles?.index} value={roles?.title}>
                     {roles?.title}

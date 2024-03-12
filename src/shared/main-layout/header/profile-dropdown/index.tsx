@@ -1,35 +1,20 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
+    Building, ChevronDown, ChevronsRight, LockKeyhole, LogOutIcon, Settings, User, User2
+} from 'lucide-react';
+import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
 
+import { logout } from '@/services/auth/auth-service';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
 import {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-} from "@/shared/components/ui/avatar";
+    DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/shared/components/ui/dropdown-menu';
+import { removeAuthCookies } from '@/shared/utils/cookie-utils';
+import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
+import { useCommonStore } from '@/store/common-store';
 
-import {
-  Building,
-  ChevronDown,
-  ChevronsRight,
-  LockKeyhole,
-  LogOutIcon,
-  Settings,
-  User,
-  User2,
-} from "lucide-react";
-import { useRouter } from "next/router";
-import config from "../../../../../config";
-import { useMutation } from "react-query";
-import { logout } from "@/services/auth/auth-service";
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
-import { useCommonStore } from "@/store/common-store";
-import { removeAuthCookies } from "@/shared/utils/cookie-utils";
+import config from '../../../../../config';
 
 const { LOGGED_IN_KEY } = config;
 

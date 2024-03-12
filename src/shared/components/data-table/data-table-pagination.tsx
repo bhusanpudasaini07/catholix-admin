@@ -1,14 +1,10 @@
-import { Button } from "@/shared/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useEffect, useState, useCallback, memo } from "react";
+import { Button } from '@/shared/components/ui/button';
+import {
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
 
 interface IPagination {
   currentPage: number;

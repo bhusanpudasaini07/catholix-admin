@@ -1,9 +1,11 @@
-import React from "react";
-import { NextPageWithLayout } from "../_app";
-import AuthLayout from "@/shared/auth-layout";
-import LoginForm from "@/features/Auth/login-form";
-import Image from "next/image";
-import { loginImg } from "@/shared/lib/image-config";
+import Image from 'next/image';
+import React from 'react';
+
+import LoginForm from '@/features/Auth/login-form';
+import AuthLayout from '@/shared/auth-layout';
+import { loginImg } from '@/shared/lib/image-config';
+
+import { NextPageWithLayout } from '../_app';
 
 const Login: NextPageWithLayout = () => {
   return (

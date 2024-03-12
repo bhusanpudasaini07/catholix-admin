@@ -1,6 +1,7 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
+import ReactECharts from 'echarts-for-react';
+import React from 'react';
+
+import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
 
 interface IProps {
   rp: {

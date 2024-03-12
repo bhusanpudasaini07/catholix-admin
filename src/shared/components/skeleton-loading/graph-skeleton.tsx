@@ -1,5 +1,6 @@
-import React from "react";
-import { Skeleton } from "../ui/skeleton";
+import React from 'react';
+
+import { Skeleton } from '../ui/skeleton';
 
 const GraphSkeleton = ({ className }: any) => {
   return (

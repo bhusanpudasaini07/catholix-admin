@@ -1,59 +1,33 @@
-import { useRouter } from "next/router";
-import moment from "moment";
-import Link from "next/link";
-
 import {
-  Activity,
-  AlertCircle,
-  BadgeAlert,
-  BadgePlus,
-  CalendarRange,
-  Flag,
-  Globe,
-  Laptop,
-  Link as Links,
-  Projector,
-  Star,
-  Tag,
-  Timer,
-  TrendingDown,
-  User,
-  UserCircle2,
-  Users,
-  Zap,
-} from "lucide-react";
+    Activity, AlertCircle, BadgeAlert, BadgePlus, CalendarRange, Flag, Globe, Laptop, Link as Links,
+    Projector, Star, Tag, Timer, TrendingDown, User, UserCircle2, Users, Zap
+} from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
-import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
-
-import {
-  calculateDeadlinePercentValue,
-  calculateTimeLog,
-  showDeadline,
-} from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
-
-import UsedRp from "../used-rp-chart/usedRp";
-
-import { Badge } from "@/shared/components/ui/badge";
-import { Progress } from "@/shared/components/ui/progress";
-import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/shared/components/ui/dialog";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
-import { DataTable } from "@/shared/components/data-table/data-table";
-
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useProjectSales from '@/hooks/project/detail/useProjectSales.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import AboutSkeleton from '@/shared/components/skeleton-loading/project/detail/about-skeleton';
+import ProjectDetailSkeleton from '@/shared/components/skeleton-loading/project/detail/detail-skeleton';
+import ProjectDurationSkeleton from '@/shared/components/skeleton-loading/project/detail/project-duration-skeleton';
+import TaskTimeLogsSkeleton from '@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton';
 // Skeleton Loaders
-import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
-import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
-import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
-import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
-import TaskTimeLogsSkeleton from "@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton";
-import AboutSkeleton from "@/shared/components/skeleton-loading/project/detail/about-skeleton";
+import TotalSalesSkeleton from '@/shared/components/skeleton-loading/project/detail/total-sales-skeleton';
+import UnitAllocationSkeleton from '@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
+import { Progress } from '@/shared/components/ui/progress';
+import { Sheet, SheetContent, SheetHeader } from '@/shared/components/ui/sheet';
+import {
+    calculateDeadlinePercentValue, calculateTimeLog, showDeadline
+} from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
+
+import UsedRp from '../used-rp-chart/usedRp';
 
 const DetailOverviewMoreDetail = () => {
   const router = useRouter();

@@ -1,51 +1,24 @@
 import {
-  IProjectDetail,
-  ISalesRP,
-  ISalesRPDetail,
-} from "@/interface/project-interface";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/components/ui/accordion";
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
-import { Skeleton } from "@/shared/components/ui/skeleton";
+    BadgeAlert, Calendar, CalendarRange, ChevronLeft, Code2, FileCode2, Globe, Laptop,
+    Link as Links, Pencil, Projector, Star, Timer, User, UserCircle2, Users, Zap
+} from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
+import { IProjectDetail, ISalesRP, ISalesRPDetail } from '@/interface/project-interface';
+import { IStaff } from '@/interface/staff-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-} from "@/shared/components/ui/dialog";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
-
-import {
-  BadgeAlert,
-  CalendarRange,
-  ChevronLeft,
-  Globe,
-  Laptop,
-  Pencil,
-  Star,
-  UserCircle2,
-  Users,
-  Zap,
-  Link as Links,
-  User,
-  Timer,
-  Projector,
-  Code2,
-  FileCode2,
-  Calendar,
-} from "lucide-react";
-import moment from "moment";
-import { useRouter } from "next/router";
-import React from "react";
-import Link from "next/link";
-import { ColumnDef } from "@tanstack/react-table";
-import { IStaff } from "@/interface/staff-interface";
+    Accordion, AccordionContent, AccordionItem, AccordionTrigger
+} from '@/shared/components/ui/accordion';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
+import { Sheet, SheetContent, SheetHeader } from '@/shared/components/ui/sheet';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   projectDetail: IProjectDetail | undefined;

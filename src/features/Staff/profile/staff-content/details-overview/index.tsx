@@ -1,21 +1,11 @@
-import React from "react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/shared/components/ui/avatar";
-import { Badge } from "@/shared/components/ui/badge";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  Award,
-  BarChart,
-  CalendarDays,
-  MapPin,
-  Phone,
-  Star,
-} from "lucide-react";
-import moment from "moment";
-import StaffDetailSkeleton from "@/shared/components/skeleton-loading/staffs/staff-details-skeleton";
+import { Award, BarChart, CalendarDays, MapPin, Phone, Star } from 'lucide-react';
+import moment from 'moment';
+import React from 'react';
+
+import StaffDetailSkeleton from '@/shared/components/skeleton-loading/staffs/staff-details-skeleton';
+import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
+import { Badge } from '@/shared/components/ui/badge';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   image: string;

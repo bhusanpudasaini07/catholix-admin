@@ -1,14 +1,7 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  User2,
-  UserCircle,
-  UserCircle2,
-  UserPlus,
-  Users,
-  Users2,
-  Warehouse,
-} from "lucide-react";
-import React, { FC } from "react";
+import { User2, UserCircle, UserCircle2, UserPlus, Users, Users2, Warehouse } from 'lucide-react';
+import React, { FC } from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   in_house?: string;

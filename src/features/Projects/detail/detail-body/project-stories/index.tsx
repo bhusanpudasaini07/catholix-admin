@@ -1,9 +1,10 @@
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
-import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useProjectStories from '@/hooks/project/detail/useProjectStories.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const ProjectStories = () => {
   const router = useRouter();

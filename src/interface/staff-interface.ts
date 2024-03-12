@@ -51,6 +51,7 @@ export interface IStaffLogs {
       total_rp: number;
       total_time: number;
       client_rp: number;
+      client_time: number;
     };
     time_logs: ILogEntry[];
     staff_info: IStaffDetails;

@@ -1,10 +1,11 @@
-import Head from "next/head";
-import React, { useEffect, useState } from "react";
-import Header from "./header";
-import SidebarNew from "./sidebar-new";
+import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
+
+import { AlertDialog, AlertDialogContent } from '../components/ui/alert-dialog';
+import Header from './header';
+import SidebarNew from './sidebar-new';
 // import { FavIcon } from "../lib/image-config";
-import SidebarSheet from "./sidebar-sheet";
-import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";
+import SidebarSheet from './sidebar-sheet';
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   children,

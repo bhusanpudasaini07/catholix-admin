@@ -1,21 +1,12 @@
-import { Sheet, SheetContent } from "@/shared/components/ui/sheet";
-import { Logo } from "@/shared/lib/image-config";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import React from "react";
+import { Calculator, Clock, File, Folder, Gitlab, LayoutGrid, User2, Users } from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { Button } from "@/shared/components/ui/button";
-import { useTranslation } from "next-i18next";
-import {
-  Calculator,
-  Clock,
-  File,
-  Folder,
-  Gitlab,
-  LayoutGrid,
-  User2,
-  Users,
-} from "lucide-react";
+import { Button } from '@/shared/components/ui/button';
+import { Sheet, SheetContent } from '@/shared/components/ui/sheet';
+import { Logo } from '@/shared/lib/image-config';
 
 interface IProps {
   openSheet: boolean;

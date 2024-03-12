@@ -1,13 +1,12 @@
-import React from "react";
-import { useRouter } from "next/router";
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { Button } from "@/shared/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import useRPBurndown from '@/hooks/project/detail/useRPBurndown.hook';
+import { Button } from '@/shared/components/ui/button';
 
-import ChartCard from "./chart-card";
-import ConsumptionListTable from "./consumption-list-table";
-
-import useRPBurndown from "@/hooks/project/detail/useRPBurndown.hook";
+import ChartCard from './chart-card';
+import ConsumptionListTable from './consumption-list-table';
 
 const BurndownContent = () => {
   const router = useRouter();

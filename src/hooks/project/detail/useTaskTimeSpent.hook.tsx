@@ -1,25 +1,17 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useQuery } from "react-query";
-import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import moment from "moment";
+import { Edit } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 
-import { useDebounce } from "@/hooks/debounce.hooks";
-import { ITimeLogs } from "@/interface/project-interface";
-import { ILogEntry } from "@/interface/project-interface";
-
-import { getTimeLogs } from "@/services/project/project-service";
-
-import { Badge } from "@/shared/components/ui/badge";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-
-import { Edit } from "lucide-react";
+import { useDebounce } from '@/hooks/debounce.hooks';
+import { ILogEntry, ITimeLogs } from '@/interface/project-interface';
+import { getTimeLogs } from '@/services/project/project-service';
+import { Badge } from '@/shared/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useTaskTimeSpent = () => {
   const router = useRouter();

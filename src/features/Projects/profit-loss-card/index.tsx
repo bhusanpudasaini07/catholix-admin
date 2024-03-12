@@ -1,10 +1,11 @@
-import { IProjectDetail } from "@/interface/project-interface";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { showDeadline } from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
-import { Clock } from "lucide-react";
-import Link from "next/link";
-import React from "react";
+import { Clock } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
+
+import { IProjectDetail } from '@/interface/project-interface';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { showDeadline } from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
 
 interface IProps {
   data: IProjectDetail;

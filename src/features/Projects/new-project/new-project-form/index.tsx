@@ -1,48 +1,31 @@
 // React
-import { useState } from "react";
-
+import { useState } from 'react';
 // React Hook Form
-import { SubmitHandler, useForm } from "react-hook-form";
-
-// Zod
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-// Schema
-import { ProjectSchema } from "@/schema/project-form/new-project.schema";
-
-// UI
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/shared/components/ui/form";
-import { Input } from "@/shared/components/ui/input";
-import { Button } from "@/shared/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-
-//Components
-import RequiredField from "@/shared/components/required-form";
-
+import { SubmitHandler, useForm } from 'react-hook-form';
 // Mutation
-import { useMutation } from "react-query";
-
-// Services
-import { createNewProject } from "@/services/project/projectForm.services";
-
-// Toasts
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { useMutation } from 'react-query';
+// Zod
+import { z } from 'zod';
 
 //Constant
-import { constants } from "@/constants";
+import { constants } from '@/constants';
+// Schema
+import { ProjectSchema } from '@/schema/project-form/new-project.schema';
+// Services
+import { createNewProject } from '@/services/project/projectForm.services';
+//Components
+import RequiredField from '@/shared/components/required-form';
+import { Button } from '@/shared/components/ui/button';
+// UI
+import {
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage
+} from '@/shared/components/ui/form';
+import { Input } from '@/shared/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+// Toasts
+import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const ProjectForm = () => {

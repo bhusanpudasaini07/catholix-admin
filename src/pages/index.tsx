@@ -1,6 +1,7 @@
-import MainLayout from "@/shared/main-layout";
-import { NextPageWithLayout } from "./_app";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
+import MainLayout from '@/shared/main-layout';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
+
+import { NextPageWithLayout } from './_app';
 
 const Home: NextPageWithLayout = () => {
   return (

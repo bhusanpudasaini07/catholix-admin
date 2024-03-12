@@ -1,6 +1,8 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import React, { FC } from "react";
-import PercentageGraph from "../../../../../../shared/components/percentage-graph";
+import React, { FC } from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+
+import PercentageGraph from '../../../../../../shared/components/percentage-graph';
 
 interface IProps {
   overallTime: string;

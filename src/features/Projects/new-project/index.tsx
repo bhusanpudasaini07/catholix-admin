@@ -1,22 +1,16 @@
-//React
-import React from "react";
-
 // Icon
-import { Plus } from "lucide-react";
+import { Plus } from 'lucide-react';
+//React
+import React from 'react';
 
 // UI
-import { Button } from "@/shared/components/ui/button";
+import { Button } from '@/shared/components/ui/button';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/shared/components/ui/sheet";
+    Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger
+} from '@/shared/components/ui/sheet';
 
 //components
-import NewProjectFormSteps from "./new-project-form";
+import NewProjectFormSteps from './new-project-form';
 
 const NewProject = ({ sheetOpen, setSheetOpen }: any) => {
   return (

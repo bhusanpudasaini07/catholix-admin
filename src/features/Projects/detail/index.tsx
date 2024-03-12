@@ -1,8 +1,10 @@
-import React from "react";
-import DetailHeader from "./detail-header";
-import DetailBody from "./detail-body";
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
-import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
+import React from 'react';
+
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useProjectSales from '@/hooks/project/detail/useProjectSales.hook';
+
+import DetailBody from './detail-body';
+import DetailHeader from './detail-header';
 
 const ProjectDetailContent = () => {
   const {

@@ -1,8 +1,9 @@
-import LeadHeader from "./lead-header";
-import LeadReportBody from "./lead-body";
-import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+
+import LeadReportBody from './lead-body';
+import LeadHeader from './lead-header';
 
 export const oneWeekAgo = new Date();
 oneWeekAgo.setDate(oneWeekAgo.getDate() - 31); // currently one mont

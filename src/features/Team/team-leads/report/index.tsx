@@ -1,7 +1,9 @@
-import React from "react";
-import ReportSummaryHeader from "./report-header";
-import ReportSummaryBody from "./report-body";
-import useReport from "@/hooks/team/team-leads/useReport.hook";
+import React from 'react';
+
+import useReport from '@/hooks/team/team-leads/useReport.hook';
+
+import ReportSummaryBody from './report-body';
+import ReportSummaryHeader from './report-header';
 
 const ReportSummaryContent = () => {
   const {

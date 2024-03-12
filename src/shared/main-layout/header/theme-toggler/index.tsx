@@ -1,8 +1,9 @@
 
-import { useTheme } from 'next-themes'
-import { Toggle } from "@/shared/components/ui/toggle"
-import { SunIcon, MoonIcon } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import { MoonIcon, SunIcon } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import React, { useEffect, useState } from 'react';
+
+import { Toggle } from '@/shared/components/ui/toggle';
 
 const ThemeToggler = () => {
     const { theme, setTheme } = useTheme()

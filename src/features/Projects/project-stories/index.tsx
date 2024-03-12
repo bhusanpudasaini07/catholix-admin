@@ -1,8 +1,10 @@
-import React from "react";
-import ProjectStoriesHeader from "./stories-header";
-import ProjectStoriesOverview from "./stories-overview";
-import ProjectStoriesTable from "./stories-table";
-import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import React from 'react';
+
+import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+
+import ProjectStoriesHeader from './stories-header';
+import ProjectStoriesOverview from './stories-overview';
+import ProjectStoriesTable from './stories-table';
 
 const ProjectStoriesContent = () => {
   const { projectDetail, isLoading } = useProjectDetail();

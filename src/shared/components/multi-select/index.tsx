@@ -1,16 +1,13 @@
 "use client";
 
-import * as React from "react";
-import { X } from "lucide-react";
+import { Command as CommandPrimitive } from 'cmdk';
+import { X } from 'lucide-react';
+import * as React from 'react';
 
-import { Badge } from "@/shared/components/ui/badge";
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-} from "@/shared/components/ui/command";
-import { Command as CommandPrimitive } from "cmdk";
-import { Button } from "../ui/button";
+import { Badge } from '@/shared/components/ui/badge';
+import { Command, CommandGroup, CommandItem } from '@/shared/components/ui/command';
+
+import { Button } from '../ui/button';
 
 export const MultiSelect = ({
   dataList,

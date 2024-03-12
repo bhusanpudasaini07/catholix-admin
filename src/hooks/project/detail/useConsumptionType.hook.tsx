@@ -1,15 +1,14 @@
+import { EChartsInstance } from 'echarts-for-react';
+import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+
 import {
-  IDepartmentGroupWise,
-  IRoleGroupWise,
-  IRoleWise,
-  IStaffWise,
-} from "@/interface/project-interface";
-import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
-import useProjectRpSummary from "./useProjectRpSummary.hook";
-import { useEffect, useRef } from "react";
-import { EChartsInstance } from "echarts-for-react";
+    IDepartmentGroupWise, IRoleGroupWise, IRoleWise, IStaffWise
+} from '@/interface/project-interface';
+import { calculateTimeLog, changeNumberFormat } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
+
+import useProjectRpSummary from './useProjectRpSummary.hook';
 
 const useConsumptionType = () => {
   const { rpSummary } = useProjectRpSummary();

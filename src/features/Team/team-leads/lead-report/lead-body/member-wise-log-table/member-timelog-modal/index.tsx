@@ -1,11 +1,14 @@
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { Activity, Hourglass, TrendingDown } from "lucide-react";
-import moment from "moment";
-import Link from "next/link";
-import { FC } from "react";
+import { Activity, Hourglass, TrendingDown } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { FC } from 'react';
+
+import { DataTable } from '@/shared/components/data-table/data-table';
+import DataCardSkeleton from '@/shared/components/skeleton-loading/data-card-skeleton';
+import TrendModalSkeleton from '@/shared/components/skeleton-loading/lead-report/data-card-skeleton';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   staffDailyLog: any;
@@ -67,7 +70,10 @@ const MemberTimeLogModal: FC<IProps> = ({
       accessorKey: "task_title",
       header: "Task",
       cell: ({ row }) => (
-        <Link href={""} className="text-sm font-medium text-blue-500">
+        <Link
+          href={row?.original?.task_url}
+          className="text-sm font-medium text-blue-500"
+        >
           {row.getValue("task_title")}
         </Link>
       ),
@@ -77,6 +83,7 @@ const MemberTimeLogModal: FC<IProps> = ({
 
   return (
     <div className="flex flex-col max-h-[700px] overflow-auto">
+      {staffDailyLogLoading && <TrendModalSkeleton />}
       {staffDailyLog?.data?.map((daily: any) => (
         <div className="mb-4" key="">
           <Card className="h-[200px] mb-2">

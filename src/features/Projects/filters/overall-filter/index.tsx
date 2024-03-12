@@ -1,10 +1,10 @@
-import React from "react";
-import { Button } from "@/shared/components/ui/button";
+import { Filter } from 'lucide-react';
+import React from 'react';
 
-import { Filter } from "lucide-react";
-import FilterSheet from "./filter-sheet";
+import useProjectFilter from '@/hooks/project/overall-filters/useProjectFilter.hook';
+import { Button } from '@/shared/components/ui/button';
 
-import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
+import FilterSheet from './filter-sheet';
 
 const OverallFilter = () => {
   const { filterSheetOpen, setFilterSheetOpen } = useProjectFilter();

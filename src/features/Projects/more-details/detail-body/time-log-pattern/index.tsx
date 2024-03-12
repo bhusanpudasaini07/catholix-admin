@@ -1,26 +1,17 @@
-import ReactECharts from "echarts-for-react";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import moment from "moment";
+import ReactECharts from 'echarts-for-react';
+import moment from 'moment';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
+import useTimeLog from '@/hooks/project/detail/more-detail/useTimeLog.hook';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import GraphSkeleton from '@/shared/components/skeleton-loading/graph-skeleton';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import DatePicker from '@/shared/components/ui/date-picker';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import useTimeLog from "@/hooks/project/detail/more-detail/useTimeLog.hook";
-import DatePicker from "@/shared/components/ui/date-picker";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
 const TimeLogPattern = () => {
   const {

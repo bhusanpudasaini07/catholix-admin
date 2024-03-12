@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+
+import { Button } from '@/shared/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
-import { Button } from "@/shared/components/ui/button";
-import { useRouter } from "next/router";
+    DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger
+} from '@/shared/components/ui/dropdown-menu';
 
 interface ISubMenu {
   menuName: string;

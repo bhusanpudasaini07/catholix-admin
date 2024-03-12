@@ -1,42 +1,24 @@
-//Next
-import { useRouter } from "next/router";
-
 // Icons
 import {
-  Calculator,
-  Clock,
-  File,
-  Folder,
-  Gitlab,
-  LayoutGrid,
-  User,
-  User2,
-  Users,
-} from "lucide-react";
+    Calculator, Clock, File, Folder, Gitlab, LayoutGrid, User, User2, Users
+} from 'lucide-react';
+import { useTranslation } from 'next-i18next';
+//Next
+import { useRouter } from 'next/router';
+import React from 'react';
 
+import {
+    Accordion, AccordionContent, AccordionItem, AccordionTrigger
+} from '@/shared/components/ui/accordion';
+import { Button } from '@/shared/components/ui/button';
+import {
+    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
+} from '@/shared/components/ui/dropdown-menu';
 // UI Components
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/shared/components/ui/accordion";
-import { Button } from "@/shared/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
-import { useTranslation } from "next-i18next";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import React from "react";
+    Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+} from '@/shared/components/ui/tooltip';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
 
 interface ISidebarProps {
   sidebarWidth: string;

@@ -1,22 +1,19 @@
-import useProjectListing from "@/hooks/project/useProjectListing.hook";
-import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
+import Image from 'next/image';
+import { FC, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import useProjectListing from '@/hooks/project/useProjectListing.hook';
+import { IRpStaffSummaryProps } from '@/interface/team-lead-report-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { CountryButtonCheckbox } from '@/shared/components/ui/country-checkbox';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { useCommonStore } from "@/store/common-store";
-import { ColumnDef } from "@tanstack/react-table";
-import Image from "next/image";
-import { FC, useState } from "react";
-import { useQuery } from "react-query";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { useCommonStore } from '@/store/common-store';
+import { ColumnDef } from '@tanstack/react-table';
 
 const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,

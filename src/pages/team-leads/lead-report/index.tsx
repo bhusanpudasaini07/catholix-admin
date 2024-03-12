@@ -1,7 +1,8 @@
-import LeadReportContent from "@/features/Team/team-leads/lead-report";
-import MainLayout from "@/shared/main-layout";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import React from "react";
+import React from 'react';
+
+import LeadReportContent from '@/features/Team/team-leads/lead-report';
+import MainLayout from '@/shared/main-layout';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
 
 const LeadReport = () => {
   return <LeadReportContent />;

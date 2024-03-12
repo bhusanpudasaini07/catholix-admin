@@ -1,9 +1,11 @@
-import React from "react";
-import ReportOverall from "./report-overall";
-import ReportSummaryTable from "./report-table";
-import { ColumnDef } from "@tanstack/react-table";
-import { ILeadDetail } from "@/interface/team-leads-interface";
-import { EChartsInstance } from "echarts-for-react";
+import { EChartsInstance } from 'echarts-for-react';
+import React from 'react';
+
+import { ILeadDetail } from '@/interface/team-leads-interface';
+import { ColumnDef } from '@tanstack/react-table';
+
+import ReportOverall from './report-overall';
+import ReportSummaryTable from './report-table';
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];

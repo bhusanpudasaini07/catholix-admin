@@ -1,7 +1,8 @@
-import { Button } from "@/shared/components/ui/button";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/router";
-import React from "react";
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+import { Button } from '@/shared/components/ui/button';
 
 const LatestActivityHeader = () => {
   const router = useRouter();

@@ -1,9 +1,10 @@
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import { Button } from "@/shared/components/ui/button";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/router";
-import React from "react";
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import { Button } from '@/shared/components/ui/button';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 const StaffHeader = () => {
   const router = useRouter();

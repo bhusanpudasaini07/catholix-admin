@@ -1,7 +1,8 @@
-import React from "react";
-import MainLayout from "@/shared/main-layout";
-import ProjectRPConsumptionContent from "@/features/Team/team-leads/lead-report/project-rp-consumption";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
+import React from 'react';
+
+import ProjectRPConsumptionContent from '@/features/Team/team-leads/lead-report/project-rp-consumption';
+import MainLayout from '@/shared/main-layout';
+import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
 
 const ProjectRPConsumption = () => {
   return <ProjectRPConsumptionContent />;

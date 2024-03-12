@@ -1,6 +1,8 @@
-import React from "react";
-import { Skeleton } from "../ui/skeleton";
-import { cn } from "@/shared/utils/utils";
+import React from 'react';
+
+import { cn } from '@/shared/utils/utils';
+
+import { Skeleton } from '../ui/skeleton';
 
 interface IProps {
   height?: number;

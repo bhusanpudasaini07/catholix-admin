@@ -1,17 +1,15 @@
-import React, { FC, useEffect, useState } from "react";
-import Link from "next/link";
-import {
-  IProject,
-  IRpStaffSummaryProps,
-} from "@/interface/team-lead-report-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
-import { useCommonStore } from "@/store/common-store";
-import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/router";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { FC, useEffect, useState } from 'react';
+
+import { IProject, IRpStaffSummaryProps } from '@/interface/team-lead-report-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { CountryButtonCheckbox } from '@/shared/components/ui/country-checkbox';
+import { useCommonStore } from '@/store/common-store';
+import { ColumnDef } from '@tanstack/react-table';
 
 const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,

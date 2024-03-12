@@ -1,19 +1,15 @@
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { useQuery } from 'react-query';
+
+import { ICountryProjectDetails, IPropsTeamLeadData } from '@/interface/team-lead-report-interface';
 import {
-  ICountryProjectDetails,
-  IPropsTeamLeadData,
-} from "@/interface/team-lead-report-interface";
-import {
-  getAllStaffId,
-  getLeadsList,
-  getStaffRpSummary,
-} from "@/services/lead-report/lead-report-service";
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+    getAllStaffId, getLeadsList, getStaffRpSummary
+} from '@/services/lead-report/lead-report-service';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProject {
   id: string;

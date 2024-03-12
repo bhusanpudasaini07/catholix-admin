@@ -1,18 +1,14 @@
-import { getLeadsList } from "@/services/lead-report/lead-report-service";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import { Button } from "@/shared/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React, { FC, useState } from 'react';
+import { useQuery } from 'react-query';
 
-import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
-import { useQuery } from "react-query";
+import { getLeadsList } from '@/services/lead-report/lead-report-service';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import { Button } from '@/shared/components/ui/button';
+import {
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
 
 interface IProps {
   setDateRange: any;

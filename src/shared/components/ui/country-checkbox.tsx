@@ -1,8 +1,8 @@
-import * as React from "react";
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import Image from 'next/image';
+import * as React from 'react';
 
-import { cn } from "@/shared/utils/utils";
-import Image from "next/image";
+import { cn } from '@/shared/utils/utils';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 
 type CheckboxProps = React.ComponentPropsWithoutRef<
   typeof CheckboxPrimitive.Root

@@ -1,7 +1,9 @@
-import React from "react";
-import ProjectRPConsumptionHeader from "./project-rp-header";
-import ProjectRPConsumptionBody from "./project-rp-body";
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import React from 'react';
+
+import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
+
+import ProjectRPConsumptionBody from './project-rp-body';
+import ProjectRPConsumptionHeader from './project-rp-header';
 
 const ProjectRPConsumptionContent = () => {
   return (

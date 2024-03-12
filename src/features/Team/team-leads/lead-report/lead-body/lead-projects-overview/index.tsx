@@ -1,7 +1,8 @@
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
+
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   total?: string;

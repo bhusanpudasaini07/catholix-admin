@@ -1,8 +1,9 @@
-import ProjectDetailContent from "@/features/Projects/detail";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import ProjectDetailContent from '@/features/Projects/detail';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const ProjectDetail: NextPageWithLayout = () => {
   return <ProjectDetailContent />;

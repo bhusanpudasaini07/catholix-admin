@@ -1,14 +1,17 @@
-import { Menu } from "lucide-react";
-import ProfileDropdown from "./profile-dropdown";
-import { useLoggedInStore } from "@/store/auth-store";
-import Link from "next/link";
-import Image from "next/image";
-import { Logo } from "@/shared/lib/image-config";
-import LanguageToggler from "./language-toggler";
-import { version } from "../../../../version";
-import { useQuery } from "react-query";
-import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
-import { useCommonStore } from "@/store/common-store";
+import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useQuery } from 'react-query';
+
+import { getConfig, getProfile } from '@/services/dashboard/dashboard-service';
+import { Logo } from '@/shared/lib/image-config';
+import { useLoggedInStore } from '@/store/auth-store';
+import { useCommonStore } from '@/store/common-store';
+
+import { version } from '../../../../version';
+import LanguageToggler from './language-toggler';
+import ProfileDropdown from './profile-dropdown';
+
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
   isExpanded: boolean;

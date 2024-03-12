@@ -1,13 +1,12 @@
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts from "echarts-for-react";
+import ReactECharts from 'echarts-for-react';
+import { FC } from 'react';
+
 import {
-  ICountryInHouseTotalRP,
-  IProject,
-  IRpStaffSummaryProps,
-} from "@/interface/team-lead-report-interface";
-import { FC } from "react";
+    ICountryInHouseTotalRP, IProject, IRpStaffSummaryProps
+} from '@/interface/team-lead-report-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { ColumnDef } from '@tanstack/react-table';
 
 const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,

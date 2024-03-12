@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { FileUploader } from "react-drag-drop-files";
-import { Document, Page, pdfjs } from "react-pdf";
-import Image from "next/image";
-import { Trash, UploadCloud } from "lucide-react";
-import { Button } from "../ui/button";
+import { Trash, UploadCloud } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { FileUploader } from 'react-drag-drop-files';
+import { Document, Page, pdfjs } from 'react-pdf';
+
+import { Button } from '../ui/button';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 

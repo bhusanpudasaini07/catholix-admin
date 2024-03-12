@@ -1,6 +1,7 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import React from "react";
+import React from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 const ProjectsOverviewSkeleton = () => {
   return (

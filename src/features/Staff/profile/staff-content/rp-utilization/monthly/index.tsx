@@ -1,16 +1,13 @@
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import useStaffUtilization from "@/hooks/staff/useStaffUtilization.hook";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import moment from 'moment';
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import useStaffUtilization from '@/hooks/staff/useStaffUtilization.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import moment from "moment";
-import React from "react";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
 
 const MonthlyRPUtilization = () => {
   const {

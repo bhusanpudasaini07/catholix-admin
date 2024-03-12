@@ -1,6 +1,7 @@
-import React from "react";
-import LatestActivityHeader from "./latest-header";
-import LatestActivityTable from "./latest-table";
+import React from 'react';
+
+import LatestActivityHeader from './latest-header';
+import LatestActivityTable from './latest-table';
 
 const LatestActivitiesContent = () => {
   return (

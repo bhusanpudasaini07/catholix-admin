@@ -1,9 +1,10 @@
-import { ILogEntry, ITimeLogs } from "@/interface/project-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React from 'react';
+
+import { ILogEntry, ITimeLogs } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   timeLogLoading: boolean;

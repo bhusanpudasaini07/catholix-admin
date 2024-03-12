@@ -1,6 +1,7 @@
-import Image from "next/image";
-import { loginImg, Logo } from "../lib/image-config";
-import Head from "next/head";
+import Head from 'next/head';
+import Image from 'next/image';
+
+import { loginImg, Logo } from '../lib/image-config';
 
 const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
   children,

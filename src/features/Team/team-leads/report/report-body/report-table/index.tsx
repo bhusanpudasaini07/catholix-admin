@@ -1,13 +1,13 @@
-import React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts, { EChartsInstance } from "echarts-for-react";
-import { ILeadDetail } from "@/interface/team-leads-interface";
+import ReactECharts, { EChartsInstance } from 'echarts-for-react';
+import { DownloadCloud } from 'lucide-react';
+import React from 'react';
 
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { DownloadCloud } from "lucide-react";
-import { cn } from "@/shared/utils/utils";
+import { ILeadDetail } from '@/interface/team-leads-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { cn } from '@/shared/utils/utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];

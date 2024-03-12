@@ -1,12 +1,14 @@
-import React from "react";
-import StaffDetailOverview from "./details-overview";
-import RPAllocation from "./rp-allocation";
-import ProjectsOverview from "./projects-overiew";
-import StaffProjectsList from "./projects-list";
-import DailyRPUtilization from "./rp-utilization/daily";
-import MonthlyRPUtilization from "./rp-utilization/monthly";
-import AllTimeProjects from "./all-time-projects";
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+
+import AllTimeProjects from './all-time-projects';
+import StaffDetailOverview from './details-overview';
+import StaffProjectsList from './projects-list';
+import ProjectsOverview from './projects-overiew';
+import RPAllocation from './rp-allocation';
+import DailyRPUtilization from './rp-utilization/daily';
+import MonthlyRPUtilization from './rp-utilization/monthly';
 
 const StaffContent = () => {
   const {

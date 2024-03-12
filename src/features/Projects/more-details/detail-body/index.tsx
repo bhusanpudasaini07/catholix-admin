@@ -1,9 +1,10 @@
-import DetailOverviewMoreDetail from "./detail-overview";
-import TimeLogPattern from "./time-log-pattern";
-import Status from "./status";
-import CategoryPlatform from "./category-platform-components";
-import BugTaskRatio from "./bug-task-ratio";
-import useMoreDetail from "@/hooks/project/detail/more-detail/useMoreDetail.hook";
+import useMoreDetail from '@/hooks/project/detail/more-detail/useMoreDetail.hook';
+
+import BugTaskRatio from './bug-task-ratio';
+import CategoryPlatform from './category-platform-components';
+import DetailOverviewMoreDetail from './detail-overview';
+import Status from './status';
+import TimeLogPattern from './time-log-pattern';
 
 const MoreDetailBody = () => {
   const {

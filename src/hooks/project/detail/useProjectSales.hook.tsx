@@ -1,7 +1,8 @@
-import { ISalesRP } from "@/interface/project-interface";
-import { getProjectSales } from "@/services/project/project-service";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+
+import { ISalesRP } from '@/interface/project-interface';
+import { getProjectSales } from '@/services/project/project-service';
 
 const useProjectSales = () => {
   const {

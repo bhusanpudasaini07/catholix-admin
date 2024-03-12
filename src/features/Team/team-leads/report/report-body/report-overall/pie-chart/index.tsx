@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from "react";
-import ReactECharts, { EChartsInstance } from "echarts-for-react";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
+import ReactECharts, { EChartsInstance } from 'echarts-for-react';
+import React, { useEffect, useRef } from 'react';
+
+import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
 
 interface IProps {
   totalRP: number;

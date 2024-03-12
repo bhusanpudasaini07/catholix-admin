@@ -1,17 +1,14 @@
-import React from "react";
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
 
 const StaffProjectsList = () => {
   const {

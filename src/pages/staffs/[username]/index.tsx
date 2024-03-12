@@ -1,11 +1,12 @@
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import StaffsHeader from "@/features/Staff/staffs-header";
-import StaffsBody from "@/features/Staff/staffs-body";
-import { DateRange } from "react-day-picker";
-import { useState } from "react";
-import moment from "moment";
+import moment from 'moment';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+
+import StaffsBody from '@/features/Staff/staffs-body';
+import StaffsHeader from '@/features/Staff/staffs-header';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const StaffDetail: NextPageWithLayout = () => {
   const getDefaultDateRange = () => {
@@ -20,7 +21,7 @@ const StaffDetail: NextPageWithLayout = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>(
     getDefaultDateRange()
   );
-  const [dateRangeOpen, setdateRangeOpen] = useState(false);
+  const [dateRangeOpen, setdateRangeOpen] = useState<boolean>(false);
   return (
     <>
       <StaffsHeader

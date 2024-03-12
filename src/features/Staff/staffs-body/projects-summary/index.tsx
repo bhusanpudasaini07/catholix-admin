@@ -1,31 +1,23 @@
-import React, { FC, useEffect, useState } from "react";
-import Link from "next/link";
-import {
-  IProject,
-  IRpStaffSummaryProps,
-} from "@/interface/team-lead-report-interface";
-import ReactECharts from "echarts-for-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { FC, useEffect, useState } from 'react';
 
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
-import { useCommonStore } from "@/store/common-store";
-import { ColumnDef } from "@tanstack/react-table";
-import { useRouter } from "next/router";
-import { Select } from "@radix-ui/react-select";
+import IStaffsProfileProject from '@/interface/staff-profile';
+import { IProject } from '@/interface/team-lead-report-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { CountryButtonCheckbox } from '@/shared/components/ui/country-checkbox';
 import {
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { Badge } from "@/shared/components/ui/badge";
-import IStaffsProfileProject from "@/interface/staff-profile";
-import ProjectSummaryGraph from "./project-summary-graph";
-import Image from "next/image";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
+    SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { useCommonStore } from '@/store/common-store';
+import { Select } from '@radix-ui/react-select';
+import { ColumnDef } from '@tanstack/react-table';
+
+import ProjectSummaryGraph from './project-summary-graph';
 
 interface IChartData {
   name: string;
@@ -190,7 +182,7 @@ const StaffsProjectSummary: FC<IProps> = ({
     let totalClientRp = 0;
     let totalInHouseRp = 0;
 
-    projects.forEach((project: IStaffsProfileProject) => {
+    projects?.forEach((project: IStaffsProfileProject) => {
       if (project?.source === "Client") {
         totalClientRp += parseFloat(String(project?.rp));
       }

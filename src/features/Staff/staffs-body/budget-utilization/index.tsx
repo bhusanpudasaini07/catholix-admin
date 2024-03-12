@@ -1,14 +1,15 @@
-import React, { FC } from "react";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
-import PercentageGraph from "@/shared/components/percentage-graph";
+import React, { FC } from 'react';
+
+import PercentageGraph from '@/shared/components/percentage-graph';
+import { Card, CardContent } from '@/shared/components/ui/card';
+
 interface IProps {
-  spentBudget: string | number | undefined;
-  clientBudgetPercentage: string | number | undefined;
-  clientEmptyPercentage: string | number | undefined;
-  clientBudget: string | number | undefined;
-  spentBudgetPercentage: string | number | undefined;
-  emptyBudgetPercentage: string | number | undefined;
+  spentBudget: string | number | undefined | null;
+  clientBudgetPercentage: string | number | undefined | null;
+  clientEmptyPercentage: string | number | undefined | null;
+  clientBudget: string | number | undefined | null;
+  spentBudgetPercentage: string | number | undefined | null;
+  emptyBudgetPercentage: string | number | undefined | null;
 }
 const BudgetUtilization: FC<IProps> = ({
   spentBudget,

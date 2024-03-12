@@ -1,6 +1,7 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import React from "react";
+import React from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
 
 interface IProps {
   task: string;

@@ -1,10 +1,11 @@
-import React from "react";
-import { Button } from "@/shared/components/ui/button";
+import React from 'react';
 
-import ManageColumn from "./manage-column";
-import OverallFilter from "./overall-filter";
-import useProjectListing from "@/hooks/project/useProjectListing.hook";
-import { TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import useProjectListing from '@/hooks/project/useProjectListing.hook';
+import { Button } from '@/shared/components/ui/button';
+import { TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+
+import ManageColumn from './manage-column';
+import OverallFilter from './overall-filter';
 
 const ProjectFilters = () => {
   const { resetFilters } = useProjectListing();

@@ -1,12 +1,13 @@
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React from "react";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import ProjectProfitViewSkeleton from '@/shared/components/skeleton-loading/project/project-profit-view-skeleton';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
 
 const AllTimeProjects = () => {
   const { staffProjects, staffProjectsLoading } = useStaffDetail();

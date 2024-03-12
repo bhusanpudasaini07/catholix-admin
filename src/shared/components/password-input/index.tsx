@@ -1,7 +1,8 @@
-import React, { useState, InputHTMLAttributes } from "react";
-import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { FormControl } from "../ui/form";
-import { Input } from "../ui/input";
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import React, { InputHTMLAttributes, useState } from 'react';
+
+import { FormControl } from '../ui/form';
+import { Input } from '../ui/input';
 
 interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder?: string;

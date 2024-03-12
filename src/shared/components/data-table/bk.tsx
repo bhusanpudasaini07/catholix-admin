@@ -1,27 +1,16 @@
 "use client";
 
+import { useState } from 'react';
+
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  ColumnPinningColumnDef,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/shared/components/ui/table';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/shared/components/ui/table";
-import { useState } from "react";
-import TableSkeleton from "../skeleton-loading/table-skeleton";
+    ColumnDef, ColumnFiltersState, ColumnPinningColumnDef, flexRender, getCoreRowModel,
+    getFilteredRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState
+} from '@tanstack/react-table';
+
+import TableSkeleton from '../skeleton-loading/table-skeleton';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

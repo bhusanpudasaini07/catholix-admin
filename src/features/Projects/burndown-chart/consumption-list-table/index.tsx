@@ -1,10 +1,11 @@
-import { IBurndownDate, IDailyRP } from "@/interface/project-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import React from "react";
+import moment from 'moment';
+import React from 'react';
+
+import { IBurndownDate, IDailyRP } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   columns: ColumnDef<IBurndownDate>[];

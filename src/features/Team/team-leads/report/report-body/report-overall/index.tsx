@@ -1,8 +1,10 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import React from "react";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import SummaryPieChart from "./pie-chart";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import React from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+
+import SummaryPieChart from './pie-chart';
 
 interface IProps {
   totalRP: number;

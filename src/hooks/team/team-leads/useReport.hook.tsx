@@ -1,24 +1,16 @@
-import moment from "moment";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useQuery, useQueryClient } from "react-query";
-import { ColumnDef } from "@tanstack/react-table";
-import { cn } from "@/shared/utils/utils";
-import { useRouter } from "next/router";
+import { EChartsInstance } from 'echarts-for-react';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { useQuery, useQueryClient } from 'react-query';
 
-import {
-  ILeadDetail,
-  ILeadReportSummary,
-  IStaffRPReport,
-} from "@/interface/team-leads-interface";
-import { getTeamLeadRPSummary } from "@/services/teams/report-service";
-
-import {
-  getLeadsList,
-  getStaffRpSummary,
-} from "@/services/lead-report/lead-report-service";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { EChartsInstance } from "echarts-for-react";
+import { ILeadDetail, ILeadReportSummary, IStaffRPReport } from '@/interface/team-leads-interface';
+import { getLeadsList, getStaffRpSummary } from '@/services/lead-report/lead-report-service';
+import { getTeamLeadRPSummary } from '@/services/teams/report-service';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useReport = () => {
   const router = useRouter();

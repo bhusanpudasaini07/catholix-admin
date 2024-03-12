@@ -1,6 +1,7 @@
-import React from "react";
-import { TableCell } from "../ui/table";
-import { Skeleton } from "../ui/skeleton";
+import React from 'react';
+
+import { Skeleton } from '../ui/skeleton';
+import { TableCell } from '../ui/table';
 
 const TableSkeleton = () => {
   return (

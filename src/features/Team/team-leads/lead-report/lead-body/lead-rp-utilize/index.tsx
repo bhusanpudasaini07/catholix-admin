@@ -1,7 +1,10 @@
-import React, { FC } from "react";
-import PercentageGraph from "../../../../../../shared/components/percentage-graph";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
+import React, { FC } from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
+
+import PercentageGraph from '../../../../../../shared/components/percentage-graph';
+
 interface IProps {
   overallRP: string;
   overallUsedPercentage: string;

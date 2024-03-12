@@ -1,8 +1,9 @@
-import useProjectReleases from "@/hooks/project/detail/useProjectReleases.hook";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import React from "react";
+import React from 'react';
+
+import useProjectReleases from '@/hooks/project/detail/useProjectReleases.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const ProjectRelease = () => {
   const { columns, projectReleases, isLoading } = useProjectReleases();

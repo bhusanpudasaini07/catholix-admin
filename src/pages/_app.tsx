@@ -1,20 +1,21 @@
-import "@/styles/globals.scss";
-import { NextPage } from "next";
-import type { AppProps } from "next/app";
-import { ReactElement, ReactNode } from "react";
-import { appWithTranslation } from "next-i18next";
-
+import '@/styles/globals.scss';
 /**
  * Import your scss files here. This helps in enhancing the GT Metrix Grade
  */
-import "@/styles/components/card.scss";
-import "@/styles/components/button.scss";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "@/shared/components/theme-provider";
-import { TooltipProvider } from "@/shared/components/ui/tooltip";
-import NextNProgress from "nextjs-progressbar";
+import '@/styles/components/card.scss';
+import '@/styles/components/button.scss';
 
+import { NextPage } from 'next';
+import { appWithTranslation } from 'next-i18next';
+import NextNProgress from 'nextjs-progressbar';
+import { ReactElement, ReactNode } from 'react';
+import { Toaster } from 'react-hot-toast';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import { ThemeProvider } from '@/shared/components/theme-provider';
+import { TooltipProvider } from '@/shared/components/ui/tooltip';
+
+import type { AppProps } from "next/app";
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };

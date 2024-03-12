@@ -1,12 +1,11 @@
-import React from "react";
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-
-import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
-import FilterSearch from "@/shared/components/filter-search";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { useRouter } from "next/router";
+import useTaskTimeSpent from '@/hooks/project/detail/useTaskTimeSpent.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const TaskTimeSpent = () => {
   const router = useRouter();

@@ -1,14 +1,16 @@
-import React, { FC } from "react";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateUsedAndUnusedRpPercentage } from "@/shared/utils/rp-utils";
-import PercentageGraph from "@/shared/components/percentage-graph";
+import React, { FC } from 'react';
+
+import PercentageGraph from '@/shared/components/percentage-graph';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
+
 interface IProps {
-  spentTime: string | number | undefined;
-  clientTimePercentage: string | number | undefined;
-  clientEmptyPercentage: string | number | undefined;
-  clientTime: string | number | undefined;
-  spentTimePercentage: string | number | undefined;
-  emptyTimePercentage: string | number | undefined;
+  spentTime: string | number | undefined | null;
+  clientTimePercentage: string | number | undefined | null;
+  clientEmptyPercentage: string | number | undefined | null;
+  clientTime: string | number | undefined | null;
+  spentTimePercentage: string | number | undefined | null;
+  emptyTimePercentage: string | number | undefined | null;
 }
 const TimeUtilization: FC<IProps> = ({
   spentTime,

@@ -1,8 +1,8 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
+import ReactECharts from 'echarts-for-react';
+import React from 'react';
 
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   option: any;

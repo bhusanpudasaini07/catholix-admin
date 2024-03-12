@@ -1,13 +1,13 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
+import ReactECharts from 'echarts-for-react';
+import React from 'react';
 
 interface IProps {
-  fillPercentage: string | number | undefined;
-  emptyPercentage: string | number | undefined;
-  fillColor?: string | number | undefined;
-  emptyColor?: string | number | undefined;
-  fillLabel?: string | number | undefined;
-  emptyLabel?: string | number | undefined;
+  fillPercentage: string | number | undefined | null;
+  emptyPercentage: string | number | undefined | null;
+  fillColor?: string | number | undefined | null;
+  emptyColor?: string | number | undefined | null;
+  fillLabel?: string | number | undefined | null;
+  emptyLabel?: string | number | undefined | null;
 }
 const PercentageGraph = ({
   fillPercentage,

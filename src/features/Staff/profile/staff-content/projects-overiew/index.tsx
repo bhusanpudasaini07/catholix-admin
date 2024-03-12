@@ -1,10 +1,11 @@
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import useStaffProjectOverview from "@/hooks/staff/useStaffProjectOverview.hook";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import TaskTimeLogsSkeleton from "@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/utils";
-import React from "react";
+import React from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import useStaffProjectOverview from '@/hooks/staff/useStaffProjectOverview.hook';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import TaskTimeLogsSkeleton from '@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { cn } from '@/shared/utils/utils';
 
 const ProjectsOverview = () => {
   const {

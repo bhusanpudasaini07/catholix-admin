@@ -1,36 +1,22 @@
 "use client";
 
+import { useState } from 'react';
+
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  ColumnPinningColumnDef,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/shared/components/ui/table';
+import { cn } from '@/shared/utils/utils';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/shared/components/ui/table";
-import { useState } from "react";
-import TableSkeleton from "../skeleton-loading/table-skeleton";
-import { cn } from "@/shared/utils/utils";
+    ColumnDef, ColumnFiltersState, ColumnPinningColumnDef, flexRender, getCoreRowModel,
+    getFilteredRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState
+} from '@tanstack/react-table';
+
+import NotFoundLottie from '../not-found';
+import TableSkeleton from '../skeleton-loading/table-skeleton';
+import { Button } from '../ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import NotFoundLottie from "../not-found";
+    DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger
+} from '../ui/dropdown-menu';
 
 interface TotalColumn<TData> {
   columnId: keyof TData;

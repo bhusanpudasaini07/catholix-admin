@@ -1,18 +1,9 @@
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
-import DateRangeFilter from "@/shared/components/date-range-filter";
+import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
+import DateRangeFilter from '@/shared/components/date-range-filter';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
 const LeadHeader = ({ setDateRange, dateRange }: any) => {
   const {

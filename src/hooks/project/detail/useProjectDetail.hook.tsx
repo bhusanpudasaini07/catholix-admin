@@ -1,28 +1,19 @@
+import { EChartsInstance } from 'echarts-for-react';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
+
 import {
-  IBurndownDetail,
-  IConsumptionData,
-  IProjectDetail,
-  ISalesRP,
-  ISalesRPDetail,
-  ITypeCount,
-  ITypes,
-} from "@/interface/project-interface";
-import { IStaff } from "@/interface/staff-interface";
+    IBurndownDetail, IConsumptionData, IProjectDetail, ISalesRP, ISalesRPDetail, ITypeCount, ITypes
+} from '@/interface/project-interface';
+import { IStaff } from '@/interface/staff-interface';
 import {
-  getProjectBurndown,
-  getProjectDetail,
-  getProjectSales,
-  getProjectTaskLabelRp,
-  getRpSummary,
-} from "@/services/project/project-service";
-import { getStaffDetails } from "@/services/staff/staff-service";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { EChartsInstance } from "echarts-for-react";
-import moment from "moment";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
+    getProjectBurndown, getProjectDetail, getProjectSales, getProjectTaskLabelRp, getRpSummary
+} from '@/services/project/project-service';
+import { getStaffDetails } from '@/services/staff/staff-service';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   data: IProjectDetail;

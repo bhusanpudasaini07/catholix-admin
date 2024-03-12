@@ -1,17 +1,15 @@
-import {
-  IMember,
-  IProjectEstimationDetail,
-} from "@/interface/project-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { CalendarDays, Check, Plus, Trash2 } from "lucide-react";
-import moment from "moment";
-import React from "react";
+import { CalendarDays, Check, Plus, Trash2 } from 'lucide-react';
+import moment from 'moment';
+import React from 'react';
+
+import { IMember, IProjectEstimationDetail } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Badge } from '@/shared/components/ui/badge';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { Skeleton } from '@/shared/components/ui/skeleton';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   columns: ColumnDef<IMember>[];

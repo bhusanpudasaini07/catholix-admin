@@ -1,12 +1,13 @@
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import UnitAllocationSkeleton from "@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
-import { CircleDot, UserCircle2, Warehouse } from "lucide-react";
-import React from "react";
-import { DateRange } from "react-day-picker";
+import { CircleDot, UserCircle2, Warehouse } from 'lucide-react';
+import React from 'react';
+import { DateRange } from 'react-day-picker';
+
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import UnitAllocationSkeleton from '@/shared/components/skeleton-loading/project/detail/unit-allocation-skeleton';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { changeNumberFormat } from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
 
 interface IProps {
   report: {

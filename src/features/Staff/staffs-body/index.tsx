@@ -1,21 +1,19 @@
-import React, { FC, useState } from "react";
-import BudgetUtilization from "./budget-utilization";
-import TimeUtilization from "./time-utilization";
-import RpSummary from "./rp-summary";
-import ProjectsOverview from "./projects-overview";
-import StaffsProjectSummary from "./projects-summary";
-import LogTable from "./log-table";
-import AllTimeProjects from "./all-time-projects";
-import { useRouter } from "next/router";
-import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
-import { IStaffLogs, IStaffProjects } from "@/interface/staff-interface";
-import useStaffProjectOverview from "@/hooks/staff/useStaffProjectOverview.hook";
-import {
-  getStaffProjects,
-  getStaffTimeLogs,
-} from "@/services/staff/staff-service";
-import moment from "moment";
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import { FC, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { IStaffLogs, IStaffProjects } from '@/interface/staff-interface';
+import IStaffsProfileProject from '@/interface/staff-profile';
+import { getStaffProjects, getStaffTimeLogs } from '@/services/staff/staff-service';
+
+import AllTimeProjects from './all-time-projects';
+import BudgetUtilization from './budget-utilization';
+import LogTable from './log-table';
+import ProjectsOverview from './projects-overview';
+import StaffsProjectSummary from './projects-summary';
+import RpSummary from './rp-summary';
+import TimeUtilization from './time-utilization';
 
 interface IProps {
   dateRange: any;
@@ -67,29 +65,45 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
 
       queryKey: ["staffProjects", username, dateRange?.to],
       onSuccess: (res) => {
-        const totalProjects = res?.data?.projects?.length;
-        const clientProjects = res?.data?.projects?.filter(
-          (item) => item?.source === "Client"
-        ).length;
-        const inhouseProjects = res?.data?.projects?.filter(
-          (item) => item?.source === "In-House"
-        ).length;
-        const riskProjects = res?.data?.projects?.filter(
-          (item) => item?.risk_status === "High"
-        ).length;
-
-        setProjectStates({
-          total: totalProjects,
-          client: clientProjects,
-          inhouse: inhouseProjects,
-          risk: riskProjects,
-        });
+        updateProjectStates(res?.data?.projects);
       },
     });
+
+  const updateProjectStates = (projects: IStaffsProfileProject[]) => {
+    const totalProjects = projects?.length;
+    const clientProjects = projects?.filter(
+      (item) => item?.source === "Client"
+    ).length;
+    const inhouseProjects = projects?.filter(
+      (item) => item?.source === "In-House"
+    ).length;
+    const riskProjects = projects?.filter(
+      (item) => item?.risk_status === "High"
+    ).length;
+
+    setProjectStates({
+      total: totalProjects,
+      client: clientProjects,
+      inhouse: inhouseProjects,
+      risk: riskProjects,
+    });
+  };
+
   function calcPercentage(data: IStaffLogs | undefined) {
     if (!data || !data?.data?.report) {
-      return null;
+      // Return an object with all properties set to null if data is undefined or does not contain the expected structure
+      return {
+        totalUsedRpPercentage: null,
+        clientRpPercentage: null,
+        totalUnusedRpPercentage: null,
+        clientUnusedRpPercentage: null,
+        totalUsedTimePercentage: null,
+        clientTimePercentage: null,
+        totalUnusedTimePercentage: null,
+        clientUnusedTimePercentage: null,
+      };
     }
+
     const {
       available_rp,
       total_rp,
@@ -123,6 +137,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
       clientUnusedTimePercentage: clientUnusedTimePercentage.toFixed(2),
     };
   }
+
   const spentBudget =
     (staffLog?.data?.report?.client_rp ?? 0) +
     (staffLog?.data?.report?.total_rp ?? 0);

@@ -1,8 +1,9 @@
-import React from "react";
-import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts, { EChartsOption } from "echarts-for-react";
-import { IType, ITypeCount } from "@/interface/project-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
+import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import React from 'react';
+
+import { IType, ITypeCount } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   columns: ColumnDef<ITypeCount>[];

@@ -1,12 +1,11 @@
-import React from "react";
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import useLatestActivities from "@/hooks/project/detail/useLatestActivities.hook";
-
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { useRouter } from "next/router";
-import DateRangeFilter from "@/shared/components/date-range-filter";
+import useLatestActivities from '@/hooks/project/detail/useLatestActivities.hook';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 const LatestActivity = () => {
   const router = useRouter();

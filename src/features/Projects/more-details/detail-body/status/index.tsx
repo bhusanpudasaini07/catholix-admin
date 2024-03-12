@@ -1,18 +1,13 @@
-import { ColumnDef } from "@tanstack/react-table";
-import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import ReactECharts, { EChartsInstance } from 'echarts-for-react';
 
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import { IType, ITypeCount } from '@/interface/project-interface';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { Button } from "@/shared/components/ui/button";
-
-import { IType, ITypeCount } from "@/interface/project-interface";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   columns: ColumnDef<ITypeCount>[];

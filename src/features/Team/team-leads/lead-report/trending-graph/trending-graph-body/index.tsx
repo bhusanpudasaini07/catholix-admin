@@ -1,11 +1,12 @@
-import React, { FC } from "react";
-import ReactECharts from "echarts-for-react";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { ColumnDef } from "@tanstack/react-table";
-import { useQuery } from "react-query";
-import { getStaffDailySummary } from "@/services/lead-report/lead-report-service";
-import moment from "moment";
+import ReactECharts from 'echarts-for-react';
+import moment from 'moment';
+import React, { FC } from 'react';
+import { useQuery } from 'react-query';
+
+import { getStaffDailySummary } from '@/services/lead-report/lead-report-service';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   start_date: Date | undefined;

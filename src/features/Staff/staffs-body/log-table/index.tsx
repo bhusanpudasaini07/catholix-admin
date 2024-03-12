@@ -1,28 +1,20 @@
+import { DownloadCloud } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { FC, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { getConfig } from '@/services/dashboard/dashboard-service';
+import { getStaffDailyTimelog } from '@/services/lead-report/lead-report-service';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import FilterSearch from '@/shared/components/filter-search';
+import { Button } from '@/shared/components/ui/button';
+import { Card, CardContent } from '@/shared/components/ui/card';
 import {
-  IRpStaffSummaryProps,
-  IStaff,
-} from "@/interface/team-lead-report-interface";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import FilterSearch from "@/shared/components/filter-search";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import { ColumnDef } from "@tanstack/react-table";
-import { DownloadCloud } from "lucide-react";
-import { FC, useMemo, useState } from "react";
-import { useQuery } from "react-query";
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
-import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
-import moment from "moment";
-import Link from "next/link";
-import { getConfig } from "@/services/dashboard/dashboard-service";
-import { DownloadExcel } from "@/shared/utils/download/download.utils";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { DownloadExcel } from '@/shared/utils/download/download.utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
   const [role, setRole] = useState<string>("");

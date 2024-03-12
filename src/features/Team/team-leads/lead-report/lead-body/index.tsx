@@ -1,28 +1,28 @@
+import moment from 'moment';
 // React
-import { useEffect, useState } from "react";
-
-// Features
-import RpUtilization from "./lead-rp-utilize";
-import TimeUtilization from "./lead-time-utilize";
-import RpSummary from "./lead-rp-summary";
-import OtherInfo from "./lead-other-info";
-import ProjectOverview from "./lead-projects-overview";
-import RoleCountryTable from "./lead-role-country";
-import ProjectRpConsumptionTable from "./project-rp-consumption";
-import ClientVsInHouseProject from "./client-n-inhouse-project";
-import InHouseMarketRp from "./inhouse-market-rp";
-import ClientMarketRP from "./client-market-rp";
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 //Hooks
-import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
-import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
-import MemberWiseLogTable from "./member-wise-log-table";
-import { useQuery } from "react-query";
-import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
-import moment from "moment";
-import ProjectPerformanceDetail from "./project-performance-detail";
-import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
-import ProjectsOverviewSkeleton from "@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton";
+import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
+import { getStaffRpSummary } from '@/services/lead-report/lead-report-service';
+import ProjectsOverviewSkeleton from '@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton';
+import SummaryCardSkeleton from '@/shared/components/skeleton-loading/lead-report/summary-skeleton';
+import UtilizationSkeletonCard from '@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton';
+
+import ClientMarketRP from './client-market-rp';
+import ClientVsInHouseProject from './client-n-inhouse-project';
+import InHouseMarketRp from './inhouse-market-rp';
+import OtherInfo from './lead-other-info';
+import ProjectOverview from './lead-projects-overview';
+import RoleCountryTable from './lead-role-country';
+import RpSummary from './lead-rp-summary';
+// Features
+import RpUtilization from './lead-rp-utilize';
+import TimeUtilization from './lead-time-utilize';
+import MemberWiseLogTable from './member-wise-log-table';
+import ProjectPerformanceDetail from './project-performance-detail';
+import ProjectRpConsumptionTable from './project-rp-consumption';
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {

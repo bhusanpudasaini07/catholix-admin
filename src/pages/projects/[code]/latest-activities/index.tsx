@@ -1,8 +1,9 @@
-import LatestActivitiesContent from "@/features/Projects/latest-activities";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import LatestActivitiesContent from '@/features/Projects/latest-activities';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const LatestActivities: NextPageWithLayout = () => {
   return <LatestActivitiesContent />;

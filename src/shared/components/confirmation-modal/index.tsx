@@ -1,16 +1,12 @@
-import React from "react";
+import React from 'react';
+
+import { cn } from '@/shared/utils/utils';
+
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
-import { buttonVariants } from "../ui/button";
-import { cn } from "@/shared/utils/utils";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '../ui/alert-dialog';
+import { buttonVariants } from '../ui/button';
 
 interface IConfirmModalProps {
   open: boolean;

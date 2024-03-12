@@ -1,26 +1,16 @@
-import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { ArrowLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React, { FC, useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { useQuery } from 'react-query';
 
-import { getLeadsList } from "@/services/lead-report/lead-report-service";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-
-import { Button } from "@/shared/components/ui/button";
+import { getLeadsList } from '@/services/lead-report/lead-report-service';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import { Button } from '@/shared/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/shared/components/ui/tabs";
-import { ArrowLeft } from "lucide-react";
+    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
+} from '@/shared/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 
 const ProjectRPConsumptionHeader = () => {
   const router = useRouter();

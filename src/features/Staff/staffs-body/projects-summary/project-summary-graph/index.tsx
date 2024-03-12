@@ -1,5 +1,5 @@
-import React from "react";
-import ReactECharts from "echarts-for-react";
+import ReactECharts from 'echarts-for-react';
+import React from 'react';
 
 const ProjectSummaryGraph = ({ chartData, title }: any) => {
   const option = {

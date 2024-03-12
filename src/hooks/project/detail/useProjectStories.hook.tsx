@@ -1,22 +1,19 @@
-import { IProjectUserStories } from "@/interface/project-interface";
-import { getProjectStories } from "@/services/project/project-service";
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Badge } from "@/shared/components/ui/badge";
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
+
+import { IProjectUserStories } from '@/interface/project-interface';
+import { getProjectStories } from '@/services/project/project-service';
+import { DataTable } from '@/shared/components/data-table/data-table';
+import { Badge } from '@/shared/components/ui/badge';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/shared/components/ui/dialog";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import { cn } from "@/shared/utils/utils";
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { useQuery } from "react-query";
+    Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger
+} from '@/shared/components/ui/dialog';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { cn } from '@/shared/utils/utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useProjectStories = () => {
   const router = useRouter();

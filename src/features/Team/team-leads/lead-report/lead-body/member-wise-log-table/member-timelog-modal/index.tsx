@@ -1,13 +1,14 @@
-import { DataTable } from "@/shared/components/data-table/data-table";
-import DataCardSkeleton from "@/shared/components/skeleton-loading/data-card-skeleton";
-import TrendModalSkeleton from "@/shared/components/skeleton-loading/lead-report/data-card-skeleton";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
-import { ColumnDef } from "@tanstack/react-table";
-import { Activity, Hourglass, TrendingDown } from "lucide-react";
-import moment from "moment";
-import Link from "next/link";
-import { FC } from "react";
+import { Activity, Hourglass, TrendingDown } from 'lucide-react';
+import moment from 'moment';
+import Link from 'next/link';
+import { FC } from 'react';
+
+import { DataTable } from '@/shared/components/data-table/data-table';
+import DataCardSkeleton from '@/shared/components/skeleton-loading/data-card-skeleton';
+import TrendModalSkeleton from '@/shared/components/skeleton-loading/lead-report/data-card-skeleton';
+import { Card, CardContent } from '@/shared/components/ui/card';
+import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { ColumnDef } from '@tanstack/react-table';
 
 interface IProps {
   staffDailyLog: any;

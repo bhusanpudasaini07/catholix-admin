@@ -1,8 +1,9 @@
-import TaskTimeSpentContent from "@/features/Projects/task-time-spent";
-import { NextPageWithLayout } from "@/pages/_app";
-import MainLayout from "@/shared/main-layout";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React from 'react';
+
+import TaskTimeSpentContent from '@/features/Projects/task-time-spent';
+import { NextPageWithLayout } from '@/pages/_app';
+import MainLayout from '@/shared/main-layout';
 
 const TaskTimeSpent: NextPageWithLayout = () => {
   return <TaskTimeSpentContent />;

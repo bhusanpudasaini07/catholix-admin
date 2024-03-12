@@ -1,5 +1,5 @@
-import { differenceInCalendarDays } from "date-fns";
-import { AlertCircle, CheckCircle, CircleDot } from "lucide-react";
+import { differenceInCalendarDays } from 'date-fns';
+import { AlertCircle, CheckCircle, CircleDot } from 'lucide-react';
 
 /**
  *  to show deadline remaining in projects or other modules

@@ -1,11 +1,9 @@
-import React from "react";
-import Link from "next/link";
+import Link from 'next/link';
+import React from 'react';
+
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/shared/components/ui/sidebar-accordion";
+    Accordion, AccordionContent, AccordionItem, AccordionTrigger
+} from '@/shared/components/ui/sidebar-accordion';
 
 interface ISubMenu {
   menuName: string;

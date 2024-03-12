@@ -1,11 +1,11 @@
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 
-import { IProjectRelease } from "@/interface/project-interface";
-import { getProjectRelases } from "@/services/project/project-service";
+import { IProjectRelease } from '@/interface/project-interface';
+import { getProjectRelases } from '@/services/project/project-service';
+import { ColumnDef } from '@tanstack/react-table';
 
 const useProjectReleases = () => {
   const router = useRouter();

@@ -1,15 +1,12 @@
-import React from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "../ui/command";
-import { Check, Search, ChevronDown } from "lucide-react";
-import { Input } from "../ui/input";
-import { cn } from "@/shared/utils/utils";
+import { Check, ChevronDown, Search } from 'lucide-react';
+import React from 'react';
+
+import { cn } from '@/shared/utils/utils';
+
+import { Button } from '../ui/button';
+import { Command, CommandEmpty, CommandGroup, CommandItem } from '../ui/command';
+import { Input } from '../ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 
 // Define the props the component will accept
 interface SearchSelectProps {

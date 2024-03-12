@@ -1,11 +1,12 @@
-import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
-import useStaffProjectOverview from "@/hooks/staff/useStaffProjectOverview.hook";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import { Button } from "@/shared/components/ui/button";
-import { Skeleton } from "@/shared/components/ui/skeleton";
-import { ChevronLeft } from "lucide-react";
-import { useRouter } from "next/router";
-import React, { FC } from "react";
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/router';
+import React, { FC } from 'react';
+
+import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
+import useStaffProjectOverview from '@/hooks/staff/useStaffProjectOverview.hook';
+import DateRangeFilter from '@/shared/components/date-range-filter';
+import { Button } from '@/shared/components/ui/button';
+import { Skeleton } from '@/shared/components/ui/skeleton';
 
 interface IProps {
   dateRange: any;

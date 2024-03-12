@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import TrendingGraphBody from "./trending-graph-body";
-import TrendingGraphHeader from "./trending-graph-header";
-import { DateRange } from "react-day-picker";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+
+import TrendingGraphBody from './trending-graph-body';
+import TrendingGraphHeader from './trending-graph-header';
 
 const TrendingGraphContent = () => {
   const router = useRouter();

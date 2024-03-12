@@ -1,5 +1,6 @@
-import { Card, CardContent } from "@/shared/components/ui/card";
-import React, { FC } from "react";
+import React, { FC } from 'react';
+
+import { Card, CardContent } from '@/shared/components/ui/card';
 
 interface IProps {
   total?: string | number;

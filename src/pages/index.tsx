@@ -14,7 +14,7 @@ const Home: NextPageWithLayout = () => {
             Dashboard
           </h1>
           <p className="text-base text-zinc-500">
-            Welcome back, get insights and overview of the projects.
+            Welcome back, get insights and overview of all the activities.
           </p>
         </div>
       </div>

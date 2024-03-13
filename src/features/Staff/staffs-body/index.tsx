@@ -1,19 +1,22 @@
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import { useRouter } from "next/router";
+import { FC, useState } from "react";
+import { useQuery } from "react-query";
 
-import { IStaffLogs, IStaffProjects } from '@/interface/staff-interface';
-import IStaffsProfileProject from '@/interface/staff-profile';
-import { getStaffProjects, getStaffTimeLogs } from '@/services/staff/staff-service';
+import { IStaffLogs, IStaffProjects } from "@/interface/staff-interface";
+import IStaffsProfileProject from "@/interface/staff-profile";
+import {
+  getStaffProjects,
+  getStaffTimeLogs,
+} from "@/services/staff/staff-service";
 
-import AllTimeProjects from './all-time-projects';
-import BudgetUtilization from './budget-utilization';
-import LogTable from './log-table';
-import ProjectsOverview from './projects-overview';
-import StaffsProjectSummary from './projects-summary';
-import RpSummary from './rp-summary';
-import TimeUtilization from './time-utilization';
+import AllTimeProjects from "./all-time-projects";
+import BudgetUtilization from "./budget-utilization";
+import LogTable from "./log-table";
+import ProjectsOverview from "./projects-overview";
+import StaffsProjectSummary from "./projects-summary";
+import RpSummary from "./rp-summary";
+import TimeUtilization from "./time-utilization";
 
 interface IProps {
   dateRange: any;
@@ -68,7 +71,6 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         updateProjectStates(res?.data?.projects);
       },
     });
-
   const updateProjectStates = (projects: IStaffsProfileProject[]) => {
     const totalProjects = projects?.length;
     const clientProjects = projects?.filter(
@@ -114,15 +116,18 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
     } = data?.data?.report;
 
     // Calculate RP percentages
-    const totalUsedRpPercentage = ((total_rp + client_rp) / available_rp) * 100;
-    const clientRpPercentage = (client_rp / available_rp) * 100;
+    const totalUsedRpPercentage =
+      (total_rp / (available_rp + total_rp + client_rp)) * 100;
+    const clientRpPercentage =
+      (client_rp / (available_rp + total_rp + client_rp)) * 100;
     const totalUnusedRpPercentage = 100 - totalUsedRpPercentage;
     const clientUnusedRpPercentage = 100 - clientRpPercentage;
 
     // Calculate time percentages
     const totalUsedTimePercentage =
-      ((total_time + client_time) / available_time) * 100;
-    const clientTimePercentage = (client_time / available_time) * 100;
+      (total_time / (available_time + total_time + client_time)) * 100;
+    const clientTimePercentage =
+      (client_time / (available_time + total_time + client_time)) * 100;
     const totalUnusedTimePercentage = 100 - totalUsedTimePercentage;
     const clientUnusedTimePercentage = 100 - clientTimePercentage;
 
@@ -137,14 +142,18 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
       clientUnusedTimePercentage: clientUnusedTimePercentage.toFixed(2),
     };
   }
+  const spentBudget = staffLog?.data?.report?.total_rp;
 
-  const spentBudget =
-    (staffLog?.data?.report?.client_rp ?? 0) +
-    (staffLog?.data?.report?.total_rp ?? 0);
   const spentTime =
     (staffLog?.data?.report?.client_time ?? 0) +
     (staffLog?.data?.report?.total_time ?? 0);
   const percentage = calcPercentage(staffLog);
+  const lossRp = Number(
+    staffLog?.data?.report?.available_rp
+      ? staffLog?.data?.report?.available_rp - Number(spentBudget)
+      : 0
+  ).toFixed(2);
+
   return (
     <div>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
@@ -167,7 +176,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         <RpSummary
           available={staffLog?.data?.report?.available_rp}
           spent={spentBudget}
-          loss={"0"}
+          loss={lossRp}
         />
         <ProjectsOverview
           client={projectStates?.client}
@@ -190,10 +199,9 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         </div>
         <div className="xl:col-span-2">
           <AllTimeProjects
-            staffDataLoading
-            staffRpSummaryData={[]}
-            dateRange={""}
-          />{" "}
+            allTimeProjectLoading={staffProjectLoading}
+            allTimeProjectData={staffProjects?.data?.projects}
+          />
         </div>
       </div>
     </div>

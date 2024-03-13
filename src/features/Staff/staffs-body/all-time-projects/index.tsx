@@ -1,27 +1,31 @@
-import { DownloadCloud } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
+import { DownloadCloud } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { FC, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
-import { IRpStaffSummaryProps, IStaff } from '@/interface/team-lead-report-interface';
-import { getConfig } from '@/services/dashboard/dashboard-service';
-import { getStaffDailyTimelog } from '@/services/lead-report/lead-report-service';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import FilterSearch from '@/shared/components/filter-search';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { IStaff } from "@/interface/team-lead-report-interface";
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { DownloadExcel } from '@/shared/utils/download/download.utils';
-import { ColumnDef } from '@tanstack/react-table';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { DownloadExcel } from "@/shared/utils/download/download.utils";
+import { ColumnDef } from "@tanstack/react-table";
 
-const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
+const AllTimeProjects = ({
   dateRange,
-  staffRpSummaryData,
-  staffDataLoading,
-}) => {
+  allTimeProjectData,
+  allTimeProjectLoading,
+}: any) => {
   const [role, setRole] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState("");
@@ -40,49 +44,49 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
     }
   );
 
-  const StaffLogData = useMemo(
-    () =>
-      staffRpSummaryData?.data?.staff?.map((staff: IStaff, index: any) => {
-        const usedRp = parseFloat(staff?.used_rp || "0");
-        const commercialRp = parseFloat(staff?.commercial_rp || "0");
-        const lossRp = parseFloat(staff?.loss_rp || "0");
-        const availableTime = parseFloat(staff?.available_time || "0");
-        const usedTime = parseFloat(staff?.used_time || "0");
-        const rpPercentage =
-          usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
-        const clientRpPercentage =
-          usedRp !== 0 ? ((commercialRp / usedRp) * 100).toFixed(2) : "0.00";
-        const timePercentage =
-          availableTime !== 0
-            ? ((usedTime / availableTime) * 100).toFixed(2)
-            : "0.00";
-        const clientTimePercentage =
-          availableTime !== 0
-            ? (
-                (parseFloat(staff?.commercial_time) / availableTime) *
-                100
-              ).toFixed(2)
-            : "0.00";
+  // const allTimeProjectData = useMemo(
+  //   () =>
+  //     allTimeProjectData?.data?.staff?.map((staff: IStaff, index: any) => {
+  //       const usedRp = parseFloat(staff?.used_rp || "0");
+  //       const commercialRp = parseFloat(staff?.commercial_rp || "0");
+  //       const lossRp = parseFloat(staff?.loss_rp || "0");
+  //       const availableTime = parseFloat(staff?.available_time || "0");
+  //       const usedTime = parseFloat(staff?.used_time || "0");
+  //       const rpPercentage =
+  //         usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
+  //       const clientRpPercentage =
+  //         usedRp !== 0 ? ((commercialRp / usedRp) * 100).toFixed(2) : "0.00";
+  //       const timePercentage =
+  //         availableTime !== 0
+  //           ? ((usedTime / availableTime) * 100).toFixed(2)
+  //           : "0.00";
+  //       const clientTimePercentage =
+  //         availableTime !== 0
+  //           ? (
+  //               (parseFloat(staff?.commercial_time) / availableTime) *
+  //               100
+  //             ).toFixed(2)
+  //           : "0.00";
 
-        return {
-          sn: index + 1,
-          id: staff?.id,
-          name: staff?.fullname,
-          username: staff?.username,
-          role: staff?.role_name,
-          spent_rp: staff?.used_rp,
-          spent_client_rp: commercialRp?.toFixed(2),
-          loss_rp: lossRp?.toFixed(2),
-          rp_percentage: rpPercentage,
-          client_rp_percentage: clientRpPercentage,
-          total_time: convertSecondsToHoursAndMinutes(availableTime),
-          spent_time: convertSecondsToHoursAndMinutes(usedTime),
-          time_percentage: timePercentage,
-          client_time_percentage: clientTimePercentage,
-        };
-      }),
-    [staffRpSummaryData]
-  );
+  //       return {
+  //         sn: index + 1,
+  //         id: staff?.id,
+  //         name: staff?.fullname,
+  //         username: staff?.username,
+  //         role: staff?.role_name,
+  //         spent_rp: staff?.used_rp,
+  //         spent_client_rp: commercialRp?.toFixed(2),
+  //         loss_rp: lossRp?.toFixed(2),
+  //         rp_percentage: rpPercentage,
+  //         client_rp_percentage: clientRpPercentage,
+  //         total_time: convertSecondsToHoursAndMinutes(availableTime),
+  //         spent_time: convertSecondsToHoursAndMinutes(usedTime),
+  //         time_percentage: timePercentage,
+  //         client_time_percentage: clientTimePercentage,
+  //       };
+  //     }),
+  //   [allTimeProjectData]
+  // );
 
   const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
     useQuery<any>(
@@ -99,17 +103,12 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
       }
     );
 
-  const ModelHandler = (id: string) => {
-    setStaffId(id);
-    setModalOpen(true);
-  };
-
-  const filteredStaffLogData = useMemo(() => {
+  const filteredAllTimeProjectData = useMemo(() => {
     // If no search text and role selected, return all data
-    if (!searchText && !role) return StaffLogData;
-    // if () return StaffLogData;
+    if (!searchText && !role) return allTimeProjectData;
+    // if () return allTimeProjectData;
 
-    let filteredData = StaffLogData;
+    let filteredData = allTimeProjectData;
 
     // Filter by name if searchText is provided
     if (searchText) {
@@ -128,7 +127,7 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
     }
 
     return filteredData;
-  }, [StaffLogData, searchText, role]);
+  }, [allTimeProjectData, searchText, role]);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -137,36 +136,29 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
       header: "S. No.",
       cell: ({ row }) => (
         <div className="text-zinc-700 text-sm font-medium w-[40px] ps-3">
-          {row.getValue("sn")}
+          {row?.index + 1}
         </div>
       ),
       enableHiding: false,
     },
-    // {
-    //   id: "date",
-    //   accessorKey: "date",
-    //   header: "Date",
-    //   cell: ({ row }) => <div className="">Date</div>,
-    //   enableHiding: false,
-    // },
     {
-      id: "project",
-      accessorKey: "project",
+      id: "name",
+      accessorKey: "name",
       header: "Project",
       cell: ({ row }) => (
         <Link href={"#"} className="text-sm font-semibold">
-          {row.getValue("project")}
+          {row.getValue("name")}
         </Link>
       ),
       enableHiding: false,
     },
     {
-      id: "project_type",
-      accessorKey: "project_type",
+      id: "source",
+      accessorKey: "source",
       header: "Project Type",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
-          {row.getValue("project_type")}
+          {row.getValue("source")}
         </div>
       ),
       enableHiding: false,
@@ -184,48 +176,45 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
     },
 
     {
-      id: "market",
-      accessorKey: "market",
+      id: "market_id",
+      accessorKey: "market_id",
       header: "Market",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
-          {row.getValue("market")}
+          {row.getValue("market_id")}
         </div>
       ),
       enableHiding: false,
     },
     {
-      id: "role",
-      accessorKey: "role",
+      id: "role_name",
+      accessorKey: "role_name",
       header: "Role",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
-          {row.getValue("role")}
+          {row.getValue("role_name")}
         </div>
       ),
       enableHiding: false,
     },
     {
-      id: "available_budget",
-      accessorKey: "available_budget",
+      id: "rp",
+      accessorKey: "rp",
       header: "Available Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
-          {row.getValue("available_budget")}
+          {row.getValue("rp")}
         </div>
       ),
       enableHiding: false,
     },
     {
-      id: "spent_rp",
-      accessorKey: "spent_rp",
+      id: "overall_used_rp",
+      accessorKey: "overall_used_rp",
       header: "Spent Budget",
       cell: ({ row }) => (
-        <div
-          onClick={() => ModelHandler(row?.original?.id)}
-          className="text-sm font-semibold text-blue-500 cursor-pointer"
-        >
-          {row.getValue("spent_rp")}
+        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
+          {row.getValue("overall_used_rp")}
         </div>
       ),
       enableHiding: false,
@@ -235,25 +224,19 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
       accessorKey: "loss_budget",
       header: "Loss Budget",
       cell: ({ row }) => (
-        <div
-          onClick={() => ModelHandler(row?.original?.id)}
-          className="text-sm font-semibold text-blue-500 cursor-pointer"
-        >
+        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
           {row.getValue("loss_budget")}
         </div>
       ),
       enableHiding: false,
     },
     {
-      id: "total_time",
-      accessorKey: "total_time",
+      id: "time",
+      accessorKey: "time",
       header: "Total Time",
       cell: ({ row }) => (
-        <div
-          onClick={() => ModelHandler(row?.original?.id)}
-          className="text-sm font-semibold text-blue-500 cursor-pointer"
-        >
-          {row.getValue("total_time")}
+        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
+          {row.getValue("time")}
         </div>
       ),
       enableHiding: false,
@@ -274,10 +257,7 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
       accessorKey: "loss_time",
       header: "Loss Time",
       cell: ({ row }) => (
-        <div
-          onClick={() => ModelHandler(row?.original?.id)}
-          className="text-sm font-semibold text-blue-500 cursor-pointer"
-        >
+        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
           {row.getValue("loss_time")}
         </div>
       ),
@@ -286,22 +266,25 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
   ];
 
   const handleDownloadSubFeature = () => {
-    const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
-      const rowData: any = {};
-      rowData["S.N"] = index + 1;
-      rowData["Name"] = item?.name;
-      rowData["Role"] = item?.role;
-      rowData["Spent Budget"] = item?.spent_rp;
-      rowData["Spent Budget (Client)"] = item?.spent_client_rp;
-      rowData["Loss Budget"] = item?.loss_rp;
-      rowData["% Budget"] = item?.rp_percentage;
-      rowData["% Budget Client"] = item?.client_rp_percentage;
-      rowData["Total Time"] = item?.total_time;
-      rowData["Spent Time"] = item?.spent_time;
-      rowData["% Time"] = item?.time_percentage;
-      rowData["% Time(Client)"] = item?.client_time_percentage;
-      return rowData;
-    });
+    const mappedData = filteredAllTimeProjectData?.map(
+      (item: any, index: number) => {
+        const rowData: any = {};
+        rowData["S.N"] = index + 1;
+        rowData["Project"] = item?.name;
+        rowData["Project Type"] = item?.source;
+        rowData["Role"] = item?.role;
+        rowData["Spent Budget"] = item?.spent_rp;
+        rowData["Spent Budget (Client)"] = item?.spent_client_rp;
+        rowData["Loss Budget"] = item?.loss_rp;
+        rowData["% Budget"] = item?.rp_percentage;
+        rowData["% Budget Client"] = item?.client_rp_percentage;
+        rowData["Total Time"] = item?.total_time;
+        rowData["Spent Time"] = item?.spent_time;
+        rowData["% Time"] = item?.time_percentage;
+        rowData["% Time(Client)"] = item?.client_time_percentage;
+        return rowData;
+      }
+    );
     DownloadExcel(
       mappedData,
       `MEMBER_LOG_${moment(dateRange?.from).format("YYYY-MM-DD")}_TO_${moment(
@@ -348,12 +331,12 @@ const AllTimeProjects: FC<IRpStaffSummaryProps> = ({
         </div>
 
         <DataTable
-          loading={staffDataLoading}
+          loading={allTimeProjectLoading}
           height={"max-h-[700px]"}
           headerSticky
           border={true}
           columns={columns}
-          data={filteredStaffLogData || []}
+          data={filteredAllTimeProjectData || []}
         />
       </CardContent>
     </Card>

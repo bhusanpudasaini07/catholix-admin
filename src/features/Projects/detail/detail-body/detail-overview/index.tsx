@@ -1,31 +1,46 @@
-import ReactEcharts from 'echarts-for-react';
-import { AlignCenterVertical, FileCheck2, LineChart, PieChart } from 'lucide-react';
-import moment from 'moment';
-import { useRouter } from 'next/router';
-
-import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
-import useProjectReleases from '@/hooks/project/detail/useProjectReleases.hook';
-import useProjectSales from '@/hooks/project/detail/useProjectSales.hook';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import ProjectDetailSkeleton from '@/shared/components/skeleton-loading/project/detail/detail-skeleton';
-import ProjectDurationSkeleton from '@/shared/components/skeleton-loading/project/detail/project-duration-skeleton';
-import TaskTimeLogsSkeleton from '@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton';
-import TotalSalesSkeleton from '@/shared/components/skeleton-loading/project/detail/total-sales-skeleton';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
-import { Progress } from '@/shared/components/ui/progress';
+import ReactEcharts from "echarts-for-react";
 import {
-    Tabs, TabsContent, TabsList, TabsTrigger
-} from '@/shared/components/ui/project-details-tab';
-import BurndownSvg from '@/shared/svg/burndown';
-import {
-    calculateDeadlinePercentValue, calculateTimeLog, changeNumberFormat, showDeadline
-} from '@/shared/utils/rp-utils';
-import { cn } from '@/shared/utils/utils';
+  AlignCenterVertical,
+  FileCheck2,
+  LineChart,
+  PieChart,
+} from "lucide-react";
+import moment from "moment";
+import { useRouter } from "next/router";
 
-import UsedRp from '../used-rp-chart/usedRp';
-import ProjectDetailStatus from './status';
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import useProjectReleases from "@/hooks/project/detail/useProjectReleases.hook";
+import useProjectSales from "@/hooks/project/detail/useProjectSales.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import ProjectDetailSkeleton from "@/shared/components/skeleton-loading/project/detail/detail-skeleton";
+import ProjectDurationSkeleton from "@/shared/components/skeleton-loading/project/detail/project-duration-skeleton";
+import TaskTimeLogsSkeleton from "@/shared/components/skeleton-loading/project/detail/task-time-logs-skeleton";
+import TotalSalesSkeleton from "@/shared/components/skeleton-loading/project/detail/total-sales-skeleton";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+} from "@/shared/components/ui/dialog";
+import { Progress } from "@/shared/components/ui/progress";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/project-details-tab";
+import BurndownSvg from "@/shared/svg/burndown";
+import {
+  calculateDeadlinePercentValue,
+  calculateTimeLog,
+  changeNumberFormat,
+  showDeadline,
+} from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
+
+import UsedRp from "../used-rp-chart/usedRp";
+import ProjectDetailStatus from "./status";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -297,7 +312,7 @@ const DetailOverview = () => {
                       More Details
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
                     {/* Total */}
                     <div className={`rounded-md p-4 bg-zinc-100`}>
                       <h3 className="mb-2 text-2xl font-semibold text-zinc-700">

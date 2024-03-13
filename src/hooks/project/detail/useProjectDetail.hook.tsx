@@ -1,19 +1,31 @@
-import { EChartsInstance } from 'echarts-for-react';
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
+import { EChartsInstance } from "echarts-for-react";
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 
 import {
-    IBurndownDetail, IConsumptionData, IProjectDetail, ISalesRP, ISalesRPDetail, ITypeCount, ITypes
-} from '@/interface/project-interface';
-import { IStaff } from '@/interface/staff-interface';
+  IBurndownDetail,
+  IConsumptionData,
+  IEstimatedActual,
+  IProjectDetail,
+  ISalesRP,
+  ISalesRPDetail,
+  ITypeCount,
+  ITypes,
+} from "@/interface/project-interface";
+import { IStaff } from "@/interface/staff-interface";
 import {
-    getProjectBurndown, getProjectDetail, getProjectSales, getProjectTaskLabelRp, getRpSummary
-} from '@/services/project/project-service';
-import { getStaffDetails } from '@/services/staff/staff-service';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+  getEstimatedActual,
+  getProjectBurndown,
+  getProjectDetail,
+  getProjectSales,
+  getProjectTaskLabelRp,
+  getRpSummary,
+} from "@/services/project/project-service";
+import { getStaffDetails } from "@/services/staff/staff-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   data: IProjectDetail;
@@ -77,6 +89,19 @@ export const useProjectDetail = () => {
       },
       queryKey: ["burndownData", code],
       enabled: !!(tabValue === "burndown"),
+    });
+
+  // Estimated vs actual
+  const { data: estimatedActual, isLoading: estimatedActualLoading } =
+    useQuery<IEstimatedActual>({
+      queryFn: async () => {
+        if (code) {
+          const response = await getEstimatedActual(code);
+          return response;
+        }
+      },
+      queryKey: ["estimatedActual", code],
+      enabled: !!(tabValue === "estimated_actual"),
     });
 
   const salesColumn: ColumnDef<ISalesRPDetail>[] = [
@@ -583,7 +608,6 @@ export const useProjectDetail = () => {
       left: "right",
       itemWidth: 16,
       itemHeight: 16,
-      data: ["Profit", "Expenses", "Income"],
     },
     grid: {
       left: "0%",
@@ -603,12 +627,12 @@ export const useProjectDetail = () => {
         axisTick: {
           show: false,
         },
-        data: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+        data: estimatedActual?.data?.map((item) => item?.title) ?? [],
       },
     ],
     series: [
       {
-        name: "Profit",
+        name: "Actual Spent Budget",
         type: "bar",
         label: {
           show: true,
@@ -617,10 +641,11 @@ export const useProjectDetail = () => {
         emphasis: {
           focus: "series",
         },
-        data: [200, 170, 240, 244, 200],
+        data:
+          estimatedActual?.data?.map((item) => (item?.actual).toFixed(2)) ?? [],
       },
       {
-        name: "Income",
+        name: "Budget",
         type: "bar",
         stack: "Total",
         label: {
@@ -629,20 +654,21 @@ export const useProjectDetail = () => {
         emphasis: {
           focus: "series",
         },
-        data: [320, 302, 341, 374, 390],
+        data: estimatedActual?.data?.map((item) => item?.quote) ?? [],
       },
       {
-        name: "Expenses",
+        name: "Estimated",
         type: "bar",
         stack: "Total",
         label: {
           show: true,
-          position: "left",
         },
         emphasis: {
           focus: "series",
         },
-        data: [-120, -132, -101, -210, -190],
+        data:
+          estimatedActual?.data?.map((item) => (item?.estimated).toFixed(2)) ??
+          [],
       },
     ],
   };

@@ -1,16 +1,21 @@
-import ReactECharts, { EChartsInstance } from 'echarts-for-react';
-import React from 'react';
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import React from "react";
 
-import { ITypeCount, ITypes } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { ITypeCount, ITypes } from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { ColumnDef } from '@tanstack/react-table';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
-  columns: ColumnDef<ITypeCount>[];
+  categoryColumn: ColumnDef<ITypeCount>[];
+  platformColumn: ColumnDef<ITypeCount>[];
   tableData: ITypes | undefined;
   loading: boolean;
   categoryOption: any;
@@ -26,7 +31,8 @@ interface IProps {
 }
 
 const CategoryPlatform = ({
-  columns,
+  categoryColumn,
+  platformColumn,
   tableData,
   loading,
   categoryOption,
@@ -73,7 +79,7 @@ const CategoryPlatform = ({
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
-                columns={columns}
+                columns={categoryColumn}
                 border={true}
                 loading={loading}
                 data={tableData?.data[0]?.count ?? []}
@@ -119,7 +125,7 @@ const CategoryPlatform = ({
             </div>
             <div className="overflow-hidden rounded-md grow ">
               <DataTable
-                columns={columns}
+                columns={platformColumn}
                 border={true}
                 loading={loading}
                 data={tableData?.data[1]?.count ?? []}

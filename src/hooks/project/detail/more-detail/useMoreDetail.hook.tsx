@@ -1,14 +1,20 @@
-import { EChartsInstance } from 'echarts-for-react';
-import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import { useQuery } from 'react-query';
+import { EChartsInstance } from "echarts-for-react";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 
 import {
-    IProjectTaskBugRatio, IProjectTaskBugRatios, ITypeCount, ITypes
-} from '@/interface/project-interface';
-import { getProjectTaskBugRatio, getProjectTaskLabelRp } from '@/services/project/project-service';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+  IProjectTaskBugRatio,
+  IProjectTaskBugRatios,
+  ITypeCount,
+  ITypes,
+} from "@/interface/project-interface";
+import {
+  getProjectTaskBugRatio,
+  getProjectTaskLabelRp,
+} from "@/services/project/project-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useMoreDetail = () => {
   const {
@@ -56,7 +62,7 @@ const useMoreDetail = () => {
     });
 
   //   Status Column
-  const typeColumn: ColumnDef<ITypeCount>[] = [
+  const statusColumn: ColumnDef<ITypeCount>[] = [
     // status
     {
       id: "title",
@@ -94,7 +100,112 @@ const useMoreDetail = () => {
             )
           : 0;
 
-        const utilizedPercentage = (Number(row?.original?.rp) / totalRP) * 100;
+        const utilizedPercentage =
+          (Number(row?.original?.rp) / Number(totalRP)) * 100;
+        return (
+          <div className="font-semibold text-zinc-700">
+            {utilizedPercentage?.toFixed(2)}%
+          </div>
+        );
+      },
+
+      enableHiding: false,
+    },
+  ];
+
+  // Category Column
+  const categoryColumn: ColumnDef<ITypeCount>[] = [
+    // status
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">
+          {row.getValue("title")}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // RP consumption
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "Budget Consumed",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">
+          {changeNumberFormat(row.getValue("rp"))}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // Utilization
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "Utilization",
+      cell: ({ row }) => {
+        const totalRP = projectTaskLabelData
+          ? projectTaskLabelData?.data[0]?.count?.reduce(
+              (total: number, item: ITypeCount) => total + Number(item?.rp),
+              0
+            )
+          : 0;
+
+        const utilizedPercentage =
+          (Number(row?.original?.rp) / Number(totalRP)) * 100;
+        return (
+          <div className="font-semibold text-zinc-700">
+            {utilizedPercentage?.toFixed(2)}%
+          </div>
+        );
+      },
+
+      enableHiding: false,
+    },
+  ];
+
+  // Category Column
+  const platformColumn: ColumnDef<ITypeCount>[] = [
+    // status
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "Status",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">
+          {row.getValue("title")}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // RP consumption
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "Budget Consumed",
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-700">
+          {changeNumberFormat(row.getValue("rp"))}
+        </div>
+      ),
+      enableHiding: false,
+    },
+    // Utilization
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "Utilization",
+      cell: ({ row }) => {
+        const totalRP = projectTaskLabelData
+          ? projectTaskLabelData?.data[1]?.count?.reduce(
+              (total: number, item: ITypeCount) => total + Number(item?.rp),
+              0
+            )
+          : 0;
+
+        const utilizedPercentage =
+          (Number(row?.original?.rp) / Number(totalRP)) * 100;
         return (
           <div className="font-semibold text-zinc-700">
             {utilizedPercentage?.toFixed(2)}%
@@ -198,7 +309,6 @@ const useMoreDetail = () => {
   };
 
   //   Category PIE OPTION
-
   const categoryOption = {
     tooltip: {
       trigger: "item",
@@ -265,7 +375,7 @@ const useMoreDetail = () => {
         data: projectTaskLabelData
           ? projectTaskLabelData?.data[0]?.count?.map((item) => {
               const totalRP = projectTaskLabelData
-                ? projectTaskLabelData?.data[2]?.count?.reduce(
+                ? projectTaskLabelData?.data[0]?.count?.reduce(
                     (total: number, item: ITypeCount) =>
                       total + Number(item?.rp),
                     0
@@ -353,7 +463,7 @@ const useMoreDetail = () => {
         data: projectTaskLabelData
           ? projectTaskLabelData?.data[1]?.count?.map((item) => {
               const totalRP = projectTaskLabelData
-                ? projectTaskLabelData?.data[2]?.count?.reduce(
+                ? projectTaskLabelData?.data[1]?.count?.reduce(
                     (total: number, item: ITypeCount) =>
                       total + Number(item?.rp),
                     0
@@ -556,10 +666,11 @@ const useMoreDetail = () => {
     };
   }, [platformComponentOption]);
 
+  console.log(projectTaskLabelData?.data);
   return {
     projectTaskLabelData,
     isLoading,
-    typeColumn,
+    statusColumn,
     statusOption,
     categoryOption,
     platformComponentOption,
@@ -571,6 +682,8 @@ const useMoreDetail = () => {
     statusChartRef,
     categoryRef,
     platformRef,
+    categoryColumn,
+    platformColumn,
   };
 };
 

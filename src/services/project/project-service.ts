@@ -155,6 +155,13 @@ const getProjectTaskBugRatio = (code: any) => {
   );
 };
 
+const getEstimatedActual = (code: any) => {
+  return httpRequest(
+    `/get-project-role-group-rp-summary?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -168,4 +175,5 @@ export {
   getProjectEstimation,
   getProjectTaskLabelRp,
   getProjectTaskBugRatio,
+  getEstimatedActual,
 };

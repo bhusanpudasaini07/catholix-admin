@@ -254,12 +254,7 @@ const useConsumptionType = () => {
   const groupRole = (data: any) => {
     return data.reduce((acc: any, curr: any) => {
       // If the role_group already exists in the accumulator, add the current rp to it
-      if (acc[curr.role_group]) {
-        acc[curr.role_group] += Number(curr.rp);
-      } else {
-        // Otherwise, initialize it with the current rp
-        acc[curr.role_group] = Number(curr.rp);
-      }
+      acc[curr.role_group] = (acc[curr.role_group] || 0) + Number(curr.rp);
       return acc;
     }, {});
   };

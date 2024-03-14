@@ -1,16 +1,16 @@
-import useMoreDetail from '@/hooks/project/detail/more-detail/useMoreDetail.hook';
+import useMoreDetail from "@/hooks/project/detail/more-detail/useMoreDetail.hook";
 
-import BugTaskRatio from './bug-task-ratio';
-import CategoryPlatform from './category-platform-components';
-import DetailOverviewMoreDetail from './detail-overview';
-import Status from './status';
-import TimeLogPattern from './time-log-pattern';
+import BugTaskRatio from "./bug-task-ratio";
+import CategoryPlatform from "./category-platform-components";
+import DetailOverviewMoreDetail from "./detail-overview";
+import Status from "./status";
+import TimeLogPattern from "./time-log-pattern";
 
 const MoreDetailBody = () => {
   const {
     projectTaskLabelData,
     isLoading,
-    typeColumn,
+    statusColumn,
     statusOption,
     categoryOption,
     platformComponentOption,
@@ -22,6 +22,8 @@ const MoreDetailBody = () => {
     statusChartRef,
     categoryRef,
     platformRef,
+    categoryColumn,
+    platformColumn,
   } = useMoreDetail();
 
   return (
@@ -33,7 +35,7 @@ const MoreDetailBody = () => {
         selectValue={selectValues?.status}
         typeOption={statusOption}
         chartRef={statusChartRef}
-        columns={typeColumn}
+        columns={statusColumn}
         statusData={projectTaskLabelData?.data[2]}
         loading={isLoading}
       />
@@ -41,7 +43,8 @@ const MoreDetailBody = () => {
         categoryValue={selectValues?.category}
         platformValue={selectValues?.platform}
         setSelectValue={setSelectValue}
-        columns={typeColumn}
+        categoryColumn={categoryColumn}
+        platformColumn={platformColumn}
         tableData={projectTaskLabelData}
         loading={isLoading}
         categoryOption={categoryOption}

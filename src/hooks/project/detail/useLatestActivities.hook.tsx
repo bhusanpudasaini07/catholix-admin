@@ -1,14 +1,26 @@
-import { Clock, Lock, PencilLine, Pin, Tag, Timer, Unlock, Users } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import {
+  Clock,
+  Lock,
+  PencilLine,
+  Pin,
+  Tag,
+  Timer,
+  Unlock,
+  Users,
+} from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { IActivitiesDetail, IProjectActivities } from '@/interface/project-interface';
-import { getProjectLatestActivities } from '@/services/project/project-service';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  IActivitiesDetail,
+  IProjectActivities,
+} from "@/interface/project-interface";
+import { getProjectLatestActivities } from "@/services/project/project-service";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useLatestActivities = () => {
   const {
@@ -203,7 +215,7 @@ const useLatestActivities = () => {
           <Link
             href={row?.original?.issue?.url}
             target="_blank"
-            className="font-medium text-primary hover:text-blue-700"
+            className="font-medium break-words text-primary hover:text-blue-700"
           >
             {row?.original?.issue?.title}
           </Link>
@@ -280,7 +292,7 @@ const useLatestActivities = () => {
           <Link
             href={row?.original?.issue?.url}
             target="_blank"
-            className="font-medium text-primary hover:text-blue-700"
+            className="font-medium break-words text-primary hover:text-blue-700"
           >
             {row?.original?.issue?.title}
           </Link>

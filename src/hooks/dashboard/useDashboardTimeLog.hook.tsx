@@ -24,19 +24,19 @@ const useDashboardTimeLog = () => {
       id: "added",
       value: dashboardTimeLog?.data?.total_staffs_with_timelog,
       title: "Time-log Added",
-      icon: <Timer size={24} stroke={"#71717A"} />,
+      icon: <Timer size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
     {
       id: "missed",
       value: dashboardTimeLog?.data?.total_staffs_without_timelog,
       title: "Missed to add Time-log",
-      icon: <TimerOff size={24} stroke={"#71717A"} />,
+      icon: <TimerOff size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
     {
       id: "staffs",
       value: dashboardTimeLog?.data?.total_staffs,
       title: "Total Staffs",
-      icon: <Users2 size={24} stroke={"#71717A"} />,
+      icon: <Users2 size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
   ];
   return { date, changeDate, timeLogData, isLoading };

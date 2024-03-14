@@ -372,3 +372,14 @@ export interface IDailyRP {
   rp: number;
   username: string;
 }
+
+export interface IEstimatedActual {
+  data: IRoleBudget[];
+}
+interface IRoleBudget {
+  id: number;
+  title: string;
+  estimated: number;
+  actual: number;
+  quote: number;
+}

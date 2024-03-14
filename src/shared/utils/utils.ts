@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
 export const sessionToast = () => {
   const sessionMessage = localStorage.getItem("sessionmessage");
   if (sessionMessage) {
-    const sessionMessageObject = JSON.parse(sessionMessage);
+    const sessionMessageObject = JSON.parse(sessionMessage || "");
     if (sessionMessageObject.type && sessionMessageObject.message) {
       localStorage.removeItem("sessionmessage");
       if (sessionMessageObject.type === "success") {

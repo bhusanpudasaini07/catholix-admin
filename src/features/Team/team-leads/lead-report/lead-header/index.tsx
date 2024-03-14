@@ -1,9 +1,18 @@
-import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
-import DateRangeFilter from '@/shared/components/date-range-filter';
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/tabs";
 
 const LeadHeader = ({ setDateRange, dateRange }: any) => {
   const {
@@ -88,8 +97,8 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
                 <SelectValue placeholder="Weekly" />
               </SelectTrigger>
               <SelectContent>
-                {weeklyData.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
+                {weeklyData.map((item, index) => (
+                  <SelectItem key={index} value={item.value}>
                     {item.label}
                   </SelectItem>
                 ))}

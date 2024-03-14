@@ -139,6 +139,9 @@ def getChangeLog(passedBuilds) {
     if("dev-ek".equals(branchName)) {
         return "157.245.148.131";
     }
+    if("live".equals(branchName)) {
+        return "157.245.148.131";
+    }
     else {
         return "157.245.148.131";
     }//can use comment to comment else and run like the pm2 in the last 
@@ -153,6 +156,8 @@ def getDirName(branchName) {
         return "not-given";
     } else if ("uat".equals(branchName)) {
         return "not-given";
+    } else if ("live".equals(branchName)) {
+        return "/mnt/ekcms_vol1_sgp/www/rp-frontend-revamp";
     } else {
         return "not-given";
     }
@@ -167,6 +172,8 @@ def getProcessName(branchName) {
         return "qa";
     } else if ("uat".equals(branchName)) {
         return "not-given";
+    } else if ("live".equals(branchName)) {
+        return "live";
     } else {
         return "not-given";
     }
@@ -177,8 +184,8 @@ def getProcessName(branchName) {
 def getPM2Name(branchName) {
     if("dev".equals(branchName)) {
         return "rp-dev-frontend";
-    } else if ("qa".equals(branchName)) {
-        return "not-given";
+    } else if ("live".equals(branchName)) {
+        return "rp-frontend-revamp";
     } /*else if ("uat".equals(branchName)) {
         return "uat_frontend";
     } else {

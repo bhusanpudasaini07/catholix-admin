@@ -1,5 +1,5 @@
 const loginImg = "/login-img.jpg";
-const Logo = "/logo.svg";
+const Logo = "/Logo.svg";
 const PageNotFound = "/not-found.svg";
 const NoImage = "/placeholder.jpg";
 

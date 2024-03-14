@@ -28,20 +28,22 @@ const refreshAuthLogic = (_failedRequest: any) => {
     });
 };
 
-// createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
-//   shouldRefresh: (error: any) => {
-//     let shouldRefresh = false;
-//     const responseData = error.response?.data?.detail?.error;
-//     const responseStatus = error.response?.status;
-//     const errorCode = responseData[0]?.errorCode;
-//     if (responseStatus === 401 && errorCode === 1006) {
-//       shouldRefresh = true;
-//     } else if (responseStatus === 401 && errorCode === 1017) {
-//       clearAllSessionAndLocalStates();
-//     }
-//     return shouldRefresh;
-//   },
-// });
+createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
+  shouldRefresh: (error: any) => {
+    let shouldRefresh = false;
+    const responseData = error.response?.data?.detail?.error;
+    const responseStatus = error.response?.status;
+    const errorCode = responseData[0]?.errorCode;
+    // if (responseStatus === 401 && errorCode === 1006) {
+    //   shouldRefresh = true;
+    // } else
+    // if (responseStatus === 401 && errorCode === 1017) {
+    if (responseStatus === 401) {
+      clearAllSessionAndLocalStates();
+    }
+    return shouldRefresh;
+  },
+});
 
 const clearAllSessionAndLocalStates = () => {
   logout()
@@ -93,7 +95,7 @@ const httpRequest = async (
       data: response?.data?.data,
     };
   } catch (error: any) {
-    if (error?.response?.status === 401) {
+    if (error?.response?.status === 404) {
       window.location.href = "/not-found";
     }
     throw error?.response?.data?.errors;

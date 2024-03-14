@@ -1,24 +1,50 @@
 import {
-    BadgeAlert, Calendar, CalendarRange, ChevronLeft, Code2, FileCode2, Globe, Laptop,
-    Link as Links, Pencil, Projector, Star, Timer, User, UserCircle2, Users, Zap
-} from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
+  BadgeAlert,
+  Calendar,
+  CalendarRange,
+  ChevronLeft,
+  Code2,
+  FileCode2,
+  Globe,
+  Laptop,
+  Link as Links,
+  Pencil,
+  Projector,
+  Star,
+  Timer,
+  User,
+  UserCircle2,
+  Users,
+  Zap,
+} from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
 
-import { IProjectDetail, ISalesRP, ISalesRPDetail } from '@/interface/project-interface';
-import { IStaff } from '@/interface/staff-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
 import {
-    Accordion, AccordionContent, AccordionItem, AccordionTrigger
-} from '@/shared/components/ui/accordion';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
-import { Sheet, SheetContent, SheetHeader } from '@/shared/components/ui/sheet';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { ColumnDef } from '@tanstack/react-table';
+  IProjectDetail,
+  ISalesRP,
+  ISalesRPDetail,
+} from "@/interface/project-interface";
+import { IStaff } from "@/interface/staff-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/components/ui/accordion";
+import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+} from "@/shared/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   projectDetail: IProjectDetail | undefined;
@@ -295,10 +321,10 @@ const DetailHeader = ({
           </DialogHeader>
 
           <div className="flex flex-col gap-3">
-            {projectDetail?.assigned_roles_members?.map((member) => (
+            {projectDetail?.assigned_roles_members?.map((member, index) => (
               <div
                 className="flex items-center justify-between gap-5"
-                key={member?.role_user?.id}
+                key={index}
               >
                 <div className="flex items-center  w-[55%] text-base text-zinc-500">
                   <User size={20} className="me-2" />

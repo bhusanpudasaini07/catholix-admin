@@ -1,24 +1,42 @@
 // Icons
 import {
-    Calculator, Clock, File, Folder, Gitlab, LayoutGrid, User, User2, Users
-} from 'lucide-react';
-import { useTranslation } from 'next-i18next';
+  Calculator,
+  Clock,
+  File,
+  Folder,
+  Gitlab,
+  LayoutGrid,
+  User,
+  User2,
+  UserCog,
+  Users,
+} from "lucide-react";
+import { useTranslation } from "next-i18next";
 //Next
-import { useRouter } from 'next/router';
-import React from 'react';
+import { useRouter } from "next/router";
+import React from "react";
 
 import {
-    Accordion, AccordionContent, AccordionItem, AccordionTrigger
-} from '@/shared/components/ui/accordion';
-import { Button } from '@/shared/components/ui/button';
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/components/ui/accordion";
+import { Button } from "@/shared/components/ui/button";
 import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
-} from '@/shared/components/ui/dropdown-menu';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 // UI Components
 import {
-    Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
-} from '@/shared/components/ui/tooltip';
-import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -96,10 +114,10 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
               itemName: "Summary Report",
               itemSlug: "/team-leads/report",
             },
-            {
-              itemName: "Lead Targets",
-              itemSlug: "/test",
-            },
+            // {
+            //   itemName: "Lead Targets",
+            //   itemSlug: "/test",
+            // },
             {
               itemName: "Lead Report",
               itemSlug: `${`/team-leads/lead-report`}`,
@@ -110,6 +128,18 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
           menuName: t("common.side_nav.staff_groups"),
           menuSlug: "/reports",
           icon: <Users width={20} height={20} />,
+        },
+        {
+          menuName: t("common.side_nav.user_management"),
+          menuSlug: "/user-management",
+          icon: <UserCog width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "Team Member List",
+              itemSlug: "/user-management/team-members",
+            },
+          ],
         },
       ],
     },

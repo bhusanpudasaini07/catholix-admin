@@ -1,14 +1,17 @@
-import { EChartsInstance } from 'echarts-for-react';
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
+import { EChartsInstance } from "echarts-for-react";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 import {
-    IDepartmentGroupWise, IRoleGroupWise, IRoleWise, IStaffWise
-} from '@/interface/project-interface';
-import { calculateTimeLog, changeNumberFormat } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+  IDepartmentGroupWise,
+  IRoleGroupWise,
+  IRoleWise,
+  IStaffWise,
+} from "@/interface/project-interface";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
-import useProjectRpSummary from './useProjectRpSummary.hook';
+import useProjectRpSummary from "./useProjectRpSummary.hook";
 
 const useConsumptionType = () => {
   const { rpSummary } = useProjectRpSummary();
@@ -248,6 +251,16 @@ const useConsumptionType = () => {
     },
   ];
 
+  const groupRole = (data: any) => {
+    return data.reduce((acc: any, curr: any) => {
+      // If the role_group already exists in the accumulator, add the current rp to it
+      acc[curr.role_group] = (acc[curr.role_group] || 0) + Number(curr.rp);
+      return acc;
+    }, {});
+  };
+  const staffGroupedData = groupRole(rpSummary?.data?.staffwise ?? []);
+  const roleWiseGroupedData = groupRole(rpSummary?.data?.rolewise ?? []);
+
   // team wise chart option
   const staffWiseOption = {
     series: [
@@ -299,6 +312,14 @@ const useConsumptionType = () => {
           borderColor: "#fff",
           borderWidth: 2,
         },
+        color: [
+          "#22C55E",
+          "#EF4444",
+          "#F97316",
+          "#6366F1",
+          "#0EA5E9",
+          "#D946EF",
+        ],
         label: {
           show: true,
           position: "outer",
@@ -312,16 +333,10 @@ const useConsumptionType = () => {
         labelLine: {
           show: true,
         },
-        data: [
-          {
-            name: "QA",
-            value: 40,
-          },
-          {
-            name: "Dev",
-            value: 40,
-          },
-        ],
+        data: Object.entries(staffGroupedData).map(([key, value]) => ({
+          name: key,
+          value: Number(value).toFixed(2),
+        })),
       },
     ],
   };
@@ -331,7 +346,7 @@ const useConsumptionType = () => {
     series: [
       {
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["35%", "60%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -369,6 +384,41 @@ const useConsumptionType = () => {
         data: rpSummary?.data?.rolewise?.map((role) => ({
           value: role?.rp,
           name: role?.role_name,
+        })),
+      },
+      {
+        type: "pie",
+        radius: ["65%", "68%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "outer",
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+          scale: false,
+        },
+        color: [
+          "#22C55E",
+          "#EF4444",
+          "#F97316",
+          "#6366F1",
+          "#0EA5E9",
+          "#D946EF",
+        ],
+        labelLine: {
+          show: true,
+        },
+        data: Object.entries(roleWiseGroupedData).map(([key, value]) => ({
+          name: key,
+          value: Number(value).toFixed(2),
         })),
       },
     ],

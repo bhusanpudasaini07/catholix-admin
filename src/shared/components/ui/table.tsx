@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/shared/utils/utils';
+import { cn } from "@/shared/utils/utils";
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -75,7 +75,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-12 px-4 text-left align-middle font-medium text-zinc-500 [&:has([role=checkbox])]:pr-0",
+      "min-h-12 p-4 text-left align-middle font-medium text-zinc-500 [&:has([role=checkbox])]:pr-0",
       className
     )}
     {...props}

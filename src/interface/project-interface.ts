@@ -112,6 +112,7 @@ export interface IRoleWise {
   role_name: string;
   time: string;
   rp: string;
+  role_group: string;
 }
 
 export interface IStaffWise {
@@ -123,6 +124,7 @@ export interface IStaffWise {
   rp: string;
   role: string;
   role_id: string;
+  role_group: string;
 }
 export interface IRoleGroupWise {
   percentage: number;

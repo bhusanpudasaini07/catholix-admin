@@ -1,16 +1,16 @@
-import { Menu } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useQuery } from 'react-query';
+import { Menu } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useQuery } from "react-query";
 
-import { getConfig, getProfile } from '@/services/dashboard/dashboard-service';
-import { Logo } from '@/shared/lib/image-config';
-import { useLoggedInStore } from '@/store/auth-store';
-import { useCommonStore } from '@/store/common-store';
+import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
+import { Logo } from "@/shared/lib/image-config";
+import { useLoggedInStore } from "@/store/auth-store";
+import { useCommonStore } from "@/store/common-store";
 
-import { version } from '../../../../version';
-import LanguageToggler from './language-toggler';
-import ProfileDropdown from './profile-dropdown';
+import { version } from "../../../../version";
+import LanguageToggler from "./language-toggler";
+import ProfileDropdown from "./profile-dropdown";
 
 // import { useProfileStore } from "@/store/profile-store";
 interface IHeaderProps {
@@ -69,6 +69,7 @@ const Header = ({
           <Link
             href={"/"}
             className="flex items-center justify-start h-12 rounded-md "
+            as={"image"}
           >
             <Image
               src={Logo}

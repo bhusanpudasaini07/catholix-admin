@@ -17,6 +17,8 @@ import ProjectsOverview from "./projects-overview";
 import StaffsProjectSummary from "./projects-summary";
 import RpSummary from "./rp-summary";
 import TimeUtilization from "./time-utilization";
+import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
+import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
 
 interface IProps {
   dateRange: any;
@@ -157,38 +159,60 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
   return (
     <div>
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
-        <BudgetUtilization
-          spentBudget={spentBudget}
-          spentBudgetPercentage={percentage?.totalUsedRpPercentage}
-          emptyBudgetPercentage={percentage?.totalUnusedRpPercentage}
-          clientBudget={staffLog?.data?.report?.client_rp}
-          clientBudgetPercentage={percentage?.clientRpPercentage}
-          clientEmptyPercentage={percentage?.clientUnusedRpPercentage}
-        />
-        <TimeUtilization
-          spentTime={spentTime}
-          emptyTimePercentage={percentage?.totalUsedTimePercentage}
-          spentTimePercentage={percentage?.totalUnusedTimePercentage}
-          clientTime={staffLog?.data?.report?.client_time}
-          clientEmptyPercentage={percentage?.clientTimePercentage}
-          clientTimePercentage={percentage?.clientUnusedTimePercentage}
-        />
-        <RpSummary
-          available={staffLog?.data?.report?.available_rp}
-          spent={spentBudget}
-          loss={lossRp}
-        />
-        <ProjectsOverview
-          client={projectStates?.client}
-          in_house={projectStates?.inhouse}
-          risk={projectStates?.risk}
-          total={projectStates?.total}
-        />
-        <div className=" xl:col-span-2">
-          <StaffsProjectSummary
-            projectSummaryLoading={staffProjectLoading}
-            projectSummaryData={staffProjects}
+        {!staffLogLoading ? (
+          <BudgetUtilization
+            spentBudget={spentBudget}
+            spentBudgetPercentage={percentage?.totalUsedRpPercentage}
+            emptyBudgetPercentage={percentage?.totalUnusedRpPercentage}
+            clientBudget={staffLog?.data?.report?.client_rp}
+            clientBudgetPercentage={percentage?.clientRpPercentage}
+            clientEmptyPercentage={percentage?.clientUnusedRpPercentage}
           />
+        ) : (
+          <UtilizationSkeletonCard />
+        )}
+
+        {!staffLogLoading ? (
+          <TimeUtilization
+            spentTime={spentTime}
+            emptyTimePercentage={percentage?.totalUsedTimePercentage}
+            spentTimePercentage={percentage?.totalUnusedTimePercentage}
+            clientTime={staffLog?.data?.report?.client_time}
+            clientEmptyPercentage={percentage?.clientTimePercentage}
+            clientTimePercentage={percentage?.clientUnusedTimePercentage}
+          />
+        ) : (
+          <UtilizationSkeletonCard />
+        )}
+        {!staffLogLoading ? (
+          <RpSummary
+            available={staffLog?.data?.report?.available_rp}
+            spent={spentBudget}
+            loss={lossRp}
+          />
+        ) : (
+          <SummaryCardSkeleton />
+        )}
+        {!staffLogLoading ? (
+          <ProjectsOverview
+            client={projectStates?.client}
+            in_house={projectStates?.inhouse}
+            risk={projectStates?.risk}
+            total={projectStates?.total}
+          />
+        ) : (
+          <SummaryCardSkeleton />
+        )}
+
+        <div className=" xl:col-span-2">
+          {!staffLogLoading ? (
+            <StaffsProjectSummary
+              projectSummaryLoading={staffProjectLoading}
+              projectSummaryData={staffProjects}
+            />
+          ) : (
+            <SummaryCardSkeleton />
+          )}
         </div>
         <div className="xl:col-span-2">
           <LogTable
@@ -200,7 +224,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         <div className="xl:col-span-2">
           <AllTimeProjects
             allTimeProjectLoading={staffProjectLoading}
-            allTimeProjectData={staffProjects?.data?.projects}
+            allTimeProjectData={staffProjects?.data?.projects ?? []}
           />
         </div>
       </div>

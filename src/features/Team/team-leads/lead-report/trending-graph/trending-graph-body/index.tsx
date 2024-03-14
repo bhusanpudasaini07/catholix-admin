@@ -134,7 +134,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       {
         name: "Available RP",
         type: "line",
-        stack: "Total",
+        stack: "",
 
         data: tableData?.map((item) => item?.available_rp),
         lineStyle: {
@@ -148,7 +148,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       {
         name: "Used RP",
         type: "line",
-        stack: "Total",
+        stack: "",
         data: tableData?.map((item) => item?.used_rp),
         lineStyle: {
           color: "#EE6666",
@@ -161,7 +161,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       {
         name: "Commercial RP",
         type: "line",
-        stack: "Total",
+        stack: "",
         data: tableData?.map((item) => item?.commercial),
         lineStyle: {
           color: "#3F3F46",

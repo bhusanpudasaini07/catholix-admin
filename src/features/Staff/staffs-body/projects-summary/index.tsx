@@ -1,23 +1,26 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { FC, useEffect, useState } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import { FC, useEffect, useState } from "react";
 
-import IStaffsProfileProject from '@/interface/staff-profile';
-import { IProject } from '@/interface/team-lead-report-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { CountryButtonCheckbox } from '@/shared/components/ui/country-checkbox';
+import IStaffsProfileProject from "@/interface/staff-profile";
+import { IProject } from "@/interface/team-lead-report-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
 import {
-    SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { calculateTimeLog } from '@/shared/utils/rp-utils';
-import { useCommonStore } from '@/store/common-store';
-import { Select } from '@radix-ui/react-select';
-import { ColumnDef } from '@tanstack/react-table';
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import { useCommonStore } from "@/store/common-store";
+import { Select } from "@radix-ui/react-select";
+import { ColumnDef } from "@tanstack/react-table";
 
-import ProjectSummaryGraph from './project-summary-graph';
+import ProjectSummaryGraph from "./project-summary-graph";
 
 interface IChartData {
   name: string;
@@ -35,8 +38,9 @@ const StaffsProjectSummary: FC<IProps> = ({
 }) => {
   const { filterConfig } = useCommonStore();
   const [searchText, setSearchText] = useState("");
-
-  const [filteredProjects, setFilteredProjects] = useState<any>();
+  const [filteredProjects, setFilteredProjects] = useState<
+    IStaffsProfileProject[]
+  >([]);
   const [filterStates, setFilterStates] = useState({
     markets: "",
   });
@@ -44,6 +48,8 @@ const StaffsProjectSummary: FC<IProps> = ({
   const changeFilterState = (key: keyof typeof filterStates, value: string) => {
     setFilterStates((prev) => ({ ...prev, [key]: value }));
   };
+
+  // Function to handle checkbox change
   const handleCheckboxChange =
     (filterKey: keyof typeof filterStates, value: string) =>
     (isChecked: boolean) => {
@@ -52,8 +58,7 @@ const StaffsProjectSummary: FC<IProps> = ({
         : [];
       const updatedValues = isChecked
         ? [...currentValues, value]
-        : currentValues.filter((v) => v !== value);
-
+        : currentValues?.filter((v) => v !== value);
       changeFilterState(filterKey, updatedValues.join(","));
     };
 
@@ -195,7 +200,7 @@ const StaffsProjectSummary: FC<IProps> = ({
   const handleTotalRpCalculation = (
     projects: IStaffsProfileProject
   ): IChartData[] => {
-    if (!projects || !Array.isArray(projects)) {
+    if (!projects || !Array?.isArray(projects)) {
       return [];
     }
 
@@ -214,18 +219,18 @@ const StaffsProjectSummary: FC<IProps> = ({
   useEffect(() => {
     if (
       !projectSummaryData ||
-      !projectSummaryData.data ||
-      !projectSummaryData.data.projects
+      !projectSummaryData?.data ||
+      !projectSummaryData?.data?.projects
     )
       return;
 
-    const projectArray = projectSummaryData?.data?.projects.map(
+    const projectArray = projectSummaryData?.data?.projects?.map(
       (project: IStaffsProfileProject) => {
         const market = filterConfig?.markets?.find(
           (market: any) => market?.id === project?.market_id
         );
-        const marketTitle = market ? market.title : "Unknown Market";
-        const marketFlag = market ? market.flag : "";
+        const marketTitle = market ? market?.title : "Unknown Market";
+        const marketFlag = market ? market?.flag : "";
         return {
           ...project,
           market: marketTitle,
@@ -234,31 +239,26 @@ const StaffsProjectSummary: FC<IProps> = ({
       }
     );
 
-    if (filterStates?.markets && filterStates?.markets?.length > 0) {
-      const filteredProjects = projectArray?.filter((project: IProject) =>
-        filterStates?.markets?.split(",").includes(project?.market)
+    // Apply filters based on project type (client or in-house)
+    let filteredProjectsByType = projectArray;
+    if (searchText?.toLowerCase() !== "all") {
+      filteredProjectsByType = projectArray?.filter(
+        (project: IStaffsProfileProject) =>
+          project?.source?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
-
-      const filteredAndSearchedProjects = filteredProjects?.filter(
-        (project: IProject) =>
-          !searchText ||
-          searchText?.toLowerCase() === "all" ||
-          project?.title?.toLowerCase()?.includes(searchText?.toLowerCase())
-      );
-
-      setFilteredProjects(filteredAndSearchedProjects || []);
-    } else {
-      const filteredAndSearchedProjects = projectArray?.filter(
-        (project: IProject) =>
-          !searchText ||
-          searchText?.toLowerCase() === "all" ||
-          project?.source?.toLowerCase().includes(searchText?.toLowerCase())
-      );
-
-      setFilteredProjects(filteredAndSearchedProjects || []);
     }
-  }, [projectSummaryData, filterStates, searchText]);
 
+    // Apply filters based on selected markets
+    let filteredProjectsByMarket = filteredProjectsByType;
+    if (filterStates?.markets && filterStates?.markets?.length > 0) {
+      const selectedMarkets = filterStates?.markets?.split(",");
+      filteredProjectsByMarket = filteredProjectsByType?.filter(
+        (project: any) => selectedMarkets?.includes(project?.market)
+      );
+    }
+
+    setFilteredProjects(filteredProjectsByMarket);
+  }, [projectSummaryData, filterStates, searchText]);
   return (
     <Card>
       <CardContent>
@@ -298,7 +298,7 @@ const StaffsProjectSummary: FC<IProps> = ({
                 ?.split(",")
                 .includes(market?.title)}
               onCheckedChange={handleCheckboxChange("markets", market?.title)}
-              flagImageUrl={market.flag}
+              flagImageUrl={market?.flag}
             />
           ))}
         </div>

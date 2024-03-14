@@ -1,9 +1,11 @@
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import { DateRange } from 'react-day-picker';
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { DateRange } from "react-day-picker";
 
-import TrendingGraphBody from './trending-graph-body';
-import TrendingGraphHeader from './trending-graph-header';
+import TrendingGraphBody from "./trending-graph-body";
+import TrendingGraphHeader from "./trending-graph-header";
+import { useQuery } from "react-query";
+import { getLeadsList } from "@/services/lead-report/lead-report-service";
 
 const TrendingGraphContent = () => {
   const router = useRouter();
@@ -16,11 +18,21 @@ const TrendingGraphContent = () => {
     to: new Date(),
   });
 
+  const { data: leadList, isLoading: leadsLoading } = useQuery<any>(
+    ["getTeamLeadList"],
+    async () => {
+      const response = getLeadsList();
+      return response;
+    }
+  );
+
+  const allId = leadList?.data.map((item: any) => item?.id);
+
   return (
     <div>
       <TrendingGraphHeader dateRange={dateRange} setDateRange={setDateRange} />
       <TrendingGraphBody
-        id={current_id}
+        id={current_id === "all" ? allId : current_id}
         end_date={dateRange?.to}
         start_date={dateRange?.from}
       />

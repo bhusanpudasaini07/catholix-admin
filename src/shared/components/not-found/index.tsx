@@ -1,33 +1,16 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from "next/image";
+import React from "react";
 
-import { noResult } from '@/shared/lib/image-config';
-
-import notFoundLottie from '../../../../public/lottie/not-found.json';
+import { noResult } from "@/shared/lib/image-config";
 
 interface IProps {
   height?: number;
   width?: number;
 }
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: notFoundLottie,
-  height: 100,
-  width: 100,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
 const NotFoundLottie = ({ height, width }: IProps) => {
   return (
     <div className="my-20">
-      {/* <Lottie
-        height={height ? height : 150}
-        width={width ? width : 150}
-        options={defaultOptions}
-      /> */}
       <Image
         src={noResult}
         width={width ? width : 160}
@@ -36,6 +19,11 @@ const NotFoundLottie = ({ height, width }: IProps) => {
         className="m-auto"
         quality={100}
         priority
+        style={{
+          objectFit: "contain",
+          height: `${width ? width : 160}px`,
+          width: `${height ? height : 160}px`,
+        }}
       />
       <p className="text-base font-medium text-zinc-500">No Results Found</p>
     </div>

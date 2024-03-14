@@ -1,24 +1,31 @@
-import { DownloadCloud } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
+import { DownloadCloud } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { FC, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
-import { IRpStaffSummaryProps, IStaff } from '@/interface/team-lead-report-interface';
-import { getConfig } from '@/services/dashboard/dashboard-service';
-import { getStaffDailyTimelog } from '@/services/lead-report/lead-report-service';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import FilterSearch from '@/shared/components/filter-search';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { Dialog, DialogContent } from '@/shared/components/ui/dialog';
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { DownloadExcel } from '@/shared/utils/download/download.utils';
-import { ColumnDef } from '@tanstack/react-table';
+  IRpStaffSummaryProps,
+  IStaff,
+} from "@/interface/team-lead-report-interface";
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { DownloadExcel } from "@/shared/utils/download/download.utils";
+import { ColumnDef } from "@tanstack/react-table";
 
-import MemberTimeLogModal from './member-timelog-modal';
+import MemberTimeLogModal from "./member-timelog-modal";
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
@@ -324,8 +331,8 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
                 <SelectItem key={"all"} value={"all"}>
                   All
                 </SelectItem>
-                {filterDate?.data?.roles?.map((roles: any) => (
-                  <SelectItem key={roles?.index} value={roles?.title}>
+                {filterDate?.data?.roles?.map((roles: any, index: number) => (
+                  <SelectItem key={index} value={roles?.title}>
                     {roles?.title}
                   </SelectItem>
                 ))}

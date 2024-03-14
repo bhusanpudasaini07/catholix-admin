@@ -59,15 +59,16 @@ const LeadReportBody = ({ dateRange }: any) => {
     useQuery<any>(
       ["getStaffRpSummaryData", staffIdJson, dateRange?.to, current_id],
       async () => {
-        // if (current_id) {
-        // if (current_id && current_id !== "all") {
-        const response = await getStaffRpSummary(
-          moment(dateRange?.from).format("YYYY-MM-DD"),
-          moment(dateRange?.to).format("YYYY-MM-DD"),
-          JSON.parse(staffIdJson)
-        );
-        return response;
-        // }
+        if (staffIdJson) {
+          const response = await getStaffRpSummary(
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            JSON.parse(staffIdJson || "")
+          );
+          return response;
+        } else {
+          return null;
+        }
       }
     );
 

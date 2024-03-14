@@ -1,15 +1,20 @@
-import moment from 'moment';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { ICountryProjectDetails, IPropsTeamLeadData } from '@/interface/team-lead-report-interface';
 import {
-    getAllStaffId, getLeadsList, getStaffRpSummary
-} from '@/services/lead-report/lead-report-service';
-import { ColumnDef } from '@tanstack/react-table';
+  ICountryProjectDetails,
+  IPropsTeamLeadData,
+} from "@/interface/team-lead-report-interface";
+import {
+  getAllStaffId,
+  getLeadsList,
+  getStaffRpSummary,
+} from "@/services/lead-report/lead-report-service";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProject {
   id: string;
@@ -131,15 +136,17 @@ const useLeadReport = () => {
     useQuery<any>(
       ["getStaffRpSummaryData", staffIdJson, dateRange?.to, current_id],
       async () => {
-        // if (current_id) {
-        // if (current_id && current_id !== "all") {
-        const response = getStaffRpSummary(
-          moment(dateRange?.from).format("YYYY-MM-DD"),
-          moment(dateRange?.to).format("YYYY-MM-DD"),
-          JSON.parse(staffIdJson)
-        );
-        return response;
-        // }
+        if (staffIdJson) {
+          // Check if staffIdJson is not undefined
+          const response = getStaffRpSummary(
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            JSON.parse(staffIdJson)
+          );
+          return response;
+        } else {
+          return null; // or handle the scenario accordingly
+        }
       }
     );
 

@@ -64,7 +64,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
     setSelectedMarkets((prevMarkets) =>
       isChecked
         ? [...prevMarkets, market?.id]
-        : prevMarkets.filter((id) => id !== market?.id)
+        : prevMarkets?.filter((id) => id !== market?.id)
     );
   };
 
@@ -83,9 +83,9 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       );
     }
 
-    if (selectedMarkets.length > 0) {
+    if (selectedMarkets?.length > 0) {
       filteredData = filteredData?.filter((staff) =>
-        selectedMarkets.includes(staff?.market_id)
+        selectedMarkets?.includes(staff?.market_id)
       );
     }
 

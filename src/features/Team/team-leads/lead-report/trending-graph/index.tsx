@@ -12,7 +12,7 @@ const TrendingGraphContent = () => {
   const current_id = router.query?.lead_id || undefined;
 
   const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  oneWeekAgo?.setDate(oneWeekAgo.getDate() - 7);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: oneWeekAgo,
     to: new Date(),
@@ -26,7 +26,7 @@ const TrendingGraphContent = () => {
     }
   );
 
-  const allId = leadList?.data.map((item: any) => item?.id);
+  const allId = leadList?.data?.map((item: any) => item?.id);
 
   return (
     <div>

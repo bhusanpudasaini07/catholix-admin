@@ -58,7 +58,7 @@ const StaffsProjectSummary: FC<IProps> = ({
         : [];
       const updatedValues = isChecked
         ? [...currentValues, value]
-        : currentValues.filter((v) => v !== value);
+        : currentValues?.filter((v) => v !== value);
       changeFilterState(filterKey, updatedValues.join(","));
     };
 
@@ -200,7 +200,7 @@ const StaffsProjectSummary: FC<IProps> = ({
   const handleTotalRpCalculation = (
     projects: IStaffsProfileProject
   ): IChartData[] => {
-    if (!projects || !Array.isArray(projects)) {
+    if (!projects || !Array?.isArray(projects)) {
       return [];
     }
 
@@ -219,18 +219,18 @@ const StaffsProjectSummary: FC<IProps> = ({
   useEffect(() => {
     if (
       !projectSummaryData ||
-      !projectSummaryData.data ||
-      !projectSummaryData.data.projects
+      !projectSummaryData?.data ||
+      !projectSummaryData?.data?.projects
     )
       return;
 
-    const projectArray = projectSummaryData.data.projects.map(
+    const projectArray = projectSummaryData?.data?.projects?.map(
       (project: IStaffsProfileProject) => {
         const market = filterConfig?.markets?.find(
           (market: any) => market?.id === project?.market_id
         );
-        const marketTitle = market ? market.title : "Unknown Market";
-        const marketFlag = market ? market.flag : "";
+        const marketTitle = market ? market?.title : "Unknown Market";
+        const marketFlag = market ? market?.flag : "";
         return {
           ...project,
           market: marketTitle,
@@ -241,19 +241,19 @@ const StaffsProjectSummary: FC<IProps> = ({
 
     // Apply filters based on project type (client or in-house)
     let filteredProjectsByType = projectArray;
-    if (searchText.toLowerCase() !== "all") {
-      filteredProjectsByType = projectArray.filter(
+    if (searchText?.toLowerCase() !== "all") {
+      filteredProjectsByType = projectArray?.filter(
         (project: IStaffsProfileProject) =>
-          project.source.toLowerCase().includes(searchText.toLowerCase())
+          project?.source?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
     }
 
     // Apply filters based on selected markets
     let filteredProjectsByMarket = filteredProjectsByType;
-    if (filterStates.markets && filterStates.markets.length > 0) {
-      const selectedMarkets = filterStates.markets.split(",");
-      filteredProjectsByMarket = filteredProjectsByType.filter((project: any) =>
-        selectedMarkets.includes(project?.market)
+    if (filterStates?.markets && filterStates?.markets?.length > 0) {
+      const selectedMarkets = filterStates?.markets?.split(",");
+      filteredProjectsByMarket = filteredProjectsByType?.filter(
+        (project: any) => selectedMarkets?.includes(project?.market)
       );
     }
 
@@ -298,7 +298,7 @@ const StaffsProjectSummary: FC<IProps> = ({
                 ?.split(",")
                 .includes(market?.title)}
               onCheckedChange={handleCheckboxChange("markets", market?.title)}
-              flagImageUrl={market.flag}
+              flagImageUrl={market?.flag}
             />
           ))}
         </div>

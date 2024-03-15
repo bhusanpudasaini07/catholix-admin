@@ -18,6 +18,7 @@ import {
 } from "@/shared/components/ui/select";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import { getConfig } from "@/services/dashboard/dashboard-service";
 
 const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
@@ -28,6 +29,13 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
   const [filterStates, setFilterStates] = useState({
     markets: "",
   });
+  const { data: filterData, isLoading: filterLoading } = useQuery<any>(
+    "getConfig",
+    async () => {
+      const response = await getConfig();
+      return response;
+    }
+  );
   const changeFilterState = (key: keyof typeof filterStates, value: string) => {
     setFilterStates((prev) => ({ ...prev, [key]: value }));
   };
@@ -71,11 +79,24 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
-          {row.getValue("country")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const market = filterData?.data?.markets?.find(
+          (item: any) => item?.title === row?.original?.country
+        );
+        return (
+          <div>
+            {market && (
+              <Image
+                src={market?.flag}
+                height={16}
+                width={16}
+                style={{ objectFit: "contain" }}
+                alt="Flag"
+              />
+            )}
+          </div>
+        );
+      },
     },
     {
       id: "manDays",
@@ -122,17 +143,6 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
               Detail View
             </Button>
           </div>
-          {/* <div className="flex items-center justify-end gap-2">
-            <FilterSearch setSearchText={setSearchText} />
-            <Select>
-              <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Role" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="pm">PM</SelectItem>
-              </SelectContent>
-            </Select>
-          </div> */}
         </div>
         <div className="flex flex-wrap items-center justify-end gap-3 mb-3">
           {filterConfig?.markets?.map((market: any, index: number) => (

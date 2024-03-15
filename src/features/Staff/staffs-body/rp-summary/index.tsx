@@ -1,9 +1,9 @@
-import { Activity, Flag, TrendingDown } from 'lucide-react';
-import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import { Activity, Flag, TrendingDown } from "lucide-react";
+import { useRouter } from "next/router";
+import React, { FC } from "react";
 
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 interface IProps {
   available?: string | undefined | number;
@@ -13,7 +13,7 @@ interface IProps {
 
 const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
   const router = useRouter();
-  const current_id = router.query?.lead_id || "all";
+  const current_username = router.query?.username;
 
   return (
     <Card>
@@ -22,9 +22,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
           <h5 className="font-medium text-zinc-700">Budget Summary</h5>
           <Button
             onClick={() =>
-              router.push(
-                `/team-leads/lead-report/trending-graph?lead_id=${current_id}`
-              )
+              router.push(`/staffs/${current_username}/staffs-trendline`)
             }
             variant={"white"}
             size={"sm"}

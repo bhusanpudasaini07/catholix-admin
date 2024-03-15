@@ -1,20 +1,24 @@
-import { DownloadCloud } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { FC, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
+import { DownloadCloud } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { FC, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
-import { getConfig } from '@/services/dashboard/dashboard-service';
-import { getStaffDailyTimelog } from '@/services/lead-report/lead-report-service';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import FilterSearch from '@/shared/components/filter-search';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { DownloadExcel } from '@/shared/utils/download/download.utils';
-import { ColumnDef } from '@tanstack/react-table';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { DownloadExcel } from "@/shared/utils/download/download.utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
   const [role, setRole] = useState<string>("");
@@ -41,16 +45,17 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
         sn: index + 1,
         date: moment(log?.date).format("YYYY-MM-DD HH:mm:ss"),
         project: log?.project?.title || "N/A",
+        project_url: log?.repo_url || "",
         code: log?.project?.code || "",
         project_type: log?.project?.source || "N/A",
         role: log?.log_by?.role_name || "N/A",
         task: log?.title || "N/A",
+        task_url: log?.task_url || "",
         spent_rp: log?.rp || "N/A",
         spent_time: convertSecondsToHoursAndMinutes(log?.time) || "N/A",
       })),
     [logTableData]
   );
-
   const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
     useQuery<any>(
       ["getStaffDailyLog", dateRange?.to, dateRange?.from, staffId, modalOpen],
@@ -144,7 +149,7 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       accessorKey: "project_type",
       header: "Project Type",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("project_type")}
         </div>
       ),
@@ -155,7 +160,7 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("role")}
         </div>
       ),
@@ -166,9 +171,12 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       accessorKey: "task",
       header: "Task",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500">
+        <Link
+          href={`${row?.original?.task_url}`}
+          className="text-sm font-semibold text-primary"
+        >
           {row.getValue("task")}
-        </div>
+        </Link>
       ),
       enableHiding: false,
     },
@@ -177,10 +185,7 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       accessorKey: "spent_rp",
       header: "Spent Budget",
       cell: ({ row }) => (
-        <div
-          onClick={() => ModelHandler(row?.original?.id)}
-          className="text-sm font-semibold text-blue-500 cursor-pointer"
-        >
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("spent_rp")}
         </div>
       ),
@@ -228,7 +233,6 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       ).format("YYYY-MM-DD")}`
     );
   };
-
   return (
     <Card>
       <CardContent>

@@ -14,6 +14,9 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import { useQuery } from "react-query";
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import Image from "next/image";
 
 const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
@@ -27,6 +30,13 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
     markets: "",
   });
 
+  const { data: filterData, isLoading: filterLoading } = useQuery<any>(
+    "getConfig",
+    async () => {
+      const response = await getConfig();
+      return response;
+    }
+  );
   const changeFilterState = (key: keyof typeof filterStates, value: string) => {
     setFilterStates((prev) => ({ ...prev, [key]: value }));
   };
@@ -122,11 +132,24 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
       id: "market",
       accessorKey: "market",
       header: "Country",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("market")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const market = filterData?.data?.markets?.find(
+          (item: any) => item?.title === row?.original?.market
+        );
+        return (
+          <div>
+            {market && (
+              <Image
+                src={market?.flag}
+                height={16}
+                width={16}
+                style={{ objectFit: "contain" }}
+                alt="Flag"
+              />
+            )}
+          </div>
+        );
+      },
       enableHiding: false,
     },
     {
@@ -203,11 +226,11 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-end gap-1 mb-3">
-          {filterConfig?.markets?.map((market: any) => (
+          {filterConfig?.markets?.map((market: any, index: number) => (
             <CountryButtonCheckbox
               label={market?.title}
               value={market?.title}
-              key={market?.index}
+              key={index}
               checked={filterStates?.markets
                 ?.split(",")
                 .includes(market?.title)}

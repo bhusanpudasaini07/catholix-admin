@@ -13,6 +13,9 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { CountryButtonCheckbox } from "@/shared/components/ui/country-checkbox";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import { useQuery } from "react-query";
+import { getConfig } from "@/services/dashboard/dashboard-service";
+import Image from "next/image";
 
 const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
@@ -26,6 +29,13 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
     markets: "",
   });
 
+  const { data: filterData, isLoading: filterLoading } = useQuery<any>(
+    "getConfig",
+    async () => {
+      const response = await getConfig();
+      return response;
+    }
+  );
   const changeFilterState = (key: keyof typeof filterStates, value: string) => {
     setFilterStates((prev) => ({ ...prev, [key]: value }));
   };
@@ -84,11 +94,24 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       id: "market",
       accessorKey: "market",
       header: "Country",
-      cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("market")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const market = filterData?.data?.markets?.find(
+          (item: any) => item?.title === row?.original?.market
+        );
+        return (
+          <div>
+            {market && (
+              <Image
+                src={market?.flag}
+                height={16}
+                width={16}
+                style={{ objectFit: "contain" }}
+                alt="Flag"
+              />
+            )}
+          </div>
+        );
+      },
       enableHiding: false,
     },
     {

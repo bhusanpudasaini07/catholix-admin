@@ -612,7 +612,7 @@ export const useProjectDetail = () => {
     grid: {
       left: "0%",
       right: "4%",
-      bottom: "3%",
+      bottom: "2%",
       top: "12%",
       containLabel: true,
     },
@@ -647,7 +647,6 @@ export const useProjectDetail = () => {
       {
         name: "Budget",
         type: "bar",
-        stack: "Total",
         label: {
           show: true,
         },
@@ -659,7 +658,6 @@ export const useProjectDetail = () => {
       {
         name: "Estimated",
         type: "bar",
-        stack: "Total",
         label: {
           show: true,
         },

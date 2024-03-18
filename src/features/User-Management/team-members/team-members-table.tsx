@@ -8,8 +8,14 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import ListCardFilter from "./header-filter";
 
 const TeamMembersTable = () => {
-  const { memberColumn, perPage, setPerPage, changePageNum } =
-    useTeamMemberList();
+  const {
+    memberColumn,
+    perPage,
+    teamMemberList,
+    isLoading,
+    setPerPage,
+    changePageNum,
+  } = useTeamMemberList();
   return (
     <Card>
       <CardContent>
@@ -17,16 +23,18 @@ const TeamMembersTable = () => {
 
         <DataTable
           columns={memberColumn}
-          data={[]}
+          data={teamMemberList?.data ?? []}
           border
           headerSticky
-          height="max-h-[600px]"
+          height="max-h-[525px]"
+          loading={isLoading}
+          loadingDataNum={20}
         />
         <DataTablePagination
-          totalPages={3}
+          totalPages={teamMemberList?.pagination?.total_page ?? 0}
           perPage={perPage}
           setPerPage={setPerPage}
-          currentPage={1}
+          currentPage={teamMemberList?.pagination?.page ?? 0}
           pageChange={changePageNum}
         />
       </CardContent>

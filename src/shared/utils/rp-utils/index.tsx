@@ -1,5 +1,5 @@
-import { differenceInCalendarDays } from 'date-fns';
-import { AlertCircle, CheckCircle, CircleDot } from 'lucide-react';
+import { differenceInCalendarDays } from "date-fns";
+import { AlertCircle, CheckCircle, CircleDot } from "lucide-react";
 
 /**
  *  to show deadline remaining in projects or other modules
@@ -181,7 +181,10 @@ const changeNumberFormat = (num: number) => {
   return changedValue;
 };
 
-
+const calculateTime = (time: number) => {
+  const totalHours = time / 3600;
+  return totalHours.toFixed(2);
+};
 
 export {
   showDeadline,
@@ -193,4 +196,5 @@ export {
   calculateUsedAndUnusedRpPercentage,
   calculateTimeLog,
   changeNumberFormat,
+  calculateTime,
 };

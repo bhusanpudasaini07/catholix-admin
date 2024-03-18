@@ -4,6 +4,7 @@ import React from "react";
 import useConsumptionType from "@/hooks/project/detail/useConsumptionType.hook";
 import useProjectRpSummary from "@/hooks/project/detail/useProjectRpSummary.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 const ConsumptionType = () => {

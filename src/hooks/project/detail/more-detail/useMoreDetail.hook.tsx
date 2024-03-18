@@ -666,7 +666,6 @@ const useMoreDetail = () => {
     };
   }, [platformComponentOption]);
 
-  console.log(projectTaskLabelData?.data);
   return {
     projectTaskLabelData,
     isLoading,

@@ -6,6 +6,7 @@ import { DataTablePagination } from "@/shared/components/data-table/data-table-p
 import { Card, CardContent } from "@/shared/components/ui/card";
 
 import ListCardFilter from "./header-filter";
+import TeamMemberTable from "./team-member-table";
 
 const TeamMembersTable = () => {
   const {
@@ -15,27 +16,32 @@ const TeamMembersTable = () => {
     isLoading,
     setPerPage,
     changePageNum,
+    setDateRangeOpen,
+    dateRangeOpen,
+    dateRange,
+    dateChangeHandler,
+    setSearchText,
   } = useTeamMemberList();
   return (
     <Card>
       <CardContent>
-        <ListCardFilter />
-
-        <DataTable
-          columns={memberColumn}
-          data={teamMemberList?.data ?? []}
-          border
-          headerSticky
-          height="max-h-[525px]"
-          loading={isLoading}
-          loadingDataNum={20}
+        <ListCardFilter
+          setDateRangeOpen={setDateRangeOpen}
+          dateRangeOpen={dateRangeOpen}
+          dateRange={dateRange}
+          dateChangeHandler={dateChangeHandler}
+          setSearchText={setSearchText}
         />
-        <DataTablePagination
-          totalPages={teamMemberList?.pagination?.total_page ?? 0}
+
+        <TeamMemberTable
+          column={memberColumn}
+          tableData={teamMemberList?.data ?? []}
+          loading={isLoading}
+          currentPage={teamMemberList?.pagination?.page ?? 0}
+          totalPage={teamMemberList?.pagination?.total_page ?? 0}
           perPage={perPage}
           setPerPage={setPerPage}
-          currentPage={teamMemberList?.pagination?.page ?? 0}
-          pageChange={changePageNum}
+          changePageNum={changePageNum}
         />
       </CardContent>
     </Card>

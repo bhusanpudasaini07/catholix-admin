@@ -1,3 +1,4 @@
+import WorkLoadChart from "@/features/User-Management/team-members/work-load-chart";
 import { useDebounce } from "@/hooks/debounce.hooks";
 import {
   ITeamMemberDetails,
@@ -5,6 +6,7 @@ import {
 } from "@/interface/team-member-interface";
 import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
 import { calculateTime, calculateTimeLog } from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import Link from "next/link";
@@ -32,11 +34,19 @@ const useTeamMemberList = () => {
   const { data: teamMemberList, isLoading } = useQuery<ITeamMemberList>({
     queryFn: () =>
       getTeamMembersList(
+        perPage,
+        pageNum,
         searchText, //keyword
-        dateRange?.to && moment(dateRange?.from).format("YYYY-MM-DD"), //date_from
-        dateRange?.to && moment(dateRange?.to).format("YYYY-MM-DD") //date_to
+        dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
+        dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "" //date_to
       ),
-    queryKey: ["teamMemberList", debouncedSearch, dateRange?.to],
+    queryKey: [
+      "teamMemberList",
+      debouncedSearch,
+      dateRange?.to,
+      perPage,
+      pageNum,
+    ],
   });
 
   // change date range
@@ -50,11 +60,13 @@ const useTeamMemberList = () => {
   };
 
   // Serial number in table
-  const SerialNumberCell = ({ row }: any) => {
+  const SerialNumberCell = ({ row, pageNumber, perPage }: any) => {
     const rowIndex = row.index;
-    const serialNumber = rowIndex + 1;
+    const serialNumber = (pageNumber - 1) * perPage + rowIndex + 1;
     return <div className="text-color">{serialNumber}.</div>;
   };
+
+  // Work-load chart
 
   const memberColumn: ColumnDef<ITeamMemberDetails>[] = [
     // SN
@@ -62,7 +74,9 @@ const useTeamMemberList = () => {
       id: "sn",
       accessorKey: "sn",
       header: "S.No.",
-      cell: (props) => <SerialNumberCell {...props} />,
+      cell: (props) => (
+        <SerialNumberCell {...props} pageNumber={pageNum} perPage={perPage} />
+      ),
     },
     // Member Info
     {
@@ -107,10 +121,27 @@ const useTeamMemberList = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 w-[300px]">
           {row?.original?.projects
             ? row?.original?.projects?.map((project) => (
-                <div className="py-0.5 px-3 border rounded-full">
+                <div
+                  className={cn(
+                    project?.status === "In Progress" &&
+                      "bg-blue-50 border-blue-500 text-blue-700",
+                    project?.status === "Client Support" &&
+                      "bg-orange-50 border-orange-500 text-orange-700",
+                    project?.status === "Closed" &&
+                      "bg-green-50 border-green-500 text-green-700",
+                    project?.status === "On Hold" &&
+                      "bg-red-50 border-red-500 text-red-700",
+                    "py-0.5 px-3 border rounded-full relative"
+                  )}
+                  key={project?.id}
+                >
+                  <Link
+                    href={`/projects/${project?.code}`}
+                    className="absolute top-0 bottom-0 left-0 right-0"
+                  />
                   <p className="font-bold">{project?.name}</p>
                   <p>{project?.project_lead}</p>
                 </div>
@@ -179,8 +210,13 @@ const useTeamMemberList = () => {
         </div>
       ),
       cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(
+          row?.getValue("available_time")
+        );
         return (
-          <div>{calculateTime(Number(row?.getValue("available_time")))}hrs</div>
+          <div className="whitespace-nowrap">
+            {hours > 1 && hours + "H"} {minutes}M
+          </div>
         );
       },
     },
@@ -195,9 +231,14 @@ const useTeamMemberList = () => {
           Hours
         </div>
       ),
-      cell: ({ row }) => (
-        <div>{calculateTime(Number(row?.getValue("used_time")))}hrs</div>
-      ),
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(row?.getValue("used_time"));
+        return (
+          <div className="whitespace-nowrap">
+            {hours > 1 && hours + "H"} {minutes}M
+          </div>
+        );
+      },
     },
     // Work-load Remarks
     {
@@ -210,6 +251,7 @@ const useTeamMemberList = () => {
           Remarks
         </div>
       ),
+      cell: ({ row }) => <WorkLoadChart data={row?.original} />,
     },
   ];
 

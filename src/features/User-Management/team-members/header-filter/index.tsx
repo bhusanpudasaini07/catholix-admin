@@ -9,15 +9,24 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import React from "react";
+import { DateRange } from "react-day-picker";
 
-const ListCardFilter = () => {
-  const {
-    setDateRangeOpen,
-    dateRangeOpen,
-    dateRange,
-    dateChangeHandler,
-    setSearchText,
-  } = useTeamMemberList();
+interface IProps {
+  setDateRangeOpen: (arg: boolean) => void;
+  dateRangeOpen: boolean;
+  dateRange: DateRange | undefined;
+  dateChangeHandler: (arg: DateRange) => void;
+  setSearchText: (arg: string) => void;
+}
+
+const ListCardFilter = ({
+  setDateRangeOpen,
+  dateRangeOpen,
+  dateRange,
+  dateChangeHandler,
+  setSearchText,
+}: IProps) => {
+  const {} = useTeamMemberList();
   return (
     <div className="flex items-center justify-between mb-10">
       <p className="text-lg font-medium text-zinc-700">Team Member</p>

@@ -12,6 +12,7 @@ import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 
 import useProjectRpSummary from "./useProjectRpSummary.hook";
+import { getColorForRole } from "@/shared/utils/color-utils";
 
 const useConsumptionType = () => {
   const { rpSummary } = useProjectRpSummary();
@@ -301,6 +302,9 @@ const useConsumptionType = () => {
         data: rpSummary?.data?.staffwise?.map((staff) => ({
           value: staff?.rp,
           name: staff?.name,
+          itemStyle: {
+            color: getColorForRole(staff?.role_group),
+          },
         })),
       },
       {
@@ -312,14 +316,7 @@ const useConsumptionType = () => {
           borderColor: "#fff",
           borderWidth: 2,
         },
-        color: [
-          "#22C55E",
-          "#EF4444",
-          "#F97316",
-          "#6366F1",
-          "#0EA5E9",
-          "#D946EF",
-        ],
+        color: ["#22C55E", "#EF4444", "#F97316", "#0EA5E9", "#D946EF"],
         label: {
           show: true,
           position: "outer",
@@ -384,6 +381,9 @@ const useConsumptionType = () => {
         data: rpSummary?.data?.rolewise?.map((role) => ({
           value: role?.rp,
           name: role?.role_name,
+          itemStyle: {
+            color: getColorForRole(role?.role_group),
+          },
         })),
       },
       {
@@ -405,14 +405,7 @@ const useConsumptionType = () => {
           },
           scale: false,
         },
-        color: [
-          "#22C55E",
-          "#EF4444",
-          "#F97316",
-          "#6366F1",
-          "#0EA5E9",
-          "#D946EF",
-        ],
+        color: ["#22C55E", "#EF4444", "#F97316", "#0EA5E9", "#D946EF"],
         labelLine: {
           show: true,
         },

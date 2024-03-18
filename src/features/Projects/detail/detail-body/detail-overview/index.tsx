@@ -89,21 +89,25 @@ const DetailOverview = () => {
       value: "status",
       title: "Status",
       icon: <PieChart size={18} />,
+      buttonName: "Status",
     },
     {
       value: "burndown",
       title: "Burndown Chart",
       icon: <BurndownSvg size={18} />,
+      buttonName: "Burndown",
     },
     {
       value: "estimated_actual",
       title: "Estimated VS Actual",
       icon: <AlignCenterVertical size={18} />,
+      buttonName: "Budget",
     },
     {
       value: "project_release",
       title: "Project Releases",
       icon: <FileCheck2 size={18} />,
+      buttonName: "",
     },
   ];
 
@@ -383,7 +387,11 @@ const DetailOverview = () => {
                   </TabsList>
                   {tabValue !== "project_release" && (
                     <Button variant={"white"} size={"sm"} onClick={changeRoute}>
-                      More Details
+                      {
+                        tabOptions?.find((item) => item?.value === tabValue)
+                          ?.buttonName
+                      }{" "}
+                      Details
                     </Button>
                   )}
                 </div>
@@ -403,8 +411,8 @@ const DetailOverview = () => {
                   />
                 </TabsContent>
                 <TabsContent value="estimated_actual">
-                  <div className="grid items-center grid-cols-3">
-                    <div className="col-span-1">
+                  <div className="flex items-center gap-4">
+                    <div className="w-[200px]">
                       {estimatedActualData?.map((item) => (
                         <div key={item?.title} className="mb-6 last:mb-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -419,7 +427,7 @@ const DetailOverview = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="col-span-2">
+                    <div className="w-full grow">
                       <ReactEcharts
                         option={estimatedActualGraph}
                         style={{ height: "300px" }}

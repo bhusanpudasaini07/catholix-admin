@@ -119,7 +119,7 @@ const useTeamMemberList = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-1.5 w-[300px]">
           {row?.original?.projects
             ? row?.original?.projects?.map((project) => (
                 <div

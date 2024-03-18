@@ -23,6 +23,7 @@ export interface ITeamMemberDetails {
     name: string;
     project_lead: string;
     status: string;
+    code: string;
   }[];
   available_time: string;
   used_time: string;

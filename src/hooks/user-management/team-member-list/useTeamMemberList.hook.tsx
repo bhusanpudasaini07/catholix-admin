@@ -60,9 +60,9 @@ const useTeamMemberList = () => {
   };
 
   // Serial number in table
-  const SerialNumberCell = ({ row }: any) => {
+  const SerialNumberCell = ({ row, pageNumber, perPage }: any) => {
     const rowIndex = row.index;
-    const serialNumber = rowIndex + 1;
+    const serialNumber = (pageNumber - 1) * perPage + rowIndex + 1;
     return <div className="text-color">{serialNumber}.</div>;
   };
 
@@ -74,7 +74,9 @@ const useTeamMemberList = () => {
       id: "sn",
       accessorKey: "sn",
       header: "S.No.",
-      cell: (props) => <SerialNumberCell {...props} />,
+      cell: (props) => (
+        <SerialNumberCell {...props} pageNumber={pageNum} perPage={perPage} />
+      ),
     },
     // Member Info
     {

@@ -1,13 +1,13 @@
-import ReactECharts, { EChartsInstance } from 'echarts-for-react';
-import { DownloadCloud } from 'lucide-react';
-import React from 'react';
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import { DownloadCloud } from "lucide-react";
+import React from "react";
 
-import { ILeadDetail } from '@/interface/team-leads-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { cn } from '@/shared/utils/utils';
-import { ColumnDef } from '@tanstack/react-table';
+import { ILeadDetail } from "@/interface/team-leads-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];
@@ -16,9 +16,9 @@ interface IProps {
   staffRPLoading: boolean;
   countryOptions: any;
   rpOptions: any;
-  leadDetail: ILeadDetail | undefined;
   rpChartRef: EChartsInstance;
   countryChartRef: EChartsInstance;
+  leadId: string;
 }
 
 const ReportSummaryTable = ({
@@ -27,9 +27,9 @@ const ReportSummaryTable = ({
   loading,
   countryOptions,
   rpOptions,
-  leadDetail,
   rpChartRef,
   countryChartRef,
+  leadId,
 }: IProps) => {
   return (
     <Card>

@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/shared/components/ui/table';
-import { cn } from '@/shared/utils/utils';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/shared/components/ui/table";
+import { cn } from "@/shared/utils/utils";
 import {
-    ColumnDef, ColumnFiltersState, ColumnPinningColumnDef, flexRender, getCoreRowModel,
-    getFilteredRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState
-} from '@tanstack/react-table';
+  ColumnDef,
+  ColumnFiltersState,
+  ColumnPinningColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
 
-import NotFoundLottie from '../not-found';
-import TableSkeleton from '../skeleton-loading/table-skeleton';
-import { Button } from '../ui/button';
+import NotFoundLottie from "../not-found";
+import TableSkeleton from "../skeleton-loading/table-skeleton";
+import { Button } from "../ui/button";
 import {
-    DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger
-} from '../ui/dropdown-menu';
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 interface TotalColumn<TData> {
   columnId: keyof TData;
@@ -35,6 +51,7 @@ interface DataTableProps<TData, TValue> {
   lottieHeight?: number;
   total?: TotalColumn<TData>[];
   loadingDataNum?: number | 1;
+  selectedId?: string | number;
 }
 
 export function DataTable<TData, TValue>({
@@ -50,6 +67,7 @@ export function DataTable<TData, TValue>({
   lottieHeight,
   total,
   loadingDataNum,
+  selectedId,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -162,8 +180,8 @@ export function DataTable<TData, TValue>({
               {table?.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="[&>*]:last:border-b-0"
+                  data-state={row.id === selectedId && "selected"}
+                  className={"[&>*]:last:border-b-0"}
                 >
                   {row?.getVisibleCells().map((cell) => (
                     <TableCell

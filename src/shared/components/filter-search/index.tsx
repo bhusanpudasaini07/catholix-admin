@@ -11,7 +11,7 @@ interface IProps {
 const FilterSearch = ({ setSearchText, className }: IProps) => {
   return (
     <div
-      className={`flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] md:max-w-[300px] border rounded-md shadow-sm border-zinc-200 focus-within:border-primary text-zinc-700 bg-light-white ${className}`}
+      className={`flex items-center gap-2 px-3 py-2.5 w-full max-w-[240px] md:max-w-[300px] border rounded-md shadow-sm border-zinc-200 focus-within:outline focus-within:outline-2 focus-within:outline-primary text-zinc-700 bg-light-white ${className}`}
     >
       <SearchIcon
         width={20}

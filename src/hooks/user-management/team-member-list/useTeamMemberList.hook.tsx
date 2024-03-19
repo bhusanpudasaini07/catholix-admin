@@ -4,6 +4,7 @@ import {
   ITeamMemberDetails,
   ITeamMemberList,
 } from "@/interface/team-member-interface";
+import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
 import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
 import { calculateTime, calculateTimeLog } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
@@ -18,14 +19,19 @@ const useTeamMemberList = () => {
   // STATES FOR FILTER
   const [searchText, setSearchText] = useState<string>("");
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: undefined,
-    to: undefined,
+    from: moment().subtract(1, "months").toDate(),
+    to: moment().toDate(),
   });
   const [dateRangeOpen, setDateRangeOpen] = useState<boolean>(false);
+  const [department, setDepartment] = useState<string>("all");
 
   // STATES FOR PAGINATION
   const [perPage, setPerPage] = useState(12);
   const [pageNum, setPageNum] = useState(1);
+
+  // STATES FOR LOG MODAL
+  const [staffId, setStaffId] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // debounced search for api request
   const debouncedSearch = useDebounce(searchText, 300);
@@ -38,7 +44,8 @@ const useTeamMemberList = () => {
         pageNum,
         searchText, //keyword
         dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
-        dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "" //date_to
+        dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "", //date_to
+        department //department
       ),
     queryKey: [
       "teamMemberList",
@@ -46,7 +53,23 @@ const useTeamMemberList = () => {
       dateRange?.to,
       perPage,
       pageNum,
+      department,
     ],
+  });
+
+  // Staff daily time log
+  const { data: staffDailyLog, isLoading: staffDailyLogLoading } = useQuery({
+    queryFn: async () => {
+      if (staffId !== "") {
+        const response = await getStaffDailyTimelog(
+          moment(dateRange?.from).format("YYYY-MM-DD"), // date_from
+          moment(dateRange?.to).format("YYYY-MM-DD"), //date_to
+          staffId //staff Id
+        );
+        return response;
+      }
+    },
+    queryKey: ["getStaffDailyLog", dateRange?.to, staffId, modalOpen],
   });
 
   // change date range
@@ -58,12 +81,39 @@ const useTeamMemberList = () => {
   const changePageNum = (pgNum: number) => {
     setPageNum(pgNum);
   };
-
+  const openStaffLogModal = (staffId: string) => {
+    setModalOpen(true);
+    setStaffId(staffId);
+  };
+  const changeStaffLog = () => {
+    setModalOpen(false);
+    setStaffId("");
+  };
   // Serial number in table
   const SerialNumberCell = ({ row, pageNumber, perPage }: any) => {
     const rowIndex = row.index;
     const serialNumber = (pageNumber - 1) * perPage + rowIndex + 1;
     return <div className="text-color">{serialNumber}.</div>;
+  };
+
+  const projectBg = (status: string) => {
+    switch (status) {
+      case "In Progress":
+        return "bg-blue-50 border-blue-500 text-blue-700";
+        break;
+      case "Client Support":
+        return "bg-orange-50 border-orange-500 text-orange-700";
+        break;
+      case "Closed":
+        return "bg-green-50 border-green-500 text-green-700";
+        break;
+      case "On Hold":
+        return "bg-red-50 border-red-500 text-red-700";
+        break;
+      case "Deleted":
+        return "bg-zinc-100 border-zinc-500 text-zinc-700";
+        break;
+    }
   };
 
   // Work-load chart
@@ -126,15 +176,8 @@ const useTeamMemberList = () => {
             ? row?.original?.projects?.map((project) => (
                 <div
                   className={cn(
-                    project?.status === "In Progress" &&
-                      "bg-blue-50 border-blue-500 text-blue-700",
-                    project?.status === "Client Support" &&
-                      "bg-orange-50 border-orange-500 text-orange-700",
-                    project?.status === "Closed" &&
-                      "bg-green-50 border-green-500 text-green-700",
-                    project?.status === "On Hold" &&
-                      "bg-red-50 border-red-500 text-red-700",
-                    "py-0.5 px-3 border rounded-full relative"
+                    projectBg(project?.status),
+                    "py-0.5 px-5 border rounded-full relative"
                   )}
                   key={project?.id}
                 >
@@ -214,7 +257,7 @@ const useTeamMemberList = () => {
           row?.getValue("available_time")
         );
         return (
-          <div className="whitespace-nowrap">
+          <div className="font-medium whitespace-nowrap">
             {hours > 1 && hours + "H"} {minutes}M
           </div>
         );
@@ -234,7 +277,10 @@ const useTeamMemberList = () => {
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("used_time"));
         return (
-          <div className="whitespace-nowrap">
+          <div
+            className="font-medium cursor-pointer whitespace-nowrap text-primary"
+            onClick={() => openStaffLogModal(row?.original?.username)}
+          >
             {hours > 1 && hours + "H"} {minutes}M
           </div>
         );
@@ -270,6 +316,15 @@ const useTeamMemberList = () => {
     // Data
     teamMemberList,
     isLoading,
+    staffDailyLog,
+    staffDailyLogLoading,
+
+    setStaffId,
+    staffId,
+    modalOpen,
+    changeStaffLog,
+    setDepartment,
+    department,
   };
 };
 

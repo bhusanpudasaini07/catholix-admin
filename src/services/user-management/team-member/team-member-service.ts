@@ -6,11 +6,12 @@ const getTeamMembersList = (
   pageNum: number,
   keyword?: string,
   date_from?: string,
-  date_to?: string
+  date_to?: string,
+  department?: string
 ) => {
-  if (keyword || date_to) {
+  if (keyword || date_to || department) {
     return httpRequest(
-      `/all-staffs-project-usage-report?dataperpage=${perPage}&pg=${pageNum}&keyword=${keyword}&date_from=${date_from}&date_to=${date_to}`,
+      `/all-staffs-project-usage-report?dataperpage=${perPage}&pg=${pageNum}&keyword=${keyword}&date_from=${date_from}&date_to=${date_to}&department=${department}`,
       httpMethods.GET
     );
   } else {

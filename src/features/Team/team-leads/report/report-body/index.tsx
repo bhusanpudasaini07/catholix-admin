@@ -1,11 +1,11 @@
-import { EChartsInstance } from 'echarts-for-react';
-import React from 'react';
+import { EChartsInstance } from "echarts-for-react";
+import React from "react";
 
-import { ILeadDetail } from '@/interface/team-leads-interface';
-import { ColumnDef } from '@tanstack/react-table';
+import { ILeadDetail } from "@/interface/team-leads-interface";
+import { ColumnDef } from "@tanstack/react-table";
 
-import ReportOverall from './report-overall';
-import ReportSummaryTable from './report-table';
+import ReportOverall from "./report-overall";
+import ReportSummaryTable from "./report-table";
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];
@@ -20,6 +20,7 @@ interface IProps {
   leadDetail: ILeadDetail | undefined;
   rpChartRef: EChartsInstance;
   countryChartRef: EChartsInstance;
+  leadId: string;
 }
 
 const ReportSummaryBody = ({
@@ -32,9 +33,9 @@ const ReportSummaryBody = ({
   rpOptions,
   countryOptions,
   staffRPLoading,
-  leadDetail,
   rpChartRef,
   countryChartRef,
+  leadId,
 }: IProps) => {
   return (
     <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
@@ -52,8 +53,8 @@ const ReportSummaryBody = ({
           data={data}
           loading={loading}
           staffRPLoading={staffRPLoading}
-          leadDetail={leadDetail}
           rpChartRef={rpChartRef}
+          leadId={leadId}
           countryChartRef={countryChartRef}
         />
       </div>

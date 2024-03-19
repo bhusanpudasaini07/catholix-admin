@@ -1,16 +1,23 @@
-import { EChartsInstance } from 'echarts-for-react';
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery, useQueryClient } from 'react-query';
+import { EChartsInstance } from "echarts-for-react";
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery, useQueryClient } from "react-query";
 
-import { ILeadDetail, ILeadReportSummary, IStaffRPReport } from '@/interface/team-leads-interface';
-import { getLeadsList, getStaffRpSummary } from '@/services/lead-report/lead-report-service';
-import { getTeamLeadRPSummary } from '@/services/teams/report-service';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { cn } from '@/shared/utils/utils';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  ILeadDetail,
+  ILeadReportSummary,
+  IStaffRPReport,
+} from "@/interface/team-leads-interface";
+import {
+  getLeadsList,
+  getStaffRpSummary,
+} from "@/services/lead-report/lead-report-service";
+import { getTeamLeadRPSummary } from "@/services/teams/report-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useReport = () => {
   const router = useRouter();
@@ -19,6 +26,7 @@ const useReport = () => {
   const countryChartRef = useRef<EChartsInstance>(null);
 
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
+  const [leadId, setLeadId] = useState<string>("");
   const [leadDetail, setLeadDetail] = useState<ILeadDetail>();
   const [countryProjectData, setCountryProjectData] = useState([]);
 
@@ -77,6 +85,11 @@ const useReport = () => {
         dateRange?.to,
       ],
     });
+
+  const changeLeadData = (data: any) => {
+    router.push(`?id=${data?.username}`);
+    setLeadId(data?.username);
+  };
 
   /**
    * In order to group the number of projects country wise
@@ -169,7 +182,7 @@ const useReport = () => {
               "text-primary",
             "font-semibold cursor-pointer hover:text-primary"
           )}
-          onClick={() => router.push(`?id=${row?.original?.username}`)}
+          onClick={() => changeLeadData(row?.original)}
         >
           {row.getValue("fullname")}
         </div>
@@ -327,6 +340,7 @@ const useReport = () => {
         (lead) => lead?.username === router?.query?.id
       );
       setLeadDetail(detail);
+      setLeadId(detail?.id!);
     }
   }, [router?.query?.id, setLeadDetail, leadReportSummary]);
 
@@ -447,6 +461,7 @@ const useReport = () => {
     leadDetail,
     rpChartRef,
     countryChartRef,
+    leadId,
   };
 };
 

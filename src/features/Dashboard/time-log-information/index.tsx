@@ -34,7 +34,7 @@ const TimeLogInformation = () => {
                   key={item?.id}
                   className="px-6 py-4 border rounded border-zinc-100 h-[120px] flex items-center"
                 >
-                  <div className="flex items-start gap-2">
+                  <div className="flex items-start gap-4">
                     {item?.icon}
                     <div>
                       <p className="text-2xl font-semibold leading-10 text-zinc-700">

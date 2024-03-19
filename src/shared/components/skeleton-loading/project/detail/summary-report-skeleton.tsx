@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { Skeleton } from '@/shared/components/ui/skeleton';
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 const SummaryReportSkeleton = () => {
   return (
@@ -60,6 +60,7 @@ const SummaryReportSkeleton = () => {
                     <div className="relative">
                       <Skeleton className="size-[150px] bg-white  rounded-full m-auto" />
                       <Skeleton className="size-[120px] absolute top-[10%] left-[10%] rounded-full m-auto" />
+                      <Skeleton className="size-[80px] bg-white absolute top-[24%] left-[24%] rounded-full m-auto" />
                     </div>
                   </div>
                 </div>

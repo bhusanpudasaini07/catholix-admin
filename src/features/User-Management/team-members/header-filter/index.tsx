@@ -1,15 +1,10 @@
-import useTeamMemberList from "@/hooks/user-management/team-member-list/useTeamMemberList.hook";
-import DateRangeFilter from "@/shared/components/date-range-filter";
-import FilterSearch from "@/shared/components/filter-search";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
 import React from "react";
 import { DateRange } from "react-day-picker";
+
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import FilterSearch from "@/shared/components/filter-search";
+import { ComboBox } from "@/shared/components/ui/combobox";
+import { useCommonStore } from "@/store/common-store";
 
 interface IProps {
   setDateRangeOpen: (arg: boolean) => void;
@@ -17,6 +12,13 @@ interface IProps {
   dateRange: DateRange | undefined;
   dateChangeHandler: (arg: DateRange) => void;
   setSearchText: (arg: string) => void;
+  setDepartment: (arg: string) => void;
+  department: string;
+}
+
+interface IConfigProps {
+  title: string;
+  id: string;
 }
 
 const ListCardFilter = ({
@@ -25,22 +27,33 @@ const ListCardFilter = ({
   dateRange,
   dateChangeHandler,
   setSearchText,
+  setDepartment,
+  department,
 }: IProps) => {
-  const {} = useTeamMemberList();
+  const { filterConfig } = useCommonStore();
+
+  const departmentData = [
+    { title: "All Departments", value: "all" },
+    ...(filterConfig?.departments?.map(({ title, id }: IConfigProps) => ({
+      title,
+      value: id,
+    })) || []),
+  ];
+
   return (
     <div className="flex items-center justify-between mb-10">
       <p className="text-lg font-medium text-zinc-700">Team Member</p>
       <div className="flex items-center justify-end gap-4 grow">
         <FilterSearch className="h-10" setSearchText={setSearchText} />
 
-        <Select defaultValue="all">
-          <SelectTrigger className=" h-auto max-w-[250px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Department</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="w-[270px]">
+          <ComboBox
+            selectables={departmentData}
+            value={department}
+            setValue={setDepartment}
+            module="Department"
+          />
+        </div>
 
         <DateRangeFilter
           dateRange={dateRange}
@@ -48,6 +61,7 @@ const ListCardFilter = ({
           dateRangeOpen={dateRangeOpen}
           setDateRangeOpen={setDateRangeOpen}
           buttonClassName="max-w-[250px]"
+          disabled
         />
       </div>
     </div>

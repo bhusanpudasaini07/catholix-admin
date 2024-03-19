@@ -5,6 +5,7 @@ import { FC, useMemo, useState } from "react";
 import { useQuery } from "react-query";
 
 import {
+  IMembersLog,
   IRpStaffSummaryProps,
   IStaff,
 } from "@/interface/team-lead-report-interface";
@@ -95,7 +96,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   );
 
   const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
-    useQuery<any>(
+    useQuery<IMembersLog>(
       ["getStaffDailyLog", dateRange?.to, dateRange?.from, staffId, modalOpen],
       async () => {
         if (staffId) {

@@ -177,7 +177,7 @@ const useTeamMemberList = () => {
                 <div
                   className={cn(
                     projectBg(project?.status),
-                    "py-0.5 px-3 border rounded-full relative"
+                    "py-0.5 px-5 border rounded-full relative"
                   )}
                   key={project?.id}
                 >

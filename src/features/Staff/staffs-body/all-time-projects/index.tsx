@@ -48,6 +48,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
   allTimeProjectLoading,
 }) => {
   const [role, setRole] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
   const [searchText, setSearchText] = useState("");
   const [selectedMarkets, setSelectedMarkets] = useState<string[]>([]);
   const { filterConfig } = useCommonStore();
@@ -68,6 +69,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
     );
   };
 
+  // Update the filteredAllTimeProjectData useMemo hook
   const filteredAllTimeProjectData = useMemo(() => {
     let filteredData = allTimeProjectData;
 
@@ -89,8 +91,14 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       );
     }
 
+    if (status && status !== "all") {
+      filteredData = filteredData?.filter(
+        (staff) => staff?.status?.toLowerCase() === status?.toLowerCase()
+      );
+    }
+
     return filteredData;
-  }, [allTimeProjectData, searchText, role, selectedMarkets]);
+  }, [allTimeProjectData, searchText, role, selectedMarkets, status]);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -300,26 +308,6 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
     },
   ];
 
-  const handleDownloadSubFeature = () => {
-    const mappedData = filteredAllTimeProjectData?.map((item, index) => ({
-      "S.N": index + 1,
-      Project: item?.name,
-      "Project Type": item?.source,
-      Role: item?.role,
-      "Spent Budget": item?.spent_rp,
-      "Spent Budget (Client)": item?.spent_client_rp,
-      "Loss Budget": item?.loss_rp,
-      "% Budget": item?.rp_percentage,
-      "% Budget Client": item?.client_rp_percentage,
-      "Total Time": item?.total_time,
-      "Spent Time": item?.spent_time,
-      "% Time": item?.time_percentage,
-      "% Time(Client)": item?.client_time_percentage,
-    }));
-
-    DownloadExcel(mappedData, `MEMBER_ALL_PROJECT`);
-  };
-
   return (
     <Card>
       <CardContent>
@@ -347,13 +335,25 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
                 ))}
               </SelectContent>
             </Select>
-            <Button
-              size="sm"
-              onClick={handleDownloadSubFeature}
-              variant="success"
-            >
-              <DownloadCloud size={16} />
-            </Button>
+            <Select onValueChange={setStatus}>
+              <SelectTrigger className="min-w-[160px]">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px] overflow-auto">
+                <SelectItem key="all" value="all">
+                  All Status
+                </SelectItem>
+                <SelectItem key="in_progress" value="in progress">
+                  In Progress
+                </SelectItem>
+                <SelectItem key="closed" value="closed">
+                  Closed
+                </SelectItem>
+                <SelectItem key="client_support" value="client support">
+                  Client Support
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className="flex flex-wrap items-center justify-start gap-1 mb-3">

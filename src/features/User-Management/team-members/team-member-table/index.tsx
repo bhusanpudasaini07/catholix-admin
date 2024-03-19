@@ -1,6 +1,9 @@
+import MemberTimeLogModal from "@/features/Team/team-leads/lead-report/lead-body/member-wise-log-table/member-timelog-modal";
+import { IMembersLog } from "@/interface/team-lead-report-interface";
 import { ITeamMemberDetails } from "@/interface/team-member-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
+import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
@@ -13,6 +16,11 @@ interface IProps {
   perPage: number;
   setPerPage: (arg: number) => void;
   changePageNum: (arg: number) => void;
+  modalOpen: boolean;
+  changeStaffLog: () => void;
+  staffDailyLog: IMembersLog;
+  staffDailyLogLoading: boolean;
+  staffId: string;
 }
 
 const TeamMemberTable = ({
@@ -24,6 +32,11 @@ const TeamMemberTable = ({
   perPage,
   setPerPage,
   changePageNum,
+  modalOpen,
+  changeStaffLog,
+  staffDailyLog,
+  staffDailyLogLoading,
+  staffId,
 }: IProps) => {
   return (
     <>
@@ -43,6 +56,16 @@ const TeamMemberTable = ({
         currentPage={currentPage}
         pageChange={changePageNum}
       />
+
+      {/* Member Daily Log */}
+      <Dialog onOpenChange={changeStaffLog} open={modalOpen} key={staffId}>
+        <DialogContent className="min-w-[800px]">
+          <MemberTimeLogModal
+            staffDailyLog={staffDailyLog}
+            staffDailyLogLoading={staffDailyLogLoading}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

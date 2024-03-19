@@ -91,3 +91,24 @@ export interface IRpStaffSummaryProps {
   staffRpSummaryData: any;
   staffDataLoading: boolean;
 }
+
+export interface IMembersLogData {
+  date: string;
+  used_rp: string;
+  loss_rp: string;
+  used_time: string;
+  task: IMemberLogTaskData[];
+}
+export interface IMemberLogTaskData {
+  time: string;
+  rp: string;
+  task_url: string;
+  task_title: string;
+  project_title: string;
+  project_id: string;
+  project_code: string;
+}
+
+export interface IMembersLog {
+  data: IMembersLogData;
+}

@@ -173,7 +173,9 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
               variant={"white"}
               onClick={() =>
                 router?.push(
-                  `/team-leads/lead-report/project-rp-consumption?lead_id=${router?.query?.lead_id}`
+                  `/team-leads/lead-report/project-rp-consumption?lead_id=${
+                    router?.query?.lead_id ? router?.query?.lead_id : "all"
+                  }`
                 )
               }
               size={"sm"}

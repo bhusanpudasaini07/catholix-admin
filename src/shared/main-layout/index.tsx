@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./header";
 import SidebarNew from "./sidebar-new";
 import SidebarSheet from "./sidebar-sheet";
+import { cn } from "../utils/utils";
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   children,
@@ -41,10 +42,10 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           />
 
           <SidebarSheet openSheet={openSheet} setOpenSheet={setOpenSheet} />
-          <div className="flex-grow ">
+          <div className={cn("grow")}>
             {/* Give css according to header and sidebar  */}
             <div
-              className={`bg-slate-50 h-[calc(100vh-180px)] lg:h-[calc(100vh-56px)] max-w-[100vw] ${bodyWidth} overflow-y-scroll`}
+              className={`bg-slate-50 max-w-[100vw] h-screen ${bodyWidth} overflow-y-scroll`}
             >
               {children}
             </div>

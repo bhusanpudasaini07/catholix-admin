@@ -1,32 +1,36 @@
-import { Plus, X } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
+import { Plus, X } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
 
-import ProjectFilters from '@/features/Projects/filters';
-import NewProject from '@/features/Projects/new-project';
-import ProfitLossCard from '@/features/Projects/profit-loss-card';
-import useProjectFilter from '@/hooks/project/overall-filters/useProjectFilter.hook';
-import useProjectListing from '@/hooks/project/useProjectListing.hook';
-import { IProjectDetail } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { DataTablePagination } from '@/shared/components/data-table/data-table-pagination';
+import ProjectFilters from "@/features/Projects/filters";
+import NewProject from "@/features/Projects/new-project";
+import ProfitLossCard from "@/features/Projects/profit-loss-card";
+import useProjectFilter from "@/hooks/project/overall-filters/useProjectFilter.hook";
+import useProjectListing from "@/hooks/project/useProjectListing.hook";
+import { IProjectDetail } from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 // CUSTOM
-import FilterSearch from '@/shared/components/filter-search';
-import NotFoundLottie from '@/shared/components/not-found';
-import ProjectProfitViewSkeleton from '@/shared/components/skeleton-loading/project/project-profit-view-skeleton';
-import ProjectTableSkeleton from '@/shared/components/skeleton-loading/project/project-table-skeleton';
+import FilterSearch from "@/shared/components/filter-search";
+import NotFoundLottie from "@/shared/components/not-found";
+import ProjectProfitViewSkeleton from "@/shared/components/skeleton-loading/project/project-profit-view-skeleton";
+import ProjectTableSkeleton from "@/shared/components/skeleton-loading/project/project-table-skeleton";
 // UI
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { Dialog, DialogContent, DialogHeader } from '@/shared/components/ui/dialog';
-import { Tabs, TabsContent } from '@/shared/components/ui/tabs';
-import MainLayout from '@/shared/main-layout';
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+} from "@/shared/components/ui/dialog";
+import { Tabs, TabsContent } from "@/shared/components/ui/tabs";
+import MainLayout from "@/shared/main-layout";
 //language translator props
-import { getI18nProps } from '@/shared/utils/i18n-utils/i18n.util';
-import { useCommonStore } from '@/store/common-store';
+import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
+import { useCommonStore } from "@/store/common-store";
 
 // ROOT
-import { NextPageWithLayout } from '../_app';
+import { NextPageWithLayout } from "../_app";
 
 const Projects: NextPageWithLayout = () => {
   const { filterSaved } = useCommonStore();
@@ -157,7 +161,7 @@ const Projects: NextPageWithLayout = () => {
               <ProjectTableSkeleton />
             ) : (
               <DataTable
-                height="max-h-[70vh]"
+                height="max-h-[620px]"
                 columns={columns}
                 headerSticky={true}
                 data={projectList?.data ?? []}
@@ -169,7 +173,7 @@ const Projects: NextPageWithLayout = () => {
             {isLoading ? (
               <ProjectProfitViewSkeleton num={12} />
             ) : projectList?.data?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 mw1024:grid-cols-3 xl:grid-cols-4 max-h-[70vh] overflow-auto">
+              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 mw1024:grid-cols-3 xl:grid-cols-4 max-h-[620px] overflow-auto">
                 {projectList?.data?.map((project: IProjectDetail) => (
                   <ProfitLossCard key={project?.project_id} data={project} />
                 ))}

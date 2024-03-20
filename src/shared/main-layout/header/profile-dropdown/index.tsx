@@ -63,9 +63,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         </Avatar>
         {IsExpanded ? (
           <div className="">
-            <p className={`text-sm text-zinc-700`}>
-              {profileData?.fullname}zxc
-            </p>
+            <p className={`text-sm text-zinc-700`}>{profileData?.fullname}</p>
             <p className={`text-start text-xs text-zinc-500`}>{version}</p>
           </div>
         ) : (

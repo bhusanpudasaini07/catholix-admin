@@ -9,11 +9,14 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import Image from "next/image";
+import { useCommonStore } from "@/store/common-store";
 
 const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
   staffDataLoading,
 }) => {
+  const { filterConfig } = useCommonStore();
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
     (total: number, project: IProject) => total + parseFloat(project?.total_rp),
     0
@@ -123,18 +126,30 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => (
-        <div className="font-semibold  text-zinc-700">
-          {row?.getValue("country")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const flag = filterConfig?.markets?.find(
+          (item: any) => item?.title === row?.original?.country
+        )?.flag;
+        return (
+          <div className="flex items-center gap-3 font-medium text-zinc-700">
+            <Image
+              src={flag}
+              height={16}
+              width={16}
+              style={{ objectFit: "contain" }}
+              alt="Flag"
+            />
+            <p>{row?.getValue("country")}</p>
+          </div>
+        );
+      },
     },
     {
       id: "totalRP",
       accessorKey: "totalRP",
       header: "Budget",
       cell: ({ row }) => (
-        <div className="font-semibold  text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {changeNumberFormat(Number(row?.original?.totalRP))}
         </div>
       ),
@@ -145,7 +160,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="font-semibold  text-zinc-700">
+        <div className="font-semibold text-zinc-700">
           {row?.getValue("percentage")}%
         </div>
       ),

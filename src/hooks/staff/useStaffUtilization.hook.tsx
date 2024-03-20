@@ -1,14 +1,17 @@
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { IStaffUtilization, IStaffUtilizationTable } from '@/interface/staff-interface';
-import { getStaffUtilization } from '@/services/staff/staff-service';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { cn } from '@/shared/utils/utils';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  IStaffUtilization,
+  IStaffUtilizationTable,
+} from "@/interface/staff-interface";
+import { getStaffUtilization } from "@/services/staff/staff-service";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useStaffUtilization = () => {
   const {
@@ -60,14 +63,15 @@ const useStaffUtilization = () => {
       },
       queryKey: ["staffDailyRp", username, date?.to],
       onSuccess: (res) => {
-        const tableArray: any = Object?.entries(res?.data)?.map(
-          ([key, value]) => {
-            return {
-              date: key,
-              ...value,
-            };
-          }
-        );
+        const tableArray: any =
+          res && res?.data !== null
+            ? Object?.entries(res?.data)?.map(([key, value]) => {
+                return {
+                  date: key,
+                  ...value,
+                };
+              })
+            : [];
         setDailyRpData(tableArray);
       },
     });

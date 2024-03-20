@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import useProjecetEstimation from '@/hooks/project/detail/useProjectEstimation.hook';
-import RPEstimationSkeleton from '@/shared/components/skeleton-loading/project/rp-estimation-skeleton';
+import useProjecetEstimation from "@/hooks/project/detail/useProjectEstimation.hook";
+import RPEstimationSkeleton from "@/shared/components/skeleton-loading/project/rp-estimation-skeleton";
 
-import EstimationHeader from './estimation-header';
-import EstimationTable from './estimation-table';
+import EstimationHeader from "./estimation-header";
+import EstimationTable from "./estimation-table";
 
 const RpEstimationContent = () => {
   const { estimationData, estimationDataLoading, columns } =
@@ -17,7 +17,7 @@ const RpEstimationContent = () => {
         estimationData={estimationData}
         estimation_total_data={estimationData?.data?.estimation?.length ?? 0}
       />
-      <div className="p-6 max-h-[calc(100vh-175px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-120px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           {estimationDataLoading ? (
             <RPEstimationSkeleton />

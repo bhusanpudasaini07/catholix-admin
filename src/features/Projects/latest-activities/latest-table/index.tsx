@@ -1,13 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import useLatestActivities from '@/hooks/project/detail/useLatestActivities.hook';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { DataTablePagination } from '@/shared/components/data-table/data-table-pagination';
-import DateRangeFilter from '@/shared/components/date-range-filter';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import useLatestActivities from "@/hooks/project/detail/useLatestActivities.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 const LatestActivityTable = () => {
   const {
@@ -62,18 +66,18 @@ const LatestActivityTable = () => {
             border={true}
             loading={isLoading}
             headerSticky={true}
-            height="max-h-[55vh]"
+            height="max-h-[62vh]"
             data={latestActivities?.data ?? []}
+          />
+          <DataTablePagination
+            currentPage={latestActivities?.pagination?.page!}
+            totalPages={latestActivities?.pagination?.total_page!}
+            pageChange={handlePageChange}
+            perPage={perPage}
+            setPerPage={setPerPage}
           />
         </CardContent>
       </Card>
-      <DataTablePagination
-        currentPage={latestActivities?.pagination?.page!}
-        totalPages={latestActivities?.pagination?.total_page!}
-        pageChange={handlePageChange}
-        perPage={perPage}
-        setPerPage={setPerPage}
-      />
     </>
   );
 };

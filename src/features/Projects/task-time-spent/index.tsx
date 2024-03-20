@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
-import useTaskTimeSpent from '@/hooks/project/detail/useTaskTimeSpent.hook';
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
+import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
 
-import TaskTimeSpentHeader from './task-time-header';
-import TaskTimeLogs from './task-time-logs';
-import TaskTimeTable from './task-time-table';
-import TopTimeConsumed from './top-time-consumed';
+import TaskTimeSpentHeader from "./task-time-header";
+import TaskTimeLogs from "./task-time-logs";
+import TaskTimeTable from "./task-time-table";
+import TopTimeConsumed from "./top-time-consumed";
 
 const TaskTimeSpentContent = () => {
   const { projectDetail } = useProjectDetail();
@@ -22,7 +22,7 @@ const TaskTimeSpentContent = () => {
   return (
     <>
       <TaskTimeSpentHeader name={projectDetail?.data?.project_title!} />
-      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           <TaskTimeLogs
             time={projectDetail?.data?.time?.estimated_time ?? "0"}

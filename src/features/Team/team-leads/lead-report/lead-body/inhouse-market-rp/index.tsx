@@ -11,11 +11,14 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { useCommonStore } from "@/store/common-store";
+import Image from "next/image";
 
 const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
   staffDataLoading,
 }) => {
+  const { filterConfig } = useCommonStore();
+
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
     (total: number, project: IProject) => total + parseFloat(project?.total_rp),
     0
@@ -121,11 +124,23 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       id: "country",
       accessorKey: "country",
       header: "Country",
-      cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">
-          {row?.getValue("country")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const flag = filterConfig?.markets?.find(
+          (item: any) => item?.title === row?.original?.country
+        )?.flag;
+        return (
+          <div className="flex items-center gap-3 font-medium text-zinc-700">
+            <Image
+              src={flag}
+              height={16}
+              width={16}
+              style={{ objectFit: "contain" }}
+              alt="Flag"
+            />
+            <p>{row?.getValue("country")}</p>
+          </div>
+        );
+      },
     },
     {
       id: "totalRP",

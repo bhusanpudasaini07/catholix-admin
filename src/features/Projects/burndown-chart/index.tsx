@@ -1,12 +1,12 @@
-import { ChevronLeft } from 'lucide-react';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { ChevronLeft } from "lucide-react";
+import { useRouter } from "next/router";
+import React from "react";
 
-import useRPBurndown from '@/hooks/project/detail/useRPBurndown.hook';
-import { Button } from '@/shared/components/ui/button';
+import useRPBurndown from "@/hooks/project/detail/useRPBurndown.hook";
+import { Button } from "@/shared/components/ui/button";
 
-import ChartCard from './chart-card';
-import ConsumptionListTable from './consumption-list-table';
+import ChartCard from "./chart-card";
+import ConsumptionListTable from "./consumption-list-table";
 
 const BurndownContent = () => {
   const router = useRouter();
@@ -44,7 +44,7 @@ const BurndownContent = () => {
         </div>
       </div>
 
-      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           <ChartCard option={burndownOption} />
           <ConsumptionListTable

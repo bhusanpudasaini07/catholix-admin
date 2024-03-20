@@ -1,7 +1,16 @@
-import { User2, UserCircle, UserCircle2, UserPlus, Users, Users2, Warehouse } from 'lucide-react';
-import React, { FC } from 'react';
+import {
+  User2,
+  UserCircle,
+  UserCircle2,
+  UserPlus,
+  Users,
+  Users2,
+  Warehouse,
+} from "lucide-react";
+import React, { FC } from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   in_house?: string;
@@ -24,7 +33,7 @@ const OtherInfo: FC<IProps> = ({ in_house, client, staff }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-zinc-700">
-                {in_house ? in_house : "N/A"}
+                {in_house ? changeNumberFormat(Number(in_house)) : "N/A"}
               </p>
               <p className="text-sm text-zinc-600">In-House Project Budget</p>
             </div>
@@ -35,7 +44,7 @@ const OtherInfo: FC<IProps> = ({ in_house, client, staff }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-zinc-700">
-                {client ? client : "N/A"}
+                {client ? changeNumberFormat(Number(client)) : "N/A"}
               </p>
               <p className="text-sm font-normal text-zinc-600">
                 Client&apos;s Project Budget

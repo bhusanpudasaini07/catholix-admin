@@ -1,11 +1,12 @@
-import ReactECharts from 'echarts-for-react';
-import React, { FC } from 'react';
+import ReactECharts from "echarts-for-react";
+import React, { FC } from "react";
 
-import useLeadReport from '@/hooks/team/team-leads/useLeadReport.hook';
-import { IRpStaffSummaryProps } from '@/interface/team-lead-report-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { ColumnDef } from '@tanstack/react-table';
+import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
@@ -116,7 +117,9 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       accessorKey: "rp",
       header: "Budget",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700"> {row.getValue("rp")}</div>
+        <div className="font-semibold text-zinc-700">
+          {changeNumberFormat(Number(row?.original?.rp))}
+        </div>
       ),
       enableHiding: false,
     },

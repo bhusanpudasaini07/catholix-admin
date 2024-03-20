@@ -23,6 +23,7 @@ import { DownloadExcel } from "@/shared/utils/download/download.utils";
 import {
   calculateTimeLog,
   calculateUsedAndUnusedRpPercentage,
+  changeNumberFormat,
 } from "@/shared/utils/rp-utils";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
@@ -225,7 +226,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       header: "Spent Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
-          {row.getValue("overall_used_rp")}
+          {changeNumberFormat(Number(row?.original?.overall_used_rp))}
         </div>
       ),
       enableHiding: false,

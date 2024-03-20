@@ -50,6 +50,10 @@ import {
 import { Logo } from "@/shared/lib/image-config";
 
 import ProfileDropdown from "../header/profile-dropdown";
+import { useLoggedInStore } from "@/store/auth-store";
+import { useCommonStore } from "@/store/common-store";
+import { useQuery } from "react-query";
+import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -63,6 +67,24 @@ const SidebarNew = ({
   setIsExpanded,
 }: ISidebarProps) => {
   const router = useRouter();
+  const { isLoggedIn } = useLoggedInStore();
+  const { setProfile, setFilterConfig } = useCommonStore();
+
+  useQuery(["profile"], getProfile, {
+    enabled: !!isLoggedIn,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setProfile(data?.data);
+    },
+  });
+
+  useQuery(["config"], getConfig, {
+    enabled: !!isLoggedIn,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setFilterConfig(data?.data);
+    },
+  });
 
   const { t } = useTranslation("common");
 

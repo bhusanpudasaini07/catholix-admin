@@ -9,6 +9,10 @@ import TrendModalSkeleton from "@/shared/components/skeleton-loading/lead-report
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
+import {
+  IMemberLogTaskData,
+  IMembersLogData,
+} from "@/interface/team-lead-report-interface";
 
 interface IProps {
   staffDailyLog: any;
@@ -22,7 +26,7 @@ const MemberTimeLogModal: FC<IProps> = ({
   staffDailyLog,
   staffDailyLogLoading,
 }) => {
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<IMemberLogTaskData>[] = [
     {
       id: "time",
       accessorKey: "time",
@@ -84,8 +88,8 @@ const MemberTimeLogModal: FC<IProps> = ({
   return (
     <div className="flex flex-col max-h-[700px] overflow-auto">
       {staffDailyLogLoading && <TrendModalSkeleton />}
-      {staffDailyLog?.data?.map((daily: any) => (
-        <div className="mb-4" key={daily.index}>
+      {staffDailyLog?.data?.map((daily: any, index: number) => (
+        <div className="mb-4" key={index}>
           <Card className="h-[200px] mb-2">
             <CardContent>
               <div className="flex items-center justify-start gap-3 mb-4">

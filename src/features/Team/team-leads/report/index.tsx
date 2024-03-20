@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import useReport from '@/hooks/team/team-leads/useReport.hook';
+import useReport from "@/hooks/team/team-leads/useReport.hook";
 
-import ReportSummaryBody from './report-body';
-import ReportSummaryHeader from './report-header';
+import ReportSummaryBody from "./report-body";
+import ReportSummaryHeader from "./report-header";
 
 const ReportSummaryContent = () => {
   const {
@@ -23,6 +23,7 @@ const ReportSummaryContent = () => {
     leadDetail,
     rpChartRef,
     countryChartRef,
+    leadId,
   } = useReport();
   return (
     <>
@@ -45,6 +46,7 @@ const ReportSummaryContent = () => {
         countryOptions={countryOptions}
         staffRPLoading={staffRPLoading}
         leadDetail={leadDetail}
+        leadId={leadId}
       />
     </>
   );

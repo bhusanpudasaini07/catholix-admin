@@ -21,6 +21,13 @@ const TeamMembersTable = () => {
     dateRange,
     dateChangeHandler,
     setSearchText,
+    modalOpen,
+    staffId,
+    changeStaffLog,
+    staffDailyLog,
+    staffDailyLogLoading,
+    setDepartment,
+    department,
   } = useTeamMemberList();
   return (
     <Card>
@@ -31,6 +38,8 @@ const TeamMembersTable = () => {
           dateRange={dateRange}
           dateChangeHandler={dateChangeHandler}
           setSearchText={setSearchText}
+          setDepartment={setDepartment}
+          department={department}
         />
 
         <TeamMemberTable
@@ -42,6 +51,11 @@ const TeamMembersTable = () => {
           perPage={perPage}
           setPerPage={setPerPage}
           changePageNum={changePageNum}
+          modalOpen={modalOpen}
+          changeStaffLog={changeStaffLog}
+          staffDailyLog={staffDailyLog}
+          staffDailyLogLoading={staffDailyLogLoading}
+          staffId={staffId}
         />
       </CardContent>
     </Card>

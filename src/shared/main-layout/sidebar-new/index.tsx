@@ -1,21 +1,25 @@
-// Icons
 import {
+  ArrowLeftFromLine,
   Calculator,
   Clock,
   File,
   Folder,
+  FolderOpen,
   Gitlab,
   LayoutGrid,
+  Search,
   User,
   User2,
   UserCog,
   Users,
 } from "lucide-react";
 import { useTranslation } from "next-i18next";
-//Next
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
+import FilterSearch from "@/shared/components/filter-search";
 import {
   Accordion,
   AccordionContent,
@@ -24,26 +28,40 @@ import {
 } from "@/shared/components/ui/accordion";
 import { Button } from "@/shared/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/components/ui/dialog";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-// UI Components
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
+import { Logo } from "@/shared/lib/image-config";
+
+import ProfileDropdown from "../header/profile-dropdown";
 
 interface ISidebarProps {
   sidebarWidth: string;
   isExpanded: boolean;
+  setIsExpanded: any;
 }
 
-const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
+const SidebarNew = ({
+  sidebarWidth,
+  isExpanded,
+  setIsExpanded,
+}: ISidebarProps) => {
   const router = useRouter();
 
   const { t } = useTranslation("common");
@@ -210,8 +228,102 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
         width: sidebarWidth,
         maxWidth: sidebarWidth,
       }}
-      className={`bg-light-white sidebar py-10 border-r border-r-slate-100 max-h-[calc(100vh-56px)] overflow-y-auto hidden xl:block`}
+      className={`bg-light-white sidebar ${
+        isExpanded ? "pt-[90px] pb-12" : "pt-[150px] pb-[88px]"
+      } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
+      <div
+        style={{
+          minWidth: sidebarWidth,
+          width: sidebarWidth,
+          maxWidth: sidebarWidth,
+        }}
+        className="fixed bg-white z-10 top-0 border-r border-r-slate-100 border-b border-b-slate-100"
+      >
+        <div
+          className={` pt-4  w-full  ${
+            isExpanded ? "flex items-center justify-between ps-7 pe-2" : ""
+          }`}
+        >
+          <Link
+            href={"/"}
+            className={`flex items-center justify-start shrink-0 rounded-md ${
+              isExpanded ? "" : "px-2 mb-4"
+            }`}
+            as={"image"}
+          >
+            <Image
+              src={Logo}
+              alt="Logo"
+              priority={true}
+              width={63}
+              height={30}
+              quality={100}
+              style={{ width: "auto", height: "auto" }}
+            />
+          </Link>
+          <button
+            title="menu"
+            className={`hidden xl:block focus:outline-none hover:bg-zinc-100 ${
+              isExpanded
+                ? "px-3 py-[0.25rem]"
+                : "px-[1.25rem] py-[0.75rem] rotate-180"
+            }`}
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            <ArrowLeftFromLine />
+          </button>
+        </div>
+        <div>
+          <Dialog>
+            <DialogTrigger className="w-full">
+              {isExpanded ? (
+                <div className="border border-zinc-200 rounded-md mx-6 mb-2 mt-4 p-2 flex justify-start items-center">
+                  <Search />
+                  <p className="text-sm text-zinc-300 ms-3">Search</p>
+                </div>
+              ) : (
+                <div
+                  className={`hidden xl:block focus:outline-none hover:bg-zinc-100 
+                    px-[1.25rem] py-[0.75rem]`}
+                >
+                  <Search />
+                </div>
+              )}
+            </DialogTrigger>
+            <DialogContent className="min-w-[625px] gap-0 p-0">
+              <DialogHeader className="p-6">
+                <DialogTitle>Global Search</DialogTitle>
+                <DialogDescription>
+                  Type to find Projects. Use UP/DOWN to browse, ENTER to select,
+                  ESC to dismiss.
+                </DialogDescription>
+                <FilterSearch
+                  className="!max-w-full !mt-4"
+                  setSearchText={() => ""}
+                />
+              </DialogHeader>
+              <div className="p-6 border-t border-zinc-200 text-zinc-500 text-sm font-medium">
+                <p className="">RECENT</p>
+                <ul className="max-h-80 overflow-auto">
+                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                    <FolderOpen />
+                    <p>Wonder</p>
+                  </li>
+                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                    <FolderOpen />
+                    <p>Wonder</p>
+                  </li>
+                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                    <FolderOpen />
+                    <p>Wonder</p>
+                  </li>
+                </ul>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
       <div className="flex flex-col gap-6">
         {menuItems?.map((item: any, index) => (
           <div
@@ -379,6 +491,18 @@ const SidebarNew = ({ sidebarWidth, isExpanded }: ISidebarProps) => {
             )}
           </div>
         ))}
+      </div>
+      <div
+        style={{
+          minWidth: sidebarWidth,
+          width: sidebarWidth,
+          maxWidth: sidebarWidth,
+        }}
+        className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-r-slate-100 border-t border-t-slate-100 ${
+          isExpanded ? "flex items-center justify-between px-7" : ""
+        }`}
+      >
+        <ProfileDropdown IsExpanded={isExpanded} />
       </div>
     </div>
   );

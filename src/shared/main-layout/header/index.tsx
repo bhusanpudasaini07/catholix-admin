@@ -87,7 +87,7 @@ const Header = ({
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}
           <p className="text-xs text-zinc-700">v {version}</p>
-          <ProfileDropdown />
+          <ProfileDropdown IsExpanded={isExpanded} />
           {/* <LanguageToggler /> */}
         </div>
       </div>

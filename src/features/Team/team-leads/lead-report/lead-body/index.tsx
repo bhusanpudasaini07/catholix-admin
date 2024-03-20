@@ -23,6 +23,7 @@ import TimeUtilization from "./lead-time-utilize";
 import MemberWiseLogTable from "./member-wise-log-table";
 import ProjectPerformanceDetail from "./project-performance-detail";
 import ProjectRpConsumptionTable from "./project-rp-consumption";
+import { cn } from "@/shared/utils/utils";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -145,8 +146,8 @@ const LeadReportBody = ({ dateRange }: any) => {
   }, [staffRpSummaryData]);
 
   return (
-    <div className="p-8">
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
+    <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
+      <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
         {!staffDataLoading ? (
           <RpUtilization
             clientRP={staffRpSummaryData?.data?.summary?.commercial_rp}
@@ -244,7 +245,7 @@ const LeadReportBody = ({ dateRange }: any) => {
           />
         </div>
       ) : (
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1 gap-4 mt-4 xl:grid-cols-2">
           <RoleCountryTable
             staffRpSummaryData={staffRpSummaryData}
             staffDataLoading={staffDataLoading}
@@ -270,7 +271,12 @@ const LeadReportBody = ({ dateRange }: any) => {
           staffDataLoading={staffDataLoading}
         />
       </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4 mt-4">
+      <div
+        className={cn(
+          currentPage && currentPage === "all" && "mb-4",
+          "grid grid-cols-1 gap-4 mt-4 xl:grid-cols-2"
+        )}
+      >
         <InHouseMarketRp
           staffRpSummaryData={staffRpSummaryData}
           staffDataLoading={staffDataLoading}

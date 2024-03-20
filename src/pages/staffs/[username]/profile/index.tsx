@@ -1,16 +1,16 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import React from 'react';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React from "react";
 
-import StaffContent from '@/features/Staff/profile/staff-content';
-import StaffHeader from '@/features/Staff/profile/staff-header';
-import { NextPageWithLayout } from '@/pages/_app';
-import MainLayout from '@/shared/main-layout';
+import StaffContent from "@/features/Staff/profile/staff-content";
+import StaffHeader from "@/features/Staff/profile/staff-header";
+import { NextPageWithLayout } from "@/pages/_app";
+import MainLayout from "@/shared/main-layout";
 
 const StaffProfile: NextPageWithLayout = () => {
   return (
     <>
       <StaffHeader />
-      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <StaffContent />
       </div>
     </>

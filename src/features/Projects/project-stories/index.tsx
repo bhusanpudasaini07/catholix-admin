@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import useProjectDetail from '@/hooks/project/detail/useProjectDetail.hook';
+import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 
-import ProjectStoriesHeader from './stories-header';
-import ProjectStoriesOverview from './stories-overview';
-import ProjectStoriesTable from './stories-table';
+import ProjectStoriesHeader from "./stories-header";
+import ProjectStoriesOverview from "./stories-overview";
+import ProjectStoriesTable from "./stories-table";
 
 const ProjectStoriesContent = () => {
   const { projectDetail, isLoading } = useProjectDetail();
@@ -14,7 +14,7 @@ const ProjectStoriesContent = () => {
         projectName={projectDetail?.data?.project_title ?? ""}
         loading={isLoading}
       />
-      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-6">
           <ProjectStoriesOverview
             task={{

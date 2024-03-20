@@ -128,7 +128,7 @@ const DetailOverview = () => {
         Number(projectDetail?.data?.rp?.approved_rp) +
           Number(projectDetail?.data?.rp?.unapproved_rp) ?? 0
       ),
-      color: "bg-orange-500",
+      color: "bg-yellow-400",
     },
   ];
 

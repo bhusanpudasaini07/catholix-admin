@@ -20,7 +20,7 @@ const TeamMembersList: NextPageWithLayout = () => {
       </div>
 
       {/* Body */}
-      <div className="p-6 max-h-[calc(100vh-170px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <TeamMembersTable />
       </div>
     </div>

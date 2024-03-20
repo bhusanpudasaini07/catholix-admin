@@ -1,19 +1,21 @@
-import ReactECharts from 'echarts-for-react';
-import { FC } from 'react';
+import ReactECharts from "echarts-for-react";
+import { FC } from "react";
 
 import {
-    ICountryInHouseTotalRP, IProject, IRpStaffSummaryProps
-} from '@/interface/team-lead-report-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { ColumnDef } from '@tanstack/react-table';
+  ICountryInHouseTotalRP,
+  IProject,
+  IRpStaffSummaryProps,
+} from "@/interface/team-lead-report-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { useCommonStore } from "@/store/common-store";
 
 const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
   staffDataLoading,
 }) => {
-  // const { countryInHouseTotalRP } = useLeadReport();
-
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
     (total: number, project: IProject) => total + parseFloat(project?.total_rp),
     0
@@ -131,7 +133,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       header: "Budget",
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">
-          {row?.getValue("totalRP")}
+          {changeNumberFormat(Number(row?.original?.totalRP))}
         </div>
       ),
       enableHiding: false,

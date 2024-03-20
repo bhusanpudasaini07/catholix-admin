@@ -1,17 +1,15 @@
-import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
+import Head from "next/head";
+import React, { useEffect, useState } from "react";
 
-import { AlertDialog, AlertDialogContent } from '../components/ui/alert-dialog';
-import Header from './header';
-import SidebarNew from './sidebar-new';
-// import { FavIcon } from "../lib/image-config";
-import SidebarSheet from './sidebar-sheet';
+import Header from "./header";
+import SidebarNew from "./sidebar-new";
+import SidebarSheet from "./sidebar-sheet";
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   children,
   title,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [openSheet, setOpenSheet] = useState(false);
   const [screenSize, setScreenSize] = useState<number | null>(null);
 
@@ -34,15 +32,13 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
 
       {/* Body Content */}
       <main>
-        <Header
-          openSheet={openSheet}
-          setOpenSheet={setOpenSheet}
-          isExpanded={isExpanded}
-          setIsExpanded={setIsExpanded}
-        />
         <div className="flex transition-all">
           {/* sidebar sheet when in tabs */}
-          <SidebarNew sidebarWidth={sidebarWidth} isExpanded={isExpanded} />
+          <SidebarNew
+            sidebarWidth={sidebarWidth}
+            isExpanded={isExpanded}
+            setIsExpanded={setIsExpanded}
+          />
 
           <SidebarSheet openSheet={openSheet} setOpenSheet={setOpenSheet} />
           <div className="flex-grow ">

@@ -288,22 +288,26 @@ const StaffsProjectSummary: FC<IProps> = ({
             </Select>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-start gap-1 mb-3">
-          {filterConfig?.markets?.map((market: any) => (
-            <CountryButtonCheckbox
-              label={market?.title}
-              value={market?.title}
-              key={market?.title}
-              checked={filterStates?.markets
-                ?.split(",")
-                .includes(market?.title)}
-              onCheckedChange={handleCheckboxChange("markets", market?.title)}
-              flagImageUrl={market?.flag}
-            />
-          ))}
-        </div>
+
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
           <div className="col-span-2">
+            <div className="flex flex-wrap items-end justify-end gap-1 mb-3">
+              {filterConfig?.markets?.map((market: any) => (
+                <CountryButtonCheckbox
+                  label={market?.title}
+                  value={market?.title}
+                  key={market?.title}
+                  checked={filterStates?.markets
+                    ?.split(",")
+                    .includes(market?.title)}
+                  onCheckedChange={handleCheckboxChange(
+                    "markets",
+                    market?.title
+                  )}
+                  flagImageUrl={market?.flag}
+                />
+              ))}
+            </div>
             <DataTable
               loading={projectSummaryLoading}
               height={"max-h-[500px]"}
@@ -314,7 +318,7 @@ const StaffsProjectSummary: FC<IProps> = ({
             />
           </div>
 
-          <div className="grid gap-2 grid-cols-2 col-span-2">
+          <div className="grid gap-2 grid-cols-2 col-span-2 pt-12">
             <ProjectSummaryGraph
               title="Project Type"
               chartData={handleTotalRpCalculation(

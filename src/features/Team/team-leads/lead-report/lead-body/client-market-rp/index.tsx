@@ -1,10 +1,14 @@
-import ReactECharts from 'echarts-for-react';
-import React, { FC } from 'react';
+import ReactECharts from "echarts-for-react";
+import React, { FC } from "react";
 
-import { IProject, IRpStaffSummaryProps } from '@/interface/team-lead-report-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  IProject,
+  IRpStaffSummaryProps,
+} from "@/interface/team-lead-report-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
@@ -131,7 +135,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
       header: "Budget",
       cell: ({ row }) => (
         <div className="font-semibold  text-zinc-700">
-          {row?.getValue("totalRP")}
+          {changeNumberFormat(Number(row?.original?.totalRP))}
         </div>
       ),
       enableHiding: false,

@@ -30,21 +30,21 @@ const Header = ({
   const { isLoggedIn } = useLoggedInStore();
   const { setProfile, setFilterConfig } = useCommonStore();
 
-  useQuery(["profile"], getProfile, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setProfile(data?.data);
-    },
-  });
+  // useQuery(["profile"], getProfile, {
+  //   enabled: !!isLoggedIn,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data) => {
+  //     setProfile(data?.data);
+  //   },
+  // });
 
-  useQuery(["config"], getConfig, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setFilterConfig(data?.data);
-    },
-  });
+  // useQuery(["config"], getConfig, {
+  //   enabled: !!isLoggedIn,
+  //   refetchOnWindowFocus: false,
+  //   onSuccess: (data) => {
+  //     setFilterConfig(data?.data);
+  //   },
+  // });
 
   return (
     <header className="px-8 border-b border-b-slate-100 bg-light-white">
@@ -87,7 +87,7 @@ const Header = ({
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}
           <p className="text-xs text-zinc-700">v {version}</p>
-          <ProfileDropdown />
+          <ProfileDropdown IsExpanded={isExpanded} />
           {/* <LanguageToggler /> */}
         </div>
       </div>

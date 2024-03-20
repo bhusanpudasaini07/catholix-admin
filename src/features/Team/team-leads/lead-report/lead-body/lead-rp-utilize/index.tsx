@@ -1,9 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { calculateUsedAndUnusedRpPercentage } from '@/shared/utils/rp-utils';
+import { Card, CardContent } from "@/shared/components/ui/card";
+import {
+  calculateUsedAndUnusedRpPercentage,
+  changeNumberFormat,
+} from "@/shared/utils/rp-utils";
 
-import PercentageGraph from '../../../../../../shared/components/percentage-graph';
+import PercentageGraph from "../../../../../../shared/components/percentage-graph";
 
 interface IProps {
   overallRP: string;
@@ -30,10 +33,10 @@ const RpUtilization: FC<IProps> = ({
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-between mt-10 gap-7">
-          <div className="flex items-center justify-center gap-6 grow">
+          <div className="flex items-center justify-start gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {overallRP}
+                {changeNumberFormat(Number(overallRP))}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Overall Budget
@@ -41,6 +44,7 @@ const RpUtilization: FC<IProps> = ({
             </div>
             <div className=" min-w-[120px]">
               <PercentageGraph
+                fillLabel={" "}
                 fillPercentage={overallUsedPercentage}
                 emptyPercentage={overallEmptyPercentage}
               />
@@ -49,7 +53,7 @@ const RpUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {clientRP}
+                {changeNumberFormat(Number(clientRP))}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Budget

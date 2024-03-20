@@ -109,7 +109,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
       trigger: "axis",
     },
     legend: {
-      data: ["Available RP", "Used RP", "Commercial RP"],
+      data: ["Available Budget", "Used Budget", "Commercial Budget"],
     },
     grid: {
       left: "3%",
@@ -132,7 +132,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
     },
     series: [
       {
-        name: "Available RP",
+        name: "Available Budget",
         type: "line",
         stack: "",
 
@@ -146,7 +146,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
         smooth: true,
       },
       {
-        name: "Used RP",
+        name: "Used Budget",
         type: "line",
         stack: "",
         data: tableData?.map((item) => item?.used_rp),
@@ -159,7 +159,7 @@ const TrendingGraphBody: FC<IProps> = ({ start_date, end_date, id }) => {
         smooth: true,
       },
       {
-        name: "Commercial RP",
+        name: "Commercial Budget",
         type: "line",
         stack: "",
         data: tableData?.map((item) => item?.commercial),

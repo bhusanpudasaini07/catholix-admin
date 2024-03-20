@@ -32,11 +32,11 @@ const TimeUtilization: FC<IProps> = ({
           <p className="text-lg font-medium text-zinc-700">Time Utilization</p>
         </div>
         <div className="flex items-center justify-between mt-10 gap-7 flex-wrap">
-          <div className="flex items-center justify-center grow gap-6">
+          <div className="flex items-center justify-start grow gap-6">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
                 {overallHour ? `${overallHour}H ` : ""}
-                {overallMinute}M
+                {overallMinute ? `${overallMinute}M` : ""}
               </h3>
               <p className="text-sm font-normal text-zinc-500">Overall Time</p>
             </div>
@@ -44,6 +44,7 @@ const TimeUtilization: FC<IProps> = ({
               <PercentageGraph
                 fillPercentage={overallUsedPercentage}
                 emptyPercentage={overallEmptyPercentage}
+                fillLabel={" "}
                 fillColor="#22C55E"
               />
             </div>
@@ -52,7 +53,7 @@ const TimeUtilization: FC<IProps> = ({
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
                 {hours ? `${hours}H ` : ""}
-                {minutes}M
+                {minutes ? `${minutes}M` : ""}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Time

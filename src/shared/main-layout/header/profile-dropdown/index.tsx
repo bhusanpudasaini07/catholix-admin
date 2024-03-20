@@ -1,24 +1,32 @@
+import { ChevronUp, LogOutIcon, Settings, User } from "lucide-react";
+import { useRouter } from "next/router";
+import { useMutation } from "react-query";
+
+import { logout } from "@/services/auth/auth-service";
 import {
-    Building, ChevronDown, ChevronsRight, LockKeyhole, LogOutIcon, Settings, User, User2
-} from 'lucide-react';
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
-
-import { logout } from '@/services/auth/auth-service';
-import { Avatar, AvatarFallback, AvatarImage } from '@/shared/components/ui/avatar';
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/shared/components/ui/avatar";
 import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from '@/shared/components/ui/dropdown-menu';
-import { removeAuthCookies } from '@/shared/utils/cookie-utils';
-import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
-import { useCommonStore } from '@/store/common-store';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
+import { removeAuthCookies } from "@/shared/utils/cookie-utils";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
+import { useCommonStore } from "@/store/common-store";
 
-import config from '../../../../../config';
+import { version } from "../../../../../version";
+import { FC } from "react";
 
-const { LOGGED_IN_KEY } = config;
-
-const ProfileDropdown = () => {
+interface IProps {
+  IsExpanded: boolean;
+}
+const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
 
   const { profileData } = useCommonStore();
@@ -43,13 +51,27 @@ const ProfileDropdown = () => {
   };
   return (
     <DropdownMenu modal={false}>
-      <DropdownMenuTrigger className="flex items-center gap-3 focus:outline-none">
-        <Avatar className="w-[32px] h-[32px]">
+      <DropdownMenuTrigger
+        className={` items-center gap-3 focus:outline-none 
+        ${IsExpanded ? "flex w-full" : "px-4 p-2"}`}
+      >
+        <Avatar className="w-[32px] h-[32px] ">
           <AvatarImage src={profileData?.image} />
           <AvatarFallback>
             <User width={15} className="text-zinc-700" />
           </AvatarFallback>
         </Avatar>
+        {IsExpanded ? (
+          <div className="">
+            <p className={`text-sm text-zinc-700`}>
+              {profileData?.fullname}zxc
+            </p>
+            <p className={`text-start text-xs text-zinc-500`}>{version}</p>
+          </div>
+        ) : (
+          <p className={`text-center mt-2 text-xs text-zinc-500`}>{version}</p>
+        )}
+        {IsExpanded && <ChevronUp className="w-4 h-4 ml-auto" />}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}
@@ -67,6 +89,7 @@ const ProfileDropdown = () => {
                   .map((item: string) => item[0])}
               </AvatarFallback>
             </Avatar>
+
             <div className="w-full min-w-0">
               <p className="text-sm font-bold text-zinc-800">
                 {profileData?.fullname}

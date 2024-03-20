@@ -19,15 +19,20 @@ import {
 } from "@/shared/components/ui/select";
 import { DownloadExcel } from "@/shared/utils/download/download.utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { useRouter } from "next/router";
 
-const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
+const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
+  const router = useRouter();
+  const username = router?.query?.username;
   const [role, setRole] = useState<string>("");
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [projectType, setProjectType] = useState<string>("");
   const [searchText, setSearchText] = useState("");
-  const [staffId, setStaffId] = useState<string>("2");
   const convertSecondsToHoursAndMinutes = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
+    if (hours === 0) {
+      return `${minutes}M`;
+    }
     return `${hours}H ${minutes}M`;
   };
 
@@ -56,51 +61,36 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
       })),
     [logTableData]
   );
-  const { data: staffDailyLog, isLoading: staffDailyLogLoading } =
-    useQuery<any>(
-      ["getStaffDailyLog", dateRange?.to, dateRange?.from, staffId, modalOpen],
-      async () => {
-        if (staffId) {
-          const response = await getStaffDailyTimelog(
-            moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD"),
-            staffId
-          );
-          return response;
-        }
-      }
-    );
-
-  const ModelHandler = (id: string) => {
-    setStaffId(id);
-    setModalOpen(true);
-  };
 
   const filteredStaffLogData = useMemo(() => {
-    // If no search text and role selected, return all data
-    if (!searchText && !role) return StaffLogData;
-    // if () return StaffLogData;
-
     let filteredData = StaffLogData;
 
-    // Filter by name if searchText is provided
     if (searchText) {
       filteredData = filteredData?.filter((staff: any) =>
-        staff?.name?.toLowerCase()?.includes(searchText?.toLowerCase())
+        staff?.project?.toLowerCase()?.includes(searchText?.toLowerCase())
       );
     }
 
-    // Filter by role if role is selected
     if (role === "all") {
-      // filteredData = filteredData;
     } else if (role) {
       filteredData = filteredData?.filter((staff: any) =>
         staff?.role?.toLowerCase()?.includes(role?.toLowerCase())
       );
     }
 
+    if (projectType === "all") {
+    } else if (projectType === "client") {
+      filteredData = filteredData?.filter(
+        (staff: any) => staff?.project_type?.toLowerCase() === "client"
+      );
+    } else if (projectType === "in_house") {
+      filteredData = filteredData?.filter(
+        (staff: any) => staff?.project_type?.toLowerCase() === "in-house"
+      );
+    }
+
     return filteredData;
-  }, [StaffLogData, searchText, role]);
+  }, [StaffLogData, searchText, role, projectType]);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -205,34 +195,22 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
   ];
 
   const handleDownloadSubFeature = () => {
-    // const columnKeys =
-    //   filteredStaffLogData?.length > 0
-    //     ? Object?.keys(filteredStaffLogData[0])
-    //     : [];
     const mappedData = filteredStaffLogData?.map((item: any, index: number) => {
       const rowData: any = {};
       rowData["S.N"] = index + 1;
-      // rowData["ID"] = item?.id;
-      rowData["Name"] = item?.name;
+      rowData["Date"] = item?.date;
+      rowData["Project"] = item?.project;
+      rowData["Project Type"] = item?.project_type;
       rowData["Role"] = item?.role;
+      rowData["Task"] = item?.task;
       rowData["Spent Budget"] = item?.spent_rp;
-      rowData["Spent Budget (Client)"] = item?.spent_client_rp;
-      rowData["Loss Budget"] = item?.loss_rp;
-      rowData["% Budget"] = item?.rp_percentage;
-      rowData["% Budget Client"] = item?.client_rp_percentage;
-      rowData["Total Time"] = item?.total_time;
       rowData["Spent Time"] = item?.spent_time;
-      rowData["% Time"] = item?.time_percentage;
-      rowData["% Time(Client)"] = item?.client_time_percentage;
       return rowData;
     });
-    DownloadExcel(
-      mappedData,
-      `MEMBER_LOG_${moment(dateRange?.from).format("YYYY-MM-DD")}_TO_${moment(
-        dateRange?.to
-      ).format("YYYY-MM-DD")}`
-    );
+
+    DownloadExcel(mappedData, `LOG_TABLE_OF_${username}`);
   };
+
   return (
     <Card>
       <CardContent>
@@ -258,6 +236,22 @@ const LogTable: FC<any> = ({ dateRange, logTableData, logTableLoading }) => {
                     {roles?.title}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+            <Select onValueChange={(value) => setProjectType(value)}>
+              <SelectTrigger className="min-w-[60px]">
+                <SelectValue placeholder="Project Type" />
+              </SelectTrigger>
+              <SelectContent className="max-h-[300px] overflow-auto">
+                <SelectItem key={"all"} value={"all"}>
+                  All Project
+                </SelectItem>
+                <SelectItem key={"client"} value={"client"}>
+                  Client Project
+                </SelectItem>
+                <SelectItem key={"in_house"} value={"in_house"}>
+                  In-House Project
+                </SelectItem>
               </SelectContent>
             </Select>
             <Button

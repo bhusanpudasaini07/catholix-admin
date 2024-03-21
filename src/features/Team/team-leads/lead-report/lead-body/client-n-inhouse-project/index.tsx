@@ -1,5 +1,5 @@
-import ReactECharts from "echarts-for-react";
-import React, { FC } from "react";
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import React, { FC, useEffect, useRef } from "react";
 
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import { IRpStaffSummaryProps } from "@/interface/team-lead-report-interface";
@@ -12,6 +12,9 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
   staffRpSummaryData,
   staffDataLoading,
 }) => {
+  // REF for Chart
+  const chartRef = useRef<EChartsInstance>(null);
+
   const { calculateUsedPercentage } = useLeadReport();
   const totalInhouseRpPercentage = calculateUsedPercentage(
     staffRpSummaryData?.data?.summary?.inhouse_rp,
@@ -31,7 +34,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
     series: [
       {
         type: "pie",
-        radius: ["50%", "75%"],
+        radius: ["50%", "80%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -39,11 +42,11 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
           borderWidth: 0,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item.value + "}\n{b|" + item.name + "}";
+            return "{a|" + item.value + "%" + "}\n{b|" + item.name + "}";
           },
           rich: {
             a: {
@@ -136,16 +139,56 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
   ];
+
+  useEffect(() => {
+    const myChart = chartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return (
+                  "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                );
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    option && myChart.setOption(option);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [option]);
   return (
     <Card className="mb-4">
       <CardContent>
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 ">
-          <div className="">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              <h5 className="font-medium text-zinc-700">
-                Client Projects VS In-House Project
-              </h5>
-            </div>
+        <div className="flex flex-wrap items-center gap-2 mb-0">
+          <h5 className="font-medium text-zinc-700">
+            Client Projects VS In-House Project
+          </h5>
+        </div>
+        <div className="grid items-center grid-cols-1 gap-4 xl:grid-cols-2 ">
+          <div>
             <DataTable
               loading={staffDataLoading}
               border={true}
@@ -155,7 +198,8 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
           </div>
           <div className="my-auto">
             <ReactECharts
-              className="min-h-[400px]"
+              className="h-[400px]"
+              ref={chartRef}
               option={option}
               opts={{ renderer: "svg" }}
             />

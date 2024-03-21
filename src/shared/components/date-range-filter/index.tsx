@@ -54,7 +54,7 @@ const DateRangeFilter = ({
           ) : (
             <span> {placeholder ? placeholder : "Select Range"} </span>
           )}
-          {dateRange?.from ? (
+          {dateRange?.from && !disabled ? (
             <div
               className={cn(
                 disabled &&

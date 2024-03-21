@@ -60,7 +60,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "sn",
       header: "S. No.",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-medium ps-3">
+        <div className="text-sm font-medium text-zinc-700 ps-3">
           {row.getValue("sn")}
         </div>
       ),
@@ -70,7 +70,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("role")}
         </div>
       ),
@@ -84,7 +84,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
           (item: any) => item?.title === row?.original?.country
         );
         return (
-          <div>
+          <div className="flex gap-2 font-medium text-zinc-700">
             {market && (
               <Image
                 src={market?.flag}
@@ -93,7 +93,8 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
                 style={{ objectFit: "contain" }}
                 alt="Flag"
               />
-            )}
+            )}{" "}
+            <p>{row?.getValue("country")}</p>
           </div>
         );
       },
@@ -103,7 +104,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "manDays",
       header: "Man Days",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {parseInt(row.getValue("manDays")).toFixed(2)}
         </div>
       ),
@@ -113,7 +114,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "manMonths",
       header: "Man Month",
       cell: ({ row }) => (
-        <div className="text-zinc-700 text-sm font-semibold">
+        <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("manMonths")}
         </div>
       ),

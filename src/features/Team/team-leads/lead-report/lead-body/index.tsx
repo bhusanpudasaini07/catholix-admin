@@ -152,7 +152,7 @@ const LeadReportBody = ({ dateRange }: any) => {
           <RpUtilization
             clientRP={staffRpSummaryData?.data?.summary?.commercial_rp}
             overallEmptyPercentage={calculateUnusedPercentage(
-              staffRpSummaryData?.data?.summary?.available_rp,
+              staffRpSummaryData?.data?.summary?.total_rp,
               totalRP
             ).toFixed(2)}
             overallUsedPercentage={(

@@ -251,7 +251,7 @@ const SidebarNew = ({
         maxWidth: sidebarWidth,
       }}
       className={`bg-light-white sidebar ${
-        isExpanded ? "pt-[90px] pb-12" : "pt-[150px] pb-[88px]"
+        isExpanded ? "pt-[130px] pb-12" : "pt-[150px] pb-[88px]"
       } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
       <div
@@ -272,7 +272,6 @@ const SidebarNew = ({
             className={`flex items-center justify-start shrink-0 rounded-md ${
               isExpanded ? "" : "px-2 mb-4"
             }`}
-            as={"image"}
           >
             <Image
               src={Logo}
@@ -288,20 +287,20 @@ const SidebarNew = ({
             title="menu"
             className={`hidden xl:block focus:outline-none hover:bg-zinc-100 ${
               isExpanded
-                ? "px-3 py-[0.25rem]"
-                : "px-[1.25rem] py-[0.75rem] rotate-180"
+                ? "px-3 py-[0.25rem] rounded-md"
+                : "px-[1.35rem] py-[0.75rem] rotate-180"
             }`}
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            <ArrowLeftFromLine />
+            <ArrowLeftFromLine className="text-zinc-700" size={20} />
           </button>
         </div>
         <div>
           <Dialog>
             <DialogTrigger className="w-full">
               {isExpanded ? (
-                <div className="border border-zinc-200 rounded-md mx-6 mb-2 mt-4 p-2 flex justify-start items-center">
-                  <Search />
+                <div className="border border-zinc-200 text-zinc-700 rounded-md mx-6 mb-2 mt-4 p-2 flex justify-start items-center">
+                  <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
                 </div>
               ) : (
@@ -309,7 +308,7 @@ const SidebarNew = ({
                   className={`hidden xl:block focus:outline-none hover:bg-zinc-100 
                     px-[1.25rem] py-[0.75rem]`}
                 >
-                  <Search />
+                  <Search size={20} />
                 </div>
               )}
             </DialogTrigger>
@@ -439,6 +438,9 @@ const SidebarNew = ({
                               accordionItemIndex: number
                             ) => (
                               <DropdownMenuItem
+                                onClick={() =>
+                                  router?.push(accordionItem?.itemSlug)
+                                }
                                 key={`accordion-item-${accordionItemIndex}`}
                               >
                                 {accordionItem?.itemName}

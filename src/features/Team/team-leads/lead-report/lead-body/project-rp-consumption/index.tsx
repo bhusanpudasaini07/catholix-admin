@@ -99,7 +99,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
           (item: any) => item?.title === row?.original?.market
         );
         return (
-          <div>
+          <div className="flex gap-2 font-medium text-zinc-700">
             {market && (
               <Image
                 src={market?.flag}
@@ -108,7 +108,8 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
                 style={{ objectFit: "contain" }}
                 alt="Flag"
               />
-            )}
+            )}{" "}
+            <p>{row?.getValue("market")}</p>
           </div>
         );
       },

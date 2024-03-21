@@ -1,5 +1,5 @@
-import ReactECharts from "echarts-for-react";
-import { FC } from "react";
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import { FC, useEffect, useRef } from "react";
 
 import {
   ICountryInHouseTotalRP,
@@ -18,6 +18,9 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
 }) => {
   const { filterConfig } = useCommonStore();
+
+  // REF for Chart
+  const chartRef = useRef<EChartsInstance>(null);
 
   const sumTotalRp = staffRpSummaryData?.data?.projects?.reduce(
     (total: number, project: IProject) => total + parseFloat(project?.total_rp),
@@ -79,7 +82,7 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
     series: [
       {
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["40%", "70%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -87,11 +90,11 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item?.value + "}\n{b|" + item?.name + "}";
+            return "{a|" + item?.value + "%" + "}\n{b|" + item?.name + "}";
           },
           rich: {
             a: {
@@ -165,6 +168,46 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
   ];
+
+  useEffect(() => {
+    const myChart = chartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return (
+                  "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                );
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    option && myChart.setOption(option);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [option]);
   return (
     <Card>
       <CardContent>
@@ -176,8 +219,9 @@ const InHouseMarketRp: FC<IRpStaffSummaryProps> = ({
           </div>
           <div className="my-auto">
             <ReactECharts
-              className="min-h-[500px]"
+              className="h-[400px]"
               option={option}
+              ref={chartRef}
               opts={{ renderer: "svg" }}
             />
           </div>

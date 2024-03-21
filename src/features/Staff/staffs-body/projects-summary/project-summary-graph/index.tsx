@@ -1,7 +1,10 @@
-import ReactECharts from 'echarts-for-react';
-import React from 'react';
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
+import React, { useEffect, useRef } from "react";
 
 const ProjectSummaryGraph = ({ chartData, title }: any) => {
+  // REF for Chart
+  const chartRef = useRef<EChartsInstance>(null);
+
   const option = {
     title: {
       text: title ? title : "",
@@ -18,7 +21,7 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
     series: [
       {
         type: "pie",
-        radius: ["55%", "90%"],
+        radius: ["50%", "80%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -26,7 +29,7 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
           borderWidth: 2,
         },
         label: {
-          show: false,
+          show: true,
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
@@ -58,9 +61,48 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
       },
     ],
   };
+
+  useEffect(() => {
+    const myChart = chartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    option && myChart.setOption(option);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [option]);
   return (
     <ReactECharts
-      className="min-h-[400px]"
+      className="h-[300px]"
+      ref={chartRef}
       option={option}
       opts={{ renderer: "svg" }}
     />

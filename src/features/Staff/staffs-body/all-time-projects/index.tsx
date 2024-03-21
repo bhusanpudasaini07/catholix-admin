@@ -183,7 +183,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
           (item: any) => item?.id === row?.original?.market_id
         );
         return (
-          <div>
+          <div className="flex justify-center">
             {market && (
               <Image
                 src={market?.flag}
@@ -225,7 +225,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       accessorKey: "overall_used_rp",
       header: "Spent Budget",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
+        <div className="text-sm font-semibold cursor-pointer text-zinc-500">
           {changeNumberFormat(Number(row?.original?.overall_used_rp))}
         </div>
       ),
@@ -236,7 +236,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       accessorKey: "rp",
       header: "Budget Contribution",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
+        <div className="text-sm font-semibold cursor-pointer text-zinc-500">
           {row.getValue("rp")}
         </div>
       ),
@@ -300,7 +300,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.original?.time);
         return (
-          <div className="text-sm font-semibold text-zinc-500 cursor-pointer">
+          <div className="text-sm font-semibold cursor-pointer text-zinc-500">
             {hours ? `${hours}H` : ""} {minutes}M
           </div>
         );

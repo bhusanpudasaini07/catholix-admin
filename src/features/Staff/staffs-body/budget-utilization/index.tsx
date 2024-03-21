@@ -28,7 +28,7 @@ const BudgetUtilization: FC<IProps> = ({
           </p>
         </div>
         <div className="flex flex-wrap items-center justify-between mt-10 gap-7">
-          <div className="flex items-center justify-center gap-6 grow">
+          <div className="flex items-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
                 {spentBudget}

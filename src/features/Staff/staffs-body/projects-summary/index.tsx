@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import { useCommonStore } from "@/store/common-store";
 import { Select } from "@radix-ui/react-select";
 import { ColumnDef } from "@tanstack/react-table";
@@ -130,7 +130,7 @@ const StaffsProjectSummary: FC<IProps> = ({
       accessorKey: "market",
       header: "Market",
       cell: ({ row }) => (
-        <div className="">
+        <div className="flex justify-center">
           <Image
             src={row?.original?.flag}
             height={16}
@@ -161,7 +161,7 @@ const StaffsProjectSummary: FC<IProps> = ({
       header: "Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("rp")}
+          {changeNumberFormat(row?.getValue("rp"))}
         </div>
       ),
       enableHiding: false,
@@ -173,9 +173,8 @@ const StaffsProjectSummary: FC<IProps> = ({
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
         return (
-          <div className="text-sm font-semibold text-zinc-700">
-            {hours ? `${hours}H` : ""}
-            {minutes}M
+          <div className="text-sm font-semibold text-zinc-700 whitespace-nowrap">
+            {hours ? `${hours}H` : ""} {minutes}M
           </div>
         );
       },
@@ -318,7 +317,7 @@ const StaffsProjectSummary: FC<IProps> = ({
             />
           </div>
 
-          <div className="grid gap-2 grid-cols-2 col-span-2 pt-12">
+          <div className="grid grid-cols-2 col-span-2 gap-2 pt-12">
             <ProjectSummaryGraph
               title="Project Type"
               chartData={handleTotalRpCalculation(

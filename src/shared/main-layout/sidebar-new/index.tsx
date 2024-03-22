@@ -251,7 +251,7 @@ const SidebarNew = ({
         maxWidth: sidebarWidth,
       }}
       className={`bg-light-white sidebar ${
-        isExpanded ? "pt-[130px] pb-12" : "pt-[150px] pb-[88px]"
+        isExpanded ? "pt-[140px] pb-12" : "pt-[150px] pb-[88px]"
       } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
       <div
@@ -299,7 +299,7 @@ const SidebarNew = ({
           <Dialog>
             <DialogTrigger className="w-full">
               {isExpanded ? (
-                <div className="border border-zinc-200 text-zinc-700 rounded-md mx-6 mb-2 mt-4 p-2 flex justify-start items-center">
+                <div className="border border-zinc-200 text-zinc-700 rounded-md mx-6 my-4 p-2 flex justify-start items-center">
                   <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
                 </div>
@@ -345,11 +345,11 @@ const SidebarNew = ({
           </Dialog>
         </div>
       </div>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         {menuItems?.map((item: any, index) => (
           <div
             key={index}
-            className="flex flex-col gap-4 pb-4 border-b border-b-slate-100"
+            className="flex flex-col gap-[8px] pb-4 border-b border-b-slate-100 first:pt-4"
           >
             {isExpanded && (
               <h2 className="px-8 text-xs font-semibold uppercase text-zinc-600">

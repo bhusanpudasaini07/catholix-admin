@@ -161,7 +161,7 @@ const Projects: NextPageWithLayout = () => {
               <ProjectTableSkeleton />
             ) : (
               <DataTable
-                height="max-h-[65vh]"
+                height="max-h-[calc(100vh-350px)]"
                 columns={columns}
                 headerSticky={true}
                 data={projectList?.data ?? []}
@@ -173,7 +173,7 @@ const Projects: NextPageWithLayout = () => {
             {isLoading ? (
               <ProjectProfitViewSkeleton num={12} />
             ) : projectList?.data?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 mw1024:grid-cols-3 xl:grid-cols-4 max-h-[620px] overflow-auto">
+              <div className="grid grid-cols-1 gap-7 md:grid-cols-2 mw1024:grid-cols-3 xl:grid-cols-4 max-h-[calc(100vh-350px)] overflow-auto">
                 {projectList?.data?.map((project: IProjectDetail) => (
                   <ProfitLossCard key={project?.project_id} data={project} />
                 ))}

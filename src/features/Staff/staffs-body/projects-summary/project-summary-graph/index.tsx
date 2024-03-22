@@ -101,7 +101,7 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
   }, [option]);
   return (
     <ReactECharts
-      className="h-[300px]"
+      className="max-h-[250px]"
       ref={chartRef}
       option={option}
       opts={{ renderer: "svg" }}

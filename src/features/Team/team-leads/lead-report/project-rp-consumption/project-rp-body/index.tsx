@@ -18,8 +18,11 @@ const ProjectRPConsumptionBody = () => {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       {staffDataLoading
-        ? Array.from({ length: 4 }).map(() => (
-            <ProjectRPConsumptionSkeleton column={countryProjectColumn} />
+        ? Array.from({ length: 4 }).map((_, index) => (
+            <ProjectRPConsumptionSkeleton
+              key={index}
+              column={countryProjectColumn}
+            />
           ))
         : countryWiseGroupProject &&
           Object?.entries(countryWiseGroupProject)?.map(

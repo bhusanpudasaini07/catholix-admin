@@ -62,14 +62,22 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
           </AvatarFallback>
         </Avatar>
         {IsExpanded ? (
-          <div className="">
-            <p className={`text-sm text-zinc-700`}>{profileData?.fullname}</p>
-            <p className={`text-start text-xs text-zinc-500`}>{version}</p>
+          <div className="min-w-0">
+            <p className={`text-sm text-start truncate text-zinc-700`}>
+              {profileData?.fullname}
+            </p>
+            <p className={`text-start text-[10px] text-zinc-500`}>
+              Version {version}
+            </p>
           </div>
         ) : (
-          <p className={`text-center mt-2 text-xs text-zinc-500`}>{version}</p>
+          <p
+            className={`text-center mt-2 text-[10px] text-zinc-500 whitespace-nowrap`}
+          >
+            v {version}
+          </p>
         )}
-        {IsExpanded && <ChevronUp className="w-4 h-4 ml-auto" />}
+        {IsExpanded && <ChevronUp className="w-4 h-4 ml-auto shrink-0" />}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}

@@ -35,7 +35,7 @@ const TeamMemberTable = ({
         data={tableData ?? []}
         border
         headerSticky
-        height="max-h-[100vh-300px]"
+        height="max-h-[calc(100vh-260px)]"
         loading={loading}
         loadingDataNum={20}
       />

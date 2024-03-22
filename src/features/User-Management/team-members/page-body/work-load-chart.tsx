@@ -49,6 +49,10 @@ const WorkLoadChart = ({ data }: TProps) => {
       usedTime: usedTimePercentage,
       exceededTime: exceededTimePercentage,
       unusedTime: unusedTimePercentage, // Add unusedTime to the return object
+      apiData: {
+        used: usedTime,
+        available: availableTime,
+      },
     };
   });
 
@@ -95,10 +99,15 @@ const WorkLoadChart = ({ data }: TProps) => {
         name: "Available Time",
         type: "bar",
         stack: "total",
-        data: chartData.map((item) => item.unusedTime),
-        itemStyle: {
-          color: "#F4F4F5",
-        },
+        data: chartData.map((item) => ({
+          value: item.unusedTime,
+          itemStyle: {
+            color:
+              item?.apiData?.available > 0 && item?.apiData?.used === 0
+                ? "#FFE7CE"
+                : "#F4F4F5",
+          },
+        })),
       },
     ],
   };

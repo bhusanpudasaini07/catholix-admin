@@ -161,7 +161,7 @@ const Projects: NextPageWithLayout = () => {
               <ProjectTableSkeleton />
             ) : (
               <DataTable
-                height="max-h-[610px]"
+                height="max-h-[65vh]"
                 columns={columns}
                 headerSticky={true}
                 data={projectList?.data ?? []}

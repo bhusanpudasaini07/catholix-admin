@@ -1,4 +1,4 @@
-import WorkLoadChart from "@/features/User-Management/team-members/work-load-chart";
+import WorkLoadChart from "@/features/User-Management/team-members/page-body/work-load-chart";
 import { useDebounce } from "@/hooks/debounce.hooks";
 import {
   ITeamMemberDetails,
@@ -32,6 +32,12 @@ const useTeamMemberList = () => {
   // STATES FOR LOG MODAL
   const [staffId, setStaffId] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  // STATE FOR PROJECT COUNT DISPLAY
+  const [count, setCount] = useState({
+    id: "",
+    num: 3,
+  });
 
   // debounced search for api request
   const debouncedSearch = useDebounce(searchText, 300);
@@ -116,6 +122,13 @@ const useTeamMemberList = () => {
     }
   };
 
+  const changeCount = (project_count: number, id: string) => {
+    setCount({
+      id: id,
+      num: project_count,
+    });
+  };
+
   // Work-load chart
 
   const memberColumn: ColumnDef<ITeamMemberDetails>[] = [
@@ -170,28 +183,44 @@ const useTeamMemberList = () => {
       id: "projects",
       accessorKey: "projects",
       header: "Projects",
-      cell: ({ row }) => (
-        <div className="flex flex-wrap gap-1.5 w-[300px]">
-          {row?.original?.projects
-            ? row?.original?.projects?.map((project) => (
-                <div
-                  className={cn(
-                    projectBg(project?.status),
-                    "py-0.5 px-5 border rounded-full relative"
-                  )}
-                  key={project?.id}
-                >
-                  <Link
-                    href={`/projects/${project?.code}`}
-                    className="absolute top-0 bottom-0 left-0 right-0"
-                  />
-                  <p className="font-bold">{project?.name}</p>
-                  <p>{project?.project_lead}</p>
-                </div>
-              ))
-            : "N/A"}
-        </div>
-      ),
+      cell: ({ row }) => {
+        return (
+          <div>
+            <div className="flex flex-wrap gap-1.5 w-[300px]">
+              {row?.original?.projects
+                ? row?.original?.projects
+                    ?.slice(0, count?.id === row?.original?.id ? count?.num : 3)
+                    ?.map((project) => (
+                      <div
+                        className={cn(
+                          projectBg(project?.status),
+                          "py-0.5 px-5 border rounded-full relative text-xs"
+                        )}
+                        key={project?.id}
+                      >
+                        <Link
+                          href={`/projects/${project?.code}`}
+                          className="absolute top-0 bottom-0 left-0 right-0"
+                        />
+                        <p className="font-bold">{project?.name}</p>
+                        <p>{project?.project_lead}</p>
+                      </div>
+                    ))
+                : "N/A"}
+            </div>
+            {row?.original?.project_count > count?.num && (
+              <p
+                className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
+                onClick={() =>
+                  changeCount(row?.original?.project_count, row?.original?.id)
+                }
+              >
+                +{row?.original?.project_count - 3} More
+              </p>
+            )}
+          </div>
+        );
+      },
     },
     // Pending Task
     {

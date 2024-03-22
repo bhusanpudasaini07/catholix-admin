@@ -288,8 +288,8 @@ const StaffsProjectSummary: FC<IProps> = ({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 xl:grid-cols-4">
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
+          <div className="col-span-5 xl:col-span-3">
             <div className="flex flex-wrap items-end justify-end gap-1 mb-3">
               {filterConfig?.markets?.map((market: any) => (
                 <CountryButtonCheckbox
@@ -317,14 +317,16 @@ const StaffsProjectSummary: FC<IProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 col-span-2 gap-2 pt-12">
-            <ProjectSummaryGraph
-              title="Project Type"
-              chartData={handleTotalRpCalculation(
-                projectSummaryData?.data?.projects
-              )}
-            />
-            <ProjectSummaryGraph title="Projects" chartData={plotData} />
+          <div className="col-span-5 xl:col-span-2">
+            <div className="grid grid-cols-2 gap-2 pt-12 xl:col-span-3">
+              <ProjectSummaryGraph
+                title="Project Type"
+                chartData={handleTotalRpCalculation(
+                  projectSummaryData?.data?.projects
+                )}
+              />
+              <ProjectSummaryGraph title="Projects" chartData={plotData} />
+            </div>
           </div>
         </div>
       </CardContent>

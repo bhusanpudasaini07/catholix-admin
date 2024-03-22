@@ -11,11 +11,6 @@ interface IProps {
   column: ColumnDef<ITeamMemberDetails>[];
   tableData: ITeamMemberDetails[];
   loading: boolean;
-  currentPage: number;
-  totalPage: number;
-  perPage: number;
-  setPerPage: (arg: number) => void;
-  changePageNum: (arg: number) => void;
   modalOpen: boolean;
   changeStaffLog: () => void;
   staffDailyLog: IMembersLog;
@@ -27,11 +22,6 @@ const TeamMemberTable = ({
   column,
   tableData,
   loading,
-  currentPage,
-  totalPage,
-  perPage,
-  setPerPage,
-  changePageNum,
   modalOpen,
   changeStaffLog,
   staffDailyLog,
@@ -48,13 +38,6 @@ const TeamMemberTable = ({
         height="max-h-[70vh]"
         loading={loading}
         loadingDataNum={20}
-      />
-      <DataTablePagination
-        totalPages={totalPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        currentPage={currentPage}
-        pageChange={changePageNum}
       />
 
       {/* Member Daily Log */}

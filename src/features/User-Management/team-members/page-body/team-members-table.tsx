@@ -9,6 +9,7 @@ import {
   ITeamMemberList,
 } from "@/interface/team-member-interface";
 import { IMembersLog } from "@/interface/team-lead-report-interface";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 
 interface IProps {
   memberColumn: ColumnDef<ITeamMemberDetails>[];
@@ -40,25 +41,29 @@ const TeamMembersTable = ({
   staffId,
 }: IProps) => {
   return (
-    <Card>
-      <CardContent>
-        <TeamMemberTable
-          column={memberColumn}
-          tableData={teamMemberList?.data ?? []}
-          loading={isLoading}
-          currentPage={teamMemberList?.pagination?.page ?? 0}
-          totalPage={teamMemberList?.pagination?.total_page ?? 0}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          changePageNum={changePageNum}
-          modalOpen={modalOpen}
-          changeStaffLog={changeStaffLog}
-          staffDailyLog={staffDailyLog}
-          staffDailyLogLoading={staffDailyLogLoading}
-          staffId={staffId}
-        />
-      </CardContent>
-    </Card>
+    <>
+      <Card>
+        <CardContent>
+          <TeamMemberTable
+            column={memberColumn}
+            tableData={teamMemberList?.data ?? []}
+            loading={isLoading}
+            modalOpen={modalOpen}
+            changeStaffLog={changeStaffLog}
+            staffDailyLog={staffDailyLog}
+            staffDailyLogLoading={staffDailyLogLoading}
+            staffId={staffId}
+          />
+        </CardContent>
+      </Card>
+      <DataTablePagination
+        totalPages={teamMemberList?.pagination?.total_page ?? 0}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        currentPage={teamMemberList?.pagination?.page ?? 0}
+        pageChange={changePageNum}
+      />
+    </>
   );
 };
 

@@ -379,7 +379,7 @@ const SidebarNew = ({
                         >
                           <div className={` w-full flex`}>
                             <span
-                              className={`min-w-[20px] h-[20px] flex justify-center me-2`}
+                              className={`min-w-[20px] h-[20px] flex justify-center me-3`}
                             >
                               {subItem?.icon}
                             </span>

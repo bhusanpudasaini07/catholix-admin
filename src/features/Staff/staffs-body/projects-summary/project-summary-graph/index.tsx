@@ -33,7 +33,13 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item?.value + "}\n{b|" + item?.name + "}";
+            return (
+              "{a|" +
+              (item?.value ? parseFloat(item.value).toFixed(2) : "") +
+              "}\n{b|" +
+              item?.name +
+              "}"
+            );
           },
           rich: {
             a: {
@@ -72,7 +78,13 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
           {
             label: {
               formatter: () => {
-                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+                return (
+                  "{a|" +
+                  (params?.value ? parseFloat(params.value).toFixed(2) : "") +
+                  "}\n{b|" +
+                  params?.name +
+                  "}"
+                );
               },
               rich: {
                 a: {

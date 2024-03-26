@@ -251,7 +251,7 @@ const SidebarNew = ({
         maxWidth: sidebarWidth,
       }}
       className={`bg-light-white sidebar ${
-        isExpanded ? "pt-[140px] pb-12" : "pt-[150px] pb-[88px]"
+        isExpanded ? "pt-[120px] pb-12" : "pt-[140px] pb-[88px]"
       } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
       <div

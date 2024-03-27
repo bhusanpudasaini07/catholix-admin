@@ -110,9 +110,11 @@ export function DataTable<TData, TValue>({
   const totals = total ? calculateTotals(data, total) : [];
   return (
     <div
-      className={`overflow-auto ${
-        border && "border-2 border-slate-100"
-      } rounded-md ${height && height}`}
+      className={cn(
+        "overflow-x-auto rounded-md",
+        border && "border-2 border-slate-100",
+        height && height
+      )}
     >
       {/* <DropdownMenu>
         <DropdownMenuTrigger>Columns</DropdownMenuTrigger>

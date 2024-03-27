@@ -385,3 +385,15 @@ interface IRoleBudget {
   actual: number;
   quote: number;
 }
+
+export interface IProjectRoleRPSummary {
+  data: IProjectIndivRole[];
+}
+
+export interface IProjectIndivRole {
+  actual: number;
+  estimated: number;
+  id: number;
+  quote: number;
+  title: string;
+}

@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import useProjectStories from '@/hooks/project/detail/useProjectStories.hook';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const ProjectStoriesTable = () => {
   const {
@@ -24,12 +24,14 @@ const ProjectStoriesTable = () => {
           loading={isLoading}
           data={projectStories?.data.slice(0, perPage) ?? []}
         />
-        <p
-          onClick={() => setPerPage(perPage + 10)}
-          className="py-4 text-sm font-medium text-center cursor-pointer text-zinc-700"
-        >
-          Load More
-        </p>
+        {perPage < projectStories?.data?.length && (
+          <p
+            onClick={() => setPerPage(perPage + 10)}
+            className="py-4 text-sm font-medium text-center cursor-pointer text-zinc-700"
+          >
+            Load More
+          </p>
+        )}
       </CardContent>
     </Card>
   );

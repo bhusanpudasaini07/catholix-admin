@@ -110,10 +110,12 @@ const ProjectSummaryReport = () => {
                           <div key={item?.id}>
                             <div className="flex items-center gap-2">
                               <div className={cn("w-2 h-7", item?.color)} />
-                              <p className="text-zinc-700">{item?.title}</p>
+                              <p className="text-zinc-700 whitespace-nowrap">
+                                {item?.title}
+                              </p>
                             </div>
-                            <div className="flex items-end gap-1 mt-2">
-                              <p className="pl-4 text-2xl font-medium text-zinc-700">
+                            <div className="flex flex-wrap items-end gap-1 pl-4 mt-2">
+                              <p className="text-2xl font-medium text-zinc-700">
                                 {item?.data > 100 ? 100 : item?.data}%
                               </p>
                               {item?.data > 100 && (

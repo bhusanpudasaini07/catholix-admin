@@ -186,6 +186,11 @@ const calculateTime = (time: number) => {
   return totalHours.toFixed(2);
 };
 
+const calculatePercentage = (value: number, total: number) => {
+  const percentage = (value / total) * 100;
+  return percentage.toFixed(2);
+};
+
 export {
   showDeadline,
   changeDateDisplay,
@@ -197,4 +202,5 @@ export {
   calculateTimeLog,
   changeNumberFormat,
   calculateTime,
+  calculatePercentage,
 };

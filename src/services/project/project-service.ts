@@ -162,6 +162,13 @@ const getEstimatedActual = (code: any) => {
   );
 };
 
+const getProjectRoleRp = (code: any) => {
+  return httpRequest(
+    `/get-project-role-rp-summary?project_id=${code}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -176,4 +183,5 @@ export {
   getProjectTaskLabelRp,
   getProjectTaskBugRatio,
   getEstimatedActual,
+  getProjectRoleRp,
 };

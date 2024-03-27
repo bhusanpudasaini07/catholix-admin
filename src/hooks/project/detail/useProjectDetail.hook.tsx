@@ -369,7 +369,7 @@ export const useProjectDetail = () => {
         router?.push(`/projects/${code}/burndown-chart`);
         break;
       case "estimated_actual":
-        router?.push(`/projects/${code}`);
+        router?.push(`/projects/${code}/estimated-actual`);
         break;
       default:
         router?.push(`/projects/${code}`);
@@ -653,7 +653,8 @@ export const useProjectDetail = () => {
         emphasis: {
           focus: "series",
         },
-        data: estimatedActual?.data?.map((item) => item?.quote) ?? [],
+        data:
+          estimatedActual?.data?.map((item) => (item?.quote).toFixed(2)) ?? [],
       },
       {
         name: "Estimated",
@@ -670,6 +671,7 @@ export const useProjectDetail = () => {
       },
     ],
   };
+
   useEffect(() => {
     const myChart = chartRef.current?.getEchartsInstance();
     if (!myChart) return;

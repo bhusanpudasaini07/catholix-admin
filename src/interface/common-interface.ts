@@ -97,4 +97,13 @@ export interface IFilterConfig {
       };
     };
   }>;
+  role_group: {
+    id: string;
+    title: string;
+    roles: Array<{
+      id: string;
+      title: string;
+      status: string;
+    }>;
+  }[];
 }

@@ -35,9 +35,9 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
           formatter: (item: any) => {
             return (
               "{a|" +
-              (item?.value ? parseFloat(item.value).toFixed(2) : "") +
+              ((item?.value ? parseFloat(item?.value) : 0) || 0).toFixed(2) +
               "}\n{b|" +
-              item?.name +
+              (item?.name || "") +
               "}"
             );
           },

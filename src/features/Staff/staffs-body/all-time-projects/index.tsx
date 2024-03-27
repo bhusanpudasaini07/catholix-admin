@@ -215,7 +215,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       header: "Available Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-500">
-          {row.getValue("sales_rp")}
+          {changeNumberFormat(row.getValue("sales_rp"))}
         </div>
       ),
       enableHiding: false,

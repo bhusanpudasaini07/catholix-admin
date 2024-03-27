@@ -13,12 +13,20 @@ import {
   UserCog,
   Users,
 } from "lucide-react";
+import moment from "moment";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
+import { useDebounce } from "@/hooks/debounce.hooks";
+import { ITeamMemberList } from "@/interface/team-member-interface";
+import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
+import { getProjectList } from "@/services/project/project-service";
+import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
 import FilterSearch from "@/shared/components/filter-search";
 import {
   Accordion,
@@ -41,6 +49,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -48,12 +57,10 @@ import {
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
 import { Logo } from "@/shared/lib/image-config";
-
-import ProfileDropdown from "../header/profile-dropdown";
 import { useLoggedInStore } from "@/store/auth-store";
 import { useCommonStore } from "@/store/common-store";
-import { useQuery } from "react-query";
-import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
+
+import ProfileDropdown from "../header/profile-dropdown";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -69,7 +76,14 @@ const SidebarNew = ({
   const router = useRouter();
   const { isLoggedIn } = useLoggedInStore();
   const { setProfile, setFilterConfig } = useCommonStore();
+  const [searchText, setSearchText] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const debouncedSearchValue = useDebounce(searchText, 300);
 
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: moment().subtract(1, "years").toDate(),
+    to: moment().toDate(),
+  });
   useQuery(["profile"], getProfile, {
     enabled: !!isLoggedIn,
     refetchOnWindowFocus: false,
@@ -77,7 +91,9 @@ const SidebarNew = ({
       setProfile(data?.data);
     },
   });
-
+  let perPage = 10;
+  let pageNumber = 1;
+  let pageNum = 1;
   useQuery(["config"], getConfig, {
     enabled: !!isLoggedIn,
     refetchOnWindowFocus: false,
@@ -88,6 +104,47 @@ const SidebarNew = ({
 
   const { t } = useTranslation("common");
 
+  const { data: projectList, isLoading: projectListLoading } = useQuery({
+    queryFn: () =>
+      searchText
+        ? getProjectList(
+            pageNumber,
+            perPage,
+            searchText,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          )
+        : Promise.resolve({ data: [] }), // Return empty data when search text is empty
+    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
+  });
+
+  const { data: teamMemberList, isLoading: teamMemberListLoading } =
+    useQuery<ITeamMemberList>({
+      queryFn: () =>
+        searchText
+          ? getTeamMembersList(
+              perPage,
+              pageNum,
+              searchText, //keyword
+              dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
+              dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "", //date_to
+              ""
+            )
+          : Promise.resolve({ data: [] }), // Return empty data when search text is empty
+      queryKey: ["teamMemberList", debouncedSearchValue, perPage, pageNum],
+    });
+
+  const navigateTo = (route: string, linkUrl: string) => {
+    router.push(`/${route}/${linkUrl}`);
+    setOpen(false);
+  };
   // Sidebar Items
   const menuItems = [
     {
@@ -296,7 +353,7 @@ const SidebarNew = ({
           </button>
         </div>
         <div>
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="w-full">
               {isExpanded ? (
                 <div className="border border-zinc-200 text-zinc-700 rounded-md mx-6 my-4 p-2 flex justify-start items-center">
@@ -321,12 +378,78 @@ const SidebarNew = ({
                 </DialogDescription>
                 <FilterSearch
                   className="!max-w-full !mt-4"
-                  setSearchText={() => ""}
+                  setSearchText={(value) => setSearchText(value)}
                 />
               </DialogHeader>
               <div className="p-6 border-t border-zinc-200 text-zinc-500 text-sm font-medium">
-                <p className="">RECENT</p>
-                <ul className="max-h-80 overflow-auto">
+                {searchText?.length > 0 && (
+                  <>
+                    {projectListLoading ? (
+                      <div className="mb-6">
+                        <Skeleton className="h-4 w-56 mb-2" />
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <Skeleton className="h-4 w-full mb-2" />
+                      </div>
+                    ) : (
+                      <>
+                        {projectList?.data?.length > 0 && (
+                          <>
+                            <p className="">PROJECTS</p>
+                            <ul className="max-h-48 overflow-auto mb-4">
+                              {projectList?.data?.map(
+                                (value: any, index: number) => (
+                                  <li
+                                    key={index}
+                                    onClick={() =>
+                                      navigateTo("projects", value?.code)
+                                    }
+                                    className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer"
+                                  >
+                                    <FolderOpen />
+                                    <p>{value?.project_title}</p>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </>
+                        )}
+                      </>
+                    )}
+                    {teamMemberListLoading ? (
+                      <div>
+                        <Skeleton className="h-4 w-56 mb-2" />
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <Skeleton className="h-4 w-full mb-2" />
+                      </div>
+                    ) : (
+                      <>
+                        {(teamMemberList?.data?.length ?? 0) > 0 && (
+                          <>
+                            <p className="">TEAM MEMBERS</p>
+                            <ul className="max-h-48 overflow-auto mb-4">
+                              {teamMemberList?.data?.map(
+                                (value: any, index: number) => (
+                                  <li
+                                    key={index}
+                                    onClick={() =>
+                                      navigateTo("staffs", value?.username)
+                                    }
+                                    className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer"
+                                  >
+                                    <User />
+                                    <p>{value?.fullname}</p>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+                {/* <p className="">RECENT</p>
+                <ul className="max-h-48 overflow-auto">
                   <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
                     <FolderOpen />
                     <p>Wonder</p>
@@ -339,7 +462,7 @@ const SidebarNew = ({
                     <FolderOpen />
                     <p>Wonder</p>
                   </li>
-                </ul>
+                </ul> */}
               </div>
             </DialogContent>
           </Dialog>
@@ -352,7 +475,7 @@ const SidebarNew = ({
             className="flex flex-col gap-[8px] pb-4 border-b border-b-slate-100 first:pt-4"
           >
             {isExpanded && (
-              <h2 className="px-8 text-xs font-semibold uppercase text-zinc-600">
+              <h2 className="px-8 py-[2px] text-xs font-semibold uppercase text-zinc-600">
                 {item?.menuName}
               </h2>
             )}
@@ -377,9 +500,9 @@ const SidebarNew = ({
                               : "justify-center pl-4"
                           } ${isActive(subItem?.menuSlug) && "active"}`}
                         >
-                          <div className={` w-full flex`}>
+                          <div className={` w-full flex font-medium`}>
                             <span
-                              className={`min-w-[20px] h-[20px] flex justify-center me-3`}
+                              className={`min-w-[20px] h-[20px]  flex justify-center me-3`}
                             >
                               {subItem?.icon}
                             </span>
@@ -401,7 +524,7 @@ const SidebarNew = ({
                                   onClick={() =>
                                     router?.push(accordionItem?.itemSlug)
                                   }
-                                  className={`${
+                                  className={`mb-1 font-medium ${
                                     isActive(accordionItem?.itemSlug) &&
                                     "text-blue-500"
                                   }`}

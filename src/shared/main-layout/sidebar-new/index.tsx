@@ -106,34 +106,38 @@ const SidebarNew = ({
 
   const { data: projectList, isLoading: projectListLoading } = useQuery({
     queryFn: () =>
-      getProjectList(
-        pageNumber,
-        perPage,
-        searchText,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
-      ),
+      searchText
+        ? getProjectList(
+            pageNumber,
+            perPage,
+            searchText,
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          )
+        : Promise.resolve({ data: [] }), // Return empty data when search text is empty
     queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
   });
 
   const { data: teamMemberList, isLoading: teamMemberListLoading } =
     useQuery<ITeamMemberList>({
       queryFn: () =>
-        getTeamMembersList(
-          perPage,
-          pageNum,
-          searchText, //keyword
-          dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
-          dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "", //date_to
-          ""
-        ),
+        searchText
+          ? getTeamMembersList(
+              perPage,
+              pageNum,
+              searchText, //keyword
+              dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
+              dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "", //date_to
+              ""
+            )
+          : Promise.resolve({ data: [] }), // Return empty data when search text is empty
       queryKey: ["teamMemberList", debouncedSearchValue, perPage, pageNum],
     });
 

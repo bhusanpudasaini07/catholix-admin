@@ -178,8 +178,9 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
             emptyTimePercentage={percentage?.totalUsedTimePercentage}
             spentTimePercentage={percentage?.totalUnusedTimePercentage}
             clientTime={staffLog?.data?.report?.client_time}
-            clientEmptyPercentage={percentage?.clientTimePercentage}
-            clientTimePercentage={percentage?.clientUnusedTimePercentage}
+            clientEmptyPercentage={percentage?.clientUnusedTimePercentage}
+            // clientTimePercentage={percentage?.clientUnusedTimePercentage}
+            clientTimePercentage={percentage?.clientTimePercentage}
           />
         ) : (
           <UtilizationSkeletonCard />

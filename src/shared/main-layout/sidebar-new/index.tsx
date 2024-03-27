@@ -302,11 +302,6 @@ const SidebarNew = ({
     return result;
   };
 
-  // Determine the OS
-  const isWindows =
-    typeof navigator !== "undefined" &&
-    navigator?.platform?.toUpperCase().includes("WIN");
-
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -373,9 +368,8 @@ const SidebarNew = ({
                 <div className="flex items-center justify-start p-2 mx-6 my-4 border rounded-md border-zinc-200 text-zinc-700">
                   <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
-                  <p className="text-sm text-zinc-300 ms-auto flex justify-start items-center">
-                    {isWindows ? "Ctrl" : <Command size={14} />}
-                    +K
+                  <p className="flex items-center justify-start text-sm text-zinc-300 ms-auto">
+                    Ctrl+K
                   </p>
                 </div>
               ) : (
@@ -543,8 +537,9 @@ const SidebarNew = ({
                                     router?.push(accordionItem?.itemSlug)
                                   }
                                   className={`mb-1 font-medium ${
-                                    isActive(accordionItem?.itemSlug) &&
-                                    "text-blue-500"
+                                    isActive(accordionItem?.itemSlug)
+                                      ? "text-blue-500"
+                                      : "text-zinc-600 "
                                   }`}
                                 >
                                   {accordionItem?.itemName}

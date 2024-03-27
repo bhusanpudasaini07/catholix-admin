@@ -2,6 +2,7 @@ import {
   ArrowLeftFromLine,
   Calculator,
   Clock,
+  Command,
   File,
   Folder,
   FolderOpen,
@@ -18,7 +19,7 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
@@ -300,6 +301,23 @@ const SidebarNew = ({
     const result = router.pathname.startsWith(tabRoute);
     return result;
   };
+
+  // Determine the OS
+  const isWindows =
+    typeof navigator !== "undefined" &&
+    navigator?.platform?.toUpperCase().includes("WIN");
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
+
   return (
     <div
       style={{
@@ -355,6 +373,10 @@ const SidebarNew = ({
                 <div className="flex items-center justify-start p-2 mx-6 my-4 border rounded-md border-zinc-200 text-zinc-700">
                   <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
+                  <p className="text-sm text-zinc-300 ms-auto flex justify-start items-center">
+                    {isWindows ? "Ctrl" : <Command size={14} />}
+                    +K
+                  </p>
                 </div>
               ) : (
                 <div

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 
 import PercentageGraph from "@/shared/components/percentage-graph";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   spentBudget: string | number | undefined | null;
@@ -31,7 +32,7 @@ const BudgetUtilization: FC<IProps> = ({
           <div className="flex items-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {spentBudget}
+                {changeNumberFormat(Number(spentBudget))}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Overall Budget
@@ -49,7 +50,7 @@ const BudgetUtilization: FC<IProps> = ({
           <div className="flex items-center justify-center gap-6 grow">
             <div className="">
               <h3 className="text-4xl font-semibold text-zinc-800">
-                {clientBudget}
+                {changeNumberFormat(Number(clientBudget))}
               </h3>
               <p className="text-sm font-normal text-zinc-500">
                 Client’s Project Budget

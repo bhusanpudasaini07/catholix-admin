@@ -43,7 +43,10 @@ const ListCardFilter = ({
   return (
     <div className="flex items-center justify-between grow">
       <div className="flex items-center justify-end gap-4 grow">
-        <FilterSearch className="h-10" setSearchText={setSearchText} />
+        <FilterSearch
+          className="h-10 !max-w-[280px]"
+          setSearchText={setSearchText}
+        />
 
         <div className="w-[270px]">
           <ComboBox

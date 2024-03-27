@@ -4,6 +4,7 @@ import React, { FC } from "react";
 
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   available?: string | undefined | number;
@@ -37,7 +38,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-blue-500">
-                {available ? available : "N/A"}
+                {available ? changeNumberFormat(Number(available)) : "N/A"}
               </p>
               <p className="text-sm text-blue-600">Available Budget</p>
             </div>
@@ -48,7 +49,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-green-500">
-                {spent ? spent : "N/A"}
+                {spent ? changeNumberFormat(Number(spent)) : "N/A"}
               </p>
               <p className="text-sm font-normal text-green-600">Spent Budget</p>
             </div>
@@ -59,7 +60,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
             </div>
             <div className="ml-1">
               <p className="text-3xl font-semibold text-red-500">
-                {loss ? loss : "N/A"}
+                {loss ? changeNumberFormat(Number(loss)) : "N/A"}
               </p>
               <p className="text-sm text-red-600">Loss Budget</p>
             </div>

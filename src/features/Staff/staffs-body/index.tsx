@@ -158,7 +158,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
         {!staffLogLoading ? (
           <BudgetUtilization
             spentBudget={spentBudget}

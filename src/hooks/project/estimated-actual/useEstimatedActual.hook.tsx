@@ -1,11 +1,13 @@
 import { EChartsInstance } from "echarts-for-react";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useQuery } from "react-query";
 
+import { IFilterConfigRoleGroup } from "@/interface/common-interface";
 import {
   IEstimatedActual,
   IProjectDetail,
+  IProjectIndivRole,
   IProjectRoleRPSummary,
 } from "@/interface/project-interface";
 import {
@@ -13,8 +15,13 @@ import {
   getProjectDetail,
   getProjectRoleRp,
 } from "@/services/project/project-service";
-import { calculatePercentage } from "@/shared/utils/rp-utils";
+import {
+  calculatePercentage,
+  changeNumberFormat,
+} from "@/shared/utils/rp-utils";
+import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   data: IProjectDetail;
@@ -24,6 +31,8 @@ const useEstimatedActual = () => {
   const {
     query: { code },
   } = useRouter();
+  const { filterConfig } = useCommonStore();
+  // REFS
   const overallChartRef = useRef<EChartsInstance>(null);
 
   const { data: projectDetail, isLoading: projectLoading } = useQuery<IProps>({
@@ -117,7 +126,8 @@ const useEstimatedActual = () => {
         emphasis: {
           focus: "series",
         },
-        data: estimatedActual?.data?.map((item) => item?.quote) ?? [],
+        data:
+          estimatedActual?.data?.map((item) => (item?.quote).toFixed(2)) ?? [],
       },
       {
         name: "Estimated",
@@ -314,97 +324,51 @@ const useEstimatedActual = () => {
     ],
   };
 
-  const individualRolesOption = {
-    grid: {
-      top: "10%",
-      bottom: "10%",
-    },
-    tooltip: {
-      trigger: "axis",
-      axisPointer: {
-        type: "shadow",
-      },
-    },
-    // legend: {
-    //   data: ["Forest", "Steppe", "Desert", "Wetland"],
-    // },
-    xAxis: [
-      {
-        type: "category",
-        axisTick: { show: false },
-        data: ["Senior Node"],
-      },
-    ],
-    yAxis: [
-      {
-        type: "value",
-      },
-    ],
-    series: [
-      {
-        name: "Estimated",
-        type: "bar",
-        barGap: 2,
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: [320],
-      },
-      {
-        name: "Budget",
-        type: "bar",
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: [220],
-      },
-      {
-        name: "Actual",
-        type: "bar",
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: [150],
-      },
-    ],
-  };
-
   // Table column for individual department
-  const individualRoleColumn: ColumnDef<any>[] = [
+  const individualRoleColumn: ColumnDef<IProjectIndivRole>[] = [
     {
       id: "sn",
       accessorKey: "sn",
       header: "S.No.",
-      cell: ({ row }: any) => <div>{row?.index + 1}.</div>,
+      cell: ({ row }: any) => (
+        <div className="font-medium text-zinc-500">{row?.index + 1}.</div>
+      ),
     },
     // Info
     {
       id: "member_info",
       accessorKey: "member_info",
       header: "Member Info",
-      cell: ({ row }) => <div>asd</div>,
+      cell: ({ row }) => (
+        <div className="font-semibold text-primary">{row?.original?.title}</div>
+      ),
     },
     // Estimate
     {
-      id: "estimate",
-      accessorKey: "estimate",
+      id: "estimated",
+      accessorKey: "estimated",
       header: "Estimate",
-      cell: ({ row }) => <div>asd</div>,
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-500">
+          {changeNumberFormat(row?.getValue("estimated"))}
+        </div>
+      ),
     },
     // Budget
     {
-      id: "rp",
-      accessorKey: "rp",
+      id: "quote",
+      accessorKey: "quote",
       header: "Budget",
-      cell: ({ row }) => <div>asd</div>,
+      cell: ({ row }) => (
+        <div className="font-semibold text-zinc-500">
+          {changeNumberFormat(row?.getValue("quote"))}
+        </div>
+      ),
     },
     // Actual Spent
     {
-      id: "actual_spent",
-      accessorKey: "actual_spent",
+      id: "actual",
+      accessorKey: "actual",
       header: () => (
         <div>
           Actual
@@ -412,7 +376,18 @@ const useEstimatedActual = () => {
           Spent
         </div>
       ),
-      cell: ({ row }) => <div>asd</div>,
+      cell: ({ row }) => (
+        <div
+          className={cn(
+            row?.original?.actual > row?.original?.estimated
+              ? "text-destructive"
+              : "text-zinc-500",
+            "font-semibold"
+          )}
+        >
+          {changeNumberFormat(row?.getValue("actual"))}
+        </div>
+      ),
     },
     // Logged Hours
     {
@@ -425,9 +400,35 @@ const useEstimatedActual = () => {
           Hours
         </div>
       ),
-      cell: ({ row }) => <div>asd</div>,
+      cell: ({ row }) => <div className="font-semibold text-zinc-500">0M</div>,
     },
   ];
+
+  const groupByDepartment = useMemo(() => {
+    const roleGroups: IFilterConfigRoleGroup[] = filterConfig?.role_group || [];
+    const projectRoles = projectRoleRp?.data || [];
+
+    // quicker access to projectRoles by title
+    const projectRolesMap = new Map(
+      projectRoles.map((role) => [role.title, role])
+    );
+
+    return roleGroups.map((group) => {
+      // Filter roles directly using the map for efficiency
+      const rolesData = group.roles.reduce((acc: any[], role: any) => {
+        const roleData = projectRolesMap.get(role.title);
+        if (roleData) {
+          acc.push(roleData);
+        }
+        return acc;
+      }, []);
+
+      return {
+        department_title: group.title,
+        roles: rolesData,
+      };
+    });
+  }, [filterConfig, projectRoleRp]);
 
   /**
    * For Overall Piechart value change
@@ -477,7 +478,6 @@ const useEstimatedActual = () => {
     estimatedActualGraph,
     overallPieOption,
     overallRolesOption,
-    individualRolesOption,
     individualRoleColumn,
     overallChartRef,
 
@@ -488,6 +488,8 @@ const useEstimatedActual = () => {
     estimatedActualLoading,
     projectRoleRp,
     projectRoleRPLoading,
+
+    groupByDepartment,
   };
 };
 

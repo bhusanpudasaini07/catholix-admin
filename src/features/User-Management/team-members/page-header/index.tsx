@@ -7,7 +7,7 @@ interface IProps {
   dateRangeOpen: boolean;
   dateRange: DateRange | undefined;
   dateChangeHandler: (arg: DateRange) => void;
-  setSearchText: (arg: string) => void;
+  searchHandler: (arg: string) => void;
   setDepartment: (arg: string) => void;
   department: string;
 }
@@ -17,7 +17,7 @@ const TeamMemberPageHeader = ({
   dateRangeOpen,
   dateRange,
   dateChangeHandler,
-  setSearchText,
+  searchHandler,
   setDepartment,
   department,
 }: IProps) => {
@@ -36,7 +36,7 @@ const TeamMemberPageHeader = ({
         dateRangeOpen={dateRangeOpen}
         dateRange={dateRange}
         dateChangeHandler={dateChangeHandler}
-        setSearchText={setSearchText}
+        setSearchText={searchHandler}
         setDepartment={setDepartment}
         department={department}
       />

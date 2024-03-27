@@ -653,7 +653,8 @@ export const useProjectDetail = () => {
         emphasis: {
           focus: "series",
         },
-        data: estimatedActual?.data?.map((item) => item?.quote) ?? [],
+        data:
+          estimatedActual?.data?.map((item) => (item?.quote).toFixed(2)) ?? [],
       },
       {
         name: "Estimated",

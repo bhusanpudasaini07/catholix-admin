@@ -18,13 +18,13 @@ const TeamMembersList: NextPageWithLayout = () => {
     dateRangeOpen,
     dateRange,
     dateChangeHandler,
-    setSearchText,
     modalOpen,
     staffId,
     changeStaffLog,
     staffDailyLog,
     staffDailyLogLoading,
     setDepartment,
+    searchHandler,
     department,
   } = useTeamMemberList();
   return (
@@ -35,7 +35,7 @@ const TeamMembersList: NextPageWithLayout = () => {
         dateRangeOpen={dateRangeOpen}
         dateRange={dateRange}
         dateChangeHandler={dateChangeHandler}
-        setSearchText={setSearchText}
+        searchHandler={searchHandler}
         setDepartment={setDepartment}
         department={department}
       />

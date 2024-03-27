@@ -227,7 +227,7 @@ const DetailOverview = () => {
                           On Hold
                         </h4>
                       ) : (
-                        <div className="flex items-center gap-1">
+                        <div className="flex flex-wrap items-center gap-1">
                           <h4
                             className={cn(
                               daysValue && daysValue > 0
@@ -250,7 +250,7 @@ const DetailOverview = () => {
                         </div>
                       )}
 
-                      <div className="flex items-center gap-1">
+                      <div className="flex flex-wrap items-center gap-1">
                         <h4 className="mb-1 text-xl font-medium text-zinc-800">
                           {projectDetail?.data?.status &&
                           ["Closed", "On Hold"].includes(

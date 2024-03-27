@@ -32,7 +32,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
     };
 
     const handleExpand = () => {
-      if (window.innerWidth > 1366) {
+      if (window.innerWidth > 1480) {
         setIsExpanded(true);
       } else {
         setIsExpanded(false);

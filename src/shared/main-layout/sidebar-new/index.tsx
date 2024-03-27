@@ -246,21 +246,17 @@ const SidebarNew = ({
   return (
     <div
       style={{
-        minWidth: sidebarWidth,
         width: sidebarWidth,
-        maxWidth: sidebarWidth,
       }}
-      className={`bg-light-white sidebar ${
+      className={`bg-light-white shrink-0 sidebar ${
         isExpanded ? "pt-[120px] pb-12" : "pt-[140px] pb-[88px]"
       } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
       <div
         style={{
-          minWidth: sidebarWidth,
           width: sidebarWidth,
-          maxWidth: sidebarWidth,
         }}
-        className="fixed bg-white z-10 top-0 border-r border-r-slate-100 border-b border-b-slate-100"
+        className="fixed top-0 z-10 bg-white border-b border-r border-r-slate-100 border-b-slate-100"
       >
         <div
           className={` pt-4  w-full  ${
@@ -299,7 +295,7 @@ const SidebarNew = ({
           <Dialog>
             <DialogTrigger className="w-full">
               {isExpanded ? (
-                <div className="border border-zinc-200 text-zinc-700 rounded-md mx-6 my-4 p-2 flex justify-start items-center">
+                <div className="flex items-center justify-start p-2 mx-6 my-4 border rounded-md border-zinc-200 text-zinc-700">
                   <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
                 </div>
@@ -324,18 +320,18 @@ const SidebarNew = ({
                   setSearchText={() => ""}
                 />
               </DialogHeader>
-              <div className="p-6 border-t border-zinc-200 text-zinc-500 text-sm font-medium">
+              <div className="p-6 text-sm font-medium border-t border-zinc-200 text-zinc-500">
                 <p className="">RECENT</p>
-                <ul className="max-h-80 overflow-auto">
-                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                <ul className="overflow-auto max-h-80">
+                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
                     <FolderOpen />
                     <p>Wonder</p>
                   </li>
-                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
                     <FolderOpen />
                     <p>Wonder</p>
                   </li>
-                  <li className="flex justify-start items-center gap-3 py-3 hover:text-primary cursor-pointer">
+                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
                     <FolderOpen />
                     <p>Wonder</p>
                   </li>

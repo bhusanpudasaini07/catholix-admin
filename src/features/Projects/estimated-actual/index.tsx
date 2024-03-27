@@ -6,7 +6,7 @@ import OverallRoles from "./body-content/overall-roles";
 import useEstimatedActual from "@/hooks/project/estimated-actual/useEstimatedActual.hook";
 
 const EstimatedActualContent = () => {
-  const { individualRolesOption, individualRoleColumn } = useEstimatedActual();
+  const { individualRoleColumn, groupByDepartment } = useEstimatedActual();
   return (
     <>
       <EstimatedActualHeader />
@@ -18,10 +18,13 @@ const EstimatedActualContent = () => {
           <OverallRoles />
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            <EstimatedActualDepartmentWise
-              option={individualRolesOption}
-              column={individualRoleColumn}
-            />
+            {groupByDepartment?.map((department) => (
+              <EstimatedActualDepartmentWise
+                key={department?.department_title}
+                departmentData={department}
+                column={individualRoleColumn}
+              />
+            ))}
           </div>
         </div>
       </div>

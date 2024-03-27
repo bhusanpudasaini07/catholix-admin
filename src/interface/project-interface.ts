@@ -387,11 +387,13 @@ interface IRoleBudget {
 }
 
 export interface IProjectRoleRPSummary {
-  data: {
-    actual: number;
-    estimated: number;
-    id: number;
-    quote: number;
-    title: string;
-  }[];
+  data: IProjectIndivRole[];
+}
+
+export interface IProjectIndivRole {
+  actual: number;
+  estimated: number;
+  id: number;
+  quote: number;
+  title: string;
 }

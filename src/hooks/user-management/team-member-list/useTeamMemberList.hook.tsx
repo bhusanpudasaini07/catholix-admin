@@ -78,6 +78,12 @@ const useTeamMemberList = () => {
     queryKey: ["getStaffDailyLog", dateRange?.to, staffId, modalOpen],
   });
 
+  // search api function
+  const searchHandler = (value: string) => {
+    setSearchText(value);
+    setPageNum(1);
+  };
+
   // change date range
   const dateChangeHandler = (date: DateRange) => {
     setDateRange(date);
@@ -186,7 +192,7 @@ const useTeamMemberList = () => {
       cell: ({ row }) => {
         return (
           <div>
-            <div className="flex flex-wrap gap-1.5 w-[300px]">
+            <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
                     ?.slice(0, count?.id === row?.original?.id ? count?.num : 3)
@@ -341,6 +347,7 @@ const useTeamMemberList = () => {
     setPerPage,
     pageNum,
     changePageNum,
+    searchHandler,
 
     // Data
     teamMemberList,

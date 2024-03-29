@@ -59,22 +59,18 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
         const lossRp = parseFloat(staff?.loss_rp || "0");
         const availableTime = parseFloat(staff?.available_time || "0");
         const usedTime = parseFloat(staff?.used_time || "0");
-        const rpPercentage =
-          usedRp !== 0 ? ((lossRp / usedRp) * 100).toFixed(2) : "0.00";
-        const clientRpPercentage =
-          usedRp !== 0 ? ((commercialRp / usedRp) * 100).toFixed(2) : "0.00";
-        const timePercentage =
-          availableTime !== 0
-            ? ((usedTime / availableTime) * 100).toFixed(2)
-            : "0.00";
-        const clientTimePercentage =
-          availableTime !== 0
-            ? (
-                (parseFloat(staff?.commercial_time) / availableTime) *
-                100
-              ).toFixed(2)
-            : "0.00";
-
+        const rpPercentage = ((usedRp / (usedRp + lossRp)) * 100 || 0)?.toFixed(
+          2
+        );
+        const clientRpPercentage = (
+          (commercialRp / (usedRp + lossRp)) * 100 || 0
+        )?.toFixed(2);
+        const timePercentage = ((usedTime / availableTime) * 100 || 0)?.toFixed(
+          2
+        );
+        const clientTimePercentage = (
+          (parseFloat(staff?.commercial_time) / availableTime) * 100 || 0
+        ).toFixed(2);
         return {
           sn: index + 1,
           id: staff?.id,

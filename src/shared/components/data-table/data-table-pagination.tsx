@@ -1,10 +1,14 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import React, { memo, useCallback, useEffect, useState } from "react";
 
-import { Button } from '@/shared/components/ui/button';
+import { Button } from "@/shared/components/ui/button";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 interface IPagination {
   currentPage: number;
@@ -89,7 +93,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
               <SelectValue placeholder={JSON.stringify(perPage)} />
             </SelectTrigger>
             <SelectContent>
-              {[12, 24, 26, 48, 60].map((pageSize) => (
+              {[12, 24, 36, 48, 60].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>

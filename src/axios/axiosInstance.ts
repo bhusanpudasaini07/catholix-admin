@@ -31,14 +31,14 @@ const refreshAuthLogic = (_failedRequest: any) => {
 createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
   shouldRefresh: (error: any) => {
     let shouldRefresh = false;
-    const responseData = error.response?.data?.detail?.error;
+    const responseData = error.response?.data?.errors;
     const responseStatus = error.response?.status;
-    const errorCode = responseData[0]?.errorCode;
+    const errorCode = responseData[0]?.code;
     // if (responseStatus === 401 && errorCode === 1006) {
     //   shouldRefresh = true;
     // } else
     // if (responseStatus === 401 && errorCode === 1017) {
-    if (responseStatus === 401) {
+    if (responseStatus === 401 && errorCode === 1017) {
       clearAllSessionAndLocalStates();
     }
     return shouldRefresh;

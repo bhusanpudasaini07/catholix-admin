@@ -1,29 +1,34 @@
-import { setCookie } from 'cookies-next';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { setCookie } from "cookies-next";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useMutation } from "react-query";
 
-import { constants } from '@/constants';
-import { ILoginFormInput } from '@/interface/auth-interface';
-import { LoginSchema } from '@/schema/auth-schema/login-schema';
-import { login } from '@/services/auth/auth-service';
-import ButtonLoader from '@/shared/components/loader/button-loader';
-import PasswordInput from '@/shared/components/password-input';
-import { Button } from '@/shared/components/ui/button';
-import { Checkbox } from '@/shared/components/ui/checkbox';
+import { constants } from "@/constants";
+import { ILoginFormInput } from "@/interface/auth-interface";
+import { LoginSchema } from "@/schema/auth-schema/login-schema";
+import { login } from "@/services/auth/auth-service";
+import ButtonLoader from "@/shared/components/loader/button-loader";
+import PasswordInput from "@/shared/components/password-input";
+import { Button } from "@/shared/components/ui/button";
+import { Checkbox } from "@/shared/components/ui/checkbox";
 import {
-    Form, FormControl, FormField, FormItem, FormLabel, FormMessage
-} from '@/shared/components/ui/form';
-import { Input } from '@/shared/components/ui/input';
-import { setAuthCookies } from '@/shared/utils/cookie-utils';
-import { showToast, TOAST_TYPES } from '@/shared/utils/toast-utils/toast.utils';
-import { useLoggedInStore } from '@/store/auth-store';
-import { zodResolver } from '@hookform/resolvers/zod';
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/shared/components/ui/form";
+import { Input } from "@/shared/components/ui/input";
+import { setAuthCookies } from "@/shared/utils/cookie-utils";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
+import { useLoggedInStore } from "@/store/auth-store";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import config from '../../../../config';
+import config from "../../../../config";
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;

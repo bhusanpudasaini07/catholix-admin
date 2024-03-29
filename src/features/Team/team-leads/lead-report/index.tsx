@@ -6,7 +6,7 @@ import LeadHeader from "./lead-header";
 
 export const oneWeekAgo = new Date();
 const sixMonthsAgo = new Date();
-sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+sixMonthsAgo?.setMonth(sixMonthsAgo?.getMonth() - 6);
 
 const LeadReportContent = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({

@@ -178,7 +178,7 @@ const useProjectStories = () => {
           <Link
             href={row?.original?.url}
             target="_blank"
-            className="block font-medium truncate text-primary hover:text-blue-800"
+            className="block font-medium text-primary hover:text-blue-800"
           >
             {row.getValue("title")}
           </Link>

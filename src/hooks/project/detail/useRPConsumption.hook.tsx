@@ -1,13 +1,13 @@
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { IConsumptionData } from '@/interface/project-interface';
-import { getRpSummary } from '@/services/project/project-service';
+import { IConsumptionData } from "@/interface/project-interface";
+import { getRpSummary } from "@/services/project/project-service";
 
-import useProjectDetail from './useProjectDetail.hook';
+import useProjectDetail from "./useProjectDetail.hook";
 
 const useRPConsumption = () => {
   const { projectDetail } = useProjectDetail();
@@ -17,7 +17,7 @@ const useRPConsumption = () => {
 
   // STATES
   const [barType, setBarType] = useState("individual");
-  const [tab, setTab] = useState("line");
+  const [tab, setTab] = useState("bar");
 
   const [dateType, setDateType] = useState("daily");
   const [wiseType, setWiseType] = useState("role");

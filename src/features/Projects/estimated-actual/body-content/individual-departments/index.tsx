@@ -27,6 +27,11 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
         type: "shadow",
       },
     },
+    legend: {
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+    },
     xAxis: [
       {
         type: "category",
@@ -48,7 +53,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
     ],
     series: [
       {
-        name: "Actual",
+        name: "Actual Spent Budget",
         type: "bar",
         emphasis: {
           focus: "series",
@@ -74,6 +79,8 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
       },
     ],
   };
+
+  console.log(departmentData?.roles);
 
   return (
     <Card>

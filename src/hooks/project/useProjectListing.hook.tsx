@@ -441,9 +441,19 @@ const useProjectListing = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
-                  <p className="mb-2 text-sm font-medium text-zinc-700">
-                    {statusText}
-                  </p>
+                  {row?.original?.status === "Closed" ? (
+                    <p className="mb-1 text-sm font-medium text-green-500">
+                      Completed
+                    </p>
+                  ) : row?.original?.status === "On Hold" ? (
+                    <p className="mb-1 text-sm font-medium text-red-500">
+                      On Hold
+                    </p>
+                  ) : (
+                    <p className="mb-2 text-sm font-medium text-zinc-700">
+                      {statusText}
+                    </p>
+                  )}
                   <Progress
                     className={cn("h-1.5", {
                       "[&>div]:bg-red-500": barValue >= 90,

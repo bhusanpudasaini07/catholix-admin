@@ -1,4 +1,5 @@
 import {
+  Activity,
   ArrowLeftFromLine,
   Calculator,
   Clock,
@@ -238,6 +239,19 @@ const SidebarNew = ({
               itemSlug: "/user-management/team-members",
             },
           ],
+        },
+      ],
+    },
+    {
+      menuName: t("common.side_nav.market"),
+      menuSlug: "/market",
+      icon: <Activity width={20} height={20} />,
+      hasChildren: false,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.market_page"),
+          menuSlug: "/market",
+          icon: <Activity width={20} height={20} />,
         },
       ],
     },

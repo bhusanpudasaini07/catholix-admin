@@ -23,7 +23,9 @@
       "other": "Other",
       "pl_feedback": "PL Feedback",
       "feedback_report": "Feedback Report",
-      "gitlab_hooks": "Gitlab Hooks"
+      "gitlab_hooks": "Gitlab Hooks",
+      "market": "Market",
+      "market_page": "Market Page"
     },
 
     "search": "Input here to search"

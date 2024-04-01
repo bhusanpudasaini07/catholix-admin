@@ -19,14 +19,25 @@ const ConsumptionType = () => {
     roleChartRef,
   } = useConsumptionType();
 
+  const teamWiseSortedData = rpSummary?.data?.staffwise
+    ? [...rpSummary.data.staffwise]?.sort(
+        (a, b) => Number(b?.rp) - Number(a?.rp)
+      )
+    : [];
+  const roleWiseSortedData = rpSummary?.data?.rolewise
+    ? [...rpSummary.data.rolewise]?.sort(
+        (a, b) => Number(b?.rp) - Number(a?.rp)
+      )
+    : [];
+
   return (
     <div className="grid grid-cols-12 gap-4 mt-4">
       {/* Team Wise */}
-      <div className="col-span-12 xl:col-span-6 ">
+      <div className="col-span-12 xl:col-span-6">
         <Card>
           <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center justify-start gap-3">
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex gap-3 justify-start items-center">
                 <p className="text-lg font-medium text-zinc-700">
                   Team Wise Consumption
                 </p>
@@ -42,14 +53,14 @@ const ConsumptionType = () => {
                 option={staffWiseOption}
               />
             </div>
-            <div className="overflow-hidden rounded-md grow ">
+            <div className="overflow-hidden rounded-md grow">
               <DataTable
                 columns={staffColumns}
                 border={true}
                 loading={rpLoading}
                 headerSticky={true}
                 height="max-h-[340px]"
-                data={rpSummary?.data?.staffwise ?? []}
+                data={teamWiseSortedData ?? []}
               />
             </div>
           </CardContent>
@@ -57,11 +68,11 @@ const ConsumptionType = () => {
       </div>
 
       {/* Role Wise */}
-      <div className="col-span-12 xl:col-span-6 ">
+      <div className="col-span-12 xl:col-span-6">
         <Card>
           <CardContent>
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center justify-start gap-3">
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex gap-3 justify-start items-center">
                 <p className="text-lg font-medium text-zinc-700">
                   Role Wise Consumption
                 </p>
@@ -77,14 +88,14 @@ const ConsumptionType = () => {
                 opts={{ renderer: "svg" }}
               />
             </div>
-            <div className="overflow-hidden rounded-md grow ">
+            <div className="overflow-hidden rounded-md grow">
               <DataTable
                 border={true}
                 columns={roleColumns}
                 loading={rpLoading}
                 headerSticky={true}
                 height="max-h-[340px]"
-                data={rpSummary?.data?.rolewise ?? []}
+                data={roleWiseSortedData ?? []}
               />
             </div>
           </CardContent>

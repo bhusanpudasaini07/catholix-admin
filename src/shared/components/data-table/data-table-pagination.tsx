@@ -81,9 +81,9 @@ const DataTablePagination: React.FC<IPagination> = memo(
     }, [handlePaginationEllipsis]);
 
     return (
-      <div className="flex items-center justify-between px-2 mt-6">
+      <div className="flex justify-between items-center px-2 mt-6">
         {/* Entries */}
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2 items-center">
           <p className="text-sm">Show</p>
           <Select
             value={JSON.stringify(perPage)}
@@ -93,7 +93,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
               <SelectValue placeholder={JSON.stringify(perPage)} />
             </SelectTrigger>
             <SelectContent>
-              {[12, 24, 36, 48, 60].map((pageSize) => (
+              {[12, 24, 36, 48].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -104,7 +104,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
         </div>
 
         {/* Pagination */}
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2 items-center">
           <Button
             variant={"pagination"}
             className={
@@ -117,7 +117,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
           >
             <ChevronLeft className="max-w-[18px]" />
           </Button>
-          <div className="flex items-center gap-2">{pageNumber}</div>
+          <div className="flex gap-2 items-center">{pageNumber}</div>
           <Button
             variant={"pagination"}
             className={

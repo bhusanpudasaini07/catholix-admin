@@ -1,5 +1,6 @@
 import {
   Activity,
+  AlignCenterVertical,
   BarChart,
   BookOpen,
   Car,
@@ -55,8 +56,11 @@ import { ColumnDef, VisibilityState } from "@tanstack/react-table";
 
 import { useDebounce } from "../debounce.hooks";
 import useProjectFilter from "./overall-filters/useProjectFilter.hook";
+import { useRouter } from "next/router";
+import BurndownSvg from "@/shared/svg/burndown";
 
 const useProjectListing = () => {
+  const router = useRouter();
   const { filterSaved, setFilterSaved } = useCommonStore();
 
   const { setFilterStates, setDateRange, setSelectedOption, setSelectedLeads } =
@@ -129,6 +133,11 @@ const useProjectListing = () => {
     );
   };
 
+  const searchProjectHandler = (search: string) => {
+    setPageNumber(1);
+    setSearchText(search);
+  };
+
   // ------------------------------------//
 
   // API CALL FOR PROJECT LIST
@@ -168,7 +177,7 @@ const useProjectListing = () => {
     return (
       <div className="text-color">
         <div
-          className={`absolute top-2 bottom-2 rounded-e left-0 w-[4px] h-auto ${bgColor} `}
+          className={`absolute left-0 top-2 bottom-2 h-auto rounded-e w-[4px] ${bgColor}`}
         ></div>
         {serialNumber}
       </div>
@@ -218,6 +227,11 @@ const useProjectListing = () => {
     setFilterSaved(resetData);
     localStorage.setItem("savedFilter", JSON.stringify(resetData));
     setSelectedLeads([]);
+  };
+
+  // redirect route from actions button in listing
+  const redirectPage = (route: string, code: string) => {
+    router.push(`/projects/${code}/${route}`);
   };
 
   const columns: ColumnDef<IProjectDetail>[] = [
@@ -276,13 +290,13 @@ const useProjectListing = () => {
       header: "Project Detail",
       cell: ({ row }) => (
         <div className="w-[200px] min-w-0">
-          <div className="flex items-center min-w-0 gap-2 mb-1 text-xs text-zinc-600">
+          <div className="flex gap-2 items-center mb-1 min-w-0 text-xs text-zinc-600">
             <span>Code:</span>{" "}
             <div className="flex items-center gap-1 max-w-[70%]">
               <p className="font-medium truncate">{row.original?.code}</p>
 
               {copyTooltipText[row.original.project_id] === "Copied!" ? (
-                <div className="flex items-center gap-1 text-zinc-500">
+                <div className="flex gap-1 items-center text-zinc-500">
                   <CopyCheck size={12} />
                   <span className="text-[10px]">Copied</span>
                 </div>
@@ -396,12 +410,21 @@ const useProjectListing = () => {
         );
         return (
           <div className="w-[160px]">
-            {row?.original?.rp?.sales_rp && (
-              <p className={cn(color, "text-base font-medium")}>
-                {percentageLeft}
-              </p>
-            )}
-            <p className="flex items-center gap-2 my-1 text-sm text-zinc-600">
+            {row?.original?.rp?.sales_rp &&
+              (row?.original?.rp?.rp_utilization_percentage &&
+              row?.original?.rp?.rp_utilization_percentage > 100 ? (
+                <div className="text-base font-medium text-destructive">
+                  {(row?.original?.rp?.rp_utilization_percentage - 100).toFixed(
+                    2
+                  )}
+                  % Exceeded
+                </div>
+              ) : (
+                <p className={cn(color, "text-base font-medium")}>
+                  {percentageLeft}
+                </p>
+              ))}
+            <p className="flex gap-2 items-center my-1 text-sm text-zinc-600">
               <span>Sales Budget:</span>
               <span className="font-medium">
                 {row?.original?.rp?.sales_rp! > 0
@@ -409,7 +432,7 @@ const useProjectListing = () => {
                   : "N/A"}
               </span>
             </p>
-            <p className="flex items-center gap-2 text-sm text-zinc-600">
+            <p className="flex gap-2 items-center text-sm text-zinc-600">
               <span>Used Budget:</span>
               <span className="font-medium">
                 {row?.original?.rp?.used_rp
@@ -509,7 +532,7 @@ const useProjectListing = () => {
                 >
                   {row?.original?.project_lead?.fullname}
                 </Link>
-                <div className="flex flex-wrap mt-1 gap-x-2 gap-y-1">
+                <div className="flex flex-wrap gap-y-1 gap-x-2 mt-1">
                   {Array.from({
                     length:
                       row?.original?.project_lead?.in_progress_project_count ||
@@ -596,7 +619,7 @@ const useProjectListing = () => {
         <div className="min-w-[120px] max-w-[120px] text-zinc-600">
           {row.original.dates.last_log_date ? (
             <>
-              <p className="text-xs ">Last Logged</p>
+              <p className="text-xs">Last Logged</p>
               <p className="mt-1 text-sm font-medium">
                 {row.original.dates.last_log_date
                   ? moment(row.original.dates.last_log_date).format(
@@ -688,7 +711,7 @@ const useProjectListing = () => {
             />
 
             <div className="mt-2">
-              <p className="flex items-center gap-2">
+              <p className="flex gap-2 items-center">
                 <span className="w-3 h-3 bg-green-500 rounded-sm"></span>
                 <span className="text-green-500">
                   {row?.original?.task?.closed_task_count}
@@ -697,7 +720,7 @@ const useProjectListing = () => {
                   Closed Task
                 </span>
               </p>
-              <p className="flex items-center gap-2">
+              <p className="flex gap-2 items-center">
                 <span className="w-3 h-3 bg-orange-500 rounded-sm"></span>
                 <span className="text-orange-500">
                   {row?.original?.task?.open_task_count}
@@ -722,7 +745,7 @@ const useProjectListing = () => {
         const rowData = row.original;
 
         return (
-          <div className="flex items-center gap-4">
+          <div className="flex gap-4 items-center">
             <Tooltip>
               <TooltipTrigger>
                 <Link href={`/projects/${rowData?.code}/edit`}>
@@ -739,12 +762,12 @@ const useProjectListing = () => {
               <TooltipTrigger>
                 <Link
                   href={`/projects/${rowData?.code}/rp-estimation`}
-                  className="relative "
+                  className="relative"
                 >
                   <Badge
                     size={"sm"}
                     variant={"dark"}
-                    className="absolute -right-3 -top-3"
+                    className="absolute -top-3 -right-3"
                   >
                     {rowData?.member_count ?? 0}
                   </Badge>
@@ -761,33 +784,66 @@ const useProjectListing = () => {
               <DropdownMenuTrigger>
                 <MoreVertical size={20} className="stroke-zinc-700" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent className="min-w-[240px]" align="end">
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className="gap-2">
-                    <BarChart size={16} className="stroke-zinc-700" />
-                    Daily RP Consumption Graph
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("burndown-chart", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
+                    <BurndownSvg size={16} className="stroke-zinc-700" />
+                    Burndown Chart
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="gap-2">
-                    <Table size={16} className="stroke-zinc-700" /> Daily RP
-                    Consumption List
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("estimated-actual", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
+                    <AlignCenterVertical
+                      size={16}
+                      className="stroke-zinc-700"
+                    />
+                    Estimated Vs Actual Budget
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className="gap-2">
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("project-stories", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
                     <BookOpen size={16} className="stroke-zinc-700" /> User
                     Stories
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="gap-2">
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("latest-activities", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
                     <Activity size={16} className="stroke-zinc-700" />{" "}
                     Activities
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="gap-2">
-                    <Tag size={16} className="stroke-zinc-700" /> Label Report &
-                    Timelog Pattern
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("more-details", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
+                    <Tag size={16} className="stroke-zinc-700" /> Time-log and
+                    Status Details
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="gap-2">
+                  <DropdownMenuItem
+                    onClick={() =>
+                      redirectPage("task-time-spent", row?.original?.code)
+                    }
+                    className="gap-2"
+                  >
                     <Timer size={16} className="stroke-zinc-700" /> Task & Time
                     Spent
                   </DropdownMenuItem>
@@ -804,13 +860,13 @@ const useProjectListing = () => {
                     Date
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+                {/* <DropdownMenuSeparator /> */}
 
-                <DropdownMenuGroup>
+                {/* <DropdownMenuGroup>
                   <DropdownMenuItem className="gap-2 text-destructive hover:!text-destructive">
                     <Trash2 size={16} /> Delete
                   </DropdownMenuItem>
-                </DropdownMenuGroup>
+                </DropdownMenuGroup> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -841,6 +897,7 @@ const useProjectListing = () => {
     resetFilters,
 
     applyFilter,
+    searchProjectHandler,
   };
 };
 

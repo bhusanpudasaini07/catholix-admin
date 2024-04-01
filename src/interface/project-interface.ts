@@ -33,6 +33,7 @@ export interface IProjectDetail {
     approved_rp: number;
     unapproved_rp: number;
     sales_rp: number | null;
+    rp_utilization_percentage: number | null;
     used_rp: number | null;
   };
   dates: {
@@ -373,6 +374,14 @@ export interface IDailyRP {
   time: number;
   rp: number;
   username: string;
+  repo_task: IDailyRepoTask[];
+}
+
+export interface IDailyRepoTask {
+  title: string;
+  time: number;
+  rp: number;
+  task_url: string;
 }
 
 export interface IEstimatedActual {

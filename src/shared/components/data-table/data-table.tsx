@@ -190,7 +190,7 @@ export function DataTable<TData, TValue>({
                       key={cell.id}
                       className={
                         border
-                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
+                          ? "border-r-2 border-b-2 border-slate-100 last:border-r-0"
                           : ""
                       }
                     >
@@ -203,7 +203,7 @@ export function DataTable<TData, TValue>({
                 </TableRow>
               ))}
               {totals.length > 0 && (
-                <TableRow className={cn("font-semibold bg-slate-100")}>
+                <TableRow className={cn("font-semibold !bg-slate-100")}>
                   {columns.map((column, index) => {
                     const totalColumn = totals.find(
                       (t) => t.columnId === column?.id

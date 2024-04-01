@@ -45,6 +45,7 @@ import {
 import { Sheet, SheetContent, SheetHeader } from "@/shared/components/ui/sheet";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { ColumnDef } from "@tanstack/react-table";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   projectDetail: IProjectDetail | undefined;
@@ -73,8 +74,8 @@ const DetailHeader = ({
 }: IProps) => {
   const router = useRouter();
   return (
-    <div className="flex items-start justify-between p-6 bg-white border-b border-b-slate-100">
-      <div className="flex items-start gap-4">
+    <div className="flex justify-between items-start p-6 bg-white border-b border-b-slate-100">
+      <div className="flex gap-4 items-start">
         <Button
           onClick={() => router.push(`/projects`)}
           variant={"table"}
@@ -87,7 +88,7 @@ const DetailHeader = ({
           {loading ? (
             <Skeleton className="w-[80px] mb-2 h-5" />
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex gap-3 items-center">
               <h4 className="mb-1 text-2xl font-medium text-zinc-700">
                 {projectDetail?.project_title}
               </h4>
@@ -130,7 +131,7 @@ const DetailHeader = ({
                 Project Overview
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex flex-wrap mt-8 gap-x-12 gap-y-5">
+                <div className="flex flex-wrap gap-y-5 gap-x-12 mt-8">
                   {/* Start */}
                   <div className="">
                     <p className="flex items-center text-sm font-normal text-zinc-500">
@@ -213,7 +214,9 @@ const DetailHeader = ({
                       Sales RP
                     </p>
                     <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.rp?.sales_rp ?? 0}
+                      {changeNumberFormat(
+                        Number(projectDetail?.rp?.sales_rp)
+                      ) ?? 0}
                     </div>
                   </div>
                   {/* Fiscal Year */}
@@ -274,7 +277,7 @@ const DetailHeader = ({
           </Accordion>
         </div>
       </div>
-      <div className="flex items-center gap-4 mt-3">
+      <div className="flex gap-4 items-center mt-3">
         <Button
           onClick={() => router.push(`/projects/${code}/edit`)}
           variant={"outline"}
@@ -291,7 +294,7 @@ const DetailHeader = ({
           <DialogHeader className="text-lg font-bold text-color">
             Git URLs
           </DialogHeader>
-          <div className="flex flex-col min-w-0 gap-2">
+          <div className="flex flex-col gap-2 min-w-0">
             {projectDetail?.git_urls?.map((url: string, index) => (
               <div
                 key={index}
@@ -323,7 +326,7 @@ const DetailHeader = ({
           <div className="flex flex-col gap-3">
             {projectDetail?.assigned_roles_members?.map((member, index) => (
               <div
-                className="flex items-center justify-between gap-5"
+                className="flex gap-5 justify-between items-center"
                 key={index}
               >
                 <div className="flex items-center  w-[55%] text-base text-zinc-500">
@@ -350,30 +353,30 @@ const DetailHeader = ({
           </SheetHeader>
 
           <div className="flex flex-col gap-4 mt-14">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <User size={20} />
                 Project Lead Name
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {staffDetails?.data?.fullname}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <Timer size={20} />
                 Working Since
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {moment(staffDetails?.data?.join_date).format("Do MMM, YYYY")}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <Projector size={20} />
                 Projects Involved
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {staffDetails?.data?.pl_projects?.length}
               </p>
             </div>
@@ -386,7 +389,7 @@ const DetailHeader = ({
             <div className="flex flex-col gap-4 mt-6 max-h-[calc(100vh-360px)] pr-4 overflow-y-auto">
               {staffDetails?.data?.pl_projects?.map((project) => (
                 <div
-                  className="flex items-center justify-between text-sm text-gray-700"
+                  className="flex justify-between items-center text-sm text-gray-700"
                   key={project?.id}
                 >
                   <p className="font-semibold max-w-[70%]">{project?.title}</p>

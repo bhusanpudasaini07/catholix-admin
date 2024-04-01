@@ -106,7 +106,7 @@ const useProjectStories = () => {
           {row?.getValue("task_count") !== 0 ? (
             <Dialog>
               <DialogTrigger>
-                <div className={"text-blue-500 font-medium"}>
+                <div className={"font-medium text-blue-500"}>
                   {row?.getValue("task_count")} Task/s
                 </div>
               </DialogTrigger>
@@ -114,6 +114,20 @@ const useProjectStories = () => {
                 <DialogHeader>
                   <DialogTitle>{row?.getValue("title")}</DialogTitle>
                 </DialogHeader>
+                <div className="flex gap-8 justify-end items-center">
+                  <p className="text-sm text-zinc-500">
+                    Task #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.task_count}
+                    </span>
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    Bugs #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.bug_count}
+                    </span>
+                  </p>
+                </div>
                 <div className="">
                   <DataTable
                     border={true}
@@ -194,10 +208,10 @@ const useProjectStories = () => {
         <div className="max-w-[300px] min-w-0">
           <Badge
             className={cn(
-              row?.getValue("status") === "Open" &&
-                "bg-green-100 border-green-500 text-green-500 rounded-md",
               row?.getValue("status") === "Closed" &&
-                "bg-red-100 border-red-500 text-red-500 rounded-md"
+                "bg-green-100 border-green-500 text-green-500 rounded-md",
+              row?.getValue("status") === "Open" &&
+                "bg-blue-100 border-blue-500 text-blue-500 rounded-md"
             )}
           >
             {row.getValue("status")}
@@ -299,7 +313,7 @@ const useProjectStories = () => {
           {row?.getValue("task_count") !== 0 ? (
             <Dialog>
               <DialogTrigger>
-                <div className={"text-blue-500 font-medium"}>
+                <div className={"font-medium text-blue-500"}>
                   {row?.getValue("task_count")} Task/s
                 </div>
               </DialogTrigger>
@@ -307,6 +321,20 @@ const useProjectStories = () => {
                 <DialogHeader>
                   <DialogTitle>{row?.getValue("title")}</DialogTitle>
                 </DialogHeader>
+                <div className="flex gap-8 justify-end items-center">
+                  <p className="text-sm text-zinc-500">
+                    Task #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.task_count}
+                    </span>
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    Bugs #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.bug_count}
+                    </span>
+                  </p>
+                </div>
                 <div className="">
                   <DataTable
                     border={true}
@@ -336,7 +364,7 @@ const useProjectStories = () => {
           {row?.getValue("bug_count") ? (
             <Dialog>
               <DialogTrigger>
-                <div className={"text-orange-500 font-medium"}>
+                <div className={"font-medium text-orange-500"}>
                   {row?.getValue("bug_count")} Bug/s
                 </div>
               </DialogTrigger>
@@ -344,6 +372,20 @@ const useProjectStories = () => {
                 <DialogHeader>
                   <DialogTitle>{row?.getValue("title")}</DialogTitle>
                 </DialogHeader>
+                <div className="flex gap-8 justify-end items-center">
+                  <p className="text-sm text-zinc-500">
+                    Task #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.task_count}
+                    </span>
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    Bugs #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.bug_count}
+                    </span>
+                  </p>
+                </div>
                 <div className="">
                   <DataTable
                     border={true}

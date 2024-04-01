@@ -1,12 +1,29 @@
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
-import { IBurndownDate, IBurndownDetail, IDailyRP } from '@/interface/project-interface';
-import { getProjectBurndown, getTimeLogs } from '@/services/project/project-service';
-import { cn } from '@/shared/utils/utils';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  IBurndownDate,
+  IBurndownDetail,
+  IDailyRP,
+  IDailyRepoTask,
+} from "@/interface/project-interface";
+import {
+  getProjectBurndown,
+  getTimeLogs,
+} from "@/services/project/project-service";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/shared/components/ui/dialog";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import Link from "next/link";
 
 const useRPBurndown = () => {
   const router = useRouter();
@@ -35,7 +52,7 @@ const useRPBurndown = () => {
           "",
           1,
           200,
-          "log_by,time,date,rp",
+          "log_by,time,date,rp,title,task_url",
           date,
           date,
           "DESC"
@@ -83,7 +100,7 @@ const useRPBurndown = () => {
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
     const serialNumber = rowIndex + 1;
-    return <div className="text-color">{serialNumber}.</div>;
+    return <div className="font-medium text-color">{serialNumber}.</div>;
   };
 
   // Consumption List Data
@@ -190,6 +207,47 @@ const useRPBurndown = () => {
     },
   };
 
+  const individualStaffRpColumn: ColumnDef<IDailyRepoTask>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S.No.",
+      cell: (props) => <SerialNumberCell {...props} />,
+    },
+    {
+      id: "title",
+      accessorKey: "title",
+      header: "TASK",
+      cell: ({ row }) => (
+        <Link
+          className="font-medium text-primary"
+          target="_blank"
+          href={row?.original?.task_url}
+        >
+          {row?.getValue("title")}
+        </Link>
+      ),
+    },
+    {
+      id: "time",
+      accessorKey: "time",
+      header: "Total Time",
+      cell: ({ row }) => (
+        <p className="font-medium">
+          {moment.duration(row?.original?.time, "seconds").hours() > 0 &&
+            moment.duration(row?.original?.time, "seconds").hours() + "H"}{" "}
+          {moment.duration(row?.original?.time, "seconds").minutes() + "M"}
+        </p>
+      ),
+    },
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "Budget",
+      cell: ({ row }) => <p className="font-medium">{row?.getValue("rp")}</p>,
+    },
+  ];
+
   const dailyRPColumns: ColumnDef<IDailyRP>[] = [
     // SN
     {
@@ -203,7 +261,9 @@ const useRPBurndown = () => {
       id: "name",
       accessorKey: "name",
       header: "Name",
-      cell: ({ row }) => <div>{row?.getValue("name")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">{row?.getValue("name")}</div>
+      ),
     },
     // TOTAL TIME
     {
@@ -211,11 +271,57 @@ const useRPBurndown = () => {
       accessorKey: "time",
       header: "Total Time",
       cell: ({ row }) => (
-        <div>
-          {moment.duration(row?.original?.time, "seconds").hours() > 0 &&
-            moment.duration(row?.original?.time, "seconds").hours() + "H"}{" "}
-          {moment.duration(row?.original?.time, "seconds").minutes() + "M"}
-        </div>
+        <Dialog>
+          <DialogTrigger>
+            <div className="font-medium text-primary">
+              {moment.duration(row?.original?.time, "seconds").hours() > 0 &&
+                moment.duration(row?.original?.time, "seconds").hours() +
+                  "H"}{" "}
+              {moment.duration(row?.original?.time, "seconds").minutes() + "M"}
+            </div>
+          </DialogTrigger>
+          <DialogContent className="max-w-[800px]">
+            <DialogHeader>
+              <DialogTitle>{row?.original?.name}</DialogTitle>
+            </DialogHeader>
+            <div className="">
+              <DataTable
+                border={true}
+                columns={individualStaffRpColumn}
+                loading={isLoading}
+                headerSticky={true}
+                height="max-h-[400px]"
+                data={row?.original?.repo_task ?? []}
+                total={[
+                  {
+                    columnId: "rp",
+                    format: (value) => {
+                      return value.toFixed(2);
+                    },
+                  },
+                  {
+                    columnId: "time",
+                    format: (value) => {
+                      return (
+                        <div>
+                          {moment
+                            .duration(row?.original?.time, "seconds")
+                            .hours() > 0 &&
+                            moment
+                              .duration(row?.original?.time, "seconds")
+                              .hours() + "H"}{" "}
+                          {moment
+                            .duration(row?.original?.time, "seconds")
+                            .minutes() + "M"}
+                        </div>
+                      );
+                    },
+                  },
+                ]}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
       ),
     },
     // RP
@@ -223,7 +329,56 @@ const useRPBurndown = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget",
-      cell: ({ row }) => <div>{row?.original?.rp.toFixed(2)}</div>,
+      cell: ({ row }) => (
+        <Dialog>
+          <DialogTrigger>
+            <div className="font-medium text-primary">
+              {row?.original?.rp.toFixed(2)}
+            </div>
+          </DialogTrigger>
+          <DialogContent className="max-w-[800px]">
+            <DialogHeader>
+              <DialogTitle>{row?.original?.name}</DialogTitle>
+            </DialogHeader>
+            <div className="">
+              <DataTable
+                border={true}
+                columns={individualStaffRpColumn}
+                loading={isLoading}
+                headerSticky={true}
+                height="max-h-[400px]"
+                data={row?.original?.repo_task ?? []}
+                total={[
+                  {
+                    columnId: "rp",
+                    format: (value) => {
+                      return value.toFixed(2);
+                    },
+                  },
+                  {
+                    columnId: "time",
+                    format: (value) => {
+                      return (
+                        <div>
+                          {moment
+                            .duration(row?.original?.time, "seconds")
+                            .hours() > 0 &&
+                            moment
+                              .duration(row?.original?.time, "seconds")
+                              .hours() + "H"}{" "}
+                          {moment
+                            .duration(row?.original?.time, "seconds")
+                            .minutes() + "M"}
+                        </div>
+                      );
+                    },
+                  },
+                ]}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+      ),
     },
   ];
 
@@ -234,14 +389,28 @@ const useRPBurndown = () => {
       );
       if (existingUserIndex === -1) {
         acc.push({
-          name: curr?.log_by?.fullname,
-          username: curr?.log_by?.username,
-          time: curr.time,
-          rp: curr.rp,
+          name: curr?.log_by?.fullname ?? "",
+          username: curr?.log_by?.username ?? "",
+          time: curr.time ?? 0,
+          rp: curr.rp ?? 0,
+          repo_task: [
+            {
+              title: curr.title ?? "",
+              task_url: curr.task_url ?? "",
+              time: curr.time,
+              rp: curr.rp,
+            },
+          ],
         });
       } else {
         acc[existingUserIndex].time += curr.time;
         acc[existingUserIndex].rp += curr.rp;
+        acc[existingUserIndex].repo_task.push({
+          title: curr.title,
+          task_url: curr.task_url,
+          time: curr.time,
+          rp: curr.rp,
+        });
       }
       return acc;
     }, []);

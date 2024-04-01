@@ -1,11 +1,11 @@
-import { Clock } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
+import { Clock } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
-import { IProjectDetail } from '@/interface/project-interface';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { showDeadline } from '@/shared/utils/rp-utils';
-import { cn } from '@/shared/utils/utils';
+import { IProjectDetail } from "@/interface/project-interface";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { showDeadline } from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   data: IProjectDetail;
@@ -13,6 +13,17 @@ interface IProps {
 
 const ProfitLossCard = ({ data }: IProps) => {
   const { statusText } = showDeadline(data?.dates?.deadline);
+
+  const getProjectStatus = (status: string) => {
+    switch (status) {
+      case "Closed":
+        return "Completed";
+        break;
+      case "On Hold":
+        return "On Hold";
+        break;
+    }
+  };
   return (
     <Card className="!p-0">
       <CardContent
@@ -27,12 +38,12 @@ const ProfitLossCard = ({ data }: IProps) => {
       >
         <Link
           href={`/projects/${data?.code}`}
-          className="absolute top-0 bottom-0 left-0 right-0"
+          className="absolute top-0 right-0 bottom-0 left-0"
         />
         <div className="text-center text-zinc-700">
           <Link
             href={`/projects/${data?.code}`}
-            className="text-base font-medium hover:text-primary "
+            className="text-base font-medium hover:text-primary"
           >
             {data?.project_title}
           </Link>
@@ -43,7 +54,7 @@ const ProfitLossCard = ({ data }: IProps) => {
           <p className="text-sm">Total Budget Used</p>
         </div>
 
-        <div className="flex items-end justify-between w-full pt-4 border-t border-t-zinc-200">
+        <div className="flex justify-between items-end pt-4 w-full border-t border-t-zinc-200">
           <div className="text-zinc-700">
             <p className="text-xs">Budget Left:</p>
             <p className="text-base font-semibold">
@@ -54,7 +65,11 @@ const ProfitLossCard = ({ data }: IProps) => {
           </div>
           <div className="flex items-center gap-2 py-0.5 px-2 border text-zinc-700 rounded shadow-sm border-zinc-200 bg-light-white">
             <Clock size={14} />
-            <p className="text-sm font-medium capitalize">{statusText}</p>
+            <p className="text-sm font-medium capitalize">
+              {["Closed", "On Hold"].includes(data?.status)
+                ? getProjectStatus(data?.status)
+                : statusText}
+            </p>
           </div>
         </div>
       </CardContent>

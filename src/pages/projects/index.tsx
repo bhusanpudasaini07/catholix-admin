@@ -38,7 +38,7 @@ const Projects: NextPageWithLayout = () => {
   const {
     gitState,
     setGitState,
-    setSearchText,
+    searchProjectHandler,
     perPage,
     setPerPage,
     sheetOpen,
@@ -55,7 +55,7 @@ const Projects: NextPageWithLayout = () => {
     <div>
       <Tabs defaultValue="list_view">
         {/* Page heading */}
-        <div className="flex items-end justify-between px-8 py-6 border-b bg-light-white border-b-slate-100">
+        <div className="flex justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
           <div>
             <h1 className="mb-1.5 text-2xl font-medium text-zinc-700">
               All projects
@@ -75,22 +75,22 @@ const Projects: NextPageWithLayout = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex items-end justify-between gap-3 px-8 py-6 border-b bg-light-white border-b-slate-100">
-          <FilterSearch setSearchText={setSearchText} />
+        <div className="flex gap-3 justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
+          <FilterSearch setSearchText={searchProjectHandler} />
           <ProjectFilters />
         </div>
 
         {/* Show Applied filter */}
         {Object.keys(filterSaved).some((key) => filterSaved[key] !== "") && (
-          <div className="flex items-center gap-6 px-8 py-6 border-b bg-light-white border-b-slate-100">
+          <div className="flex gap-6 items-center px-8 py-6 border-b bg-light-white border-b-slate-100">
             <p className="border-r-2 border-r-gray-300 min-w-[120px] text-gray-500 py-1.5 pr-3">
               Applied Filters
             </p>
-            <div className="flex flex-wrap items-center gap-4 ">
+            <div className="flex flex-wrap gap-4 items-center">
               {filterSaved?.date && filterSaved?.date_type !== "all_date" && (
                 <div className="border rounded-sm border-zinc-200 py-1.5 px-3 flex items-center gap-2">
                   <span className="text-sm text-gray-500">Date:</span>{" "}
-                  <div className="flex items-center gap-1 px-2 py-1 border rounded bg-slate-100">
+                  <div className="flex gap-1 items-center px-2 py-1 rounded border bg-slate-100">
                     <p className="text-xs font-medium capitalize">
                       {filterSaved?.date_type !== "all_date" &&
                         `${filterSaved?.date_type.replace(/_/g, " ")}: ${
@@ -106,7 +106,7 @@ const Projects: NextPageWithLayout = () => {
                         );
                       }}
                       variant={"ghost"}
-                      className="h-auto p-0"
+                      className="p-0 h-auto"
                     >
                       <X size={12} />
                     </Button>
@@ -128,9 +128,9 @@ const Projects: NextPageWithLayout = () => {
                         {value?.split(",").map((val: string, index: number) => (
                           <div
                             key={index}
-                            className="flex flex-wrap items-center gap-1 px-2 py-1 text-sm border rounded bg-slate-100"
+                            className="flex flex-wrap gap-1 items-center px-2 py-1 text-sm rounded border bg-slate-100"
                           >
-                            <div className="flex items-center gap-2">
+                            <div className="flex gap-2 items-center">
                               <p className="text-xs font-medium">
                                 {showFilterName(val, key)}
                               </p>
@@ -139,7 +139,7 @@ const Projects: NextPageWithLayout = () => {
                                   handleFilterRemoveAndUpdate(key, val);
                                 }}
                                 variant={"ghost"}
-                                className="h-auto p-0"
+                                className="p-0 h-auto"
                               >
                                 <X size={12} />
                               </Button>
@@ -206,7 +206,7 @@ const Projects: NextPageWithLayout = () => {
             <DialogHeader className="text-lg font-bold text-color">
               Git URLs
             </DialogHeader>
-            <div className="flex flex-col min-w-0 gap-2">
+            <div className="flex flex-col gap-2 min-w-0">
               {gitState?.url?.map((url: string, index) => (
                 <div
                   key={index}

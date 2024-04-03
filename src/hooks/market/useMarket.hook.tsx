@@ -127,7 +127,7 @@ const useMarket = () => {
 
   const changeDate = (date: DateRange) => {
     setDate(date);
-    setDateRangeOpen(false);
+    // setDateRangeOpen(false);
   };
 
   // For each market color indication

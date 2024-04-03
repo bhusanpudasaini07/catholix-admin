@@ -98,7 +98,7 @@ const httpRequest = async (
     if (error?.response?.status === 404) {
       window.location.href = "/not-found";
     } else if (error?.response?.status === 403) {
-      window.location.href = "/forbidden";
+      window.location.href = "/403";
     }
     throw error?.response?.data?.errors;
   }

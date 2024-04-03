@@ -68,6 +68,13 @@ const useLatestActivities = () => {
   const handlePageChange = (pageNum: number) => {
     setPageNumber(pageNum);
   };
+  const changeDateRange = (date: DateRange) => {
+    setDateRange({
+      from: date?.from,
+      to: date?.to,
+    });
+    setPageNumber(1);
+  };
 
   // to show different text and icon in different activity types
   const activityTye = (change_type: string) => {
@@ -77,7 +84,7 @@ const useLatestActivities = () => {
       case "new_issue":
         changeText = "New Task";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-blue-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-blue-500 rounded-full">
             <Pin size={16} />
           </div>
         );
@@ -86,7 +93,7 @@ const useLatestActivities = () => {
       case "labels":
         changeText = "Label Update";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-orange-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-orange-500 rounded-full">
             <Tag size={16} />{" "}
           </div>
         );
@@ -95,7 +102,7 @@ const useLatestActivities = () => {
       case "title":
         changeText = "Title Update";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-red-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-red-500 rounded-full">
             <PencilLine size={16} />
           </div>
         );
@@ -104,7 +111,7 @@ const useLatestActivities = () => {
       case "estimate":
         changeText = "Estimate Update";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-orange-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-orange-500 rounded-full">
             <Timer size={16} />
           </div>
         );
@@ -113,7 +120,7 @@ const useLatestActivities = () => {
       case "assignees":
         changeText = "Asignee Update";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-red-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-red-500 rounded-full">
             <Users size={16} />
           </div>
         );
@@ -122,7 +129,7 @@ const useLatestActivities = () => {
       case "close":
         changeText = "Task Close";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white rounded-full bg-zinc-500">
+          <div className="flex justify-center items-center w-6 h-6 text-white rounded-full bg-zinc-500">
             <Lock size={16} />
           </div>
         );
@@ -131,7 +138,7 @@ const useLatestActivities = () => {
       case "reopen":
         changeText = "Task Reopened";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white bg-green-500 rounded-full">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-green-500 rounded-full">
             <Unlock size={16} />
           </div>
         );
@@ -140,7 +147,7 @@ const useLatestActivities = () => {
       case "timelog":
         changeText = "Timelog Added";
         icon = (
-          <div className="flex items-center justify-center w-6 h-6 text-white rounded-full bg-cyan-500">
+          <div className="flex justify-center items-center w-6 h-6 text-white bg-cyan-500 rounded-full">
             <Clock size={16} />
           </div>
         );
@@ -189,7 +196,7 @@ const useLatestActivities = () => {
         const { changeText, icon } = activityTye(row?.original?.change_type);
         return (
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2 items-center">
               {icon}
               <div>
                 <span className="text-xs font-medium text-zinc-700">
@@ -253,7 +260,7 @@ const useLatestActivities = () => {
         const { changeText, icon } = activityTye(row?.original?.change_type);
         return (
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex gap-2 items-center">
               {icon}
               <div>
                 <span className="text-sm font-medium text-zinc-700">
@@ -318,6 +325,7 @@ const useLatestActivities = () => {
     setDateRangeOpen,
     dateRange,
     setDateRange,
+    changeDateRange,
   };
 };
 

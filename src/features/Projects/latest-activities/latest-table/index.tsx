@@ -20,11 +20,12 @@ const LatestActivityTable = () => {
     isLoading,
     perPage,
     setPerPage,
+    setPageNumber,
     handlePageChange,
     filterSelectOptions,
     setFilterType,
     dateRange,
-    setDateRange,
+    changeDateRange,
     dateRangeOpen,
     setDateRangeOpen,
   } = useLatestActivities();
@@ -32,7 +33,7 @@ const LatestActivityTable = () => {
     <>
       <Card>
         <CardContent>
-          <div className="flex items-center justify-between mb-10">
+          <div className="flex justify-between items-center mb-10">
             <p className="text-lg font-medium text-zinc-700">
               Latest Activities
             </p>
@@ -40,13 +41,16 @@ const LatestActivityTable = () => {
               <DateRangeFilter
                 dateRangeOpen={dateRangeOpen}
                 setDateRangeOpen={setDateRangeOpen}
-                setDateRange={setDateRange}
+                setDateRange={changeDateRange}
                 dateRange={dateRange}
               />
               {/* Filter by type */}
               <Select
                 defaultValue="all"
-                onValueChange={(e) => setFilterType(e)}
+                onValueChange={(e) => {
+                  setFilterType(e);
+                  setPageNumber(1);
+                }}
               >
                 <SelectTrigger className="max-w-[180px]">
                   <SelectValue placeholder="All" />

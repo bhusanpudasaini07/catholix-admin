@@ -11,18 +11,31 @@ import { NextPageWithLayout } from "../_app";
 
 const Market: NextPageWithLayout = () => {
   const {
-    tabItem,
-    setTabItem,
     marketsPieChartOption,
     marketBarChartOption,
     pieChartRef,
     marketColumn,
-    individualMarketBarOption,
-    individualSankeyOption,
+    allMarketBarOption,
+    allSankeyOption,
+    marketLoading,
+    marketOverallData,
+    dateRangeOpen,
+    setDateRangeOpen,
+    changeDate,
+    date,
+    allMarketProjects,
+    getProjectsByMarket,
+    getIndividualSankeyOption,
+    getIndividualMarketBarOption,
   } = useMarket();
   return (
     <>
-      <MarketHeader />
+      <MarketHeader
+        dateRangeOpen={dateRangeOpen}
+        setDateRangeOpen={setDateRangeOpen}
+        changeDate={changeDate}
+        date={date}
+      />
 
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-4">
@@ -30,14 +43,30 @@ const Market: NextPageWithLayout = () => {
             pieChartRef={pieChartRef}
             marketBarChartOption={marketBarChartOption}
             marketsPieChartOption={marketsPieChartOption}
+            marketStats={marketOverallData ?? []}
+            marketLoading={marketLoading}
           />
           <IndividualMarketCard
-            individualMarketBarOption={individualMarketBarOption}
-            individualSankeyOption={individualSankeyOption}
-            tabItem={tabItem}
-            setTabItem={setTabItem}
+            marketTitle="All"
+            tableData={allMarketProjects}
+            individualMarketBarOption={allMarketBarOption}
+            individualSankeyOption={allSankeyOption}
             marketColumn={marketColumn}
           />
+
+          {marketOverallData?.map((market: any) => (
+            <IndividualMarketCard
+              key={market?.id}
+              marketTitle={getProjectsByMarket(market?.id)?.market_info?.name}
+              marketFlag={getProjectsByMarket(market?.id)?.market_info?.flag}
+              tableData={getProjectsByMarket(market?.id)?.projects}
+              individualMarketBarOption={getIndividualMarketBarOption(
+                market?.id
+              )}
+              individualSankeyOption={getIndividualSankeyOption(market?.id)}
+              marketColumn={marketColumn}
+            />
+          ))}
         </div>
       </div>
     </>

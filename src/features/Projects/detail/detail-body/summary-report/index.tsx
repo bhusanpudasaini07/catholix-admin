@@ -43,7 +43,7 @@ const ProjectSummaryReport = () => {
       ) : (
         <Card>
           <CardContent>
-            <div className="flex items-center justify-start gap-4 mb-10">
+            <div className="flex gap-4 justify-start items-center mb-10">
               <p className="text-lg font-medium text-zinc-700">
                 Summary Report
               </p>{" "}
@@ -58,23 +58,23 @@ const ProjectSummaryReport = () => {
             <div className="grid grid-cols-1 gap-8 xl:grid-cols-5">
               {/* Gauge Meter and Grade */}
               <div className="col-span-1 xl:col-span-2">
-                <div className="flex items-center justify-around">
+                <div className="flex justify-around items-center">
                   <div className="h-[200px] w-[300px]">
                     <ReactECharts
                       option={gaugeOption}
                       opts={{ renderer: "svg" }}
                     />
                   </div>
-                  <div className="flex flex-col items-center justify-center gap-3">
+                  <div className="flex flex-col gap-3 justify-center items-center">
                     <p
                       className={cn("text-6xl font-semibold")}
                       style={{ color: gaugeColor() }}
                     >
                       {projectDetail?.data?.health?.grade}
                     </p>
-                    <p className="flex items-center gap-2 text-sm">
+                    <p className="flex gap-2 items-center text-sm">
                       <span>Project Health</span>{" "}
-                      <span className="flex items-center gap-2 text-green-700">
+                      <span className="flex gap-2 items-center text-green-700">
                         <TrendingUp /> Increased
                       </span>
                     </p>
@@ -82,17 +82,17 @@ const ProjectSummaryReport = () => {
                       <p className="mb-2 text-sm text-zinc-500">
                         Grade History
                       </p>
-                      <div className="flex items-center gap-2">
-                        <p className="flex items-center justify-center text-xs text-orange-500 border border-orange-500 rounded-full shadow-sm bg-orange-50 w-7 h-7">
+                      <div className="flex gap-2 items-center">
+                        <p className="flex justify-center items-center w-7 h-7 text-xs text-orange-500 bg-orange-50 rounded-full border border-orange-500 shadow-sm">
                           B-
                         </p>
-                        <p className="flex items-center justify-center text-xs text-orange-500 border border-orange-500 rounded-full shadow-sm bg-orange-50 w-7 h-7">
+                        <p className="flex justify-center items-center w-7 h-7 text-xs text-orange-500 bg-orange-50 rounded-full border border-orange-500 shadow-sm">
                           B
                         </p>
-                        <p className="flex items-center justify-center text-xs text-green-500 border border-green-500 rounded-full shadow-sm bg-green-50 w-7 h-7">
+                        <p className="flex justify-center items-center w-7 h-7 text-xs text-green-500 bg-green-50 rounded-full border border-green-500 shadow-sm">
                           A+
                         </p>
-                        <p className="flex items-center justify-center text-xs text-orange-500 border border-orange-500 rounded-full shadow-sm bg-orange-50 w-7 h-7">
+                        <p className="flex justify-center items-center w-7 h-7 text-xs text-orange-500 bg-orange-50 rounded-full border border-orange-500 shadow-sm">
                           B-
                         </p>
                       </div>
@@ -104,17 +104,19 @@ const ProjectSummaryReport = () => {
               <div className="col-span-1 xl:pl-8 xl:border-l xl:col-span-3">
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-8">
-                    <div className="flex flex-col h-full justify-evenly">
+                    <div className="flex flex-col justify-evenly h-full">
                       <div className="grid grid-cols-3 gap-8">
                         {summaryData?.map((item) => (
                           <div key={item?.id}>
-                            <div className="flex items-center gap-2">
-                              <div className={cn("w-2 h-7", item?.color)} />
-                              <p className="text-zinc-700 whitespace-nowrap">
+                            <div className="flex gap-2 items-center">
+                              <div
+                                className={cn("shrink-0 w-2 h-7", item?.color)}
+                              />
+                              <p className="whitespace-nowrap text-zinc-700">
                                 {item?.title}
                               </p>
                             </div>
-                            <div className="flex flex-wrap items-end gap-1 pl-4 mt-2">
+                            <div className="flex flex-wrap gap-1 items-end pl-4 mt-2">
                               <p className="text-2xl font-medium text-zinc-700">
                                 {item?.data > 100 ? 100 : item?.data}%
                               </p>
@@ -127,7 +129,7 @@ const ProjectSummaryReport = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="flex items-start gap-3 px-4 py-3 border rounded-lg border-primary text-primary">
+                      <div className="flex gap-3 items-start px-4 py-3 rounded-lg border border-primary text-primary">
                         <AlertTriangle size={20} />
                         <div className="text-sm">
                           <p>All Well!</p>

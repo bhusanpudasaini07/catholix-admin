@@ -227,6 +227,7 @@ const useProjectListing = () => {
     setFilterSaved(resetData);
     localStorage.setItem("savedFilter", JSON.stringify(resetData));
     setSelectedLeads([]);
+    setPageNumber(1);
   };
 
   // redirect route from actions button in listing

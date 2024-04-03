@@ -6,7 +6,7 @@ import React from "react";
 import { Button } from "@/shared/components/ui/button";
 import { Logo, PermissionDenied } from "@/shared/lib/image-config";
 
-const Forbidden = () => {
+const Error403 = () => {
   const router = useRouter();
   return (
     <>
@@ -44,4 +44,4 @@ const Forbidden = () => {
   );
 };
 
-export default Forbidden;
+export default Error403;

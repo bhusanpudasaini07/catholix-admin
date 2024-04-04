@@ -11,6 +11,8 @@ import { NextPageWithLayout } from "../_app";
 
 const Market: NextPageWithLayout = () => {
   const {
+    setSourceOption,
+    sourceOption,
     marketsPieChartOption,
     marketBarChartOption,
     pieChartRef,
@@ -35,6 +37,8 @@ const Market: NextPageWithLayout = () => {
         setDateRangeOpen={setDateRangeOpen}
         changeDate={changeDate}
         date={date}
+        sourceOption={sourceOption}
+        setSourceOption={setSourceOption}
       />
 
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">

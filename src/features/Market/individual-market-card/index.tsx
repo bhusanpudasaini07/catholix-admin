@@ -87,6 +87,7 @@ const IndividualMarketCard = ({
                     ? individualSankeyOption
                     : individualMarketBarOption
                 }
+                key={tabItem?.title}
                 opts={{ renderer: "svg" }}
                 style={{ height: 400 }}
               />

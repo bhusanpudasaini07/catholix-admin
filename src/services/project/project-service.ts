@@ -111,11 +111,12 @@ const getProjectLatestActivities = (
   page: any,
   per_page: any,
   type?: string,
-  date?: any
+  date_from?: string,
+  date_to?: string
 ) => {
-  if ((type && type !== "all") || date) {
+  if ((type && type !== "all") || date_to) {
     return httpRequest(
-      `/get-activity-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&type=${type}&date=${date}`,
+      `/get-activity-logs?project_id=${code}&pg=${page}&dataperpage=${per_page}&type=${type}&date_from=${date_from}&date_to=${date_to}`,
       httpMethods.GET
     );
   } else {

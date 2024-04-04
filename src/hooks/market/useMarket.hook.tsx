@@ -13,6 +13,14 @@ import {
 import { getProjectSummary } from "@/services/market/market-service";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/shared/components/ui/button";
+import {
+  ArrowUpDown,
+  ChevronDown,
+  ChevronsUpDown,
+  ChevronUp,
+  SortAsc,
+} from "lucide-react";
 
 export interface IMarketProject {
   id: string | number;
@@ -26,41 +34,28 @@ export interface IMarketProject {
 const useMarket = () => {
   const { filterConfig } = useCommonStore();
 
-  const dymmyIndividualData = [
-    {
-      source: "Client",
-      title: "Wonder Trivia",
-      value: 120,
-    },
-    {
-      source: "Client",
-      title: "CityPay",
-      value: 80,
-    },
-    {
-      source: "In-House",
-      title: "RPM",
-      value: 40,
-    },
-    {
-      source: "Client",
-      title: "Salvi",
-      value: 100,
-    },
-    {
-      source: "In-House",
-      title: "Wonder Trivia",
-      value: 120,
-    },
-  ];
   const pieChartRef = useRef<EChartsOption>(null);
+  // For each market color indication
+  const colors = [
+    "#2dd4bf",
+    "#84cc16",
+    "#7c3aed",
+    "#818cf8",
+    "#facc15",
+    "#f87171",
+    "#fb923c",
+    "#0ea5e9",
+  ];
 
+  // STATES
   const [date, setDate] = useState<DateRange>({
     from: moment().subtract(1, "months").toDate(),
     to: moment().toDate(),
   });
+  const [sourceOption, setSourceOption] = useState("all");
   const [dateRangeOpen, setDateRangeOpen] = useState<boolean>(false);
 
+  // COLUMN
   const marketColumn: ColumnDef<IMarketProjects>[] = [
     {
       id: "sn",
@@ -110,10 +105,61 @@ const useMarket = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget",
-      cell: ({ row }) => (
-        <p className="font-semibold text-zinc-700">{row?.getValue("rp")}</p>
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Budget</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
       ),
+      cell: ({ row }) => (
+        <p className="font-semibold text-zinc-700">
+          {Number(row?.original?.rp)?.toFixed(2)}
+        </p>
+      ),
+      enableSorting: true,
     },
   ];
 
@@ -130,27 +176,16 @@ const useMarket = () => {
     // setDateRangeOpen(false);
   };
 
-  // For each market color indication
-  const colors = [
-    "#2dd4bf",
-    "#84cc16",
-    "#7c3aed",
-    "#818cf8",
-    "#facc15",
-    "#f87171",
-    "#fb923c",
-    "#0ea5e9",
-  ];
-
   //--------------------------------------
   const { data: marketSummary, isLoading: marketLoading } =
     useQuery<IMarketSummary>({
       queryFn: () =>
         getProjectSummary(
           moment(date?.from).format("YYYY-MM-DD"),
-          moment(date?.to).format("YYYY-MM-DD")
+          moment(date?.to).format("YYYY-MM-DD"),
+          sourceOption
         ),
-      queryKey: ["marketSummary", date?.to],
+      queryKey: ["marketSummary", date?.to, sourceOption],
     });
 
   // Total MARKET RP
@@ -194,7 +229,7 @@ const useMarket = () => {
     return {
       title: project.info.title,
       code: project.info.code,
-      rp: project.info.total_rp,
+      rp: Number(project.info.total_rp.toFixed(2)),
       source: project.info.source,
       market: project.info?.market,
       rp_consumed: ((project.info.total_rp / totalRP) * 100).toFixed(2),
@@ -263,7 +298,7 @@ const useMarket = () => {
       return {
         title: project.info.title,
         code: project.info.code,
-        rp: project.info.total_rp,
+        rp: Number(project.info.total_rp.toFixed(2)),
         source: project.info.source,
         market: project.info?.market,
         rp_consumed: ((project.info.total_rp / totalRP) * 100).toFixed(2),
@@ -380,6 +415,9 @@ const useMarket = () => {
     const projectData = filteredProjects.map((project) => ({
       value: project?.info?.total_rp.toFixed(2),
       name: project?.info?.title,
+      itemStyle: {
+        color: project?.info?.source === "Client" ? "#5470C6" : "#22C55E",
+      },
     }));
 
     const categories = filteredProjects.map((project) => project?.info?.title);
@@ -575,8 +613,11 @@ const useMarket = () => {
         type: "bar",
         data: allMarketProjects?.map((item) => {
           return {
-            value: item?.rp.toFixed(2),
+            value: item?.rp,
             name: item?.title,
+            itemStyle: {
+              color: item?.source === "Client" ? "#5470C6" : "#22C55E",
+            },
           };
         }),
       },
@@ -680,6 +721,8 @@ const useMarket = () => {
     dateRangeOpen,
     setDateRangeOpen,
     date,
+    sourceOption,
+    setSourceOption,
 
     //Table
     marketColumn,

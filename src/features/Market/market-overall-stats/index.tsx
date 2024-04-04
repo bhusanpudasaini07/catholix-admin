@@ -4,6 +4,8 @@ import React, { RefObject } from "react";
 
 import { IMarkets } from "@/interface/market-interface";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import MarketDataCardSkeleton from "@/shared/components/skeleton-loading/market/market-data-card-skeleton";
+import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
 
 interface IProps {
   marketsPieChartOption: EChartsOption;
@@ -29,7 +31,9 @@ const MarketOverallStats = ({
         <div className="grid grid-cols-1 gap-6 2xl:grid-cols-2">
           <div className="flex flex-wrap gap-6">
             {marketLoading
-              ? "Loading"
+              ? Array.from({ length: 6 }).map((_, index) => (
+                  <MarketDataCardSkeleton key={index} />
+                ))
               : marketStats?.map((item) => (
                   <div
                     key={item?.id}
@@ -73,11 +77,17 @@ const MarketOverallStats = ({
           <div className="pl-6 border-0 border-l">
             <div className="grid grid-cols-3">
               <div className="col-span-1">
-                <ReactEcharts
-                  option={marketsPieChartOption}
-                  opts={{ renderer: "svg" }}
-                  ref={pieChartRef}
-                />
+                {marketLoading ? (
+                  <div className="flex justify-center items-center h-full">
+                    <PieChartSkeleton height={200} width={200} />
+                  </div>
+                ) : (
+                  <ReactEcharts
+                    option={marketsPieChartOption}
+                    opts={{ renderer: "svg" }}
+                    ref={pieChartRef}
+                  />
+                )}
               </div>
               <div className="col-span-2">
                 <ReactEcharts

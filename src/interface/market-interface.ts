@@ -44,4 +44,5 @@ export interface IMarketProjects {
   total_rp: number;
   source: string;
   rp_consumed: string | number;
+  rp: string | number;
 }

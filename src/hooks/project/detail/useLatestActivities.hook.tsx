@@ -45,11 +45,8 @@ const useLatestActivities = () => {
           pageNumber,
           perPage,
           filterType !== "all" ? filterType : "",
-          dateRange?.from || dateRange?.to !== undefined
-            ? `${moment(dateRange?.from).format("YYYY-MM-DD")} - ${moment(
-                dateRange?.to
-              ).format("YYYY-MM-DD")}`
-            : ""
+          dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "",
+          dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : ""
         );
         return response;
       }

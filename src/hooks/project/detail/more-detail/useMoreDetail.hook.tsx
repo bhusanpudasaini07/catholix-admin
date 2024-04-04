@@ -521,10 +521,10 @@ const useMoreDetail = () => {
       accessorKey: "ratio",
       header: "Bug to Task Ratio",
       cell: ({ row }) => {
-        const ratio = row?.original?.bug_rp / row?.original?.task_rp;
+        const ratio = (row?.original?.bug_rp / row?.original?.task_rp) * 100;
         return (
           <div className="font-semibold text-zinc-700">
-            {row?.original?.task_rp === 0 ? "0.00" : ratio.toFixed(2)}
+            {row?.original?.task_rp === 0 ? "0.00" : ratio.toFixed(2)}%
           </div>
         );
       },

@@ -1,12 +1,12 @@
-import { Edit, Trash2 } from 'lucide-react';
-import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { Edit, Trash2 } from "lucide-react";
+import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
-import { IMember, IProjectEstimation } from '@/interface/project-interface';
-import { getProjectEstimation } from '@/services/project/project-service';
-import { Button } from '@/shared/components/ui/button';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+import { IMember, IProjectEstimation } from "@/interface/project-interface";
+import { getProjectEstimation } from "@/services/project/project-service";
+import { Button } from "@/shared/components/ui/button";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useProjecetEstimation = () => {
   const {
@@ -134,7 +134,7 @@ const useProjecetEstimation = () => {
     {
       id: "sum_rp",
       accessorKey: "sum_rp",
-      header: "Allocated RP",
+      header: "Allocated Budget",
       cell: ({ row }) => (
         <div className="w-[80px]">
           {changeNumberFormat(row?.getValue("sum_rp"))}
@@ -151,13 +151,13 @@ const useProjecetEstimation = () => {
         <div className="flex items-center gap-4 w-[80px]">
           <Button
             variant={"ghost"}
-            className="h-auto p-0 hover:bg-transparent text-zinc-700"
+            className="p-0 h-auto hover:bg-transparent text-zinc-700"
           >
             <Edit size={16} />
           </Button>
           <Button
             variant={"ghost"}
-            className="h-auto p-0 hover:bg-transparent text-zinc-700"
+            className="p-0 h-auto hover:bg-transparent text-zinc-700"
           >
             <Trash2 size={16} />
           </Button>

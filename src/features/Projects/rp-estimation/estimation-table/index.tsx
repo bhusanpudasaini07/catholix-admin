@@ -1,15 +1,18 @@
-import { CalendarDays, Check, Plus, Trash2 } from 'lucide-react';
-import moment from 'moment';
-import React from 'react';
+import { CalendarDays, Check, Plus, Trash2 } from "lucide-react";
+import moment from "moment";
+import React from "react";
 
-import { IMember, IProjectEstimationDetail } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { Skeleton } from '@/shared/components/ui/skeleton';
-import { changeNumberFormat } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+import {
+  IMember,
+  IProjectEstimationDetail,
+} from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   columns: ColumnDef<IMember>[];
@@ -25,9 +28,9 @@ const EstimationTable = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex justify-between items-center mb-10">
           <div>
-            <div className="flex items-center gap-4">
+            <div className="flex gap-4 items-center">
               <p className="text-lg font-medium text-zinc-700">
                 {estimation?.title}
               </p>
@@ -51,7 +54,7 @@ const EstimationTable = ({
                 </Badge>
               )}
             </div>
-            <div className="flex items-start gap-2 mt-4">
+            <div className="flex gap-2 items-start mt-4">
               <div className="flex items-center gap-2 text-sm text-zinc-500 min-w-[95px]">
                 <CalendarDays size={20} />
                 <span>Added On</span>
@@ -68,7 +71,7 @@ const EstimationTable = ({
             </div>
           </div>
 
-          <div className="flex items-center gap-4 ">
+          <div className="flex gap-4 items-center">
             <Button variant={"outline"} className="gap-2" size={"md"}>
               <Plus size={16} /> <span>Add New Role</span>
             </Button>
@@ -94,6 +97,7 @@ const EstimationTable = ({
           total={[
             {
               columnId: "man_month",
+              format: (value) => changeNumberFormat(value),
             },
             {
               columnId: "rp",

@@ -405,4 +405,5 @@ export interface IProjectIndivRole {
   id: number;
   quote: number;
   title: string;
+  actual_time: number;
 }

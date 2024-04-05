@@ -17,6 +17,7 @@ import {
 } from "@/services/project/project-service";
 import {
   calculatePercentage,
+  calculateTimeLog,
   changeNumberFormat,
 } from "@/shared/utils/rp-utils";
 import { useCommonStore } from "@/store/common-store";
@@ -391,8 +392,8 @@ const useEstimatedActual = () => {
     },
     // Logged Hours
     {
-      id: "logged_hours",
-      accessorKey: "logged_hours",
+      id: "actual_time",
+      accessorKey: "actual_time",
       header: () => (
         <div>
           Logged
@@ -400,7 +401,14 @@ const useEstimatedActual = () => {
           Hours
         </div>
       ),
-      cell: ({ row }) => <div className="font-semibold text-zinc-500">0M</div>,
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(row?.original?.actual_time);
+        return (
+          <div className="font-semibold text-zinc-500">
+            {hours > 0 && `${hours}H`} {`${minutes}M`}
+          </div>
+        );
+      },
     },
   ];
 

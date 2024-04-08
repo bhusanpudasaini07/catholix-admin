@@ -13,6 +13,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import useProjectRpSummary from "./useProjectRpSummary.hook";
 import { getColorForRole } from "@/shared/utils/color-utils";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const useConsumptionType = () => {
   const { rpSummary } = useProjectRpSummary();
@@ -56,7 +58,55 @@ const useConsumptionType = () => {
     {
       id: "time",
       accessorKey: "time",
-      header: "Time Logged",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Time Logged</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }: any) => {
         const { hours, minutes } = calculateTimeLog(row.getValue("time"));
         return <div>{`${hours}H ${minutes}M`}</div>;
@@ -66,7 +116,55 @@ const useConsumptionType = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget Consumed",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Budget Consumed</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }: any) => (
         <div>{changeNumberFormat(row.getValue("rp"))}</div>
       ),
@@ -115,7 +213,55 @@ const useConsumptionType = () => {
     {
       id: "time",
       accessorKey: "time",
-      header: "Time Logged",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Time Logged</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }: any) => {
         const { hours, minutes } = calculateTimeLog(row.getValue("time"));
         return <div>{`${hours}H ${minutes}M`}</div>;
@@ -126,7 +272,55 @@ const useConsumptionType = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Budget Consumed",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Budget Consumed</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }: any) => (
         <div>{changeNumberFormat(row.getValue("rp"))}</div>
       ),

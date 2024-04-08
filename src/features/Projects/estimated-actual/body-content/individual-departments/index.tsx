@@ -27,11 +27,11 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
         type: "shadow",
       },
     },
-    legend: {
-      left: "right",
-      itemWidth: 16,
-      itemHeight: 16,
-    },
+    // legend: {
+    //   left: "right",
+    //   itemWidth: 16,
+    //   itemHeight: 16,
+    // },
     xAxis: [
       {
         type: "category",
@@ -51,41 +51,132 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
         type: "value",
       },
     ],
+    // series: [
+    //   {
+    //     name: "Actual Spent Budget",
+    //     type: "bar",
+    //     emphasis: {
+    //       focus: "series",
+    //     },
+    //     data: departmentData?.roles?.map((item) => item?.actual) ?? [],
+    //   },
+    //   {
+    //     name: "Budget",
+    //     type: "bar",
+    //     emphasis: {
+    //       focus: "series",
+    //     },
+    //     data: departmentData?.roles?.map((item) => item?.quote) ?? [],
+    //   },
+    //   {
+    //     name: "Estimated",
+    //     type: "bar",
+    //     barGap: 0.2,
+    //     emphasis: {
+    //       focus: "series",
+    //     },
+    //     data: departmentData?.roles?.map((item) => item?.estimated) ?? [],
+    //   },
+    // ],
     series: [
+      // Estimated stack
       {
-        name: "Actual Spent Budget",
+        name: "Used from Estimated",
         type: "bar",
-        emphasis: {
-          focus: "series",
-        },
-        data: departmentData?.roles?.map((item) => item?.actual) ?? [],
-      },
-      {
-        name: "Budget",
-        type: "bar",
-        emphasis: {
-          focus: "series",
-        },
-        data: departmentData?.roles?.map((item) => item?.quote) ?? [],
+        stack: "estimated",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value:
+              item?.estimated === 0
+                ? 0
+                : item?.actual > item?.estimated
+                ? (item?.estimated).toFixed(2)
+                : (item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#3B82F6", // Dark blue for used from estimated
+            },
+          })) ?? [],
       },
       {
         name: "Estimated",
         type: "bar",
-        barGap: 0.2,
-        emphasis: {
-          focus: "series",
-        },
-        data: departmentData?.roles?.map((item) => item?.estimated) ?? [],
+        stack: "estimated",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value:
+              item?.actual > item?.estimated
+                ? 0
+                : (item.estimated - item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#CEE6FF", // Light blue for estimated
+            },
+          })) ?? [],
+      },
+      {
+        name: "Over Estimated",
+        type: "bar",
+        stack: "estimated",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value:
+              item.actual > item.estimated ? item.actual - item.estimated : 0,
+            itemStyle: {
+              color: "#EF4444", // Red for over estimated
+            },
+          })) ?? [],
+      },
+      // Budget stack
+      {
+        name: "Used from Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value:
+              item?.quote === 0
+                ? 0
+                : item?.actual > item?.quote
+                ? item?.quote
+                : (item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#22C55E", // Dark green for used from budget
+            },
+          })) ?? [],
+      },
+      {
+        name: "Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value:
+              item?.actual > item?.quote
+                ? 0
+                : (item.quote - item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#A7F3D0", // Light green for budget
+            },
+          })) ?? [],
+      },
+      {
+        name: "Over Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          departmentData?.roles?.map((item) => ({
+            value: item.actual > item.quote ? item.actual - item.quote : 0,
+            itemStyle: {
+              color: "#EF4444", // Red for over budget
+            },
+          })) ?? [],
       },
     ],
   };
 
-  console.log(departmentData?.roles);
-
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-start gap-3 mb-9">
+        <div className="flex gap-3 justify-start items-center mb-9">
           <p className="text-lg font-medium text-zinc-700">
             {departmentData?.department_title}
           </p>
@@ -93,6 +184,20 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
 
         <div className="grid grid-cols-1 gap-6">
           <div>
+            <div className="flex gap-6 justify-end items-center">
+              <div className="flex gap-1.5 items-center">
+                <div className="bg-red-500 rounded-sm size-4"></div>
+                <p className="text-sm text-zinc-700">Over</p>
+              </div>
+              <div className="flex gap-1.5 items-center">
+                <div className="bg-green-100 rounded-sm size-4"></div>
+                <p className="text-sm text-zinc-700">Budget</p>
+              </div>
+              <div className="flex gap-1.5 items-center">
+                <div className="bg-blue-100 rounded-sm size-4"></div>
+                <p className="text-sm text-zinc-700">Estimate</p>
+              </div>
+            </div>
             <ReactEcharts option={individualRolesOption} />
           </div>
 

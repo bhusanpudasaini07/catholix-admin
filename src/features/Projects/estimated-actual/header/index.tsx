@@ -10,9 +10,10 @@ const EstimatedActualHeader = () => {
   const { projectDetail, projectLoading } = useEstimatedActual();
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
-      <div className="flex items-start gap-4">
+      <div className="flex gap-4 items-start">
         <Button
-          onClick={() => router.push(`/projects/${router?.query?.code}`)}
+          onClick={() => router.back()}
+          // onClick={() => router.push(`/projects/${router?.query?.code}`)}
           variant={"table"}
           className="h-auto gap-2 p-2.5"
           size={"sm"}
@@ -24,7 +25,7 @@ const EstimatedActualHeader = () => {
             Estimated VS Actual Budget
           </h4>
           {projectLoading ? (
-            <Skeleton className="w-20 h-5 mt-2" />
+            <Skeleton className="mt-2 w-20 h-5" />
           ) : (
             <p className="text-base font-normal text-zinc-500">
               {projectDetail?.data?.project_title}

@@ -14,7 +14,6 @@ import {
   IMembersLogData,
 } from "@/interface/team-lead-report-interface";
 import { Badge } from "@/shared/components/ui/badge";
-import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   staffDailyLog: any;
@@ -153,16 +152,16 @@ const MemberTimeLogModal: FC<IProps> = ({
                       </div>
                     </div>
                   ) : daily?.on_leave === "Yes" ? (
-                    <p className="p-6 font-medium text-center text-zinc-500">
+                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
                       No data found.
                     </p>
                   ) : (
-                    <p className="p-6 font-medium text-center text-zinc-500">
-                      No time-log Added.
+                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                      No time-log added.
                     </p>
                   )
                 ) : (
-                  <p className="p-6 font-medium text-center text-zinc-500">
+                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
                     Holiday/Weekend
                   </p>
                 )}
@@ -182,5 +181,4 @@ const MemberTimeLogModal: FC<IProps> = ({
     </div>
   );
 };
-
 export default MemberTimeLogModal;

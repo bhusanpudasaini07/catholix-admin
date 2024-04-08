@@ -16,7 +16,8 @@ const MoreDetailHeader = ({ title, code }: IProps) => {
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex gap-4 items-start">
         <Button
-          onClick={() => router.push(`/projects/${router?.query?.code}`)}
+          onClick={() => router.back()}
+          // onClick={() => router.push(`/projects/${router?.query?.code}`)}
           variant={"table"}
           className="h-auto gap-2 p-2.5"
           size={"sm"}

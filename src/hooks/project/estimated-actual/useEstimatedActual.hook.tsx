@@ -285,41 +285,96 @@ const useEstimatedActual = () => {
       },
     ],
     series: [
+      // Estimated stack
       {
-        name: "Actual Spent Budget",
+        name: "Used from Estimated",
         type: "bar",
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: projectRoleRp?.data?.map((item) => item?.actual) ?? [],
-        backgroundStyle: {
-          color: "#0A82FD",
-        },
-      },
-      {
-        name: "Budget",
-        type: "bar",
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: projectRoleRp?.data?.map((item) => item?.quote) ?? [],
-        backgroundStyle: {
-          color: "#22C55E",
-        },
+        stack: "estimated",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value:
+              item?.estimated === 0
+                ? 0
+                : item?.actual > item?.estimated
+                ? (item?.estimated).toFixed(2)
+                : (item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#3B82F6", // Dark blue for used from estimated
+            },
+          })) ?? [],
       },
       {
         name: "Estimated",
         type: "bar",
-        // label: labelOption,
-        emphasis: {
-          focus: "series",
-        },
-        data: projectRoleRp?.data?.map((item) => item?.estimated) ?? [],
-        backgroundStyle: {
-          color: "#FACC15",
-        },
+        stack: "estimated",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value:
+              item?.actual > item?.estimated
+                ? 0
+                : (item.estimated - item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#CEE6FF", // Light blue for estimated
+            },
+          })) ?? [],
+      },
+      {
+        name: "Over Estimated",
+        type: "bar",
+        stack: "estimated",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value:
+              item.actual > item.estimated ? item.actual - item.estimated : 0,
+            itemStyle: {
+              color: "#EF4444", // Red for over estimated
+            },
+          })) ?? [],
+      },
+      // Budget stack
+      {
+        name: "Used from Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value:
+              item?.quote === 0
+                ? 0
+                : item?.actual > item?.quote
+                ? item?.quote
+                : (item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#22C55E", // Dark green for used from budget
+            },
+          })) ?? [],
+      },
+      {
+        name: "Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value:
+              item?.actual > item?.quote
+                ? 0
+                : (item.quote - item?.actual).toFixed(2),
+            itemStyle: {
+              color: "#A7F3D0", // Light green for budget
+            },
+          })) ?? [],
+      },
+      {
+        name: "Over Budget",
+        type: "bar",
+        stack: "budget",
+        data:
+          projectRoleRp?.data?.map((item) => ({
+            value: item.actual > item.quote ? item.actual - item.quote : 0,
+            itemStyle: {
+              color: "#EF4444", // Red for over budget
+            },
+          })) ?? [],
       },
     ],
   };

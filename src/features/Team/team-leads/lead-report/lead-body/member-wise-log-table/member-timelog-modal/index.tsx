@@ -14,10 +14,6 @@ import {
   IMembersLogData,
 } from "@/interface/team-lead-report-interface";
 import { Badge } from "@/shared/components/ui/badge";
-<<<<<<< HEAD
-=======
-import { cn } from "@/shared/utils/utils";
->>>>>>> dev
 
 interface IProps {
   staffDailyLog: any;

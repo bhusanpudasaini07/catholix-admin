@@ -95,11 +95,11 @@ const httpRequest = async (
       data: response?.data?.data,
     };
   } catch (error: any) {
-    if (error?.response?.status === 404) {
-      window.location.href = "/not-found";
-    } else if (error?.response?.status === 403) {
-      window.location.href = "/forbidden";
-    }
+    error?.response?.status === 404
+      ? (window.location.href = "/not-found")
+      : error?.response?.status === 403
+      ? (window.location.href = "/forbidden")
+      : null;
     throw error?.response?.data?.errors;
   }
 };

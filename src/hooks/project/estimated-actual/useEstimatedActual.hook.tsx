@@ -326,7 +326,9 @@ const useEstimatedActual = () => {
         data:
           projectRoleRp?.data?.map((item) => ({
             value:
-              item.actual > item.estimated ? item.actual - item.estimated : 0,
+              item.actual > item.estimated
+                ? Number((item.actual - item.estimated).toFixed(2))
+                : 0,
             itemStyle: {
               color: "#EF4444", // Red for over estimated
             },
@@ -343,8 +345,8 @@ const useEstimatedActual = () => {
               item?.quote === 0
                 ? 0
                 : item?.actual > item?.quote
-                ? item?.quote
-                : (item?.actual).toFixed(2),
+                ? Number((item?.quote).toFixed(2))
+                : Number((item?.actual).toFixed(2)),
             itemStyle: {
               color: "#22C55E", // Dark green for used from budget
             },
@@ -359,7 +361,7 @@ const useEstimatedActual = () => {
             value:
               item?.actual > item?.quote
                 ? 0
-                : (item.quote - item?.actual).toFixed(2),
+                : Number((item.quote - item?.actual).toFixed(2)),
             itemStyle: {
               color: "#A7F3D0", // Light green for budget
             },
@@ -371,7 +373,10 @@ const useEstimatedActual = () => {
         stack: "budget",
         data:
           projectRoleRp?.data?.map((item) => ({
-            value: item.actual > item.quote ? item.actual - item.quote : 0,
+            value:
+              item.actual > item.quote
+                ? Number((item.actual - item.quote).toFixed(2))
+                : 0,
             itemStyle: {
               color: "#EF4444", // Red for over budget
             },

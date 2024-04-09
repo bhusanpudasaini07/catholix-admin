@@ -8,6 +8,8 @@ import { useQuery, useQueryClient } from "react-query";
 import {
   ILeadDetail,
   ILeadReportSummary,
+  IProjectMarket,
+  IProjectType,
   IStaffRPReport,
 } from "@/interface/team-leads-interface";
 import {
@@ -18,6 +20,8 @@ import { getTeamLeadRPSummary } from "@/services/teams/report-service";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const useReport = () => {
   const router = useRouter();
@@ -28,7 +32,10 @@ const useReport = () => {
   const [dateRangeOpen, setDateRangeOpen] = useState(false);
   const [leadId, setLeadId] = useState<string>("");
   const [leadDetail, setLeadDetail] = useState<ILeadDetail>();
-  const [countryProjectData, setCountryProjectData] = useState([]);
+  const [countryProjectData, setCountryProjectData] = useState<
+    IProjectMarket[]
+  >([]);
+  const [leadData, setLeadData] = useState<IProjectType[]>([]);
 
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
@@ -109,15 +116,55 @@ const useReport = () => {
           countryCount[country] = Number(project?.total_rp);
         }
       });
+      const totalRp = Object.entries(countryCount).reduce(
+        (acc, [key, value]: any) => acc + value,
+        0
+      );
 
       // Convert the countryCount object into an array suitable for the chart
       const chartData: any = Object.entries(countryCount).map(
         ([name, value]: any) => ({
           name,
-          value: value?.toFixed(2),
+          value: Number(value?.toFixed(2)),
+          percentage: Number(((Number(value) / totalRp) * 100).toFixed(2)),
         })
       );
       setCountryProjectData(chartData);
+    }
+  };
+  const getLeadData = () => {
+    let leadArray = [];
+    if (leadDetail) {
+      const totalRp =
+        leadDetail?.summary?.commercial_rp + leadDetail?.summary?.inhouse_rp;
+
+      leadArray = [
+        {
+          source: "Client",
+          rp: leadDetail?.summary?.commercial_rp,
+          percentage:
+            leadDetail?.summary?.commercial_rp === 0
+              ? 0
+              : Number(
+                  (
+                    (leadDetail?.summary?.commercial_rp / totalRp) *
+                    100
+                  ).toFixed(2)
+                ),
+        },
+        {
+          source: "In-House",
+          rp: leadDetail?.summary?.inhouse_rp,
+          percentage:
+            leadDetail?.summary?.inhouse_rp === 0
+              ? 0
+              : Number(
+                  ((leadDetail?.summary?.inhouse_rp / totalRp) * 100).toFixed(2)
+                ),
+        },
+      ];
+
+      setLeadData(leadArray);
     }
   };
 
@@ -191,7 +238,12 @@ const useReport = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Total Budget Executed",
+      header: () => (
+        <div>
+          Total Budget <br />
+          Exceeded
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.total_rp) ?? 0}
@@ -201,7 +253,12 @@ const useReport = () => {
     {
       id: "client_rp",
       accessorKey: "client_rp",
-      header: "Total Budget Executed (Client)",
+      header: () => (
+        <div>
+          Client Budget <br />
+          Exceeded
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.commercial_rp) ?? 0}
@@ -211,7 +268,12 @@ const useReport = () => {
     {
       id: "inhouse_rp",
       accessorKey: "inhouse_rp",
-      header: "Total Budget Executed (In-House)",
+      header: () => (
+        <div>
+          In-House Budget <br />
+          Exceeded
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.inhouse_rp) ?? 0}
@@ -225,10 +287,11 @@ const useReport = () => {
       trigger: "item",
     },
     color: ["#FACC15", "#84CC16"],
+
     series: [
       {
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["50%", "90%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -288,7 +351,7 @@ const useReport = () => {
     series: [
       {
         type: "pie",
-        radius: ["50%", "70%"],
+        radius: ["50%", "90%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -329,6 +392,180 @@ const useReport = () => {
     ],
   };
 
+  const projectTypeColumn: ColumnDef<IProjectType>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S.No.",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">{row?.index + 1}.</div>
+      ),
+    },
+    {
+      id: "source",
+      accessorKey: "source",
+      header: "Type",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">
+          {row?.getValue("source")}
+        </div>
+      ),
+    },
+    {
+      id: "rp",
+      accessorKey: "rp",
+      header: "Type",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">{row?.getValue("rp")}</div>
+      ),
+    },
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: "%",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">
+          {row?.getValue("percentage")}
+        </div>
+      ),
+    },
+  ];
+
+  const projectMarketColumn: ColumnDef<IProjectMarket>[] = [
+    {
+      id: "sn",
+      accessorKey: "sn",
+      header: "S.No.",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">{row?.index + 1}.</div>
+      ),
+    },
+    {
+      id: "name",
+      accessorKey: "name",
+      header: "Market",
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">{row?.getValue("name")}</div>
+      ),
+    },
+    {
+      id: "value",
+      accessorKey: "value",
+      header: ({ column }) => (
+        <div className="flex justify-between items-center">
+          <p>Budget</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">
+          {row?.getValue("value")}
+        </div>
+      ),
+    },
+    {
+      id: "percentage",
+      accessorKey: "percentage",
+      header: ({ column }) => (
+        <div className="flex justify-between items-center">
+          <p>%</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="font-medium text-zinc-700">
+          {row?.getValue("percentage")}%
+        </div>
+      ),
+    },
+  ];
+
   //   EFFECTS
 
   /**
@@ -350,6 +587,13 @@ const useReport = () => {
   useEffect(() => {
     extractGroupedCountry();
   }, [staffRPSummary]);
+
+  /**
+   * For Lead client and inhouse data
+   */
+  useEffect(() => {
+    getLeadData();
+  }, [leadDetail]);
 
   /**
    * Changes route if the id is not there to username of 1st index of leadReportSummary array
@@ -450,6 +694,8 @@ const useReport = () => {
     dateRangeOpen,
     setDateRangeOpen,
     leadReportSummary,
+    countryProjectData,
+    leadData,
     isLoading,
     columns,
     totalRP,
@@ -462,6 +708,8 @@ const useReport = () => {
     rpChartRef,
     countryChartRef,
     leadId,
+    projectMarketColumn,
+    projectTypeColumn,
   };
 };
 

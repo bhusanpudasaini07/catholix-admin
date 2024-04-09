@@ -1,7 +1,11 @@
 import { EChartsInstance } from "echarts-for-react";
 import React from "react";
 
-import { ILeadDetail } from "@/interface/team-leads-interface";
+import {
+  ILeadDetail,
+  IProjectMarket,
+  IProjectType,
+} from "@/interface/team-leads-interface";
 import { ColumnDef } from "@tanstack/react-table";
 
 import ReportOverall from "./report-overall";
@@ -21,6 +25,10 @@ interface IProps {
   rpChartRef: EChartsInstance;
   countryChartRef: EChartsInstance;
   leadId: string;
+  projectTypeColumn: ColumnDef<IProjectType>[];
+  projectMarketColumn: ColumnDef<IProjectMarket>[];
+  countryProjectData: IProjectMarket[];
+  projectTypeData: IProjectType[];
 }
 
 const ReportSummaryBody = ({
@@ -36,6 +44,10 @@ const ReportSummaryBody = ({
   rpChartRef,
   countryChartRef,
   leadId,
+  projectTypeColumn,
+  projectMarketColumn,
+  countryProjectData,
+  projectTypeData,
 }: IProps) => {
   return (
     <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
@@ -56,6 +68,10 @@ const ReportSummaryBody = ({
           rpChartRef={rpChartRef}
           leadId={leadId}
           countryChartRef={countryChartRef}
+          projectTypeColumn={projectTypeColumn}
+          projectMarketColumn={projectMarketColumn}
+          countryProjectData={countryProjectData}
+          projectTypeData={projectTypeData}
         />
       </div>
     </div>

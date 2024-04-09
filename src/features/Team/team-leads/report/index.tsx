@@ -24,6 +24,10 @@ const ReportSummaryContent = () => {
     rpChartRef,
     countryChartRef,
     leadId,
+    projectTypeColumn,
+    countryProjectData,
+    projectMarketColumn,
+    leadData,
   } = useReport();
   return (
     <>
@@ -47,6 +51,10 @@ const ReportSummaryContent = () => {
         staffRPLoading={staffRPLoading}
         leadDetail={leadDetail}
         leadId={leadId}
+        projectTypeColumn={projectTypeColumn}
+        projectMarketColumn={projectMarketColumn}
+        countryProjectData={countryProjectData ?? []}
+        projectTypeData={leadData ?? []}
       />
     </>
   );

@@ -28,6 +28,17 @@ export interface ILeadDetail {
     inhouse_projects_count: number;
   };
 }
+export interface IProjectType {
+  source: string;
+  percentage: number;
+  rp: number;
+}
+export interface IProjectMarket {
+  name: string;
+  value: number;
+  percentage: number;
+}
+
 export interface IStaffRPReport {
   data: {
     summary: IStaffRPSummary;

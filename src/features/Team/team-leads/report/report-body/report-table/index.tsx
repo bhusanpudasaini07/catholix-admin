@@ -2,7 +2,11 @@ import ReactECharts, { EChartsInstance } from "echarts-for-react";
 import { DownloadCloud } from "lucide-react";
 import React from "react";
 
-import { ILeadDetail } from "@/interface/team-leads-interface";
+import {
+  ILeadDetail,
+  IProjectMarket,
+  IProjectType,
+} from "@/interface/team-leads-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -19,6 +23,10 @@ interface IProps {
   rpChartRef: EChartsInstance;
   countryChartRef: EChartsInstance;
   leadId: string;
+  projectTypeColumn: ColumnDef<IProjectType>[];
+  projectMarketColumn: ColumnDef<IProjectMarket>[];
+  countryProjectData: IProjectMarket[];
+  projectTypeData: IProjectType[];
 }
 
 const ReportSummaryTable = ({
@@ -29,20 +37,23 @@ const ReportSummaryTable = ({
   rpOptions,
   rpChartRef,
   countryChartRef,
-  leadId,
+  projectTypeColumn,
+  projectMarketColumn,
+  countryProjectData,
+  projectTypeData,
 }: IProps) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex justify-between items-center mb-10">
           <p className="text-lg font-medium text-zinc-700">Team Lead</p>
           <Button variant={"success"} size={"sm"}>
             <DownloadCloud size={16} />
           </Button>
         </div>
 
-        <div className="grid grid-cols-12 transition-all gap-7">
-          <div className={cn("lg:col-span-8", "col-span-12 ")}>
+        <div className="grid grid-cols-12 gap-7 transition-all">
+          <div className="col-span-12 lg:col-span-6">
             <DataTable
               border={true}
               loading={loading}
@@ -50,25 +61,52 @@ const ReportSummaryTable = ({
               data={data ?? []}
             />
           </div>
-          <div className="col-span-12 lg:col-span-4">
+          <div className="col-span-12 lg:col-span-6">
             <div className="mb-5">
-              <p className="font-semibold text-zinc-700">Project Type</p>
-              <ReactECharts
-                option={rpOptions}
-                notMerge={true}
-                ref={rpChartRef}
-                opts={{ renderer: "svg" }}
-              />
+              <p className="mb-6 font-semibold text-zinc-700">Project Type</p>
+              <div className="grid grid-cols-3">
+                <ReactECharts
+                  option={rpOptions}
+                  notMerge={true}
+                  ref={rpChartRef}
+                  style={{ height: 250 }}
+                  opts={{ renderer: "svg" }}
+                />
+                <div className="col-span-2">
+                  <DataTable
+                    border
+                    columns={projectTypeColumn}
+                    data={projectTypeData}
+                    headerSticky
+                    height="max-h-[272px]"
+                    lottieWidth={0.1}
+                  />
+                </div>
+              </div>
+
               {/* )} */}
             </div>
             <div>
-              <p className="font-semibold text-zinc-700">Project market</p>
+              <p className="mb-6 font-semibold text-zinc-700">Project Market</p>
+              <div className="grid grid-cols-3">
+                <ReactECharts
+                  option={countryOptions}
+                  opts={{ renderer: "svg" }}
+                  ref={countryChartRef}
+                  style={{ height: 250 }}
+                />
+                <div className="col-span-2">
+                  <DataTable
+                    border
+                    columns={projectMarketColumn}
+                    data={countryProjectData}
+                    headerSticky
+                    height="max-h-[272px]"
+                    lottieWidth={0.1}
+                  />
+                </div>
+              </div>
 
-              <ReactECharts
-                option={countryOptions}
-                opts={{ renderer: "svg" }}
-                ref={countryChartRef}
-              />
               {/* )} */}
             </div>
           </div>

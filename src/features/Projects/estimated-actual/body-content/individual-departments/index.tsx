@@ -119,7 +119,9 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
         data:
           departmentData?.roles?.map((item) => ({
             value:
-              item.actual > item.estimated ? item.actual - item.estimated : 0,
+              item.actual > item.estimated
+                ? (item.actual - item.estimated).toFixed(2)
+                : 0,
             itemStyle: {
               color: "#EF4444", // Red for over estimated
             },
@@ -136,7 +138,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
               item?.quote === 0
                 ? 0
                 : item?.actual > item?.quote
-                ? item?.quote
+                ? (item?.quote).toFixed(2)
                 : (item?.actual).toFixed(2),
             itemStyle: {
               color: "#22C55E", // Dark green for used from budget
@@ -164,7 +166,10 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
         stack: "budget",
         data:
           departmentData?.roles?.map((item) => ({
-            value: item.actual > item.quote ? item.actual - item.quote : 0,
+            value:
+              item.actual > item.quote
+                ? (item.actual - item.quote).toFixed(2)
+                : 0,
             itemStyle: {
               color: "#EF4444", // Red for over budget
             },

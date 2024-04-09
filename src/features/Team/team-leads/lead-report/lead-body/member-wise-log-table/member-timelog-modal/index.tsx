@@ -87,7 +87,7 @@ const MemberTimeLogModal: FC<IProps> = ({
   ];
 
   return (
-    <div className="flex flex-col max-h-[700px] overflow-auto">
+    <div className="flex flex-col max-h-[600px] overflow-auto">
       {staffDailyLogLoading && <TrendModalSkeleton />}
       {/* <p className="mb-4 text-base font-bold text-zinc-700">
         Daily Budget Detail -{" "}
@@ -99,18 +99,23 @@ const MemberTimeLogModal: FC<IProps> = ({
               <div className="p-4 2xl:p-6">
                 <div className="flex gap-3 justify-start items-center mb-4">
                   <h5 className="font-medium text-zinc-700">{daily?.date}</h5>
-                  {(daily?.holiday === "Yes" || daily?.on_leave === "Yes") && (
+                  {(daily?.holiday === "Yes" ||
+                    ["Yes", "Half"].includes(daily?.on_leave)) && (
                     <Badge
                       className={
                         "bg-red-100 rounded-md border-red-500 text-destructive"
                       }
                     >
-                      {daily?.holiday === "Yes" ? "Holiday" : "On Leave"}
+                      {daily?.holiday === "Yes"
+                        ? "Holiday"
+                        : daily?.on_leave === "Half"
+                        ? "Half Leave"
+                        : "On Leave"}
                     </Badge>
                   )}
                 </div>
-                {daily?.holiday !== "Yes" ? (
-                  daily?.task?.length > 0 ? (
+                {daily?.task?.length > 0 ? (
+                  <>
                     <div className="flex gap-5 justify-between pr-20 mt-9">
                       <div className="flex gap-2 justify-center items-start">
                         <div className="mt-0 text-blue-500">
@@ -118,7 +123,6 @@ const MemberTimeLogModal: FC<IProps> = ({
                         </div>
                         <div className="ml-1">
                           <p className="text-3xl font-semibold text-blue-500">
-                            {/* {hours}H {minutes}M */}
                             {calculateHoursAndMinutes(daily?.used_time)}
                           </p>
                           <p className="text-sm text-blue-600">
@@ -151,26 +155,28 @@ const MemberTimeLogModal: FC<IProps> = ({
                         </div>
                       </div>
                     </div>
-                  ) : daily?.on_leave === "Yes" ? (
-                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
-                      No data found.
-                    </p>
-                  ) : (
-                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
-                      No time-log added.
-                    </p>
-                  )
-                ) : (
+                  </>
+                ) : daily?.on_leave === "Yes" ? (
+                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                    No data found.
+                  </p>
+                ) : daily?.holiday === "Yes" ? (
                   <p className="px-6 py-3 font-medium text-center text-zinc-500">
                     Holiday/Weekend
                   </p>
+                ) : (
+                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                    No time-log added.
+                  </p>
                 )}
               </div>
-              {daily?.holiday !== "Yes" && daily?.task?.length > 0 && (
+              {daily?.task?.length > 0 && (
                 <DataTable
                   loading={staffDailyLogLoading}
                   border
                   columns={columns}
+                  headerSticky
+                  height="max-h-[420px]"
                   data={daily?.task || []}
                 />
               )}

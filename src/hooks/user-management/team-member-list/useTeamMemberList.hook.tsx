@@ -119,6 +119,9 @@ const useTeamMemberList = () => {
       case "Closed":
         return "bg-green-50 border-green-500 text-green-700";
         break;
+      case "Delivered":
+        return "bg-green-50 border-green-500 text-green-700";
+        break;
       case "On Hold":
         return "bg-red-50 border-red-500 text-red-700";
         break;
@@ -206,7 +209,7 @@ const useTeamMemberList = () => {
                       >
                         <Link
                           href={`/projects/${project?.code}`}
-                          className="absolute top-0 bottom-0 left-0 right-0"
+                          className="absolute top-0 right-0 bottom-0 left-0"
                         />
                         <p className="font-bold">{project?.name}</p>
                         <p>{project?.project_lead}</p>
@@ -313,7 +316,7 @@ const useTeamMemberList = () => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("used_time"));
         return (
           <div
-            className="font-medium cursor-pointer whitespace-nowrap text-primary"
+            className="font-medium whitespace-nowrap cursor-pointer text-primary"
             onClick={() => openStaffLogModal(row?.original?.username)}
           >
             {hours > 1 && hours + "H"} {minutes}M
@@ -329,7 +332,7 @@ const useTeamMemberList = () => {
         <div>
           Work-Load
           <br />
-          Remarks
+          Time Graph
         </div>
       ),
       cell: ({ row }) => <WorkLoadChart data={row?.original} />,

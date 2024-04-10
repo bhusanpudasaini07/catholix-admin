@@ -41,6 +41,7 @@ const ReportSummaryTable = ({
   projectMarketColumn,
   countryProjectData,
   projectTypeData,
+  staffRPLoading,
 }: IProps) => {
   return (
     <Card>
@@ -76,6 +77,7 @@ const ReportSummaryTable = ({
                   <DataTable
                     border
                     columns={projectTypeColumn}
+                    loading={loading}
                     data={projectTypeData}
                     headerSticky
                     height="max-h-[272px]"
@@ -99,6 +101,7 @@ const ReportSummaryTable = ({
                   <DataTable
                     border
                     columns={projectMarketColumn}
+                    loading={staffRPLoading}
                     data={countryProjectData}
                     headerSticky
                     height="max-h-[272px]"

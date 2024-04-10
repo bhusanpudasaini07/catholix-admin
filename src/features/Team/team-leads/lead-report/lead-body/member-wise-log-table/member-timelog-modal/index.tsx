@@ -92,7 +92,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       {/* <p className="mb-4 text-base font-bold text-zinc-700">
         Daily Budget Detail -{" "}
       </p> */}
-      {staffDailyLog?.data?.map((daily: any, index: number) => (
+      {staffDailyLog?.data?.slice().reverse().map((daily: any, index: number) => (
         <div className="mb-4" key={index}>
           <Card className="h-auto">
             <CardContent className="!p-0">

@@ -109,7 +109,7 @@ const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
       accessorKey: "date",
       header: "Date",
       cell: ({ row }) => (
-        <div className="text-zinc-700 font-medium">
+        <div className="font-medium text-zinc-700">
           <p className="whitespace-nowrap">
             {moment(row.getValue("date")).format("YYYY-MM-DD")}
           </p>
@@ -214,16 +214,16 @@ const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">Log Table</h5>
             <Button variant={"white"} size={"sm"}>
               View All
             </Button>
           </div>
-          <div className="flex items-center justify-end gap-2">
-            <FilterSearch className="!py-2" setSearchText={setSearchText} />
-            <Select onValueChange={(value) => setRole(value)}>
+          <div className="flex gap-2 justify-end items-center">
+            {/* <FilterSearch className="!py-2" setSearchText={setSearchText} /> */}
+            {/* <Select onValueChange={(value) => setRole(value)}>
               <SelectTrigger className="min-w-[260px]">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
@@ -237,9 +237,9 @@ const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
             <Select onValueChange={(value) => setProjectType(value)}>
-              <SelectTrigger className="min-w-[60px]">
+              <SelectTrigger className="min-w-[200px]">
                 <SelectValue placeholder="Project Type" />
               </SelectTrigger>
               <SelectContent className="max-h-[300px] overflow-auto">

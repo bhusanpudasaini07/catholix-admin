@@ -583,13 +583,13 @@ export const useProjectDetail = () => {
         data: [
           {
             value: projectDetail?.data?.health?.rp_completion_percentage ?? 0,
-            name: "RP Consumption",
+            name: "Budget Consumption",
           },
           {
             value: projectDetail?.data?.health?.rp_completion_percentage
               ? 100 - projectDetail?.data?.health?.rp_completion_percentage
               : 0,
-            name: "Remaining RP",
+            name: "Remaining Budget",
           },
         ],
       },

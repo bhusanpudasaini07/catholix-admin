@@ -286,8 +286,12 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
         };
 
         return (
-          <div className="text-sm font-semibold text-zinc-700">
-            <ReactECharts option={tableOption} style={{ maxHeight: "40px" }} />
+          <div className="flex justify-center items-center text-sm font-semibold text-zinc-700">
+            <ReactECharts
+              option={tableOption}
+              opts={{ renderer: "svg" }}
+              style={{ width: 70, maxHeight: "40px" }}
+            />
           </div>
         );
       },
@@ -312,16 +316,16 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">All Time Projects</h5>
             <Button variant="white" size="sm">
               View All
             </Button>
           </div>
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex gap-2 justify-end items-center">
             <FilterSearch className="!py-2" setSearchText={setSearchText} />
-            <Select onValueChange={setRole}>
+            {/* <Select onValueChange={setRole}>
               <SelectTrigger className="min-w-[260px]">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
@@ -335,7 +339,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
             <Select onValueChange={setStatus}>
               <SelectTrigger className="min-w-[160px]">
                 <SelectValue placeholder="Status" />
@@ -357,7 +361,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
             </Select>
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-start gap-1 mb-3">
+        <div className="flex flex-wrap gap-1 justify-start items-center mb-3">
           {filterConfig?.markets?.map((market: Market) => (
             <CountryButtonCheckbox
               key={market?.id}

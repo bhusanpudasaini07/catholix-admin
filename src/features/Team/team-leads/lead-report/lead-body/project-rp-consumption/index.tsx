@@ -16,6 +16,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useQuery } from "react-query";
 import { getConfig } from "@/services/dashboard/dashboard-service";
 import Image from "next/image";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
@@ -121,7 +122,7 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       header: "Budget Consumed",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row?.getValue("total_rp")}
+          {changeNumberFormat(row?.getValue("total_rp"))}
         </div>
       ),
       enableHiding: false,
@@ -165,8 +166,8 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">
               Project Budget Consumption
             </h5>
@@ -184,11 +185,11 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
               View All
             </Button>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className="flex flex-wrap gap-2 justify-end items-center">
             <FilterSearch setSearchText={setSearchText} />
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-1 mb-3">
+        <div className="flex flex-wrap gap-1 justify-end items-center mb-3">
           {filterConfig?.markets?.map((market: any, index: number) => (
             <CountryButtonCheckbox
               label={market?.title}

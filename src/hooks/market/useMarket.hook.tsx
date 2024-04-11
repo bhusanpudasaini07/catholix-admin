@@ -156,7 +156,7 @@ const useMarket = () => {
       ),
       cell: ({ row }) => (
         <p className="font-semibold text-zinc-700">
-          {Number(row?.original?.rp)?.toFixed(2)}
+          {Math.round(Number(row?.original?.rp))}
         </p>
       ),
       enableSorting: true,

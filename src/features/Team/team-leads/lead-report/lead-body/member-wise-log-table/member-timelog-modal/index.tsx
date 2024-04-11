@@ -51,7 +51,7 @@ const MemberTimeLogModal: FC<IProps> = ({
       header: "Budget",
       cell: ({ row }) => (
         <div className="text-sm font-medium text-zinc-500">
-          {row.getValue("rp")}
+          {Math.round(row.getValue("rp"))}
         </div>
       ),
       enableHiding: false,
@@ -92,98 +92,101 @@ const MemberTimeLogModal: FC<IProps> = ({
       {/* <p className="mb-4 text-base font-bold text-zinc-700">
         Daily Budget Detail -{" "}
       </p> */}
-      {staffDailyLog?.data?.slice().reverse().map((daily: any, index: number) => (
-        <div className="mb-4" key={index}>
-          <Card className="h-auto">
-            <CardContent className="!p-0">
-              <div className="p-4 2xl:p-6">
-                <div className="flex gap-3 justify-start items-center mb-4">
-                  <h5 className="font-medium text-zinc-700">{daily?.date}</h5>
-                  {(daily?.holiday === "Yes" ||
-                    ["Yes", "Half"].includes(daily?.on_leave)) && (
-                    <Badge
-                      className={
-                        "bg-red-100 rounded-md border-red-500 text-destructive"
-                      }
-                    >
-                      {daily?.holiday === "Yes"
-                        ? "Holiday"
-                        : daily?.on_leave === "Half"
-                        ? "Half Leave"
-                        : "On Leave"}
-                    </Badge>
+      {staffDailyLog?.data
+        ?.slice()
+        .reverse()
+        .map((daily: any, index: number) => (
+          <div className="mb-4" key={index}>
+            <Card className="h-auto">
+              <CardContent className="!p-0">
+                <div className="p-4 2xl:p-6">
+                  <div className="flex gap-3 justify-start items-center mb-4">
+                    <h5 className="font-medium text-zinc-700">{daily?.date}</h5>
+                    {(daily?.holiday === "Yes" ||
+                      ["Yes", "Half"].includes(daily?.on_leave)) && (
+                      <Badge
+                        className={
+                          "bg-red-100 rounded-md border-red-500 text-destructive"
+                        }
+                      >
+                        {daily?.holiday === "Yes"
+                          ? "Holiday"
+                          : daily?.on_leave === "Half"
+                          ? "Half Leave"
+                          : "On Leave"}
+                      </Badge>
+                    )}
+                  </div>
+                  {daily?.task?.length > 0 ? (
+                    <>
+                      <div className="flex gap-5 justify-between pr-20 mt-9">
+                        <div className="flex gap-2 justify-center items-start">
+                          <div className="mt-0 text-blue-500">
+                            <Hourglass size={36} />
+                          </div>
+                          <div className="ml-1">
+                            <p className="text-3xl font-semibold text-blue-500">
+                              {calculateHoursAndMinutes(daily?.used_time)}
+                            </p>
+                            <p className="text-sm text-blue-600">
+                              Total Time Logged
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 justify-center items-start">
+                          <div className="mt-0 text-green-500">
+                            <Activity size={36} />
+                          </div>
+                          <div className="ml-1">
+                            <p className="text-3xl font-semibold text-green-500">
+                              {daily?.used_rp}
+                            </p>
+                            <p className="text-sm font-normal text-green-600">
+                              Spent Budget
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 justify-center items-start">
+                          <div className="mt-0 text-red-500">
+                            <TrendingDown size={36} />
+                          </div>
+                          <div className="ml-1">
+                            <p className="text-3xl font-semibold text-red-500">
+                              {daily?.loss_rp}
+                            </p>
+                            <p className="text-sm text-red-600">Loss Budget</p>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : daily?.on_leave === "Yes" ? (
+                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                      No data found.
+                    </p>
+                  ) : daily?.holiday === "Yes" ? (
+                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                      Holiday/Weekend
+                    </p>
+                  ) : (
+                    <p className="px-6 py-3 font-medium text-center text-zinc-500">
+                      No time-log added.
+                    </p>
                   )}
                 </div>
-                {daily?.task?.length > 0 ? (
-                  <>
-                    <div className="flex gap-5 justify-between pr-20 mt-9">
-                      <div className="flex gap-2 justify-center items-start">
-                        <div className="mt-0 text-blue-500">
-                          <Hourglass size={36} />
-                        </div>
-                        <div className="ml-1">
-                          <p className="text-3xl font-semibold text-blue-500">
-                            {calculateHoursAndMinutes(daily?.used_time)}
-                          </p>
-                          <p className="text-sm text-blue-600">
-                            Total Time Logged
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex gap-2 justify-center items-start">
-                        <div className="mt-0 text-green-500">
-                          <Activity size={36} />
-                        </div>
-                        <div className="ml-1">
-                          <p className="text-3xl font-semibold text-green-500">
-                            {daily?.used_rp}
-                          </p>
-                          <p className="text-sm font-normal text-green-600">
-                            Spent Budget
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex gap-2 justify-center items-start">
-                        <div className="mt-0 text-red-500">
-                          <TrendingDown size={36} />
-                        </div>
-                        <div className="ml-1">
-                          <p className="text-3xl font-semibold text-red-500">
-                            {daily?.loss_rp}
-                          </p>
-                          <p className="text-sm text-red-600">Loss Budget</p>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ) : daily?.on_leave === "Yes" ? (
-                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
-                    No data found.
-                  </p>
-                ) : daily?.holiday === "Yes" ? (
-                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
-                    Holiday/Weekend
-                  </p>
-                ) : (
-                  <p className="px-6 py-3 font-medium text-center text-zinc-500">
-                    No time-log added.
-                  </p>
+                {daily?.task?.length > 0 && (
+                  <DataTable
+                    loading={staffDailyLogLoading}
+                    border
+                    columns={columns}
+                    headerSticky
+                    height="max-h-[420px]"
+                    data={daily?.task || []}
+                  />
                 )}
-              </div>
-              {daily?.task?.length > 0 && (
-                <DataTable
-                  loading={staffDailyLogLoading}
-                  border
-                  columns={columns}
-                  headerSticky
-                  height="max-h-[420px]"
-                  data={daily?.task || []}
-                />
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      ))}
+              </CardContent>
+            </Card>
+          </div>
+        ))}
     </div>
   );
 };

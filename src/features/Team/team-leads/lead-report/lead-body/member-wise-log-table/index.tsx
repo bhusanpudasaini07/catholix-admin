@@ -27,6 +27,7 @@ import { DownloadExcel } from "@/shared/utils/download/download.utils";
 import { ColumnDef } from "@tanstack/react-table";
 
 import MemberTimeLogModal from "./member-timelog-modal";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
@@ -183,7 +184,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
           onClick={() => ModelHandler(row?.original?.id)}
           className="text-sm font-semibold text-blue-500 cursor-pointer"
         >
-          {row.getValue("spent_rp")}
+          {changeNumberFormat(row.getValue("spent_rp"))}
         </div>
       ),
       enableHiding: false,
@@ -194,7 +195,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       header: "Spent Budget (Client)",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("spent_client_rp")}
+          {changeNumberFormat(row.getValue("spent_client_rp"))}
         </div>
       ),
       enableHiding: false,
@@ -205,7 +206,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       header: "Loss Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("loss_rp")}
+          {changeNumberFormat(row.getValue("loss_rp"))}
         </div>
       ),
       enableHiding: false,
@@ -311,14 +312,14 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">Member-Wise Log</h5>
             {/* <Button variant={"white"} size={"sm"}>
               View All
             </Button> */}
           </div>
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex gap-2 justify-end items-center">
             <FilterSearch className="!py-2" setSearchText={setSearchText} />
             <Select onValueChange={(value) => setRole(value)}>
               <SelectTrigger className="min-w-[260px]">

@@ -205,7 +205,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
           <SummaryCardSkeleton />
         )}
 
-        <div className=" xl:col-span-2">
+        <div className="xl:col-span-2">
           {!staffLogLoading ? (
             <StaffsProjectSummary
               projectSummaryLoading={staffProjectLoading}

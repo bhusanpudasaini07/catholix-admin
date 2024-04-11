@@ -1,24 +1,29 @@
-import { Eye } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import { Eye } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
 import {
-    IStaff, IStaffLogs, IStaffProjects, IStaffProjectsDetail
-} from '@/interface/staff-interface';
+  IStaff,
+  IStaffLogs,
+  IStaffProjects,
+  IStaffProjectsDetail,
+} from "@/interface/staff-interface";
 import {
-    getStaffDetails, getStaffProjects, getStaffTimeLogs
-} from '@/services/staff/staff-service';
-import { Badge } from '@/shared/components/ui/badge';
-import { Button } from '@/shared/components/ui/button';
-import { calculateTimeLog } from '@/shared/utils/rp-utils';
-import { cn } from '@/shared/utils/utils';
-import { ColumnDef } from '@tanstack/react-table';
+  getStaffDetails,
+  getStaffProjects,
+  getStaffTimeLogs,
+} from "@/services/staff/staff-service";
+import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
-import { useDebounce } from '../debounce.hooks';
+import { useDebounce } from "../debounce.hooks";
 
 const useStaffDetail = () => {
   const {
@@ -216,12 +221,7 @@ const useStaffDetail = () => {
         </div>
       ),
       cell: ({ row }: any) => (
-        <div>
-          {new Intl.NumberFormat(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(row?.getValue("sales_rp"))}
-        </div>
+        <div>{changeNumberFormat(row?.getValue("sales_rp"))}</div>
       ),
     },
     // Used RP
@@ -235,10 +235,7 @@ const useStaffDetail = () => {
       ),
       cell: ({ row }: any) => (
         <div className="font-medium">
-          {new Intl.NumberFormat(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(row?.getValue("overall_used_rp"))}
+          {changeNumberFormat(row?.getValue("overall_used_rp"))}
         </div>
       ),
     },
@@ -253,10 +250,7 @@ const useStaffDetail = () => {
       ),
       cell: ({ row }: any) => (
         <div className="font-medium">
-          {new Intl.NumberFormat(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }).format(row?.getValue("rp"))}
+          {changeNumberFormat(row?.getValue("rp"))}
         </div>
       ),
     },
@@ -286,7 +280,7 @@ const useStaffDetail = () => {
       cell: ({ row }: any) => (
         <Button
           variant={"ghost"}
-          className="h-auto p-0 text-zinc-700 hover:text-primary"
+          className="p-0 h-auto text-zinc-700 hover:text-primary"
         >
           <Eye size={20} />
         </Button>

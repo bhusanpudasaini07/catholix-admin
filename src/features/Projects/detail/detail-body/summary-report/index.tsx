@@ -74,11 +74,11 @@ const ProjectSummaryReport = () => {
                     </p>
                     <p className="flex gap-2 items-center text-sm">
                       <span>Project Health</span>{" "}
-                      <span className="flex gap-2 items-center text-green-700">
+                      {/* <span className="flex gap-2 items-center text-green-700">
                         <TrendingUp /> Increased
-                      </span>
+                      </span> */}
                     </p>
-                    <div className="text-center">
+                    {/* <div className="text-center">
                       <p className="mb-2 text-sm text-zinc-500">
                         Grade History
                       </p>
@@ -96,7 +96,7 @@ const ProjectSummaryReport = () => {
                           B-
                         </p>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ const ProjectSummaryReport = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="flex gap-3 items-start px-4 py-3 rounded-lg border border-primary text-primary">
+                      {/* <div className="flex gap-3 items-start px-4 py-3 rounded-lg border border-primary text-primary">
                         <AlertTriangle size={20} />
                         <div className="text-sm">
                           <p>All Well!</p>
@@ -138,7 +138,7 @@ const ProjectSummaryReport = () => {
                             utilized efficiently and optimally.{" "}
                           </p>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                   <div className="col-span-4">

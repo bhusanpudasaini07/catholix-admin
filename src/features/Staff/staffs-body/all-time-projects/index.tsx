@@ -237,7 +237,7 @@ const AllTimeProjects: React.FC<AllTimeProjectsProps> = ({
       header: "Budget Contribution",
       cell: ({ row }) => (
         <div className="text-sm font-semibold cursor-pointer text-zinc-500">
-          {row.getValue("rp")}
+          {changeNumberFormat(row.getValue("rp"))}
         </div>
       ),
       enableHiding: false,

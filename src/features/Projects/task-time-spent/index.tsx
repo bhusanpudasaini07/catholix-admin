@@ -34,7 +34,7 @@ const TaskTimeSpentContent = () => {
             closed={projectDetail?.data?.task?.closed_task_count ?? 0}
             bugPercentage={projectDetail?.data?.task?.bug_ratio_percentage ?? 0}
           />
-          <TopTimeConsumed timeConusmedOption={timeConusmedOption} />
+          {/* <TopTimeConsumed timeConusmedOption={timeConusmedOption} /> */}
           <TaskTimeTable
             timeLogLoading={timeLogLoading}
             timeLogs={timeLogs}

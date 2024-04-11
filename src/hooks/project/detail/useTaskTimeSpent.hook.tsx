@@ -1,17 +1,21 @@
-import { Edit } from 'lucide-react';
-import moment from 'moment';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { Edit } from "lucide-react";
+import moment from "moment";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useQuery } from "react-query";
 
-import { useDebounce } from '@/hooks/debounce.hooks';
-import { ILogEntry, ITimeLogs } from '@/interface/project-interface';
-import { getTimeLogs } from '@/services/project/project-service';
-import { Badge } from '@/shared/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/shared/components/ui/tooltip';
-import { calculateTimeLog } from '@/shared/utils/rp-utils';
-import { ColumnDef } from '@tanstack/react-table';
+import { useDebounce } from "@/hooks/debounce.hooks";
+import { ILogEntry, ITimeLogs } from "@/interface/project-interface";
+import { getTimeLogs } from "@/services/project/project-service";
+import { Badge } from "@/shared/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
+import { calculateTimeLog } from "@/shared/utils/rp-utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useTaskTimeSpent = () => {
   const router = useRouter();
@@ -87,7 +91,7 @@ const useTaskTimeSpent = () => {
           >
             {row?.original?.title}
           </Link>
-          <div className="flex flex-wrap items-center gap-3 my-2">
+          <div className="flex flex-wrap gap-3 items-center my-2">
             {row?.original?.label.map((item, index) => (
               <Badge
                 style={{
@@ -125,7 +129,9 @@ const useTaskTimeSpent = () => {
       id: "rp",
       accessorKey: "rp",
       header: "Budget",
-      cell: ({ row }) => <div className="w-[80px]">{row.getValue("rp")}</div>,
+      cell: ({ row }) => (
+        <div className="w-[80px]">{Math.round(row.getValue("rp"))}</div>
+      ),
       enableHiding: false,
     },
     // Action
@@ -138,7 +144,7 @@ const useTaskTimeSpent = () => {
           <TooltipTrigger>
             {/* <Button
               variant={"ghost"}
-              className="h-auto p-0 hover:bg-transparent"
+              className="p-0 h-auto hover:bg-transparent"
             > */}
             <Edit size={20} className="stroke-zinc-700 hover:stroke-primary" />
             {/* </Button> */}

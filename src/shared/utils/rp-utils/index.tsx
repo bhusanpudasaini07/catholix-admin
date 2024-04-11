@@ -159,8 +159,8 @@ const calculateUsedAndUnusedRpPercentage = (
   const unusedPercentage = 100 - usedPercentage;
 
   return {
-    usedPercentage: parseFloat(usedPercentage.toFixed(2)),
-    unusedPercentage: parseFloat(unusedPercentage.toFixed(2)),
+    usedPercentage: Math.round(usedPercentage),
+    unusedPercentage: Math.round(unusedPercentage),
   };
 };
 
@@ -174,8 +174,8 @@ const calculateTimeLog = (time: number) => {
 
 const changeNumberFormat = (num: number) => {
   const changedValue = new Intl.NumberFormat(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(num);
 
   return changedValue;

@@ -6,6 +6,7 @@ import { IMarkets } from "@/interface/market-interface";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import MarketDataCardSkeleton from "@/shared/components/skeleton-loading/market/market-data-card-skeleton";
 import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
+import Link from "next/link";
 
 interface IProps {
   marketsPieChartOption: EChartsOption;
@@ -39,6 +40,10 @@ const MarketOverallStats = ({
                     key={item?.id}
                     className="relative w-[160px] px-6 pt-2 h-fit pb-3 border rounded border-zinc-200"
                   >
+                    <Link
+                      className="absolute top-0 right-0 bottom-0 left-0"
+                      href={`#${item?.title}`}
+                    />
                     <div
                       style={{ backgroundColor: item?.color }}
                       className={

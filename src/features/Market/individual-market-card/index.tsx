@@ -8,6 +8,8 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { ColumnDef } from "@tanstack/react-table";
+import { Expand } from "lucide-react";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   marketColumn: ColumnDef<IMarketProjects>[];
@@ -31,8 +33,9 @@ const IndividualMarketCard = ({
     title: "sankey",
   });
   const [dataItem, setDataItem] = useState(8);
+  const [expand, setExpand] = useState<boolean>(false);
   return (
-    <Card>
+    <Card id={marketTitle}>
       <CardContent>
         <Tabs
           defaultValue={tabItem?.title}
@@ -58,9 +61,22 @@ const IndividualMarketCard = ({
               <TabsTrigger value="bar">Bar Chart</TabsTrigger>
               <TabsTrigger value="sankey">Sankey Chart</TabsTrigger>
             </TabsList>
+
+            <Button
+              onClick={() => setExpand(!expand)}
+              variant={"date_picker"}
+              size={"sm"}
+            >
+              <Expand size={16} />
+            </Button>
           </div>
-          <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
-            <div>
+          <div className="grid grid-cols-12 gap-4">
+            <div
+              className={cn(
+                "col-span-12 order-1",
+                !expand && " 2xl:col-span-6 order-0"
+              )}
+            >
               <DataTable
                 columns={marketColumn}
                 data={tableData?.slice(0, dataItem) ?? []}
@@ -80,7 +96,12 @@ const IndividualMarketCard = ({
               )}
             </div>
 
-            <div className="h-full">
+            <div
+              className={cn(
+                "col-span-12 h-full order-0",
+                !expand && " 2xl:col-span-6 order-1"
+              )}
+            >
               <ReactEcharts
                 option={
                   tabItem?.title === "sankey"
@@ -89,7 +110,7 @@ const IndividualMarketCard = ({
                 }
                 key={tabItem?.title}
                 opts={{ renderer: "svg" }}
-                style={{ height: 400 }}
+                style={{ height: !expand ? 400 : 800 }}
               />
             </div>
           </div>

@@ -21,6 +21,7 @@ import {
   ChevronUp,
   SortAsc,
 } from "lucide-react";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 export interface IMarketProject {
   id: string | number;
@@ -53,6 +54,7 @@ const useMarket = () => {
     to: moment().toDate(),
   });
   const [sourceOption, setSourceOption] = useState("all");
+  const [statusOption, setStatusOption] = useState("all");
   const [dateRangeOpen, setDateRangeOpen] = useState<boolean>(false);
 
   // COLUMN
@@ -156,7 +158,7 @@ const useMarket = () => {
       ),
       cell: ({ row }) => (
         <p className="font-semibold text-zinc-700">
-          {Math.round(Number(row?.original?.rp))}
+          {changeNumberFormat(Number(row?.original?.rp))}
         </p>
       ),
       enableSorting: true,
@@ -183,9 +185,10 @@ const useMarket = () => {
         getProjectSummary(
           moment(date?.from).format("YYYY-MM-DD"),
           moment(date?.to).format("YYYY-MM-DD"),
-          sourceOption
+          sourceOption,
+          statusOption
         ),
-      queryKey: ["marketSummary", date?.to, sourceOption],
+      queryKey: ["marketSummary", date?.to, sourceOption, statusOption],
     });
 
   // Total MARKET RP
@@ -304,9 +307,11 @@ const useMarket = () => {
         rp_consumed: ((project.info.total_rp / totalRP) * 100).toFixed(2),
       };
     });
+    const sortedProjects = projects?.slice().sort((a, b) => b.rp - a.rp);
 
     return {
       projects,
+      sortedProjects,
       market_info: {
         name: marketTitle,
         flag: marketFlag,
@@ -723,6 +728,8 @@ const useMarket = () => {
     date,
     sourceOption,
     setSourceOption,
+    statusOption,
+    setStatusOption,
 
     //Table
     marketColumn,

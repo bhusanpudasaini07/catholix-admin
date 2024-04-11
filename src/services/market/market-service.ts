@@ -4,10 +4,11 @@ import { httpMethods } from "@/enums";
 const getProjectSummary = (
   date_from: string,
   date_to: string,
-  source: string
+  source: string,
+  status: string
 ) => {
   return httpRequest(
-    `/project-summary?date_from=${date_from}&date_to=${date_to}&source=${source}`,
+    `/project-summary?date_from=${date_from}&date_to=${date_to}&source=${source}&status=${status}`,
     httpMethods.GET
   );
 };

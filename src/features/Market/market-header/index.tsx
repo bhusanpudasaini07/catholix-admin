@@ -18,6 +18,8 @@ interface IProps {
   date: DateRange;
   sourceOption: string;
   setSourceOption: (arg: string) => void;
+  statusOption: string;
+  setStatusOption: (arg: string) => void;
 }
 
 const MarketHeader = ({
@@ -27,6 +29,8 @@ const MarketHeader = ({
   date,
   sourceOption,
   setSourceOption,
+  statusOption,
+  setStatusOption,
 }: IProps) => {
   const { filterConfig } = useCommonStore();
   return (
@@ -40,6 +44,22 @@ const MarketHeader = ({
         </p>
       </div>
       <div className="flex gap-4 justify-end grow">
+        <Select
+          defaultValue={statusOption}
+          onValueChange={(e) => setStatusOption(e)}
+        >
+          <SelectTrigger className="max-w-[150px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            {filterConfig?.project_status?.map((item: string) => (
+              <SelectItem key={item} value={item}>
+                {item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Select
           defaultValue={sourceOption}
           onValueChange={(e) => setSourceOption(e)}

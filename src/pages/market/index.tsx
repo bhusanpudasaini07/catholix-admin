@@ -29,6 +29,8 @@ const Market: NextPageWithLayout = () => {
     getProjectsByMarket,
     getIndividualSankeyOption,
     getIndividualMarketBarOption,
+    statusOption,
+    setStatusOption,
   } = useMarket();
   return (
     <>
@@ -39,9 +41,11 @@ const Market: NextPageWithLayout = () => {
         date={date}
         sourceOption={sourceOption}
         setSourceOption={setSourceOption}
+        statusOption={statusOption}
+        setStatusOption={setStatusOption}
       />
 
-      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto scroll-smooth">
         <div className="grid grid-cols-1 gap-4">
           <MarketOverallStats
             pieChartRef={pieChartRef}
@@ -52,7 +56,7 @@ const Market: NextPageWithLayout = () => {
           />
           <IndividualMarketCard
             marketTitle="All"
-            tableData={allMarketProjects}
+            tableData={allMarketProjects?.slice().sort((a, b) => b.rp - a.rp)}
             individualMarketBarOption={allMarketBarOption}
             individualSankeyOption={allSankeyOption}
             marketColumn={marketColumn}
@@ -63,7 +67,7 @@ const Market: NextPageWithLayout = () => {
               key={market?.id}
               marketTitle={getProjectsByMarket(market?.id)?.market_info?.name}
               marketFlag={getProjectsByMarket(market?.id)?.market_info?.flag}
-              tableData={getProjectsByMarket(market?.id)?.projects}
+              tableData={getProjectsByMarket(market?.id)?.sortedProjects}
               individualMarketBarOption={getIndividualMarketBarOption(
                 market?.id
               )}

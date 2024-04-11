@@ -35,7 +35,7 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
           formatter: (item: any) => {
             return (
               "{a|" +
-              ((item?.value ? parseFloat(item?.value) : 0) || 0).toFixed(2) +
+              ((item?.value ? Math.round(item?.value) : 0) || 0) +
               "}\n{b|" +
               (item?.name || "") +
               "}"
@@ -80,7 +80,7 @@ const ProjectSummaryGraph = ({ chartData, title }: any) => {
               formatter: () => {
                 return (
                   "{a|" +
-                  (params?.value ? parseFloat(params.value).toFixed(2) : "") +
+                  (params?.value ? Math.round(params.value) : "") +
                   "}\n{b|" +
                   params?.name +
                   "}"

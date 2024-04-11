@@ -494,7 +494,7 @@ const useConsumptionType = () => {
           },
         },
         data: rpSummary?.data?.staffwise?.map((staff) => ({
-          value: staff?.rp,
+          value: Math.round(Number(staff?.rp)),
           name: staff?.name,
           itemStyle: {
             color: getColorForRole(staff?.role_group),
@@ -573,7 +573,7 @@ const useConsumptionType = () => {
           show: false,
         },
         data: rpSummary?.data?.rolewise?.map((role) => ({
-          value: role?.rp,
+          value: Math.round(Number(role?.rp)),
           name: role?.role_name,
           itemStyle: {
             color: getColorForRole(role?.role_group),
@@ -655,7 +655,7 @@ const useConsumptionType = () => {
           show: false,
         },
         data: rpSummary?.data?.rolegroupwise?.map((role) => ({
-          value: role?.rp.toFixed(2),
+          value: Math.round(role?.rp),
           name: role?.title,
         })),
       },
@@ -705,7 +705,7 @@ const useConsumptionType = () => {
           show: false,
         },
         data: rpSummary?.data?.departmentgroupwise?.map((department) => ({
-          value: department?.rp,
+          value: Math.round(Number(department?.rp)),
           name: department?.title,
         })),
       },

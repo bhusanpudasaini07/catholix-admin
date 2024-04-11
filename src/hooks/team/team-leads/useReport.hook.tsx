@@ -125,7 +125,7 @@ const useReport = () => {
       const chartData: any = Object.entries(countryCount).map(
         ([name, value]: any) => ({
           name,
-          value: Number(value?.toFixed(2)),
+          value: Math.round(value),
           percentage: Number(((Number(value) / totalRp) * 100).toFixed(2)),
         })
       );
@@ -330,12 +330,12 @@ const useReport = () => {
           ? [
               {
                 name: "Client Overall",
-                value: leadDetail?.summary?.commercial_rp,
+                value: Math.round(leadDetail?.summary?.commercial_rp),
                 selected: true,
               },
               {
                 name: "In-house Overall",
-                value: leadDetail?.summary?.inhouse_rp,
+                value: Math.round(leadDetail?.summary?.inhouse_rp),
               },
             ]
           : [],
@@ -416,7 +416,9 @@ const useReport = () => {
       accessorKey: "rp",
       header: "Type",
       cell: ({ row }) => (
-        <div className="font-medium text-zinc-700">{row?.getValue("rp")}</div>
+        <div className="font-medium text-zinc-700">
+          {Math.round(row?.getValue("rp"))}
+        </div>
       ),
     },
     {
@@ -425,7 +427,7 @@ const useReport = () => {
       header: "%",
       cell: ({ row }) => (
         <div className="font-medium text-zinc-700">
-          {row?.getValue("percentage")}
+          {row?.getValue("percentage")}%
         </div>
       ),
     },

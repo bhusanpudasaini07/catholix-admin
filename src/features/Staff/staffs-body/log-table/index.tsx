@@ -20,6 +20,7 @@ import {
 import { DownloadExcel } from "@/shared/utils/download/download.utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useRouter } from "next/router";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
   const router = useRouter();
@@ -176,7 +177,7 @@ const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
       header: "Spent Budget",
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("spent_rp")}
+          {changeNumberFormat(row.getValue("spent_rp"))}
         </div>
       ),
       enableHiding: false,

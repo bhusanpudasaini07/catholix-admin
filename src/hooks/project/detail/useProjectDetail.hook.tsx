@@ -265,7 +265,7 @@ export const useProjectDetail = () => {
 
               const utilizedPercentage = (Number(item?.rp) / totalRP) * 100;
               return {
-                value: utilizedPercentage?.toFixed(2),
+                value: Math.round(utilizedPercentage),
                 name: item?.title,
               };
             })
@@ -642,7 +642,7 @@ export const useProjectDetail = () => {
           focus: "series",
         },
         data:
-          estimatedActual?.data?.map((item) => (item?.actual).toFixed(2)) ?? [],
+          estimatedActual?.data?.map((item) => (item?.actual).toFixed(0)) ?? [],
       },
       {
         name: "Budget",
@@ -654,7 +654,7 @@ export const useProjectDetail = () => {
           focus: "series",
         },
         data:
-          estimatedActual?.data?.map((item) => (item?.quote).toFixed(2)) ?? [],
+          estimatedActual?.data?.map((item) => (item?.quote).toFixed(0)) ?? [],
       },
       {
         name: "Estimated",
@@ -666,7 +666,7 @@ export const useProjectDetail = () => {
           focus: "series",
         },
         data:
-          estimatedActual?.data?.map((item) => (item?.estimated).toFixed(2)) ??
+          estimatedActual?.data?.map((item) => (item?.estimated).toFixed(0)) ??
           [],
       },
     ],

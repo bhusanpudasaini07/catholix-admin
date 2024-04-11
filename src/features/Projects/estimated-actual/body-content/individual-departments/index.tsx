@@ -90,8 +90,8 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
               item?.estimated === 0
                 ? 0
                 : item?.actual > item?.estimated
-                ? (item?.estimated).toFixed(2)
-                : (item?.actual).toFixed(2),
+                ? Math.round(item?.estimated)
+                : Math.round(item?.actual),
             itemStyle: {
               color: "#3B82F6", // Dark blue for used from estimated
             },
@@ -106,7 +106,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
             value:
               item?.actual > item?.estimated
                 ? 0
-                : (item.estimated - item?.actual).toFixed(2),
+                : Math.round(item.estimated - item?.actual),
             itemStyle: {
               color: "#CEE6FF", // Light blue for estimated
             },
@@ -120,7 +120,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
           departmentData?.roles?.map((item) => ({
             value:
               item.actual > item.estimated
-                ? (item.actual - item.estimated).toFixed(2)
+                ? Math.round(item.actual - item.estimated)
                 : 0,
             itemStyle: {
               color: "#EF4444", // Red for over estimated
@@ -138,8 +138,8 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
               item?.quote === 0
                 ? 0
                 : item?.actual > item?.quote
-                ? (item?.quote).toFixed(2)
-                : (item?.actual).toFixed(2),
+                ? Math.round(item?.quote)
+                : Math.round(item?.actual),
             itemStyle: {
               color: "#22C55E", // Dark green for used from budget
             },
@@ -154,7 +154,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
             value:
               item?.actual > item?.quote
                 ? 0
-                : (item.quote - item?.actual).toFixed(2),
+                : Math.round(item.quote - item?.actual),
             itemStyle: {
               color: "#A7F3D0", // Light green for budget
             },
@@ -168,7 +168,7 @@ const EstimatedActualDepartmentWise = ({ column, departmentData }: IProps) => {
           departmentData?.roles?.map((item) => ({
             value:
               item.actual > item.quote
-                ? (item.actual - item.quote).toFixed(2)
+                ? Math.round(item.actual - item.quote)
                 : 0,
             itemStyle: {
               color: "#EF4444", // Red for over budget

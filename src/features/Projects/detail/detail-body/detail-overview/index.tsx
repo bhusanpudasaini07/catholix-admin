@@ -146,7 +146,7 @@ const DetailOverview = () => {
         </div>
       ) : (
         <div className="col-span-12 xl:col-span-6">
-          <div className="grid h-full grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-4 h-full">
             {/* RP Used */}
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
@@ -155,7 +155,7 @@ const DetailOverview = () => {
                     <p className="text-base font-medium text-zinc-700">
                       Budget Utilization
                     </p>{" "}
-                    <div className="flex items-center gap-2">
+                    <div className="flex gap-2 items-center">
                       <Button
                         variant={"white"}
                         onClick={() =>
@@ -176,7 +176,7 @@ const DetailOverview = () => {
                       </Button>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between mt-10">
+                  <div className="flex justify-between items-center mt-10">
                     <div>
                       <div className="mb-3">
                         <h3 className="text-3xl font-semibold 2xl:text-4xl text-zinc-800">
@@ -191,7 +191,7 @@ const DetailOverview = () => {
                         </p>
                       </div>
                       <p className="text-sm font-medium text-zinc-700">
-                        <span className="font-normal text-zinc-500 ">
+                        <span className="font-normal text-zinc-500">
                           Sales Units:
                         </span>{" "}
                         {projectDetail?.data?.rp?.sales_rp
@@ -210,14 +210,14 @@ const DetailOverview = () => {
             </div>
 
             {/* Project Duration */}
-            <div className="col-span-12 md:col-span-6 lg:col-span-6 ">
+            <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
-                <CardContent className="flex flex-col items-start justify-between h-full">
+                <CardContent className="flex flex-col justify-between items-start h-full">
                   <h5 className="mb-3 text-lg font-medium text-zinc-700">
                     Project Duration
                   </h5>
-                  <div className="w-full mt-auto">
-                    <div className="flex items-center justify-between">
+                  <div className="mt-auto w-full">
+                    <div className="flex justify-between items-center">
                       {projectDetail?.data?.status === "Closed" ? (
                         <h4 className="mb-1 text-2xl font-medium text-green-500">
                           Completed
@@ -227,7 +227,7 @@ const DetailOverview = () => {
                           On Hold
                         </h4>
                       ) : (
-                        <div className="flex flex-wrap items-center gap-1">
+                        <div className="flex flex-wrap gap-1 items-center">
                           <h4
                             className={cn(
                               daysValue && daysValue > 0
@@ -250,7 +250,7 @@ const DetailOverview = () => {
                         </div>
                       )}
 
-                      <div className="flex flex-wrap items-center gap-1">
+                      <div className="flex flex-wrap gap-1 items-center">
                         <h4 className="mb-1 text-xl font-medium text-zinc-800">
                           {projectDetail?.data?.status &&
                           ["Closed", "On Hold"].includes(
@@ -273,7 +273,7 @@ const DetailOverview = () => {
                       })}
                       value={barValue}
                     />
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <p className="text-sm text-zinc-700">
                         {moment(projectDetail?.data?.dates?.start_date).format(
                           "Do MMM, YYYY"
@@ -300,7 +300,7 @@ const DetailOverview = () => {
             <div className="col-span-12">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start gap-3 mb-8">
+                  <div className="flex gap-3 justify-start items-center mb-8">
                     <h5 className="font-medium text-zinc-700">
                       Task & Time Logs
                     </h5>
@@ -318,7 +318,7 @@ const DetailOverview = () => {
                   </div>
                   <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
                     {/* Total */}
-                    <div className={`rounded-md p-4 bg-zinc-100`}>
+                    <div className={`p-4 rounded-md bg-zinc-100`}>
                       <h3 className="mb-2 text-2xl font-semibold text-zinc-700">
                         {projectDetail?.data?.task?.all_task_count ?? 0}
                       </h3>
@@ -326,7 +326,7 @@ const DetailOverview = () => {
                     </div>
 
                     {/* Open */}
-                    <div className={`rounded-md p-4 bg-blue-50 text-blue-500`}>
+                    <div className={`p-4 text-blue-500 bg-blue-50 rounded-md`}>
                       <h3 className="mb-2 text-2xl font-medium">
                         {projectDetail?.data?.task?.open_task_count ?? 0}
                       </h3>
@@ -335,7 +335,7 @@ const DetailOverview = () => {
 
                     {/* Bugs */}
                     <div
-                      className={`rounded-md p-4 bg-orange-50 text-orange-500 `}
+                      className={`p-4 text-orange-500 bg-orange-50 rounded-md`}
                     >
                       <h3 className="mb-2 text-2xl font-medium">
                         {projectDetail?.data?.task?.bug_count ?? 0}
@@ -346,7 +346,7 @@ const DetailOverview = () => {
                     {/* Total Time Spent */}
                     <div className="pl-3 border-l">
                       <div
-                        className={`rounded-md p-4 flex gap-2 justify-start flex-col items-start bg-zinc-100 `}
+                        className={`flex flex-col gap-2 justify-start items-start p-4 rounded-md bg-zinc-100`}
                       >
                         <h3 className="text-2xl font-medium text-zinc-700">
                           {`${hours}H ${minutes}M`}
@@ -411,11 +411,11 @@ const DetailOverview = () => {
                   />
                 </TabsContent>
                 <TabsContent value="estimated_actual">
-                  <div className="flex items-center gap-4">
+                  <div className="flex gap-4 items-center">
                     <div className="w-[200px]">
                       {estimatedActualData?.map((item) => (
                         <div key={item?.title} className="mb-6 last:mb-0">
-                          <div className="flex items-center gap-2 mb-1">
+                          <div className="flex gap-2 items-center mb-1">
                             <div className={cn(item?.color, "w-2 h-6")}></div>
                             <p className="text-sm text-zinc-700">
                               {item?.title}

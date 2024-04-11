@@ -28,12 +28,12 @@ const TimeUtilization: FC<IProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-start mb-4 gap-7">
+        <div className="flex gap-7 justify-start items-center mb-4">
           <p className="text-lg font-medium text-zinc-700">Time Utilization</p>
         </div>
-        <div className="flex items-center justify-between mt-10 gap-7 flex-wrap">
-          <div className="flex items-center justify-start grow gap-6">
-            <div className="">
+        <div className="flex flex-wrap gap-7 justify-between items-center mt-10">
+          <div className="flex gap-6 justify-start items-center grow">
+            <div className="max-w-[150px]">
               <h3 className="text-4xl font-semibold text-zinc-800">
                 {overallHour ? `${overallHour}H ` : ""}
                 {overallMinute ? `${overallMinute}M` : ""}
@@ -49,8 +49,8 @@ const TimeUtilization: FC<IProps> = ({
               />
             </div>
           </div>
-          <div className="flex items-center justify-center grow gap-6">
-            <div className="">
+          <div className="flex gap-6 justify-center items-center grow">
+            <div className="max-w-[150px]">
               <h3 className="text-4xl font-semibold text-zinc-800">
                 {hours ? `${hours}H ` : ""}
                 {minutes ? `${minutes}M` : ""}

@@ -66,7 +66,7 @@ const ConsumptionListTable = ({
                 },
                 {
                   columnId: "rp",
-                  format: (value) => `${value.toFixed(2)}`,
+                  format: (value) => `${Math.round(value)}`,
                 },
               ]}
             />

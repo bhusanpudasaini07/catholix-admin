@@ -173,7 +173,7 @@ const StaffsProjectSummary: FC<IProps> = ({
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
         return (
-          <div className="text-sm font-semibold text-zinc-700 whitespace-nowrap">
+          <div className="text-sm font-semibold whitespace-nowrap text-zinc-700">
             {hours ? `${hours}H` : ""} {minutes}M
           </div>
         );
@@ -212,7 +212,7 @@ const StaffsProjectSummary: FC<IProps> = ({
   };
   const plotData = filteredProjects?.map((item: IStaffsProfileProject) => ({
     name: item?.name,
-    value: item?.rp,
+    value: Math.round(item?.rp),
   }));
 
   useEffect(() => {
@@ -261,14 +261,14 @@ const StaffsProjectSummary: FC<IProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">Project Summary</h5>
             <Button variant={"white"} size={"sm"}>
               View Full List
             </Button>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
+          <div className="flex flex-wrap gap-2 justify-end items-center">
             <Select onValueChange={(value) => setSearchText(value)}>
               <SelectTrigger className="min-w-[240px]">
                 <SelectValue placeholder="All Project" />
@@ -290,7 +290,7 @@ const StaffsProjectSummary: FC<IProps> = ({
 
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
           <div className="col-span-5 xl:col-span-3">
-            <div className="flex flex-wrap items-end justify-end gap-1 mb-3">
+            <div className="flex flex-wrap gap-1 justify-end items-end mb-3">
               {filterConfig?.markets?.map((market: any) => (
                 <CountryButtonCheckbox
                   label={market?.title}

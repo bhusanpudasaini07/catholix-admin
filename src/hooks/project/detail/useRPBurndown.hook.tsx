@@ -90,7 +90,7 @@ const useRPBurndown = () => {
             )}
             onClick={() => setDate(row?.original?.date)}
           >
-            {row?.getValue("rp")}
+            {Math.round(row?.getValue("rp"))}
           </div>
         );
       },
@@ -333,7 +333,7 @@ const useRPBurndown = () => {
         <Dialog>
           <DialogTrigger>
             <div className="font-medium text-primary">
-              {row?.original?.rp.toFixed(2)}
+              {Math.round(row?.original?.rp)}
             </div>
           </DialogTrigger>
           <DialogContent className="max-w-[800px]">

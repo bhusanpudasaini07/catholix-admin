@@ -409,7 +409,9 @@ const DetailOverview = () => {
                   <ProjectDetailStatus
                     option={statusOption}
                     columns={statusColumn}
-                    statusData={projectTaskLabelData?.data[2]}
+                    statusData={projectTaskLabelData?.data?.find(
+                      (item) => item?.type === "Status"
+                    )}
                     loading={projectTaskLabelLoading}
                     chartRef={chartRef}
                   />

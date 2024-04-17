@@ -179,7 +179,7 @@ export const useProjectDetail = () => {
       header: "Utilization",
       cell: ({ row }) => {
         const totalRP = projectTaskLabelData
-          ? projectTaskLabelData?.data[2]?.count?.reduce(
+          ? projectTaskLabelData?.data[3]?.count?.reduce(
               (total: number, item: ITypeCount) => total + Number(item?.rp),
               0
             )
@@ -254,21 +254,26 @@ export const useProjectDetail = () => {
           show: false,
         },
         data: projectTaskLabelData
-          ? projectTaskLabelData?.data[2]?.count?.map((item) => {
-              const totalRP = projectTaskLabelData
-                ? projectTaskLabelData?.data[2]?.count?.reduce(
-                    (total: number, item: ITypeCount) =>
-                      total + Number(item?.rp),
-                    0
-                  )
-                : 0;
+          ? projectTaskLabelData?.data
+              ?.find((item) => item?.type === "Status")
+              ?.count?.map((item) => {
+                const totalRP = projectTaskLabelData
+                  ? projectTaskLabelData?.data
+                      ?.find((item) => item?.type === "Status")
+                      ?.count?.reduce(
+                        (total: number, item: ITypeCount) =>
+                          total + Number(item?.rp),
+                        0
+                      )
+                  : 0;
 
-              const utilizedPercentage = (Number(item?.rp) / totalRP) * 100;
-              return {
-                value: Math.round(utilizedPercentage),
-                name: item?.title,
-              };
-            })
+                const utilizedPercentage =
+                  (Number(item?.rp) / Number(totalRP)) * 100;
+                return {
+                  value: Math.round(utilizedPercentage),
+                  name: item?.title,
+                };
+              })
           : [],
       },
     ],

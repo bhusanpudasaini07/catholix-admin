@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { IProjectTaskBugRatio } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Button } from '@/shared/components/ui/button';
-import { ColumnDef } from '@tanstack/react-table';
+import { IProjectTaskBugRatio } from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   columns: ColumnDef<IProjectTaskBugRatio>[];
@@ -14,7 +14,7 @@ interface IProps {
 const BugTaskRatio = ({ data, columns, loading }: IProps) => {
   return (
     <div className="card">
-      <div className="flex items-center justify-start gap-3 mb-4">
+      <div className="flex gap-3 justify-start items-center mb-4">
         <p className="text-lg font-medium text-zinc-700">
           Bugs Vs Task Ratio (Platform/Component)
         </p>

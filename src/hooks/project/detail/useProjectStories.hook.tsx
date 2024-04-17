@@ -18,12 +18,16 @@ import {
 import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { useDebounce } from "@/hooks/debounce.hooks";
 
 const useProjectStories = () => {
   const router = useRouter();
   const { code } = router.query;
 
   const [perPage, setPerPage] = useState(10);
+  const [searchText, setSearchText] = useState("");
+
+  const debounchedSearch = useDebounce(searchText, 300);
 
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
@@ -31,15 +35,20 @@ const useProjectStories = () => {
     return <div className="text-color">{serialNumber}.</div>;
   };
 
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+  };
+
   const { data: projectStories, isLoading } = useQuery({
     queryFn: async () => {
       if (code) {
-        const response = await getProjectStories(code);
+        const response = await getProjectStories(code, searchText);
         return response;
       }
     },
-    queryKey: ["projectStories", code],
+    queryKey: ["projectStories", code, debounchedSearch],
   });
+
   // project details page column
   const columns: ColumnDef<IProjectUserStories>[] = [
     // S.N
@@ -279,6 +288,27 @@ const useProjectStories = () => {
       ),
       enableHiding: false,
     },
+    // Status
+    {
+      id: "status",
+      accessorKey: "status",
+      header: "Status",
+      cell: ({ row }) => (
+        <Badge
+          className={cn(
+            row?.getValue("status") === "Closed" &&
+              "bg-green-100 border-green-500 text-green-500 rounded-md",
+            row?.getValue("status") === "In Progress" &&
+              "bg-blue-100 border-blue-500 text-blue-500 rounded-md",
+            row?.getValue("status") === "Open" &&
+              "bg-zinc-200 border-zinc-500 text-zinc-700 rounded-md"
+          )}
+        >
+          {row.getValue("status")}
+        </Badge>
+      ),
+      enableHiding: false,
+    },
     // Estimated
     {
       id: "estimated_time",
@@ -412,6 +442,7 @@ const useProjectStories = () => {
     storiesDetailsColumns,
     perPage,
     setPerPage,
+    handleSearch,
   };
 };
 

@@ -1,6 +1,6 @@
 import { ChevronUp, LogOutIcon, Settings, User } from "lucide-react";
 import { useRouter } from "next/router";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
 import { logout } from "@/services/auth/auth-service";
 import {
@@ -28,6 +28,7 @@ interface IProps {
 }
 const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const { profileData } = useCommonStore();
 
@@ -39,6 +40,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
     mutationFn: logout,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Logged out successfully.");
+      queryClient.removeQueries();
       removeAuthCookies();
       router.push("login");
     },
@@ -53,7 +55,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger
         className={` items-center gap-3 focus:outline-none 
-        ${IsExpanded ? "flex w-full" : "px-4 p-2"}`}
+        ${IsExpanded ? "flex w-full" : "p-2 px-4"}`}
       >
         <Avatar className="w-[32px] h-[32px] ">
           <AvatarImage src={profileData?.image} />
@@ -63,7 +65,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         </Avatar>
         {IsExpanded ? (
           <div className="min-w-0">
-            <p className={`text-sm text-start truncate text-zinc-700`}>
+            <p className={`text-sm truncate text-start text-zinc-700`}>
               {profileData?.fullname}
             </p>
             <p className={`text-start text-[10px] text-zinc-500`}>
@@ -72,12 +74,12 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
           </div>
         ) : (
           <p
-            className={`text-center mt-2 text-[10px] text-zinc-500 whitespace-nowrap`}
+            className={`mt-2 text-center whitespace-nowrap text-[10px] text-zinc-500`}
           >
             v {version}
           </p>
         )}
-        {IsExpanded && <ChevronUp className="w-4 h-4 ml-auto shrink-0" />}
+        {IsExpanded && <ChevronUp className="ml-auto w-4 h-4 shrink-0" />}
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}
@@ -86,7 +88,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         align="end"
       >
         <DropdownMenuGroup>
-          <div className="flex items-start gap-4 p-4">
+          <div className="flex gap-4 items-start p-4">
             <Avatar className="w-[40px] h-[40px]">
               <AvatarImage src={profileData?.image} />
               <AvatarFallback className="">

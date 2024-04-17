@@ -3,6 +3,7 @@ import React from "react";
 import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import FilterSearch from "@/shared/components/filter-search";
 
 const ProjectStoriesTable = () => {
   const {
@@ -11,12 +12,14 @@ const ProjectStoriesTable = () => {
     isLoading,
     perPage,
     setPerPage,
+    handleSearch,
   } = useProjectStories();
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex justify-between items-center mb-10">
           <p className="text-lg font-medium text-zinc-700">Stories</p>
+          <FilterSearch setSearchText={handleSearch} />
         </div>
         <DataTable
           border={true}

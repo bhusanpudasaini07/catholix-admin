@@ -33,6 +33,7 @@ import {
 import BurndownSvg from "@/shared/svg/burndown";
 import {
   calculateDeadlinePercentValue,
+  calculateTime,
   calculateTimeLog,
   changeNumberFormat,
   showDeadline,
@@ -348,9 +349,18 @@ const DetailOverview = () => {
                       <div
                         className={`flex flex-col gap-2 justify-start items-start p-4 rounded-md bg-zinc-100`}
                       >
-                        <h3 className="text-2xl font-medium text-zinc-700">
-                          {`${hours}H ${minutes}M`}
-                        </h3>
+                        {hours < 1 ? (
+                          <h3 className="text-2xl font-medium text-zinc-700">
+                            {`${minutes}M`}
+                          </h3>
+                        ) : (
+                          <h3 className="text-2xl font-medium text-zinc-700">
+                            {`${calculateTime(
+                              Number(projectDetail?.data?.time?.used_time)
+                            )}H`}
+                          </h3>
+                        )}
+
                         <p className="text-sm text-zinc-900">
                           Total Time Spent
                         </p>

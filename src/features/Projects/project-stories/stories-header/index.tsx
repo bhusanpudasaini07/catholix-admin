@@ -26,12 +26,11 @@ const ProjectStoriesHeader = ({ projectName, loading }: IProps) => {
         </Button>
         <div className="">
           <h4 className="flex gap-2 items-center mb-1 text-2xl font-medium text-zinc-700">
-            Project Stories -{" "}
-            <span>
-              {loading ? <Skeleton className="w-20 h-3" /> : projectName}
-            </span>
+            Project Stories
           </h4>
-          <p className="text-base font-normal text-zinc-500">Stories</p>
+          <div className="text-base font-normal text-zinc-500">
+            {loading ? <Skeleton className="w-20 h-3" /> : projectName}
+          </div>
         </div>
       </div>
     </div>

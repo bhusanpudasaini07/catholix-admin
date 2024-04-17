@@ -98,10 +98,15 @@ const getProjectRelases = (code: any) => {
   );
 };
 
-const getProjectStories = (code: any, keyword?: string) => {
-  if (keyword) {
+const getProjectStories = (
+  code: any,
+  keyword?: string,
+  sort?: string,
+  sort_order?: string
+) => {
+  if (keyword || sort || sort_order) {
     return httpRequest(
-      `/get-user-stories?project_id=${code}&keyword=${keyword}`,
+      `/get-user-stories?project_id=${code}&keyword=${keyword}&sort=${sort}&sort_order=${sort_order}`,
       httpMethods.GET
     );
   } else {

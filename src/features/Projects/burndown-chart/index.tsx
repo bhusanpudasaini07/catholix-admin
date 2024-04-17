@@ -13,6 +13,7 @@ const BurndownContent = () => {
   const {
     columns,
     isLoading,
+    burndownData,
     burndownTableData,
     burndownOption,
     date,
@@ -39,7 +40,7 @@ const BurndownContent = () => {
               Burndown Chart
             </h4>
             <p className="text-base font-normal text-zinc-500">
-              Detailed view of Budget consumed.
+              {burndownData?.data?.project_title}
             </p>
           </div>
         </div>

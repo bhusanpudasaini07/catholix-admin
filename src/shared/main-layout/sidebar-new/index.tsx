@@ -10,6 +10,7 @@ import {
   Gitlab,
   LayoutGrid,
   Search,
+  SearchX,
   User,
   User2,
   UserCog,
@@ -63,6 +64,8 @@ import { useLoggedInStore } from "@/store/auth-store";
 import { useCommonStore } from "@/store/common-store";
 
 import ProfileDropdown from "../header/profile-dropdown";
+import { IStaffList } from "@/interface/staff-interface";
+import { getAllStaffs } from "@/services/staff/staff-service";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -127,21 +130,15 @@ const SidebarNew = ({
     queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
   });
 
-  const { data: teamMemberList, isLoading: teamMemberListLoading } =
-    useQuery<ITeamMemberList>({
-      queryFn: () =>
-        searchText
-          ? getTeamMembersList(
-              perPage,
-              pageNum,
-              searchText, //keyword
-              dateRange?.to ? moment(dateRange?.from).format("YYYY-MM-DD") : "", //date_from
-              dateRange?.to ? moment(dateRange?.to).format("YYYY-MM-DD") : "", //date_to
-              ""
-            )
-          : Promise.resolve({ data: [] }), // Return empty data when search text is empty
-      queryKey: ["teamMemberList", debouncedSearchValue, perPage, pageNum],
-    });
+  const { data: staffList, isLoading: staffLoading } = useQuery<IStaffList>({
+    queryFn: () =>
+      searchText
+        ? getAllStaffs(
+            searchText //keyword
+          )
+        : Promise.resolve({ data: [] }), // Return empty data when search text is empty
+    queryKey: ["teamMemberList", debouncedSearchValue, perPage, pageNum],
+  });
 
   const navigateTo = (route: string, linkUrl: string) => {
     router.push(`/${route}/${linkUrl}`);
@@ -333,18 +330,18 @@ const SidebarNew = ({
         width: sidebarWidth,
       }}
       className={`bg-light-white shrink-0 sidebar ${
-        isExpanded ? "pt-[120px] pb-12" : "pt-[140px] pb-[88px]"
+        isExpanded ? "pb-12 pt-[120px]" : "pt-[140px] pb-[88px]"
       } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
     >
       <div
         style={{
           width: sidebarWidth,
         }}
-        className="fixed top-0 z-10 bg-white border-b border-r border-r-slate-100 border-b-slate-100"
+        className="fixed top-0 z-10 bg-white border-r border-b border-r-slate-100 border-b-slate-100"
       >
         <div
           className={` pt-4  w-full  ${
-            isExpanded ? "flex items-center justify-between ps-7 pe-2" : ""
+            isExpanded ? "flex justify-between items-center ps-7 pe-2" : ""
           }`}
         >
           <Link
@@ -379,10 +376,10 @@ const SidebarNew = ({
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="w-full">
               {isExpanded ? (
-                <div className="flex items-center justify-start p-2 mx-6 my-4 border rounded-md border-zinc-200 text-zinc-700">
+                <div className="flex justify-start items-center p-2 mx-6 my-4 rounded-md border border-zinc-200 text-zinc-700">
                   <Search size={20} />
                   <p className="text-sm text-zinc-300 ms-3">Search</p>
-                  <p className="flex items-center justify-start text-sm text-zinc-300 ms-auto">
+                  <p className="flex justify-start items-center text-sm text-zinc-300 ms-auto">
                     Ctrl+K
                   </p>
                 </div>
@@ -398,10 +395,7 @@ const SidebarNew = ({
             <DialogContent className="min-w-[625px] gap-0 p-0">
               <DialogHeader className="p-6">
                 <DialogTitle>Global Search</DialogTitle>
-                <DialogDescription>
-                  Type to find Projects. Use UP/DOWN to browse, ENTER to select,
-                  ESC to dismiss.
-                </DialogDescription>
+                <DialogDescription>Type to search.</DialogDescription>
                 <FilterSearch
                   className="!max-w-full !mt-4"
                   setSearchText={(value) => setSearchText(value)}
@@ -412,16 +406,16 @@ const SidebarNew = ({
                   <>
                     {projectListLoading ? (
                       <div className="mb-6">
-                        <Skeleton className="w-56 h-4 mb-2" />
-                        <Skeleton className="w-full h-4 mb-2" />
-                        <Skeleton className="w-full h-4 mb-2" />
+                        <Skeleton className="mb-2 w-56 h-4" />
+                        <Skeleton className="mb-2 w-full h-4" />
+                        <Skeleton className="mb-2 w-full h-4" />
                       </div>
                     ) : (
                       <>
                         {projectList?.data?.length > 0 && (
                           <>
                             <p className="">PROJECTS</p>
-                            <ul className="mb-4 overflow-auto max-h-48">
+                            <ul className="overflow-auto mb-4 max-h-48">
                               {projectList?.data?.map(
                                 (value: any, index: number) => (
                                   <li
@@ -429,7 +423,7 @@ const SidebarNew = ({
                                     onClick={() =>
                                       navigateTo("projects", value?.code)
                                     }
-                                    className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary"
+                                    className="flex gap-3 justify-start items-center py-3 cursor-pointer hover:text-primary"
                                   >
                                     <FolderOpen />
                                     <p>{value?.project_title}</p>
@@ -441,29 +435,29 @@ const SidebarNew = ({
                         )}
                       </>
                     )}
-                    {teamMemberListLoading ? (
+                    {staffLoading ? (
                       <div>
-                        <Skeleton className="w-56 h-4 mb-2" />
-                        <Skeleton className="w-full h-4 mb-2" />
-                        <Skeleton className="w-full h-4 mb-2" />
+                        <Skeleton className="mb-2 w-56 h-4" />
+                        <Skeleton className="mb-2 w-full h-4" />
+                        <Skeleton className="mb-2 w-full h-4" />
                       </div>
                     ) : (
                       <>
-                        {(teamMemberList?.data?.length ?? 0) > 0 && (
+                        {(staffList?.data?.length ?? 0) > 0 && (
                           <>
                             <p className="">TEAM MEMBERS</p>
-                            <ul className="mb-4 overflow-auto max-h-48">
-                              {teamMemberList?.data?.map(
-                                (value: any, index: number) => (
+                            <ul className="overflow-auto mb-4 max-h-48">
+                              {staffList?.data?.map(
+                                (staff: any, index: number) => (
                                   <li
                                     key={index}
                                     onClick={() =>
-                                      navigateTo("staffs", value?.username)
+                                      navigateTo("staffs", staff?.username)
                                     }
-                                    className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary"
+                                    className="flex gap-3 justify-start items-center py-3 cursor-pointer hover:text-primary"
                                   >
                                     <User />
-                                    <p>{value?.fullname}</p>
+                                    <p>{staff?.fullname}</p>
                                   </li>
                                 )
                               )}
@@ -472,23 +466,16 @@ const SidebarNew = ({
                         )}
                       </>
                     )}
+
+                    {projectList?.data?.length === 0 &&
+                      staffList?.data?.length === 0 && (
+                        <p className="flex gap-2 justify-center items-center px-6 py-3 text-center text-zinc-500">
+                          <SearchX size={20} />
+                          <span>No Match Found</span>
+                        </p>
+                      )}
                   </>
                 )}
-                {/* <p className="">RECENT</p>
-                <ul className="overflow-auto max-h-48">
-                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
-                    <FolderOpen />
-                    <p>Wonder</p>
-                  </li>
-                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
-                    <FolderOpen />
-                    <p>Wonder</p>
-                  </li>
-                  <li className="flex items-center justify-start gap-3 py-3 cursor-pointer hover:text-primary">
-                    <FolderOpen />
-                    <p>Wonder</p>
-                  </li>
-                </ul> */}
               </div>
             </DialogContent>
           </Dialog>
@@ -526,9 +513,9 @@ const SidebarNew = ({
                               : "justify-center pl-4"
                           } ${isActive(subItem?.menuSlug) && "active"}`}
                         >
-                          <div className={` w-full flex font-medium`}>
+                          <div className={`flex w-full font-medium`}>
                             <span
-                              className={`min-w-[20px] h-[20px]  flex justify-center me-3`}
+                              className={`flex justify-center min-w-[20px] h-[20px] me-3`}
                             >
                               {subItem?.icon}
                             </span>
@@ -673,7 +660,7 @@ const SidebarNew = ({
           maxWidth: sidebarWidth,
         }}
         className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-r-slate-100 border-t border-t-slate-100 ${
-          isExpanded ? "flex items-center justify-between px-7" : ""
+          isExpanded ? "flex justify-between items-center px-7" : ""
         }`}
       >
         <ProfileDropdown IsExpanded={isExpanded} />

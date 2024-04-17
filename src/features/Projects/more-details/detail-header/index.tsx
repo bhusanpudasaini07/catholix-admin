@@ -26,13 +26,13 @@ const MoreDetailHeader = ({ title, code }: IProps) => {
         </Button>
         <div className="">
           {title ? (
-            <h4 className="mb-1 text-2xl font-medium text-zinc-700">{`Time-log and Status Details - [${title}]`}</h4>
+            <h4 className="mb-1 text-2xl font-medium text-zinc-700">
+              Time-log and Status Details
+            </h4>
           ) : (
             <Skeleton className="w-[80px] mb-2 h-5" />
           )}
-          <p className="text-base font-normal text-zinc-500">
-            Project Overview
-          </p>
+          <p className="text-base font-normal text-zinc-500">{title}</p>
         </div>
       </div>
       <div className="flex gap-4 items-center">

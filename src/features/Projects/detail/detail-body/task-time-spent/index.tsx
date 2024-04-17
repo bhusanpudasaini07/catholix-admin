@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router';
-import React from 'react';
+import { useRouter } from "next/router";
+import React from "react";
 
-import useTaskTimeSpent from '@/hooks/project/detail/useTaskTimeSpent.hook';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import FilterSearch from '@/shared/components/filter-search';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import useTaskTimeSpent from "@/hooks/project/detail/useTaskTimeSpent.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const TaskTimeSpent = () => {
   const router = useRouter();
@@ -15,9 +15,11 @@ const TaskTimeSpent = () => {
   return (
     <Card className="mt-4">
       <CardContent>
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center justify-start gap-3">
-            <p>Task & Time Spent</p>
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex gap-3 justify-start items-center">
+            <p className="text-lg font-medium text-zinc-700">
+              Task & Time Spent
+            </p>
             <Button
               variant={"white"}
               onClick={() =>
@@ -29,7 +31,7 @@ const TaskTimeSpent = () => {
             </Button>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2 items-center">
             <FilterSearch setSearchText={setSearchText} />
           </div>
         </div>

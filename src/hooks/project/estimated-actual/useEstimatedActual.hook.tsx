@@ -481,7 +481,7 @@ const useEstimatedActual = () => {
       projectRoles.map((role) => [role.title, role])
     );
 
-    return roleGroups.map((group) => {
+    return roleGroups.reduce((acc: any[], group) => {
       // Filter roles directly using the map for efficiency
       const rolesData = group.roles.reduce((acc: any[], role: any) => {
         const roleData = projectRolesMap.get(role.title);
@@ -491,11 +491,15 @@ const useEstimatedActual = () => {
         return acc;
       }, []);
 
-      return {
-        department_title: group.title,
-        roles: rolesData,
-      };
-    });
+      if (rolesData.length > 0) {
+        acc.push({
+          department_title: group.title,
+          roles: rolesData,
+        });
+      }
+
+      return acc;
+    }, []);
   }, [filterConfig, projectRoleRp]);
 
   /**

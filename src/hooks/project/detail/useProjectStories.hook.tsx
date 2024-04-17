@@ -19,6 +19,8 @@ import { calculateTimeLog } from "@/shared/utils/rp-utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useDebounce } from "@/hooks/debounce.hooks";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const useProjectStories = () => {
   const router = useRouter();
@@ -26,6 +28,10 @@ const useProjectStories = () => {
 
   const [perPage, setPerPage] = useState(10);
   const [searchText, setSearchText] = useState("");
+  const [sorting, setSorting] = useState({
+    key: "",
+    order: "",
+  });
 
   const debounchedSearch = useDebounce(searchText, 300);
 
@@ -42,12 +48,21 @@ const useProjectStories = () => {
   const { data: projectStories, isLoading } = useQuery({
     queryFn: async () => {
       if (code) {
-        const response = await getProjectStories(code, searchText);
+        const response = await getProjectStories(
+          code,
+          searchText,
+          sorting?.key,
+          sorting?.order
+        );
         return response;
       }
     },
-    queryKey: ["projectStories", code, debounchedSearch],
+    queryKey: ["projectStories", code, debounchedSearch, sorting],
   });
+
+  const sortTable = (key: string, order: string) => {
+    setSorting({ key, order });
+  };
 
   // project details page column
   const columns: ColumnDef<IProjectUserStories>[] = [
@@ -292,7 +307,55 @@ const useProjectStories = () => {
     {
       id: "status",
       accessorKey: "status",
-      header: "Status",
+      header: () => (
+        <div className="flex gap-3 items-center">
+          <p>Status</p>
+          <Button
+            onClick={() =>
+              sortTable("status", sorting.order === "asc" ? "desc" : "asc")
+            }
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                sorting?.key === "status" && sorting.order === "desc"
+                  ? 3
+                  : sorting.order === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "status" && sorting.order === "desc"
+                  ? "#71717A"
+                  : sorting.order === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                sorting?.key === "status" && sorting?.order === "asc"
+                  ? 3
+                  : sorting?.order === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "status" && sorting?.order === "asc"
+                  ? "#71717A"
+                  : sorting?.order === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <Badge
           className={cn(
@@ -313,7 +376,58 @@ const useProjectStories = () => {
     {
       id: "estimated_time",
       accessorKey: "estimated_time",
-      header: "Estimated Time",
+      header: () => (
+        <div className="flex gap-3 items-center">
+          <p>Estimated Time</p>
+          <Button
+            onClick={() =>
+              sortTable(
+                "estimated_time",
+                sorting.order === "asc" ? "desc" : "asc"
+              )
+            }
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                sorting?.key === "estimated_time" && sorting.order === "desc"
+                  ? 3
+                  : sorting.order === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "estimated_time" && sorting.order === "desc"
+                  ? "#71717A"
+                  : sorting.order === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                sorting?.key === "estimated_time" && sorting?.order === "asc"
+                  ? 3
+                  : sorting?.order === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "estimated_time" && sorting?.order === "asc"
+                  ? "#71717A"
+                  : sorting?.order === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(
           row.getValue("estimated_time")
@@ -326,7 +440,55 @@ const useProjectStories = () => {
     {
       id: "spent_time",
       accessorKey: "spent_time",
-      header: "Time Spent",
+      header: () => (
+        <div className="flex gap-3 items-center">
+          <p>Time Spent</p>
+          <Button
+            onClick={() =>
+              sortTable("spent_time", sorting.order === "asc" ? "desc" : "asc")
+            }
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                sorting?.key === "spent_time" && sorting.order === "desc"
+                  ? 3
+                  : sorting.order === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "spent_time" && sorting.order === "desc"
+                  ? "#71717A"
+                  : sorting.order === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                sorting?.key === "spent_time" && sorting?.order === "asc"
+                  ? 3
+                  : sorting?.order === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "spent_time" && sorting?.order === "asc"
+                  ? "#71717A"
+                  : sorting?.order === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row.getValue("spent_time"));
         return <div>{`${hours}H ${minutes}M`}</div>;
@@ -337,7 +499,55 @@ const useProjectStories = () => {
     {
       id: "task_count",
       accessorKey: "task_count",
-      header: "Task",
+      header: () => (
+        <div className="flex gap-3 items-center">
+          <p>Task</p>
+          <Button
+            onClick={() =>
+              sortTable("task_count", sorting.order === "asc" ? "desc" : "asc")
+            }
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                sorting?.key === "task_count" && sorting.order === "desc"
+                  ? 3
+                  : sorting.order === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "task_count" && sorting.order === "desc"
+                  ? "#71717A"
+                  : sorting.order === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                sorting?.key === "task_count" && sorting?.order === "asc"
+                  ? 3
+                  : sorting?.order === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "task_count" && sorting?.order === "asc"
+                  ? "#71717A"
+                  : sorting?.order === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="">
           {row?.getValue("task_count") !== 0 ? (
@@ -388,7 +598,55 @@ const useProjectStories = () => {
     {
       id: "bug_count",
       accessorKey: "bug_count",
-      header: "Bugs",
+      header: () => (
+        <div className="flex gap-3 items-center">
+          <p>Bugs</p>
+          <Button
+            onClick={() =>
+              sortTable("bug_count", sorting.order === "asc" ? "desc" : "asc")
+            }
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                sorting?.key === "bug_count" && sorting.order === "desc"
+                  ? 3
+                  : sorting.order === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "bug_count" && sorting.order === "desc"
+                  ? "#71717A"
+                  : sorting.order === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                sorting?.key === "bug_count" && sorting?.order === "asc"
+                  ? 3
+                  : sorting?.order === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                sorting?.key === "bug_count" && sorting?.order === "asc"
+                  ? "#71717A"
+                  : sorting?.order === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div>
           {row?.getValue("bug_count") ? (

@@ -111,3 +111,19 @@ export interface IStaffUtilizationTable {
 export interface IStaffUtilization {
   data: IStaffUtilizationDetail[];
 }
+
+export interface IStaffList {
+  data: IStaffDetail[];
+}
+
+export interface IStaffDetail {
+  id: number;
+  username: string;
+  fullname: string;
+  status: string;
+  employee_id: string;
+  department_id: number;
+  department_name: string;
+  role_id: number;
+  role_name: string;
+}

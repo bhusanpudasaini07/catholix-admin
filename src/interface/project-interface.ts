@@ -234,7 +234,10 @@ export interface ISalesRPDetail {
 }
 
 export interface IProjectActivities {
-  data: IActivitiesDetail[];
+  data: {
+    project_info: { title: string };
+    activities: IActivitiesDetail[];
+  };
   pagination: IPagination;
 }
 export interface IActivitiesDetail {

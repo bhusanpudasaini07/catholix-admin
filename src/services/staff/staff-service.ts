@@ -1,6 +1,13 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
+const getAllStaffs = (keyword: string) => {
+  return httpRequest(
+    `/all-staffs?status=active&keyword=${keyword}`,
+    httpMethods.GET
+  );
+};
+
 const getStaffDetails = (username: any) => {
   return httpRequest(`/get-single-staff?staff_id=${username}`, httpMethods.GET);
 };
@@ -63,4 +70,5 @@ export {
   getStaffTimeLogs,
   getStaffProjects,
   getStaffUtilization,
+  getAllStaffs,
 };

@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
+import useLatestActivities from "@/hooks/project/detail/useLatestActivities.hook";
 
 const LatestActivityHeader = () => {
   const router = useRouter();
+  const { latestActivities } = useLatestActivities();
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex gap-4 items-start">
@@ -23,7 +25,7 @@ const LatestActivityHeader = () => {
             Latest Activities
           </h4>
           <p className="text-base font-normal text-zinc-500">
-            Project Overview
+            {latestActivities?.data?.project_info?.title}
           </p>
         </div>
       </div>

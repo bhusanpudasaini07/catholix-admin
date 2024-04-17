@@ -291,7 +291,7 @@ const useReport = () => {
     series: [
       {
         type: "pie",
-        radius: ["50%", "90%"],
+        radius: ["50%", "80%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -351,7 +351,7 @@ const useReport = () => {
     series: [
       {
         type: "pie",
-        radius: ["50%", "90%"],
+        radius: ["50%", "80%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,

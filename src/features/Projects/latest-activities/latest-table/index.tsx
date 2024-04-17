@@ -71,7 +71,7 @@ const LatestActivityTable = () => {
             loading={isLoading}
             headerSticky={true}
             height="max-h-[62vh]"
-            data={latestActivities?.data ?? []}
+            data={latestActivities?.data?.activities ?? []}
           />
           <DataTablePagination
             currentPage={latestActivities?.pagination?.page!}

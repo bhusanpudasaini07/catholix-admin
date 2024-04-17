@@ -98,8 +98,15 @@ const getProjectRelases = (code: any) => {
   );
 };
 
-const getProjectStories = (code: any) => {
-  return httpRequest(`/get-user-stories?project_id=${code}`, httpMethods.GET);
+const getProjectStories = (code: any, keyword?: string) => {
+  if (keyword) {
+    return httpRequest(
+      `/get-user-stories?project_id=${code}&keyword=${keyword}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(`/get-user-stories?project_id=${code}`, httpMethods.GET);
+  }
 };
 
 const getProjectSales = (code: any) => {

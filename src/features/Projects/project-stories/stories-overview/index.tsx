@@ -1,8 +1,8 @@
-import moment from 'moment';
-import React from 'react';
+import moment from "moment";
+import React from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { calculateTimeLog } from '@/shared/utils/rp-utils';
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { calculateTime, calculateTimeLog } from "@/shared/utils/rp-utils";
 
 interface IProps {
   task: {
@@ -26,23 +26,27 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-10">
+        <div className="flex justify-between items-center mb-10">
           <p className="text-lg font-medium text-zinc-700">Overview</p>
         </div>
-        <div className="grid grid-flow-row-dense grid-cols-3 gap-6 xl:grid-rows-2 2xl:grid-cols-5">
+        <div className="grid grid-cols-3 grid-flow-row-dense gap-6 xl:grid-rows-2 2xl:grid-cols-5">
           {/* Total Estimated Time */}
           <div
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
             border-[1px] border-orange-100"
           >
-            <p className="text-4xl font-semibold">{`${hours}H ${minutes}M`}</p>
+            {hours < 1 ? (
+              <p className="text-4xl font-semibold">{`${minutes}M`}</p>
+            ) : (
+              <p className="text-4xl font-semibold">
+                {calculateTime(time?.estimated_time) + "H"}
+              </p>
+            )}
             <p className="text-base font-medium">Total Estimated Time</p>
           </div>
           {/* Total Commits */}
           <div
-            className={`rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
-            border-[1px] border-green-100
-            `}
+            className={`flex flex-col gap-3 justify-center items-center py-6 text-green-500 bg-green-50 rounded-md border-green-100 h-[148px] border-[1px]`}
           >
             <p className="text-4xl font-semibold"> {0}</p>
             <p className="text-base font-semibold">Total Commits</p>
@@ -59,9 +63,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Closed */}
           <div
-            className={`rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
-            border-[1px] border-green-100
-            `}
+            className={`flex flex-col gap-3 justify-center items-center py-6 text-green-500 bg-green-50 rounded-md border-green-100 h-[148px] border-[1px]`}
           >
             <p className="text-4xl font-semibold">
               {" "}
@@ -79,21 +81,20 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Total Time Spent */}
           <div
-            className={`col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-blue-50 text-blue-500 
-            border-[1px] border-blue-100
-            `}
+            className={`flex flex-col col-span-2 gap-3 justify-center items-center py-6 text-blue-500 bg-blue-50 rounded-md border-blue-100 h-[148px] border-[1px]`}
           >
-            <p className="text-4xl font-semibold">
-              {" "}
-              {`${spentHours}H ${spentMinutes}M`}
-            </p>
+            {spentHours < 1 ? (
+              <p className="text-4xl font-semibold">{`${spentMinutes}M`}</p>
+            ) : (
+              <p className="text-4xl font-semibold">
+                {calculateTime(time?.used_time) + "H"}
+              </p>
+            )}
             <p className="text-base font-semibold">Total Time Spent</p>
           </div>
           {/* Total Task */}
           <div
-            className={`2xl:col-span-2 rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-zinc-50 text-zinc-500 
-            border-[1px] border-zinc-100
-            `}
+            className={`flex flex-col gap-3 justify-center items-center py-6 rounded-md 2xl:col-span-2 h-[148px] bg-zinc-50 text-zinc-500 border-[1px] border-zinc-100`}
           >
             <p className="text-4xl font-semibold">
               {" "}

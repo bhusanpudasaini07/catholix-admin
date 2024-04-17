@@ -164,12 +164,19 @@ const calculateUsedAndUnusedRpPercentage = (
   };
 };
 
+// For hours and minutes
 const calculateTimeLog = (time: number) => {
   const timeInSeconds = time;
   const hours = Math.floor(timeInSeconds / 3600);
   const minutes = Math.floor((timeInSeconds % 3600) / 60);
 
   return { hours, minutes };
+};
+
+//For rounded hours
+const calculateTime = (time: number) => {
+  const totalHours = time / 3600;
+  return Math.round(totalHours);
 };
 
 const changeNumberFormat = (num: number) => {
@@ -179,11 +186,6 @@ const changeNumberFormat = (num: number) => {
   }).format(num);
 
   return changedValue;
-};
-
-const calculateTime = (time: number) => {
-  const totalHours = time / 3600;
-  return totalHours.toFixed(2);
 };
 
 const calculatePercentage = (value: number, total: number) => {

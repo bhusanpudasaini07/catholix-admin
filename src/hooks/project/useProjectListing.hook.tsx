@@ -465,7 +465,7 @@ const useProjectListing = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
-                  {row?.original?.status === "Closed" ? (
+                  {["Closed", "Delivered"].includes(row?.original?.status) ? (
                     <p className="mb-1 text-sm font-medium text-green-500">
                       Completed
                     </p>

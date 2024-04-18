@@ -5,8 +5,10 @@ import {
   Clock,
   Command,
   File,
+  FileLineChart,
   Folder,
   FolderOpen,
+  FolderTree,
   Gitlab,
   LayoutGrid,
   Search,
@@ -167,6 +169,11 @@ const SidebarNew = ({
           icon: <Folder width={20} height={20} />,
         },
         {
+          menuName: t("common.side_nav.project_required_roles"),
+          menuSlug: "/project-required-roles",
+          icon: <FileLineChart width={20} height={20} />,
+        },
+        {
           menuName: t("common.side_nav.reports"),
           menuSlug: "/reports",
           icon: <File width={20} height={20} />,
@@ -195,7 +202,7 @@ const SidebarNew = ({
       ],
     },
     {
-      menuName: t("common.side_nav.team"),
+      menuName: t("common.side_nav.department"),
       menuSlug: "",
       icon: <User2 />,
       hasChildren: true,
@@ -236,6 +243,19 @@ const SidebarNew = ({
               itemSlug: "/user-management/team-members",
             },
           ],
+        },
+      ],
+    },
+    {
+      menuName: t("common.side_nav.hr_management"),
+      menuSlug: "",
+      icon: <User2 />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.leave_requests"),
+          menuSlug: "/leave-request",
+          icon: <FolderTree width={20} height={20} />,
         },
       ],
     },

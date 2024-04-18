@@ -40,7 +40,9 @@ const useProjectStories = () => {
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
     const serialNumber = rowIndex + 1;
-    return <div className="text-color">US {serialNumber}</div>;
+    return (
+      <div className="whitespace-nowrap text-color">US {serialNumber}</div>
+    );
   };
 
   const handleSearch = (value: string) => {

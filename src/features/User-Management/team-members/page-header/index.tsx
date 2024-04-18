@@ -10,6 +10,7 @@ interface IProps {
   searchHandler: (arg: string) => void;
   setDepartment: (arg: string) => void;
   department: string;
+  searchText: string;
 }
 
 const TeamMemberPageHeader = ({
@@ -20,11 +21,12 @@ const TeamMemberPageHeader = ({
   searchHandler,
   setDepartment,
   department,
+  searchText,
 }: IProps) => {
   return (
-    <div className="flex items-center justify-between px-8 py-6 bg-white border-b border-b-slate-100">
+    <div className="flex justify-between items-center px-8 py-6 bg-white border-b border-b-slate-100">
       <div>
-        <h4 className="flex items-center gap-2 mb-1 text-2xl font-medium text-zinc-700">
+        <h4 className="flex gap-2 items-center mb-1 text-2xl font-medium text-zinc-700">
           Team Member List
         </h4>
         <p className="text-base font-normal text-zinc-500">
@@ -32,6 +34,7 @@ const TeamMemberPageHeader = ({
         </p>
       </div>
       <ListCardFilter
+        searchText={searchText}
         setDateRangeOpen={setDateRangeOpen}
         dateRangeOpen={dateRangeOpen}
         dateRange={dateRange}

@@ -225,7 +225,11 @@ const LogTable: FC<any> = ({ logTableData, logTableLoading }) => {
             </Button>
           </div>
           <div className="flex gap-2 justify-end items-center">
-            <FilterSearch className="!py-2" setSearchText={setSearchText} />
+            <FilterSearch
+              className="!py-2"
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
             {/* <Select onValueChange={(value) => setRole(value)}>
               <SelectTrigger className="min-w-[260px]">
                 <SelectValue placeholder="Role" />

@@ -219,6 +219,8 @@ export interface IProjectUserStories {
   spent_time: number;
   task_count: number;
   title: string;
+  closed_task_count: string;
+  open_task_count: string;
   tasks?: [];
 }
 

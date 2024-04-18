@@ -2,10 +2,7 @@ import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
 const getAllStaffs = (keyword: string) => {
-  return httpRequest(
-    `/all-staffs?status=active&keyword=${keyword}`,
-    httpMethods.GET
-  );
+  return httpRequest(`/all-staffs?keyword=${keyword}`, httpMethods.GET);
 };
 
 const getStaffDetails = (username: any) => {

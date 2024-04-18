@@ -186,7 +186,10 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 justify-end items-center">
-            <FilterSearch setSearchText={setSearchText} />
+            <FilterSearch
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           </div>
         </div>
         <div className="flex flex-wrap gap-1 justify-end items-center mb-3">

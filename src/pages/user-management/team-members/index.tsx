@@ -12,6 +12,7 @@ const TeamMembersList: NextPageWithLayout = () => {
     perPage,
     teamMemberList,
     isLoading,
+    searchText,
     setPerPage,
     changePageNum,
     setDateRangeOpen,
@@ -38,6 +39,7 @@ const TeamMembersList: NextPageWithLayout = () => {
         searchHandler={searchHandler}
         setDepartment={setDepartment}
         department={department}
+        searchText={searchText}
       />
 
       {/* Body */}

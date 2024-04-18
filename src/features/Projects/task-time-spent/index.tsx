@@ -18,6 +18,7 @@ const TaskTimeSpentContent = () => {
     perPage,
     setPerPage,
     timeConusmedOption,
+    searchText,
   } = useTaskTimeSpent();
   return (
     <>
@@ -42,6 +43,7 @@ const TaskTimeSpentContent = () => {
             setSearchText={setSearchText}
             perPage={perPage}
             setPerPage={setPerPage}
+            searchText={searchText}
           />
         </div>
       </div>

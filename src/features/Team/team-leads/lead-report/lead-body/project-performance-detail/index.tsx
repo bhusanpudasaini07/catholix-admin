@@ -204,8 +204,8 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="flex gap-3 justify-between items-center mb-6">
+          <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">
               Project Details and Performance
             </h5>
@@ -221,11 +221,14 @@ const ProjectPerformanceDetail: FC<IRpStaffSummaryProps> = ({
               View All
             </Button>
           </div>
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <FilterSearch setSearchText={setSearchText} />
+          <div className="flex flex-wrap gap-2 justify-end items-center">
+            <FilterSearch
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           </div>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-1 mb-3">
+        <div className="flex flex-wrap gap-1 justify-end items-center mb-3">
           {filterConfig?.markets?.map((market: any, index: number) => (
             <CountryButtonCheckbox
               label={market?.title}

@@ -348,6 +348,7 @@ const useTeamMemberList = () => {
     memberColumn,
     perPage,
     setPerPage,
+    searchText,
     pageNum,
     changePageNum,
     searchHandler,

@@ -153,7 +153,7 @@ const DetailOverview = () => {
               <Card>
                 <CardContent>
                   <div className="flex items-center justify-start gap-4 mb-4 relative z-[2]">
-                    <p className="text-base font-medium text-zinc-700">
+                    <p className="text-lg font-medium text-zinc-700">
                       Budget Utilization
                     </p>{" "}
                     <div className="flex gap-2 items-center">
@@ -302,7 +302,7 @@ const DetailOverview = () => {
               <Card>
                 <CardContent>
                   <div className="flex gap-3 justify-start items-center mb-8">
-                    <h5 className="font-medium text-zinc-700">
+                    <h5 className="text-lg font-medium text-zinc-700">
                       Task & Time Logs
                     </h5>
                     <Button

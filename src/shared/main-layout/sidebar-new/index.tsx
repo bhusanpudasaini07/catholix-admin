@@ -395,7 +395,9 @@ const SidebarNew = ({
             <DialogContent className="min-w-[625px] gap-0 p-0">
               <DialogHeader className="p-6">
                 <DialogTitle>Global Search</DialogTitle>
-                <DialogDescription>Type to search.</DialogDescription>
+                <DialogDescription>
+                  Type to find. ENTER to select, ESC to dismiss.
+                </DialogDescription>
                 <FilterSearch
                   className="!max-w-full !mt-4"
                   setSearchText={(value) => setSearchText(value)}

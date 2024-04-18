@@ -102,11 +102,12 @@ const getProjectStories = (
   code: any,
   keyword?: string,
   sort?: string,
-  sort_order?: string
+  sort_order?: string,
+  status?: string
 ) => {
-  if (keyword || sort || sort_order) {
+  if (keyword || sort || sort_order || status) {
     return httpRequest(
-      `/get-user-stories?project_id=${code}&keyword=${keyword}&sort=${sort}&sort_order=${sort_order}`,
+      `/get-user-stories?project_id=${code}&keyword=${keyword}&sort=${sort}&sort_order=${sort_order}&status=${status}`,
       httpMethods.GET
     );
   } else {

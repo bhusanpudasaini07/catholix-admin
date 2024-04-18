@@ -1,14 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import useStaffDetail from '@/hooks/staff/useStaffDetail.hook';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import DateRangeFilter from '@/shared/components/date-range-filter';
-import FilterSearch from '@/shared/components/filter-search';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import FilterSearch from "@/shared/components/filter-search";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 const StaffProjectsList = () => {
   const {
@@ -22,12 +26,13 @@ const StaffProjectsList = () => {
     setDateRangeOpen,
     status,
     setStatus,
+    searchText,
   } = useStaffDetail();
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-9">
-          <div className="flex items-center justify-start gap-3">
+        <div className="flex justify-between items-center mb-9">
+          <div className="flex gap-3 justify-start items-center">
             <p className="text-lg font-medium text-zinc-700">
               Projects Overview
             </p>
@@ -35,9 +40,13 @@ const StaffProjectsList = () => {
               View All
             </Button>
           </div>
-          <div className="flex items-center justify-end gap-4 grow">
+          <div className="flex gap-4 justify-end items-center grow">
             {/* Filter Search */}
-            <FilterSearch className="h-10" setSearchText={setSearchText} />
+            <FilterSearch
+              className="h-10"
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
 
             {/* Role */}
             <DateRangeFilter

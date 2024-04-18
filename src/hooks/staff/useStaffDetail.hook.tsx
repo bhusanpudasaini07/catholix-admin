@@ -298,6 +298,7 @@ const useStaffDetail = () => {
     staffProjectsLoading,
     date,
     setDate,
+    searchText,
     setSearchText,
     changeDate,
     dateRangeOpen,

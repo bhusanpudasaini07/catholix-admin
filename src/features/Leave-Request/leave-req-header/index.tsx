@@ -14,6 +14,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 interface IProps {
   // STATES
   status: string;
+  searchText: string;
   date: string;
   // FUNCTIONS
 
@@ -24,6 +25,7 @@ interface IProps {
 
 const LeaveRequestHeader = ({
   status,
+  searchText,
   date,
   changeDate,
   changeStatus,
@@ -40,7 +42,11 @@ const LeaveRequestHeader = ({
         </p>
       </div>
       <div className="flex gap-4 justify-end grow">
-        <FilterSearch className="h-10" setSearchText={searchHandler} />
+        <FilterSearch
+          className="h-10"
+          searchText={searchText}
+          setSearchText={searchHandler}
+        />
 
         {/* Status */}
         <Select defaultValue={status} onValueChange={(e) => changeStatus(e)}>

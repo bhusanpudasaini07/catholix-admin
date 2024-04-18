@@ -419,6 +419,7 @@ const SidebarNew = ({
                   Type to find. ENTER to select, ESC to dismiss.
                 </DialogDescription>
                 <FilterSearch
+                  searchText={searchText}
                   className="!max-w-full !mt-4"
                   setSearchText={(value) => setSearchText(value)}
                 />

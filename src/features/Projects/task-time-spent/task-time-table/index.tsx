@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import { ILogEntry, ITimeLogs } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import FilterSearch from '@/shared/components/filter-search';
-import { Card, CardContent } from '@/shared/components/ui/card';
-import { ColumnDef } from '@tanstack/react-table';
+import { ILogEntry, ITimeLogs } from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import FilterSearch from "@/shared/components/filter-search";
+import { Card, CardContent } from "@/shared/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   timeLogLoading: boolean;
@@ -13,6 +13,7 @@ interface IProps {
   setSearchText: (arg: string) => void;
   perPage: number;
   setPerPage: (arg: number) => void;
+  searchText: string;
 }
 
 const TaskTimeTable = ({
@@ -22,17 +23,21 @@ const TaskTimeTable = ({
   setPerPage,
   setSearchText,
   perPage,
+  searchText,
 }: IProps) => {
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center justify-start gap-3">
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex gap-3 justify-start items-center">
             <p>Task & Time Spent</p>
           </div>
 
-          <div className="flex items-center gap-2">
-            <FilterSearch setSearchText={setSearchText} />
+          <div className="flex gap-2 items-center">
+            <FilterSearch
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           </div>
         </div>
         <div className="overflow-hidden rounded-md grow">

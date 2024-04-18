@@ -36,6 +36,7 @@ const Projects: NextPageWithLayout = () => {
   const { filterSaved } = useCommonStore();
 
   const {
+    searchText,
     gitState,
     setGitState,
     searchProjectHandler,
@@ -76,7 +77,10 @@ const Projects: NextPageWithLayout = () => {
 
         {/* Filters */}
         <div className="flex gap-3 justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
-          <FilterSearch setSearchText={searchProjectHandler} />
+          <FilterSearch
+            searchText={searchText}
+            setSearchText={searchProjectHandler}
+          />
           <ProjectFilters />
         </div>
 

@@ -12,6 +12,7 @@ const LeaveRequest: NextPageWithLayout = () => {
   const {
     // STATES
     status,
+    searchText,
     perPage,
     pageNum,
     date,
@@ -35,6 +36,7 @@ const LeaveRequest: NextPageWithLayout = () => {
         searchHandler={searchHandler}
         changeDate={changeDate}
         changeStatus={changeStatus}
+        searchText={searchText}
       />
 
       <div className="p-6 max-h-[calc(100vh-115px)]">

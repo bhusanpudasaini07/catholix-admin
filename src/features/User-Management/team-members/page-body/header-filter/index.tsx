@@ -14,6 +14,7 @@ interface IProps {
   setSearchText: (arg: string) => void;
   setDepartment: (arg: string) => void;
   department: string;
+  searchText: string;
 }
 
 interface IConfigProps {
@@ -28,6 +29,7 @@ const ListCardFilter = ({
   dateChangeHandler,
   setSearchText,
   setDepartment,
+  searchText,
   department,
 }: IProps) => {
   const { filterConfig } = useCommonStore();
@@ -41,10 +43,11 @@ const ListCardFilter = ({
   ];
 
   return (
-    <div className="flex items-center justify-between grow">
-      <div className="flex items-center justify-end gap-4 grow">
+    <div className="flex justify-between items-center grow">
+      <div className="flex gap-4 justify-end items-center grow">
         <FilterSearch
           className="h-10 !max-w-[280px]"
+          searchText={searchText}
           setSearchText={setSearchText}
         />
 

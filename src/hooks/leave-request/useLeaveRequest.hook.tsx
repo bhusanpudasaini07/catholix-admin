@@ -240,6 +240,7 @@ const useLeaveRequest = () => {
   ];
   return {
     // STATES
+    searchText,
     status,
     perPage,
     pageNum,

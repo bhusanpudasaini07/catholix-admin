@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 
 const TaskTimeSpent = () => {
   const router = useRouter();
-  const { timeLogLoading, timeLogs, columns, setSearchText } =
+  const { timeLogLoading, timeLogs, columns, setSearchText, searchText } =
     useTaskTimeSpent();
 
   return (
@@ -32,7 +32,10 @@ const TaskTimeSpent = () => {
           </div>
 
           <div className="flex gap-2 items-center">
-            <FilterSearch setSearchText={setSearchText} />
+            <FilterSearch
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           </div>
         </div>
         <div className="overflow-hidden rounded-md grow">

@@ -49,11 +49,6 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
   const { data: staffProjects, isLoading: staffProjectLoading } =
     useQuery<IStaffProjects>({
       queryFn: async () => {
-        const currentDate = moment().format("YYYY-MM-DD");
-        const sixMonthsAgo = moment()
-          .subtract(6, "months")
-          .format("YYYY-MM-DD");
-        const dateRange = { from: sixMonthsAgo, to: currentDate };
         if (username) {
           const response = await getStaffProjects(
             username, //staff id
@@ -171,7 +166,6 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         ) : (
           <UtilizationSkeletonCard />
         )}
-
         {!staffLogLoading ? (
           <TimeUtilization
             spentTime={spentTime}
@@ -204,7 +198,6 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         ) : (
           <SummaryCardSkeleton />
         )}
-
         <div className="xl:col-span-2">
           {!staffLogLoading ? (
             <StaffsProjectSummary

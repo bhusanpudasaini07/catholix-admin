@@ -265,6 +265,15 @@ const useRPBurndown = () => {
         <div className="font-medium">{row?.getValue("name")}</div>
       ),
     },
+    // NAME
+    {
+      id: "role",
+      accessorKey: "role",
+      header: "Role",
+      cell: ({ row }) => (
+        <div className="font-medium">{row?.getValue("role")}</div>
+      ),
+    },
     // TOTAL TIME
     {
       id: "time",
@@ -392,6 +401,7 @@ const useRPBurndown = () => {
           name: curr?.log_by?.fullname ?? "",
           username: curr?.log_by?.username ?? "",
           time: curr.time ?? 0,
+          role: curr?.log_by?.role_name,
           rp: curr.rp ?? 0,
           repo_task: [
             {

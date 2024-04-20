@@ -80,7 +80,7 @@ const useProjectStories = () => {
     {
       id: "sn",
       accessorKey: "S_N",
-      header: "S. No.",
+      header: "US",
       cell: (props) => <SerialNumberCell {...props} />,
       enableHiding: false,
     },
@@ -533,7 +533,7 @@ const useProjectStories = () => {
       ),
       cell: ({ row }) => {
         const ratio = row?.original?.bug_count / row?.original?.task_count;
-        return <div>{ratio.toFixed(2)}</div>;
+        return <div className="font-medium">{ratio.toFixed(2)}</div>;
       },
       enableHiding: false,
     },
@@ -600,7 +600,7 @@ const useProjectStories = () => {
         const { hours, minutes } = calculateTimeLog(
           row.getValue("estimated_time")
         );
-        return <div>{`${hours}H ${minutes}M`}</div>;
+        return <div className="font-medium">{`${hours}H ${minutes}M`}</div>;
       },
       enableHiding: false,
     },
@@ -662,7 +662,7 @@ const useProjectStories = () => {
       ),
       cell: ({ row }) => {
         const { hours, minutes } = calculateTimeLog(row.getValue("spent_time"));
-        return <div>{`${hours}H ${minutes}M`}</div>;
+        return <div className="font-medium">{`${hours}H ${minutes}M`}</div>;
       },
       enableHiding: false,
     },
@@ -679,7 +679,9 @@ const useProjectStories = () => {
         const estimatedTime = row.original?.estimated_time;
         const spentTime = row.original?.spent_time;
         const percentageCompletion = (spentTime / estimatedTime) * 100;
-        return <div>{percentageCompletion.toFixed(2)}%</div>;
+        return (
+          <div className="font-medium">{percentageCompletion.toFixed(2)}%</div>
+        );
       },
     },
     // // Task

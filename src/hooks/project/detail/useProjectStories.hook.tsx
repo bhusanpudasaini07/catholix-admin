@@ -348,9 +348,42 @@ const useProjectStories = () => {
 
         return (
           <div className="w-[180px]">
-            <p className="text-[15px] text-zinc-800 mb-1">
-              Total Task {row?.original?.task_count}
-            </p>
+            <Dialog>
+              <DialogTrigger>
+                <p className="mb-1 text-sm text-primary">
+                  Total Task {row?.original?.task_count}
+                </p>
+              </DialogTrigger>
+              <DialogContent className="min-w-[1200px]">
+                <DialogHeader>
+                  <DialogTitle>{row?.getValue("title")}</DialogTitle>
+                </DialogHeader>
+                <div className="flex gap-8 justify-end items-center">
+                  <p className="text-sm text-zinc-500">
+                    Task #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.task_count}
+                    </span>
+                  </p>
+                  <p className="text-sm text-zinc-500">
+                    Bugs #{" "}
+                    <span className="text-base font-medium text-zinc-700">
+                      {row?.original?.bug_count}
+                    </span>
+                  </p>
+                </div>
+                <div className="">
+                  <DataTable
+                    border={true}
+                    headerSticky
+                    columns={taskColumns}
+                    loading={isLoading}
+                    height="max-h-[400px]"
+                    data={row?.original?.tasks ?? []}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
 
             <Progress
               className={cn(
@@ -470,6 +503,7 @@ const useProjectStories = () => {
                 <div className="">
                   <DataTable
                     border={true}
+                    headerSticky
                     columns={taskColumns}
                     loading={isLoading}
                     height="max-h-[400px]"
@@ -638,14 +672,14 @@ const useProjectStories = () => {
       accessorKey: "estimate_complete",
       header: () => (
         <div>
-          % Estimate <br /> to Completion
+          % of Estimate <br /> Consumed
         </div>
       ),
       cell: ({ row }) => {
         const estimatedTime = row.original?.estimated_time;
         const spentTime = row.original?.spent_time;
         const percentageCompletion = (spentTime / estimatedTime) * 100;
-        return <div>{(100 - percentageCompletion).toFixed(2)}</div>;
+        return <div>{percentageCompletion.toFixed(2)}%</div>;
       },
     },
     // // Task

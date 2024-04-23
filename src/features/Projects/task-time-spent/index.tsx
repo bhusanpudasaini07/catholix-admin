@@ -24,7 +24,7 @@ const TaskTimeSpentContent = () => {
     <>
       <TaskTimeSpentHeader name={projectDetail?.data?.project_title!} />
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           <TaskTimeLogs
             time={projectDetail?.data?.time?.estimated_time ?? "0"}
             timeSpent={projectDetail?.data?.time?.used_time ?? "0"}

@@ -26,6 +26,8 @@ const LeaveRequest: NextPageWithLayout = () => {
 
     // For API
     columns,
+    staffLeavesLoading,
+    filteredStaffLeaves,
   } = useLeaveRequest();
 
   return (
@@ -42,11 +44,8 @@ const LeaveRequest: NextPageWithLayout = () => {
       <div className="p-6 max-h-[calc(100vh-115px)]">
         <LeaveRequestTable
           columns={columns}
-          data={[]}
-          changePerPage={changePerPage}
-          changePageNumber={changePageNumber}
-          perPage={perPage}
-          pageNum={pageNum}
+          data={filteredStaffLeaves ?? []}
+          loading={staffLeavesLoading}
         />
       </div>
     </>

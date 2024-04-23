@@ -17,8 +17,8 @@ const ProjectStoriesContent = () => {
         loading={isLoading}
       />
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div className="col-span-3 2xl:col-span-2">
               <ProjectStoriesOverview
                 task={{

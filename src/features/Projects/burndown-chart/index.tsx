@@ -47,7 +47,7 @@ const BurndownContent = () => {
       </div>
 
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           <ChartCard option={burndownOption} />
           <ConsumptionListTable
             columns={columns}

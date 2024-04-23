@@ -24,6 +24,7 @@ import MemberWiseLogTable from "./member-wise-log-table";
 import ProjectPerformanceDetail from "./project-performance-detail";
 import ProjectRpConsumptionTable from "./project-rp-consumption";
 import { cn } from "@/shared/utils/utils";
+import { useRouter } from "next/router";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -50,9 +51,9 @@ const LeadReportBody = ({ dateRange }: any) => {
     calculateUsedPercentage,
     calculateUnusedPercentage,
     staffIdJson,
-    current_id,
   } = useLeadReport();
-
+  const router = useRouter();
+  const current_id = router.query?.lead_id;
   const [currentPage, setCurrentPage] = useState<string>("");
   const [leadReportData, setLeadReportData] = useState<any>();
 

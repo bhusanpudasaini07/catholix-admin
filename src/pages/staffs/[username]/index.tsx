@@ -11,9 +11,9 @@ import MainLayout from "@/shared/main-layout";
 const StaffDetail: NextPageWithLayout = () => {
   const getDefaultDateRange = () => {
     const today = moment();
-    const sixMonthsAgo = moment().subtract(6, "months");
+    const oneMonthsAgo = moment().subtract(1, "months");
     return {
-      from: sixMonthsAgo.toDate(),
+      from: oneMonthsAgo.toDate(),
       to: today.toDate(),
     };
   };

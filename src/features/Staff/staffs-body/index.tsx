@@ -68,6 +68,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
         updateProjectStates(res?.data?.projects);
       },
     });
+
   const updateProjectStates = (projects: IStaffsProfileProject[]) => {
     const totalProjects = projects?.length;
     const clientProjects = projects?.filter(
@@ -139,11 +140,9 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
       clientUnusedTimePercentage: clientUnusedTimePercentage.toFixed(2),
     };
   }
-  const spentBudget = staffLog?.data?.report?.total_rp;
 
-  const spentTime =
-    (staffLog?.data?.report?.client_time ?? 0) +
-    (staffLog?.data?.report?.total_time ?? 0);
+  const spentBudget = staffLog?.data?.report?.total_rp;
+  const spentTime = staffLog?.data?.report?.total_time ?? 0;
   const percentage = calcPercentage(staffLog);
   const lossRp = Number(
     staffLog?.data?.report?.available_rp

@@ -127,3 +127,57 @@ export interface IStaffDetail {
   role_id: number;
   role_name: string;
 }
+
+// Team Leads interfaces >>>
+export interface ISummaryData {
+  total_rp: number;
+  total_time: number;
+  commercial_rp: number;
+  commercial_time: number;
+  inhouse_rp: number;
+  inhouse_time: number;
+  available_rp: number;
+  available_time: number;
+  all_projects_count: number;
+  commercial_projects_count: number;
+  inhouse_projects_count: number;
+}
+
+export interface IStaffData {
+  id: string;
+  fullname: string;
+  username: string;
+  employee_id: string | null;
+  department_id: string;
+  department_name: string;
+  role_id: string | null;
+  role_name: string | null;
+  used_time: string;
+  used_rp: string;
+  loss_time: string;
+  loss_rp: string;
+  available_time: string;
+  available_rp: string;
+  commercial_time: string;
+  commercial_rp: string;
+}
+export interface IProject {
+  code: string;
+  id: string;
+  market: string;
+  market_id: string;
+  risk_status: string;
+  source: string;
+  status: string;
+  title: string;
+  total_rp: string;
+  total_time: string;
+}
+
+export interface IStaffDataStructure {
+  data: {
+    summary: ISummaryData;
+    staff: IStaffData[];
+    projects: IProject[];
+  };
+}

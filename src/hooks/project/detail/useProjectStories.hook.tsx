@@ -1,7 +1,7 @@
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 
 import { IProjectUserStories } from "@/interface/project-interface";
@@ -22,11 +22,18 @@ import { useDebounce } from "@/hooks/debounce.hooks";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Progress } from "@/shared/components/ui/progress";
+import { EChartsInstance } from "echarts-for-react";
+
+interface IProps {
+  data: IProjectUserStories[];
+}
 
 const useProjectStories = () => {
   const router = useRouter();
   const { code } = router.query;
+  const occupancyChartRef = useRef<EChartsInstance>(null);
 
+  // STATES
   const [perPage, setPerPage] = useState(10);
   const [searchText, setSearchText] = useState("");
   const [sorting, setSorting] = useState({
@@ -34,9 +41,11 @@ const useProjectStories = () => {
     order: "",
   });
   const [status, setStatus] = useState("all");
+  // REF for Chart
 
   const debounchedSearch = useDebounce(searchText, 300);
 
+  // FUNCTIONS
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
     const serialNumber = rowIndex + 1;
@@ -54,7 +63,12 @@ const useProjectStories = () => {
     setSearchText("");
   };
 
-  const { data: projectStories, isLoading } = useQuery({
+  const sortTable = (key: string, order: string) => {
+    setSorting({ key, order });
+  };
+
+  // APIS and COLUMNS
+  const { data: projectStories, isLoading } = useQuery<IProps>({
     queryFn: async () => {
       if (code) {
         const response = await getProjectStories(
@@ -69,10 +83,6 @@ const useProjectStories = () => {
     },
     queryKey: ["projectStories", code, debounchedSearch, sorting, status],
   });
-
-  const sortTable = (key: string, order: string) => {
-    setSorting({ key, order });
-  };
 
   // project details page column
   const columns: ColumnDef<IProjectUserStories>[] = [
@@ -280,6 +290,24 @@ const useProjectStories = () => {
           <div className="max-w-[300px] min-w-0">
             {hours}H {minutes}M
           </div>
+        );
+      },
+    },
+    //Estimated Time
+    {
+      id: "percent_consumed",
+      accessorKey: "percent_consumed",
+      header: () => (
+        <div>
+          % of <br /> Estimate Consumed
+        </div>
+      ),
+      cell: ({ row }) => {
+        const estimatedTime = row.original?.estimated_time;
+        const spentTime = row.original?.spent_time;
+        const percentageCompletion = (spentTime / estimatedTime) * 100;
+        return (
+          <div className="font-medium">{percentageCompletion.toFixed(2)}%</div>
         );
       },
     },
@@ -784,6 +812,305 @@ const useProjectStories = () => {
     //   enableHiding: false,
     // },
   ];
+
+  // occupancy chart option
+  const storyOccupancyOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    color: [
+      "#0891B2",
+      "#FACC15",
+      "#84CC16",
+      "#2DD4BF",
+      "#818CF8",
+      "#7C3AED",
+      "#D8B4FE",
+      "#F472B6",
+      "#FB923C",
+      "#F87171",
+      "#A8A29E",
+    ],
+    series: [
+      {
+        name: "Project Stories",
+        type: "pie",
+        radius: ["45%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "center",
+          fontSize: 20,
+          formatter: (item: any) => {
+            return (
+              "{a|" +
+              ((item?.value ? item?.value : 0) || 0) +
+              "%" +
+              "}\n{b|" +
+              (item?.name || "") +
+              "}"
+            );
+          },
+          rich: {
+            a: {
+              fontSize: 25,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
+        },
+        emphasis: {
+          label: {
+            show: true,
+          },
+        },
+        labelLine: {
+          show: false,
+          length2: 0,
+          length: 10,
+        },
+        data: projectStories?.data.slice(0, 10).map((story, index) => {
+          const totalTime = projectStories?.data
+            ?.slice(0, 10)
+            ?.reduce((acc, curr) => {
+              return acc + curr.spent_time;
+            }, 0);
+          const usedPercentage = (story?.spent_time / totalTime) * 100;
+
+          return {
+            value: usedPercentage.toFixed(2),
+            name: `US ${index + 1}`,
+          };
+        }),
+      },
+      {
+        name: "Project Stories",
+        type: "pie",
+        radius: ["70%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "outer",
+          bleedMargin: 0,
+          distanceToLabelLine: 0,
+          fontSize: 14,
+          formatter: (item: any) => {
+            return "{b|" + (item?.name || "") + "}";
+          },
+          rich: {
+            b: {
+              fontSize: 14,
+              color: "auto",
+              lineHeight: 30,
+              fontWeight: 600,
+            },
+          },
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 14,
+          },
+        },
+        labelLine: {
+          show: false,
+          length2: 0,
+          length: 10,
+        },
+        data: projectStories?.data.slice(0, 10).map((story, index) => {
+          const totalTime = projectStories?.data
+            ?.slice(0, 10)
+            ?.reduce((acc, curr) => {
+              return acc + curr.spent_time;
+            }, 0);
+
+          const usedPercentage = (story?.spent_time / totalTime) * 100;
+
+          return {
+            value: usedPercentage.toFixed(2),
+            name: `US ${index + 1}`,
+          };
+        }),
+      },
+    ],
+  };
+
+  const userStoryStatusOption = {
+    grid: {
+      top: "13%",
+      bottom: "10%",
+      left: "5%",
+      right: "5%",
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    legend: {
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisTick: { show: false },
+        data:
+          projectStories?.data
+            ?.slice(0, 15)
+            .map((_, index) => `US ${index + 1}`) ?? [],
+
+        axisLabel: {
+          interval: 0,
+          showMaxLabel: true,
+          width: 80,
+          overflow: "truncate",
+          ellipsis: "...",
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+      },
+    ],
+    series: [
+      // Closed Task
+      {
+        name: "Closed Task",
+        type: "bar",
+        stack: "task",
+        color: "#22C55E",
+        data:
+          projectStories?.data?.slice(0, 15)?.map((item) => ({
+            value: item?.closed_task_count,
+          })) ?? [],
+      },
+      // Open Task
+      {
+        name: "Open Task",
+        type: "bar",
+        stack: "task",
+        color: "#FB923C", // Orange for open
+
+        data:
+          projectStories?.data?.slice(0, 15)?.map((item) => ({
+            value: item?.open_task_count,
+          })) ?? [],
+      },
+    ],
+  };
+
+  const userStoryBugOption = {
+    grid: {
+      top: "5%",
+      bottom: "10%",
+      left: "5%",
+      right: "5%",
+    },
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisTick: { show: false },
+        data:
+          projectStories?.data
+            ?.slice(0, 15)
+            .map((_, index) => `US ${index + 1}`) ?? [],
+
+        axisLabel: {
+          interval: 0,
+          showMaxLabel: true,
+          width: 80,
+          overflow: "truncate",
+          ellipsis: "...",
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+      },
+    ],
+    series: [
+      // Bug
+      {
+        name: "Bug Count",
+        type: "bar",
+        stack: "task",
+        color: "#FB923C",
+        data:
+          projectStories?.data?.slice(0, 15)?.map((item) => ({
+            value: item?.bug_count,
+          })) ?? [],
+      },
+    ],
+  };
+
+  // Effect
+  useEffect(() => {
+    const myChart = occupancyChartRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return (
+                  "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
+                );
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    storyOccupancyOption && myChart.setOption(storyOccupancyOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [storyOccupancyOption]);
+
   return {
     columns,
     projectStories,
@@ -796,6 +1123,10 @@ const useProjectStories = () => {
     status,
     setStatus,
     clearFilters,
+    storyOccupancyOption,
+    occupancyChartRef,
+    userStoryStatusOption,
+    userStoryBugOption,
   };
 };
 

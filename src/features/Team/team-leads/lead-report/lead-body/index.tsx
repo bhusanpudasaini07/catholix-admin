@@ -25,6 +25,7 @@ import ProjectPerformanceDetail from "./project-performance-detail";
 import ProjectRpConsumptionTable from "./project-rp-consumption";
 import { cn } from "@/shared/utils/utils";
 import { useRouter } from "next/router";
+import { IStaffDataStructure } from "@/interface/staff-interface";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -53,9 +54,9 @@ const LeadReportBody = ({ dateRange }: any) => {
     staffIdJson,
   } = useLeadReport();
   const router = useRouter();
-  const current_id = router.query?.lead_id;
+  const current_id = router?.query?.lead_id;
   const [currentPage, setCurrentPage] = useState<string>("");
-  const [leadReportData, setLeadReportData] = useState<any>();
+  const [leadReportData, setLeadReportData] = useState<IStaffDataStructure>();
 
   const { data: staffRpSummaryData, isLoading: staffDataLoading } =
     useQuery<any>(

@@ -55,9 +55,9 @@ const LeaveRequestHeader = ({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Leave</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="Pending">Pending</SelectItem>
             <SelectItem value="approved">Approved</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="Rejected">Rejected</SelectItem>
           </SelectContent>
         </Select>
 

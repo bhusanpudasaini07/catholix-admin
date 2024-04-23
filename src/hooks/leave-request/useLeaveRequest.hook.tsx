@@ -1,16 +1,24 @@
+import moment from "moment";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "react-query";
 
+import {
+  ILeaveRequest,
+  ILeaveRequestDetail,
+} from "@/interface/leave-request-interface";
+import { getLeaveList } from "@/services/leave-request";
 import { Badge } from "@/shared/components/ui/badge";
-import { cn } from "@/shared/utils/utils";
-import { ColumnDef } from "@tanstack/react-table";
-
-import { useDebounce } from "../debounce.hooks";
+import { Progress } from "@/shared/components/ui/progress";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
+
+import { useDebounce } from "../debounce.hooks";
 
 const useLeaveRequest = () => {
   // STATES
@@ -20,7 +28,7 @@ const useLeaveRequest = () => {
   const [perPage, setPerPage] = useState(12);
   const [pageNum, setPageNum] = useState(1);
   const [count, setCount] = useState({
-    id: "",
+    username: "",
     num: 3,
   });
 
@@ -45,13 +53,12 @@ const useLeaveRequest = () => {
     setDate(date);
   };
   const changeStatus = (status: string) => {
-    setPageNum(1);
     setStatus(status);
   };
   //   In table for project more than 4
   const changeCount = (project_count: number, id: string) => {
     setCount({
-      id: id,
+      username: id,
       num: project_count,
     });
   };
@@ -61,8 +68,68 @@ const useLeaveRequest = () => {
     const serialNumber = (pageNumber - 1) * perPage + rowIndex + 1;
     return <div className="text-color">{serialNumber}</div>;
   };
+  // For project Background
+  const projectBg = (status: string) => {
+    switch (status) {
+      case "In Progress":
+        return "bg-blue-50 border-blue-500 text-blue-700";
+        break;
+      case "Client Support":
+        return "bg-orange-50 border-orange-500 text-orange-700";
+        break;
+      case "Closed":
+        return "bg-green-50 border-green-500 text-green-700";
+        break;
+      case "Delivered":
+        return "bg-green-50 border-green-500 text-green-700";
+        break;
+      case "On Hold":
+        return "bg-red-50 border-red-500 text-red-700";
+        break;
+      case "Deleted":
+        return "bg-zinc-100 border-zinc-500 text-zinc-700";
+        break;
+    }
+  };
+  const leaveTextColor = (category: string) => {
+    switch (category) {
+      case "Yearly Leave":
+        return "text-primary";
+      case "Compensation Leave":
+        return "text-green-500";
+      case "Sick Leave":
+        return "text-orange-500";
+      case "Urgent Leave":
+        return "text-red-500";
+    }
+  };
 
-  const columns: ColumnDef<any>[] = [
+  // APIs and Column
+  const { data: staffLeaves, isLoading: staffLeavesLoading } =
+    useQuery<ILeaveRequest>({
+      queryFn: () => getLeaveList(date),
+      queryKey: ["staffLeaves", date],
+    });
+
+  const filteredStaffLeaves = useMemo(() => {
+    if (!staffLeaves?.data) return [];
+
+    return staffLeaves.data.filter((staff) => {
+      const matchesKeyword = searchText
+        ? staff?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
+          staff?.leave?.reason?.toLowerCase().includes(searchText.toLowerCase())
+        : true;
+
+      const matchesStatus = status
+        ? staff?.leave?.status
+            .toLowerCase()
+            .includes(status.toLocaleLowerCase())
+        : true; // Ensure case-insensitive comparison for status
+      return matchesKeyword || matchesStatus;
+    });
+  }, [staffLeaves, searchText, status]);
+
+  const columns: ColumnDef<ILeaveRequestDetail>[] = [
     // SN
     {
       id: "sn",
@@ -74,8 +141,8 @@ const useLeaveRequest = () => {
     },
     // Member Info
     {
-      id: "member_info",
-      accessorKey: "member_info",
+      id: "name",
+      accessorKey: "name",
       header: "Member Info",
       cell: ({ row }) => (
         <div className="flex flex-col gap-1 w-[150px]">
@@ -83,15 +150,13 @@ const useLeaveRequest = () => {
             href={`/staffs/${row?.original?.username}`}
             className="font-semibold bock text-primary hover:text-blue-700"
           >
-            {row?.original?.fullname}
+            {row?.original?.name}
           </Link>
           <div>
             <p className="text-xs font-medium text-zinc-700">
-              {row?.original?.role?.name}
+              {row?.original?.role}
             </p>
-            <p className="text-xs text-zinc-700">
-              {row?.original?.department?.name}
-            </p>
+            <p className="text-xs text-zinc-700">{row?.original?.department}</p>
           </div>
         </div>
       ),
@@ -107,7 +172,7 @@ const useLeaveRequest = () => {
           Projects
         </div>
       ),
-      cell: ({ row }) => <div>#{row?.getValue("project_count") ?? 0}</div>,
+      cell: ({ row }) => <div>#{row?.original?.projects?.length ?? 0}</div>,
     },
     // Projects
     {
@@ -120,30 +185,41 @@ const useLeaveRequest = () => {
             <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
-                    ?.slice(0, count?.id === row?.original?.id ? count?.num : 3)
+                    ?.slice(
+                      0,
+                      count?.username === row?.original?.username
+                        ? count?.num
+                        : 3
+                    )
                     ?.map((project: any) => (
                       <div
-                        className={`py-0.5 px-5 border rounded-full relative text-xs`}
+                        className={cn(
+                          projectBg(project?.status),
+                          `py-0.5 px-5 border rounded-full relative text-xs`
+                        )}
                         key={project?.id}
                       >
                         <Link
                           href={`/projects/${project?.code}`}
                           className="absolute top-0 right-0 bottom-0 left-0"
                         />
-                        <p className="font-bold">{project?.name}</p>
+                        <p className="font-bold">{project?.title}</p>
                         <p>{project?.project_lead}</p>
                       </div>
                     ))
                 : "N/A"}
             </div>
-            {row?.original?.project_count > count?.num && (
+            {row?.original?.projects?.length > count?.num && (
               <p
                 className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
                 onClick={() =>
-                  changeCount(row?.original?.project_count, row?.original?.id)
+                  changeCount(
+                    row?.original?.projects?.length,
+                    row?.original?.username
+                  )
                 }
               >
-                +{row?.original?.project_count - 3} More
+                +{row?.original?.projects?.length - 3} More
               </p>
             )}
           </div>
@@ -157,15 +233,25 @@ const useLeaveRequest = () => {
       header: "Leave Type",
       cell: ({ row }) => (
         <Tooltip>
-          <TooltipTrigger>
-            <p className="font-semibold text-primary">
-              {row?.original?.leave_type}
+          <TooltipTrigger className="text-start">
+            <p
+              className={cn(
+                leaveTextColor(row?.original?.leave?.category),
+                "mb-1 font-semibold leading-6"
+              )}
+            >
+              {row?.original?.leave?.category}
             </p>
-            <p className="text-xs font-medium text-zinc-500">{2 / 6}</p>
+            <p className="text-sm font-medium text-zinc-500">
+              {row?.original?.leave?.leave_count}
+            </p>
           </TooltipTrigger>
-          <TooltipContent>
+          <TooltipContent side="right">
             <div>
-              <p>Leave: 2/6</p>
+              <p>
+                {row?.original?.leave?.category} :{" "}
+                {row?.original?.leave?.leave_count}
+              </p>
             </div>
           </TooltipContent>
         </Tooltip>
@@ -181,26 +267,48 @@ const useLeaveRequest = () => {
           Duration
         </div>
       ),
-      cell: ({ row }) => (
-        <div>
+      cell: ({ row }) => {
+        const barValue = (value: string) => {
+          switch (value) {
+            case "Full Day Leave":
+              return 100;
+            case "First Half Leave":
+              return 50;
+            case "Second Half Leave":
+              return 50;
+          }
+        };
+        return (
           <div>
-            <p className="font-semibold text-primary">
-              {row?.original?.leave_from}
+            <div>
+              <p className="font-medium text-zinc-500">
+                {moment(row?.original?.leave?.from_date)?.format("ll")}
+              </p>
+              <p className="text-zinc-500">to</p>
+              <p className="font-medium text-zinc-500">
+                {moment(row?.original?.leave?.to_date).format("ll")}
+              </p>
+            </div>
+            <p className="mt-1 font-medium text-zinc-500">
+              ({row?.original?.leave?.type})
             </p>
-            <p className="font-semibold text-primary">to</p>
-            <p className="font-semibold text-primary">
-              {row?.original?.leave_to}
-            </p>
+            <Tooltip>
+              <TooltipTrigger className="w-full">
+                <Progress
+                  value={barValue(row?.original?.leave?.type)}
+                  className={cn(
+                    row?.original?.leave?.type === "Second Half Leave"
+                      ? "bg-yellow-400 [&>div]:bg-secondary"
+                      : "[&>div]:bg-yellow-400",
+                    "h-2 rounded-none w-full"
+                  )}
+                />
+              </TooltipTrigger>
+              <TooltipContent>{row?.original?.leave?.type}</TooltipContent>
+            </Tooltip>
           </div>
-          <p className="font-semibold text-primary">
-            ({row?.original?.leave_type})
-          </p>
-          <Tooltip>
-            <TooltipTrigger>Bar Here</TooltipTrigger>
-            <TooltipContent>Leave type</TooltipContent>
-          </Tooltip>
-        </div>
-      ),
+        );
+      },
     },
     // Leave Reason
     {
@@ -208,9 +316,9 @@ const useLeaveRequest = () => {
       accessorKey: "leave_reason",
       header: "Leave Reason",
       cell: ({ row }) => (
-        <div className="max-w-[200px]">
+        <div className="max-w-[350px]">
           <p className="font-medium text-zinc-500">
-            {row?.original?.leave_reason}
+            {row?.original?.leave?.reason}
           </p>
         </div>
       ),
@@ -224,15 +332,16 @@ const useLeaveRequest = () => {
         <div className="max-w-[300px] min-w-0">
           <Badge
             className={cn(
-              row?.getValue("status") === "Approved" &&
+              row?.original?.leave?.status === "approved" &&
                 "bg-green-100 border-green-500 text-green-500 rounded-md",
-              row?.getValue("status") === "Pending" &&
+              row?.original?.leave?.status === "Pending" &&
                 "bg-orange-100 border-orange-500 text-orange-500 rounded-md",
-              row?.getValue("status") === "Cancelled" &&
-                "bg-red-100 border-red-500 text-red-500 rounded-md"
+              row?.original?.leave?.status === "Rejected" &&
+                "bg-red-100 border-red-500 text-red-500 rounded-md ",
+              "capitalize"
             )}
           >
-            {row.getValue("status")}
+            {row.original?.leave?.status}
           </Badge>
         </div>
       ),
@@ -255,6 +364,8 @@ const useLeaveRequest = () => {
 
     // For API
     columns,
+    staffLeavesLoading,
+    filteredStaffLeaves,
   };
 };
 

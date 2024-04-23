@@ -44,13 +44,13 @@ const CategoryPlatform = ({
   platformRef,
 }: IProps) => {
   return (
-    <div className="grid grid-cols-12 gap-6 mt-6 mb-6">
+    <div className="grid grid-cols-12 gap-4 my-4">
       {/* Category */}
-      <div className="col-span-6 ">
+      <div className="col-span-6">
         <Card>
           <CardContent>
-            <div className="flex items-center justify-between mb-9">
-              <div className="flex items-center justify-start gap-3">
+            <div className="flex justify-between items-center mb-9">
+              <div className="flex gap-3 justify-start items-center">
                 <p className="text-lg font-medium text-zinc-700">Category</p>
               </div>
               <Select
@@ -77,7 +77,7 @@ const CategoryPlatform = ({
                 opts={{ renderer: "svg" }}
               />
             </div>
-            <div className="overflow-hidden rounded-md grow ">
+            <div className="overflow-hidden rounded-md grow">
               <DataTable
                 columns={categoryColumn}
                 border={true}
@@ -90,11 +90,11 @@ const CategoryPlatform = ({
       </div>
 
       {/* Platform Component */}
-      <div className="col-span-6 ">
+      <div className="col-span-6">
         <Card>
           <CardContent>
-            <div className="flex items-center justify-between mb-9">
-              <div className="flex items-center justify-start gap-3">
+            <div className="flex justify-between items-center mb-9">
+              <div className="flex gap-3 justify-start items-center">
                 <p className="text-lg font-medium text-zinc-700">
                   Platform/Component
                 </p>
@@ -123,7 +123,7 @@ const CategoryPlatform = ({
                 opts={{ renderer: "svg" }}
               />
             </div>
-            <div className="overflow-hidden rounded-md grow ">
+            <div className="overflow-hidden rounded-md grow">
               <DataTable
                 columns={platformColumn}
                 border={true}

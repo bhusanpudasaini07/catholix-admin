@@ -16,7 +16,7 @@ const ProjectRPConsumptionBody = () => {
   } = useLeadReport();
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       {staffDataLoading
         ? Array.from({ length: 4 }).map((_, index) => (
             <ProjectRPConsumptionSkeleton

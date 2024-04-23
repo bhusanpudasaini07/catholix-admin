@@ -1,13 +1,17 @@
-import ReactECharts, { EChartsInstance } from 'echarts-for-react';
+import ReactECharts, { EChartsInstance } from "echarts-for-react";
 
-import { IType, ITypeCount } from '@/interface/project-interface';
-import { DataTable } from '@/shared/components/data-table/data-table';
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { IType, ITypeCount } from "@/interface/project-interface";
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { ColumnDef } from '@tanstack/react-table';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import { ColumnDef } from "@tanstack/react-table";
 
 interface IProps {
   columns: ColumnDef<ITypeCount>[];
@@ -32,10 +36,10 @@ const Status = ({
   chartRef,
 }: IProps) => {
   return (
-    <Card className="mt-6">
+    <Card className="mt-4">
       <CardContent>
-        <div className="flex items-center justify-between mb-10">
-          <div className="flex items-center justify-start gap-3">
+        <div className="flex justify-between items-center mb-10">
+          <div className="flex gap-3 justify-start items-center">
             <p className="text-lg font-medium text-zinc-700">Status</p>
           </div>
           <Select
@@ -54,8 +58,8 @@ const Status = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="grid items-start grid-cols-12 gap-4">
-          <div className="col-span-6 overflow-hidden rounded-md grow">
+        <div className="grid grid-cols-12 gap-4 items-start">
+          <div className="overflow-hidden col-span-6 rounded-md grow">
             <DataTable
               border={true}
               loading={loading}

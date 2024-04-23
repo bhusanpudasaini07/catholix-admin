@@ -34,7 +34,7 @@ const useProjectStories = () => {
   const occupancyChartRef = useRef<EChartsInstance>(null);
 
   // STATES
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(20);
   const [searchText, setSearchText] = useState("");
   const [sorting, setSorting] = useState({
     key: "",

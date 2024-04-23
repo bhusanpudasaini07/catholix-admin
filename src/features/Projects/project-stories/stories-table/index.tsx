@@ -63,7 +63,7 @@ const ProjectStoriesTable = () => {
           loading={isLoading}
           data={projectStories?.data.slice(0, perPage) ?? []}
         />
-        {perPage < projectStories?.data?.length && (
+        {perPage < projectStories?.data?.length! && (
           <p
             onClick={() => setPerPage(perPage + 10)}
             className="py-4 text-sm font-medium text-center cursor-pointer text-zinc-700"

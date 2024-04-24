@@ -33,12 +33,6 @@ const useTeamMemberList = () => {
   const [staffId, setStaffId] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  // STATE FOR PROJECT COUNT DISPLAY
-  const [count, setCount] = useState({
-    id: "",
-    num: 3,
-  });
-
   // debounced search for api request
   const debouncedSearch = useDebounce(searchText, 300);
 
@@ -131,13 +125,6 @@ const useTeamMemberList = () => {
     }
   };
 
-  const changeCount = (project_count: number, id: string) => {
-    setCount({
-      id: id,
-      num: project_count,
-    });
-  };
-
   // Work-load chart
 
   const memberColumn: ColumnDef<ITeamMemberDetails>[] = [
@@ -193,12 +180,13 @@ const useTeamMemberList = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => {
+        const [projectCount, setProjectCount] = useState(3);
         return (
           <div>
             <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
-                    ?.slice(0, count?.id === row?.original?.id ? count?.num : 3)
+                    ?.slice(0, projectCount)
                     ?.map((project) => (
                       <div
                         className={cn(
@@ -217,12 +205,10 @@ const useTeamMemberList = () => {
                     ))
                 : "N/A"}
             </div>
-            {row?.original?.project_count > count?.num && (
+            {row?.original?.project_count > projectCount && (
               <p
                 className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
-                onClick={() =>
-                  changeCount(row?.original?.project_count, row?.original?.id)
-                }
+                onClick={() => setProjectCount(row?.original?.project_count)}
               >
                 +{row?.original?.project_count - 3} More
               </p>

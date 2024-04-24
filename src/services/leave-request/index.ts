@@ -1,9 +1,12 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
-const getLeaveList = (date?: string) => {
-  if (date !== "all") {
-    return httpRequest(`/get-staff-leaves?date=${date}`, httpMethods.GET);
+const getLeaveList = (date?: string, status?: String) => {
+  if (date !== "all" || status) {
+    return httpRequest(
+      `/get-staff-leaves?date=${date}&status=${status}`,
+      httpMethods.GET
+    );
   } else {
     return httpRequest("/get-staff-leaves", httpMethods.GET);
   }

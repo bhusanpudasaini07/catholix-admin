@@ -32,7 +32,6 @@ const LeaveRequestTable = ({ columns, data, loading }: IProps) => {
               onClick={() => setPerPage(perPage + 10)}
               className="flex gap-2 justify-center items-center py-4 text-sm font-medium text-center cursor-pointer text-zinc-700"
             >
-              <Plus size={16} />
               Load More
             </p>
           )}

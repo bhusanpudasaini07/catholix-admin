@@ -412,3 +412,25 @@ export interface IProjectIndivRole {
   title: string;
   actual_time: number;
 }
+
+export interface ILatestTaskTrend {
+  data: {
+    tasks: ILatestTaskTrendDetail[];
+    project_info: {
+      title: string;
+      code: string;
+    };
+  };
+}
+export interface ILatestTaskTrendDetail {
+  bug_count: number;
+  closed_task_count: number;
+  date: string;
+  id: number;
+  open_task_count: number;
+  total_task_count: number;
+  new_task: string;
+  progress_percent: string;
+  closed_task_new: number;
+  open_task_new: number;
+}

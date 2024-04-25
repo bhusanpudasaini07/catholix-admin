@@ -2,14 +2,14 @@ import ReactECharts from "echarts-for-react";
 import React from "react";
 
 import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
-import { Card, CardContent } from "@/shared/components/ui/card";
 import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const UserStatusBugCount = () => {
   const { userStoryStatusOption, userStoryBugOption, isLoading } =
     useProjectStories();
   return (
-    <div className="grid grid-cols-1 gap-4 2xl:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
       <Card>
         <CardContent>
           <div className="flex justify-between items-center mb-10">

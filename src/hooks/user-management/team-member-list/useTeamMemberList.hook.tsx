@@ -33,6 +33,17 @@ const useTeamMemberList = () => {
   const [staffId, setStaffId] = useState<string>("");
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+  // STATE FOR PROJECT COUNT DISPLAY
+  const [counts, setCounts] = useState<{ [key: string]: number }>({});
+
+  // Function to change count for a specific row
+  const changeCount = (project_count: number, id: string) => {
+    setCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: project_count,
+    }));
+  };
+
   // debounced search for api request
   const debouncedSearch = useDebounce(searchText, 300);
 
@@ -180,13 +191,14 @@ const useTeamMemberList = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => {
-        const [projectCount, setProjectCount] = useState(3);
+        const rowId = row?.original?.id;
+        const maxProjectsToShow = counts[rowId] || 3; // Default to 3 if no specific count is set
         return (
           <div>
             <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
-                    ?.slice(0, projectCount)
+                    ?.slice(0, maxProjectsToShow)
                     ?.map((project) => (
                       <div
                         className={cn(
@@ -205,10 +217,10 @@ const useTeamMemberList = () => {
                     ))
                 : "N/A"}
             </div>
-            {row?.original?.project_count > projectCount && (
+            {row?.original?.project_count > maxProjectsToShow && (
               <p
                 className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
-                onClick={() => setProjectCount(row?.original?.project_count)}
+                onClick={() => changeCount(row?.original?.project_count, rowId)}
               >
                 +{row?.original?.project_count - 3} More
               </p>

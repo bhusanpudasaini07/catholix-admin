@@ -970,9 +970,29 @@ const useProjectStories = () => {
       axisPointer: {
         type: "shadow",
       },
+      formatter: (params: any) => {
+        let totalTasks = 0;
+        params.forEach((param: { data: { value: number } }) => {
+          totalTasks += param.data.value;
+        });
+        let result = params
+          .map(
+            (param: {
+              seriesName: any;
+              data: { value: any };
+              color: string;
+            }) => {
+              return `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${param.color};"></span>${param.seriesName}: ${param.data.value}`;
+            }
+          )
+          .join("<br/>");
+        result += `<hr/><span style="display:block;padding-left:15px;margin-top:5px;">Total Task: ${totalTasks}</span>`;
+        return result;
+      },
     },
     legend: {
       left: "right",
+      data: ["Closed Task", "Open Task"],
       itemWidth: 16,
       itemHeight: 16,
     },

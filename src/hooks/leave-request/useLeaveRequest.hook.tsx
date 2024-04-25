@@ -27,8 +27,17 @@ const useLeaveRequest = () => {
   const [date, setDate] = useState("all");
   const [perPage, setPerPage] = useState(12);
   const [pageNum, setPageNum] = useState(1);
+  // STATE FOR PROJECT COUNT DISPLAY
+  const [counts, setCounts] = useState<{ [key: string]: number }>({});
 
   //   FUNCTIONS
+  // Function to change count for a specific row
+  const changeCount = (project_count: number, id: string) => {
+    setCounts((prevCounts) => ({
+      ...prevCounts,
+      [id]: project_count,
+    }));
+  };
   //   For pagination
   const changePageNumber = (pageNum: number) => {
     setPageNum(pageNum);
@@ -165,13 +174,14 @@ const useLeaveRequest = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => {
-        const [projectCount, setProjectCount] = useState(3);
+        const rowId = row?.original?.user_id;
+        const maxProjectsToShow = counts[rowId] || 3; // Default to 3 if no specific count is set
         return (
           <div>
             <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
-                    ?.slice(0, projectCount)
+                    ?.slice(0, maxProjectsToShow)
                     ?.map((project: any) => (
                       <div
                         className={cn(
@@ -190,12 +200,12 @@ const useLeaveRequest = () => {
                     ))
                 : "N/A"}
             </div>
-            {row?.original?.projects?.length > projectCount && (
+            {row?.original?.projects?.length > maxProjectsToShow && (
               <p
                 className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
-                onClick={() => {
-                  setProjectCount(row?.original?.projects?.length);
-                }}
+                onClick={() =>
+                  changeCount(row?.original?.projects?.length, rowId)
+                }
               >
                 +{row?.original?.projects?.length - 3} More
               </p>

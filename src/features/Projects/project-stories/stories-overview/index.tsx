@@ -29,7 +29,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
         <div className="flex justify-between items-center mb-10">
           <p className="text-lg font-medium text-zinc-700">Overview</p>
         </div>
-        <div className="grid grid-cols-3 grid-flow-row-dense gap-6 xl:grid-rows-2 2xl:grid-cols-5">
+        <div className="grid grid-cols-6 grid-flow-row-dense gap-6 2xl:grid-cols-8">
           {/* Total Task */}
           <div
             className={`flex flex-col gap-3 justify-center items-center py-6 rounded-md h-[148px] bg-zinc-50 text-zinc-500 border-[1px] border-zinc-100`}
@@ -87,9 +87,20 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
             </p>
             <p className="text-base font-semibold">Bug Ratio</p>
           </div>
+          {/* Bug Ratio */}
+          <div
+            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
+            border-[1px] border-green-100"
+          >
+            <p className="text-4xl font-semibold">
+              {" "}
+              {task?.bug_count_percentage ?? 0}%
+            </p>
+            <p className="text-base font-semibold">Closed %</p>
+          </div>
           {/* Total Estimated Time */}
           <div
-            className="rounded-md py-6 h-[148px] 2xl:col-span-3 flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
+            className="rounded-md py-6 h-[148px] col-span-3 2xl:col-span-1 flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
             border-[1px] border-orange-100"
           >
             {hours < 1 ? (
@@ -103,7 +114,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Total Time Spent */}
           <div
-            className={`flex flex-col col-span-3 gap-3 justify-center items-center py-6 text-blue-500 bg-blue-50 rounded-md border-blue-100 2xl:col-span-2 h-[148px] border-[1px]`}
+            className={`flex flex-col col-span-3 gap-3 justify-center items-center py-6 text-blue-500 bg-blue-50 rounded-md border-blue-10 2xl:col-span-1 h-[148px] border-[1px]`}
           >
             {spentHours < 1 ? (
               <p className="text-4xl font-semibold">{`${spentMinutes}M`}</p>

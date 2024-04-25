@@ -183,6 +183,18 @@ const getProjectRoleRp = (code: any) => {
   );
 };
 
+// Task Trend
+const geLatestTaskTrend = (
+  project_id: any,
+  date_from: string,
+  date_to: string
+) => {
+  return httpRequest(
+    `/project-daily-task-count?project_id=${project_id}&date_from=${date_from}&date_to=${date_to}`,
+    httpMethods.GET
+  );
+};
+
 export {
   getProjectList,
   getProjectDetail,
@@ -198,4 +210,5 @@ export {
   getProjectTaskBugRatio,
   getEstimatedActual,
   getProjectRoleRp,
+  geLatestTaskTrend,
 };

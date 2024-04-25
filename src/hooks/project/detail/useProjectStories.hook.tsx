@@ -708,7 +708,14 @@ const useProjectStories = () => {
         const spentTime = row.original?.spent_time;
         const percentageCompletion = (spentTime / estimatedTime) * 100;
         return (
-          <div className="font-medium">{percentageCompletion.toFixed(2)}%</div>
+          <div
+            className={cn(
+              "font-medium",
+              percentageCompletion > 100 && "text-red-500"
+            )}
+          >
+            {percentageCompletion.toFixed(2)}%
+          </div>
         );
       },
     },

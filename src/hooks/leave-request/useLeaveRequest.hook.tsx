@@ -27,15 +27,8 @@ const useLeaveRequest = () => {
   const [date, setDate] = useState("all");
   const [perPage, setPerPage] = useState(12);
   const [pageNum, setPageNum] = useState(1);
-  const [count, setCount] = useState({
-    username: "",
-    num: 3,
-  });
 
   //   FUNCTIONS
-  //   Stale Time for search
-  const debounchedSearch = useDebounce(searchText, 300);
-
   //   For pagination
   const changePageNumber = (pageNum: number) => {
     setPageNum(pageNum);
@@ -55,13 +48,7 @@ const useLeaveRequest = () => {
   const changeStatus = (status: string) => {
     setStatus(status);
   };
-  //   In table for project more than 4
-  const changeCount = (project_count: number, id: string) => {
-    setCount({
-      username: id,
-      num: project_count,
-    });
-  };
+
   //   For serial Number
   const SerialNumberCell = ({ row, pageNumber, perPage }: any) => {
     const rowIndex = row.index;
@@ -99,6 +86,10 @@ const useLeaveRequest = () => {
         return "text-green-500";
       case "Sick Leave":
         return "text-orange-500";
+      case "Mensural Leave":
+        return "text-orange-500";
+      case "Leave Without Pay":
+        return "text-zinc-500";
       case "Urgent Leave":
         return "text-red-500";
     }
@@ -107,8 +98,8 @@ const useLeaveRequest = () => {
   // APIs and Column
   const { data: staffLeaves, isLoading: staffLeavesLoading } =
     useQuery<ILeaveRequest>({
-      queryFn: () => getLeaveList(date),
-      queryKey: ["staffLeaves", date],
+      queryFn: () => getLeaveList(date, status !== "all" ? status : ""),
+      queryKey: ["staffLeaves", date, status],
     });
 
   const filteredStaffLeaves = useMemo(() => {
@@ -119,13 +110,7 @@ const useLeaveRequest = () => {
         ? staff?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
           staff?.leave?.reason?.toLowerCase().includes(searchText.toLowerCase())
         : true;
-
-      const matchesStatus = status
-        ? staff?.leave?.status
-            .toLowerCase()
-            .includes(status.toLocaleLowerCase())
-        : true; // Ensure case-insensitive comparison for status
-      return matchesKeyword || matchesStatus;
+      return matchesKeyword;
     });
   }, [staffLeaves, searchText, status]);
 
@@ -180,17 +165,13 @@ const useLeaveRequest = () => {
       accessorKey: "projects",
       header: "Projects",
       cell: ({ row }) => {
+        const [projectCount, setProjectCount] = useState(3);
         return (
           <div>
             <div className="flex flex-wrap gap-1.5 w-[350px]">
               {row?.original?.projects
                 ? row?.original?.projects
-                    ?.slice(
-                      0,
-                      count?.username === row?.original?.username
-                        ? count?.num
-                        : 3
-                    )
+                    ?.slice(0, projectCount)
                     ?.map((project: any) => (
                       <div
                         className={cn(
@@ -209,15 +190,12 @@ const useLeaveRequest = () => {
                     ))
                 : "N/A"}
             </div>
-            {row?.original?.projects?.length > count?.num && (
+            {row?.original?.projects?.length > projectCount && (
               <p
                 className="mt-2 font-medium text-center cursor-pointer text-zinc-700"
-                onClick={() =>
-                  changeCount(
-                    row?.original?.projects?.length,
-                    row?.original?.username
-                  )
-                }
+                onClick={() => {
+                  setProjectCount(row?.original?.projects?.length);
+                }}
               >
                 +{row?.original?.projects?.length - 3} More
               </p>

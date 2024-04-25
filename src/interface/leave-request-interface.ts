@@ -3,6 +3,7 @@ export interface ILeaveRequest {
 }
 
 export interface ILeaveRequestDetail {
+  user_id: string;
   name: string;
   username: string;
   role_id: string;

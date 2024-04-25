@@ -12,9 +12,9 @@ const UserStoryOccupancy = () => {
   return (
     <Card>
       <CardContent>
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex justify-between items-center">
           <p className="text-lg font-medium text-zinc-700">
-            User Story Occupancy
+            User Story Time Consumption [Last 30 Days]
           </p>
         </div>
 

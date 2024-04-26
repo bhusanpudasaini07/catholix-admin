@@ -89,7 +89,7 @@ const useLatestTrend = () => {
       left: "right",
       itemWidth: 16,
       itemHeight: 16,
-      data: ["Closed Task", "Open Task", "Completion %"],
+      data: ["Open Task", "Closed Task", "Completion %"],
     },
     xAxis: [
       {
@@ -123,20 +123,23 @@ const useLatestTrend = () => {
     ],
     series: [
       {
-        name: "Closed Task",
-        type: "bar",
-        data:
-          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
-      },
-      {
         name: "Open Task",
         type: "bar",
+        color: "#FC8452",
         data:
           trendData?.data?.tasks?.map((item) => item?.open_task_count) ?? [],
       },
       {
+        name: "Closed Task",
+        type: "bar",
+        color: "#91CC75",
+        data:
+          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
+      },
+      {
         name: "Completion %",
         type: "line",
+        color: "#EE6666",
         yAxisIndex: 1,
         data: trendData?.data?.tasks?.map((item) => {
           const completionPercent =

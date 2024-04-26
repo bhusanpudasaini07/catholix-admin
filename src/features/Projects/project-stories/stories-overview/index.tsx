@@ -68,6 +68,20 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
             </p>
             <p className="text-base font-semibold">Closed</p>
           </div>
+          {/* Closed Ratio */}
+          <div
+            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
+            border-[1px] border-green-100"
+          >
+            <p className="text-4xl font-semibold">
+              {" "}
+              {((task?.closed_task_count / task?.all_task_count) * 100).toFixed(
+                2
+              )}
+              %
+            </p>
+            <p className="text-base font-semibold">Closed %</p>
+          </div>
           {/* Bugs */}
           <div
             className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 
@@ -87,17 +101,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
             </p>
             <p className="text-base font-semibold">Bug Ratio</p>
           </div>
-          {/* Bug Ratio */}
-          <div
-            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-green-50 text-green-500 
-            border-[1px] border-green-100"
-          >
-            <p className="text-4xl font-semibold">
-              {" "}
-              {task?.bug_count_percentage ?? 0}%
-            </p>
-            <p className="text-base font-semibold">Closed %</p>
-          </div>
+
           {/* Total Estimated Time */}
           <div
             className="rounded-md py-6 h-[148px] col-span-3 2xl:col-span-1 flex gap-3 justify-center flex-col items-center bg-orange-50 text-orange-500 

@@ -39,19 +39,26 @@ const useLatestTrend = () => {
 
     return sortedTasks.map((task, index) => {
       const previousTask = sortedTasks[index + 1];
+      const prevTaskClosedPercentage =
+        (previousTask?.closed_task_count / previousTask?.total_task_count) *
+        100;
+      const newTaskClosedPercentage =
+        (task?.closed_task_count / task?.total_task_count) * 100;
+
       const newTask = previousTask
         ? task?.total_task_count - previousTask?.total_task_count
         : 0;
-      const progressPercent = previousTask
-        ? (task?.closed_task_count / task?.total_task_count -
-            previousTask?.closed_task_count / previousTask?.total_task_count) *
-          100
-        : 0;
+
       const closedTaskFromPrev = previousTask
         ? task?.closed_task_count - previousTask?.closed_task_count
         : 0;
       const openTaskFromPrev = previousTask
         ? task?.open_task_count - previousTask?.open_task_count
+        : 0;
+      const progressPercent = previousTask
+        ? ((newTaskClosedPercentage - prevTaskClosedPercentage) /
+            prevTaskClosedPercentage) *
+          100
         : 0;
 
       return {
@@ -59,7 +66,8 @@ const useLatestTrend = () => {
         new_task: newTask,
         closed_task_new: closedTaskFromPrev,
         open_task_new: openTaskFromPrev,
-        progress_percent: progressPercent.toFixed(2),
+        progress_percent: "-",
+        // progress_percent: "progressPercent.toFixed(2)",
       };
     });
   }, [trendData]);
@@ -81,13 +89,13 @@ const useLatestTrend = () => {
       left: "right",
       itemWidth: 16,
       itemHeight: 16,
-      data: ["Closed Task", "Open Task", "Completion %"],
+      data: ["Open Task", "Closed Task", "Completion %"],
     },
     xAxis: [
       {
         type: "category",
-        axisTick: {
-          alignWithLabel: true,
+        axisPointer: {
+          type: "shadow",
         },
         // prettier-ignore
         data: trendData?.data?.tasks?.map((item) => moment( item?.date).format("ll")) ?? [],
@@ -96,31 +104,8 @@ const useLatestTrend = () => {
     yAxis: [
       {
         type: "value",
-        name: "Closed Task",
-        position: "right",
-        offset: 80,
-        alignTicks: true,
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: colors[0],
-          },
-        },
-        axisLabel: {
-          formatter: "{value}",
-        },
-      },
-      {
-        type: "value",
-        name: "Open Task",
         position: "right",
         alignTicks: true,
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: colors[1],
-          },
-        },
         axisLabel: {
           formatter: "{value}",
         },
@@ -128,14 +113,9 @@ const useLatestTrend = () => {
       {
         type: "value",
         name: "Completion %",
+        min: 0,
+        max: 100,
         position: "left",
-        alignTicks: true,
-        axisLine: {
-          show: true,
-          lineStyle: {
-            color: colors[2],
-          },
-        },
         axisLabel: {
           formatter: "{value} %",
         },
@@ -143,25 +123,27 @@ const useLatestTrend = () => {
     ],
     series: [
       {
-        name: "Closed Task",
-        type: "bar",
-        data:
-          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
-      },
-      {
         name: "Open Task",
         type: "bar",
-        yAxisIndex: 1,
+        color: "#FC8452",
         data:
           trendData?.data?.tasks?.map((item) => item?.open_task_count) ?? [],
       },
       {
+        name: "Closed Task",
+        type: "bar",
+        color: "#91CC75",
+        data:
+          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
+      },
+      {
         name: "Completion %",
         type: "line",
-        yAxisIndex: 2,
+        color: "#EE6666",
+        yAxisIndex: 1,
         data: trendData?.data?.tasks?.map((item) => {
           const completionPercent =
-            (item?.open_task_count / item?.closed_task_count) * 100;
+            (item?.closed_task_count / item?.total_task_count) * 100;
           return {
             value: completionPercent.toFixed(2),
           };
@@ -195,29 +177,7 @@ const useLatestTrend = () => {
         </div>
       ),
     },
-    // Closed Task
-    {
-      id: "closed_task_count",
-      accessorKey: "closed_task_count",
-      header: "Closed Task",
-      cell: ({ row }) => (
-        <div className="font-medium">
-          {row?.original?.closed_task_count}{" "}
-          {row?.original?.closed_task_new !== 0 && (
-            <span
-              className={cn(
-                row?.original?.closed_task_new < 0
-                  ? "text-red-500"
-                  : "text-green-500"
-              )}
-            >
-              ({row?.original?.closed_task_new > 0 && "+"}
-              {row?.original?.closed_task_new})
-            </span>
-          )}
-        </div>
-      ),
-    },
+
     // Open task
     {
       id: "open_task_count",
@@ -236,6 +196,29 @@ const useLatestTrend = () => {
             >
               ({row?.original?.open_task_new > 0 && "+"}
               {row?.original?.open_task_new})
+            </span>
+          )}
+        </div>
+      ),
+    },
+    // Closed Task
+    {
+      id: "closed_task_count",
+      accessorKey: "closed_task_count",
+      header: "Closed Task",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.closed_task_count}{" "}
+          {row?.original?.closed_task_new !== 0 && (
+            <span
+              className={cn(
+                row?.original?.closed_task_new < 0
+                  ? "text-red-500"
+                  : "text-green-500"
+              )}
+            >
+              ({row?.original?.closed_task_new > 0 && "+"}
+              {row?.original?.closed_task_new})
             </span>
           )}
         </div>

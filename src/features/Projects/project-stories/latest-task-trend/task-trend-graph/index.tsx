@@ -12,7 +12,7 @@ const TrendOverviewGraph = ({ loading, option }: IProps) => {
     <Card>
       <CardContent>
         <div className="flex gap-4 justify-start items-center mb-6">
-          <p className="text-lg font-medium text-zinc-700">Latest Task trend</p>
+          <p className="text-lg font-medium text-zinc-700">Latest Task Trend</p>
         </div>
 
         {/* {isLoading ? (

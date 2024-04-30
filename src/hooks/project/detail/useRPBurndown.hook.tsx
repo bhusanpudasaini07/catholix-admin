@@ -71,9 +71,13 @@ const useRPBurndown = () => {
       accessorKey: "date",
       header: "Date",
       cell: ({ row }) => (
-        <div className="text-zinc-500">
-          <p className="mb-1">{moment(row?.getValue("date")).format("ll")}</p>
-          <p>{moment(row?.getValue("date")).format("ddd")}</p>
+        <div>
+          <p className="mb-1 font-medium text-zinc-700">
+            {moment(row?.getValue("date")).format("ll")}
+          </p>
+          <p className="text-zinc-500">
+            {moment(row?.getValue("date")).format("ddd")}
+          </p>
         </div>
       ),
     },

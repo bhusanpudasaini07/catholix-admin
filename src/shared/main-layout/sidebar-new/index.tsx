@@ -68,6 +68,7 @@ import { useCommonStore } from "@/store/common-store";
 import ProfileDropdown from "../header/profile-dropdown";
 import { IStaffList } from "@/interface/staff-interface";
 import { getAllStaffs } from "@/services/staff/staff-service";
+import { cn } from "@/shared/utils/utils";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -208,7 +209,7 @@ const SidebarNew = ({
       hasChildren: true,
       subMenu: [
         {
-          menuName: t("common.side_nav.team_leads"),
+          menuName: t("common.side_nav.department_performance"),
           menuSlug: "/team-leads",
           icon: <User width={20} height={20} />,
           hasAccordion: true,
@@ -285,37 +286,37 @@ const SidebarNew = ({
         },
       ],
     },
-    {
-      menuName: t("common.side_nav.feedback"),
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.pl_feedback"),
-          menuSlug: "/pl-feedback",
-          icon: <Users width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.feedback_report"),
-          menuSlug: "/feedback-report",
-          icon: <Users width={20} height={20} />,
-        },
-      ],
-    },
-    {
-      menuName: t("common.side_nav.other"),
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.gitlab_hooks"),
-          menuSlug: "/gitlab-hooks",
-          icon: <Gitlab width={20} height={20} />,
-        },
-      ],
-    },
+    // {
+    //   menuName: t("common.side_nav.feedback"),
+    //   menuSlug: "",
+    //   icon: <User2 />,
+    //   hasChildren: true,
+    //   subMenu: [
+    //     {
+    //       menuName: t("common.side_nav.pl_feedback"),
+    //       menuSlug: "/pl-feedback",
+    //       icon: <Users width={20} height={20} />,
+    //     },
+    //     {
+    //       menuName: t("common.side_nav.feedback_report"),
+    //       menuSlug: "/feedback-report",
+    //       icon: <Users width={20} height={20} />,
+    //     },
+    //   ],
+    // },
+    // {
+    //   menuName: t("common.side_nav.other"),
+    //   menuSlug: "",
+    //   icon: <User2 />,
+    //   hasChildren: true,
+    //   subMenu: [
+    //     {
+    //       menuName: t("common.side_nav.gitlab_hooks"),
+    //       menuSlug: "/gitlab-hooks",
+    //       icon: <Gitlab width={20} height={20} />,
+    //     },
+    //   ],
+    // },
   ];
 
   const isActive = (tabRoute: string) => {
@@ -530,7 +531,7 @@ const SidebarNew = ({
                     >
                       <AccordionItem value="item-1" className="border-0">
                         <AccordionTrigger
-                          className={`btn-primary !shadow-none rounded-none w-full ${
+                          className={`btn-primary min-w-0 !shadow-none rounded-none w-full ${
                             isExpanded
                               ? "justify-start pl-8"
                               : "justify-center pl-4"
@@ -543,7 +544,12 @@ const SidebarNew = ({
                               {subItem?.icon}
                             </span>
 
-                            <span className={isExpanded ? "" : "hidden"}>
+                            <span
+                              className={cn(
+                                isExpanded ? "" : "hidden",
+                                "truncate max-w-[150px]"
+                              )}
+                            >
                               {subItem.menuName}
                             </span>
                           </div>

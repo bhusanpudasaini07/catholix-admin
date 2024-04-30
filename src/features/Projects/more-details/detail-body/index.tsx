@@ -36,7 +36,9 @@ const MoreDetailBody = () => {
         typeOption={statusOption}
         chartRef={statusChartRef}
         columns={statusColumn}
-        statusData={projectTaskLabelData?.data[3]}
+        statusData={projectTaskLabelData?.data?.find(
+          (item) => item?.type === "Status"
+        )}
         loading={isLoading}
       />
       <CategoryPlatform

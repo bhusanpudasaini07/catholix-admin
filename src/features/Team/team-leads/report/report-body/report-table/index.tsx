@@ -47,7 +47,7 @@ const ReportSummaryTable = ({
     <Card>
       <CardContent>
         <div className="flex justify-between items-center mb-10">
-          <p className="text-lg font-medium text-zinc-700">Team Lead</p>
+          <p className="text-lg font-medium text-zinc-700">Department Lead</p>
           <Button variant={"success"} size={"sm"}>
             <DownloadCloud size={16} />
           </Button>

@@ -184,7 +184,7 @@ const LeadReportBody = ({ dateRange }: any) => {
           <TimeUtilization
             overallTime={staffRpSummaryData?.data?.summary?.total_time}
             overallEmptyPercentage={calculateUnusedPercentage(
-              staffRpSummaryData?.data?.summary?.available_time,
+              staffRpSummaryData?.data?.summary?.total_time,
               totalTime
             ).toFixed(2)}
             overallUsedPercentage={(

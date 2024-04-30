@@ -414,7 +414,7 @@ const useReport = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: "Type",
+      header: "Budget",
       cell: ({ row }) => (
         <div className="font-medium text-zinc-700">
           {Math.round(row?.getValue("rp"))}

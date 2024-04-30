@@ -56,7 +56,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
             <p className="text-4xl font-semibold">
               {task?.open_task_count ?? 0}
             </p>
-            <p className="text-base font-medium">Open</p>
+            <p className="text-base font-medium">Open US</p>
           </div>
           {/* Closed */}
           <div
@@ -66,7 +66,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
               {" "}
               {task?.closed_task_count ?? 0}
             </p>
-            <p className="text-base font-semibold">Closed</p>
+            <p className="text-base font-semibold">Closed US</p>
           </div>
           {/* Closed Ratio */}
           <div

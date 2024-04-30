@@ -179,13 +179,17 @@ export const useProjectDetail = () => {
       header: "Utilization",
       cell: ({ row }) => {
         const totalRP = projectTaskLabelData
-          ? projectTaskLabelData?.data[3]?.count?.reduce(
-              (total: number, item: ITypeCount) => total + Number(item?.rp),
-              0
-            )
+          ? projectTaskLabelData?.data
+              ?.find((item) => item?.type === "Status")
+              ?.count?.reduce(
+                (total: number, item: ITypeCount) => total + Number(item?.rp),
+                0
+              )
           : 0;
 
-        const utilizedPercentage = (Number(row?.original?.rp) / totalRP) * 100;
+        const utilizedPercentage =
+          (Number(row?.original?.rp) / (totalRP ?? 0)) * 100;
+
         return (
           <div className="font-semibold text-zinc-700">
             {utilizedPercentage?.toFixed(2)}%
@@ -502,7 +506,7 @@ export const useProjectDetail = () => {
         itemStyle: {
           borderRadius: 20,
         },
-        color: ["#0A82FD", "#F4F4F5"],
+        color: ["#22C55E", "#F4F4F5"],
         labelLine: {
           show: false,
         },
@@ -578,7 +582,7 @@ export const useProjectDetail = () => {
         itemStyle: {
           borderRadius: 20,
         },
-        color: ["#22C55E", "#F4F4F5"],
+        color: ["#0A82FD", "#F4F4F5"],
         emphasis: {
           label: {
             show: false,

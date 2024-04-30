@@ -104,7 +104,8 @@ const useLatestTrend = () => {
     yAxis: [
       {
         type: "value",
-        position: "right",
+        position: "left",
+
         alignTicks: true,
         axisLabel: {
           formatter: "{value}",
@@ -113,9 +114,9 @@ const useLatestTrend = () => {
       {
         type: "value",
         name: "Completion %",
+        position: "right",
         min: 0,
         max: 100,
-        position: "left",
         axisLabel: {
           formatter: "{value} %",
         },

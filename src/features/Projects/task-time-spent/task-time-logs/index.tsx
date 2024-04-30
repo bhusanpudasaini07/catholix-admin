@@ -38,14 +38,14 @@ const TaskTimeLogs = ({
             border-[1px] border-blue-100"
           >
             <p className="text-4xl font-semibold">{open ?? 0}</p>
-            <p className="text-base font-medium">Open</p>
+            <p className="text-base font-medium">Open Tasks</p>
           </div>
           {/* Closed */}
           <div
             className={`flex flex-col gap-3 justify-center items-center py-6 text-green-500 bg-green-50 rounded-md border-green-100 h-[148px] border-[1px]`}
           >
             <p className="text-4xl font-semibold"> {closed ?? 0}</p>
-            <p className="text-base font-semibold">Closed</p>
+            <p className="text-base font-semibold">Closed Tasks</p>
           </div>
           {/* Total Estimated Time */}
           <div

@@ -4,13 +4,15 @@ import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import Link from "next/link";
 
 interface IProps {
   loading: boolean;
   projectName: string | undefined;
+  projectCode: string | undefined;
 }
 
-const TaskTrendHeader = ({ loading, projectName }: IProps) => {
+const TaskTrendHeader = ({ loading, projectName, projectCode }: IProps) => {
   const router = useRouter();
   return (
     <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
@@ -27,12 +29,14 @@ const TaskTrendHeader = ({ loading, projectName }: IProps) => {
         </Button>
         <div className="">
           <h4 className="flex gap-2 items-center mb-1 text-2xl font-medium text-zinc-700">
-            Latest Task Trend
+            Project Stories {">>"} Latest Task Trend
           </h4>
-          <div className="flex gap-2 items-center text-base font-normal text-zinc-500">
-            Project Stories -{" "}
+          <Link
+            href={`/projects/${projectCode ?? ""}`}
+            className="flex gap-2 items-center text-base font-normal text-primary"
+          >
             {loading ? <Skeleton className="w-20 h-3" /> : projectName}
-          </div>
+          </Link>
         </div>
       </div>
     </div>

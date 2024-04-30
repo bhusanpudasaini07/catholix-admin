@@ -95,7 +95,7 @@ const useLeaveRequest = () => {
         return "text-green-500";
       case "Sick Leave":
         return "text-orange-500";
-      case "Mensural Leave":
+      case "Menstrual Leave":
         return "text-orange-500";
       case "Leave Without Pay":
         return "text-zinc-500";

@@ -264,6 +264,63 @@ const useEstimatedActual = () => {
       axisPointer: {
         type: "shadow",
       },
+      formatter: (params: any) => {
+        let tooltipContent = "";
+        const dataMap = new Map();
+        // Organize data by seriesName
+        params.forEach((param: any) => {
+          dataMap.set(param.seriesName, {
+            value: param.data.value,
+            color: param.color,
+          });
+        });
+        // Budget
+        tooltipContent += `<p style="margin-bottom:5px; font-weight:600;">${
+          params[0]?.axisValue ?? ""
+        }</p>`;
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Budget")?.color
+        };"></span>Allowed Budget: <strong>${
+          changeNumberFormat(dataMap.get("Budget")?.value) ?? 0
+        }</strong> <br />`;
+
+        // Used from budget
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Used from Budget")?.color
+        };"></span>Used from Budget: <strong> ${
+          changeNumberFormat(dataMap.get("Used from Budget")?.value) ?? 0
+        }</strong> <br/> <hr/>`;
+
+        // Estimate
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Estimated")?.color
+        };"></span>Dev Team Estimate: <strong>${
+          changeNumberFormat(dataMap.get("Estimated")?.value) ?? 0
+        }</strong> <br />`;
+
+        //Used from Estimate
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Used from Estimated")?.color
+        };"></span>Used from Estimate: <strong> ${
+          changeNumberFormat(dataMap.get("Used from Estimated")?.value) ?? 0
+        }</strong> <br/> <hr/>`;
+
+        //Over bugdet
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Over Budget")?.color
+        };"></span>Over Allowed Budget: <strong> ${
+          changeNumberFormat(dataMap.get("Over Budget")?.value) ?? 0
+        } </strong><br />`;
+
+        // Over Estimate
+        tooltipContent += `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          dataMap.get("Over Estimated")?.color
+        };"></span>Over Team Estimate: <strong>${
+          changeNumberFormat(dataMap.get("Over Estimated")?.value) ?? 0
+        }</strong> <br />`;
+
+        return tooltipContent;
+      },
     },
     xAxis: [
       {

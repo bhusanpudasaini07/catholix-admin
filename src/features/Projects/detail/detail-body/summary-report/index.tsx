@@ -18,7 +18,7 @@ const ProjectSummaryReport = () => {
       id: "task",
       title: "Task Completion",
       data: projectDetail?.data?.health?.task_completion_percentage ?? 0,
-      color: "bg-primary",
+      color: "bg-green-500",
     },
     // Project
     {
@@ -32,7 +32,7 @@ const ProjectSummaryReport = () => {
       id: "rp",
       title: "Budget Consumption",
       data: projectDetail?.data?.health?.rp_completion_percentage ?? 0,
-      color: "bg-green-500",
+      color: "bg-primary",
     },
   ];
 

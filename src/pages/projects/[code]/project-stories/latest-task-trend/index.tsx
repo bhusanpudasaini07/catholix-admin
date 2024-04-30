@@ -19,6 +19,7 @@ const LatestTaskTrend: NextPageWithLayout = () => {
   return (
     <>
       <TaskTrendHeader
+        projectCode={trendData?.data?.project_info?.code}
         projectName={trendData?.data?.project_info?.title}
         loading={trendDataLoading}
       />

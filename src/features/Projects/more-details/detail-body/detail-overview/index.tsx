@@ -98,12 +98,12 @@ const DetailOverviewMoreDetail = () => {
         </div>
       ) : (
         <div className="col-span-12 xl:col-span-6">
-          <div className="grid h-full grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 gap-6 h-full">
             {/* RP Used */}
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start gap-6 mb-7">
+                  <div className="flex gap-6 justify-start items-center mb-7">
                     <p className="text-lg font-medium text-zinc-700">Budget</p>
                     <Button
                       onClick={() => setSalesModalOpen(true)}
@@ -114,7 +114,7 @@ const DetailOverviewMoreDetail = () => {
                       Sales Budget
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between mt-4 gap-7">
+                  <div className="flex gap-7 justify-between items-center mt-4">
                     <div className="">
                       <h3 className="text-2xl font-semibold text-zinc-800">
                         {projectDetail?.data?.rp?.used_rp ?? 0}
@@ -139,12 +139,12 @@ const DetailOverviewMoreDetail = () => {
             {/* Project Duration */}
             <div className="col-span-12 md:col-span-6 lg:col-span-6">
               <Card>
-                <CardContent className="flex flex-col items-start justify-between h-full">
+                <CardContent className="flex flex-col justify-between items-start h-full">
                   <h5 className="mb-3 text-lg font-medium text-zinc-700">
                     Project Duration
                   </h5>
-                  <div className="w-full mt-auto">
-                    <div className="flex items-center justify-between">
+                  <div className="mt-auto w-full">
+                    <div className="flex justify-between items-center">
                       <div>
                         <h4
                           className={`mb-1 font-medium text-zinc-800 ${
@@ -185,7 +185,7 @@ const DetailOverviewMoreDetail = () => {
                       })}
                       value={barValue}
                     />
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex justify-between items-center mb-1">
                       <p className="text-sm text-zinc-700">
                         {moment(projectDetail?.data?.dates?.start_date).format(
                           "Do MMM, YYYY"
@@ -210,7 +210,7 @@ const DetailOverviewMoreDetail = () => {
             <div className="col-span-12">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start gap-3 mb-4">
+                  <div className="flex gap-3 justify-start items-center mb-4">
                     <h5 className="font-medium text-zinc-700">
                       Units Allocation
                     </h5>
@@ -226,8 +226,8 @@ const DetailOverviewMoreDetail = () => {
                       View Estimation
                     </Button>
                   </div>
-                  <div className="flex justify-between gap-5 pr-20 mt-9">
-                    <div className="flex items-start justify-center gap-2">
+                  <div className="flex gap-5 justify-between pr-20 mt-9">
+                    <div className="flex gap-2 justify-center items-start">
                       <div className="mt-2 text-blue-500">
                         <Flag size={24} />
                       </div>
@@ -238,7 +238,7 @@ const DetailOverviewMoreDetail = () => {
                         <p className="text-sm text-blue-600">Planned Units</p>
                       </div>
                     </div>
-                    <div className="flex items-start justify-center gap-2">
+                    <div className="flex gap-2 justify-center items-start">
                       <div className="mt-2 text-orange-500">
                         <Activity size={24} />
                       </div>
@@ -251,7 +251,7 @@ const DetailOverviewMoreDetail = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-start justify-center gap-2">
+                    <div className="flex gap-2 justify-center items-start">
                       <div className="mt-2 text-red-500">
                         <TrendingDown size={24} />
                       </div>
@@ -271,7 +271,7 @@ const DetailOverviewMoreDetail = () => {
             <div className="col-span-12">
               <Card>
                 <CardContent>
-                  <div className="flex items-center justify-start gap-3 mb-8">
+                  <div className="flex gap-3 justify-start items-center mb-8">
                     <h5 className="font-medium text-zinc-700">
                       Task & Time Logs
                     </h5>
@@ -287,11 +287,9 @@ const DetailOverviewMoreDetail = () => {
                       More Details
                     </Button>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 xl:grid-cols-4 ">
+                  <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
                     {/* Total */}
-                    <div
-                      className={`rounded-md p-4 bg-zinc-100 text-zinc-700 `}
-                    >
+                    <div className={`p-4 rounded-md bg-zinc-100 text-zinc-700`}>
                       <h3 className="mb-2 text-2xl font-medium text-zinc-500">
                         {projectDetail?.data?.task?.all_task_count ?? 0}
                       </h3>
@@ -299,16 +297,16 @@ const DetailOverviewMoreDetail = () => {
                     </div>
 
                     {/* Open */}
-                    <div className={`rounded-md p-4 bg-blue-50 text-blue-500 `}>
+                    <div className={`p-4 text-blue-500 bg-blue-50 rounded-md`}>
                       <h3 className="mb-2 text-2xl font-medium">
                         {projectDetail?.data?.task?.open_task_count ?? 0}
                       </h3>
-                      <p className="text-sm text-blue-700">Open</p>
+                      <p className="text-sm text-blue-700">Open Tasks</p>
                     </div>
 
                     {/* Bugs */}
                     <div
-                      className={`rounded-md p-4 bg-orange-50 text-orange-500 `}
+                      className={`p-4 text-orange-500 bg-orange-50 rounded-md`}
                     >
                       <h3 className="mb-2 text-2xl font-medium">
                         {projectDetail?.data?.task?.bug_count ?? 0}
@@ -318,7 +316,7 @@ const DetailOverviewMoreDetail = () => {
 
                     {/* Total Time Spent */}
                     <div
-                      className={`rounded-md p-4 flex gap-2 justify-start flex-col items-start bg-green-50 text-green-500`}
+                      className={`flex flex-col gap-2 justify-start items-start p-4 text-green-500 bg-green-50 rounded-md`}
                     >
                       <h3 className="text-2xl font-medium text-green-500">
                         {`${hours}H ${minutes}M`}
@@ -335,19 +333,19 @@ const DetailOverviewMoreDetail = () => {
 
       {isLoading ? (
         <div className="col-span-12 xl:col-span-6">
-          <div className="grid h-full grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-4 h-full">
             <AboutSkeleton />
             <ProjectDetailSkeleton />
           </div>
         </div>
       ) : (
         <div className="col-span-12 xl:col-span-6">
-          <div className="grid h-full grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-6 h-full">
             {/* About */}
             <Card>
               <CardContent>
-                <p className="text-lg font-medium text-zinc-700 mb-7">About</p>
-                <div className="flex items-start justify-start mb-3 gap-7">
+                <p className="mb-7 text-lg font-medium text-zinc-700">About</p>
+                <div className="flex gap-7 justify-start items-start mb-3">
                   <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
                     <AlertCircle className="me-2" size={16} />
                     About
@@ -356,7 +354,7 @@ const DetailOverviewMoreDetail = () => {
                     {projectDetail?.data?.detail}
                   </div>
                 </div>
-                <div className="flex items-center justify-start mb-3 gap-7">
+                <div className="flex gap-7 justify-start items-center mb-3">
                   <p className="text-zinc-500 min-w-[120px] font-normal text-sm flex items-center">
                     <BadgePlus className="me-2" size={16} />
                     Prior Name
@@ -370,14 +368,14 @@ const DetailOverviewMoreDetail = () => {
             {/* Project Detail */}
             <Card className="h-full">
               <CardContent>
-                <div className="flex items-center justify-start gap-4 mb-7">
+                <div className="flex gap-4 justify-start items-center mb-7">
                   <p className="text-lg font-medium text-zinc-700">
                     Project Detail
                   </p>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-7">
+                <div className="grid grid-cols-1 gap-7 lg:grid-cols-2">
                   <div className="">
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <Tag className="me-2" size={16} /> Status
                       </p>
@@ -413,7 +411,7 @@ const DetailOverviewMoreDetail = () => {
                         </Badge>
                       </div>
                     </div>
-                    <div className="flex items-start justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-start mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <CalendarRange className="me-2" size={16} /> Period
                       </p>
@@ -425,7 +423,7 @@ const DetailOverviewMoreDetail = () => {
                         ).format("MMM Do, YYYY")}`}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <Zap className="me-2" size={16} /> Type
                       </p>
@@ -433,7 +431,7 @@ const DetailOverviewMoreDetail = () => {
                         {projectDetail?.data?.type}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <Globe className="me-2" size={16} />
                         Market
@@ -442,7 +440,7 @@ const DetailOverviewMoreDetail = () => {
                         {projectDetail?.data?.market_title}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <Star className="me-2" size={16} />
                         Source
@@ -451,7 +449,7 @@ const DetailOverviewMoreDetail = () => {
                         {projectDetail?.data?.source}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <Laptop className="me-2" size={16} /> Tech Stack
                       </p>
@@ -459,7 +457,7 @@ const DetailOverviewMoreDetail = () => {
                         {projectDetail?.data?.tech_stack}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[120px] font-normal text-sm flex items-center">
                         <BadgeAlert size={16} className="me-2" />
                         Sales Budget
@@ -470,7 +468,7 @@ const DetailOverviewMoreDetail = () => {
                     </div>
                   </div>
                   <div className="">
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
                         <UserCircle2 className="me-2" size={16} />
                         Project Lead
@@ -484,11 +482,11 @@ const DetailOverviewMoreDetail = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
                         <Users size={16} className="me-2" /> Members & Role
                       </p>
-                      <div className="grow text-start ">
+                      <div className="grow text-start">
                         <Button
                           onClick={() => setMemberModalOpen(true)}
                           variant={"outline_secondary"}
@@ -498,7 +496,7 @@ const DetailOverviewMoreDetail = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between mb-6 gap-7">
+                    <div className="flex gap-7 justify-between items-center mb-6">
                       <p className="text-zinc-500 w-[160px] font-normal text-sm flex items-center">
                         <Links size={16} className="me-2" /> Repo Link
                       </p>
@@ -528,7 +526,7 @@ const DetailOverviewMoreDetail = () => {
           <DialogHeader className="text-lg font-bold text-color">
             Git URLs
           </DialogHeader>
-          <div className="flex flex-col min-w-0 gap-2">
+          <div className="flex flex-col gap-2 min-w-0">
             {projectDetail?.data?.git_urls?.map((url: string, index) => (
               <div
                 key={index}
@@ -560,7 +558,7 @@ const DetailOverviewMoreDetail = () => {
           <div className="flex flex-col gap-3">
             {projectDetail?.data?.assigned_roles_members?.map((member) => (
               <div
-                className="flex items-center justify-between gap-5"
+                className="flex gap-5 justify-between items-center"
                 key={member?.role_user?.id}
               >
                 <div className="flex items-center  w-[55%] text-base text-zinc-500">
@@ -602,30 +600,30 @@ const DetailOverviewMoreDetail = () => {
           </SheetHeader>
 
           <div className="flex flex-col gap-4 mt-14">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <User size={20} />
                 Project Lead Name
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {staffDetails?.data?.fullname}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <Timer size={20} />
                 Working Since
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {moment(staffDetails?.data?.join_date).format("Do MMM, YYYY")}
               </p>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm text-gray-700">
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2 items-center text-sm text-gray-700">
                 <Projector size={20} />
                 Projects Involved
               </div>
-              <p className="text-sm font-semibold text-gray-700 ">
+              <p className="text-sm font-semibold text-gray-700">
                 {staffDetails?.data?.pl_projects?.length}
               </p>
             </div>
@@ -638,7 +636,7 @@ const DetailOverviewMoreDetail = () => {
             <div className="flex flex-col gap-4 mt-6 max-h-[calc(100vh-360px)] pr-4 overflow-y-auto">
               {staffDetails?.data?.pl_projects?.map((project) => (
                 <div
-                  className="flex items-center justify-between text-sm text-gray-700"
+                  className="flex justify-between items-center text-sm text-gray-700"
                   key={project?.id}
                 >
                   <p className="font-semibold max-w-[70%]">{project?.title}</p>

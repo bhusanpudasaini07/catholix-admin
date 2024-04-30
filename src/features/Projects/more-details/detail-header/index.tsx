@@ -35,16 +35,6 @@ const MoreDetailHeader = ({ title, code }: IProps) => {
           <p className="text-base font-normal text-zinc-500">{title}</p>
         </div>
       </div>
-      <div className="flex gap-4 items-center">
-        <Button
-          onClick={() => router.push(`/projects/${code}/edit`)}
-          variant={"outline"}
-          className="gap-2"
-        >
-          <Pencil size={16} />
-          Edit
-        </Button>
-      </div>
     </div>
   );
 };

@@ -94,14 +94,16 @@ const useMoreDetail = () => {
       header: "Utilization",
       cell: ({ row }) => {
         const totalRP = projectTaskLabelData
-          ? projectTaskLabelData?.data[3]?.count?.reduce(
-              (total: number, item: ITypeCount) => total + Number(item?.rp),
-              0
-            )
+          ? projectTaskLabelData?.data
+              ?.find((item) => item?.type === "Status")
+              ?.count?.reduce(
+                (total: number, item: ITypeCount) => total + Number(item?.rp),
+                0
+              )
           : 0;
 
         const utilizedPercentage =
-          (Number(row?.original?.rp) / Number(totalRP)) * 100;
+          (Number(row?.original?.rp) / (totalRP ?? 0)) * 100;
         return (
           <div className="font-semibold text-zinc-700">
             {utilizedPercentage?.toFixed(2)}%
@@ -146,10 +148,12 @@ const useMoreDetail = () => {
       header: "Utilization",
       cell: ({ row }) => {
         const totalRP = projectTaskLabelData
-          ? projectTaskLabelData?.data[0]?.count?.reduce(
-              (total: number, item: ITypeCount) => total + Number(item?.rp),
-              0
-            )
+          ? projectTaskLabelData?.data
+              ?.find((item) => item?.type === "Category")
+              ?.count?.reduce(
+                (total: number, item: ITypeCount) => total + Number(item?.rp),
+                0
+              )
           : 0;
 
         const utilizedPercentage =
@@ -198,10 +202,12 @@ const useMoreDetail = () => {
       header: "Utilization",
       cell: ({ row }) => {
         const totalRP = projectTaskLabelData
-          ? projectTaskLabelData?.data[1]?.count?.reduce(
-              (total: number, item: ITypeCount) => total + Number(item?.rp),
-              0
-            )
+          ? projectTaskLabelData?.data
+              ?.find((item) => item?.type === "Platform / Component")
+              ?.count?.reduce(
+                (total: number, item: ITypeCount) => total + Number(item?.rp),
+                0
+              )
           : 0;
 
         const utilizedPercentage =

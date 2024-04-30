@@ -331,7 +331,7 @@ const DetailOverview = () => {
                       <h3 className="mb-2 text-2xl font-medium">
                         {projectDetail?.data?.task?.open_task_count ?? 0}
                       </h3>
-                      <p className="text-sm text-blue-700">Open</p>
+                      <p className="text-sm text-blue-700">Open Tasks</p>
                     </div>
 
                     {/* Bugs */}

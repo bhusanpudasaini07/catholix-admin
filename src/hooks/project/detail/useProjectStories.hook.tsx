@@ -417,7 +417,7 @@ const useProjectStories = () => {
               className={cn(
                 row?.original?.task_count === 0
                   ? "bg-gray-300"
-                  : "bg-orange-500",
+                  : "bg-[#5470C6]",
                 "h-1.5 [&>div]:bg-green-500"
               )}
               value={isNaN(barData) ? 0 : barData}
@@ -433,9 +433,10 @@ const useProjectStories = () => {
                   Closed Task
                 </span>
               </p>
+              p
               <p className="flex gap-2 items-center">
-                <span className="w-3 h-3 bg-orange-500 rounded-sm"></span>
-                <span className="text-orange-500">
+                <span className="w-3 h-3 bg-[#5470C6] rounded-sm"></span>
+                <span className="text-[#5470C6]">
                   {row?.original?.open_task_count}
                 </span>
                 <span className="text-xs font-medium text-zinc-600">

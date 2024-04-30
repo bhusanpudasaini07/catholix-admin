@@ -433,7 +433,6 @@ const useProjectStories = () => {
                   Closed Task
                 </span>
               </p>
-              p
               <p className="flex gap-2 items-center">
                 <span className="w-3 h-3 bg-[#5470C6] rounded-sm"></span>
                 <span className="text-[#5470C6]">

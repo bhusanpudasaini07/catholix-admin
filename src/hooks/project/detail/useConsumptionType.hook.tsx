@@ -12,7 +12,7 @@ import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
 
 import useProjectRpSummary from "./useProjectRpSummary.hook";
-import { getColorForRole } from "@/shared/utils/color-utils";
+import { getColorForRole, mainRoleColor } from "@/shared/utils/color-utils";
 import { Button } from "@/shared/components/ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -510,7 +510,6 @@ const useConsumptionType = () => {
           borderColor: "#fff",
           borderWidth: 2,
         },
-        color: ["#22C55E", "#EF4444", "#F97316", "#0EA5E9", "#D946EF"],
         label: {
           show: true,
           position: "outer",
@@ -527,6 +526,10 @@ const useConsumptionType = () => {
         data: Object.entries(staffGroupedData).map(([key, value]) => ({
           name: key,
           value: Number(value).toFixed(2),
+          itemStyle: {
+            color: mainRoleColor?.find((col) => col?.role_name === `${key}`)
+              ?.color,
+          },
         })),
       },
     ],
@@ -599,13 +602,15 @@ const useConsumptionType = () => {
           },
           scale: false,
         },
-        color: ["#22C55E", "#EF4444", "#F97316", "#0EA5E9", "#D946EF"],
         labelLine: {
           show: true,
         },
         data: Object.entries(roleWiseGroupedData).map(([key, value]) => ({
           name: key,
           value: Number(value).toFixed(2),
+          itemStyle: {
+            color: mainRoleColor?.find((col) => col?.role_name === key)?.color,
+          },
         })),
       },
     ],
@@ -657,6 +662,10 @@ const useConsumptionType = () => {
         data: rpSummary?.data?.rolegroupwise?.map((role) => ({
           value: Math.round(role?.rp),
           name: role?.title,
+          itemStyle: {
+            color: mainRoleColor.find((col) => col?.role_name === role?.title)
+              ?.color,
+          },
         })),
       },
     ],

@@ -826,17 +826,16 @@ const useProjectStories = () => {
       trigger: "item",
     },
     color: [
-      "#0891B2",
-      "#FACC15",
-      "#84CC16",
-      "#2DD4BF",
-      "#818CF8",
-      "#7C3AED",
-      "#D8B4FE",
-      "#F472B6",
-      "#FB923C",
+      "#5470C6",
+      "#91CC75",
+      "#FAC858",
+      "#EE6666",
+      "#73C0DE",
+      "#3BA272",
+      "#FC8452",
+      "#9A60B4",
+      "#EA7CCC",
       "#F87171",
-      "#A8A29E",
     ],
     series: [
       {
@@ -1020,27 +1019,27 @@ const useProjectStories = () => {
       },
     ],
     series: [
-      // Closed Task
-      {
-        name: "Closed Task",
-        type: "bar",
-        stack: "task",
-        color: "#22C55E",
-        data:
-          projectStories?.data?.slice(0, 15)?.map((item) => ({
-            value: item?.closed_task_count,
-          })) ?? [],
-      },
       // Open Task
       {
         name: "Open Task",
         type: "bar",
         stack: "task",
-        color: "#FB923C", // Orange for open
+        // color: "#FB923C", // Orange for open
 
         data:
           projectStories?.data?.slice(0, 15)?.map((item) => ({
             value: item?.open_task_count,
+          })) ?? [],
+      },
+      // Closed Task
+      {
+        name: "Closed Task",
+        type: "bar",
+        stack: "task",
+        // color: "#22C55E",
+        data:
+          projectStories?.data?.slice(0, 15)?.map((item) => ({
+            value: item?.closed_task_count,
           })) ?? [],
       },
     ],
@@ -1088,7 +1087,7 @@ const useProjectStories = () => {
         name: "Bug Count",
         type: "bar",
         stack: "task",
-        color: "#FB923C",
+        color: "#FC8452",
         data:
           projectStories?.data?.slice(0, 15)?.map((item) => ({
             value: item?.bug_count,

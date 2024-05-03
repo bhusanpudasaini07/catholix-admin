@@ -81,7 +81,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
     tooltip: {
       trigger: "item",
     },
-    color: ["#2DD4BF", "#0891B2", "#818CF8", "#7C3AED", "#FACC15", "#84CC16"],
+    // color: ["#2DD4BF", "#0891B2", "#818CF8", "#7C3AED", "#FACC15", "#84CC16"],
     series: [
       {
         type: "pie",
@@ -135,7 +135,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
           (item: any) => item?.title === row?.original?.country
         )?.flag;
         return (
-          <div className="flex items-center gap-3 font-medium text-zinc-700">
+          <div className="flex gap-3 items-center font-medium text-zinc-700">
             <Image
               src={flag}
               height={16}
@@ -215,7 +215,7 @@ const ClientMarketRP: FC<IRpStaffSummaryProps> = ({
     <Card>
       <CardContent>
         <div className="grid grid-row-1">
-          <div className="flex flex-wrap items-center gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 items-center mb-8">
             <h5 className="font-medium text-zinc-700">
               Client Market Wise Budget
             </h5>

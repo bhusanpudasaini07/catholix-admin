@@ -286,7 +286,7 @@ const useReport = () => {
     tooltip: {
       trigger: "item",
     },
-    color: ["#FACC15", "#84CC16"],
+    // color: ["#FACC15", "#84CC16"],
 
     series: [
       {
@@ -347,7 +347,7 @@ const useReport = () => {
     tooltip: {
       trigger: "item",
     },
-    color: ["#FACC15", "#84CC16", "#2DD4BF", "#0891B2", "#F472B6"],
+    // color: ["#FACC15", "#84CC16", "#2DD4BF", "#0891B2", "#F472B6"],
     series: [
       {
         type: "pie",

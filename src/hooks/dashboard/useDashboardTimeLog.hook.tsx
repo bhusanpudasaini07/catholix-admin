@@ -35,7 +35,7 @@ const useDashboardTimeLog = () => {
     {
       id: "staffs",
       value: dashboardTimeLog?.data?.total_staffs,
-      title: "Total Staffs",
+      title: "Total Members",
       icon: <Users2 size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
   ];

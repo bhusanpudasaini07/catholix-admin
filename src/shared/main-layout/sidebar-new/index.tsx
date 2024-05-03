@@ -223,7 +223,7 @@ const SidebarNew = ({
             //   itemSlug: "/test",
             // },
             {
-              itemName: "Lead Report",
+              itemName: "Department Report",
               itemSlug: `${`/team-leads/lead-report`}`,
             },
           ],

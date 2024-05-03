@@ -30,7 +30,7 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
     tooltip: {
       trigger: "item",
     },
-    color: ["#FACC15", "#84CC16"],
+    // color: ["#FACC15", "#84CC16"],
     series: [
       {
         type: "pie",
@@ -182,12 +182,12 @@ const ClientVsInHouseProject: FC<IRpStaffSummaryProps> = ({
   return (
     <Card className="mb-4">
       <CardContent>
-        <div className="flex flex-wrap items-center gap-2 mb-0">
+        <div className="flex flex-wrap gap-2 items-center mb-0">
           <h5 className="font-medium text-zinc-700">
             Client Projects VS In-House Project
           </h5>
         </div>
-        <div className="grid items-center grid-cols-1 gap-4 xl:grid-cols-2 ">
+        <div className="grid grid-cols-1 gap-4 items-center xl:grid-cols-2">
           <div>
             <DataTable
               loading={staffDataLoading}

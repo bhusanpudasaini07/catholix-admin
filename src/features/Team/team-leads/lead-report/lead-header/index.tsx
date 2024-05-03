@@ -31,16 +31,16 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
   } = useLeadReport();
 
   return (
-    <div className="flex items-center justify-between px-8 py-6 bg-light-white border-b-slate-100">
+    <div className="flex justify-between items-center px-8 py-6 bg-light-white border-b-slate-100">
       <div className="">
         <h3 className="mb-1.5 text-2xl font-medium text-zinc-700 whitespace-nowrap">
-          Lead Report -&nbsp;{current_page}
+          Department Report -&nbsp;{current_page}
         </h3>
-        <p className="text-base text-zinc-500 whitespace-nowrap">
+        <p className="text-base whitespace-nowrap text-zinc-500">
           Report of all the members
         </p>
       </div>
-      <div className="flex flex-wrap items-center justify-end gap-2">
+      <div className="flex flex-wrap gap-2 justify-end items-center">
         <Select
           value={current_id ? current_id?.toString() : "all"}
           onValueChange={(e) => handleLeadsId(e)}
@@ -62,7 +62,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
 
         <Tabs
           defaultValue="monthly"
-          className="flex flex-row-reverse flex-wrap items-center gap-3 "
+          className="flex flex-row-reverse flex-wrap gap-3 items-center"
         >
           <TabsList>
             <TabsTrigger value="monthly">Monthly</TabsTrigger>

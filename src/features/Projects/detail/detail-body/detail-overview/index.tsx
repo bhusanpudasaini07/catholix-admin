@@ -1,6 +1,7 @@
 import ReactEcharts from "echarts-for-react";
 import {
   AlignCenterVertical,
+  BarChartBig,
   FileCheck2,
   LineChart,
   PieChart,
@@ -42,6 +43,7 @@ import { cn } from "@/shared/utils/utils";
 
 import UsedRp from "../used-rp-chart/usedRp";
 import ProjectDetailStatus from "./status";
+import useLatestTrend from "@/hooks/project/detail/useLatestTrend.hook";
 
 const DetailOverview = () => {
   const router = useRouter();
@@ -61,6 +63,7 @@ const DetailOverview = () => {
     changeRoute,
     chartRef,
     estimatedActualGraph,
+    trendOption,
   } = useProjectDetail();
 
   const { salesRp, salesLoading } = useProjectSales();
@@ -91,6 +94,12 @@ const DetailOverview = () => {
       title: "Status",
       icon: <PieChart size={18} />,
       buttonName: "Status",
+    },
+    {
+      value: "latest_task_trend",
+      title: "Latest Task Trend",
+      icon: <BarChartBig size={18} />,
+      buttonName: "Task",
     },
     {
       value: "burndown",
@@ -414,6 +423,12 @@ const DetailOverview = () => {
                     )}
                     loading={projectTaskLabelLoading}
                     chartRef={chartRef}
+                  />
+                </TabsContent>
+                <TabsContent value="latest_task_trend">
+                  <ReactEcharts
+                    option={trendOption}
+                    opts={{ renderer: "svg" }}
                   />
                 </TabsContent>
                 <TabsContent value="burndown">

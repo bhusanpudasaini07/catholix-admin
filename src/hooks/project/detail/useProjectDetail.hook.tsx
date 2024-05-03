@@ -8,6 +8,7 @@ import {
   IBurndownDetail,
   IConsumptionData,
   IEstimatedActual,
+  ILatestTaskTrend,
   IProjectDetail,
   ISalesRP,
   ISalesRPDetail,
@@ -16,6 +17,7 @@ import {
 } from "@/interface/project-interface";
 import { IStaff } from "@/interface/staff-interface";
 import {
+  geLatestTaskTrend,
   getEstimatedActual,
   getProjectBurndown,
   getProjectDetail,
@@ -102,6 +104,21 @@ export const useProjectDetail = () => {
       },
       queryKey: ["estimatedActual", code],
       enabled: !!(tabValue === "estimated_actual"),
+    });
+
+  //Latest Task trend
+  const { data: trendData, isLoading: trendDataLoading } =
+    useQuery<ILatestTaskTrend>({
+      queryFn: async () => {
+        if (code) {
+          const oneWeekAgo = moment().subtract(1, "weeks").format("YYYY-MM-DD");
+          const today = moment().format("YYYY-MM-DD");
+          const response = await geLatestTaskTrend(code, oneWeekAgo, today);
+          return response;
+        }
+      },
+      queryKey: ["trendData", code],
+      enabled: !!(tabValue === "latest_task_trend"),
     });
 
   const salesColumn: ColumnDef<ISalesRPDetail>[] = [
@@ -373,6 +390,9 @@ export const useProjectDetail = () => {
     switch (tabValue) {
       case "status":
         router?.push(`/projects/${code}/more-details`);
+        break;
+      case "latest_task_trend":
+        router?.push(`/projects/${code}/project-stories/latest-task-trend`);
         break;
       case "burndown":
         router?.push(`/projects/${code}/burndown-chart`);
@@ -681,6 +701,83 @@ export const useProjectDetail = () => {
     ],
   };
 
+  //   Latest task Trend  option
+  const trendOption = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
+      },
+    },
+    grid: {
+      right: "20%",
+      bottom: "10%",
+    },
+    legend: {
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+      data: ["Open Task", "Closed Task", "Completion %"],
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisPointer: {
+          type: "shadow",
+        },
+        // prettier-ignore
+        data: trendData?.data?.tasks?.map((item) => moment( item?.date).format("ll")) ?? [],
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+        position: "left",
+
+        alignTicks: true,
+        axisLabel: {
+          formatter: "{value}",
+        },
+      },
+      {
+        type: "value",
+        name: "Completion %",
+        position: "right",
+        min: 0,
+        max: 100,
+        axisLabel: {
+          formatter: "{value} %",
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Open Task",
+        type: "bar",
+        data:
+          trendData?.data?.tasks?.map((item) => item?.open_task_count) ?? [],
+      },
+      {
+        name: "Closed Task",
+        type: "bar",
+        data:
+          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
+      },
+      {
+        name: "Completion %",
+        type: "line",
+        yAxisIndex: 1,
+        data: trendData?.data?.tasks?.map((item) => {
+          const completionPercent =
+            (item?.closed_task_count / item?.total_task_count) * 100;
+          return {
+            value: completionPercent.toFixed(2),
+          };
+        }),
+      },
+    ],
+  };
+
   useEffect(() => {
     const myChart = chartRef.current?.getEchartsInstance();
     if (!myChart) return;
@@ -752,6 +849,7 @@ export const useProjectDetail = () => {
     chartRef,
     estimatedActualGraph,
     gaugeColor,
+    trendOption,
   };
 };
 

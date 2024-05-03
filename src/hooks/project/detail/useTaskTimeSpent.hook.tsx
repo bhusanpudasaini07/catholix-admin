@@ -97,7 +97,7 @@ const useTaskTimeSpent = () => {
                 style={{
                   backgroundColor: `${item?.color}20`,
                   color: item?.color,
-                  borderColor: item?.color,
+                  borderColor: `${item?.color}4D`,
                 }}
                 key={index}
                 className="py-0.5 rounded-md "

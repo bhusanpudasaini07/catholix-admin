@@ -38,14 +38,14 @@ const useMarket = () => {
   const pieChartRef = useRef<EChartsOption>(null);
   // For each market color indication
   const colors = [
-    "#2dd4bf",
-    "#84cc16",
-    "#7c3aed",
-    "#818cf8",
-    "#facc15",
-    "#f87171",
-    "#fb923c",
-    "#0ea5e9",
+    "#5470C6",
+    "#91CC75",
+    "#FAC858",
+    "#EE6666",
+    "#73C0DE",
+    "#3BA272",
+    "#FC8452",
+    "#9A60B4",
   ];
 
   // STATES
@@ -362,7 +362,7 @@ const useMarket = () => {
         links.push({
           source: projectTitle,
           target: placeholderRoleName,
-          value: project.info?.total_rp, // Use the project's total RP for the placeholder role
+          value: project?.info?.total_rp, // Use the project's total RP for the placeholder role
         });
       } else {
         // Process each role for the project
@@ -372,10 +372,7 @@ const useMarket = () => {
           // Add role node
           addNodeIfNotExist(roleName);
 
-          const valuePerRole =
-            projectRoles.length > 0
-              ? project.info.total_rp / projectRoles.length
-              : 0;
+          const valuePerRole = role?.rp ?? 0;
 
           // Add link from project to role
           links.push({
@@ -473,6 +470,7 @@ const useMarket = () => {
     tooltip: {
       trigger: "item",
     },
+
     legend: {
       show: false,
     },
@@ -490,6 +488,7 @@ const useMarket = () => {
         },
         label: {
           position: "center",
+          show: true,
           formatter: (params: any) => {
             return (
               "{a|" +

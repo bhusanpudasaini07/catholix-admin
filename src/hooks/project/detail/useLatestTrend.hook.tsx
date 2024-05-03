@@ -16,7 +16,7 @@ const useLatestTrend = () => {
     query: { code },
   } = useRouter();
 
-  const colors = ["#22C55E", "#FB923C", "#F87171"];
+  // const colors = ["#22C55E", "#FB923C", "#F87171"];
 
   const { data: trendData, isLoading: trendDataLoading } =
     useQuery<ILatestTaskTrend>({
@@ -66,15 +66,13 @@ const useLatestTrend = () => {
         new_task: newTask,
         closed_task_new: closedTaskFromPrev,
         open_task_new: openTaskFromPrev,
-        progress_percent: "-",
-        // progress_percent: "progressPercent.toFixed(2)",
+        progress_percent: progressPercent.toFixed(2),
       };
     });
   }, [trendData]);
 
   //   Graph option
   const trendOption = {
-    color: colors,
     tooltip: {
       trigger: "axis",
       axisPointer: {
@@ -126,21 +124,18 @@ const useLatestTrend = () => {
       {
         name: "Open Task",
         type: "bar",
-        color: "#FC8452",
         data:
           trendData?.data?.tasks?.map((item) => item?.open_task_count) ?? [],
       },
       {
         name: "Closed Task",
         type: "bar",
-        color: "#91CC75",
         data:
           trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
       },
       {
         name: "Completion %",
         type: "line",
-        color: "#EE6666",
         yAxisIndex: 1,
         data: trendData?.data?.tasks?.map((item) => {
           const completionPercent =

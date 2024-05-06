@@ -341,7 +341,7 @@ const ProjectRequiredRolePage = () => {
       cell: ({ row }) => {
         return (
           <div className="">
-            <p className="font-medium pb-2">{row?.getValue("potential_mem")}</p>
+            <p className="pb-2 font-medium">{row?.getValue("potential_mem")}</p>
             <Button variant={"outline"} className="p-2 whitespace-nowrap">
               Show More Suggestions
             </Button>
@@ -366,16 +366,16 @@ const ProjectRequiredRolePage = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex gap-3 justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
+      <div className="flex gap-3 justify-end items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
         <FilterSearch searchText={searchText} setSearchText={setSearchText} />
 
-        <Button variant={"white"} size={"sm"} className="gap-2">
+        {/* <Button variant={"white"} size={"sm"} className="gap-2">
           <Filter size={15} />
           Filter
-        </Button>
+        </Button> */}
       </div>
 
-      <div className="p-6 text-zinc-700 font-medium ">
+      <div className="p-6 font-medium text-zinc-700">
         {isLoading ? (
           <ProjectTableSkeleton />
         ) : (

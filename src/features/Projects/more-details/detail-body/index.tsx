@@ -24,6 +24,9 @@ const MoreDetailBody = () => {
     platformRef,
     categoryColumn,
     platformColumn,
+    individualBugTaskColumn,
+    bugTaskRatioOption,
+    bugOption,
   } = useMoreDetail();
 
   return (
@@ -58,6 +61,9 @@ const MoreDetailBody = () => {
         columns={bugTaskRatioColumn}
         data={bugTaskRatioData?.data ?? []}
         loading={bugTaskLoading}
+        individualBugTaskColumn={individualBugTaskColumn}
+        bugOption={bugOption}
+        bugRatioOption={bugTaskRatioOption}
       />
     </div>
   );

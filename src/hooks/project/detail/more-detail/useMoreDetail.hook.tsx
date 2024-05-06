@@ -496,6 +496,118 @@ const useMoreDetail = () => {
     ],
   };
 
+  // Bug Task ratio option
+  const bugTaskRatioOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        name: "Category",
+        type: "pie",
+        radius: ["40%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "center",
+          formatter: (params: any) => {
+            if (selectValues?.category === "utilization") {
+              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+            } else {
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
+            }
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
+        },
+        emphasis: {
+          label: {
+            show: true,
+          },
+          labelLine: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [],
+      },
+    ],
+  };
+
+  // Bug Task ratio option
+  const bugOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    series: [
+      {
+        name: "Category",
+        type: "pie",
+        radius: ["40%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 0,
+          borderColor: "#fff",
+          borderWidth: 2,
+        },
+        label: {
+          show: true,
+          position: "center",
+          formatter: (params: any) => {
+            if (selectValues?.category === "utilization") {
+              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+            } else {
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
+            }
+          },
+          rich: {
+            a: {
+              fontSize: 22,
+              color: "#3F3F46",
+              lineHeight: 20,
+              fontWeight: 600,
+            },
+            b: {
+              fontSize: 14,
+              color: "#3F3F46",
+              lineHeight: 30,
+            },
+          },
+        },
+        emphasis: {
+          label: {
+            show: true,
+          },
+          labelLine: {
+            show: false,
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [],
+      },
+    ],
+  };
+
   //   Bug task ratio column
   const bugTaskRatioColumn: ColumnDef<IProjectTaskBugRatio>[] = [
     {
@@ -540,6 +652,50 @@ const useMoreDetail = () => {
           </div>
         );
       },
+    },
+  ];
+
+  // Individual bug task data column
+  const individualBugTaskColumn: ColumnDef<any>[] = [
+    {
+      accessorKey: "name",
+      header: "Team Member",
+      cell: ({ row }) => <div>{row?.getValue("name")}</div>,
+    },
+    {
+      accessorKey: "regular_task",
+      header: () => (
+        <div>
+          Regular <br />
+          Task
+        </div>
+      ),
+      cell: ({ row }) => <div>{row?.getValue("regular_task")}</div>,
+    },
+    {
+      accessorKey: "bug",
+      header: () => <div>Bugs</div>,
+      cell: ({ row }) => <div>{row?.getValue("bug")}</div>,
+    },
+    {
+      accessorKey: "regular_task_time",
+      header: () => (
+        <div>
+          Regular <br />
+          Task Time
+        </div>
+      ),
+      cell: ({ row }) => <div>{row?.getValue("regular_task_time")}</div>,
+    },
+    {
+      accessorKey: "bug_fix_time",
+      header: () => (
+        <div>
+          Bug Fixing <br />
+          Time
+        </div>
+      ),
+      cell: ({ row }) => <div>{row?.getValue("bug_fix_time")}</div>,
     },
   ];
 
@@ -695,6 +851,9 @@ const useMoreDetail = () => {
     platformRef,
     categoryColumn,
     platformColumn,
+    individualBugTaskColumn,
+    bugTaskRatioOption,
+    bugOption,
   };
 };
 

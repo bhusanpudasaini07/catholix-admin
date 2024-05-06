@@ -31,7 +31,11 @@ const LatestTaskTrend = () => {
         {trendDataLoading ? (
           <GraphSkeleton className="max-h-[300px] overflow-hidden" />
         ) : (
-          <ReactECharts option={trendOption} opts={{ renderer: "svg" }} />
+          <ReactECharts
+            option={trendOption}
+            opts={{ renderer: "svg" }}
+            style={{ height: 260 }}
+          />
         )}
       </CardContent>
     </Card>

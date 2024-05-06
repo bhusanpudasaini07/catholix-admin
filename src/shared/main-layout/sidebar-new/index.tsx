@@ -274,13 +274,13 @@ const SidebarNew = ({
       ],
     },
     {
-      menuName: t("common.side_nav.calculator"),
+      menuName: t("common.side_nav.quotes"),
       menuSlug: "/calculator",
       icon: <Calculator width={20} height={20} />,
       hasChildren: false,
       subMenu: [
         {
-          menuName: t("common.side_nav.unit_calculator"),
+          menuName: t("common.side_nav.quote_builder"),
           menuSlug: "/unit-calculator",
           icon: <Calculator width={20} height={20} />,
         },

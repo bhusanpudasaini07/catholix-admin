@@ -1,10 +1,10 @@
-import moment from 'moment';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import moment from "moment";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { getTimeLogs } from '@/services/project/project-service';
+import { getTimeLogs } from "@/services/project/project-service";
 
 const useTimeLog = () => {
   const {
@@ -49,6 +49,15 @@ const useTimeLog = () => {
       }
     },
     queryKey: ["timeLogs", code, date_to],
+    onSuccess: (data) => {
+      const dates = data?.data
+        ?.map((log: any) => new Date(log.date))
+        .sort((a: any, b: any) => a - b);
+      setDate({
+        from: dates?.[0],
+        to: dates?.[dates.length - 1],
+      });
+    },
   });
 
   // For unique roles in select option

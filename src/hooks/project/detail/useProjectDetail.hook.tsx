@@ -377,7 +377,7 @@ export const useProjectDetail = () => {
             " " +
             (item.seriesIndex === 0 ? "Ideal" : "Utilized") +
             ": " +
-            item.value[item.seriesIndex + 1] +
+            changeNumberFormat(item.value[item.seriesIndex + 1]) +
             "<br/>";
         });
         return result;

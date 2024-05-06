@@ -24,6 +24,7 @@ import {
 } from "@/shared/components/ui/dialog";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import Link from "next/link";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 const useRPBurndown = () => {
   const router = useRouter();
@@ -197,7 +198,7 @@ const useRPBurndown = () => {
             " " +
             (item.seriesIndex === 0 ? "Ideal" : "Utilized") +
             ": " +
-            item.value[item.seriesIndex + 1] +
+            changeNumberFormat(item.value[item.seriesIndex + 1]) +
             "<br/>";
         });
         return result;

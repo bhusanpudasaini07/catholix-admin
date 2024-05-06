@@ -89,10 +89,10 @@ const MemberTimeLogModal: FC<IProps> = ({
   return (
     <div className="flex flex-col max-h-[600px] overflow-auto">
       {staffDailyLogLoading && <TrendModalSkeleton />}
-      {/* <p className="mb-4 text-base font-bold text-zinc-700">
-        Daily Budget Detail -{" "}
-      </p> */}
-      {staffDailyLog?.data
+      <p className="mb-4 text-base font-bold text-zinc-700">
+        Daily Budget Detail - {staffDailyLog?.data?.info?.fullname}
+      </p>
+      {staffDailyLog?.data?.logs
         ?.slice()
         .reverse()
         .map((daily: any, index: number) => (

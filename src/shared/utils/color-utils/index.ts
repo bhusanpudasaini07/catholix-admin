@@ -70,7 +70,8 @@ export const getColorForRole = (role: string) => {
     // Assign the next palette to this role
     const paletteIndex = colorPalettes.findIndex((p) => p.role === role);
     if (paletteIndex === -1) {
-      throw new Error(`No color palette defined for role: ${role}`);
+      return null;
+      // throw new Error(`No color palette defined for role: ${role}`);
     }
     roleColorMapping[role] = { paletteIndex, shadeIndex: 0 };
   }

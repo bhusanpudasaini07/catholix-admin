@@ -1,3 +1,5 @@
+import { IStaffDetails } from "./staff-interface";
+
 export interface IPropsTeamDepartmentData {
   id: string;
   title: string;
@@ -110,5 +112,8 @@ export interface IMemberLogTaskData {
 }
 
 export interface IMembersLog {
-  data: IMembersLogData;
+  data: {
+    info: IStaffDetails;
+    logs: IMembersLogData;
+  };
 }

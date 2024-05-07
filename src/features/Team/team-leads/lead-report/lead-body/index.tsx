@@ -7,25 +7,22 @@ import { useQuery } from "react-query";
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
 import { getStaffRpSummary } from "@/services/lead-report/lead-report-service";
 import ProjectsOverviewSkeleton from "@/shared/components/skeleton-loading/lead-report/projects-overview-skeleton";
-import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
-import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 
 import ClientMarketRP from "./client-market-rp";
 import ClientVsInHouseProject from "./client-n-inhouse-project";
 import InHouseMarketRp from "./inhouse-market-rp";
-import OtherInfo from "./lead-other-info";
 import ProjectOverview from "./lead-projects-overview";
 import RoleCountryTable from "./lead-role-country";
-import RpSummary from "./lead-rp-summary";
 // Features
-import RpUtilization from "./lead-rp-utilize";
-import TimeUtilization from "./lead-time-utilize";
 import MemberWiseLogTable from "./member-wise-log-table";
 import ProjectPerformanceDetail from "./project-performance-detail";
 import ProjectRpConsumptionTable from "./project-rp-consumption";
 import { cn } from "@/shared/utils/utils";
 import { useRouter } from "next/router";
 import { IStaffDataStructure } from "@/interface/staff-interface";
+import UtilizationSummary from "./utilization-summary";
+import MemberTimeUtilization from "./member-time-log-utilization";
+import UtilizationSummaryCard from "@/shared/components/skeleton-loading/lead-report/utilizarion-summary-skeleton";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -146,99 +143,33 @@ const LeadReportBody = ({ dateRange }: any) => {
       setTotalHighRiskProjects(highRiskProjectCount.toString());
     }
   }, [staffRpSummaryData]);
-
   return (
     <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
       <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
-        {!staffDataLoading ? (
-          <RpUtilization
-            clientRP={staffRpSummaryData?.data?.summary?.commercial_rp}
-            overallEmptyPercentage={calculateUnusedPercentage(
-              staffRpSummaryData?.data?.summary?.total_rp,
-              totalRP
-            ).toFixed(2)}
-            overallUsedPercentage={(
-              100 -
-              calculateUsedPercentage(
-                staffRpSummaryData?.data?.summary?.total_rp,
-                totalRP
-              )
-            ).toFixed(2)}
-            clientEmptyPercentage={(
-              100 -
-              calculateUsedPercentage(
-                staffRpSummaryData?.data?.summary?.commercial_rp,
-                totalRP
-              )
-            ).toFixed(2)}
-            clientUsedPercentage={calculateUsedPercentage(
-              staffRpSummaryData?.data?.summary?.commercial_rp,
-              totalRP
-            ).toFixed(2)}
-            overallRP={staffRpSummaryData?.data?.summary?.total_rp}
-          />
+        {staffDataLoading ? (
+          <UtilizationSummaryCard />
         ) : (
-          <UtilizationSkeletonCard />
-        )}
-        {!staffDataLoading ? (
-          <TimeUtilization
-            overallTime={staffRpSummaryData?.data?.summary?.total_time}
-            overallEmptyPercentage={calculateUnusedPercentage(
-              staffRpSummaryData?.data?.summary?.total_time,
-              totalTime
-            ).toFixed(2)}
-            overallUsedPercentage={(
-              100 -
-              calculateUsedPercentage(
-                staffRpSummaryData?.data?.summary?.total_time,
-                totalTime
-              )
-            ).toFixed(2)}
-            clientTime={staffRpSummaryData?.data?.summary?.commercial_time}
-            clientEmptyPercentage={(
-              100 -
-              calculateUsedPercentage(
-                staffRpSummaryData?.data?.summary?.commercial_time,
-                totalTime
-              )
-            ).toFixed(2)}
-            clientUsedPercentage={calculateUsedPercentage(
-              staffRpSummaryData?.data?.summary?.commercial_time,
-              totalTime
-            ).toFixed(2)}
-          />
-        ) : (
-          <UtilizationSkeletonCard />
+          <UtilizationSummary data={staffRpSummaryData?.data?.summary} />
         )}
         {staffDataLoading ? (
-          <SummaryCardSkeleton />
+          <ProjectsOverviewSkeleton />
         ) : (
-          <RpSummary
-            available={totalAvailableRP}
-            spent={totalUsedRP}
-            loss={totalLossRP}
+          <ProjectOverview
+            total={totalProjects}
+            risk={totalHighRiskProjects}
+            in_house={totalInhouseProjects}
+            client={totalClientProjects}
           />
         )}
+
         {staffDataLoading ? (
-          <SummaryCardSkeleton />
+          <ProjectsOverviewSkeleton />
         ) : (
-          <OtherInfo
-            staff={totalActiveStaff}
-            client={totalCommercialRP}
-            in_house={totalInhouseRP}
+          <MemberTimeUtilization
+            data={staffRpSummaryData?.data?.summary?.utilization_range}
           />
         )}
       </div>
-      {staffDataLoading ? (
-        <ProjectsOverviewSkeleton />
-      ) : (
-        <ProjectOverview
-          total={totalProjects}
-          risk={totalHighRiskProjects}
-          in_house={totalInhouseProjects}
-          client={totalClientProjects}
-        />
-      )}
       {currentPage && currentPage !== "all" ? (
         <div className="mt-4">
           <ProjectPerformanceDetail

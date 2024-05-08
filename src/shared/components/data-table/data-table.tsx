@@ -44,6 +44,7 @@ interface DataTableProps<TData, TValue> {
   // columnVisibility?: VisibilityState;
   // setColumnVisibility?: any;
   border?: boolean;
+  hover?: boolean;
   loading?: boolean;
   height?: string;
   headerSticky?: boolean;
@@ -60,6 +61,7 @@ export function DataTable<TData, TValue>({
   // columnVisibility,
   // setColumnVisibility,
   border,
+  hover,
   loading,
   height,
   headerSticky,
@@ -183,16 +185,24 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.id === selectedId && "selected"}
-                  className={"[&>*]:last:border-b-0"}
+                  className={`[&>*]:last:border-b-0 ${
+                    hover ? "group cursor-pointer" : ""
+                  }`}
                 >
                   {row?.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={
+                      className={`${
                         border
                           ? "border-r-2 border-b-2 border-slate-100 last:border-r-0"
                           : ""
+                      } 
+                      ${
+                        hover
+                          ? "group-hover:bg-blue-50 group-hover:border-r-blue-100 group-hover:border-l-blue-100"
+                          : ""
                       }
+                      `}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

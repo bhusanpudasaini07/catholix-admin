@@ -150,7 +150,10 @@ const LeadReportBody = ({ dateRange }: any) => {
         {staffDataLoading ? (
           <UtilizationSummaryCard />
         ) : (
-          <UtilizationSummary data={staffRpSummaryData?.data?.summary} />
+          <UtilizationSummary
+            data={staffRpSummaryData?.data?.summary}
+            projects={staffRpSummaryData?.data?.projects}
+          />
         )}
         {staffDataLoading ? (
           <ProjectsOverviewSkeleton />

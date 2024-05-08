@@ -21,25 +21,79 @@ const UtilizationSankey: FC<IProps> = ({ data }) => {
           focus: "adjacency",
         },
         data: [
-          { name: "Overall-Budget", format: (value: any) => value.toFixed(2) },
-          { name: "Spent-Budget" },
-          { name: "Client" },
-          { name: "In-house" },
-          { name: "Loss-Budget" },
+          {
+            name: "Overall-Budget",
+            format: (value: any) => value.toFixed(2),
+            itemStyle: {
+              color: "#5470C6",
+            },
+          },
+          {
+            name: "Spent-Budget",
+            itemStyle: {
+              color: "#91CC75",
+            },
+          },
+          {
+            name: "Client",
+            itemStyle: {
+              color: "#0A82FD",
+            },
+          },
+          {
+            name: "In-house",
+            itemStyle: {
+              color: "#73d8de",
+            },
+          },
+          {
+            name: "Loss-Budget",
+            itemStyle: {
+              color: "#EE6666",
+            },
+          },
         ],
         links: [
-          { source: "Overall-Budget", target: "Spent-Budget", value: spent_rp },
+          {
+            source: "Overall-Budget",
+            target: "Spent-Budget",
+            value: spent_rp,
+
+            lineStyle: {
+              color: "gradient",
+              opacity: 0.3,
+            },
+          },
           {
             source: "Spent-Budget",
             target: "Client",
             value: data?.commercial_rp,
+
+            lineStyle: {
+              color: "gradient",
+              opacity: 0.3,
+            },
           },
           {
             source: "Spent-Budget",
             target: "In-house",
             value: data?.inhouse_rp,
+
+            lineStyle: {
+              color: "gradient",
+              opacity: 0.3,
+            },
           },
-          { source: "Overall-Budget", target: "Loss-Budget", value: loss_rp },
+          {
+            source: "Overall-Budget",
+            target: "Loss-Budget",
+            value: loss_rp,
+
+            lineStyle: {
+              color: "gradient",
+              opacity: 0.3,
+            },
+          },
         ],
       },
     ],

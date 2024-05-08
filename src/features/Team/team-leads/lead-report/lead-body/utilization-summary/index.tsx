@@ -4,6 +4,7 @@ import { FC } from "react";
 import UtilizationSankey from "./utilization-sankey";
 import MarketResource from "./market-resource";
 import { IProject } from "@/interface/team-lead-report-interface";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface UtilizationData {
   available_rp: number;
@@ -27,8 +28,8 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
   return (
     <Card className="col-span-2">
       <CardContent>
-        <div className="flex items-center justify-between mb-4 gap-7">
-          <div className="flex items-center justify-start gap-6">
+        <div className="flex gap-7 justify-between items-center mb-4">
+          <div className="flex gap-6 justify-start items-center">
             <p className="text-lg font-medium text-zinc-700">
               Utilization Summary
             </p>
@@ -43,20 +44,20 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
           </div> */}
         </div>
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
-          <div className=" flex justify-center items-center gap-4 flex-col">
-            <Card className="bg-slate-50 border-slate-200 w-full">
+          <div className="flex flex-col gap-4 justify-center items-center">
+            <Card className="w-full bg-slate-50 border-slate-200">
               <CardContent>
-                <p className="text-zinc-700 text-base font-medium mb-3">
+                <p className="mb-3 text-base font-medium text-zinc-700">
                   Budget Utilization
                 </p>
-                <div className="flex flex-wrap justify-between items-center gap-3">
+                <div className="flex flex-wrap gap-3 justify-between items-center">
                   <div className="">
                     <p className="flex mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#5470C6] before:me-2">
                       Available Budget
                     </p>
                     <div className="ms-[18px] flex items-center">
-                      <p className="text-zinc-700 text-3xl font-medium">
-                        {available}
+                      <p className="text-3xl font-medium text-zinc-700">
+                        {changeNumberFormat(Math.round(available))}
                       </p>
                     </div>
                   </div>
@@ -65,10 +66,10 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       Spent Budget
                     </p>
                     <div className="ms-[18px] flex items-center">
-                      <p className="text-zinc-700 text-3xl font-medium">
-                        {spent}
+                      <p className="text-3xl font-medium text-zinc-700">
+                        {changeNumberFormat(Math.round(Number(spent)))}
                       </p>
-                      <p className="text-zinc-500 text-2xl font-medium ms-2">
+                      <p className="text-2xl font-medium text-zinc-500 ms-2">
                         | {spentPercentage}%
                       </p>
                     </div>
@@ -78,10 +79,10 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       Loss Budget
                     </p>
                     <div className="ms-[18px] flex items-center">
-                      <p className="text-zinc-700 text-3xl font-medium">
-                        {loss}
+                      <p className="text-3xl font-medium text-zinc-700">
+                        {changeNumberFormat(Math.round(Number(loss)))}
                       </p>
-                      <p className="text-zinc-500 text-2xl font-medium ms-2">
+                      <p className="text-2xl font-medium text-zinc-500 ms-2">
                         | {lossPercentage}%
                       </p>
                     </div>

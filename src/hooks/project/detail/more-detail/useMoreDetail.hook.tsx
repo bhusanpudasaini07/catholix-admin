@@ -519,54 +519,48 @@ const useMoreDetail = () => {
 
   // Bug Task ratio option
   const bugTaskRatioOption = {
-    tooltip: {
-      trigger: "item",
-    },
     series: [
       {
-        name: "Bug Task Ratio",
-        type: "pie",
-        radius: ["50%", "85%"],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 0,
-          borderColor: "#fff",
-          borderWidth: 2,
-        },
-        label: {
+        type: "gauge",
+        startAngle: 180,
+        endAngle: 0,
+        center: ["50%", "45%"],
+        radius: "90%",
+        min: 0,
+        max: 100,
+        splitNumber: 8,
+        pointer: {
+          itemStyle: {
+            color: "auto",
+          },
           show: true,
-          position: "center",
-          formatter: (params: any) => {
-            return "{a|" + params.value + "}";
-          },
-          rich: {
-            a: {
-              fontSize: 22,
-              color: "#3F3F46",
-              lineHeight: 20,
-              fontWeight: 600,
-            },
-            b: {
-              fontSize: 14,
-              color: "#3F3F46",
-              lineHeight: 30,
-            },
+        },
+        progress: {
+          show: false,
+        },
+        axisLine: {
+          lineStyle: {
+            width: 50,
+            color: [
+              [0.2, "#22C55E"],
+              [0.4, "#FACC15"],
+              [0.6, "#FD850A"],
+              [0.8, "#EF4444"],
+              [1, "#B91C1C"],
+            ],
           },
         },
-        emphasis: {
-          label: {
-            show: true,
-          },
-          labelLine: {
-            show: false,
-          },
+        splitLine: {
+          show: false,
         },
-        labelLine: {
+        axisTick: {
+          show: false,
+        },
+        axisLabel: {
           show: false,
         },
         data: [
           {
-            name: "Ratio",
             value:
               labelTimeLog?.data?.summary?.regular_task_rp === 0
                 ? 0
@@ -575,26 +569,19 @@ const useMoreDetail = () => {
                       labelTimeLog?.data?.summary?.regular_task_rp!) *
                     100
                   ).toFixed(2),
-            itemStyle: {
-              color: "#FD850A",
-            },
-          },
-          {
-            name: "Remaining",
-            value:
+            name:
               labelTimeLog?.data?.summary?.regular_task_rp === 0
                 ? 0
                 : (
-                    100 -
                     (labelTimeLog?.data?.summary?.bug_task_rp! /
                       labelTimeLog?.data?.summary?.regular_task_rp!) *
-                      100
-                  ).toFixed(2),
-            itemStyle: {
-              color: "#F4F4F5",
-            },
+                    100
+                  ).toFixed(2) + "%",
           },
         ],
+        detail: {
+          show: false,
+        },
       },
     ],
   };
@@ -603,6 +590,14 @@ const useMoreDetail = () => {
   const bugOption = {
     tooltip: {
       trigger: "item",
+      formatter: (params: any) => {
+        const { hours, minutes } = calculateTimeLog(params?.value);
+        return `<span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${
+          params?.color
+        };"></span>${hours > 0 ? `${hours}H ` : ""}${minutes}M - ${
+          params.name
+        }`;
+      },
     },
     series: [
       {
@@ -619,11 +614,10 @@ const useMoreDetail = () => {
           show: true,
           position: "center",
           formatter: (params: any) => {
-            if (selectValues?.category === "utilization") {
-              return "{a|" + params.value + "}\n{b|" + params.name + "}";
-            } else {
-              return "{a|" + params.value + "}\n{b|" + params.name + "}";
-            }
+            const { hours, minutes } = calculateTimeLog(params.value);
+            return hours > 0
+              ? `{a|${hours}H ${minutes}M}\n{b|${params.name}}`
+              : `{a|${minutes}M}\n{b|${params.name}}`;
           },
           rich: {
             a: {
@@ -653,7 +647,7 @@ const useMoreDetail = () => {
         data:
           labelTimeLog?.data?.bug_task_members?.map((member) => ({
             name: member?.fullname,
-            value: member?.rp,
+            value: member?.time,
           })) ?? [],
       },
     ],
@@ -680,7 +674,55 @@ const useMoreDetail = () => {
     {
       id: "task_rp",
       accessorKey: "task_rp",
-      header: "Regular",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Regular</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">
           {changeNumberFormat(row?.getValue("task_rp"))}
@@ -690,7 +732,55 @@ const useMoreDetail = () => {
     {
       id: "bug_rp",
       accessorKey: "bug_rp",
-      header: "Bug",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Bug</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-semibold text-zinc-700">
           {changeNumberFormat(row?.getValue("bug_rp"))}
@@ -700,7 +790,55 @@ const useMoreDetail = () => {
     {
       id: "ratio",
       accessorKey: "ratio",
-      header: "Bug to Task Ratio",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Bug to Task Ratio</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => {
         const ratio = (row?.original?.bug_rp / row?.original?.task_rp) * 100;
         return (
@@ -1132,7 +1270,10 @@ const useMoreDetail = () => {
           {
             label: {
               formatter: () => {
-                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+                const { hours, minutes } = calculateTimeLog(params.value);
+                return hours > 0
+                  ? `{a|${hours}H ${minutes}M}\n{b|${params.name}}`
+                  : `{a|${minutes}M}\n{b|${params.name}}`;
               },
               rich: {
                 a: {

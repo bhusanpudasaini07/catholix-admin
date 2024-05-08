@@ -44,21 +44,21 @@ const MarketResource: FC<IProps> = ({ data }) => {
     ) => {
       const { market, total_rp } = project;
       if (market && total_rp) {
-        const totalRP = parseFloat(total_rp).toFixed(2); // Ensure two decimal places
+        const totalRP = parseFloat(total_rp)?.toFixed(2); // Ensure two decimal places
         const percentage = (parseFloat(totalRP) / totalRPAllProjects) * 100;
-        if (!acc.has(market)) {
-          acc.set(market, {
+        if (!acc?.has(market)) {
+          acc?.set(market, {
             projects: 1,
             totalRP: parseFloat(totalRP),
             percentage,
           });
         } else {
-          const existingMarket = acc.get(market);
+          const existingMarket = acc?.get(market);
           if (existingMarket) {
             acc.set(market, {
-              projects: existingMarket.projects + 1,
-              totalRP: existingMarket.totalRP + parseFloat(totalRP),
-              percentage: existingMarket.percentage + percentage,
+              projects: existingMarket?.projects + 1,
+              totalRP: existingMarket?.totalRP + parseFloat(totalRP),
+              percentage: existingMarket?.percentage + percentage,
             });
           }
         }
@@ -69,7 +69,7 @@ const MarketResource: FC<IProps> = ({ data }) => {
   );
 
   const marketDataArray = marketDataMap
-    ? Array.from(
+    ? Array?.from(
         marketDataMap,
         ([market, { projects, totalRP, percentage }]) => ({
           market,
@@ -79,8 +79,6 @@ const MarketResource: FC<IProps> = ({ data }) => {
         })
       )
     : [];
-
-  console.log("marketDataArray", marketDataArray);
 
   return (
     <Card className="bg-slate-50 border-slate-200 w-full">
@@ -93,14 +91,14 @@ const MarketResource: FC<IProps> = ({ data }) => {
             <Card
               key={index}
               className={`border-l-[6px] rounded-[6px]`}
-              style={{ borderLeftColor: getColor(item.percentage) }}
+              style={{ borderLeftColor: getColor(item?.percentage) }}
             >
               <CardContent className="!py-2 !px-3">
                 <div className="flex justify-start items-center gap-2  mb-2">
                   <Image
                     src={
                       filterConfig?.markets?.find(
-                        (configItem: any) => configItem?.title === item.market
+                        (configItem: any) => configItem?.title === item?.market
                       )?.flag
                     }
                     height={16}
@@ -109,18 +107,18 @@ const MarketResource: FC<IProps> = ({ data }) => {
                     alt="Flag"
                   />
                   <p className="text-sm text-zinc-700 font-normal">
-                    {item.market}
+                    {item?.market}
                   </p>
                 </div>
                 <div>
                   <p className="text-3xl text-zinc-700 font-semibold mb-2 whitespace-nowrap">
-                    {item.percentage.toFixed(1)}%
+                    {item?.percentage.toFixed(1)}%
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-zinc-600 font-normal">
                     Project:
-                    <span className="ms-1 font-medium">{item.projects}</span>
+                    <span className="ms-1 font-medium">{item?.projects}</span>
                   </p>
                 </div>
               </CardContent>

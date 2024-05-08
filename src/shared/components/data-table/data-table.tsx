@@ -221,7 +221,6 @@ export function DataTable<TData, TValue>({
                     return (
                       <>
                         <TableCell key={index}>
-                          asd
                           {totalColumn ? totalColumn.value : ""}
                         </TableCell>
                       </>

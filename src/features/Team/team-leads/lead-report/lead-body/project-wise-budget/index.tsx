@@ -42,14 +42,14 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
   ) => {
     const countryTotalRP: ICountryInHouseTotalRP[] = [];
 
-    projects.forEach((project: IProject) => {
-      const existingCountryIndex = countryTotalRP.findIndex(
-        (item) => item.country === project?.market
+    projects?.forEach((project: IProject) => {
+      const existingCountryIndex = countryTotalRP?.findIndex(
+        (item) => item?.country === project?.market
       );
       const totalRPToAdd = parseFloat(project?.total_rp);
       if (!isNaN(totalRPToAdd)) {
         if (existingCountryIndex === -1) {
-          countryTotalRP.push({
+          countryTotalRP?.push({
             country: project?.market,
             totalRP: totalRPToAdd,
             percentage: (totalRPToAdd / sumTotalRp) * 100,
@@ -63,7 +63,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     });
 
     // Adjust digit limit after .
-    countryTotalRP.forEach((item) => {
+    countryTotalRP?.forEach((item) => {
       item.totalRP = parseFloat(item?.totalRP.toFixed(2));
       item.percentage = parseFloat(item?.percentage.toFixed(2));
     });
@@ -78,8 +78,8 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
   // In House
   const sumInhouseTotalRp = staffRpSummaryData?.reduce(
     (total: number, project: IProject) => {
-      if (project.source === "In-House") {
-        return total + parseFloat(project.total_rp);
+      if (project?.source === "In-House") {
+        return total + parseFloat(project?.total_rp);
       }
       return total;
     },
@@ -91,15 +91,15 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
   ) => {
     const countryInHouseTotalRP: ICountryInHouseTotalRP[] = [];
 
-    projects.forEach((project: IProject) => {
-      if (project.source === "In-House") {
-        const existingCountryIndex = countryInHouseTotalRP.findIndex(
-          (item) => item.country === project?.market
+    projects?.forEach((project: IProject) => {
+      if (project?.source === "In-House") {
+        const existingCountryIndex = countryInHouseTotalRP?.findIndex(
+          (item) => item?.country === project?.market
         );
         const totalRPToAdd = parseFloat(project?.total_rp);
         if (!isNaN(totalRPToAdd)) {
           if (existingCountryIndex === -1) {
-            countryInHouseTotalRP.push({
+            countryInHouseTotalRP?.push({
               country: project?.market,
               totalRP: totalRPToAdd,
               percentage: (totalRPToAdd / sumTotalRp) * 100,
@@ -116,7 +116,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     });
 
     // Adjust digit limit after .
-    countryInHouseTotalRP.forEach((item) => {
+    countryInHouseTotalRP?.forEach((item) => {
       item.totalRP = parseFloat(item?.totalRP.toFixed(2));
       item.percentage = parseFloat(item?.percentage.toFixed(2));
     });
@@ -149,14 +149,14 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     }[] = [];
 
     projects?.forEach((project: IProject) => {
-      if (project.source === "Client") {
+      if (project?.source === "Client") {
         const existingCountryIndex = countryClientTotalRP?.findIndex(
           (item) => item?.country === project?.market
         );
         const totalRPToAdd = parseFloat(project?.total_rp);
         if (!isNaN(totalRPToAdd)) {
           if (existingCountryIndex === -1) {
-            countryClientTotalRP.push({
+            countryClientTotalRP?.push({
               country: project?.market,
               totalRP: totalRPToAdd,
               percentage: (totalRPToAdd / sumTotalRp) * 100,
@@ -173,7 +173,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     });
 
     // Adjust digit limit after .
-    countryClientTotalRP.forEach((item) => {
+    countryClientTotalRP?.forEach((item) => {
       item.totalRP = parseFloat(item?.totalRP?.toFixed(2));
       item.percentage = parseFloat(item?.percentage?.toFixed(2));
     });
@@ -247,7 +247,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
           ?.filter(
             (item: IProject) => country === "all" || item?.market === country
           )
-          .map((item: IProject) => ({
+          ?.map((item: IProject) => ({
             name: `${item?.title}`,
             value: parseFloat(item?.total_rp),
           }))
@@ -258,7 +258,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
               item?.source === "In-House" &&
               (country === "all" || item?.market === country)
           )
-          .map((item: IProject) => ({
+          ?.map((item: IProject) => ({
             name: `${item?.title} In-House`,
             value: parseFloat(item?.total_rp),
           }))
@@ -269,7 +269,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
               item?.source === "Client" &&
               (country === "all" || item?.market === country)
           )
-          .map((item: IProject) => ({
+          ?.map((item: IProject) => ({
             name: `${item?.title} Client`,
             value: parseFloat(item?.total_rp),
           }))

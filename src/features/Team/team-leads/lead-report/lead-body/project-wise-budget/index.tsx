@@ -29,6 +29,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
   const ProjectChartRef = useRef<EChartsInstance>(null);
 
   const [market, setMarket] = useState<string>("all");
+  const [country, setCountry] = useState<string>("all");
 
   // Total
   const sumTotalRp = staffRpSummaryData?.reduce(
@@ -184,7 +185,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     sumClientTotalRp || 0
   );
 
-  console.log("countryInHouseTotalRP", market);
+  console.log("countryInHouseTotalRP", country);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -196,7 +197,10 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
           (item: any) => item?.title === row?.original?.country
         )?.flag;
         return (
-          <div className="flex gap-3 items-center font-medium text-zinc-700">
+          <div
+            onClick={() => setCountry(row?.original?.country)}
+            className="flex gap-3 items-center font-medium text-zinc-700 w-full"
+          >
             <Image
               src={flag}
               height={16}
@@ -214,7 +218,10 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
       accessorKey: "totalRP",
       header: "Budget",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">
+        <div
+          onClick={() => setCountry(row?.original?.country)}
+          className="font-semibold text-zinc-700 w-full"
+        >
           {changeNumberFormat(Number(row?.original?.totalRP))}
         </div>
       ),
@@ -225,7 +232,10 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
       accessorKey: "percentage",
       header: "%",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">
+        <div
+          onClick={() => setCountry(row?.original?.country)}
+          className="font-semibold text-zinc-700 w-full"
+        >
           {row?.getValue("percentage")}%
         </div>
       ),
@@ -235,23 +245,48 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
 
   const PieData =
     market === "all"
-      ? countryTotalRP?.map((item) => ({
-          name: `${item?.country}`,
-          value: item?.percentage,
-        }))
+      ? staffRpSummaryData
+          ?.filter(
+            (item: IProject) => country === "all" || item?.market === country
+          )
+          .map((item: IProject) => ({
+            name: `${item?.title}`,
+            value: parseFloat(item?.total_rp),
+          }))
       : market === "in_house"
-      ? countryInHouseTotalRP?.map((item) => ({
-          name: `${item?.country} In-House`,
-          value: item?.percentage,
-        }))
+      ? staffRpSummaryData
+          ?.filter(
+            (item: IProject) =>
+              item?.source === "In-House" &&
+              (country === "all" || item?.market === country)
+          )
+          .map((item: IProject) => ({
+            name: `${item?.title} In-House`,
+            value: parseFloat(item?.total_rp),
+          }))
       : market === "client"
-      ? countryClientTotalRP?.map((item) => ({
-          name: `${item?.country} Client`,
-          value: item?.percentage,
-        }))
+      ? staffRpSummaryData
+          ?.filter(
+            (item: IProject) =>
+              item?.source === "Client" &&
+              (country === "all" || item?.market === country)
+          )
+          .map((item: IProject) => ({
+            name: `${item?.title} Client`,
+            value: parseFloat(item?.total_rp),
+          }))
       : [];
 
   const option = {
+    title: {
+      text: `${
+        market === "in_house"
+          ? "In-House"
+          : market === "client"
+          ? "Client"
+          : "All"
+      } Projects`,
+    },
     tooltip: {
       trigger: "item",
     },
@@ -259,7 +294,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     series: [
       {
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["70%", "100%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -271,11 +306,11 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
           position: "center",
           fontSize: 20,
           formatter: (item: any) => {
-            return "{a|" + item?.value + "%" + "}\n{b|" + item?.name + "}";
+            return "{a|" + item?.value + "" + "}\n{b|" + item?.name + "}";
           },
           rich: {
             a: {
-              fontSize: 25,
+              fontSize: 34,
               color: "#3F3F46",
               lineHeight: 20,
               fontWeight: 600,
@@ -284,6 +319,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
               fontSize: 14,
               color: "#3F3F46",
               lineHeight: 30,
+              fontWeight: 600,
             },
           },
         },
@@ -310,9 +346,7 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
           {
             label: {
               formatter: () => {
-                return (
-                  "{a|" + params.value + "%" + "}\n{b|" + params.name + "}"
-                );
+                return "{a|" + params.value + "" + "}\n{b|" + params.name + "}";
               },
               rich: {
                 a: {
@@ -359,23 +393,26 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
               </SelectContent>
             </Select>
           </div>
-          <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
-            <DataTable
-              loading={staffDataLoading}
-              border={true}
-              columns={columns}
-              data={
-                (market === "all"
-                  ? countryTotalRP
-                  : market === "in_house"
-                  ? countryInHouseTotalRP
-                  : market === "client"
-                  ? countryClientTotalRP
-                  : countryTotalRP) || []
-              }
-              height="max-h-[400px]"
-            />
-            <div className="my-auto">
+          <div className="grid grid-cols-3 gap-4 mb-4 xl:grid-cols-6">
+            <div className="col-span-3">
+              <DataTable
+                hover
+                loading={staffDataLoading}
+                border={true}
+                columns={columns}
+                data={
+                  (market === "all"
+                    ? countryTotalRP
+                    : market === "in_house"
+                    ? countryInHouseTotalRP
+                    : market === "client"
+                    ? countryClientTotalRP
+                    : countryTotalRP) || []
+                }
+                height="max-h-[400px]"
+              />
+            </div>
+            <div className="my-auto col-span-3">
               <ReactECharts
                 className="h-[400px]"
                 option={option}

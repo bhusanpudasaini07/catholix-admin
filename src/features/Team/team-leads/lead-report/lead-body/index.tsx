@@ -23,6 +23,7 @@ import { IStaffDataStructure } from "@/interface/staff-interface";
 import UtilizationSummary from "./utilization-summary";
 import MemberTimeUtilization from "./member-time-log-utilization";
 import UtilizationSummaryCard from "@/shared/components/skeleton-loading/lead-report/utilizarion-summary-skeleton";
+import ProjectWiseBudget from "./project-wise-budget";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -204,7 +205,11 @@ const LeadReportBody = ({ dateRange }: any) => {
           staffDataLoading={staffDataLoading}
         />
       </div>
-      <div
+      <ProjectWiseBudget
+        staffRpSummaryData={staffRpSummaryData?.data?.projects}
+        staffDataLoading={staffDataLoading}
+      />
+      {/* <div
         className={cn(
           currentPage && currentPage === "all" && "mb-4",
           "grid grid-cols-1 gap-4 mt-4 xl:grid-cols-2"
@@ -218,7 +223,7 @@ const LeadReportBody = ({ dateRange }: any) => {
           staffRpSummaryData={staffRpSummaryData}
           staffDataLoading={staffDataLoading}
         />
-      </div>
+      </div> */}
       {currentPage && currentPage === "all" && (
         <div className="">
           <MemberWiseLogTable

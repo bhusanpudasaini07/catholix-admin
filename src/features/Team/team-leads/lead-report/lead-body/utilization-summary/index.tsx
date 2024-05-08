@@ -3,15 +3,23 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 import { FC } from "react";
 import UtilizationSankey from "./utilization-sankey";
 
+interface UtilizationData {
+  available_rp: number;
+  commercial_rp: number;
+  inhouse_rp: number;
+}
+
 interface IProps {
-  data: any;
+  data: UtilizationData;
 }
 const UtilizationSummary: FC<IProps> = ({ data }) => {
   const available = data?.available_rp;
-  const spent = (data?.commercial_rp + data?.inhouse_rp).toFixed(2);
-  const loss = (available - spent).toFixed(2);
+  const spent = ((data?.commercial_rp ?? 0) + (data?.inhouse_rp ?? 0)).toFixed(
+    2
+  );
+  const loss = (available - parseFloat(spent)).toFixed(2);
   const lossPercentage = ((parseFloat(loss) / available) * 100).toFixed(1);
-  const spentPercentage = ((spent / available) * 100).toFixed(1);
+  const spentPercentage = ((parseFloat(spent) / available) * 100).toFixed(1);
 
   return (
     <Card className="col-span-2">

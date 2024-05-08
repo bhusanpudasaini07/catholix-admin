@@ -9,8 +9,8 @@ interface IProps {
   };
 }
 const UtilizationSankey: FC<IProps> = ({ data }) => {
-  const spent_rp = data?.commercial_rp + data?.inhouse_rp;
-  const loss_rp = data?.available_rp - spent_rp;
+  const spent_rp = (data?.commercial_rp + data?.inhouse_rp).toFixed(2);
+  const loss_rp = (data?.available_rp - Number(spent_rp)).toFixed(2);
 
   const option: EChartsOption = {
     series: [
@@ -21,7 +21,7 @@ const UtilizationSankey: FC<IProps> = ({ data }) => {
           focus: "adjacency",
         },
         data: [
-          { name: "Overall-Budget" },
+          { name: "Overall-Budget", format: (value: any) => value.toFixed(2) },
           { name: "Spent-Budget" },
           { name: "Client" },
           { name: "In-house" },

@@ -1,10 +1,18 @@
-import ReactECharts, { EChartsOption } from "echarts-for-react";
+import ReactECharts, {
+  EChartsInstance,
+  EChartsOption,
+} from "echarts-for-react";
 import React from "react";
 
-import { IProjectTaskBugRatio } from "@/interface/project-interface";
+import {
+  IProjectTaskBugRatio,
+  IProjectTimeMembers,
+} from "@/interface/project-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { ColumnDef } from "@tanstack/react-table";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-skeleton";
 
 interface IProps {
   columns: ColumnDef<IProjectTaskBugRatio>[];
@@ -13,6 +21,11 @@ interface IProps {
   loading: boolean;
   bugRatioOption: EChartsOption;
   bugOption: EChartsOption;
+  individualBugLoading: boolean;
+  individualBugData: IProjectTimeMembers[];
+  bugsRef: EChartsInstance;
+  bugTaskRef: EChartsInstance;
+  platId: string;
 }
 
 const BugTaskRatio = ({
@@ -22,6 +35,11 @@ const BugTaskRatio = ({
   individualBugTaskColumn,
   bugRatioOption,
   bugOption,
+  individualBugLoading,
+  individualBugData,
+  bugsRef,
+  bugTaskRef,
+  platId,
 }: IProps) => {
   return (
     <Card>
@@ -41,36 +59,52 @@ const BugTaskRatio = ({
             />
           </div>
           <div>
-            <p className="text-base font-medium text-zinc-700">PLAT_API</p>
+            {loading || individualBugLoading ? (
+              <Skeleton className="w-20 h-4" />
+            ) : (
+              <p className="text-base font-medium text-zinc-700">{platId}</p>
+            )}
 
             <div className="grid grid-cols-2 max-w-[600px] m-auto mb-12">
               <div className="flex flex-col items-center">
                 <div className="w-full">
-                  <ReactECharts
-                    option={bugRatioOption}
-                    opts={{ renderer: "svg" }}
-                    style={{ height: 200 }}
-                  />
+                  {loading || individualBugLoading ? (
+                    <PieChartSkeleton height={200} width={200} />
+                  ) : (
+                    <ReactECharts
+                      option={bugRatioOption}
+                      opts={{ renderer: "svg" }}
+                      style={{ height: 200 }}
+                      ref={bugTaskRef}
+                    />
+                  )}
                 </div>
-                <p className="text-sm font-medium text-zinc-500">
+                <p className="mt-2 text-sm font-medium text-zinc-500">
                   Bug to Task Ratio
                 </p>
               </div>
               <div className="flex flex-col items-center">
                 <div className="w-full">
-                  <ReactECharts
-                    option={bugOption}
-                    opts={{ renderer: "svg" }}
-                    style={{ height: 200 }}
-                  />
+                  {loading || individualBugLoading ? (
+                    <PieChartSkeleton height={200} width={200} />
+                  ) : (
+                    <ReactECharts
+                      option={bugOption}
+                      opts={{ renderer: "svg" }}
+                      style={{ height: 200 }}
+                      ref={bugsRef}
+                    />
+                  )}
                 </div>
                 <p className="text-sm font-medium text-zinc-500">Bug</p>
               </div>
             </div>
 
             <DataTable
-              data={[]}
+              data={individualBugData}
               columns={individualBugTaskColumn}
+              loading={individualBugLoading || loading}
+              loadingDataNum={4}
               border
               lottieHeight={100}
             />

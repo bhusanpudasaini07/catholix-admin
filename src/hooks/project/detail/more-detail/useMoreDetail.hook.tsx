@@ -1,4 +1,4 @@
-import { EChartsInstance } from "echarts-for-react";
+import { EChartsInstance, EChartsOption } from "echarts-for-react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
@@ -6,15 +6,22 @@ import { useQuery } from "react-query";
 import {
   IProjectTaskBugRatio,
   IProjectTaskBugRatios,
+  IProjectTimeMembers,
+  IProjectTimeWithLabel,
   ITypeCount,
   ITypes,
 } from "@/interface/project-interface";
 import {
   getProjectTaskBugRatio,
   getProjectTaskLabelRp,
+  getTimeLogWithLabel,
 } from "@/services/project/project-service";
-import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { calculateTimeLog, changeNumberFormat } from "@/shared/utils/rp-utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/shared/utils/utils";
+import Link from "next/link";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const useMoreDetail = () => {
   const {
@@ -23,6 +30,8 @@ const useMoreDetail = () => {
   const statusChartRef = useRef<EChartsInstance>(null);
   const categoryRef = useRef<EChartsInstance>(null);
   const platformRef = useRef<EChartsInstance>(null);
+  const bugsRef = useRef<EChartsInstance>(null);
+  const bugTaskRef = useRef<EChartsInstance>(null);
 
   //   STATES
   const [selectValues, setSelectValues] = useState({
@@ -30,6 +39,7 @@ const useMoreDetail = () => {
     category: "utilization",
     platform: "utilization",
   });
+  const [platId, setPlatId] = useState("");
 
   const setSelectValue = (
     type: "status" | "category" | "platform",
@@ -59,6 +69,17 @@ const useMoreDetail = () => {
         }
       },
       queryKey: ["bugTaskRatioData", code],
+      onSuccess: (data) => {
+        setPlatId(data?.data?.[0]?.title);
+      },
+    });
+
+  // Bug ratio > label time log data
+  const { data: labelTimeLog, isLoading: labelTimeLoading } =
+    useQuery<IProjectTimeWithLabel>({
+      queryFn: () => getTimeLogWithLabel(code, platId),
+      queryKey: ["labelTimeLog", code, platId],
+      enabled: !!platId,
     });
 
   //   Status Column
@@ -503,9 +524,9 @@ const useMoreDetail = () => {
     },
     series: [
       {
-        name: "Category",
+        name: "Bug Task Ratio",
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["50%", "85%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -516,11 +537,7 @@ const useMoreDetail = () => {
           show: true,
           position: "center",
           formatter: (params: any) => {
-            if (selectValues?.category === "utilization") {
-              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
-            } else {
-              return "{a|" + params.value + "}\n{b|" + params.name + "}";
-            }
+            return "{a|" + params.value + "}";
           },
           rich: {
             a: {
@@ -547,7 +564,37 @@ const useMoreDetail = () => {
         labelLine: {
           show: false,
         },
-        data: [],
+        data: [
+          {
+            name: "Ratio",
+            value:
+              labelTimeLog?.data?.summary?.regular_task_rp === 0
+                ? 0
+                : (
+                    (labelTimeLog?.data?.summary?.bug_task_rp! /
+                      labelTimeLog?.data?.summary?.regular_task_rp!) *
+                    100
+                  ).toFixed(2),
+            itemStyle: {
+              color: "#FD850A",
+            },
+          },
+          {
+            name: "Remaining",
+            value:
+              labelTimeLog?.data?.summary?.regular_task_rp === 0
+                ? 0
+                : (
+                    100 -
+                    (labelTimeLog?.data?.summary?.bug_task_rp! /
+                      labelTimeLog?.data?.summary?.regular_task_rp!) *
+                      100
+                  ).toFixed(2),
+            itemStyle: {
+              color: "#F4F4F5",
+            },
+          },
+        ],
       },
     ],
   };
@@ -559,9 +606,9 @@ const useMoreDetail = () => {
     },
     series: [
       {
-        name: "Category",
+        name: "Bugs",
         type: "pie",
-        radius: ["40%", "70%"],
+        radius: ["50%", "85%"],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 0,
@@ -573,7 +620,7 @@ const useMoreDetail = () => {
           position: "center",
           formatter: (params: any) => {
             if (selectValues?.category === "utilization") {
-              return "{a|" + params.value + "%" + "}\n{b|" + params.name + "}";
+              return "{a|" + params.value + "}\n{b|" + params.name + "}";
             } else {
               return "{a|" + params.value + "}\n{b|" + params.name + "}";
             }
@@ -603,7 +650,11 @@ const useMoreDetail = () => {
         labelLine: {
           show: false,
         },
-        data: [],
+        data:
+          labelTimeLog?.data?.bug_task_members?.map((member) => ({
+            name: member?.fullname,
+            value: member?.rp,
+          })) ?? [],
       },
     ],
   };
@@ -615,7 +666,13 @@ const useMoreDetail = () => {
       accessorKey: "title",
       header: "Platform/Component",
       cell: ({ row }) => (
-        <div className="font-semibold text-zinc-700">
+        <div
+          onClick={() => setPlatId(row?.getValue("title"))}
+          className={cn(
+            "font-semibold cursor-pointer text-zinc-700",
+            platId === row?.original?.title && "text-primary"
+          )}
+        >
           {row?.getValue("title")}
         </div>
       ),
@@ -656,46 +713,276 @@ const useMoreDetail = () => {
   ];
 
   // Individual bug task data column
-  const individualBugTaskColumn: ColumnDef<any>[] = [
+  const individualBugTaskColumn: ColumnDef<IProjectTimeMembers>[] = [
     {
-      accessorKey: "name",
+      accessorKey: "fullname",
       header: "Team Member",
-      cell: ({ row }) => <div>{row?.getValue("name")}</div>,
+      cell: ({ row }) => {
+        return (
+          <div>
+            <Link
+              href={`/staffs/${row?.original?.username}`}
+              className="font-medium text-primary hover:text-blue-700"
+            >
+              {row?.getValue("fullname")}
+            </Link>
+            {/* <p className="text-xs text-zinc-500">{row?.original?.}</p> */}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "regular_task",
-      header: () => (
-        <div>
-          Regular <br />
-          Task
+      accessorKey: "rp",
+      header: ({ column }) => (
+        <div className="flex gap-3 justify-between items-center">
+          <p>
+            Regular <br />
+            Task
+          </p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
         </div>
       ),
-      cell: ({ row }) => <div>{row?.getValue("regular_task")}</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {changeNumberFormat(row?.getValue("rp"))}
+        </div>
+      ),
     },
     {
       accessorKey: "bug",
-      header: () => <div>Bugs</div>,
-      cell: ({ row }) => <div>{row?.getValue("bug")}</div>,
-    },
-    {
-      accessorKey: "regular_task_time",
-      header: () => (
-        <div>
-          Regular <br />
-          Task Time
+      header: ({ column }) => (
+        <div className="flex gap-3 justify-between items-center">
+          <p>Bugs</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
         </div>
       ),
-      cell: ({ row }) => <div>{row?.getValue("regular_task_time")}</div>,
+      cell: ({ row }) => {
+        const userBugData = labelTimeLog?.data?.bug_task_members?.find(
+          (item) => item?.staff_id === row?.original?.staff_id
+        );
+        return (
+          <div className="font-medium">
+            {changeNumberFormat(userBugData?.rp ?? 0)}
+          </div>
+        );
+      },
     },
     {
-      accessorKey: "bug_fix_time",
-      header: () => (
-        <div>
-          Bug Fixing <br />
-          Time
+      accessorKey: "time",
+      header: ({ column }) => (
+        <div className="flex gap-3 justify-between items-center">
+          <p>
+            Regular <br />
+            Task Time
+          </p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
         </div>
       ),
-      cell: ({ row }) => <div>{row?.getValue("bug_fix_time")}</div>,
+      cell: ({ row }) => {
+        const { hours, minutes } = calculateTimeLog(row?.getValue("time"));
+        return (
+          <div className="font-medium">
+            {hours > 0 && `${hours}H `}
+            {`${minutes}M`}
+          </div>
+        );
+      },
+    },
+    {
+      accessorKey: "bug_time",
+      header: ({ column }) => (
+        <div className="flex gap-3 justify-between items-center">
+          <p>
+            Bug Fixing <br />
+            Time
+          </p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
+      cell: ({ row }) => {
+        const userBugData = labelTimeLog?.data?.bug_task_members?.find(
+          (item) => item?.staff_id === row?.original?.staff_id
+        );
+        const { hours, minutes } = calculateTimeLog(Number(userBugData?.time));
+        return (
+          <div className="font-medium">
+            {hours > 0 && `${hours}H `}
+            {`${isNaN(minutes) ? 0 : minutes}M`}
+          </div>
+        );
+      },
     },
   ];
 
@@ -834,6 +1121,84 @@ const useMoreDetail = () => {
     };
   }, [platformComponentOption]);
 
+  // Hover effect for bugs piechart in bug task ratio
+  useEffect(() => {
+    const myChart = bugsRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    bugOption && myChart.setOption(bugOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [bugOption]);
+
+  // Hover effect for bugs ratio piechart in bug task ratio
+  useEffect(() => {
+    const myChart = bugTaskRef.current?.getEchartsInstance();
+    if (!myChart) return;
+
+    myChart.on("mouseover", function (params: any) {
+      myChart.setOption({
+        series: [
+          {
+            label: {
+              formatter: () => {
+                return "{a|" + params.value + "}\n{b|" + params.name + "}";
+              },
+              rich: {
+                a: {
+                  fontSize: 22,
+                  color: "#3F3F46",
+                  lineHeight: 20,
+                  fontWeight: 600,
+                },
+                b: {
+                  fontSize: 14,
+                  color: "#3F3F46",
+                  lineHeight: 30,
+                },
+              },
+            },
+          },
+        ],
+      });
+    });
+
+    bugTaskRatioOption && myChart.setOption(bugTaskRatioOption);
+
+    return () => {
+      myChart.off("mouseover");
+    };
+  }, [bugTaskRatioOption]);
+
   return {
     projectTaskLabelData,
     isLoading,
@@ -854,6 +1219,11 @@ const useMoreDetail = () => {
     individualBugTaskColumn,
     bugTaskRatioOption,
     bugOption,
+    labelTimeLog,
+    labelTimeLoading,
+    bugsRef,
+    bugTaskRef,
+    platId,
   };
 };
 

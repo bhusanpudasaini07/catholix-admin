@@ -7,6 +7,7 @@ import { logout } from "@/services/auth/auth-service";
 import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import { getAccessToken } from "@/shared/utils/cookie-utils";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 
 const { SESSION_EXPIRED } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY } = config;
@@ -38,7 +39,7 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
     //   shouldRefresh = true;
     // } else
     // if (responseStatus === 401 && errorCode === 1017) {
-    if (responseStatus === 401 && errorCode === 1017) {
+    if (responseStatus === 401 && errorCode === 10002) {
       clearAllSessionAndLocalStates();
     }
     return shouldRefresh;
@@ -48,6 +49,7 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
 const clearAllSessionAndLocalStates = () => {
   logout()
     .then(() => {
+      showToast(TOAST_TYPES.error, "Your session has expired.");
       localStorage.setItem(
         "sessionmessage",
         JSON.stringify({

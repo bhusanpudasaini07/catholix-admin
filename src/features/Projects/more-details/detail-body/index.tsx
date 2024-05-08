@@ -27,6 +27,11 @@ const MoreDetailBody = () => {
     individualBugTaskColumn,
     bugTaskRatioOption,
     bugOption,
+    labelTimeLog,
+    labelTimeLoading,
+    bugsRef,
+    bugTaskRef,
+    platId,
   } = useMoreDetail();
 
   return (
@@ -64,6 +69,11 @@ const MoreDetailBody = () => {
         individualBugTaskColumn={individualBugTaskColumn}
         bugOption={bugOption}
         bugRatioOption={bugTaskRatioOption}
+        individualBugLoading={labelTimeLoading}
+        individualBugData={labelTimeLog?.data?.regular_task_members ?? []}
+        bugsRef={bugsRef}
+        platId={platId}
+        bugTaskRef={bugTaskRef}
       />
     </div>
   );

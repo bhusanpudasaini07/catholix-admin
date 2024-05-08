@@ -1,16 +1,22 @@
-import { IStaff } from "@/interface/team-lead-report-interface";
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { ArrowUp, User2, Users2 } from "lucide-react";
+import { User2, Users2 } from "lucide-react";
 import { FC } from "react";
+interface IUtilizationData {
+  less_than_20?: string;
+  "20_to_40"?: string;
+  "40_to_80"?: string;
+  greater_than_80?: string;
+}
+
 interface IProps {
-  data: any;
+  data: IUtilizationData;
 }
 const MemberTimeUtilization: FC<IProps> = ({ data }) => {
   let totalStaff =
-    parseFloat(data?.less_than_20) +
-    parseFloat(data?.["20_to_40"]) +
-    parseFloat(data?.["40_to_80"]) +
-    parseFloat(data?.greater_than_80);
+    parseFloat(data?.less_than_20 ?? "0") +
+    parseFloat(data?.["20_to_40"] ?? "0") +
+    parseFloat(data?.["40_to_80"] ?? "0") +
+    parseFloat(data?.greater_than_80 ?? "0");
 
   return (
     <Card>

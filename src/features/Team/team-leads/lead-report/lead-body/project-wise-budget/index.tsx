@@ -185,8 +185,6 @@ const ProjectWiseBudget: FC<IRpStaffSummaryProps> = ({
     sumClientTotalRp || 0
   );
 
-  console.log("countryInHouseTotalRP", country);
-
   const columns: ColumnDef<any>[] = [
     {
       id: "country",

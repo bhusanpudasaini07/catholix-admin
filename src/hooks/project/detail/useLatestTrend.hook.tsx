@@ -22,7 +22,7 @@ const useLatestTrend = () => {
     useQuery<ILatestTaskTrend>({
       queryFn: async () => {
         if (code) {
-          const oneWeekAgo = moment().subtract(1, "weeks").format("YYYY-MM-DD");
+          const oneWeekAgo = moment().subtract(1, "month").format("YYYY-MM-DD");
           const today = moment().format("YYYY-MM-DD");
           const response = await geLatestTaskTrend(code, oneWeekAgo, today);
           return response;
@@ -96,7 +96,8 @@ const useLatestTrend = () => {
           type: "shadow",
         },
         // prettier-ignore
-        data: trendData?.data?.tasks?.map((item) => moment( item?.date).format("ll")) ?? [],
+        data:  trendData?.data?.tasks
+        ?.slice(0, 15)?.map((item) => moment( item?.date).format("ll")) ?? [],
       },
     ],
     yAxis: [
@@ -125,19 +126,23 @@ const useLatestTrend = () => {
         name: "Open Task",
         type: "bar",
         data:
-          trendData?.data?.tasks?.map((item) => item?.open_task_count) ?? [],
+          trendData?.data?.tasks
+            ?.slice(0, 15)
+            ?.map((item) => item?.open_task_count) ?? [],
       },
       {
         name: "Closed Task",
         type: "bar",
         data:
-          trendData?.data?.tasks?.map((item) => item?.closed_task_count) ?? [],
+          trendData?.data?.tasks
+            ?.slice(0, 15)
+            ?.map((item) => item?.closed_task_count) ?? [],
       },
       {
         name: "Completion %",
         type: "line",
         yAxisIndex: 1,
-        data: trendData?.data?.tasks?.map((item) => {
+        data: trendData?.data?.tasks?.slice(0, 15)?.map((item) => {
           const completionPercent =
             (item?.closed_task_count / item?.total_task_count) * 100;
           return {
@@ -194,6 +199,75 @@ const useLatestTrend = () => {
               {row?.original?.open_task_new})
             </span>
           )}
+        </div>
+      ),
+    },
+    // To Do
+    {
+      id: "todo_task_count",
+      accessorKey: "todo_task_count",
+      header: "To Do",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.todo_task_count ?? "-"}{" "}
+          {/* {row?.original?.open_task_new !== 0 && (
+            <span
+              className={cn(
+                row?.original?.open_task_new < 0
+                  ? "text-red-500"
+                  : "text-green-500"
+              )}
+            >
+              ({row?.original?.open_task_new > 0 && "+"}
+              {row?.original?.open_task_new})
+            </span>
+          )} */}
+        </div>
+      ),
+    },
+    // Doing
+    {
+      id: "doing_task_count",
+      accessorKey: "doing_task_count",
+      header: "Doing",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.doing_task_count ?? "-"}{" "}
+          {/* {row?.original?.open_task_new !== 0 && (
+            <span
+              className={cn(
+                row?.original?.open_task_new < 0
+                  ? "text-red-500"
+                  : "text-green-500"
+              )}
+            >
+              ({row?.original?.open_task_new > 0 && "+"}
+              {row?.original?.open_task_new})
+            </span>
+          )} */}
+        </div>
+      ),
+    },
+    // In QA
+    {
+      id: "in_qa_task_count",
+      accessorKey: "in_qa_task_count",
+      header: "In QA",
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {row?.original?.in_qa_task_count ?? "-"}{" "}
+          {/* {row?.original?.open_task_new !== 0 && (
+              <span
+                className={cn(
+                  row?.original?.open_task_new < 0
+                    ? "text-red-500"
+                    : "text-green-500"
+                )}
+              >
+                ({row?.original?.open_task_new > 0 && "+"}
+                {row?.original?.open_task_new})
+              </span>
+            )} */}
         </div>
       ),
     },

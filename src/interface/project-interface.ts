@@ -433,6 +433,11 @@ export interface ILatestTaskTrendDetail {
   progress_percent: string;
   closed_task_new: number;
   open_task_new: number;
+  todo_task_count: string | null;
+  ready_for_qa_task_count: string | null;
+  in_qa_task_count: string | null;
+  doing_task_count: string | null;
+  done_task_count: string | null;
 }
 
 export interface IProjectTimeWithLabel {

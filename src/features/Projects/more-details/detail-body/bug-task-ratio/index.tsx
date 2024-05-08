@@ -62,7 +62,9 @@ const BugTaskRatio = ({
             {loading || individualBugLoading ? (
               <Skeleton className="w-20 h-4" />
             ) : (
-              <p className="text-base font-medium text-zinc-700">{platId}</p>
+              <p className="mb-6 text-base font-medium text-zinc-700">
+                {platId}
+              </p>
             )}
 
             <div className="grid grid-cols-2 max-w-[600px] m-auto mb-12">
@@ -71,12 +73,14 @@ const BugTaskRatio = ({
                   {loading || individualBugLoading ? (
                     <PieChartSkeleton height={200} width={200} />
                   ) : (
-                    <ReactECharts
-                      option={bugRatioOption}
-                      opts={{ renderer: "svg" }}
-                      style={{ height: 200 }}
-                      ref={bugTaskRef}
-                    />
+                    <div className="h-[190px] w-[300px] overflow-hidden">
+                      <ReactECharts
+                        option={bugRatioOption}
+                        style={{ height: 300 }}
+                        opts={{ renderer: "svg" }}
+                        ref={bugTaskRef}
+                      />
+                    </div>
                   )}
                 </div>
                 <p className="mt-2 text-sm font-medium text-zinc-500">

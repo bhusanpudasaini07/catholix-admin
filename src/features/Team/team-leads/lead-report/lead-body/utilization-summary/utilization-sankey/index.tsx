@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import ReactEcharts, { EChartsOption } from "echarts-for-react";
+import { changeNumberFormat } from "@/shared/utils/rp-utils";
 
 interface IProps {
   data: {
@@ -23,7 +24,7 @@ const UtilizationSankey: FC<IProps> = ({ data }) => {
         data: [
           {
             name: "Overall-Budget",
-            format: (value: any) => value.toFixed(2),
+            format: (value: any) => changeNumberFormat(value),
             itemStyle: {
               color: "#5470C6",
             },

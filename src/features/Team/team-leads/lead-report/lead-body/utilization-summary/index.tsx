@@ -2,6 +2,8 @@ import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { FC } from "react";
 import UtilizationSankey from "./utilization-sankey";
+import MarketResource from "./market-resource";
+import { IProject } from "@/interface/team-lead-report-interface";
 
 interface UtilizationData {
   available_rp: number;
@@ -11,8 +13,9 @@ interface UtilizationData {
 
 interface IProps {
   data: UtilizationData;
+  projects: IProject[];
 }
-const UtilizationSummary: FC<IProps> = ({ data }) => {
+const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
   const available = data?.available_rp;
   const spent = ((data?.commercial_rp ?? 0) + (data?.inhouse_rp ?? 0)).toFixed(
     2
@@ -86,95 +89,7 @@ const UtilizationSummary: FC<IProps> = ({ data }) => {
                 </div>
               </CardContent>
             </Card>
-            <Card className="bg-slate-50 border-slate-200 w-full">
-              <CardContent>
-                <p className="text-zinc-700 text-base font-medium mb-3">
-                  Market Resource Utilization
-                </p>
-                <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                  <Card className="border-l-[6px] rounded-[6px] border-l-[#73C0DE]">
-                    <CardContent>
-                      <div>
-                        <p className="text-sm text-zinc-700 font-normal mb-2">
-                          Nepal
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl text-zinc-700 font-semibold mb-2">
-                          54 %
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-zinc-600 font-normal">
-                          Project:
-                          <span className="ms-1 font-medium">10</span>
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-l-[6px] rounded-[6px] border-l-[#73C0DE]">
-                    <CardContent>
-                      <div>
-                        <p className="text-sm text-zinc-700 font-normal mb-2">
-                          Nepal
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl text-zinc-700 font-semibold mb-2">
-                          54 %
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-zinc-600 font-normal">
-                          Project:
-                          <span className="ms-1 font-medium">10</span>
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-l-[6px] rounded-[6px] border-l-[#73C0DE]">
-                    <CardContent>
-                      <div>
-                        <p className="text-sm text-zinc-700 font-normal mb-2">
-                          Nepal
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl text-zinc-700 font-semibold mb-2">
-                          54 %
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-zinc-600 font-normal">
-                          Project:
-                          <span className="ms-1 font-medium">10</span>
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="border-l-[6px] rounded-[6px] border-l-[#73C0DE]">
-                    <CardContent>
-                      <div>
-                        <p className="text-sm text-zinc-700 font-normal mb-2">
-                          Nepal
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-3xl text-zinc-700 font-semibold mb-2">
-                          54 %
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-zinc-600 font-normal">
-                          Project:
-                          <span className="ms-1 font-medium">10</span>
-                        </p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </CardContent>
-            </Card>
+            <MarketResource data={projects} />
           </div>
           <div className="">
             <UtilizationSankey data={data} />

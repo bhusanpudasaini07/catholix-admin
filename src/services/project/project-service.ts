@@ -195,6 +195,13 @@ const geLatestTaskTrend = (
   );
 };
 
+// Project Time Log with label
+const getTimeLogWithLabel = (project_id: any, label: string) => {
+  return httpRequest(
+    `/get-project-time-log-with-label?project_id=${project_id}&label=${label}`,
+    httpMethods.GET
+  );
+};
 export {
   getProjectList,
   getProjectDetail,
@@ -211,4 +218,5 @@ export {
   getEstimatedActual,
   getProjectRoleRp,
   geLatestTaskTrend,
+  getTimeLogWithLabel,
 };

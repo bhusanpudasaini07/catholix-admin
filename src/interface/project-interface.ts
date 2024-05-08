@@ -434,3 +434,25 @@ export interface ILatestTaskTrendDetail {
   closed_task_new: number;
   open_task_new: number;
 }
+
+export interface IProjectTimeWithLabel {
+  data: {
+    time_logs: ILogEntry[];
+    bug_logs: ILogEntry[];
+    summary: {
+      regular_task_rp: number;
+      regular_task_time: number;
+      bug_task_rp: number;
+      bug_task_time: number;
+    };
+    regular_task_members: IProjectTimeMembers[];
+    bug_task_members: IProjectTimeMembers[];
+  };
+}
+export interface IProjectTimeMembers {
+  fullname: string;
+  rp: number;
+  staff_id: string;
+  time: string;
+  username: string;
+}

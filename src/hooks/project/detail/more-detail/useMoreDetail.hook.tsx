@@ -1,6 +1,6 @@
 import { EChartsInstance, EChartsOption } from "echarts-for-react";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery } from "react-query";
 
 import {
@@ -653,6 +653,15 @@ const useMoreDetail = () => {
     ],
   };
 
+  // New updated data of bug task adding ratio to the data
+  const bugRatioData = useMemo(() => {
+    const updatedBugTaskData = bugTaskRatioData?.data?.map((item) => ({
+      ...item,
+      ratio: item?.task_rp === 0 ? 0 : (item?.bug_rp / item?.task_rp) * 100,
+    }));
+    return updatedBugTaskData;
+  }, [bugTaskRatioData]);
+
   //   Bug task ratio column
   const bugTaskRatioColumn: ColumnDef<IProjectTaskBugRatio>[] = [
     {
@@ -840,10 +849,9 @@ const useMoreDetail = () => {
         </div>
       ),
       cell: ({ row }) => {
-        const ratio = (row?.original?.bug_rp / row?.original?.task_rp) * 100;
         return (
           <div className="font-semibold text-zinc-700">
-            {row?.original?.task_rp === 0 ? "0.00" : ratio.toFixed(2)}%
+            {row?.original?.ratio.toFixed(2)}%
           </div>
         );
       },
@@ -1365,6 +1373,7 @@ const useMoreDetail = () => {
     bugsRef,
     bugTaskRef,
     platId,
+    bugRatioData,
   };
 };
 

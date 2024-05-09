@@ -32,6 +32,7 @@ const MoreDetailBody = () => {
     bugsRef,
     bugTaskRef,
     platId,
+    bugRatioData,
   } = useMoreDetail();
 
   return (
@@ -64,7 +65,7 @@ const MoreDetailBody = () => {
       />
       <BugTaskRatio
         columns={bugTaskRatioColumn}
-        data={bugTaskRatioData?.data ?? []}
+        data={bugRatioData ?? []}
         loading={bugTaskLoading}
         individualBugTaskColumn={individualBugTaskColumn}
         bugOption={bugOption}

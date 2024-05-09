@@ -370,6 +370,7 @@ export interface IProjectTaskBugRatio {
   title: string;
   task_rp: number;
   bug_rp: number;
+  ratio: number;
 }
 
 // Daily RP interface

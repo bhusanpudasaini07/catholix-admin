@@ -1,57 +1,53 @@
-import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/router';
-import React, { FC, useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { useQuery } from 'react-query';
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/router";
+import React, { FC, useState } from "react";
+import { DateRange } from "react-day-picker";
+import { useQuery } from "react-query";
 
-import { getLeadsList } from '@/services/lead-report/lead-report-service';
-import DateRangeFilter from '@/shared/components/date-range-filter';
-import { Button } from '@/shared/components/ui/button';
+import { getLeadsList } from "@/services/lead-report/lead-report-service";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Button } from "@/shared/components/ui/button";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/shared/components/ui/tabs";
 
-const ProjectRPConsumptionHeader = () => {
+interface IProps {
+  dateRange: DateRange | undefined;
+  dateRangeOpen: boolean;
+  setDateRangeOpen: (arg: boolean) => void;
+  setDateRange: (arg: DateRange) => void;
+  handleChange: (value: any) => void;
+  selected: string;
+  setSelected: (arg: string) => void;
+  weeklyData: { value: string; label: string }[];
+}
+
+const ProjectRPConsumptionHeader = ({
+  dateRange,
+  dateRangeOpen,
+  setDateRangeOpen,
+  setDateRange,
+  handleChange,
+  selected,
+  setSelected,
+  weeklyData,
+}: IProps) => {
   const router = useRouter();
   const current_id = router.query?.lead_id || undefined;
 
-  const oneWeekAgo = new Date();
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 31);
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: oneWeekAgo,
-    to: new Date(),
-  });
-
-  const [selected, setSelected] = useState<string>("");
-
-  const [dateRangeOpen, setDateRangeOpen] = useState(false);
-  const [activeLeads, setActiveLeads] = useState([]);
-
-  const handleChange = (value: any) => {
-    setSelected(value);
-  };
-  const weeklyData = [
-    { value: "2022-10-10", label: "October 10, 2022" },
-    { value: "2022-10-17", label: "October 17, 2022" },
-    { value: "2022-10-24", label: "October 24, 2022" },
-  ];
-
-  const { data: leadList, isLoading: leadsLoading } = useQuery<any>(
-    ["getTeamLeadList"],
-    async () => {
-      const response = getLeadsList();
-      return response;
-    }
-  );
-
-  const handleLeadsId = (id: string) => {
-    router.push(`/team-leads/lead-report?lead_id=${id}`);
-  };
-
   return (
-    <div className="flex items-center justify-between p-8 bg-white">
-      <div className="flex items-start gap-4">
+    <div className="flex justify-between items-center p-8 bg-white">
+      <div className="flex gap-4 items-start">
         <Button
           onClick={() =>
             router.push(`/team-leads/lead-report?lead_id=${current_id}`)
@@ -69,10 +65,10 @@ const ProjectRPConsumptionHeader = () => {
           <p className="text-base text-zinc-500">List by country</p>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex gap-2 justify-end items-center">
         <Tabs
           defaultValue="monthly"
-          className="flex flex-row-reverse items-center gap-3 "
+          className="flex flex-row-reverse gap-3 items-center"
         >
           <TabsList>
             <TabsTrigger value="monthly">Monthly</TabsTrigger>

@@ -173,7 +173,7 @@ const useReport = () => {
     () =>
       leadReportSummary?.data
         ? leadReportSummary?.data?.reduce(
-            (acc, item) => acc + item?.summary?.total_rp,
+            (acc, item) => acc + item?.summary?.available_rp,
             0
           )
         : 0,
@@ -568,6 +568,63 @@ const useReport = () => {
     },
   ];
 
+  const budgetUtilizationOption = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    grid: {
+      top: "15%",
+      bottom: "10%",
+      left: "5%",
+      right: "5%",
+    },
+    legend: {
+      data: ["Forest", "Steppe", "Desert"],
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisTick: { show: false },
+        data: ["2012", "2013", "2014", "2015", "2016"],
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+      },
+    ],
+    series: [
+      {
+        name: "Forest",
+        type: "bar",
+        barGap: 0,
+        emphasis: {
+          focus: "series",
+        },
+        data: [320, 332, 301, 334, 390],
+      },
+      {
+        name: "Steppe",
+        type: "bar",
+        emphasis: {
+          focus: "series",
+        },
+        data: [220, 182, 191, 234, 290],
+      },
+      {
+        name: "Desert",
+        type: "bar",
+        emphasis: {
+          focus: "series",
+        },
+        data: [150, 232, 201, 154, 190],
+      },
+    ],
+  };
+
   //   EFFECTS
 
   /**
@@ -712,6 +769,7 @@ const useReport = () => {
     leadId,
     projectMarketColumn,
     projectTypeColumn,
+    budgetUtilizationOption,
   };
 };
 

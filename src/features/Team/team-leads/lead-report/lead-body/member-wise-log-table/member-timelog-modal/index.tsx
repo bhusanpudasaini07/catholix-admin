@@ -89,7 +89,7 @@ const MemberTimeLogModal: FC<IProps> = ({
   return (
     <div className="flex flex-col max-h-[600px] overflow-auto">
       {staffDailyLogLoading && <TrendModalSkeleton />}
-      <p className="mb-4 text-base font-bold text-zinc-700">
+      <p className="sticky top-0 mb-4 text-base font-bold bg-white text-zinc-700 z-[20]">
         Daily Budget Detail - {staffDailyLog?.data?.info?.fullname}
       </p>
       {staffDailyLog?.data?.logs

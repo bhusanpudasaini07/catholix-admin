@@ -5,15 +5,16 @@ import { ICountryProjectDetails } from "@/interface/team-lead-report-interface";
 
 import ProjectCountryTable from "./project-country-table";
 import ProjectRPConsumptionSkeleton from "@/shared/components/skeleton-loading/lead-report/project-rp-consumption-skeleton";
+import { ColumnDef } from "@tanstack/react-table";
 
-const ProjectRPConsumptionBody = () => {
-  const {
-    staffDataLoading,
-    countryWiseGroupProject,
-    countryProjectColumn,
-    searchText,
-    setSearchText,
-  } = useLeadReport();
+interface IProps {
+  countryProjectColumn: ColumnDef<ICountryProjectDetails>[];
+  staffDataLoading: boolean;
+  countryWiseGroupProject: any;
+}
+
+const ProjectRPConsumptionBody = ({staffDataLoading, countryWiseGroupProject, countryProjectColumn}:IProps) => {
+
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -32,8 +33,6 @@ const ProjectRPConsumptionBody = () => {
                 country={country}
                 projects={projects}
                 countryProjectColumn={countryProjectColumn}
-                searchText={searchText}
-                setSearchText={setSearchText}
                 staffDataLoading={staffDataLoading}
               />
             )

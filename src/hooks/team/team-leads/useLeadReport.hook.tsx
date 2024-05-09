@@ -1,7 +1,7 @@
 import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
@@ -15,6 +15,8 @@ import {
   getStaffRpSummary,
 } from "@/services/lead-report/lead-report-service";
 import { ColumnDef } from "@tanstack/react-table";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/shared/components/ui/button";
 
 interface IProject {
   id: string;
@@ -263,18 +265,50 @@ const useLeadReport = () => {
   /**
    * For grouping projects according to countries.
    */
-  const countryWiseGroupProject: any =
-    staffRpSummaryData?.data?.projects.reduce(
+  const countryWiseGroupProject: any = useMemo(() => {
+    const groupedData = staffRpSummaryData?.data?.projects.reduce(
       (acc: { [key: string]: any[] }, project: any) => {
         const { market: country } = project;
         if (!acc[country]) {
           acc[country] = [];
         }
         acc[country].push(project);
+
+        // console.log(totalRP);
+
+        // const totalRpForCountry = acc[country].reduce(
+        //   (sum, currentProject) =>
+        //     sum + parseFloat(currentProject.total_rp || "0"),
+        //   0
+        // );
+        // const projectPercentage =
+        //   (parseFloat(project?.total_rp || "0") / totalRpForCountry) * 100;
+        // acc[country].push({ ...project, percentage: projectPercentage });
         return acc;
       },
       {}
     );
+    // Calculate percentage within each country's projects
+    groupedData &&
+      Object.entries(groupedData).forEach(([_, projects]: any) => {
+        const totalRpForCountry = projects.reduce(
+          (accInner: number, project: any) =>
+            accInner + parseFloat(project?.total_rp || "0"),
+          0
+        );
+        projects.forEach((project: any) => {
+          project.percentage = totalRpForCountry
+            ? (
+                (parseFloat(project.total_rp) / totalRpForCountry) *
+                100
+              ).toFixed(2)
+            : 0;
+        });
+      });
+
+    return groupedData;
+  }, [staffRpSummaryData]);
+  // console.log("countryWiseGroupProject", countryWiseGroupProject);
 
   const SerialNumberCell = ({ row }: any) => {
     const rowIndex = row.index;
@@ -308,7 +342,55 @@ const useLeadReport = () => {
     {
       id: "total_rp",
       accessorKey: "total_rp",
-      header: () => <div className="truncate">Budget Consumed</div>,
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>Budget Consumed</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="font-semibold">{row?.getValue("total_rp")}</div>
       ),
@@ -316,21 +398,57 @@ const useLeadReport = () => {
     {
       id: "percentage",
       accessorKey: "percentage",
-      header: "%",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>%</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }: any) => {
-        const totalRP: any = Object.entries(countryWiseGroupProject).reduce(
-          (acc, [_, projects]: any) => {
-            const totalRpForCountry = projects?.reduce(
-              (accInner: number, project: any) =>
-                accInner + parseFloat(project?.total_rp || "0"),
-              0
-            );
-            return acc + totalRpForCountry;
-          },
-          0
-        );
-        const percentage = (row?.original?.total_rp / totalRP) * 100;
-        return <div>{percentage.toFixed(2)}%</div>;
+        return <div>{row?.original?.percentage}%</div>;
       },
     },
   ];
@@ -367,6 +485,7 @@ const useLeadReport = () => {
     dateRange,
     dateRangeOpen,
     setDateRangeOpen,
+    setDateRange,
     activeLeads,
     setActiveLeads,
     handleChange,

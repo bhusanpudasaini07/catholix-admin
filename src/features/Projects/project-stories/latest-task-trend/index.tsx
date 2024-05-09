@@ -9,7 +9,7 @@ import GraphSkeleton from "@/shared/components/skeleton-loading/graph-skeleton";
 
 const LatestTaskTrend = () => {
   const router = useRouter();
-  const { trendOption, trendDataLoading } = useLatestTrend();
+  const { cardTrendOption, trendDataLoading } = useLatestTrend();
   return (
     <Card>
       <CardContent>
@@ -32,7 +32,7 @@ const LatestTaskTrend = () => {
           <GraphSkeleton className="max-h-[300px] overflow-hidden" />
         ) : (
           <ReactECharts
-            option={trendOption}
+            option={cardTrendOption}
             opts={{ renderer: "svg" }}
             style={{ height: 260 }}
           />

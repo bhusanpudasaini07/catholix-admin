@@ -34,7 +34,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
     <div className="flex justify-between items-center px-8 py-6 bg-light-white border-b-slate-100">
       <div className="">
         <h3 className="mb-1.5 text-2xl font-medium text-zinc-700 whitespace-nowrap">
-          Department Report -&nbsp;{current_page}
+          Department Report [{current_page}]
         </h3>
         <p className="text-base whitespace-nowrap text-zinc-500">
           Report of all the members

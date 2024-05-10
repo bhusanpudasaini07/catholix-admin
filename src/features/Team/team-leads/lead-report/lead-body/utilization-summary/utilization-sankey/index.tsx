@@ -168,14 +168,15 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
         data: [
           {
             name: `Overall-Time (${timeFormatter(data?.available_time)})`,
-            format: (value: any) => changeNumberFormat(value),
             itemStyle: {
               color: "#5470C6",
               width: 300,
             },
           },
           {
-            name: `Client (${clientTimePercentage}%)`,
+            name: `Client (${timeFormatter(
+              data?.commercial_time
+            )}), (${clientTimePercentage}%)`,
             itemStyle: {
               color: "#0A82FD",
               width: 100,
@@ -183,7 +184,9 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
             },
           },
           {
-            name: `In-house (${inhouseTimePercentage}%)`,
+            name: `In-house (${timeFormatter(
+              data?.inhouse_time
+            )}), (${inhouseTimePercentage}%)`,
             itemStyle: {
               color: "#73d8de",
               width: 100,
@@ -191,7 +194,9 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
             },
           },
           {
-            name: `Spent-Time (${spentTimePercentage}%)`,
+            name: `Spent-Time (${timeFormatter(
+              data?.total_time
+            )}), (${spentTimePercentage}%)`,
             itemStyle: {
               color: "#91CC75",
               width: 100,
@@ -199,7 +204,10 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
             },
           },
           {
-            name: `Loss-Time (${lossTimePercentage}%)`,
+            name: `Loss-Time (${timeFormatter(
+              lossTime
+            )}), (${lossTimePercentage}%)`,
+
             itemStyle: {
               color: "#EE6666",
               width: 100,
@@ -210,26 +218,36 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
         links: [
           {
             source: `Overall-Time (${timeFormatter(data?.available_time)})`,
-            target: `Spent-Time (${spentTimePercentage}%)`,
-            value: data?.available_time,
+            target: `Spent-Time (${timeFormatter(
+              data?.total_time
+            )}), (${spentTimePercentage}%)`,
+            value: spentTimePercentage,
             lineStyle: {
               color: "source",
               opacity: 0.3,
             },
           },
           {
-            source: `Spent-Time (${spentTimePercentage}%)`,
-            target: `Client (${clientTimePercentage}%)`,
-            value: data?.commercial_time,
+            source: `Spent-Time (${timeFormatter(
+              data?.total_time
+            )}), (${spentTimePercentage}%)`,
+            target: `Client (${timeFormatter(
+              data?.commercial_time
+            )}), (${clientTimePercentage}%)`,
+            value: clientTimePercentage,
             lineStyle: {
               color: "source",
               opacity: 0.3,
             },
           },
           {
-            source: `Spent-Time (${spentTimePercentage}%)`,
-            target: `In-house (${inhouseTimePercentage}%)`,
-            value: data?.inhouse_time,
+            source: `Spent-Time (${timeFormatter(
+              data?.total_time
+            )}), (${spentTimePercentage}%)`,
+            target: `In-house (${timeFormatter(
+              data?.inhouse_time
+            )}), (${inhouseTimePercentage}%)`,
+            value: inhouseTimePercentage,
             lineStyle: {
               color: "source",
               opacity: 0.3,
@@ -237,8 +255,10 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
           },
           {
             source: `Overall-Time (${timeFormatter(data?.available_time)})`,
-            target: `Loss-Time (${lossTimePercentage}%)`,
-            value: lossTime,
+            target: `Loss-Time (${timeFormatter(
+              lossTime
+            )}), (${lossTimePercentage}%)`,
+            value: lossTimePercentage,
             lineStyle: {
               color: "source",
               opacity: 0.3,

@@ -15,6 +15,7 @@ import {
 } from "@/shared/components/ui/select";
 import UtilizationSunburst from "./utilizarion-sunbrust";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
+import { useRouter } from "next/router";
 
 interface UtilizationData {
   available_rp: number;
@@ -35,6 +36,8 @@ interface IProps {
   projects: IProject[];
 }
 const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
+  const router = useRouter();
+  const current_id = router.query?.lead_id || "all";
   const [chart, setChart] = useState<string>("sankey");
   const [tab, setTab] = useState<string>("budget");
   const available = data?.available_rp;
@@ -57,11 +60,19 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
     <Card className="col-span-2">
       <CardContent>
         <div className="flex gap-7 justify-between items-center mb-4">
-          <div className="flex gap-6 justify-start items-center">
+          <div className="flex gap-4 justify-start items-center">
             <p className="text-lg font-medium text-zinc-700">
               Utilization Summary
             </p>
-            <Button variant={"white"} size={"sm"}>
+            <Button
+              onClick={() =>
+                router.push(
+                  `/team-leads/lead-report/trending-graph?lead_id=${current_id}`
+                )
+              }
+              variant={"white"}
+              size={"sm"}
+            >
               View Trendline
             </Button>
           </div>
@@ -154,7 +165,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
             {chart === "sankey" ? (
               <UtilizationSankey data={data} tab={tab} />
             ) : (
-              <UtilizationSunburst data={data} />
+              <UtilizationSunburst projects={projects} data={data} tab={tab} />
             )}
           </div>
         </div>

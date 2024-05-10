@@ -20,7 +20,7 @@ const MemberTimeUtilization: FC<IProps> = ({ data }) => {
 
   return (
     <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-      <Card>
+      <Card className="me-[15px] relative after:absolute after:content-[''] after:h-full after:w-[2px] after:top-0 after:bg-zinc-100 after:-right-[15px]">
         <CardContent className="!p-4">
           <div className="flex items-start gap-[4px] justify-start">
             <Users2 size={30} className="shrink-0 text-zinc-700 mt-1" />

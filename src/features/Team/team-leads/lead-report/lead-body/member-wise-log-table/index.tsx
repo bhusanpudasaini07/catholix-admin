@@ -28,6 +28,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import MemberTimeLogModal from "./member-timelog-modal";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import MemberTimeUtilization from "../member-time-log-utilization";
 
 const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   dateRange,
@@ -169,7 +170,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
       accessorKey: "role",
       header: "Role",
       cell: ({ row }) => (
-        <div className="text-sm font-semibold text-zinc-500">
+        <div className="text-sm whitespace-nowrap font-semibold text-zinc-500">
           {row.getValue("role")}
         </div>
       ),
@@ -753,7 +754,7 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex gap-3 justify-between items-center mb-6">
+        <div className="flex gap-3 justify-between items-center mb-4">
           <div className="flex flex-wrap gap-2 items-center">
             <h5 className="font-medium text-zinc-700">Member-Wise Log</h5>
             {/* <Button variant={"white"} size={"sm"}>
@@ -790,7 +791,11 @@ const MemberWiseLogTable: FC<IRpStaffSummaryProps> = ({
             </Button>
           </div>
         </div>
-
+        <div className="mb-4">
+          <MemberTimeUtilization
+            data={staffRpSummaryData?.data?.summary?.utilization_range}
+          />
+        </div>
         <DataTable
           loading={staffDataLoading}
           height={"max-h-[700px]"}

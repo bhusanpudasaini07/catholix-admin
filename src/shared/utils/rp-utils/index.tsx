@@ -173,6 +173,18 @@ const calculateTimeLog = (time: number) => {
   return { hours, minutes };
 };
 
+const timeFormatter = (time: number) => {
+  const timeInSeconds = time;
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+
+  if (minutes === 0) {
+    return `${hours}H`;
+  } else {
+    return `${hours}H ${minutes}M`;
+  }
+};
+
 //For rounded hours
 const calculateTime = (time: number) => {
   const totalHours = time / 3600;
@@ -204,5 +216,6 @@ export {
   calculateTimeLog,
   changeNumberFormat,
   calculateTime,
+  timeFormatter,
   calculatePercentage,
 };

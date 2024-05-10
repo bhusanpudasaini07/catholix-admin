@@ -16,8 +16,6 @@ const useLatestTrend = () => {
     query: { code },
   } = useRouter();
 
-  // const colors = ["#22C55E", "#FB923C", "#F87171"];
-
   const { data: trendData, isLoading: trendDataLoading } =
     useQuery<ILatestTaskTrend>({
       queryFn: async () => {
@@ -97,7 +95,15 @@ const useLatestTrend = () => {
         },
         // prettier-ignore
         data:  trendData?.data?.tasks
-        ?.slice(0, 15)?.map((item) => moment( item?.date).format("ll")) ?? [],
+        ?.slice(-15)?.map((item) => moment( item?.date).format("ll")) ?? [],
+        axisLabel: {
+          interval: 0,
+          formatter: (value: any) => {
+            return `${moment(value).format("MMM DD") ?? 0}\n ${
+              moment(value).format("yyyy") ?? 0
+            }`;
+          },
+        },
       },
     ],
     yAxis: [
@@ -127,7 +133,7 @@ const useLatestTrend = () => {
         type: "bar",
         data:
           trendData?.data?.tasks
-            ?.slice(0, 15)
+            ?.slice(-15)
             ?.map((item) => item?.open_task_count) ?? [],
       },
       {
@@ -135,14 +141,14 @@ const useLatestTrend = () => {
         type: "bar",
         data:
           trendData?.data?.tasks
-            ?.slice(0, 15)
+            ?.slice(-15)
             ?.map((item) => item?.closed_task_count) ?? [],
       },
       {
         name: "Completion %",
         type: "line",
         yAxisIndex: 1,
-        data: trendData?.data?.tasks?.slice(0, 15)?.map((item) => {
+        data: trendData?.data?.tasks?.slice(-15)?.map((item) => {
           const completionPercent =
             (item?.closed_task_count / item?.total_task_count) * 100;
           return {
@@ -153,6 +159,87 @@ const useLatestTrend = () => {
     ],
   };
 
+  //   Graph option
+  const cardTrendOption = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "cross",
+      },
+    },
+    grid: {
+      right: "20%",
+      bottom: "10%",
+    },
+    legend: {
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+      data: ["Open Task", "Closed Task", "Completion %"],
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisPointer: {
+          type: "shadow",
+        },
+        // prettier-ignore
+        data:  trendData?.data?.tasks
+        ?.slice(-7)?.map((item) => moment( item?.date).format("ll")) ?? [],
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+        position: "left",
+
+        alignTicks: true,
+        axisLabel: {
+          formatter: "{value}",
+        },
+      },
+      {
+        type: "value",
+        name: "Completion %",
+        position: "right",
+        min: 0,
+        max: 100,
+        axisLabel: {
+          formatter: "{value} %",
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Open Task",
+        type: "bar",
+        data:
+          trendData?.data?.tasks
+            ?.slice(-7)
+            ?.map((item) => item?.open_task_count) ?? [],
+      },
+      {
+        name: "Closed Task",
+        type: "bar",
+        data:
+          trendData?.data?.tasks
+            ?.slice(-7)
+            ?.map((item) => item?.closed_task_count) ?? [],
+      },
+      {
+        name: "Completion %",
+        type: "line",
+        yAxisIndex: 1,
+        data: trendData?.data?.tasks?.slice(-7)?.map((item) => {
+          const completionPercent =
+            (item?.closed_task_count / item?.total_task_count) * 100;
+          return {
+            value: completionPercent.toFixed(2),
+          };
+        }),
+      },
+    ],
+  };
   //   task trend details page table column
   const taskHistoryColumn: ColumnDef<ILatestTaskTrendDetail>[] = [
     // Date
@@ -353,8 +440,17 @@ const useLatestTrend = () => {
       ),
       cell: ({ row }) => {
         return (
-          <div className="font-medium">{row?.original?.progress_percent}</div>
+          <div className="font-medium">{row?.original?.progress_percent}%</div>
         );
+      },
+    },
+    // Hours Log
+    {
+      id: "hours_log",
+      accessorKey: "hours_log",
+      header: () => <div>Hours Log</div>,
+      cell: ({ row }) => {
+        return <div className="font-medium">{"-"}</div>;
       },
     },
   ];
@@ -365,6 +461,7 @@ const useLatestTrend = () => {
     trendData,
     trendDataLoading,
     enhancedTasks,
+    cardTrendOption,
   };
 };
 

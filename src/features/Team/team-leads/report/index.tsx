@@ -28,6 +28,7 @@ const ReportSummaryContent = () => {
     countryProjectData,
     projectMarketColumn,
     leadData,
+    budgetUtilizationOption,
   } = useReport();
   return (
     <>
@@ -55,6 +56,7 @@ const ReportSummaryContent = () => {
         projectMarketColumn={projectMarketColumn}
         countryProjectData={countryProjectData ?? []}
         projectTypeData={leadData ?? []}
+        budgetUtilizationOption={budgetUtilizationOption}
       />
     </>
   );

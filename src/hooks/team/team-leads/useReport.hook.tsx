@@ -173,7 +173,7 @@ const useReport = () => {
     () =>
       leadReportSummary?.data
         ? leadReportSummary?.data?.reduce(
-            (acc, item) => acc + item?.summary?.total_rp,
+            (acc, item) => acc + item?.summary?.available_rp,
             0
           )
         : 0,
@@ -238,12 +238,7 @@ const useReport = () => {
     {
       id: "rp",
       accessorKey: "rp",
-      header: () => (
-        <div>
-          Total Budget <br />
-          Exceeded
-        </div>
-      ),
+      header: () => <div>Total</div>,
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.total_rp) ?? 0}
@@ -253,12 +248,7 @@ const useReport = () => {
     {
       id: "client_rp",
       accessorKey: "client_rp",
-      header: () => (
-        <div>
-          Client Budget <br />
-          Exceeded
-        </div>
-      ),
+      header: () => <div>Client</div>,
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.commercial_rp) ?? 0}
@@ -268,12 +258,7 @@ const useReport = () => {
     {
       id: "inhouse_rp",
       accessorKey: "inhouse_rp",
-      header: () => (
-        <div>
-          In-House Budget <br />
-          Exceeded
-        </div>
-      ),
+      header: () => <div>In-House</div>,
       cell: ({ row }) => (
         <div className="font-medium">
           {changeNumberFormat(row?.original?.summary?.inhouse_rp) ?? 0}
@@ -568,6 +553,74 @@ const useReport = () => {
     },
   ];
 
+  const budgetUtilizationOption = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    grid: {
+      top: "15%",
+      bottom: "10%",
+      left: "7%",
+      right: "5%",
+    },
+    legend: {
+      data: ["Total", "Client", "In-House"],
+      left: "right",
+      itemWidth: 16,
+      itemHeight: 16,
+    },
+    xAxis: [
+      {
+        type: "category",
+        axisTick: { show: false },
+        data: leadReportSummary?.data?.map((lead) => lead?.fullname),
+        axisLabel: {
+          interval: 0,
+          overflow: "truncate",
+          width: 70,
+          ellipsis: "...",
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: "value",
+      },
+    ],
+    series: [
+      {
+        name: "Total",
+        type: "bar",
+        barGap: 0,
+        emphasis: {
+          focus: "series",
+        },
+        data: leadReportSummary?.data?.map((lead) => lead?.summary?.total_rp),
+      },
+      {
+        name: "Client",
+        type: "bar",
+        emphasis: {
+          focus: "series",
+        },
+        data: leadReportSummary?.data?.map(
+          (lead) => lead?.summary?.commercial_rp
+        ),
+      },
+      {
+        name: "In-House",
+        type: "bar",
+        emphasis: {
+          focus: "series",
+        },
+        data: leadReportSummary?.data?.map((lead) => lead?.summary?.inhouse_rp),
+      },
+    ],
+  };
+
   //   EFFECTS
 
   /**
@@ -712,6 +765,7 @@ const useReport = () => {
     leadId,
     projectMarketColumn,
     projectTypeColumn,
+    budgetUtilizationOption,
   };
 };
 

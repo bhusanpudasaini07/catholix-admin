@@ -329,7 +329,10 @@ const useProjectRequiredRoles = () => {
         return (
           <div className="flex flex-col w-[220px]">
             {row?.original?.required_roles?.map((role) => (
-              <p className="py-3 font-medium border-b first:pt-0 last:border-b-0">
+              <p
+                key={role?.id}
+                className="py-3 font-medium border-b first:pt-0 last:pb-0 last:border-b-0"
+              >
                 {role?.name}
               </p>
             ))}
@@ -359,6 +362,7 @@ const useProjectRequiredRoles = () => {
       enableHiding: true,
     },
   ];
+
   return {
     // STATES
     searchText,

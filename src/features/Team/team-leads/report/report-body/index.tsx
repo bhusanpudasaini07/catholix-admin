@@ -14,6 +14,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import ReportOverall from "./report-overall";
 import ReportSummaryTable from "./report-table";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 interface IProps {
   columns: ColumnDef<ILeadDetail>[];
@@ -72,11 +73,15 @@ const ReportSummaryBody = ({
                   Department Budget Utilization
                 </p>
               </div>
-              <ReactEcharts
-                option={budgetUtilizationOption}
-                opts={{ renderer: "svg" }}
-                style={{ height: 200 }}
-              />
+              {loading ? (
+                <Skeleton className="h-[200px]" />
+              ) : (
+                <ReactEcharts
+                  option={budgetUtilizationOption}
+                  opts={{ renderer: "svg" }}
+                  style={{ height: 200 }}
+                />
+              )}
             </CardContent>
           </Card>
         </div>

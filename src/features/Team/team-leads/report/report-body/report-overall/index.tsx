@@ -23,7 +23,7 @@ const ReportOverall = ({
   const summaryData = [
     {
       id: "total",
-      title: "Total Budget",
+      title: "Total",
       color: "bg-zinc-700",
       value: totalRP,
       percentage: 0,
@@ -31,7 +31,7 @@ const ReportOverall = ({
     },
     {
       id: "client",
-      title: "Client Budget",
+      title: "Client",
       color: "bg-blue-500",
       value: totalCommercialRp,
       percentage: (totalCommercialRp / totalRP) * 100,
@@ -39,7 +39,7 @@ const ReportOverall = ({
     },
     {
       id: "in_house",
-      title: "In-house Budget",
+      title: "In-house",
       color: "bg-green-500",
       value: totalInhouseRP,
       percentage: (totalInhouseRP / totalRP) * 100,
@@ -47,7 +47,7 @@ const ReportOverall = ({
     },
     {
       id: "loss",
-      title: "Loss Budget",
+      title: "Loss",
       color: "bg-[#EE6666]",
       value: totalRP - (totalCommercialRp + totalInhouseRP),
       percentage:
@@ -177,7 +177,7 @@ const ReportOverall = ({
                     <Skeleton className="mt-2 w-20 h-5" />
                   ) : (
                     item?.percentage > 0 && (
-                      <span className="text-lg text-zinc-500">
+                      <span className="text-lg whitespace-nowrap text-zinc-500">
                         | {item?.percentage.toFixed(2)}%
                       </span>
                     )

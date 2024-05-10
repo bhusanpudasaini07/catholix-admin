@@ -24,6 +24,7 @@ import UtilizationSummary from "./utilization-summary";
 import MemberTimeUtilization from "./member-time-log-utilization";
 import UtilizationSummaryCard from "@/shared/components/skeleton-loading/lead-report/utilizarion-summary-skeleton";
 import ProjectWiseBudget from "./project-wise-budget";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const LeadReportBody = ({ dateRange }: any) => {
   const {
@@ -169,9 +170,18 @@ const LeadReportBody = ({ dateRange }: any) => {
         {staffDataLoading ? (
           <ProjectsOverviewSkeleton />
         ) : (
-          <MemberTimeUtilization
-            data={staffRpSummaryData?.data?.summary?.utilization_range}
-          />
+          <Card>
+            <CardContent>
+              <div className="flex items-center justify-start gap-3 mb-6 ">
+                <h5 className="font-medium text-zinc-700">
+                  Member Time-log Utilization
+                </h5>
+              </div>
+              <MemberTimeUtilization
+                data={staffRpSummaryData?.data?.summary?.utilization_range}
+              />
+            </CardContent>
+          </Card>
         )}
       </div>
       {currentPage && currentPage !== "all" ? (

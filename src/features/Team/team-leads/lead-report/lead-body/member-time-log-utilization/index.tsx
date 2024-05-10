@@ -19,86 +19,77 @@ const MemberTimeUtilization: FC<IProps> = ({ data }) => {
     parseFloat(data?.greater_than_80 ?? "0");
 
   return (
-    <Card>
-      <CardContent>
-        <div className="flex items-center justify-start gap-3 mb-6 ">
-          <h5 className="font-medium text-zinc-700">
-            Member Time-log Utilization
-          </h5>
-        </div>
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-          <Card>
-            <CardContent className="!p-4">
-              <div className="flex items-start gap-[4px] justify-start">
-                <Users2 size={30} className="shrink-0 text-zinc-700 mt-1" />
-                <div>
-                  <p className="text-zinc-700 text-3xl font-semibold mb-1">
-                    {totalStaff ? totalStaff : 0}
-                  </p>
-                  <p className="text-zinc-700 text-sm font-normal">Members</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="!p-4">
-              <div className="flex items-start gap-[4px] justify-start">
-                <User2 size={30} className="shrink-0 text-red-500 mt-1" />
-                <div>
-                  <p className="text-red-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
-                    {data?.less_than_20 ? data?.less_than_20 : 0}
-                    {/* <ArrowUp className="text-zinc-400" size={14} /> */}
-                  </p>
-                  <p className="text-red-500 text-sm font-normal">{`< 20%`}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="!p-4">
-              <div className="flex items-start gap-[4px] justify-start">
-                <User2 size={30} className="shrink-0 text-orange-500 mt-1" />
-                <div>
-                  <p className="text-orange-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
-                    {data?.["20_to_40"] ? data?.["20_to_40"] : 0}
-                    {/* <ArrowUp className="text-zinc-400" size={14} /> */}
-                  </p>
-                  <p className="text-orange-500 text-sm font-normal whitespace-nowrap">{`20% - 40%`}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="!p-4">
-              <div className="flex items-start gap-[4px] justify-start">
-                <User2 size={30} className="shrink-0 text-indigo-700 mt-1" />
-                <div>
-                  <p className="text-indigo-700 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
-                    {data?.["40_to_80"] ? data?.["40_to_80"] : 0}
-                    {/* <ArrowUp className="text-zinc-400" size={14} /> */}
-                  </p>
-                  <p className="text-indigo-700 text-sm font-normal whitespace-nowrap">{`40% - 80%`}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="!p-4">
-              <div className="flex items-start gap-[4px] justify-start">
-                <User2 size={30} className="shrink-0 text-green-500 mt-1" />
-                <div>
-                  <p className="text-green-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
-                    {data?.greater_than_80}
-                    {/* <ArrowUp className="text-zinc-400" size={14} /> */}
-                  </p>
-                  <p className="text-green-500 text-sm font-normal whitespace-nowrap">{`> 80%`}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+      <Card className="me-[15px] relative after:absolute after:content-[''] after:h-full after:w-[2px] after:top-0 after:bg-zinc-100 after:-right-[15px]">
+        <CardContent className="!p-4">
+          <div className="flex items-start gap-[4px] justify-start">
+            <Users2 size={30} className="shrink-0 text-zinc-700 mt-1" />
+            <div>
+              <p className="text-zinc-700 text-3xl font-semibold mb-1">
+                {totalStaff ? totalStaff : 0}
+              </p>
+              <p className="text-zinc-700 text-sm font-normal">Members</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="!p-4">
+          <div className="flex items-start gap-[4px] justify-start">
+            <User2 size={30} className="shrink-0 text-red-500 mt-1" />
+            <div>
+              <p className="text-red-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
+                {data?.less_than_20 ? data?.less_than_20 : 0}
+                {/* <ArrowUp className="text-zinc-400" size={14} /> */}
+              </p>
+              <p className="text-red-500 text-sm font-normal">{`< 20%`}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="!p-4">
+          <div className="flex items-start gap-[4px] justify-start">
+            <User2 size={30} className="shrink-0 text-orange-500 mt-1" />
+            <div>
+              <p className="text-orange-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
+                {data?.["20_to_40"] ? data?.["20_to_40"] : 0}
+                {/* <ArrowUp className="text-zinc-400" size={14} /> */}
+              </p>
+              <p className="text-orange-500 text-sm font-normal whitespace-nowrap">{`20% - 40%`}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="!p-4">
+          <div className="flex items-start gap-[4px] justify-start">
+            <User2 size={30} className="shrink-0 text-indigo-700 mt-1" />
+            <div>
+              <p className="text-indigo-700 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
+                {data?.["40_to_80"] ? data?.["40_to_80"] : 0}
+                {/* <ArrowUp className="text-zinc-400" size={14} /> */}
+              </p>
+              <p className="text-indigo-700 text-sm font-normal whitespace-nowrap">{`40% - 80%`}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardContent className="!p-4">
+          <div className="flex items-start gap-[4px] justify-start">
+            <User2 size={30} className="shrink-0 text-green-500 mt-1" />
+            <div>
+              <p className="text-green-500 text-3xl font-semibold mb-1 flex items-center justify-start gap-2">
+                {data?.greater_than_80}
+                {/* <ArrowUp className="text-zinc-400" size={14} /> */}
+              </p>
+              <p className="text-green-500 text-sm font-normal whitespace-nowrap">{`> 80%`}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

@@ -1,8 +1,8 @@
-import { useRouter } from 'next/router';
-import React, { FC } from 'react';
+import { useRouter } from "next/router";
+import React, { FC } from "react";
 
-import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { Button } from "@/shared/components/ui/button";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 interface IProps {
   total?: string;
@@ -24,7 +24,7 @@ const ProjectOverview: FC<IProps> = ({ total, client, in_house, risk }) => {
             variant={"white"}
             size={"sm"}
           >
-            More Details
+            View Projects
           </Button>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

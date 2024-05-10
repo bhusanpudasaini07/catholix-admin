@@ -34,6 +34,8 @@ const buttonVariants = cva(
         date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
         success:
           "bg-green-500 border border-green-500 shadow-sm py-2 px-3 text-white hover:bg-green-600 hover:border-green-600",
+        outline_tertiary:
+          "shadow-sm text-blue-500 text-sm rounded-lg border border-blue-100 hover:bg-blue-500 hover:text-white",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

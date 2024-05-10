@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/components/ui/table";
+import { useRouter } from "next/router";
 
 const columns = [
   "S.N",
@@ -23,16 +24,35 @@ const columns = [
   "Actions",
 ];
 
+const requiredRolesColumns = [
+  "S.N",
+  "Project Info",
+  "Status",
+  "Project Lead",
+  "Deadline",
+  "Task Status",
+  "Project Health",
+  "Needed Roles",
+  "Potential Members",
+];
+
 const ProjectTableSkeleton = () => {
+  const router = useRouter();
+
+  const isRequiredRoles = router?.pathname === "/project-required-roles";
   return (
     <>
       <div className="overflow-hidden overflow-x-auto rounded-md">
         <Table className="rounded-md bg-light-white">
           <TableHeader>
             <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column}>{column}</TableHead>
-              ))}
+              {isRequiredRoles
+                ? requiredRolesColumns.map((column) => (
+                    <TableHead key={column}>{column}</TableHead>
+                  ))
+                : columns.map((column) => (
+                    <TableHead key={column}>{column}</TableHead>
+                  ))}
             </TableRow>
           </TableHeader>
 
@@ -70,22 +90,43 @@ const ProjectTableSkeleton = () => {
                   <Skeleton className="w-[110px] h-3 mb-2" />
                   <Skeleton className="w-[50px] h-3" />
                 </TableCell>
-                <TableCell>
-                  <Skeleton className="w-[110px] h-3 mb-2" />
-                </TableCell>
-                <TableCell>
-                  <Skeleton className="w-[110px] h-3 mb-2" />
-                  <Skeleton className="mb-2 w-full h-2" />
-                  <Skeleton className="h-3 w-[130px] mb-2" />
-                  <Skeleton className="h-3 w-[130px] mb-2" />
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-3 items-center">
-                    <Skeleton className="mb-2 w-4 h-4 rounded-full" />
-                    <Skeleton className="mb-2 w-4 h-4 rounded-full" />
-                    <Skeleton className="mb-2 w-4 h-4 rounded-full" />
-                  </div>
-                </TableCell>
+                {isRequiredRoles ? (
+                  <TableCell>
+                    <Skeleton className="w-[110px] h-3 mb-2" />
+                    <Skeleton className="mb-2 w-full h-2" />
+                    <Skeleton className="h-3 w-[130px] mb-2" />
+                    <Skeleton className="h-3 w-[130px] mb-2" />
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <Skeleton className="w-[110px] h-3 mb-2" />
+                  </TableCell>
+                )}
+
+                {!isRequiredRoles && (
+                  <TableCell>
+                    <Skeleton className="w-[110px] h-3 mb-2" />
+                    <Skeleton className="mb-2 w-full h-2" />
+                    <Skeleton className="h-3 w-[130px] mb-2" />
+                    <Skeleton className="h-3 w-[130px] mb-2" />
+                  </TableCell>
+                )}
+
+                {isRequiredRoles ? (
+                  <TableCell>
+                    <div className="flex gap-3 items-center">
+                      <Skeleton className="mb-2 w-4 h-4 rounded-full" />
+                    </div>
+                  </TableCell>
+                ) : (
+                  <TableCell>
+                    <div className="flex gap-3 items-center">
+                      <Skeleton className="mb-2 w-4 h-4 rounded-full" />
+                      <Skeleton className="mb-2 w-4 h-4 rounded-full" />
+                      <Skeleton className="mb-2 w-4 h-4 rounded-full" />
+                    </div>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

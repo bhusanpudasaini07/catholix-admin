@@ -20,11 +20,11 @@ const UtilizationSunburst: FC<IProps> = ({ data, tab, projects }) => {
       children: [
         {
           name: "Loss",
-          value: parseFloat(loss_rp),
+          value: loss_rp ? parseFloat(loss_rp) : "",
           children: [
             {
               name: "Loss",
-              value: parseFloat(loss_rp),
+              value: loss_rp ? parseFloat(loss_rp) : 0,
             },
           ],
         },
@@ -35,12 +35,14 @@ const UtilizationSunburst: FC<IProps> = ({ data, tab, projects }) => {
       children: [
         {
           name: "In-House",
-          value: parseFloat(data.inhouse_rp.toFixed(2)),
+          value: data.inhouse_rp ? parseFloat(data.inhouse_rp.toFixed(2)) : 0,
           children: [],
         },
         {
           name: "Commercial",
-          value: parseFloat(data.commercial_rp.toFixed(2)),
+          value: data.commercial_rp
+            ? parseFloat(data.commercial_rp.toFixed(2))
+            : 0,
         },
       ],
     },

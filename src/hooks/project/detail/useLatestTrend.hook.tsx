@@ -440,7 +440,7 @@ const useLatestTrend = () => {
       ),
       cell: ({ row }) => {
         return (
-          <div className="font-medium">{row?.original?.progress_percent}</div>
+          <div className="font-medium">{row?.original?.progress_percent}%</div>
         );
       },
     },

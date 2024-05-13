@@ -9,20 +9,20 @@ const SavedQuotesHeader = () => {
   return (
     <div className="flex justify-between items-center px-8 py-6 bg-white border-b border-b-slate-100">
       <div className="flex gap-4 items-start">
-        <Button
+        {/* <Button
           onClick={() => router.push(`/unit-calculator`)}
           variant={"table"}
           className="h-auto gap-2 p-2.5"
           size={"sm"}
         >
           <ChevronLeft size={16} />
-        </Button>
+        </Button> */}
         <div>
           <h4 className="flex gap-2 items-center mb-1 text-2xl font-medium text-zinc-700">
-            Saved Quotes
+            Quote Builder
           </h4>
           <p className="text-base font-normal text-zinc-500">
-            Unit consumption of the projects.
+            List of Saved Quotes and Shared Quotes
           </p>
         </div>
       </div>
@@ -35,13 +35,13 @@ const SavedQuotesHeader = () => {
           <Download size={20} />
           All Staffs List
         </Button>
-        <Button
+        {/* <Button
           onClick={() => router?.push("/unit-calculator")}
           variant={"outline"}
         >
           <Calculator size={20} />
           Unit Calculator
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

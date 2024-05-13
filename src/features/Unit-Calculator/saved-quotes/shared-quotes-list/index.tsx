@@ -3,14 +3,16 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import React from "react";
 
-const SavedQuotesList = () => {
+const SharedQuotesList = () => {
   const { columns, dummyData } = useSavedQuotes();
 
   return (
     <Card>
       <CardContent>
         <div className="flex justify-between items-center mb-10">
-          <p className="text-lg font-medium text-zinc-700">My Saved Quotes</p>
+          <p className="text-lg font-medium text-zinc-700">
+            Shared Quotes with me{" "}
+          </p>
         </div>
 
         <DataTable columns={columns} data={dummyData} border />
@@ -19,4 +21,4 @@ const SavedQuotesList = () => {
   );
 };
 
-export default SavedQuotesList;
+export default SharedQuotesList;

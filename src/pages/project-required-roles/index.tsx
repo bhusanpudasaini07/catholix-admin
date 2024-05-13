@@ -23,19 +23,15 @@ const ProjectRequiredRolePage = () => {
             List of Projects to increase the efficiency of the project.
           </p>
         </div>
-      </div>
-
-      {/* Filters */}
-      <div className="flex gap-3 justify-end items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
         <FilterSearch searchText={searchText} setSearchText={setSearchText} />
       </div>
 
-      <div className="p-6 font-medium text-zinc-700">
+      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         {isLoading ? (
           <ProjectTableSkeleton />
         ) : (
           <DataTable
-            height="max-h-[calc(100vh-290px)]"
+            height="max-h-[calc(100vh-165px)]"
             columns={columns}
             headerSticky
             border

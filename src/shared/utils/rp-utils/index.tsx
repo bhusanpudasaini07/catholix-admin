@@ -185,6 +185,18 @@ const timeFormatter = (time: number) => {
   }
 };
 
+const hoursMinuteFormatter = (time: number) => {
+  const timeInSeconds = time;
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+
+  if (hours === 0) {
+    return `${minutes}M`;
+  } else {
+    return `${hours}H ${minutes}M`;
+  }
+};
+
 //For rounded hours
 const calculateTime = (time: number) => {
   const totalHours = time / 3600;
@@ -218,4 +230,5 @@ export {
   calculateTime,
   timeFormatter,
   calculatePercentage,
+  hoursMinuteFormatter,
 };

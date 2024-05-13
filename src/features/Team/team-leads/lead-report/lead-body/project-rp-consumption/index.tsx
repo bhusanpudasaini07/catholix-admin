@@ -17,6 +17,7 @@ import { useQuery } from "react-query";
 import { getConfig } from "@/services/dashboard/dashboard-service";
 import Image from "next/image";
 import { changeNumberFormat } from "@/shared/utils/rp-utils";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
   staffDataLoading,
@@ -128,9 +129,57 @@ const ProjectRpConsumptionTable: FC<IRpStaffSummaryProps> = ({
       enableHiding: false,
     },
     {
-      id: "percentage",
-      accessorKey: "percentage",
-      header: "%",
+      id: "total_rp",
+      accessorKey: "total_rp",
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>%</p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
+        </div>
+      ),
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
           {calculatePercentage(row?.original?.total_rp, total).toFixed(2)}%

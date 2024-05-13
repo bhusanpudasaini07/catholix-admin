@@ -135,7 +135,7 @@ const RoleCountryTable: FC<IRpStaffSummaryProps> = ({
   return (
     <Card>
       <CardContent>
-        <div className="flex items-center justify-between gap-3 mb-6 ">
+        <div className="flex items-center justify-between gap-3 mb-6 py-[5px] ">
           <div className="flex flex-wrap items-center gap-2">
             <h5 className="font-medium text-zinc-700">
               Role-Wise Country Project

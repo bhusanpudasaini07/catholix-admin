@@ -176,22 +176,22 @@ const SidebarNew = ({
         },
         {
           menuName: t("common.side_nav.reports"),
-          menuSlug: "/reports",
+          menuSlug: "/reports/member-resource",
           icon: <File width={20} height={20} />,
           hasAccordion: true,
           accordionItem: [
             {
-              itemName: "Report",
-              itemSlug: "/test",
+              itemName: t("common.side_nav.member_resource_report"),
+              itemSlug: "/reports/member-resource",
             },
-            {
-              itemName: "Lead Targets",
-              itemSlug: "/test",
-            },
-            {
-              itemName: "Lead Report",
-              itemSlug: "/test",
-            },
+            // {
+            //   itemName: "Lead Targets",
+            //   itemSlug: "/test",
+            // },
+            // {
+            //   itemName: "Lead Report",
+            //   itemSlug: "/test",
+            // },
           ],
         },
         {
@@ -281,7 +281,12 @@ const SidebarNew = ({
       subMenu: [
         {
           menuName: t("common.side_nav.quote_builder"),
-          menuSlug: "/unit-calculator",
+          menuSlug: "/quote-builder",
+          icon: <Calculator width={20} height={20} />,
+        },
+        {
+          menuName: t("common.side_nav.saved_quote"),
+          menuSlug: "/saved-quotes",
           icon: <Calculator width={20} height={20} />,
         },
       ],

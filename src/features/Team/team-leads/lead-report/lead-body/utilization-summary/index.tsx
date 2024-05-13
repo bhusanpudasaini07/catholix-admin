@@ -107,7 +107,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                 <p className="mb-3 text-base font-medium text-zinc-700">
                   Budget Utilization
                 </p>
-                <div className="flex flex-wrap gap-3 justify-between items-center">
+                <div className="flex flex-wrap gap-4 justify-between items-center">
                   <div className="">
                     <p className="flex mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#5470C6] before:me-2">
                       Available {tab === "budget" ? "Budget" : "Time"}
@@ -120,8 +120,8 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="">
-                    <p className="flex mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#91CC75] before:me-2">
+                  <div className="grow-[1]">
+                    <p className="flex justify-start mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#91CC75] before:me-2">
                       Spent {tab === "budget" ? "Budget" : "Time"}
                     </p>
                     <div className="ms-[18px] flex items-center">

@@ -18,8 +18,8 @@ interface IProps {
   projects: IProject[];
 }
 const UtilizationSunburst: FC<IProps> = ({ data, tab, projects }) => {
-  const loss_rp = (data.available_rp - data.total_rp).toFixed(2);
-  const loss_time = (data.available_time - data.total_time).toFixed(2);
+  const loss_rp = (data?.available_rp - data?.total_rp).toFixed(2);
+  const loss_time = (data?.available_time - data?.total_time).toFixed(2);
 
   const chartData =
     tab === "time"
@@ -61,13 +61,15 @@ const getTimeChartData = (data: any, loss_time: string) => [
     children: [
       {
         name: "In-House",
-        value: data.inhouse_time ? parseFloat(data.inhouse_time.toFixed(2)) : 0,
+        value: data?.inhouse_time
+          ? parseFloat(data?.inhouse_time.toFixed(2))
+          : 0,
         children: [],
       },
       {
         name: "Commercial",
-        value: data.commercial_time
-          ? parseFloat(data.commercial_time.toFixed(2))
+        value: data?.commercial_time
+          ? parseFloat(data?.commercial_time.toFixed(2))
           : 0,
       },
     ],
@@ -89,13 +91,13 @@ const getRpChartData = (data: any, loss_rp: string) => [
     children: [
       {
         name: "In-House",
-        value: data.inhouse_rp ? parseFloat(data.inhouse_rp.toFixed(2)) : 0,
+        value: data?.inhouse_rp ? parseFloat(data?.inhouse_rp.toFixed(2)) : 0,
         children: [],
       },
       {
         name: "Commercial",
-        value: data.commercial_rp
-          ? parseFloat(data.commercial_rp.toFixed(2))
+        value: data?.commercial_rp
+          ? parseFloat(data?.commercial_rp.toFixed(2))
           : 0,
       },
     ],

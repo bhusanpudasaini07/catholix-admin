@@ -265,6 +265,19 @@ const useReport = () => {
         </div>
       ),
     },
+    {
+      id: "loss",
+      accessorKey: "loss",
+      header: () => <div>Loss</div>,
+      cell: ({ row }) => (
+        <div className="font-medium">
+          {changeNumberFormat(
+            row?.original?.summary?.available_rp -
+              row?.original?.summary?.total_rp
+          ) ?? 0}
+        </div>
+      ),
+    },
   ];
 
   const rpOptions = {
@@ -567,7 +580,6 @@ const useReport = () => {
       right: "5%",
     },
     legend: {
-      data: ["Total", "Client", "In-House"],
       left: "right",
       itemWidth: 16,
       itemHeight: 16,
@@ -592,17 +604,9 @@ const useReport = () => {
     ],
     series: [
       {
-        name: "Total",
-        type: "bar",
-        barGap: 0,
-        emphasis: {
-          focus: "series",
-        },
-        data: leadReportSummary?.data?.map((lead) => lead?.summary?.total_rp),
-      },
-      {
         name: "Client",
         type: "bar",
+        barGap: 0,
         emphasis: {
           focus: "series",
         },
@@ -617,6 +621,17 @@ const useReport = () => {
           focus: "series",
         },
         data: leadReportSummary?.data?.map((lead) => lead?.summary?.inhouse_rp),
+      },
+      {
+        name: "Loss",
+        type: "bar",
+        emphasis: {
+          focus: "series",
+        },
+        color: "#EE6666",
+        data: leadReportSummary?.data?.map((lead) =>
+          (lead?.summary?.available_rp - lead?.summary?.total_rp).toFixed(2)
+        ),
       },
     ],
   };

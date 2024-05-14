@@ -68,7 +68,7 @@ const ReportSummaryBody = ({
           />
           <Card>
             <CardContent>
-              <div className="flex justify-between items-center mb-10">
+              <div className="flex justify-between items-center mb-6">
                 <p className="text-lg font-medium text-zinc-700">
                   Department Budget Utilization
                 </p>
@@ -79,7 +79,7 @@ const ReportSummaryBody = ({
                 <ReactEcharts
                   option={budgetUtilizationOption}
                   opts={{ renderer: "svg" }}
-                  style={{ height: 200 }}
+                  style={{ height: 250 }}
                 />
               )}
             </CardContent>

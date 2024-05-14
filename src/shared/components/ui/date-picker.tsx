@@ -1,12 +1,12 @@
 "use client";
 
-import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
-import * as React from 'react';
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import * as React from "react";
 
-import { Button } from './button';
-import { Calendar } from './calendar';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
+import { Button } from "./button";
+import { Calendar } from "./calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 interface IProps {
   text?: string;
@@ -36,7 +36,7 @@ const DatePicker: React.FC<IProps> = ({
           ${className && className} `}
         >
           {date ? format(date, "PPP") : <span>{text}</span>}
-          <CalendarIcon className="w-4 h-4 ml-2" />
+          <CalendarIcon className="ml-2 w-4 h-4" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

@@ -90,7 +90,7 @@ const useTeamMemberList = () => {
   };
 
   // change date range
-  const dateChangeHandler = (date: DateRange) => {
+  const dateChangeHandler = (date: DateRange | undefined) => {
     setDateRange(date);
   };
 

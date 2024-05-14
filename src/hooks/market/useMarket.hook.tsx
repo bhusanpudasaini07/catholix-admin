@@ -49,7 +49,7 @@ const useMarket = () => {
   ];
 
   // STATES
-  const [date, setDate] = useState<DateRange>({
+  const [date, setDate] = useState<DateRange | undefined>({
     from: moment().subtract(1, "months").toDate(),
     to: moment().toDate(),
   });
@@ -725,6 +725,7 @@ const useMarket = () => {
     dateRangeOpen,
     setDateRangeOpen,
     date,
+    setDate,
     sourceOption,
     setSourceOption,
     statusOption,

@@ -6,7 +6,7 @@ interface IProps {
   setDateRangeOpen: (arg: boolean) => void;
   dateRangeOpen: boolean;
   dateRange: DateRange | undefined;
-  dateChangeHandler: (arg: DateRange) => void;
+  dateChangeHandler: (arg: DateRange | undefined) => void;
   searchHandler: (arg: string) => void;
   setDepartment: (arg: string) => void;
   department: string;

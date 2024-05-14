@@ -6,6 +6,7 @@ import useStaffDetail from "@/hooks/staff/useStaffDetail.hook";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import { Button } from "@/shared/components/ui/button";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 
 interface IProps {
   dateRange: any;
@@ -23,8 +24,8 @@ const StaffsHeader: FC<IProps> = ({
   const { staffDetails, staffDetailsLoading } = useStaffDetail();
 
   return (
-    <div className="flex justify-between px-8 py-6 bg-white border-b border-b-slate-100">
-      <div className="flex items-start gap-4">
+    <div className="flex justify-between items-center px-8 py-6 bg-white border-b border-b-slate-100">
+      <div className="flex gap-4 items-start">
         <Button
           onClick={() => router.back()}
           variant={"table"}
@@ -36,8 +37,8 @@ const StaffsHeader: FC<IProps> = ({
         <div>
           {staffDetailsLoading ? (
             <>
-              <Skeleton className="w-20 h-3 mb-4" />
-              <Skeleton className="w-10 h-3 mb-5" />
+              <Skeleton className="mb-4 w-20 h-3" />
+              <Skeleton className="mb-5 w-10 h-3" />
             </>
           ) : (
             <>
@@ -63,12 +64,18 @@ const StaffsHeader: FC<IProps> = ({
         </div>
       </div>
       <div className="">
-        <DateRangeFilter
+        <CustomDateFilter
+          date={dateRange}
+          setDate={setDateRange}
+          defaultSelected="date_range"
+          tabContent={["date_range", "weekly", "monthly", "yearly"]}
+        />
+        {/* <DateRangeFilter
           dateRange={dateRange}
           setDateRange={setDateRange}
           dateRangeOpen={dateRangeOpen}
           setDateRangeOpen={setDateRangeOpen}
-        />
+        /> */}
       </div>
     </div>
   );

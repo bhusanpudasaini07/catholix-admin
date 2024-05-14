@@ -1,4 +1,5 @@
 import useLeadReport from "@/hooks/team/team-leads/useLeadReport.hook";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,
@@ -60,7 +61,7 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
           </SelectContent>
         </Select>
 
-        <Tabs
+        {/* <Tabs
           defaultValue="monthly"
           className="flex flex-row-reverse flex-wrap gap-3 items-center"
         >
@@ -115,7 +116,13 @@ const LeadHeader = ({ setDateRange, dateRange }: any) => {
               buttonClassName="min-w-[240px]"
             />
           </TabsContent>
-        </Tabs>
+        </Tabs> */}
+        <CustomDateFilter
+          defaultSelected="date_range"
+          tabContent={["date_range", "weekly", "monthly", "yearly"]}
+          date={dateRange}
+          setDate={setDateRange}
+        />
       </div>
     </div>
   );

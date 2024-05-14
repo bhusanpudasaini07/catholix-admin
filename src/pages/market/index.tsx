@@ -31,6 +31,7 @@ const Market: NextPageWithLayout = () => {
     getIndividualMarketBarOption,
     statusOption,
     setStatusOption,
+    setDate,
   } = useMarket();
   return (
     <>
@@ -38,6 +39,7 @@ const Market: NextPageWithLayout = () => {
         dateRangeOpen={dateRangeOpen}
         setDateRangeOpen={setDateRangeOpen}
         changeDate={changeDate}
+        setDate={setDate}
         date={date}
         sourceOption={sourceOption}
         setSourceOption={setSourceOption}

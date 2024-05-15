@@ -124,7 +124,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       </p>
                     </div>
                   </div>
-                  <div className="]">
+                  <div>
                     <p className="flex justify-start mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#91CC75] before:me-2">
                       Spent {tab === "budget" ? "Budget" : "Time"}
                     </p>

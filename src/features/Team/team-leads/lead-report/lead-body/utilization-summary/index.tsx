@@ -4,7 +4,11 @@ import { FC, useState } from "react";
 import UtilizationSankey from "./utilization-sankey";
 import MarketResource from "./market-resource";
 import { IProject } from "@/interface/team-lead-report-interface";
-import { changeNumberFormat, timeFormatter } from "@/shared/utils/rp-utils";
+import {
+  changeNumberFormat,
+  hourTimeFormatter,
+  timeFormatter,
+} from "@/shared/utils/rp-utils";
 import {
   Select,
   SelectContent,
@@ -116,11 +120,11 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       <p className="text-3xl font-medium text-zinc-700">
                         {tab === "budget"
                           ? changeNumberFormat(Math.round(available))
-                          : timeFormatter(data?.available_time)}
+                          : hourTimeFormatter(data?.available_time)}
                       </p>
                     </div>
                   </div>
-                  <div className="grow-[1]">
+                  <div>
                     <p className="flex justify-start mb-2 before:content-[''] before:h-[24px] before:w-[8px] before:block before:bg-[#91CC75] before:me-2">
                       Spent {tab === "budget" ? "Budget" : "Time"}
                     </p>
@@ -128,7 +132,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       <p className="text-3xl font-medium text-zinc-700">
                         {tab === "budget"
                           ? changeNumberFormat(Math.round(Number(spent)))
-                          : timeFormatter(data?.total_time)}
+                          : hourTimeFormatter(data?.total_time)}
                       </p>
                       <p className="text-2xl font-medium text-zinc-500 ms-2">
                         |{" "}
@@ -147,7 +151,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
                       <p className="text-3xl font-medium text-zinc-700">
                         {tab === "budget"
                           ? changeNumberFormat(Math.round(Number(loss)))
-                          : timeFormatter(lossTime)}
+                          : hourTimeFormatter(lossTime)}
                       </p>
                       <p className="text-2xl font-medium text-zinc-500 ms-2">
                         |{" "}
@@ -161,7 +165,7 @@ const UtilizationSummary: FC<IProps> = ({ data, projects }) => {
             </Card>
             <MarketResource data={projects} />
           </div>
-          <div className="">
+          <div>
             {chart === "sankey" ? (
               <UtilizationSankey data={data} tab={tab} />
             ) : (

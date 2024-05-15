@@ -12,7 +12,7 @@ const useTimeLog = () => {
   } = useRouter();
 
   // STATES
-  const [daily, setDaily] = useState<Date | undefined>(undefined);
+  // const [daily, setDaily] = useState<Date | undefined>(undefined);
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,
     to: undefined,
@@ -24,13 +24,8 @@ const useTimeLog = () => {
   let date_from = "";
   let date_to = "";
 
-  if (tab === "daily" && daily) {
-    date_from = daily ? moment(daily).format("YYYY-MM-DD") : "";
-    date_to = daily ? moment(daily).format("YYYY-MM-DD") : "";
-  } else {
-    date_from = date?.from ? moment(date?.from).format("YYYY-MM-DD") : "";
-    date_to = date?.to ? moment(date?.to).format("YYYY-MM-DD") : "";
-  }
+  date_from = date?.from ? moment(date?.from).format("YYYY-MM-DD") : "";
+  date_to = date?.to ? moment(date?.to).format("YYYY-MM-DD") : "";
 
   const { data: timeLogs, isLoading: timeLogLoading } = useQuery({
     queryFn: async () => {
@@ -133,8 +128,7 @@ const useTimeLog = () => {
     timeLogLoading,
     timeLogs,
     // STATES
-    daily,
-    setDaily,
+
     date,
     setDate,
     tab,

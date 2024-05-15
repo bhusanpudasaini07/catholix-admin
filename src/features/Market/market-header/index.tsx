@@ -10,12 +10,14 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { useCommonStore } from "@/store/common-store";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 
 interface IProps {
   dateRangeOpen: boolean;
   setDateRangeOpen: (arg: boolean) => void;
   changeDate: (arg: DateRange) => void;
-  date: DateRange;
+  date: DateRange | undefined;
+  setDate: (arg: DateRange | undefined) => void;
   sourceOption: string;
   setSourceOption: (arg: string) => void;
   statusOption: string;
@@ -31,6 +33,7 @@ const MarketHeader = ({
   setSourceOption,
   statusOption,
   setStatusOption,
+  setDate,
 }: IProps) => {
   const { filterConfig } = useCommonStore();
   return (
@@ -76,14 +79,20 @@ const MarketHeader = ({
             ))}
           </SelectContent>
         </Select>
-        <DateRangeFilter
+        <CustomDateFilter
+          defaultSelected="date_range"
+          tabContent={["date_range", "weekly", "monthly", "yearly"]}
+          date={date}
+          setDate={setDate}
+        />
+        {/* <DateRangeFilter
           buttonClassName="max-w-[280px]"
           setDateRange={changeDate}
           dateRange={date}
           setDateRangeOpen={setDateRangeOpen}
           dateRangeOpen={dateRangeOpen}
           disabled
-        />
+        /> */}
       </div>
     </div>
   );

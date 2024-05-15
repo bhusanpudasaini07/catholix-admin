@@ -1,6 +1,7 @@
 import React from "react";
 
 import DateRangeFilter from "@/shared/components/date-range-filter";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 
 interface IProps {
   dateRange: any;
@@ -24,6 +25,7 @@ const ReportSummaryHeader = ({
         <p className="text-base font-normal text-zinc-500">List of reports</p>
       </div>
 
+      {/* 
       <div className="grow max-w-[250px] ml-auto">
         <DateRangeFilter
           dateRange={dateRange}
@@ -32,7 +34,14 @@ const ReportSummaryHeader = ({
           dateRangeOpen={dateRangeOpen}
           disabled={true}
         />
-      </div>
+      </div> */}
+
+      <CustomDateFilter
+        defaultSelected="date_range"
+        tabContent={["date_range", "weekly", "monthly", "yearly"]}
+        date={dateRange}
+        setDate={setDateRange}
+      />
     </div>
   );
 };

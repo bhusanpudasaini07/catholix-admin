@@ -65,7 +65,7 @@ const useLatestActivities = () => {
   const handlePageChange = (pageNum: number) => {
     setPageNumber(pageNum);
   };
-  const changeDateRange = (date: DateRange) => {
+  const changeDateRange = (date: DateRange | undefined) => {
     setDateRange({
       from: date?.from,
       to: date?.to,

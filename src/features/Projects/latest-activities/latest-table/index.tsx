@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 
 const LatestActivityTable = () => {
   const {
@@ -37,13 +38,7 @@ const LatestActivityTable = () => {
             <p className="text-lg font-medium text-zinc-700">
               Latest Activities
             </p>
-            <div className="flex items-center gap-4 w-[30%]">
-              <DateRangeFilter
-                dateRangeOpen={dateRangeOpen}
-                setDateRangeOpen={setDateRangeOpen}
-                setDateRange={changeDateRange}
-                dateRange={dateRange}
-              />
+            <div className="flex gap-4 justify-end items-center grow">
               {/* Filter by type */}
               <Select
                 defaultValue="all"
@@ -63,6 +58,18 @@ const LatestActivityTable = () => {
                   ))}
                 </SelectContent>
               </Select>
+              {/* <DateRangeFilter
+                dateRangeOpen={dateRangeOpen}
+                setDateRangeOpen={setDateRangeOpen}
+                setDateRange={changeDateRange}
+                dateRange={dateRange}
+              /> */}
+              <CustomDateFilter
+                defaultSelected="date_range"
+                tabContent={["date_range", "weekly", "monthly", "daily"]}
+                date={dateRange}
+                setDate={changeDateRange}
+              />
             </div>
           </div>
           <DataTable

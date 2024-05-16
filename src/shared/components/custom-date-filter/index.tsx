@@ -80,7 +80,7 @@ const CustomDateFilter = ({
       case "date_range":
         return (
           <DateRangeFilter
-            buttonClassName="max-w-[250px]"
+            buttonClassName="w-[250px]"
             setDateRange={changeDateHandler}
             dateRange={date}
             setDateRangeOpen={setDateRangeOpen}

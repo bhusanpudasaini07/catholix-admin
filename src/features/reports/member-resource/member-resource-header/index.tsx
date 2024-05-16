@@ -1,3 +1,4 @@
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import {
   Select,
@@ -48,62 +49,12 @@ const MemberResourceHeader = () => {
           </SelectContent>
         </Select>
 
-        <Tabs
-          defaultValue="monthly"
-          className="flex flex-row-reverse flex-wrap gap-3 items-center"
-        >
-          <TabsList>
-            <TabsTrigger value="monthly">Monthly</TabsTrigger>
-            <TabsTrigger value="daily">Daily</TabsTrigger>
-            <TabsTrigger value="weekly">Weekly Report</TabsTrigger>
-            <TabsTrigger value="multi_week">Multiple Weekly Report</TabsTrigger>
-          </TabsList>
-
-          <TabsContent className="!m-0" value="monthly">
-            <DateRangeFilter
-              placeholder="Select Monthly"
-              dateRangeOpen={dateRangeOpen}
-              setDateRangeOpen={setDateRangeOpen}
-              setDateRange={setDateRange}
-              dateRange={dateRange}
-              buttonClassName="min-w-[240px]"
-            />
-          </TabsContent>
-          <TabsContent className="!m-0" value="daily">
-            <DateRangeFilter
-              placeholder="Select Daily"
-              dateRangeOpen={dateRangeOpen}
-              setDateRangeOpen={setDateRangeOpen}
-              setDateRange={setDateRange}
-              dateRange={dateRange}
-              buttonClassName="min-w-[240px]"
-            />
-          </TabsContent>
-          {/* <TabsContent className="!m-0" value="weekly">
-            <Select onValueChange={handleChange} value={selected}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Weekly" />
-              </SelectTrigger>
-              <SelectContent>
-                {weeklyData.map((item, index) => (
-                  <SelectItem key={index} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </TabsContent> */}
-          <TabsContent className="!m-0" value="multi_week">
-            <DateRangeFilter
-              placeholder="Select Multiple Weekly"
-              dateRangeOpen={dateRangeOpen}
-              setDateRangeOpen={setDateRangeOpen}
-              setDateRange={setDateRange}
-              dateRange={dateRange}
-              buttonClassName="min-w-[240px]"
-            />
-          </TabsContent>
-        </Tabs>
+        <CustomDateFilter
+          defaultSelected="date_range"
+          tabContent={["date_range", "weekly", "monthly"]}
+          date={dateRange}
+          setDate={setDateRange}
+        />
       </div>
     </div>
   );

@@ -270,12 +270,17 @@ const useLeaveRequest = () => {
           <div>
             <div>
               <p className="font-medium text-zinc-500">
-                {moment(row?.original?.leave?.from_date)?.format("ll")}
+                {moment(row?.original?.leave?.from_date)?.format("MMM DD")}
               </p>
-              <p className="text-zinc-500">to</p>
-              <p className="font-medium text-zinc-500">
-                {moment(row?.original?.leave?.to_date).format("ll")}
-              </p>
+              {row?.original?.leave?.from_date !==
+                row?.original?.leave?.to_date && (
+                <>
+                  <p className="text-zinc-500">to</p>
+                  <p className="font-medium text-zinc-500">
+                    {moment(row?.original?.leave?.to_date).format("ll")}
+                  </p>
+                </>
+              )}
             </div>
             <p className="mt-1 font-medium text-zinc-500">
               ({row?.original?.leave?.type})

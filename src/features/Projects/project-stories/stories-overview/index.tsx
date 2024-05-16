@@ -60,7 +60,7 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Closed */}
           <div
-            className={`flex flex-col gap-3 justify-center items-center py-6 text-green-500 bg-green-50 rounded-md border-green-100 h-[148px] border-[1px]`}
+            className={`flex relative flex-col gap-3 justify-center items-center py-6 text-green-500 bg-green-50 rounded-md border-green-100 h-[148px] border-[1px] after:absolute after:content-[''] after:h-full after:w-[2px] after:top-0 after:bg-zinc-100 after:-right-[15px]`}
           >
             <p className="text-4xl font-semibold">
               {" "}

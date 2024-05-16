@@ -328,7 +328,10 @@ const useMoreDetail = () => {
                 const utilizedPercentage =
                   (Number(item?.rp) / Number(totalRP)) * 100;
                 return {
-                  value: Math.round(utilizedPercentage),
+                  value:
+                    selectValues?.status === "utilization"
+                      ? Math.round(utilizedPercentage)
+                      : Math.round(Number(item?.rp)),
                   name: item?.title,
                 };
               })
@@ -418,7 +421,10 @@ const useMoreDetail = () => {
                 const utilizedPercentage =
                   (Number(item?.rp) / Number(totalRP)) * 100;
                 return {
-                  value: utilizedPercentage.toFixed(2),
+                  value:
+                    selectValues?.category === "utilization"
+                      ? Math.round(utilizedPercentage)
+                      : Math.round(Number(item?.rp)),
                   name: item?.title,
                 };
               })
@@ -508,7 +514,10 @@ const useMoreDetail = () => {
                 const utilizedPercentage =
                   (Number(item?.rp) / Number(totalRP)) * 100;
                 return {
-                  value: utilizedPercentage.toFixed(2),
+                  value:
+                    selectValues?.platform === "utilization"
+                      ? Math.round(utilizedPercentage)
+                      : Math.round(Number(item?.rp)),
                   name: item?.title,
                 };
               })

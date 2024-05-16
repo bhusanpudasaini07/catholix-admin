@@ -48,13 +48,13 @@ const Status = ({
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue
-                placeholder="RP Utilization"
-                defaultValue={"RP Utilization"}
+                placeholder="Budget Utilization"
+                defaultValue={"Budget Utilization"}
               />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="utilization">RP Utilization</SelectItem>
-              <SelectItem value="consumption">RP Consumption</SelectItem>
+              <SelectItem value="utilization">Budget Utilization</SelectItem>
+              <SelectItem value="consumption">Budget Consumption</SelectItem>
             </SelectContent>
           </Select>
         </div>

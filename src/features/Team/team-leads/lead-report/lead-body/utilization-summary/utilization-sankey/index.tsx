@@ -272,12 +272,10 @@ const UtilizationSankey: FC<IProps> = ({ data, tab }) => {
     },
   };
   return (
-    <div>
-      <ReactEcharts
-        option={tab === "budget" ? option : optionTime}
-        style={{ height: "350px" }}
-      />
-    </div>
+    <ReactEcharts
+      option={tab === "budget" ? option : optionTime}
+      style={{ height: "100%", minHeight: "300px" }}
+    />
   );
 };
 

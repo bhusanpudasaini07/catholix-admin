@@ -31,7 +31,7 @@ const UtilizationSunburst: FC<IProps> = ({ data, tab, projects }) => {
       {
         type: "sunburst",
         data: chartData,
-        radius: [0, "100%"],
+        radius: [0, "90%"],
         label: {
           rotate: "radial",
         },
@@ -40,9 +40,10 @@ const UtilizationSunburst: FC<IProps> = ({ data, tab, projects }) => {
   };
 
   return (
-    <div>
-      <ReactEcharts option={option} />
-    </div>
+    <ReactEcharts
+      style={{ height: "100%", minHeight: "300px" }}
+      option={option}
+    />
   );
 };
 

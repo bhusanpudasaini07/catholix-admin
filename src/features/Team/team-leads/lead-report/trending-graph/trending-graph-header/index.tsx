@@ -1,14 +1,19 @@
-import { ArrowLeft } from 'lucide-react';
-import { useRouter } from 'next/router';
-import React, { FC, useState } from 'react';
-import { useQuery } from 'react-query';
+import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/router";
+import React, { FC, useState } from "react";
+import { useQuery } from "react-query";
 
-import { getLeadsList } from '@/services/lead-report/lead-report-service';
-import DateRangeFilter from '@/shared/components/date-range-filter';
-import { Button } from '@/shared/components/ui/button';
+import { getLeadsList } from "@/services/lead-report/lead-report-service";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Button } from "@/shared/components/ui/button";
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
+import CustomDateFilter from "@/shared/components/custom-date-filter";
 
 interface IProps {
   setDateRange: any;
@@ -32,8 +37,8 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
     router.push(`/team-leads/lead-report/trending-graph?lead_id=${id}`);
   };
   return (
-    <div className="flex items-center justify-between p-8 bg-white">
-      <div className="flex items-start justify-start gap-3">
+    <div className="flex justify-between items-center p-8 bg-white">
+      <div className="flex gap-3 justify-start items-start">
         <div className="">
           <Button
             onClick={() =>
@@ -53,7 +58,7 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
           <p className="text-base text-zinc-500">Report of all the members</p>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2">
+      <div className="flex gap-2 justify-end items-center">
         <div className="">
           <Select
             value={current_id ? current_id?.toString() : "all"}
@@ -74,13 +79,20 @@ const TrendingGraphHeader: FC<IProps> = ({ setDateRange, dateRange }) => {
             </SelectContent>
           </Select>
         </div>
-        <DateRangeFilter
+
+        <CustomDateFilter
+          date={dateRange}
+          setDate={setDateRange}
+          defaultSelected="date_range"
+          tabContent={["date_range", "weekly", "monthly", "yearly"]}
+        />
+        {/* <DateRangeFilter
           placeholder="Select Monthly"
           dateRangeOpen={dateRangeOpen}
           setDateRangeOpen={setDateRangeOpen}
           setDateRange={setDateRange}
           dateRange={dateRange}
-        />
+        /> */}
       </div>
     </div>
   );

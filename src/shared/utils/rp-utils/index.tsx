@@ -16,16 +16,19 @@ const showDeadline = (date: string) => {
   const remainingDays = differenceInCalendarDays(deadlineDate, currentDate);
   let statusText = "";
   let daysValue = null;
+  let leftText = "";
 
   if (remainingDays < 0) {
     statusText = "Deadline exceeded";
     daysValue = remainingDays;
+    leftText = "Exceeded";
   } else {
     statusText = `${remainingDays} days remaining`;
+    leftText = `${remainingDays} days Left`;
     daysValue = remainingDays;
   }
 
-  return { statusText, daysValue };
+  return { statusText, daysValue, leftText };
 };
 
 /**

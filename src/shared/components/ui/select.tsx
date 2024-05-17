@@ -1,10 +1,10 @@
 "use client";
 
-import { Check, ChevronDown } from 'lucide-react';
-import * as React from 'react';
+import { Check, ChevronDown } from "lucide-react";
+import * as React from "react";
 
-import { cn } from '@/shared/utils/utils';
-import * as SelectPrimitive from '@radix-ui/react-select';
+import { cn } from "@/shared/utils/utils";
+import * as SelectPrimitive from "@radix-ui/react-select";
 
 const Select = SelectPrimitive.Root;
 
@@ -19,7 +19,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-9 w-full items-center shadow-sm border border-zinc-200 justify-between rounded-md bg-white px-3 py-2 text-sm  placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-250",
+      "flex justify-between items-center px-3 py-2 w-full h-9 text-sm bg-white rounded-md border shadow-sm border-zinc-200 placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-250",
       className
     )}
     {...props}
@@ -81,7 +81,7 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-primary focus:text-white",
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-primary focus:text-white",
       className
     )}
     {...props}

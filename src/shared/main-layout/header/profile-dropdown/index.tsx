@@ -30,7 +30,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { profileData } = useCommonStore();
+  const { profileData, setProfile } = useCommonStore();
 
   const changeRoute = (route: string) => {
     router.push(route);

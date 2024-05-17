@@ -92,8 +92,8 @@ const ProjectStoriesOverview = ({ task, time }: IProps) => {
           </div>
           {/* Bug Ratio */}
           <div
-            className="rounded-md py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
-            border-[1px] border-red-100"
+            className="rounded-md relative py-6 h-[148px] flex gap-3 justify-center flex-col items-center bg-red-50 text-red-500 
+            border-[1px] border-red-100 2xl:after:absolute 2xl:after:content-[''] 2xl:after:h-full 2xl:after:w-[2px] 2xl:after:top-0 lg:after:bg-zinc-100 lg:after:-right-[15px]"
           >
             <p className="text-4xl font-semibold">
               {" "}

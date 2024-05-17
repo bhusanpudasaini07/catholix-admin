@@ -481,7 +481,7 @@ const useProjectListing = () => {
                   <Progress
                     className={cn("h-1.5", {
                       "[&>div]:bg-red-500": barValue >= 90,
-                      "[&>div]:bg-orange-500": barValue > 50 && barValue <= 90,
+                      "[&>div]:bg-orange-500": barValue >= 50 && barValue <= 90,
                       "[&>div]:bg-green-500": barValue < 50,
                       "[&>div]:bg-gray-500": barValue === 0,
                     })}

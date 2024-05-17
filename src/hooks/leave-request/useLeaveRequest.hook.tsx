@@ -269,16 +269,16 @@ const useLeaveRequest = () => {
         return (
           <div>
             <div>
-              <p className="font-medium text-zinc-500">
+              <span className="font-medium text-zinc-500">
                 {moment(row?.original?.leave?.from_date)?.format("MMM DD")}
-              </p>
+              </span>
               {row?.original?.leave?.from_date !==
                 row?.original?.leave?.to_date && (
                 <>
-                  <p className="text-zinc-500">to</p>
-                  <p className="font-medium text-zinc-500">
-                    {moment(row?.original?.leave?.to_date).format("ll")}
-                  </p>
+                  <span className="text-zinc-500"> - </span>
+                  <span className="font-medium text-zinc-500">
+                    {moment(row?.original?.leave?.to_date).format("MMM DD")}
+                  </span>
                 </>
               )}
             </div>

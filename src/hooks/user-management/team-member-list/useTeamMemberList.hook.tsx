@@ -117,22 +117,21 @@ const useTeamMemberList = () => {
     switch (status) {
       case "In Progress":
         return "bg-blue-50 border-blue-500 text-blue-700";
-        break;
+
       case "Client Support":
         return "bg-orange-50 border-orange-500 text-orange-700";
-        break;
+
       case "Closed":
         return "bg-green-50 border-green-500 text-green-700";
-        break;
+
       case "Delivered":
         return "bg-green-50 border-green-500 text-green-700";
-        break;
+
       case "On Hold":
         return "bg-red-50 border-red-500 text-red-700";
-        break;
+
       case "Deleted":
         return "bg-zinc-100 border-zinc-500 text-zinc-700";
-        break;
     }
   };
 

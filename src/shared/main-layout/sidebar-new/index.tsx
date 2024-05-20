@@ -159,6 +159,16 @@ const SidebarNew = ({
           menuSlug: "/",
           icon: <LayoutGrid width={20} height={20} />,
         },
+        {
+          menuName: t("common.side_nav.pl_dashboard"),
+          menuSlug: "/project-lead-dashboard",
+          icon: <LayoutGrid width={20} height={20} />,
+        },
+        {
+          menuName: t("common.side_nav.hr_dashboard"),
+          menuSlug: "/hr-dashboard",
+          icon: <LayoutGrid width={20} height={20} />,
+        },
       ],
     },
     {
@@ -368,12 +378,14 @@ const SidebarNew = ({
       >
         <div
           className={` pt-4  w-full  ${
-            isExpanded ? "flex justify-between items-center ps-7 pe-2" : ""}`}
+            isExpanded ? "flex justify-between items-center ps-7 pe-2" : ""
+          }`}
         >
           <Link
             href={"/"}
             className={`flex items-center justify-start shrink-0 rounded-md ${
-              isExpanded ? "":"px-2 mb-4"}`}
+              isExpanded ? "" : "px-2 mb-4"
+            }`}
           >
             <Image
               src={Logo}
@@ -550,7 +562,7 @@ const SidebarNew = ({
 
                             <span
                               className={cn(
-                                isExpanded ? "":"hidden",
+                                isExpanded ? "" : "hidden",
                                 "truncate max-w-[150px]"
                               )}
                             >
@@ -646,7 +658,7 @@ const SidebarNew = ({
                       >
                         {subItem?.icon}
                       </span>
-                      <span className={isExpanded ? "":"hidden"}>
+                      <span className={isExpanded ? "" : "hidden"}>
                         {subItem.menuName}
                       </span>
                     </Button>
@@ -693,7 +705,8 @@ const SidebarNew = ({
           maxWidth: sidebarWidth,
         }}
         className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-r-slate-100 border-t border-t-slate-100 ${
-          isExpanded ? "flex justify-between items-center px-7" : ""}`}
+          isExpanded ? "flex justify-between items-center px-7" : ""
+        }`}
       >
         <ProfileDropdown IsExpanded={isExpanded} />
       </div>

@@ -169,6 +169,11 @@ const SidebarNew = ({
           menuSlug: "/hr-dashboard",
           icon: <LayoutGrid width={20} height={20} />,
         },
+        {
+          menuName: t("common.side_nav.dh_dashboard"),
+          menuSlug: "/department-head-dashboard",
+          icon: <LayoutGrid width={20} height={20} />,
+        },
       ],
     },
     {

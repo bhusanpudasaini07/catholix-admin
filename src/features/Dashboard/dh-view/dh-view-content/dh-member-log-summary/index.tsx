@@ -4,12 +4,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
 interface IProps {
-  column: ColumnDef<any>[];
-  loading: boolean;
-  data: any;
+  columns: ColumnDef<any>[];
 }
 
-const ProjectDashboardTimeLog = ({ column, loading, data }: IProps) => {
+const DHMemberLogSummary = ({ columns }: IProps) => {
   return (
     <Card>
       <CardContent>
@@ -18,19 +16,19 @@ const ProjectDashboardTimeLog = ({ column, loading, data }: IProps) => {
             Member Time-log & Task Summary
           </p>
         </div>
-
         <DataTable
-          data={data ?? []}
-          columns={column}
+          columns={columns}
+          data={[]}
           border
           headerSticky
-          loading={loading}
-          loadingDataNum={10}
-          height="max-h-[500px]"
+          height="max-h-[250px]"
+          lottieHeight={80}
+          loading={false}
+          loadingDataNum={5}
         />
       </CardContent>
     </Card>
   );
 };
 
-export default ProjectDashboardTimeLog;
+export default DHMemberLogSummary;

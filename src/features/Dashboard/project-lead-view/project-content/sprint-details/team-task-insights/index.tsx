@@ -2,13 +2,18 @@ import React from "react";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/utils";
 import { Progress } from "@/shared/components/ui/progress";
+import { IProjectSprintDetail } from "@/interface/project-interface";
 
-const TeamTaskInsights = () => {
+interface IProps {
+  sprintDetail: IProjectSprintDetail | undefined;
+  loading: boolean;
+}
+const TeamTaskInsights = ({ sprintDetail }: IProps) => {
   const taskStatus = [
     {
       id: "total",
       title: "All Task",
-      value: 480,
+      value: sprintDetail?.total_task_count,
       valueColor: "text-zinc-700",
       titleColor: "text-zinc-700",
       bgColor: "bg-slate-50",
@@ -16,7 +21,7 @@ const TeamTaskInsights = () => {
     {
       id: "open",
       title: "Open Task",
-      value: 60,
+      value: sprintDetail?.open_task_count,
       valueColor: "text-blue-500",
       titleColor: "text-blue-700",
       bgColor: "bg-blue-50",
@@ -24,7 +29,7 @@ const TeamTaskInsights = () => {
     {
       id: "closed",
       title: "Closed Task",
-      value: 420,
+      value: sprintDetail?.closed_task_count,
       valueColor: "text-green-500",
       titleColor: "text-green-700",
       bgColor: "bg-green-50",

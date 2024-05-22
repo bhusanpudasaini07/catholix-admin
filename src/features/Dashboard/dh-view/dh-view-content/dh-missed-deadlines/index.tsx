@@ -4,33 +4,30 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
 interface IProps {
-  column: ColumnDef<any>[];
-  loading: boolean;
-  data: any;
+  columns: ColumnDef<any>[];
 }
 
-const ProjectDashboardTimeLog = ({ column, loading, data }: IProps) => {
+const DHMissedDeadlines = ({ columns }: IProps) => {
   return (
     <Card>
       <CardContent>
         <div className="flex gap-3 justify-start items-center mb-7">
-          <p className="text-lg font-medium text-zinc-700">
-            Member Time-log & Task Summary
-          </p>
+          <p className="text-lg font-medium text-zinc-700">Missed Deadlines</p>
         </div>
 
         <DataTable
-          data={data ?? []}
-          columns={column}
+          columns={columns}
+          data={[]}
           border
           headerSticky
-          loading={loading}
-          loadingDataNum={10}
-          height="max-h-[500px]"
+          height="max-h-[200px]"
+          lottieHeight={80}
+          loading={false}
+          loadingDataNum={5}
         />
       </CardContent>
     </Card>
   );
 };
 
-export default ProjectDashboardTimeLog;
+export default DHMissedDeadlines;

@@ -202,6 +202,38 @@ const getTimeLogWithLabel = (project_id: any, label: string) => {
     httpMethods.GET
   );
 };
+
+// Project Sprints
+const getProjectSprints = (project_id: string) => {
+  return httpRequest(
+    `get-project-sprints?project_id=${project_id}`,
+    httpMethods.GET
+  );
+};
+
+// Project Sprint tasks
+const getProjectSprintTasks = (
+  project_id: string,
+  dataperpage: number,
+  sprint_id: string,
+  status: string
+) => {
+  // Initialize an empty array to store query parameters
+  const queryParams = [];
+
+  // Check each argument and add it to the queryParams array if it's truthy
+  if (sprint_id) queryParams.push(`sprint_id=${sprint_id}`);
+  if (status) queryParams.push(`status=${status}`);
+
+  // Construct the final query string by joining the queryParams array with '&'
+  const queryString = queryParams.join("&");
+
+  // Construct the final URL by appending the query string to the base endpoint
+  const finalUrl = `/get-project-tasks?project_id=${project_id}&dataperpage=${dataperpage}${
+    queryString ? `&${queryString}` : ""
+  }`;
+  return httpRequest(finalUrl, httpMethods.GET);
+};
 export {
   getProjectList,
   getProjectDetail,
@@ -219,4 +251,6 @@ export {
   getProjectRoleRp,
   geLatestTaskTrend,
   getTimeLogWithLabel,
+  getProjectSprints,
+  getProjectSprintTasks,
 };

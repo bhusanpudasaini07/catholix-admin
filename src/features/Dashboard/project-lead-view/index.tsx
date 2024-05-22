@@ -2,12 +2,11 @@ import React from "react";
 
 import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashbordProject.hook";
 
-import ProjectSidebar from "./project-sidebar";
-import DashboardProjectOverview from "./project-content/overview";
 import ProjectDashboardDeadines from "./project-content/deadlines";
 import ProjectDashboardTimeLog from "./project-content/member-time-log";
-import { Select } from "@/shared/components/ui/select";
+import DashboardProjectOverview from "./project-content/overview";
 import ProjectDashboardSprint from "./project-content/sprint-details";
+import ProjectSidebar from "./project-sidebar";
 
 const ProjectDashboardView = () => {
   const {
@@ -17,15 +16,25 @@ const ProjectDashboardView = () => {
     projectListLoading,
     projectCode,
     setProjectCode,
+    sprintId,
+    setSprintId,
+    deadlineTab,
+    setDeadlineTab,
 
     // Details
     projectDetail,
     projectDetailLoading,
+    projectSprints,
+    projectSprintLoading,
+    memberTimeLogRevisedData,
+    projectSprintTasks,
+    projectSprintTaskLoading,
+    filteredProjectSprintTasks,
 
     gaugeColor,
 
-    deadlineColumn,
     timeLogSummaryColumn,
+    deadlineColumn,
   } = useProjectViewDashboard();
   return (
     <div className="grid grid-cols-12">
@@ -57,18 +66,37 @@ const ProjectDashboardView = () => {
               loading={projectDetailLoading || projectListLoading}
             />
             <ProjectDashboardDeadines
-              loading={projectDetailLoading || projectListLoading}
-              column={deadlineColumn}
+              loading={
+                projectDetailLoading ||
+                projectListLoading ||
+                projectSprintTaskLoading
+              }
+              projectSprints={projectSprints}
+              sprintId={sprintId}
+              setSprintId={setSprintId}
+              projectSprintTasks={filteredProjectSprintTasks}
+              projectSprintTaskLoading={projectSprintTaskLoading}
+              deadlineColumn={deadlineColumn}
+              deadlineTab={deadlineTab}
+              setDeadlineTab={setDeadlineTab}
             />
             <ProjectDashboardTimeLog
               loading={projectDetailLoading || projectListLoading}
               column={timeLogSummaryColumn}
+              data={memberTimeLogRevisedData}
             />
           </div>
         </div>
       </div>
       <div className="col-span-3">
-        <ProjectDashboardSprint />
+        <ProjectDashboardSprint
+          projectSprints={projectSprints}
+          loading={
+            projectSprintLoading || projectDetailLoading || projectListLoading
+          }
+          sprintId={sprintId}
+          setSprintId={setSprintId}
+        />
       </div>
     </div>
   );

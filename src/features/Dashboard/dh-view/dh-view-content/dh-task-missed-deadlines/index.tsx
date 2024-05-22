@@ -21,7 +21,7 @@ const DHTaskMissedDeadlines = ({ columns }: IProps) => {
           <Tabs defaultValue="all">
             <TabsList>
               <TabsTrigger value="all">All Deadline</TabsTrigger>
-              <TabsTrigger value="today">Today's Deadline</TabsTrigger>
+              <TabsTrigger value="today">Today&apos;s Deadline</TabsTrigger>
               <TabsTrigger value="missed">Missed Deadline</TabsTrigger>
             </TabsList>
           </Tabs>

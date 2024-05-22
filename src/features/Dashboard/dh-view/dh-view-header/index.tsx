@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import CustomDateFilter from "@/shared/components/custom-date-filter";
+import { DateRange } from "react-day-picker";
 
 const DashboardDHHeader = () => {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   return (
     <div className="flex justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
       <div>
@@ -18,7 +20,7 @@ const DashboardDHHeader = () => {
         <CustomDateFilter
           tabContent={["date_range", "weekly", "monthly", "yearly"]}
           defaultSelected="monthly"
-          date={""}
+          date={dateRange}
           setDate={() => ""}
         />
       </div>

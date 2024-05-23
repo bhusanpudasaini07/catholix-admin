@@ -19,7 +19,17 @@ import RpSummary from "./rp-summary";
 import TimeUtilization from "./time-utilization";
 import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
+import SummaryReportComponent from "./summary-report";
+import UtilizationSummary from "./utilization-summary";
 
+interface StaffUtilizationData {
+  available_rp: number;
+  available_time: number;
+  client_rp: number;
+  client_time: number;
+  total_rp: number;
+  total_time: number;
+}
 interface IProps {
   dateRange: any;
 }
@@ -45,7 +55,7 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
     },
     queryKey: ["staffLog", username, dateRange?.to],
   });
-
+  console.log("staffLog", staffLog?.data?.report);
   const { data: staffProjects, isLoading: staffProjectLoading } =
     useQuery<IStaffProjects>({
       queryFn: async () => {
@@ -150,10 +160,55 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
       : 0
   ).toFixed(2);
 
+  const defaultUtilizationData: StaffUtilizationData = {
+    available_rp: 0,
+    available_time: 0,
+    total_rp: 0,
+    total_time: 0,
+    client_rp: 0,
+    client_time: 0,
+  };
+
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
+      <div className="grid grid-cols-10 gap-4 mb-4">
+        <div className="col-span-3">
+          <SummaryReportComponent />
+        </div>
+        <div className="col-span-7">
+          {staffLogLoading ? (
+            "loading"
+          ) : (
+            // <UtilizationSummary data={staffLog?.data?.report} />
+            <UtilizationSummary
+              data={staffLog?.data?.report || defaultUtilizationData}
+            />
+          )}
+        </div>
+      </div>
+      <div className="flex items-start justify-start flex-col col-span-2 gap-4">
         {!staffLogLoading ? (
+          <RpSummary
+            available={staffLog?.data?.report?.available_rp}
+            spent={spentBudget}
+            loss={lossRp}
+          />
+        ) : (
+          <SummaryCardSkeleton />
+        )}
+        {!staffLogLoading ? (
+          <ProjectsOverview
+            client={projectStates?.client}
+            in_house={projectStates?.inhouse}
+            risk={projectStates?.risk}
+            total={projectStates?.total}
+          />
+        ) : (
+          <SummaryCardSkeleton />
+        )}
+      </div>
+      <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
+        {/* {!staffLogLoading ? (
           <BudgetUtilization
             spentBudget={spentBudget}
             spentBudgetPercentage={percentage?.totalUsedRpPercentage}
@@ -177,26 +232,8 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
           />
         ) : (
           <UtilizationSkeletonCard />
-        )}
-        {!staffLogLoading ? (
-          <RpSummary
-            available={staffLog?.data?.report?.available_rp}
-            spent={spentBudget}
-            loss={lossRp}
-          />
-        ) : (
-          <SummaryCardSkeleton />
-        )}
-        {!staffLogLoading ? (
-          <ProjectsOverview
-            client={projectStates?.client}
-            in_house={projectStates?.inhouse}
-            risk={projectStates?.risk}
-            total={projectStates?.total}
-          />
-        ) : (
-          <SummaryCardSkeleton />
-        )}
+        )} */}
+
         <div className="xl:col-span-2">
           {!staffLogLoading ? (
             <StaffsProjectSummary

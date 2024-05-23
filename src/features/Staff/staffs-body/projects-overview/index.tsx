@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
-import { Card, CardContent } from '@/shared/components/ui/card';
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 interface IProps {
   total?: string | number;
@@ -11,7 +11,7 @@ interface IProps {
 
 const ProjectOverview: FC<IProps> = ({ total, client, in_house, risk }) => {
   return (
-    <Card>
+    <Card className="w-full">
       <CardContent>
         <div className="flex items-center justify-start gap-3 mb-6 ">
           <h5 className="font-medium text-zinc-700">Projects Overview</h5>

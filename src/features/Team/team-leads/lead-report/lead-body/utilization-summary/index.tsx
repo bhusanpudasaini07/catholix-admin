@@ -20,6 +20,12 @@ import {
 import UtilizationSunburst from "./utilizarion-sunbrust";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui/tabs";
 import { useRouter } from "next/router";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/shared/components/ui/accordion";
 
 interface UtilizationData {
   available_rp: number;

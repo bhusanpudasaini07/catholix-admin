@@ -1,5 +1,6 @@
 import { differenceInCalendarDays } from "date-fns";
 import { AlertCircle, CheckCircle, CircleDot } from "lucide-react";
+import moment from "moment";
 
 /**
  *  to show deadline remaining in projects or other modules
@@ -228,6 +229,19 @@ const calculatePercentage = (value: number, total: number) => {
   return percentage.toFixed(2);
 };
 
+const taskDueDeadline = (value: string) => {
+  const daysDiff = moment(value).diff(moment(), "days");
+  const dueText =
+    daysDiff < 0
+      ? `${Math.abs(daysDiff)} Days Overdue`
+      : daysDiff === 0
+      ? "Today"
+      : `In ${daysDiff} Days`;
+
+  const color = daysDiff < 0 ? "text-red-500" : "text-orange-500";
+
+  return <span className={color}>{dueText}</span>;
+};
 export {
   showDeadline,
   changeDateDisplay,
@@ -243,4 +257,5 @@ export {
   calculatePercentage,
   hoursMinuteFormatter,
   hourTimeFormatter,
+  taskDueDeadline,
 };

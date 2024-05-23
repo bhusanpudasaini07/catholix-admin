@@ -462,3 +462,56 @@ export interface IProjectTimeMembers {
   time: string;
   username: string;
 }
+
+export interface IProjectSprint {
+  data: IProjectSprintDetail[];
+}
+export interface IProjectSprintDetail {
+  closed_task_count: number;
+  due_date: string;
+  id: string;
+  name: string;
+  open_task_count: number;
+  start_date: string;
+  status: string;
+  total_task_count: number;
+}
+
+export interface IProjectSprintTasks {
+  data: {
+    project_info: IProjectDetail;
+    rerport: {
+      total_rp: number;
+      total_time: number;
+    };
+    tasks: IProjectSprintTaskDetails[];
+  };
+  pagination: IPagination;
+}
+
+export interface IProjectSprintTaskDetails {
+  assignee: {
+    id: string;
+    username: string;
+    fullname: string;
+    role_id: string;
+  };
+  author: {
+    id: string;
+    name: string | null;
+  };
+  deadline: string;
+  id: string;
+  issue_id: string;
+  label: {
+    title: string;
+    color: string;
+  }[];
+  repo_url: string | null;
+  rp: number;
+  sprint_id: string;
+  status: string;
+  task_url: string;
+  time: number;
+  title: string;
+}

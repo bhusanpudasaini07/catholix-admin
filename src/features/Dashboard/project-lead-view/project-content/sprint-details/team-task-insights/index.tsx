@@ -59,7 +59,7 @@ const TeamTaskInsights = ({ sprintDetail }: IProps) => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col gap-2 max-h-[170px] overflow-y-scroll no-scrollbar">
+        <div className="flex flex-col gap-2 max-h-[170px] overflow-y-scroll pr-1">
           <div className="flex justify-between items-center">
             <div>
               <p className="font-medium text-zinc-700">Design</p>

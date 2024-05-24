@@ -6,6 +6,7 @@ import { Separator } from "@/shared/components/ui/separator";
 import { cn } from "@/shared/utils/utils";
 import { useRouter } from "next/router";
 import DashboardProjectOverviewSkeleton from "@/shared/components/skeleton-loading/dashboard/project-view/project-overview-skeleton";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 interface IProps {
   health: {
@@ -17,6 +18,7 @@ interface IProps {
   code: string | undefined;
   gaugeColor: () => string;
   loading: boolean;
+  project_title: String | undefined;
 }
 
 const DashboardProjectOverview = ({
@@ -24,6 +26,7 @@ const DashboardProjectOverview = ({
   gaugeColor,
   code,
   loading,
+  project_title,
 }: IProps) => {
   const router = useRouter();
   const summaryData = [
@@ -53,7 +56,11 @@ const DashboardProjectOverview = ({
     <Card>
       <CardContent>
         <div className="flex gap-3 justify-start items-center mb-7">
-          <p className="text-lg font-medium text-zinc-700">Project Overview</p>
+          {loading ? (
+            <Skeleton className="w-40 h-5" />
+          ) : (
+            <p className="text-lg font-medium text-zinc-700">{project_title}</p>
+          )}
           <Button
             onClick={() => router.push(`/projects/${code}`)}
             size={"sm"}

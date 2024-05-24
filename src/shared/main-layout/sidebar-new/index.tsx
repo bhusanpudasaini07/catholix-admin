@@ -11,7 +11,10 @@ import {
   FolderOpen,
   FolderTree,
   Gitlab,
+  LayoutDashboard,
   LayoutGrid,
+  LayoutPanelLeft,
+  LayoutPanelTop,
   Search,
   SearchX,
   User,
@@ -157,17 +160,17 @@ const SidebarNew = ({
         {
           menuName: t("common.side_nav.dashboard"),
           menuSlug: "/",
-          icon: <LayoutGrid width={20} height={20} />,
+          icon: <LayoutDashboard width={20} height={20} />,
         },
         {
           menuName: t("common.side_nav.pl_dashboard"),
           menuSlug: "/project-lead-dashboard",
-          icon: <LayoutGrid width={20} height={20} />,
+          icon: <LayoutPanelLeft width={20} height={20} />,
         },
         {
           menuName: t("common.side_nav.hr_dashboard"),
           menuSlug: "/hr-dashboard",
-          icon: <LayoutGrid width={20} height={20} />,
+          icon: <LayoutPanelTop width={20} height={20} />,
         },
         {
           menuName: t("common.side_nav.dh_dashboard"),
@@ -388,8 +391,8 @@ const SidebarNew = ({
         >
           <Link
             href={"/"}
-            className={`flex items-center justify-start shrink-0 rounded-md ${
-              isExpanded ? "" : "px-2 mb-4"
+            className={`flex items-center  shrink-0 rounded-md ${
+              isExpanded ? "justify-start" : "justify-center px-2 mb-4"
             }`}
           >
             <Image

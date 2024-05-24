@@ -1,3 +1,5 @@
+import { IUtilizationRange } from "./dh-interface";
+
 export interface ILeadReportSummary {
   data: ILeadDetail[];
 }
@@ -59,6 +61,7 @@ export interface IStaffRPSummary {
   all_projects_count: number;
   commercial_projects_count: number;
   inhouse_projects_count: number;
+  utilization_range: IUtilizationRange;
 }
 
 export interface IRPStaffDetail {

@@ -5,6 +5,7 @@ import LatestActivity from "./latest-activity";
 import ProjectRelease from "./project-release";
 import ProjectStories from "./project-stories";
 import RpConsumption from "./rp-consumption-chart";
+import SprintStatus from "./sprint-status";
 import ProjectSummaryReport from "./summary-report";
 import TaskTimeSpent from "./task-time-spent";
 
@@ -13,6 +14,7 @@ const DetailBody = () => {
     <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
       <ProjectSummaryReport />
       <DetailOverview />
+      <SprintStatus />
       <RpConsumption />
       <ProjectStories />
       <ConsumptionType />

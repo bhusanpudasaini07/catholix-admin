@@ -13,13 +13,21 @@ import TeamTaskInsights from "./team-task-insights";
 import TaskProgressStatus from "./task-progress-status";
 import { IProjectSprint } from "@/interface/project-interface";
 import { Skeleton } from "@/shared/components/ui/skeleton";
-import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashbordProject.hook";
+import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashboardProject.hook";
+import { EChartsInstance, EChartsOption } from "echarts-for-react";
 
 interface IProps {
   projectSprints: IProjectSprint | undefined;
   loading: boolean;
   sprintId: string;
   setSprintId: (arg: string) => void;
+  tabOptions: any;
+  tabValue: string;
+  setTabValue: (arg: string) => void;
+  taskChart: EChartsOption;
+  sprintBurndownOption: EChartsOption;
+  statusOption: EChartsOption;
+  chartRef: EChartsInstance;
 }
 
 const ProjectDashboardSprint = ({
@@ -27,6 +35,13 @@ const ProjectDashboardSprint = ({
   loading,
   sprintId,
   setSprintId,
+  tabOptions,
+  tabValue,
+  setTabValue,
+  taskChart,
+  sprintBurndownOption,
+  statusOption,
+  chartRef,
 }: IProps) => {
   return (
     <div className="p-6 h-full bg-light-white">
@@ -64,7 +79,19 @@ const ProjectDashboardSprint = ({
             )}
             loading={loading}
           />
-          <ProjectDashboardSprintStatus />
+          <ProjectDashboardSprintStatus
+            tabOptions={tabOptions}
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            taskChart={taskChart}
+            sprintDetail={projectSprints?.data?.find(
+              (sprint) => sprint?.id === sprintId
+            )}
+            loading={loading}
+            sprintBurndownOption={sprintBurndownOption}
+            statusOption={statusOption}
+            chartRef={chartRef}
+          />
           <TeamTaskInsights
             sprintDetail={projectSprints?.data?.find(
               (sprint) => sprint?.id === sprintId

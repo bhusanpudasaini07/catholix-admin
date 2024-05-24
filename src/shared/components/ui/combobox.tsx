@@ -43,19 +43,24 @@ export function ComboBox({ selectables, value, setValue, module }: IProps) {
           aria-expanded={open}
           className="justify-between w-full font-normal"
         >
-          {value
-            ? selectables.find((selectItem) => selectItem.value === value)
-                ?.title
-            : `Select ${module}`}
-          <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
+          <span className="truncate">
+            {" "}
+            {value
+              ? selectables.find((selectItem) => selectItem.value === value)
+                  ?.title
+              : `Select ${module}`}
+          </span>
+          <ChevronsUpDown className="ml-2 w-4 h-4 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 ">
+      <PopoverContent className="p-0">
         <Command>
           <CommandInput
             placeholder={`Select ${module}`}
             value={searchTerm}
-            onValueChange={(e: any) => setSearchTerm(e)}
+            onValueChange={(e: any) => {
+              setSearchTerm(e);
+            }}
           />
           {filteredSelectables.length === 0 && (
             <CommandEmpty>No {module} found.</CommandEmpty>
@@ -72,11 +77,11 @@ export function ComboBox({ selectables, value, setValue, module }: IProps) {
               >
                 <Check
                   className={cn(
-                    "mr-2 h-4 w-4",
+                    "mr-2 h-4 w-4 shrink-0",
                     value === selectItem.value ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {selectItem.title}
+                <p className="line-clamp-2">{selectItem.title}</p>
               </CommandItem>
             ))}
           </CommandGroup>

@@ -206,7 +206,7 @@ const getTimeLogWithLabel = (project_id: any, label: string) => {
 // Project Sprints
 const getProjectSprints = (project_id: string) => {
   return httpRequest(
-    `get-project-sprints?project_id=${project_id}`,
+    `/get-project-sprints?project_id=${project_id}`,
     httpMethods.GET
   );
 };
@@ -234,6 +234,13 @@ const getProjectSprintTasks = (
   }`;
   return httpRequest(finalUrl, httpMethods.GET);
 };
+
+const getProjectSprintBurndown = (project_id: string, sprint_id: string) => {
+  return httpRequest(
+    `/sprint-daily-burndown?project_id=${project_id}&sprint_id=${sprint_id}`,
+    httpMethods.GET
+  );
+};
 export {
   getProjectList,
   getProjectDetail,
@@ -253,4 +260,5 @@ export {
   getTimeLogWithLabel,
   getProjectSprints,
   getProjectSprintTasks,
+  getProjectSprintBurndown,
 };

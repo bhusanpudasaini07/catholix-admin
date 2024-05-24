@@ -1,6 +1,6 @@
 import React from "react";
 
-import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashbordProject.hook";
+import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashboardProject.hook";
 
 import ProjectDashboardDeadines from "./project-content/deadlines";
 import ProjectDashboardTimeLog from "./project-content/member-time-log";
@@ -20,6 +20,9 @@ const ProjectDashboardView = () => {
     setSprintId,
     deadlineTab,
     setDeadlineTab,
+    tabOptions,
+    tabValue,
+    setTabValue,
 
     // Details
     projectDetail,
@@ -35,6 +38,14 @@ const ProjectDashboardView = () => {
 
     timeLogSummaryColumn,
     deadlineColumn,
+
+    // Chart
+    taskChart,
+    sprintBurndownOption,
+    statusOption,
+
+    // REF
+    chartRef,
   } = useProjectViewDashboard();
   return (
     <div className="grid grid-cols-12">
@@ -96,6 +107,13 @@ const ProjectDashboardView = () => {
           }
           sprintId={sprintId}
           setSprintId={setSprintId}
+          tabOptions={tabOptions}
+          tabValue={tabValue}
+          setTabValue={setTabValue}
+          taskChart={taskChart}
+          sprintBurndownOption={sprintBurndownOption}
+          statusOption={statusOption}
+          chartRef={chartRef}
         />
       </div>
     </div>

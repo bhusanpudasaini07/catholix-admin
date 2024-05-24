@@ -1,4 +1,5 @@
 import WorkLoadChart from "@/features/User-Management/team-members/page-body/work-load-chart";
+import { useDebounce } from "@/hooks/debounce.hooks";
 import {
   IProjectDetail,
   IProjectProps,
@@ -11,6 +12,7 @@ import { ITeamMemberList } from "@/interface/team-member-interface";
 import {
   getProjectDetail,
   getProjectList,
+  getProjectListLite,
   getProjectSprintBurndown,
   getProjectSprintTasks,
   getProjectSprints,
@@ -24,9 +26,11 @@ import BurndownSvg from "@/shared/svg/burndown";
 import TargetSvg from "@/shared/svg/target";
 import {
   changeNumberFormat,
+  hourTimeFormatter,
   hoursMinuteFormatter,
   taskDueDeadline,
 } from "@/shared/utils/rp-utils";
+import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EChartsInstance } from "echarts-for-react";
 import { ChevronDown, ChevronUp, PieChart } from "lucide-react";
@@ -41,10 +45,15 @@ interface IProjectDetailProps {
 
 const useProjectViewDashboard = () => {
   const chartRef = useRef<EChartsInstance>(null);
+  const { profileData } = useCommonStore();
 
   // STATES
   const [projectStatus, setProjectStatus] = useState("all");
   const [projectCode, setProjectCode] = useState("");
+  const [projectLeadId, setProjectLeadId] = useState(
+    profileData?.is_project_lead === "Yes" ? profileData?.id : ""
+  );
+  const [projectType, setProjectType] = useState("");
   const [sprintId, setSprintId] = useState("");
   const [deadlineTab, setDeadlineTab] = useState("all");
   const [projectMembersId, setProjectMembersId] = useState("");
@@ -71,21 +80,12 @@ const useProjectViewDashboard = () => {
   const { data: projectList, isLoading: projectListLoading } =
     useQuery<IProjectProps>({
       queryFn: () =>
-        getProjectList(
-          1,
-          50,
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
-          "",
+        getProjectListLite(
+          "", // source
+          projectLeadId, //lead
           projectStatus === "all" ? "" : projectStatus
         ),
-      queryKey: ["projectList", projectStatus],
+      queryKey: ["projectList", projectStatus, projectLeadId],
       onSuccess: (data) => {
         setProjectCode(data?.data[0]?.code);
       },
@@ -382,7 +382,7 @@ const useProjectViewDashboard = () => {
       accessorKey: "task",
       header: "Task",
       cell: ({ row }) => (
-        <div className="max-w-[300px]">
+        <div className="max-w-[500px]">
           <p className="text-xs text-zinc-500">
             {row?.original?.sprint_id
               ? projectSprints?.data?.find(
@@ -601,7 +601,8 @@ const useProjectViewDashboard = () => {
             " " +
             (item.seriesIndex === 0 ? "Ideal" : "Utilized") +
             ": " +
-            changeNumberFormat(item.value[item.seriesIndex + 1]) +
+            hourTimeFormatter(item.value[item.seriesIndex + 1]) +
+            // changeNumberFormat(item.value[item.seriesIndex + 1]) +
             "<br/>";
         });
         return result;
@@ -743,6 +744,10 @@ const useProjectViewDashboard = () => {
     tabValue,
     setTabValue,
     tabOptions,
+    projectLeadId,
+    setProjectLeadId,
+    projectType,
+    setProjectType,
 
     // FUNCTIONS
     gaugeColor,

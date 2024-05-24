@@ -222,6 +222,12 @@ export interface IProjectUserStories {
   closed_task_count: string;
   open_task_count: string;
   tasks?: [];
+  sprint_id: number;
+  sprint_name: string;
+  task_count_status: {
+    title: string;
+    value: number;
+  }[];
 }
 
 export interface ISalesRP {

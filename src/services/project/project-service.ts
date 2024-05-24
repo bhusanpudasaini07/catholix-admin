@@ -37,6 +37,20 @@ const getProjectList = (
     );
   }
 };
+const getProjectListLite = (
+  source?: string,
+  lead?: string,
+  status?: string
+) => {
+  if (status || source || lead) {
+    return httpRequest(
+      `/projects-lite?source=${source}&lead=${lead}&status=${status}`,
+      httpMethods.GET
+    );
+  } else {
+    return httpRequest(`/projects-lite`, httpMethods.GET);
+  }
+};
 
 const getProjectDetail = (code: any) => {
   return httpRequest(`/get-single-project?project_id=${code}`, httpMethods.GET);
@@ -103,16 +117,20 @@ const getProjectStories = (
   keyword?: string,
   sort?: string,
   sort_order?: string,
-  status?: string
+  status?: string,
+  sprint_id?: string
 ) => {
-  if (keyword || sort || sort_order || status) {
-    return httpRequest(
-      `/get-user-stories?project_id=${code}&keyword=${keyword}&sort=${sort}&sort_order=${sort_order}&status=${status}`,
-      httpMethods.GET
-    );
-  } else {
-    return httpRequest(`/get-user-stories?project_id=${code}`, httpMethods.GET);
-  }
+  const queryParams = [];
+  if (keyword) queryParams.push(`keyword=${keyword}`);
+  if (sort) queryParams.push(`sort=${sort}`);
+  if (sort_order) queryParams.push(`sort_order=${sort_order}`);
+  if (status) queryParams.push(`status=${status}`);
+  if (sprint_id) queryParams.push(`sprint_id=${sprint_id}`);
+  const queryString = queryParams.join("&");
+  const finalUrl = `/get-user-stories?project_id=${code}${
+    queryString ? `&${queryString}` : ""
+  }`;
+  return httpRequest(finalUrl, httpMethods.GET);
 };
 
 const getProjectSales = (code: any) => {
@@ -204,7 +222,7 @@ const getTimeLogWithLabel = (project_id: any, label: string) => {
 };
 
 // Project Sprints
-const getProjectSprints = (project_id: string) => {
+const getProjectSprints = (project_id: any) => {
   return httpRequest(
     `/get-project-sprints?project_id=${project_id}`,
     httpMethods.GET
@@ -235,7 +253,7 @@ const getProjectSprintTasks = (
   return httpRequest(finalUrl, httpMethods.GET);
 };
 
-const getProjectSprintBurndown = (project_id: string, sprint_id: string) => {
+const getProjectSprintBurndown = (project_id: any, sprint_id: string) => {
   return httpRequest(
     `/sprint-daily-burndown?project_id=${project_id}&sprint_id=${sprint_id}`,
     httpMethods.GET
@@ -261,4 +279,5 @@ export {
   getProjectSprints,
   getProjectSprintTasks,
   getProjectSprintBurndown,
+  getProjectListLite,
 };

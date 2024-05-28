@@ -263,6 +263,22 @@ const useProjectStories = () => {
         </div>
       ),
     },
+    // Assignee
+    {
+      id: "assignee",
+      accessorKey: "assignee",
+      header: "Assigned Member",
+      cell: ({ row }) => (
+        <div className="max-w-[300px] min-w-0">
+          <Link
+            href={row?.original?.username ?? ""}
+            className="font-medium hover:text-primary"
+          >
+            {row?.getValue("assignee")}
+          </Link>
+        </div>
+      ),
+    },
     //Estimated Time
     {
       id: "estimated_time",

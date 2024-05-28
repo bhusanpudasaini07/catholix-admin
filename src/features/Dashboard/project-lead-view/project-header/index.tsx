@@ -60,7 +60,8 @@ const ProjectLeadDashboardHeader = ({
           Project Lead Dashboard
         </h1>
         <p className="text-base text-zinc-500">
-          Welcome back, get insights and overview of all the activities.
+          Monitor all activities and gain valuable insights to drive your
+          projects forward.
         </p>
       </div>
 

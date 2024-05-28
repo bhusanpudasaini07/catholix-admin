@@ -14,7 +14,8 @@ const HrDashboard: NextPageWithLayout = () => {
             HR Dashboard
           </h1>
           <p className="text-base text-zinc-500">
-            Welcome back, get insights and overview of all the activities.
+            Welcome back! Your central hub for detailed insights and a complete
+            overview of all HR processes.
           </p>
         </div>
       </div>

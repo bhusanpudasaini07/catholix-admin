@@ -9,7 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { Progress } from "@radix-ui/react-progress";
+import { Progress } from "@/shared/components/ui/progress";
 
 interface IProps {
   story: IProjectUserStories | undefined;
@@ -48,8 +48,8 @@ const StoryItem = ({ story }: IProps) => {
           </p>
           <Progress
             className={cn(
-              "h-1.5 [&>div]:bg-[#5470C6] rounded-lg",
-              story?.task_count === 0 ? "bg-gray-300" : "bg-green-500"
+              "h-1.5 [&>div]:bg-green-500 rounded-lg",
+              story?.task_count === 0 ? "bg-gray-300" : "bg-[#5470C6]"
             )}
             value={isNaN(barData) ? 0 : barData}
           />

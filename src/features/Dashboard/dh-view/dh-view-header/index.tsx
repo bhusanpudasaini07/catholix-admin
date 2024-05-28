@@ -26,7 +26,8 @@ const DashboardDHHeader = ({
           Department Head Dashboard
         </h1>
         <p className="text-base text-zinc-500">
-          Welcome back, get insights and overview of all the activities.
+          Welcome back! Gain valuable insights and manage the department
+          operations efficiently.
         </p>
       </div>
 

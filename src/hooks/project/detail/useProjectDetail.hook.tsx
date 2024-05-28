@@ -43,7 +43,7 @@ export const useProjectDetail = () => {
   const [memberModalOpen, setMemberModalOpen] = useState(false);
   const [salesModalOpen, setSalesModalOpen] = useState(false);
   const [openLeadSheet, setOpenLeadSheet] = useState(false);
-  const [tabValue, setTabValue] = useState("status");
+  const [tabValue, setTabValue] = useState("latest_task_trend");
 
   const { data: projectDetail, isLoading } = useQuery<IProps>({
     queryFn: async () => {

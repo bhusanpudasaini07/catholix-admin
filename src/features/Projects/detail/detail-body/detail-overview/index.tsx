@@ -90,17 +90,18 @@ const DetailOverview = () => {
 
   const tabOptions = [
     {
-      value: "status",
-      title: "Status",
-      icon: <PieChart size={18} />,
-      buttonName: "Status",
-    },
-    {
       value: "latest_task_trend",
       title: "Latest Task Trend",
       icon: <BarChartBig size={18} />,
       buttonName: "Task",
     },
+    {
+      value: "status",
+      title: "Status",
+      icon: <PieChart size={18} />,
+      buttonName: "Status",
+    },
+
     {
       value: "burndown",
       title: "Burndown Chart",

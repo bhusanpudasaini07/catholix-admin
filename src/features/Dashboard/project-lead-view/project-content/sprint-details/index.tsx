@@ -55,20 +55,23 @@ const ProjectDashboardSprint = ({
             <SelectTrigger className="[&>span]:grow">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[310px] overflow-y-scroll">
               {projectSprints?.data
                 ?.slice()
                 .reverse()
-                .map((sprint) => (
+                .map((sprint, i) => (
                   <SelectItem
                     value={sprint?.id}
                     key={`sprint-${sprint?.id}`}
-                    className="[&>span]:grow"
+                    className={cn(
+                      i % 2 === 0 ? "bg-zinc-50" : "",
+                      "[&>span]:grow py-3"
+                    )}
                   >
                     <div className="flex justify-between items-center w-full">
                       <div>
                         {sprint?.name}
-                        {sprint?.id === projectSprints?.data[0]?.id && (
+                        {sprint?.id === sprintId && (
                           <span className="ml-1 text-zinc-500">
                             (Current Sprint)
                           </span>

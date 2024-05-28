@@ -19,10 +19,10 @@ const StaffTimeGraph = () => {
   };
 
   const chartData = data.daily_time.map((day: any) => {
-    const availableTime = day.available_time;
-    const usedTime = day.used_time;
-    const commercialTime = day.commercial_time;
-    const inhouseTime = day.inhouse_time;
+    const availableTime = day?.available_time;
+    const usedTime = day?.used_time;
+    const commercialTime = day?.commercial_time;
+    const inhouseTime = day?.inhouse_time;
     let exceededTime = 0;
     let usedTimePercentage = 0;
     let exceededTimePercentage = 0;
@@ -122,7 +122,7 @@ const StaffTimeGraph = () => {
     },
     xAxis: {
       type: "category",
-      data: chartData.map((item: any) => format(new Date(item.date), "EEE")),
+      data: chartData.map((item: any) => format(new Date(item?.date), "EEE")),
       splitLine: {
         show: false,
       },
@@ -155,7 +155,7 @@ const StaffTimeGraph = () => {
         type: "bar",
         stack: "total",
         data: chartData.map((item: any) => ({
-          value: item.commercialTime,
+          value: item?.commercialTime,
           itemStyle: {
             color: "#5470C6",
           },
@@ -170,7 +170,7 @@ const StaffTimeGraph = () => {
         type: "bar",
         stack: "total",
         data: chartData.map((item: any) => ({
-          value: item.inhouseTime,
+          value: item?.inhouseTime,
           itemStyle: {
             color: "#91CC75",
           },
@@ -184,7 +184,7 @@ const StaffTimeGraph = () => {
         name: "Overused",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => item.exceededTime),
+        data: chartData.map((item: any) => item?.exceededTime),
         itemStyle: {
           color: "#EF4444",
         },
@@ -198,7 +198,7 @@ const StaffTimeGraph = () => {
         type: "bar",
         stack: "total",
         data: chartData.map((item: any) => ({
-          value: item.unusedTime.toFixed(2),
+          value: item?.unusedTime.toFixed(2),
           itemStyle: {
             color: "#F6E7C6",
           },
@@ -213,7 +213,7 @@ const StaffTimeGraph = () => {
         type: "bar",
         stack: "total",
         data: chartData.map((item: any) => ({
-          value: item.availableTime,
+          value: item?.availableTime,
           itemStyle: {
             color: "#f4f4f5",
           },

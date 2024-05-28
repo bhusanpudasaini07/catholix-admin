@@ -17,7 +17,7 @@ const RpSummary: FC<IProps> = ({ available, spent, loss }) => {
   const current_username = router.query?.username;
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardContent>
         <div className="flex items-center justify-start gap-3 mb-4">
           <h5 className="font-medium text-zinc-700">Budget Summary</h5>

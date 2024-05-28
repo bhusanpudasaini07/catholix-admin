@@ -228,6 +228,7 @@ export interface IProjectUserStories {
     title: string;
     value: number;
   }[];
+  status: string;
 }
 
 export interface ISalesRP {

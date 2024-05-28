@@ -16,7 +16,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { EChartsInstance } from "echarts-for-react";
 
 const useDhDashboard = () => {
-  const { profileData } = useCommonStore();
+  const { profileData, filterConfig } = useCommonStore();
   // REF
   const chartRef = useRef<EChartsInstance>(null);
 
@@ -25,18 +25,19 @@ const useDhDashboard = () => {
     from: moment().subtract(1, "months").toDate(),
     to: moment().toDate(),
   });
+  const [departmentHead, setDepartmentHead] = useState("");
 
   const { data: teamLeadData, isLoading: teamLeadDataLoading } =
     useQuery<ITeamLead>({
       queryFn: async () => {
-        if (profileData) {
+        if (departmentHead) {
           // if (profileData && profileData?.is_team_lead === "Yes") {
           // const response = await getLeadsList(profileData?.username);
-          const response = await getLeadsList("jeetendra");
+          const response = await getLeadsList(departmentHead);
           return response;
         }
       },
-      queryKey: ["teamLeadData"],
+      queryKey: ["teamLeadData", departmentHead],
       onSuccess: (data) => {
         const joinedId = data?.data[0]?.staffs
           .map((staff) => staff?.id)
@@ -323,10 +324,20 @@ const useDhDashboard = () => {
     };
   }, [teamOverviewOption]);
 
+  useEffect(() => {
+    if (profileData && profileData?.is_team_lead === "Yes") {
+      setDepartmentHead(profileData?.username);
+    } else {
+      setDepartmentHead(filterConfig?.team_leads?.[0]?.username);
+    }
+  }, [profileData, filterConfig]);
+
   return {
     // STATES
     dateRange,
     setDateRange,
+    departmentHead,
+    setDepartmentHead,
     // API
     staffTimeLog,
     staffTimeLogLoading,

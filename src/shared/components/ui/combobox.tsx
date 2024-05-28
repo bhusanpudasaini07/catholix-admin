@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, SearchIcon } from "lucide-react";
 
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -43,13 +43,21 @@ export function ComboBox({ selectables, value, setValue, module }: IProps) {
           aria-expanded={open}
           className="justify-between w-full font-normal"
         >
-          <span className="truncate">
-            {" "}
-            {value
-              ? selectables.find((selectItem) => selectItem.value === value)
-                  ?.title
-              : `Select ${module}`}
-          </span>
+          <div className="flex gap-2 items-center min-w-0">
+            <SearchIcon
+              width={20}
+              height={20}
+              stroke="#71717A"
+              className="cursor-pointer min-w-[20px]"
+            />
+            <span className="truncate">
+              {" "}
+              {value
+                ? selectables.find((selectItem) => selectItem.value === value)
+                    ?.title
+                : `Select ${module}`}
+            </span>
+          </div>
           <ChevronsUpDown className="ml-2 w-4 h-4 opacity-50 shrink-0" />
         </Button>
       </PopoverTrigger>

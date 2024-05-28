@@ -67,12 +67,7 @@ const useSprintStatus = () => {
         }
       },
       queryKey: ["projectStories", code, sprintId],
-      onSuccess: (data) => {
-        const filteredArray = data?.data?.filter(
-          (story) => Number(story?.sprint_id) === Number(sprintId)
-        );
-        setStoryId(filteredArray[0]?.title);
-      },
+      cacheTime: 0,
     });
 
   const changeSprintHandler = (value: string) => {
@@ -136,10 +131,12 @@ const useSprintStatus = () => {
         label: {
           show: false,
         },
-        data: projectStoryDetail?.task_count_status?.map((task) => ({
-          value: task?.value,
-          name: task?.title,
-        })),
+        data: projectSprints?.data
+          ?.find((sprint) => sprint?.id === sprintId)
+          ?.task_count?.map((task) => ({
+            value: task?.value,
+            name: task?.title,
+          })),
       },
     ],
   };

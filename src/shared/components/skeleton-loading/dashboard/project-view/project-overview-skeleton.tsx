@@ -11,6 +11,12 @@ const DashboardProjectOverviewSkeleton = () => {
           <Skeleton className="w-40 h-3" />
         </div>
       </div>
+      <div className="w-0.5 h-[80px] border" />
+      <div className="w-[200px]">
+        <Skeleton className="w-[110px] h-3 mb-2" />
+        <Skeleton className="mb-2 w-full h-2" />
+        <Skeleton className="h-3 w-[130px] mb-2" />
+      </div>
       <div className="2xl:w-0.5 h-[80px] 2xl:border" />
       <div className="grid grid-cols-3 gap-8 grow">
         {Array.from({ length: 3 }).map((item, index) => (

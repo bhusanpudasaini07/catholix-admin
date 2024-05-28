@@ -18,6 +18,8 @@ const DHDashboard: NextPageWithLayout = () => {
   const {
     dateRange,
     setDateRange,
+    departmentHead,
+    setDepartmentHead,
 
     // API
     staffTimeLog,
@@ -37,7 +39,12 @@ const DHDashboard: NextPageWithLayout = () => {
   } = useDhDashboard();
   return (
     <>
-      <DashboardDHHeader dateRange={dateRange} setDateRange={setDateRange} />
+      <DashboardDHHeader
+        departmentHead={departmentHead}
+        setDepartmentHead={setDepartmentHead}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+      />
 
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-4">

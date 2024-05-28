@@ -15,6 +15,8 @@ import { IProjectSprint } from "@/interface/project-interface";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashboardProject.hook";
 import { EChartsInstance, EChartsOption } from "echarts-for-react";
+import { Badge } from "@/shared/components/ui/badge";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   projectSprints: IProjectSprint | undefined;
@@ -50,7 +52,7 @@ const ProjectDashboardSprint = ({
           <Skeleton className="w-full h-9" />
         ) : (
           <Select defaultValue={sprintId} onValueChange={(e) => setSprintId(e)}>
-            <SelectTrigger>
+            <SelectTrigger className="[&>span]:grow">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -58,13 +60,35 @@ const ProjectDashboardSprint = ({
                 ?.slice()
                 .reverse()
                 .map((sprint) => (
-                  <SelectItem value={sprint?.id} key={`sprint-${sprint?.id}`}>
-                    {sprint?.name}
-                    {sprint?.status === "active" && (
-                      <span className="ml-1 text-zinc-500">
-                        (Current Sprint)
-                      </span>
-                    )}
+                  <SelectItem
+                    value={sprint?.id}
+                    key={`sprint-${sprint?.id}`}
+                    className="[&>span]:grow"
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <div>
+                        {sprint?.name}
+                        {sprint?.id === projectSprints?.data[0]?.id && (
+                          <span className="ml-1 text-zinc-500">
+                            (Current Sprint)
+                          </span>
+                        )}
+                      </div>
+                      <Badge
+                        variant={"outline"}
+                        className={cn(
+                          sprint.status === "active" &&
+                            "border-blue-500 text-blue-500 bg-blue-50 ",
+                          sprint.status === "closed" &&
+                            "border-green-500 text-green-500 bg-green-50 ",
+                          "capitalize border rounded-md"
+                        )}
+                      >
+                        {sprint?.status === "active"
+                          ? "In Progress"
+                          : sprint?.status}
+                      </Badge>
+                    </div>
                   </SelectItem>
                 ))}
             </SelectContent>

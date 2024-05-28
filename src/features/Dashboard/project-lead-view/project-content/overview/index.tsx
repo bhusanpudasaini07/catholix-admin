@@ -7,6 +7,12 @@ import { cn } from "@/shared/utils/utils";
 import { useRouter } from "next/router";
 import DashboardProjectOverviewSkeleton from "@/shared/components/skeleton-loading/dashboard/project-view/project-overview-skeleton";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { Progress } from "@/shared/components/ui/progress";
+import {
+  calculateDeadlinePercentValue,
+  showDeadline,
+} from "@/shared/utils/rp-utils";
+import moment from "moment";
 
 interface IProps {
   health: {
@@ -19,6 +25,8 @@ interface IProps {
   gaugeColor: () => string;
   loading: boolean;
   project_title: String | undefined;
+  deadline: string;
+  start_date: string;
 }
 
 const DashboardProjectOverview = ({
@@ -27,6 +35,8 @@ const DashboardProjectOverview = ({
   code,
   loading,
   project_title,
+  deadline,
+  start_date,
 }: IProps) => {
   const router = useRouter();
   const summaryData = [
@@ -52,6 +62,9 @@ const DashboardProjectOverview = ({
       color: "bg-primary",
     },
   ];
+  const { statusText } = showDeadline(deadline);
+  const { value } = calculateDeadlinePercentValue(start_date, deadline);
+  const barValue = 100 - value;
   return (
     <Card>
       <CardContent>
@@ -87,7 +100,35 @@ const DashboardProjectOverview = ({
                       </span> */}
               </p>
             </div>
+            <div className="w-0.5 h-[80px] border" />
+            <div className="w-[200px]">
+              {" "}
+              {/* Progress */}
+              <div className="grow">
+                <p className="mb-1 text-sm font-medium text-zinc-700">
+                  {statusText}
+                </p>
+                <div className="flex gap-2 items-center">
+                  <Progress
+                    className={cn("h-2", {
+                      "[&>div]:bg-red-500": barValue >= 90,
+                      "[&>div]:bg-orange-500": barValue >= 50 && barValue <= 90,
+                      "[&>div]:bg-green-500": barValue < 50,
+                      "[&>div]:bg-gray-500": barValue === 0,
+                    })}
+                    value={barValue}
+                  />
+                </div>
+                <p className="mt-1 text-sm text-zinc-600">
+                  Deadline:{" "}
+                  <span className="font-medium">
+                    {moment(deadline).format("ll")}
+                  </span>
+                </p>
+              </div>
+            </div>
             <div className="2xl:w-0.5 h-[80px] 2xl:border" />
+
             <div className="grid grid-cols-3 grow">
               {summaryData?.map((item) => (
                 <div key={item?.id}>

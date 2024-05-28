@@ -31,6 +31,8 @@ import { getTeamMembersList } from "@/services/user-management/team-member/team-
 import { useMemo, useState } from "react";
 import { useDebounce } from "@/hooks/debounce.hooks";
 import WorkLoadChart from "@/features/User-Management/team-members/page-body/work-load-chart";
+import { Button } from "@/shared/components/ui/button";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const useHrDashboard = () => {
   // STATES
@@ -607,11 +609,57 @@ const useHrDashboard = () => {
     {
       id: "utilized_hours",
       accessorKey: "utilized_hours",
-      header: () => (
-        <div>
-          Utilized Work
-          <br />
-          Hours %
+      header: ({ column }) => (
+        <div className="flex gap-3 items-center">
+          <p>
+            Utilized Work
+            <br />
+            Hours %
+          </p>
+          <Button
+            onClick={() => {
+              column.toggleSorting(column.getIsSorted() === "asc");
+            }}
+            variant={"ghost"}
+            className="flex flex-col gap-0 p-0 h-auto hover:bg-transparent"
+          >
+            <ChevronUp
+              size={13}
+              strokeWidth={
+                column.getIsSorted() === "desc"
+                  ? 3
+                  : column.getIsSorted() === "asc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "desc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "asc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+            />
+            <ChevronDown
+              strokeWidth={
+                column.getIsSorted() === "asc"
+                  ? 3
+                  : column.getIsSorted() === "desc"
+                  ? 1
+                  : 1
+              }
+              stroke={
+                column.getIsSorted() === "asc"
+                  ? "#71717A"
+                  : column.getIsSorted() === "desc"
+                  ? "#C9C9D4"
+                  : "#71717A"
+              }
+              size={13}
+              className="-mt-[4px]"
+            />
+            {/* <ChevronsUpDown size={16} /> */}
+          </Button>
         </div>
       ),
       cell: ({ row }) => <div>{row?.getValue("utilized_hours")}%</div>,

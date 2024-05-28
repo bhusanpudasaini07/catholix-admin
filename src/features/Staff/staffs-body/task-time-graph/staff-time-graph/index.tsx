@@ -9,7 +9,7 @@ const StaffTimeGraph = () => {
     employee_id: "E001",
     username: "johndoe",
     fullname: "John Doe",
-    daily_time: Array.from({ length: 14 }).map((_, index) => ({
+    daily_time: Array.from({ length: 14 })?.map((_, index) => ({
       date: format(addDays(startDate, index), "yyyy-MM-dd"),
       available_time: 25200, // 7 hours in seconds
       used_time: Math.floor(Math.random() * 25200), // Random used time for demonstration
@@ -18,7 +18,7 @@ const StaffTimeGraph = () => {
     })),
   };
 
-  const chartData = data.daily_time.map((day: any) => {
+  const chartData = data.daily_time?.map((day: any) => {
     const availableTime = day?.available_time;
     const usedTime = day?.used_time;
     const commercialTime = day?.commercial_time;
@@ -122,7 +122,7 @@ const StaffTimeGraph = () => {
     },
     xAxis: {
       type: "category",
-      data: chartData.map((item: any) => format(new Date(item?.date), "EEE")),
+      data: chartData?.map((item: any) => format(new Date(item?.date), "EEE")),
       splitLine: {
         show: false,
       },
@@ -154,7 +154,7 @@ const StaffTimeGraph = () => {
         name: "Client",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => ({
+        data: chartData?.map((item: any) => ({
           value: item?.commercialTime,
           itemStyle: {
             color: "#5470C6",
@@ -169,7 +169,7 @@ const StaffTimeGraph = () => {
         name: "In-house",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => ({
+        data: chartData?.map((item: any) => ({
           value: item?.inhouseTime,
           itemStyle: {
             color: "#91CC75",
@@ -184,7 +184,7 @@ const StaffTimeGraph = () => {
         name: "Overused",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => item?.exceededTime),
+        data: chartData?.map((item: any) => item?.exceededTime),
         itemStyle: {
           color: "#EF4444",
         },
@@ -197,7 +197,7 @@ const StaffTimeGraph = () => {
         name: "Missed",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => ({
+        data: chartData?.map((item: any) => ({
           value: item?.unusedTime.toFixed(2),
           itemStyle: {
             color: "#F6E7C6",
@@ -212,7 +212,7 @@ const StaffTimeGraph = () => {
         name: "Available",
         type: "bar",
         stack: "total",
-        data: chartData.map((item: any) => ({
+        data: chartData?.map((item: any) => ({
           value: item?.availableTime,
           itemStyle: {
             color: "#f4f4f5",

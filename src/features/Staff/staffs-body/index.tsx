@@ -11,16 +11,15 @@ import {
 } from "@/services/staff/staff-service";
 
 import AllTimeProjects from "./all-time-projects";
-import BudgetUtilization from "./budget-utilization";
 import LogTable from "./log-table";
 import ProjectsOverview from "./projects-overview";
 import StaffsProjectSummary from "./projects-summary";
 import RpSummary from "./rp-summary";
-import TimeUtilization from "./time-utilization";
-import UtilizationSkeletonCard from "@/shared/components/skeleton-loading/lead-report/utilization-card-skeleton";
 import SummaryCardSkeleton from "@/shared/components/skeleton-loading/lead-report/summary-skeleton";
 import SummaryReportComponent from "./summary-report";
 import UtilizationSummary from "./utilization-summary";
+import TaskAndTimelogs from "./task-timelogs";
+import TaskAndTimeGraph from "./task-time-graph";
 
 interface StaffUtilizationData {
   available_rp: number;
@@ -186,26 +185,32 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
           )}
         </div>
       </div>
-      <div className="flex items-start justify-start flex-col col-span-2 gap-4">
-        {!staffLogLoading ? (
-          <RpSummary
-            available={staffLog?.data?.report?.available_rp}
-            spent={spentBudget}
-            loss={lossRp}
-          />
-        ) : (
-          <SummaryCardSkeleton />
-        )}
-        {!staffLogLoading ? (
-          <ProjectsOverview
-            client={projectStates?.client}
-            in_house={projectStates?.inhouse}
-            risk={projectStates?.risk}
-            total={projectStates?.total}
-          />
-        ) : (
-          <SummaryCardSkeleton />
-        )}
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="flex items-start justify-start flex-col gap-4">
+          {!staffLogLoading ? (
+            <TaskAndTimelogs
+              open={projectStates?.client}
+              doing={projectStates?.inhouse}
+              bugs={projectStates?.risk}
+              total={projectStates?.total}
+            />
+          ) : (
+            <SummaryCardSkeleton />
+          )}
+          {!staffLogLoading ? (
+            <ProjectsOverview
+              client={projectStates?.client}
+              in_house={projectStates?.inhouse}
+              risk={projectStates?.risk}
+              total={projectStates?.total}
+            />
+          ) : (
+            <SummaryCardSkeleton />
+          )}
+        </div>
+        <div className="">
+          <TaskAndTimeGraph />
+        </div>
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
         {/* {!staffLogLoading ? (

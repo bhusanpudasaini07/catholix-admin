@@ -65,6 +65,8 @@ const StaffUtilizationSankey: FC<IProps> = ({ data, tab }) => {
         },
         bottom: "15%",
         top: "10%",
+        right: "0%",
+        left: "0%",
         data: [
           {
             name: `Overall-Budget (${changeNumberFormat(

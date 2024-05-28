@@ -1,13 +1,13 @@
 import { Card, CardContent } from "@/shared/components/ui/card";
-import { TrendingUp } from "lucide-react";
+import { AlertCircle, TrendingUp } from "lucide-react";
 import React from "react";
 
 const SummaryReportComponent = () => {
   return (
     <Card>
-      <CardContent>
-        <div className="flex items-center justify-start gap-3 mb-6 ">
-          <h5 className="font-medium text-zinc-700">Projects Overview</h5>
+      <CardContent className="flex justify-between items-center flex-col h-full">
+        <div className="flex items-center w-full justify-start gap-3 mb-6 ">
+          <p className="text-lg font-medium text-zinc-700">Projects Overview</p>
         </div>
         <div className="flex items-center justify-center flex-col">
           <p className="text-green-700 text-[72px] font-semibold">A+</p>
@@ -45,9 +45,13 @@ const SummaryReportComponent = () => {
             </p>
           </div>
         </div>
-        <Card className="">
-          <CardContent>zxc</CardContent>
-        </Card>
+        <div className="border-zinc-300 w-full border rounded-lg p-3 flex justify-start items-start gap-2 text-zinc-500 text-sm">
+          <AlertCircle size={17} className="mt-[2px]" />
+          <div>
+            <p className="font-semibold">Heading !</p>
+            <p>Text goes here.</p>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

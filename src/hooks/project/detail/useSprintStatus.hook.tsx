@@ -105,7 +105,7 @@ const useSprintStatus = () => {
 
   const taskChart = {
     legend: {
-      top: "center",
+      top: "top",
       left: "0",
       orient: "vertical",
       itemWidth: 16,
@@ -120,7 +120,7 @@ const useSprintStatus = () => {
         name: "Task Chart",
         type: "pie",
         radius: [30, 70],
-        center: ["50%", "50%"],
+        center: ["70%", "50%"],
         roseType: "area",
         itemStyle: {
           borderRadius: 8,

@@ -42,6 +42,33 @@ const SprintStatus = () => {
     : 0;
   const barValue = Math.round(value);
 
+  const taskStatus = [
+    {
+      id: "total",
+      title: "All Task",
+      value: sprintDetail?.total_task_count,
+      valueColor: "text-zinc-700",
+      titleColor: "text-zinc-700",
+      bgColor: "bg-slate-50",
+    },
+    {
+      id: "open",
+      title: "Open Task",
+      value: sprintDetail?.open_task_count,
+      valueColor: "text-blue-500",
+      titleColor: "text-blue-700",
+      bgColor: "bg-blue-50",
+    },
+    {
+      id: "closed",
+      title: "Closed Task",
+      value: sprintDetail?.closed_task_count,
+      valueColor: "text-green-500",
+      titleColor: "text-green-700",
+      bgColor: "bg-green-50",
+    },
+  ];
+
   return (
     <Card className="mt-4">
       <CardContent>
@@ -116,7 +143,7 @@ const SprintStatus = () => {
               <p className="mt-2 text-sm text-center text-zinc-500">
                 {isNaN(barValue)
                   ? "In Progress"
-                  : `${barValue} Task % Completed`}
+                  : `${barValue}% Task Completed`}
               </p>
             </div>
             <div className="flex gap-4 items-center">
@@ -164,7 +191,35 @@ const SprintStatus = () => {
                 />
               )}
               <div className="grid grid-cols-3 gap-2">
-                <div className="px-3 border-r text-end">
+                {taskStatus?.map((status) => (
+                  <div
+                    key={status?.id}
+                    className={cn(status?.bgColor, "py-2 px-4 rounded-sm")}
+                  >
+                    {isLoading || projectSprintLoading ? (
+                      <Skeleton className="mb-1 w-10 h-4" />
+                    ) : (
+                      <p
+                        className={cn(
+                          status?.valueColor,
+                          "font-medium text-sm"
+                        )}
+                      >
+                        {status?.value}
+                      </p>
+                    )}
+
+                    <p
+                      className={cn(
+                        status?.titleColor,
+                        "text-xs whitespace-nowrap"
+                      )}
+                    >
+                      {status?.title}
+                    </p>
+                  </div>
+                ))}
+                {/* <div className="px-3 border-r text-end">
                   {isLoading || projectSprintLoading ? (
                     <Skeleton className="mb-1 ml-auto w-10 h-4" />
                   ) : (
@@ -194,7 +249,7 @@ const SprintStatus = () => {
                     </p>
                   )}
                   <p className="text-xs text-zinc-500">Closed Tasks</p>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="w-1 h-full border-l" />

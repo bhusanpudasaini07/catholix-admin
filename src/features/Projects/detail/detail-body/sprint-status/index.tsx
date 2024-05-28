@@ -15,6 +15,7 @@ import PieChartSkeleton from "@/shared/components/skeleton-loading/pie-chart-ske
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import useProjectDetail from "@/hooks/project/detail/useProjectDetail.hook";
 import useProjectStories from "@/hooks/project/detail/useProjectStories.hook";
+import StoryItem from "./story-item";
 
 const SprintStatus = () => {
   const router = useRouter();
@@ -28,9 +29,6 @@ const SprintStatus = () => {
     changeSprintHandler,
     projectStories,
     projectStoriesLoading,
-    storyId,
-    setStoryId,
-    projectStoryDetail,
   } = useSprintStatus();
 
   const { isLoading } = useProjectDetail();
@@ -152,49 +150,9 @@ const SprintStatus = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col justify-between px-6 py-4 rounded border border-slate-100 xl:flex-row">
-          <div className="flex items-start justify-between w-full max-w-[875px] grow">
-            <div className="flex flex-col gap-2 w-[320px] h-[250px] overflow-hidden overflow-y-scroll no-scrollbar ">
-              {projectStoriesLoading
-                ? Array(20)
-                    .fill(0)
-                    .map((_, index) => (
-                      <div
-                        key={index}
-                        className="py-2 border-b last:border-0 w-[300px]"
-                      >
-                        <Skeleton className="h-10" />
-                      </div>
-                    ))
-                : projectStories?.data?.map((story) => (
-                    <div
-                      className="py-2 border-b last:border-0 w-[300px]"
-                      key={`story- ${story?.title}`}
-                      onClick={() => setStoryId(story?.title)}
-                    >
-                      <div
-                        className={cn(
-                          storyId === story?.title &&
-                            "bg-blue-50 after:content:'' after:size-[16px] after:bg-blue-50 after:transform after:rotate-45 after:absolute after:-right-2 after:top-[20px]",
-                          "relative px-3 py-1.5 rounded cursor-pointer"
-                        )}
-                      >
-                        <p
-                          className={cn(
-                            "text-zinc-700",
-                            "text-primary",
-                            "font-semibold line-clamp-2"
-                          )}
-                        >
-                          {story?.title}
-                        </p>
-                        <p className="text-sm text-zinc-500">
-                          Task - {story?.closed_task_count}/{story?.task_count}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-            </div>
+        <div className="flex flex-col gap-6 justify-between px-6 2xl:flex-row">
+          <div className="flex gap-6 justify-between items-center w-full grow">
+            {/* <div className="flex items-start justify-between w-full max-w-[875px] grow"> */}
             <div className="grow max-w-[500px]">
               {isLoading || projectSprintLoading ? (
                 <PieChartSkeleton height={200} width={200} />
@@ -211,7 +169,7 @@ const SprintStatus = () => {
                     <Skeleton className="mb-1 ml-auto w-10 h-4" />
                   ) : (
                     <p className="text-sm font-medium text-zinc-700">
-                      {projectStoryDetail?.task_count}
+                      {sprintDetail?.total_task_count}
                     </p>
                   )}
                   <p className="text-xs text-zinc-500">Total Tasks</p>
@@ -221,7 +179,7 @@ const SprintStatus = () => {
                     <Skeleton className="mb-1 ml-auto w-10 h-4" />
                   ) : (
                     <p className="text-sm font-medium text-zinc-700">
-                      {projectStoryDetail?.open_task_count}
+                      {sprintDetail?.open_task_count}
                     </p>
                   )}
 
@@ -232,27 +190,43 @@ const SprintStatus = () => {
                     <Skeleton className="mb-1 ml-auto w-10 h-4" />
                   ) : (
                     <p className="text-sm font-medium text-zinc-700">
-                      {projectStoryDetail?.closed_task_count}
+                      {sprintDetail?.closed_task_count}
                     </p>
                   )}
                   <p className="text-xs text-zinc-500">Closed Tasks</p>
                 </div>
               </div>
             </div>
+            <div className="w-1 h-full border-l" />
+
+            <div className="w-full max-w-[500px]">
+              {isLoading || projectSprintLoading ? (
+                <Skeleton className="w-full h-[230px]" />
+              ) : (
+                <ReactEcharts
+                  option={sprintBurndownOption}
+                  style={{ height: 230 }}
+                  opts={{ renderer: "svg" }}
+                />
+              )}
+            </div>
           </div>
-
           <div className="border-l" />
-
-          <div className="w-full max-w-[500px]">
-            {isLoading || projectSprintLoading ? (
-              <Skeleton className="w-full h-[230px]" />
-            ) : (
-              <ReactEcharts
-                option={sprintBurndownOption}
-                style={{ height: 230 }}
-                opts={{ renderer: "svg" }}
-              />
-            )}
+          <div className="flex flex-col gap-2 w-full 2xl:w-[800px] h-[250px] overflow-hidden overflow-y-scroll no-scrollbar ">
+            {projectStoriesLoading
+              ? Array(20)
+                  .fill(0)
+                  .map((_, index) => (
+                    <div
+                      key={index}
+                      className="py-2 w-full border-b last:border-0"
+                    >
+                      <Skeleton className="h-10" />
+                    </div>
+                  ))
+              : projectStories?.data?.map((story) => (
+                  <StoryItem story={story} key={`story - ${story?.title}`} />
+                ))}
           </div>
         </div>
       </CardContent>

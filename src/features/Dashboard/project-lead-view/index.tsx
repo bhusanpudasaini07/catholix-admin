@@ -92,6 +92,8 @@ const ProjectDashboardView = () => {
                 gaugeColor={gaugeColor}
                 loading={projectDetailLoading || projectListLoading}
                 project_title={projectDetail?.data?.project_title}
+                deadline={projectDetail?.data?.dates?.deadline ?? ""}
+                start_date={projectDetail?.data?.dates?.start_date ?? ""}
               />
               <ProjectDashboardDeadines
                 loading={

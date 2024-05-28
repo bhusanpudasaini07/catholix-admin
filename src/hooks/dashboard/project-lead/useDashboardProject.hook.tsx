@@ -500,7 +500,7 @@ const useProjectViewDashboard = () => {
         name: "Task Chart",
         type: "pie",
         radius: [30, 70],
-        center: ["50%", "50%"],
+        center: ["65%", "50%"],
         roseType: "area",
         itemStyle: {
           borderRadius: 8,

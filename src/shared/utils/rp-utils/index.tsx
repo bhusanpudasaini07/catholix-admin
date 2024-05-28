@@ -231,7 +231,7 @@ const calculatePercentage = (value: number, total: number) => {
 
 const taskDueDeadline = (value: string) => {
   const daysDiff = Math.round(
-    moment.duration(moment(value).diff(moment())).asDays()
+    moment.duration(moment.utc(value).diff(moment.utc())).asDays()
   );
   const dueText =
     daysDiff < 0

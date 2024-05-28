@@ -131,144 +131,176 @@ const DetailHeader = ({
                 Project Overview
               </AccordionTrigger>
               <AccordionContent>
-                <div className="flex flex-wrap gap-y-5 gap-x-12 mt-8">
-                  {/* Start */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <CalendarRange className="me-2" size={16} /> Start Date
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {moment(projectDetail?.dates.start_date).format(
-                        "Do MMM, YYYY"
-                      )}
-                    </div>
-                  </div>
-                  {/* End */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <CalendarRange className="me-2" size={16} /> End Date
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {moment(projectDetail?.dates.deadline).format(
-                        "Do MMM, YYYY"
-                      )}
-                    </div>
-                  </div>
-                  {/* Lead */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <UserCircle2 className="me-2" size={16} />
-                      Project Lead
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      <p
-                        className="underline cursor-pointer"
-                        onClick={() => setOpenLeadSheet(true)}
-                      >
-                        {projectDetail?.project_lead?.fullname}
+                <div className="flex flex-wrap gap-y-6 gap-x-12 mt-8">
+                  {/* START END DATES */}
+                  <div className="flex flex-col gap-6">
+                    {/* Start */}
+                    <div className="">
+                      <p className="flex items-center text-sm font-normal text-zinc-500">
+                        <CalendarRange className="me-2" size={16} /> Start Date
                       </p>
+                      <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                        {moment(projectDetail?.dates.start_date).format(
+                          "Do MMM, YYYY"
+                        )}
+                      </div>
+                    </div>
+                    {/* End */}
+                    <div className="">
+                      <p className="flex items-center text-sm font-normal text-zinc-500">
+                        <CalendarRange className="me-2" size={16} /> End Date
+                      </p>
+                      <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                        {moment(projectDetail?.dates.deadline).format(
+                          "Do MMM, YYYY"
+                        )}
+                      </div>
                     </div>
                   </div>
-                  {/* Type */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Zap className="me-2" size={16} /> Type
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.type}
+                  {/* Separator */}
+                  <div className="border-l border-slate-200" />
+
+                  {/* Fiscal Year, Code, Prior name */}
+                  <div className="flex flex-col gap-6">
+                    {/* Fiscal Year */}
+                    <div className="">
+                      <p className="flex items-center text-sm font-normal text-zinc-500">
+                        <Calendar size={16} className="me-2" />
+                        Fiscal Year
+                      </p>
+                      <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                        {projectDetail?.fiscal_year}
+                      </div>
+                    </div>
+                    {/* Code */}
+                    <div className="">
+                      <p className="flex items-center text-sm font-normal text-zinc-500">
+                        <FileCode2 size={16} className="me-2" />
+                        Code
+                      </p>
+                      <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                        {projectDetail?.code}
+                      </div>
                     </div>
                   </div>
-                  {/* Market */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Globe className="me-2" size={16} />
-                      Market
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.market_title}
+
+                  {/* Separator */}
+                  <div className="border-l border-slate-200" />
+
+                  {/* Market, type, source, tech stack , sales rp */}
+                  <div className="flex flex-wrap gap-12">
+                    <div className="flex flex-col gap-6">
+                      {/* Market */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <Globe className="me-2" size={16} />
+                          Market
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                          {projectDetail?.market_title}
+                        </div>
+                      </div>
+                      {/* Tech Stack */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <Laptop className="me-2" size={16} /> Tech Stack
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium break-all grow text-start">
+                          {projectDetail?.tech_stack}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      {/* Type */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <Zap className="me-2" size={16} /> Type
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                          {projectDetail?.type}
+                        </div>
+                      </div>
+                      {/* Sales RP */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <BadgeAlert size={16} className="me-2" />
+                          Sales RP
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                          {changeNumberFormat(
+                            Number(projectDetail?.rp?.sales_rp)
+                          ) ?? 0}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-6">
+                      {/* Source */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <Star className="me-2" size={16} />
+                          Source
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                          {projectDetail?.source}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  {/* Source */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Star className="me-2" size={16} />
-                      Source
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.source}
+
+                  {/* Separator */}
+                  <div className="border-l border-slate-200" />
+
+                  {/* Lead member role repo */}
+                  <div className="flex flex-wrap gap-12">
+                    <div className="flex flex-col gap-6">
+                      {/* Lead */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <UserCircle2 className="me-2" size={16} />
+                          Project Lead
+                        </p>
+                        <div className="pl-6 mt-2 text-sm font-medium grow text-start">
+                          <p
+                            className="underline cursor-pointer"
+                            onClick={() => setOpenLeadSheet(true)}
+                          >
+                            {projectDetail?.project_lead?.fullname}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Members */}
+                      <div className="">
+                        <p className="flex items-center text-sm font-normal text-zinc-500">
+                          <Users size={16} className="me-2" /> Members & Role
+                        </p>
+                        <div className="pl-6 mt-2">
+                          <Button
+                            onClick={() => setMemberModalOpen(true)}
+                            variant={"outline_secondary"}
+                            size={"sm"}
+                          >
+                            View Members
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                  {/* Tech Stack */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Laptop className="me-2" size={16} /> Tech Stack
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium break-all grow text-start">
-                      {projectDetail?.tech_stack}
-                    </div>
-                  </div>
-                  {/* Sales RP */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <BadgeAlert size={16} className="me-2" />
-                      Sales RP
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {changeNumberFormat(
-                        Number(projectDetail?.rp?.sales_rp)
-                      ) ?? 0}
-                    </div>
-                  </div>
-                  {/* Fiscal Year */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Calendar size={16} className="me-2" />
-                      Fiscal Year
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.fiscal_year}
-                    </div>
-                  </div>
-                  {/* Code */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <FileCode2 size={16} className="me-2" />
-                      Code
-                    </p>
-                    <div className="pl-6 mt-2 text-sm font-medium grow text-start">
-                      {projectDetail?.code}
-                    </div>
-                  </div>
-                  {/* Members */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Users size={16} className="me-2" /> Members & Role
-                    </p>
-                    <div className="pl-6 mt-2">
-                      <Button
-                        onClick={() => setMemberModalOpen(true)}
-                        variant={"outline_secondary"}
-                        size={"sm"}
-                      >
-                        View Members
-                      </Button>
-                    </div>
-                  </div>
-                  {/* Repo */}
-                  <div className="">
-                    <p className="flex items-center text-sm font-normal text-zinc-500">
-                      <Links size={16} className="me-2" /> Repo Link
-                    </p>
-                    <div className="pl-6 mt-2">
-                      <Button
-                        variant={"outline"}
-                        size={"sm"}
-                        onClick={() => setGitModalOpen(true)}
-                        disabled={projectDetail?.git_urls?.length === 0}
-                        className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
-                      >
-                        git
-                      </Button>
+                    {/* Repo */}
+                    <div className="">
+                      <p className="flex items-center text-sm font-normal text-zinc-500">
+                        <Links size={16} className="me-2" /> Repo Link
+                      </p>
+                      <div className="pl-6 mt-2">
+                        <Button
+                          variant={"outline"}
+                          size={"sm"}
+                          onClick={() => setGitModalOpen(true)}
+                          disabled={projectDetail?.git_urls?.length === 0}
+                          className="text-green-500 border-green-500 hover:text-green-700 hover:border-green-700 hover:bg-transparent disabled:text-zinc-300 disabled:bg-light-white disabled:border-zinc-300"
+                        >
+                          git
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>

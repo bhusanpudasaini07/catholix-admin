@@ -55,7 +55,7 @@ const ProjectDashboardSprint = ({
             <SelectTrigger className="[&>span]:grow">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[310px] overflow-y-scroll">
               {projectSprints?.data
                 ?.slice()
                 .reverse()

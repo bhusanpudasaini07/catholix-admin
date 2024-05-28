@@ -54,7 +54,6 @@ const StaffsBody: FC<IProps> = ({ dateRange }) => {
     },
     queryKey: ["staffLog", username, dateRange?.to],
   });
-  console.log("staffLog", staffLog?.data?.report);
   const { data: staffProjects, isLoading: staffProjectLoading } =
     useQuery<IStaffProjects>({
       queryFn: async () => {

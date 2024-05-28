@@ -16,19 +16,51 @@ import { NextPageWithLayout } from "../_app";
 
 const DHDashboard: NextPageWithLayout = () => {
   const {
+    dateRange,
+    setDateRange,
+    departmentHead,
+    setDepartmentHead,
+
+    // API
+    staffTimeLog,
+    staffTimeLogLoading,
+    teamLeadDataLoading,
+
+    // Column
     missedDeadlineColumns,
     memberTimeLogSummaryColumns,
     taskMissedDeadlinesColumns,
+
+    // Chart
+    teamOverviewOption,
+
+    // REF
+    chartRef,
   } = useDhDashboard();
   return (
     <>
-      <DashboardDHHeader />
+      <DashboardDHHeader
+        departmentHead={departmentHead}
+        setDepartmentHead={setDepartmentHead}
+        dateRange={dateRange}
+        setDateRange={setDateRange}
+      />
 
       <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-4">
           <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-            <DHTeamOverview />
-            <DHMemberLogUtilization />
+            <DHTeamOverview
+              chartRef={chartRef}
+              option={teamOverviewOption}
+              loading={staffTimeLogLoading || teamLeadDataLoading}
+            />
+            <DHMemberLogUtilization
+              members={staffTimeLog?.data?.staff?.length ?? 0}
+              utilization_range={
+                staffTimeLog?.data?.summary?.utilization_range!
+              }
+              loading={staffTimeLogLoading || teamLeadDataLoading}
+            />
             <DHMissedDeadlines columns={missedDeadlineColumns} />
           </div>
 

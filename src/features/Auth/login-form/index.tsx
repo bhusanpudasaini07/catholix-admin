@@ -101,21 +101,30 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            variant="primary"
-            id="terms"
-            onCheckedChange={(e) => setCookie("rememberMe", e)}
-          />
-          <label
-            htmlFor="terms"
-            className="text-sm font-medium cursor-pointer text-zinc-700"
+        <div className="flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              variant="primary"
+              id="terms"
+              onCheckedChange={(e) => setCookie("rememberMe", e)}
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium cursor-pointer text-zinc-700"
+            >
+              Remember Me
+            </label>
+          </div>
+
+          <Link
+            href={"/login"}
+            className="text-sm font-semibold text-gray-600 hover:text-primary"
           >
-            Remember Me
-          </label>
+            Forgot Password?
+          </Link>
         </div>
 
-        <Button disabled={loginMutation.isLoading} className="w-full mt-8">
+        <Button disabled={loginMutation.isLoading} className="mt-8 w-full">
           {loginMutation.isLoading && <ButtonLoader className="mr-3" />}
           Login
         </Button>

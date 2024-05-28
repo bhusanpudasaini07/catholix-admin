@@ -329,7 +329,7 @@ const useLeaveRequest = () => {
                 "bg-green-100 border-green-500 text-green-500 rounded-md",
               row?.original?.leave?.status === "Pending" &&
                 "bg-orange-100 border-orange-500 text-orange-500 rounded-md",
-              row?.original?.leave?.status === "Rejected" &&
+              row?.original?.leave?.status === "rejected" &&
                 "bg-red-100 border-red-500 text-red-500 rounded-md ",
               "capitalize"
             )}

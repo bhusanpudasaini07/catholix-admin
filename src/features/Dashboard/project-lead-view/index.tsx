@@ -1,12 +1,12 @@
 import React from "react";
 
-import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashbordProject.hook";
+import useProjectViewDashboard from "@/hooks/dashboard/project-lead/useDashboardProject.hook";
 
 import ProjectDashboardDeadines from "./project-content/deadlines";
 import ProjectDashboardTimeLog from "./project-content/member-time-log";
 import DashboardProjectOverview from "./project-content/overview";
 import ProjectDashboardSprint from "./project-content/sprint-details";
-import ProjectSidebar from "./project-sidebar";
+import ProjectLeadDashboardHeader from "./project-header";
 
 const ProjectDashboardView = () => {
   const {
@@ -20,6 +20,13 @@ const ProjectDashboardView = () => {
     setSprintId,
     deadlineTab,
     setDeadlineTab,
+    tabOptions,
+    tabValue,
+    setTabValue,
+    projectLeadId,
+    setProjectLeadId,
+    projectType,
+    setProjectType,
 
     // Details
     projectDetail,
@@ -35,10 +42,30 @@ const ProjectDashboardView = () => {
 
     timeLogSummaryColumn,
     deadlineColumn,
+
+    // Chart
+    taskChart,
+    sprintBurndownOption,
+    statusOption,
+
+    // REF
+    chartRef,
   } = useProjectViewDashboard();
   return (
-    <div className="grid grid-cols-12">
-      <div className="col-span-3">
+    <div>
+      <ProjectLeadDashboardHeader
+        projectList={projectList?.data ?? []}
+        projectStatus={projectStatus}
+        setProjectStatus={setProjectStatus}
+        projectCode={projectCode}
+        setProjectCode={setProjectCode}
+        projectLeadId={projectLeadId}
+        setProjectLeadId={setProjectLeadId}
+        projectType={projectType}
+        setProjectType={setProjectType}
+      />
+      <div className="grid grid-cols-12">
+        {/* <div className="col-span-3">
         <ProjectSidebar
           projectList={projectList?.data ?? []}
           projectStatus={projectStatus}
@@ -47,56 +74,67 @@ const ProjectDashboardView = () => {
           projectCode={projectCode}
           setProjectCode={setProjectCode}
         />
-      </div>
-      <div className="col-span-6">
-        <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto no-scrollbar">
-          <div className="grid grid-cols-1 gap-4">
-            <DashboardProjectOverview
-              health={{
-                task_completion_percentage:
-                  projectDetail?.data?.health?.task_completion_percentage,
-                rp_completion_percentage:
-                  projectDetail?.data?.health?.rp_completion_percentage,
-                time_completion_percentage:
-                  projectDetail?.data?.health?.time_completion_percentage,
-                grade: projectDetail?.data?.health?.grade,
-              }}
-              code={projectCode}
-              gaugeColor={gaugeColor}
-              loading={projectDetailLoading || projectListLoading}
-            />
-            <ProjectDashboardDeadines
-              loading={
-                projectDetailLoading ||
-                projectListLoading ||
-                projectSprintTaskLoading
-              }
-              projectSprints={projectSprints}
-              sprintId={sprintId}
-              setSprintId={setSprintId}
-              projectSprintTasks={filteredProjectSprintTasks}
-              projectSprintTaskLoading={projectSprintTaskLoading}
-              deadlineColumn={deadlineColumn}
-              deadlineTab={deadlineTab}
-              setDeadlineTab={setDeadlineTab}
-            />
-            <ProjectDashboardTimeLog
-              loading={projectDetailLoading || projectListLoading}
-              column={timeLogSummaryColumn}
-              data={memberTimeLogRevisedData}
-            />
+      </div> */}
+        <div className="col-span-9">
+          <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto no-scrollbar">
+            <div className="grid grid-cols-1 gap-4">
+              <DashboardProjectOverview
+                health={{
+                  task_completion_percentage:
+                    projectDetail?.data?.health?.task_completion_percentage,
+                  rp_completion_percentage:
+                    projectDetail?.data?.health?.rp_completion_percentage,
+                  time_completion_percentage:
+                    projectDetail?.data?.health?.time_completion_percentage,
+                  grade: projectDetail?.data?.health?.grade,
+                }}
+                code={projectCode}
+                gaugeColor={gaugeColor}
+                loading={projectDetailLoading || projectListLoading}
+                project_title={projectDetail?.data?.project_title}
+                deadline={projectDetail?.data?.dates?.deadline ?? ""}
+                start_date={projectDetail?.data?.dates?.start_date ?? ""}
+              />
+              <ProjectDashboardDeadines
+                loading={
+                  projectDetailLoading ||
+                  projectListLoading ||
+                  projectSprintTaskLoading
+                }
+                projectSprints={projectSprints}
+                sprintId={sprintId}
+                setSprintId={setSprintId}
+                projectSprintTasks={filteredProjectSprintTasks}
+                projectSprintTaskLoading={projectSprintTaskLoading}
+                deadlineColumn={deadlineColumn}
+                deadlineTab={deadlineTab}
+                setDeadlineTab={setDeadlineTab}
+              />
+              <ProjectDashboardTimeLog
+                loading={projectDetailLoading || projectListLoading}
+                column={timeLogSummaryColumn}
+                data={memberTimeLogRevisedData}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="col-span-3">
-        <ProjectDashboardSprint
-          projectSprints={projectSprints}
-          loading={
-            projectSprintLoading || projectDetailLoading || projectListLoading
-          }
-          sprintId={sprintId}
-          setSprintId={setSprintId}
-        />
+        <div className="col-span-3">
+          <ProjectDashboardSprint
+            projectSprints={projectSprints}
+            loading={
+              projectSprintLoading || projectDetailLoading || projectListLoading
+            }
+            sprintId={sprintId}
+            setSprintId={setSprintId}
+            tabOptions={tabOptions}
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            taskChart={taskChart}
+            sprintBurndownOption={sprintBurndownOption}
+            statusOption={statusOption}
+            chartRef={chartRef}
+          />
+        </div>
       </div>
     </div>
   );

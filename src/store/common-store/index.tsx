@@ -30,6 +30,7 @@ export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
     email: "",
     username: "",
     image: undefined,
+    id: "",
   },
   setProfile: (data: any) => {
     set(() => ({ profileData: data }));

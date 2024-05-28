@@ -222,6 +222,13 @@ export interface IProjectUserStories {
   closed_task_count: string;
   open_task_count: string;
   tasks?: [];
+  sprint_id: number;
+  sprint_name: string;
+  task_count_status: {
+    title: string;
+    value: number;
+  }[];
+  status: string;
 }
 
 export interface ISalesRP {
@@ -475,6 +482,11 @@ export interface IProjectSprintDetail {
   start_date: string;
   status: string;
   total_task_count: number;
+
+  task_count: {
+    value: number;
+    title: string;
+  }[];
 }
 
 export interface IProjectSprintTasks {
@@ -514,4 +526,12 @@ export interface IProjectSprintTaskDetails {
   task_url: string;
   time: number;
   title: string;
+}
+
+export interface IProjectSprintBurndown {
+  data: {
+    date: string;
+    total_ideal_time: number;
+    total_time: string;
+  }[];
 }

@@ -886,7 +886,7 @@ const useProjectStories = () => {
           length2: 0,
           length: 10,
         },
-        data: projectStories?.data.slice(0, 10).map((story, index) => {
+        data: projectStories?.data?.slice(0, 10).map((story, index) => {
           const totalTime = projectStories?.data
             ?.slice(0, 10)
             ?.reduce((acc, curr) => {

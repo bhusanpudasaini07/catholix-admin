@@ -230,7 +230,9 @@ const calculatePercentage = (value: number, total: number) => {
 };
 
 const taskDueDeadline = (value: string) => {
-  const daysDiff = moment(value).diff(moment(), "days");
+  const daysDiff = Math.round(
+    moment.duration(moment.utc(value).diff(moment.utc())).asDays()
+  );
   const dueText =
     daysDiff < 0
       ? `${Math.abs(daysDiff)} Days Overdue`
@@ -242,6 +244,7 @@ const taskDueDeadline = (value: string) => {
 
   return <span className={color}>{dueText}</span>;
 };
+
 export {
   showDeadline,
   changeDateDisplay,

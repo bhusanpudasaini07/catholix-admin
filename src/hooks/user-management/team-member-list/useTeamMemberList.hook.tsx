@@ -1,9 +1,5 @@
-import WorkLoadChart from "@/features/User-Management/team-members/page-body/work-load-chart";
 import { useDebounce } from "@/hooks/debounce.hooks";
-import {
-  ITeamMemberDetails,
-  ITeamMemberList,
-} from "@/interface/team-member-interface";
+
 import { getStaffDailyTimelog } from "@/services/lead-report/lead-report-service";
 import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
 import { calculateTime, calculateTimeLog } from "@/shared/utils/rp-utils";
@@ -48,7 +44,7 @@ const useTeamMemberList = () => {
   const debouncedSearch = useDebounce(searchText, 300);
 
   // API CALL
-  const { data: teamMemberList, isLoading } = useQuery<ITeamMemberList>({
+  const { data: teamMemberList, isLoading } = useQuery<any>({
     queryFn: () =>
       getTeamMembersList(
         perPage,
@@ -137,7 +133,7 @@ const useTeamMemberList = () => {
 
   // Work-load chart
 
-  const memberColumn: ColumnDef<ITeamMemberDetails>[] = [
+  const memberColumn: ColumnDef<any>[] = [
     // SN
     {
       id: "sn",
@@ -198,7 +194,7 @@ const useTeamMemberList = () => {
               {row?.original?.projects
                 ? row?.original?.projects
                     ?.slice(0, maxProjectsToShow)
-                    ?.map((project) => (
+                    ?.map((project: any) => (
                       <div
                         className={cn(
                           projectBg(project?.status),

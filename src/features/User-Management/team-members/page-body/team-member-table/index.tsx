@@ -1,5 +1,3 @@
-import { IMembersLog } from "@/interface/team-lead-report-interface";
-import { ITeamMemberDetails } from "@/interface/team-member-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
@@ -7,12 +5,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 
 interface IProps {
-  column: ColumnDef<ITeamMemberDetails>[];
-  tableData: ITeamMemberDetails[];
+  column: ColumnDef<any>[];
+  tableData: any[];
   loading: boolean;
   modalOpen: boolean;
   changeStaffLog: () => void;
-  staffDailyLog: IMembersLog;
+  staffDailyLog: any;
   staffDailyLogLoading: boolean;
   staffId: string;
 }

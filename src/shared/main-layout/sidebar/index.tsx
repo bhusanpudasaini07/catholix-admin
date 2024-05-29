@@ -27,18 +27,9 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
 
-import { useDebounce } from "@/hooks/debounce.hooks";
-import { IStaffList } from "@/interface/staff-interface";
-import { ITeamMemberList } from "@/interface/team-member-interface";
-import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
-import { getProjectList } from "@/services/project/project-service";
-import { getAllStaffs } from "@/services/staff/staff-service";
-import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
-import FilterSearch from "@/shared/components/filter-search";
 import {
   Accordion,
   AccordionContent,

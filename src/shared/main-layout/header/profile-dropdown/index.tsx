@@ -61,14 +61,15 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       showToast(TOAST_TYPES.success, "Logged out successfully.");
       queryClient.removeQueries();
       removeAuthCookies();
-      router.push("login");
+      router.push("/login");
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error[0]?.detail);
     },
   });
   const logoutHandler = () => {
-    logoutMutation.mutate();
+    // logoutMutation.mutate();
+    router.push("/login");
   };
   return (
     <DropdownMenu modal={false}>

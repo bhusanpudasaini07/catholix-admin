@@ -4,16 +4,12 @@ import { Card, CardContent } from "@/shared/components/ui/card";
 
 import TeamMemberTable from "./team-member-table";
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  ITeamMemberDetails,
-  ITeamMemberList,
-} from "@/interface/team-member-interface";
-import { IMembersLog } from "@/interface/team-lead-report-interface";
+
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 
 interface IProps {
-  memberColumn: ColumnDef<ITeamMemberDetails>[];
-  teamMemberList: ITeamMemberList | undefined;
+  memberColumn: ColumnDef<any>[];
+  teamMemberList: any | undefined;
   isLoading: boolean;
   currentPage: number;
   totalPage: number;
@@ -22,7 +18,7 @@ interface IProps {
   changePageNum: (arg: number) => void;
   modalOpen: boolean;
   changeStaffLog: () => void;
-  staffDailyLog: IMembersLog;
+  staffDailyLog: any;
   staffDailyLogLoading: boolean;
   staffId: string;
 }

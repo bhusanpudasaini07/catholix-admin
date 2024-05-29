@@ -5,6 +5,7 @@ import { DataTable } from "@/shared/components/data-table/data-table";
 import { Button } from "@/shared/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Card, CardContent } from "@/shared/components/ui/card";
+import FilterSearch from "@/shared/components/filter-search";
 
 const MemberResourceBody = () => {
   const columns: ColumnDef<any>[] = [
@@ -12,6 +13,7 @@ const MemberResourceBody = () => {
       header: "S. No.",
       accessorKey: "sn",
       id: "sn",
+      enableHiding: false,
       cell: ({ row }) => (
         <div className="text-sm font-medium text-zinc-700 ps-3">
           {row.getValue("sn")}
@@ -22,6 +24,7 @@ const MemberResourceBody = () => {
       header: "Role",
       accessorKey: "role",
       id: "role",
+      enableHiding: false,
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
           {row.getValue("role")}
@@ -29,8 +32,9 @@ const MemberResourceBody = () => {
       ),
     },
     {
-      accessorKey: "commercialTime",
-      id: "commercialTime",
+      accessorKey: "commercial_time",
+      id: "commercial_time",
+      enableHiding: true,
       header: ({ column }) => (
         <div className="flex gap-3 items-center">
           <p>Commercial Time</p>
@@ -82,13 +86,14 @@ const MemberResourceBody = () => {
       ),
       cell: ({ row }) => (
         <div className="text-sm font-semibold text-zinc-700">
-          {row.getValue("commercialTime")}
+          {row.getValue("commercial_time")}
         </div>
       ),
     },
     {
       accessorKey: "inHouseTime",
       id: "inHouseTime",
+      enableHiding: true,
       header: ({ column }) => (
         <div className="flex gap-3 items-center">
           <p>In-House Time</p>
@@ -147,6 +152,8 @@ const MemberResourceBody = () => {
     {
       accessorKey: "totalTime",
       id: "totalTime",
+      enableHiding: true,
+
       header: ({ column }) => (
         <div className="flex gap-3 items-center">
           <p>Total Time</p>
@@ -205,6 +212,8 @@ const MemberResourceBody = () => {
     {
       accessorKey: "unusedTime",
       id: "unusedTime",
+      enableHiding: true,
+
       header: ({ column }) => (
         <div className="flex gap-3 items-center">
           <p>Unused Time</p>
@@ -263,6 +272,7 @@ const MemberResourceBody = () => {
     {
       accessorKey: "usedPercentage",
       id: "usedPercentage",
+      enableHiding: true,
       header: ({ column }) => (
         <div className="flex gap-3 items-center">
           <p>Used Percentage</p>
@@ -319,12 +329,13 @@ const MemberResourceBody = () => {
       ),
     },
   ];
+
   const data = [
     {
       sn: 1,
       memberInfo: "John Doe",
       role: "Developer",
-      commercialTime: 120,
+      commercial_time: 120,
       inHouseTime: 80,
       totalTime: 200,
       unusedTime: 50,
@@ -334,7 +345,7 @@ const MemberResourceBody = () => {
       sn: 2,
       memberInfo: "Jane Smith",
       role: "Designer",
-      commercialTime: 100,
+      commercial_time: 100,
       inHouseTime: 60,
       totalTime: 160,
       unusedTime: 40,
@@ -352,7 +363,8 @@ const MemberResourceBody = () => {
             border={true}
             columns={columns}
             data={data}
-          />
+            showManageColumn
+          ></DataTable>
         </CardContent>
       </Card>
     </div>

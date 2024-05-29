@@ -1,4 +1,3 @@
-import MemberTimeLogModal from "@/features/Team/team-leads/lead-report/lead-body/member-wise-log-table/member-timelog-modal";
 import { IMembersLog } from "@/interface/team-lead-report-interface";
 import { ITeamMemberDetails } from "@/interface/team-member-interface";
 import { DataTable } from "@/shared/components/data-table/data-table";
@@ -39,16 +38,6 @@ const TeamMemberTable = ({
         loading={loading}
         loadingDataNum={20}
       />
-
-      {/* Member Daily Log */}
-      <Dialog onOpenChange={changeStaffLog} open={modalOpen} key={staffId}>
-        <DialogContent className="min-w-[800px]">
-          <MemberTimeLogModal
-            staffDailyLog={staffDailyLog}
-            staffDailyLogLoading={staffDailyLogLoading}
-          />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

@@ -62,7 +62,8 @@ const LoginForm = () => {
     const payload = {
       ...data,
     };
-    loginMutation.mutate(payload);
+    // loginMutation.mutate(payload);
+    router.push("/");
   };
 
   return (

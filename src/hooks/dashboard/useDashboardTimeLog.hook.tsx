@@ -1,44 +1,46 @@
-import { IDashboardTimelog } from "@/interface/dashboard-interface";
-import { getDashboardStaffTimelog } from "@/services/dashboard/dashboard-service";
 import { Timer, TimerOff, Users2 } from "lucide-react";
 import moment from "moment";
-import { useState } from "react";
-import { useQuery } from "react-query";
+import { useEffect, useState } from "react";
 
 const useDashboardTimeLog = () => {
   const [date, setDate] = useState<Date | undefined>(
     moment().subtract(1, "days").toDate()
   );
+  const [isLoading, setIsLoading] = useState(true);
 
   const changeDate = (date: Date) => {
     setDate(date);
   };
 
-  const { data: dashboardTimeLog, isLoading } = useQuery<IDashboardTimelog>({
-    queryFn: () => getDashboardStaffTimelog(moment(date).format("YYYY-MM-DD")),
-    queryKey: ["dashboardTimeLog", date],
-  });
-
   const timeLogData = [
     {
       id: "added",
-      value: dashboardTimeLog?.data?.total_staffs_with_timelog,
+      value: 70,
       title: "Time-log Added",
       icon: <Timer size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
     {
       id: "missed",
-      value: dashboardTimeLog?.data?.total_staffs_without_timelog,
+      value: 50,
       title: "Missed to add Time-log",
       icon: <TimerOff size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
     {
       id: "staffs",
-      value: dashboardTimeLog?.data?.total_staffs,
+      value: 120,
       title: "Total Members",
       icon: <Users2 size={40} stroke={"#71717A"} strokeWidth={1} />,
     },
   ];
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
+
   return { date, changeDate, timeLogData, isLoading };
 };
 

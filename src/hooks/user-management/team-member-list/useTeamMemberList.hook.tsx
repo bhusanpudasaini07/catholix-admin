@@ -321,19 +321,6 @@ const useTeamMemberList = () => {
         );
       },
     },
-    // Work-load Remarks
-    {
-      id: "work_load",
-      accessorKey: "work_load",
-      header: () => (
-        <div>
-          Work-Load
-          <br />
-          Time Graph
-        </div>
-      ),
-      cell: ({ row }) => <WorkLoadChart data={row?.original} />,
-    },
   ];
 
   return {

@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 import Header from "./header";
-import SidebarNew from "./sidebar-new";
+import SidebarNew from "./sidebar";
 import SidebarSheet from "./sidebar-sheet";
 import { cn } from "../utils/utils";
 import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";

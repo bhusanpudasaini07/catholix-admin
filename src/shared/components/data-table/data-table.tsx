@@ -147,10 +147,10 @@ export function DataTable<TData, TValue>({
                   <TableHead
                     className={cn(
                       border
-                        ? "border-b-2 border-r-2 border-slate-100 last:border-r-0"
+                        ? "border-b-2 border-r-2 border-slate-100 last:border-r-0 "
                         : "",
                       headerSticky && "sticky top-[0px] z-[10] bg-light-white",
-                      "whitespace-nowrap"
+                      "whitespace-nowrap bg-gray-200"
                     )}
                     key={header.id}
                   >
@@ -201,8 +201,7 @@ export function DataTable<TData, TValue>({
                         hover
                           ? "group-hover:bg-blue-50 group-hover:border-r-blue-100 group-hover:border-l-blue-100"
                           : ""
-                      }
-                      `}
+                      }`}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,

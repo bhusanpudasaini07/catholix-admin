@@ -5,6 +5,7 @@ import { NextPageWithLayout } from "../../_app";
 import TeamMembersTable from "@/features/User-Management/team-members/page-body/team-members-table";
 import TeamMemberPageHeader from "@/features/User-Management/team-members/page-header";
 import useTeamMemberList from "@/hooks/user-management/team-member-list/useTeamMemberList.hook";
+import MemberResourceBody from "@/features/reports/member-resource/member-resource-body";
 
 const TeamMembersList: NextPageWithLayout = () => {
   const {
@@ -42,24 +43,7 @@ const TeamMembersList: NextPageWithLayout = () => {
         searchText={searchText}
       />
 
-      {/* Body */}
-      <div className="p-6 max-h-[calc(100vh-115px)] overflow-auto">
-        <TeamMembersTable
-          memberColumn={memberColumn}
-          teamMemberList={teamMemberList}
-          isLoading={isLoading}
-          currentPage={teamMemberList?.pagination?.page ?? 0}
-          totalPage={teamMemberList?.pagination?.total_page ?? 0}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          changePageNum={changePageNum}
-          modalOpen={modalOpen}
-          changeStaffLog={changeStaffLog}
-          staffDailyLog={staffDailyLog}
-          staffDailyLogLoading={staffDailyLogLoading}
-          staffId={staffId}
-        />
-      </div>
+      <MemberResourceBody />
     </div>
   );
 };

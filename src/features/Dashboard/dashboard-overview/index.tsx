@@ -13,8 +13,8 @@ const DashboardOverview = () => {
     projectOverviewData,
     clientProjectData,
     inhouseProjectData,
-    isLoading,
     setDateRange,
+    isLoading,
   } = useDashboardOverview();
 
   return (
@@ -27,14 +27,6 @@ const DashboardOverview = () => {
                 Projects Overview
               </p>
 
-              {/* <DateRangeFilter
-                  dateRangeOpen={dateRangeOpen}
-                  setDateRangeOpen={setDateRangeOpen}
-                  dateRange={dateRange}
-                  setDateRange={changeDateRange}
-                  buttonClassName="max-w-[250px]"
-                  disabled
-                /> */}
               <CustomDateFilter
                 tabContent={["monthly", "weekly", "date_range", "yearly"]}
                 defaultSelected="date_range"

@@ -1,10 +1,7 @@
-import { IDashboardProjectSummary } from "@/interface/dashboard-interface";
-import { getDashboardProjectSummary } from "@/services/dashboard/dashboard-service";
 import { FolderOpen, UserCircle2, Warehouse } from "lucide-react";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
 
 const useDashboardOverview = () => {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -12,26 +9,18 @@ const useDashboardOverview = () => {
     to: new Date(),
   });
   const [dateRangeOpen, setDateRangeOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const changeDateRange = (date: DateRange) => {
     setDateRange(date);
   };
-
-  const { data: dashboardProject, isLoading } =
-    useQuery<IDashboardProjectSummary>({
-      queryFn: () =>
-        getDashboardProjectSummary(
-          moment(dateRange?.from).format("YYYY-MM-DD"),
-          moment(dateRange?.to).format("YYYY-MM-DD")
-        ),
-      queryKey: ["dashboardProject", dateRange?.to],
-    });
 
   const projectOverviewData = [
     {
       id: "total",
       title: "Total Projects",
       icon: <FolderOpen size={40} stroke={"#3F3F46"} strokeWidth={1} />,
-      value: dashboardProject?.data?.total_projects,
+      value: 50,
       backgroundColor: "bg-zinc-100",
       valueColor: "text-zinc-700",
       titleColor: "text-zinc-900 ",
@@ -40,7 +29,7 @@ const useDashboardOverview = () => {
       id: "client ",
       title: "Client Projects",
       icon: <UserCircle2 size={40} stroke={"#075BB2"} strokeWidth={1} />,
-      value: dashboardProject?.data?.total_client_projects,
+      value: 40,
       backgroundColor: "bg-blue-50",
       valueColor: "text-blue-500",
       titleColor: "text-blue-700 ",
@@ -49,7 +38,7 @@ const useDashboardOverview = () => {
       id: "inHouse",
       title: "In-House Projects",
       icon: <Warehouse size={40} stroke={"#15803D"} strokeWidth={1} />,
-      value: dashboardProject?.data?.total_inhouse_projects,
+      value: 10,
       backgroundColor: "bg-green-50",
       valueColor: "text-green-700",
       titleColor: "text-green-700 ",
@@ -60,7 +49,7 @@ const useDashboardOverview = () => {
     // Not Started
     {
       id: "not-started",
-      value: dashboardProject?.data?.client?.not_started,
+      value: 0,
       title: "Not Started",
       valueColor: "text-zinc-500",
       titleColor: "text-zinc-700",
@@ -69,7 +58,7 @@ const useDashboardOverview = () => {
     // In progress
     {
       id: "in-progress",
-      value: dashboardProject?.data?.client?.in_progress,
+      value: 41,
       title: "In Progress",
       valueColor: "text-blue-500",
       titleColor: "text-blue-700",
@@ -78,7 +67,7 @@ const useDashboardOverview = () => {
     // Closed
     {
       id: "closed",
-      value: dashboardProject?.data?.client?.closed,
+      value: 5,
       title: "Closed",
       valueColor: "text-green-500",
       titleColor: "text-green-700",
@@ -87,7 +76,7 @@ const useDashboardOverview = () => {
     // On Hold
     {
       id: "on-hold",
-      value: dashboardProject?.data?.client?.on_hold,
+      value: 0,
       title: "On Hold",
       valueColor: "text-red-500",
       titleColor: "text-red-700",
@@ -96,7 +85,7 @@ const useDashboardOverview = () => {
     // Client Support
     {
       id: "client-support",
-      value: dashboardProject?.data?.client?.support,
+      value: 4,
       title: "Client Support",
       valueColor: "text-orange-500",
       titleColor: "text-orange-700",
@@ -105,7 +94,7 @@ const useDashboardOverview = () => {
     // Delivered
     {
       id: "delivered",
-      value: dashboardProject?.data?.client?.delivered,
+      value: 0,
       title: "Delivered",
       valueColor: "text-green-500",
       titleColor: "text-green-700",
@@ -117,7 +106,7 @@ const useDashboardOverview = () => {
     // Not Started
     {
       id: "not-started",
-      value: dashboardProject?.data?.in_house?.not_started,
+      value: 0,
       title: "Not Started",
       valueColor: "text-zinc-500",
       titleColor: "text-zinc-700",
@@ -126,7 +115,7 @@ const useDashboardOverview = () => {
     // In progress
     {
       id: "in-progress",
-      value: dashboardProject?.data?.in_house?.in_progress,
+      value: 5,
       title: "In Progress",
       valueColor: "text-blue-500",
       titleColor: "text-blue-700",
@@ -135,7 +124,7 @@ const useDashboardOverview = () => {
     // Closed
     {
       id: "closed",
-      value: dashboardProject?.data?.in_house?.closed,
+      value: 1,
       title: "Closed",
       valueColor: "text-green-500",
       titleColor: "text-green-700",
@@ -144,7 +133,7 @@ const useDashboardOverview = () => {
     // On Hold
     {
       id: "on-hold",
-      value: dashboardProject?.data?.in_house?.on_hold,
+      value: 1,
       title: "On Hold",
       valueColor: "text-red-500",
       titleColor: "text-red-700",
@@ -153,7 +142,7 @@ const useDashboardOverview = () => {
     // Client Support
     {
       id: "client-support",
-      value: dashboardProject?.data?.in_house?.support,
+      value: 1,
       title: "Client Support",
       valueColor: "text-orange-500",
       titleColor: "text-orange-700",
@@ -162,7 +151,7 @@ const useDashboardOverview = () => {
     // Delivered
     {
       id: "delivered",
-      value: dashboardProject?.data?.in_house?.delivered,
+      value: 1,
       title: "Delivered",
       valueColor: "text-green-500",
       titleColor: "text-green-700",
@@ -170,6 +159,13 @@ const useDashboardOverview = () => {
     },
   ];
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, []);
   return {
     // States
     dateRange,
@@ -183,7 +179,6 @@ const useDashboardOverview = () => {
 
     // FUNCTIONS
     changeDateRange,
-
     isLoading,
   };
 };

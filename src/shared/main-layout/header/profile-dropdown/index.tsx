@@ -30,7 +30,26 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { profileData, setProfile } = useCommonStore();
+  // const { profileData, setProfile } = useCommonStore();
+
+  const profileData = {
+    fullname: "Suman RajBhandari",
+    department_id: "",
+    employee_id: null,
+    mattermost_username: null,
+    is_team_lead: "",
+    is_project_lead: "",
+    git_username: null,
+    oa_id: null,
+    permitted_modules: [],
+    role: "",
+    role_id: null,
+    special_permission: [],
+    email: "sumanr@ekbana.info",
+    username: "sumanr",
+    image: undefined,
+    id: "10",
+  };
 
   const changeRoute = (route: string) => {
     router.push(route);

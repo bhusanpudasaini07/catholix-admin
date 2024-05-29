@@ -1,9 +1,10 @@
-import { DataTable } from "@/shared/components/data-table/data-table";
-import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
-import { ColumnDef } from "@tanstack/react-table";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React from "react";
+
+import { DataTable } from "@/shared/components/data-table/data-table";
+import { Button } from "@/shared/components/ui/button";
+import { ColumnDef } from "@tanstack/react-table";
+import { Card, CardContent } from "@/shared/components/ui/card";
 
 const MemberResourceBody = () => {
   const columns: ColumnDef<any>[] = [
@@ -342,13 +343,18 @@ const MemberResourceBody = () => {
   ];
   return (
     <div className="p-6">
-      <DataTable
-        height={"max-h-[500px]"}
-        headerSticky
-        border={true}
-        columns={columns}
-        data={data}
-      />
+      <Card>
+        <CardContent>
+          {" "}
+          <DataTable
+            height={"max-h-[500px]"}
+            headerSticky
+            border={true}
+            columns={columns}
+            data={data}
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };

@@ -32,9 +32,11 @@ import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
 import { useDebounce } from "@/hooks/debounce.hooks";
+import { IStaffList } from "@/interface/staff-interface";
 import { ITeamMemberList } from "@/interface/team-member-interface";
 import { getConfig, getProfile } from "@/services/dashboard/dashboard-service";
 import { getProjectList } from "@/services/project/project-service";
+import { getAllStaffs } from "@/services/staff/staff-service";
 import { getTeamMembersList } from "@/services/user-management/team-member/team-member-service";
 import FilterSearch from "@/shared/components/filter-search";
 import {
@@ -44,21 +46,13 @@ import {
   AccordionTrigger,
 } from "@/shared/components/ui/accordion";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/shared/components/ui/dialog";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -66,13 +60,9 @@ import {
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
 import { Logo } from "@/shared/lib/image-config";
-import { useLoggedInStore } from "@/store/auth-store";
-import { useCommonStore } from "@/store/common-store";
-
-import ProfileDropdown from "../header/profile-dropdown";
-import { IStaffList } from "@/interface/staff-interface";
-import { getAllStaffs } from "@/services/staff/staff-service";
 import { cn } from "@/shared/utils/utils";
+import ProfileDropdown from "../header/profile-dropdown";
+import GlobalSearch from "./global-search";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -86,71 +76,14 @@ const SidebarNew = ({
   setIsExpanded,
 }: ISidebarProps) => {
   const router = useRouter();
-  const { isLoggedIn } = useLoggedInStore();
-  const { setProfile, setFilterConfig } = useCommonStore();
-  const [searchText, setSearchText] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
-  const debouncedSearchValue = useDebounce(searchText, 300);
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: moment().subtract(1, "years").toDate(),
     to: moment().toDate(),
   });
-  useQuery(["profile"], getProfile, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setProfile(data?.data);
-    },
-  });
-  let perPage = 10;
-  let pageNumber = 1;
-  let pageNum = 1;
-  useQuery(["config"], getConfig, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setFilterConfig(data?.data);
-    },
-  });
 
   const { t } = useTranslation("common");
 
-  const { data: projectList, isLoading: projectListLoading } = useQuery({
-    queryFn: () =>
-      searchText
-        ? getProjectList(
-            pageNumber,
-            perPage,
-            searchText,
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-          )
-        : Promise.resolve({ data: [] }), // Return empty data when search text is empty
-    queryKey: ["projectList", perPage, pageNumber, debouncedSearchValue],
-  });
-
-  const { data: staffList, isLoading: staffLoading } = useQuery<IStaffList>({
-    queryFn: () =>
-      searchText
-        ? getAllStaffs(
-            searchText //keyword
-          )
-        : Promise.resolve({ data: [] }), // Return empty data when search text is empty
-    queryKey: ["teamMemberList", debouncedSearchValue, perPage, pageNum],
-  });
-
-  const navigateTo = (route: string, linkUrl: string) => {
-    router.push(`/${route}/${linkUrl}`);
-    setOpen(false);
-  };
   // Sidebar Items
   const menuItems = [
     {
@@ -162,21 +95,6 @@ const SidebarNew = ({
           menuSlug: "/",
           icon: <LayoutDashboard width={20} height={20} />,
         },
-        {
-          menuName: t("common.side_nav.pl_dashboard"),
-          menuSlug: "/project-lead-dashboard",
-          icon: <LayoutPanelLeft width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.hr_dashboard"),
-          menuSlug: "/hr-dashboard",
-          icon: <LayoutPanelTop width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.dh_dashboard"),
-          menuSlug: "/department-head-dashboard",
-          icon: <LayoutGrid width={20} height={20} />,
-        },
       ],
     },
     {
@@ -184,40 +102,9 @@ const SidebarNew = ({
       icon: <User2 />,
       subMenu: [
         {
-          menuName: t("common.side_nav.projects"),
-          menuSlug: "/projects",
-          icon: <Folder width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.project_required_roles"),
-          menuSlug: "/project-required-roles",
-          icon: <FileLineChart width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.reports"),
+          menuName: t("common.side_nav.member_resource_report"),
           menuSlug: "/reports/member-resource",
-          icon: <File width={20} height={20} />,
-          hasAccordion: true,
-          accordionItem: [
-            {
-              itemName: t("common.side_nav.member_resource_report"),
-              itemSlug: "/reports/member-resource",
-            },
-            // {
-            //   itemName: "Lead Targets",
-            //   itemSlug: "/test",
-            // },
-            // {
-            //   itemName: "Lead Report",
-            //   itemSlug: "/test",
-            // },
-          ],
-        },
-        {
-          menuName: t("common.side_nav.time_spent_reports"),
-          menuSlug: "/time-spent-reports",
-          icon: <Clock width={20} height={20} />,
-          hasAccordion: true,
+          icon: <Folder width={20} height={20} />,
         },
       ],
     },
@@ -227,31 +114,6 @@ const SidebarNew = ({
       icon: <User2 />,
       hasChildren: true,
       subMenu: [
-        {
-          menuName: t("common.side_nav.department_performance"),
-          menuSlug: "/team-leads",
-          icon: <User width={20} height={20} />,
-          hasAccordion: true,
-          accordionItem: [
-            {
-              itemName: "Summary Report",
-              itemSlug: "/team-leads/report",
-            },
-            // {
-            //   itemName: "Lead Targets",
-            //   itemSlug: "/test",
-            // },
-            {
-              itemName: "Department Report",
-              itemSlug: `${`/team-leads/lead-report`}`,
-            },
-          ],
-        },
-        {
-          menuName: t("common.side_nav.staff_groups"),
-          menuSlug: "/staff_group",
-          icon: <Users width={20} height={20} />,
-        },
         {
           menuName: t("common.side_nav.user_management"),
           menuSlug: "/user-management",
@@ -266,108 +128,12 @@ const SidebarNew = ({
         },
       ],
     },
-    {
-      menuName: t("common.side_nav.hr_management"),
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.leave_requests"),
-          menuSlug: "/leave-request",
-          icon: <FolderTree width={20} height={20} />,
-        },
-      ],
-    },
-    {
-      menuName: t("common.side_nav.market"),
-      menuSlug: "/market",
-      icon: <Activity width={20} height={20} />,
-      hasChildren: false,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.market_page"),
-          menuSlug: "/market",
-          icon: <Activity width={20} height={20} />,
-        },
-      ],
-    },
-    {
-      menuName: t("common.side_nav.quotes"),
-      menuSlug: "/calculator",
-      icon: <Calculator width={20} height={20} />,
-      hasChildren: false,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.quote_builder"),
-          menuSlug: "/quote-builder",
-          icon: <Calculator width={20} height={20} />,
-        },
-        {
-          menuName: t("common.side_nav.saved_quote"),
-          menuSlug: "/saved-quotes",
-          icon: <FileSpreadsheet width={20} height={20} />,
-        },
-      ],
-    },
-    // {
-    //   menuName: t("common.side_nav.feedback"),
-    //   menuSlug: "",
-    //   icon: <User2 />,
-    //   hasChildren: true,
-    //   subMenu: [
-    //     {
-    //       menuName: t("common.side_nav.pl_feedback"),
-    //       menuSlug: "/pl-feedback",
-    //       icon: <Users width={20} height={20} />,
-    //     },
-    //     {
-    //       menuName: t("common.side_nav.feedback_report"),
-    //       menuSlug: "/feedback-report",
-    //       icon: <Users width={20} height={20} />,
-    //     },
-    //   ],
-    // },
-    // {
-    //   menuName: t("common.side_nav.other"),
-    //   menuSlug: "",
-    //   icon: <User2 />,
-    //   hasChildren: true,
-    //   subMenu: [
-    //     {
-    //       menuName: t("common.side_nav.gitlab_hooks"),
-    //       menuSlug: "/gitlab-hooks",
-    //       icon: <Gitlab width={20} height={20} />,
-    //     },
-    //   ],
-    // },
   ];
 
   const isActive = (tabRoute: string) => {
-    // if (router.pathname === "/") {
-    //   return true;
-    // }
-    // if (router.pathname == tabRoute) {
-    //   if (router.pathname == "/") {
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // }
     const result = router.pathname.startsWith(tabRoute);
     return result;
   };
-
-  useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
 
   return (
     <div
@@ -418,115 +184,7 @@ const SidebarNew = ({
           </button>
         </div>
         <div>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger className="w-full">
-              {isExpanded ? (
-                <div className="flex justify-start items-center p-2 mx-6 my-4 rounded-md border border-zinc-200 text-zinc-700">
-                  <Search size={20} />
-                  <p className="text-sm text-zinc-300 ms-3">Search</p>
-                  <p className="flex justify-start items-center text-sm text-zinc-300 ms-auto">
-                    Ctrl+K
-                  </p>
-                </div>
-              ) : (
-                <div
-                  className={`hidden xl:block focus:outline-none hover:bg-zinc-100 
-                    px-[1.25rem] py-[0.75rem]`}
-                >
-                  <Search size={20} />
-                </div>
-              )}
-            </DialogTrigger>
-            <DialogContent className="min-w-[625px] gap-0 p-0">
-              <DialogHeader className="p-6">
-                <DialogTitle>Global Search</DialogTitle>
-                <DialogDescription>
-                  Type to find. ENTER to select, ESC to dismiss.
-                </DialogDescription>
-                <FilterSearch
-                  searchText={searchText}
-                  className="!max-w-full !mt-4"
-                  setSearchText={(value) => setSearchText(value)}
-                />
-              </DialogHeader>
-              <div className="p-6 text-sm font-medium border-t border-zinc-200 text-zinc-500">
-                {searchText?.length > 0 && (
-                  <>
-                    {projectListLoading ? (
-                      <div className="mb-6">
-                        <Skeleton className="mb-2 w-56 h-4" />
-                        <Skeleton className="mb-2 w-full h-4" />
-                        <Skeleton className="mb-2 w-full h-4" />
-                      </div>
-                    ) : (
-                      <>
-                        {projectList?.data?.length > 0 && (
-                          <>
-                            <p className="">PROJECTS</p>
-                            <ul className="overflow-auto mb-4 max-h-48">
-                              {projectList?.data?.map(
-                                (value: any, index: number) => (
-                                  <li
-                                    key={index}
-                                    onClick={() =>
-                                      navigateTo("projects", value?.code)
-                                    }
-                                    className="flex gap-3 justify-start items-center py-3 cursor-pointer hover:text-primary"
-                                  >
-                                    <FolderOpen />
-                                    <p>{value?.project_title}</p>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </>
-                        )}
-                      </>
-                    )}
-                    {staffLoading ? (
-                      <div>
-                        <Skeleton className="mb-2 w-56 h-4" />
-                        <Skeleton className="mb-2 w-full h-4" />
-                        <Skeleton className="mb-2 w-full h-4" />
-                      </div>
-                    ) : (
-                      <>
-                        {(staffList?.data?.length ?? 0) > 0 && (
-                          <>
-                            <p className="">TEAM MEMBERS</p>
-                            <ul className="overflow-auto mb-4 max-h-48">
-                              {staffList?.data?.map(
-                                (staff: any, index: number) => (
-                                  <li
-                                    key={index}
-                                    onClick={() =>
-                                      navigateTo("staffs", staff?.username)
-                                    }
-                                    className="flex gap-3 justify-start items-center py-3 cursor-pointer hover:text-primary"
-                                  >
-                                    <User />
-                                    <p>{staff?.fullname}</p>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </>
-                        )}
-                      </>
-                    )}
-
-                    {projectList?.data?.length === 0 &&
-                      staffList?.data?.length === 0 && (
-                        <p className="flex gap-2 justify-center items-center px-6 py-3 text-center text-zinc-500">
-                          <SearchX size={20} />
-                          <span>No Match Found</span>
-                        </p>
-                      )}
-                  </>
-                )}
-              </div>
-            </DialogContent>
-          </Dialog>
+          <GlobalSearch isExpanded={isExpanded} />
         </div>
       </div>
       <div className="flex flex-col gap-4">

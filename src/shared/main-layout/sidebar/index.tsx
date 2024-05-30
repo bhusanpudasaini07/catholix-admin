@@ -148,7 +148,7 @@ const SidebarNew = ({
         >
           <Link
             href={"/"}
-            className={`flex items-center  shrink-0 rounded-md ${
+            className={`flex items-center gap-1.5 shrink-0 rounded-md ${
               isExpanded ? "justify-start" : "justify-center px-2 mb-4"
             }`}
           >
@@ -156,11 +156,15 @@ const SidebarNew = ({
               src={Logo}
               alt="Logo"
               priority={true}
-              width={63}
+              width={58}
               height={30}
               quality={100}
               style={{ width: "auto", height: "auto" }}
+              className="max-w-[60px]"
             />
+            {isExpanded && (
+              <span className="font-medium text-zinc-700">Data Sights</span>
+            )}
           </Link>
           <button
             title="menu"

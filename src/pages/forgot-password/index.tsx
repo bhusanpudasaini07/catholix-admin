@@ -1,30 +1,31 @@
 import React from "react";
 
-import LoginForm from "@/features/Auth/login-form";
+import ForgotPasswordForm from "@/features/Auth/forgot-password-form";
 import AuthLayout from "@/shared/auth-layout";
 
 import { NextPageWithLayout } from "../_app";
 
-const Login: NextPageWithLayout = () => {
+const ForgotPassword: NextPageWithLayout = () => {
   return (
     <>
       <div className="my-9 w-full">
         <p className="text-2xl font-bold leading-10 text-zinc-800">
-          Login to your Account
+          Reset your Password
         </p>
         <p className="text-base text-zinc-500">
-          See what is going on with your business
+          Get your instruction on your email
         </p>
       </div>
+
       <div className="w-full">
-        <LoginForm />
+        <ForgotPasswordForm />
       </div>
     </>
   );
 };
 
-export default Login;
+export default ForgotPassword;
 
-Login.getLayout = (page) => {
-  return <AuthLayout title="Login">{page}</AuthLayout>;
+ForgotPassword.getLayout = (page) => {
+  return <AuthLayout title="Forgot Password">{page}</AuthLayout>;
 };

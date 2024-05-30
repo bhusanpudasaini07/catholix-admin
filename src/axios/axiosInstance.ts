@@ -8,6 +8,7 @@ import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import { getAccessToken } from "@/shared/utils/cookie-utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import toast from "react-hot-toast";
 
 const { SESSION_EXPIRED } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY } = config;
@@ -49,7 +50,9 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
 const clearAllSessionAndLocalStates = () => {
   logout()
     .then(() => {
-      showToast(TOAST_TYPES.error, "Your session has expired.");
+      toast.error(SESSION_EXPIRED, {
+        id: "session",
+      });
       localStorage.setItem(
         "sessionmessage",
         JSON.stringify({

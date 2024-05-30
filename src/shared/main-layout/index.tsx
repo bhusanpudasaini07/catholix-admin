@@ -15,7 +15,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   const [openSheet, setOpenSheet] = useState(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const sidebarWidth = isExpanded ? "260px" : "64px"; // Adjust as needed
+  const sidebarWidth = isExpanded ? "260px" : "84px"; // Adjust as needed
 
   const bodyWidth = isExpanded
     ? "xl:max-w-[calc(100vw-260px)]"
@@ -70,8 +70,8 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           <div className="w-full min-w-0">
             {/* Give css according to header and sidebar  */}
             <div
-              className={`bg-slate-50 h-screen overflow-y-scroll`}
-              // className={`bg-slate-50 max-w-[100vw] h-screen ${bodyWidth} overflow-y-scroll`}
+              className={`overflow-y-scroll h-screen bg-slate-50`}
+              // className={`overflow-y-scroll h-screen bg-slate-50 max-w-[100vw] ${bodyWidth}`}
             >
               {children}
             </div>

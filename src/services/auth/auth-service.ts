@@ -2,7 +2,11 @@ import httpRequest, { axiosInstance } from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 import appConfig from "../../../config";
 import { getCookie } from "cookies-next";
-import { ILoginFormInput } from "@/interface/auth-interface";
+import {
+  IForgotPasswordFormInput,
+  ILoginFormInput,
+  IResetPasswordFormInput,
+} from "@/interface/auth-interface";
 import axios from "axios";
 const { LOGGED_IN_KEY } = appConfig;
 
@@ -31,6 +35,18 @@ const logout = () => {
   return httpRequest("/logout", httpMethods.POST);
 };
 
+const forgotPassword = (forgotPasswordPayload: IForgotPasswordFormInput) => {
+  return httpRequest(
+    "/forgot-password",
+    httpMethods.POST,
+    forgotPasswordPayload
+  );
+};
+
+const resetPassword = (resetPasswordPayload: IResetPasswordFormInput) => {
+  return httpRequest("/reset-password", httpMethods.PUT, resetPasswordPayload);
+};
+
 const changePassword = (data: any) => {
   return httpRequest(
     `/change-password?current_password=${data?.current_password}&new_password=${data?.new_password}`,
@@ -42,4 +58,11 @@ const getLocalLoggedInState = () => {
   return getCookie(LOGGED_IN_KEY);
 };
 
-export { login, changePassword, logout, getLocalLoggedInState };
+export {
+  login,
+  changePassword,
+  forgotPassword,
+  resetPassword,
+  logout,
+  getLocalLoggedInState,
+};

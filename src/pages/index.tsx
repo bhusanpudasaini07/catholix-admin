@@ -20,12 +20,12 @@ const Home: NextPageWithLayout = () => {
         </div>
       </div>
 
-      <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto">
+      {/* <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-4">
           <DashboardOverview />
           <TimeLogInformation />
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

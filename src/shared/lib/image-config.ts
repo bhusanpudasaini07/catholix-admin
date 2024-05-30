@@ -1,5 +1,6 @@
-const loginImg = "/login-img.jpg";
+const authImage = "/auth-img.jpg";
 const Logo = "/Logo.svg";
+const LogoLight = "/Logo-light.svg";
 const PageNotFound = "/not-found.svg";
 const PermissionDenied = "/permission-denied.svg";
 const NoImage = "/placeholder.jpg";
@@ -10,4 +11,12 @@ const projects = {
   pointer: "/projects/Pointer.svg",
 };
 
-export { loginImg, Logo, noResult, projects, PageNotFound, PermissionDenied };
+export {
+  authImage,
+  Logo,
+  LogoLight,
+  noResult,
+  projects,
+  PageNotFound,
+  PermissionDenied,
+};

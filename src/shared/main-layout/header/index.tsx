@@ -68,7 +68,7 @@ const Header = ({
           </button>
           <Link
             href={"/"}
-            className="flex items-center justify-start h-12 rounded-md "
+            className="flex justify-start items-center h-12 rounded-md"
             as={"image"}
           >
             <Image
@@ -83,7 +83,7 @@ const Header = ({
           </Link>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex gap-6 items-center">
           {/* <ThemeToggler /> */}
           {/* <InputSearch /> */}
           <p className="text-xs text-zinc-700">v {version}</p>

@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
 import Header from "./header";
-import SidebarNew from "./sidebar";
+import Sidebar from "./sidebar";
 import SidebarSheet from "./sidebar-sheet";
 import { cn } from "../utils/utils";
 import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";
@@ -15,7 +15,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   const [openSheet, setOpenSheet] = useState(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const sidebarWidth = isExpanded ? "260px" : "64px"; // Adjust as needed
+  const sidebarWidth = isExpanded ? "260px" : "84px"; // Adjust as needed
 
   const bodyWidth = isExpanded
     ? "xl:max-w-[calc(100vw-260px)]"
@@ -60,7 +60,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
       <main>
         <div className="flex transition-all">
           {/* sidebar sheet when in tabs */}
-          <SidebarNew
+          <Sidebar
             sidebarWidth={sidebarWidth}
             isExpanded={isExpanded}
             setIsExpanded={setIsExpanded}
@@ -70,8 +70,8 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
           <div className="w-full min-w-0">
             {/* Give css according to header and sidebar  */}
             <div
-              className={`bg-slate-50 h-screen overflow-y-scroll`}
-              // className={`bg-slate-50 max-w-[100vw] h-screen ${bodyWidth} overflow-y-scroll`}
+              className={`overflow-y-scroll h-screen bg-white`}
+              // className={`overflow-y-scroll h-screen bg-slate-50 max-w-[100vw] ${bodyWidth}`}
             >
               {children}
             </div>

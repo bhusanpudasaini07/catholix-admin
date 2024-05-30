@@ -22,6 +22,7 @@ import { useCommonStore } from "@/store/common-store";
 
 import { version } from "../../../../../version";
 import { FC } from "react";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   IsExpanded: boolean;
@@ -74,10 +75,10 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger
-        className={` items-center gap-3 focus:outline-none 
-        ${IsExpanded ? "flex w-full" : "p-2 px-4"}`}
+        className={` items-center gap-3 focus:outline-none w-full
+        ${IsExpanded ? "flex" : "p-2 px-4"}`}
       >
-        <Avatar className="w-[32px] h-[32px] ">
+        <Avatar className={cn("w-[32px] h-[32px]", !IsExpanded && "m-auto")}>
           <AvatarImage src={profileData?.image} />
           <AvatarFallback>
             <User width={15} className="text-zinc-700" />

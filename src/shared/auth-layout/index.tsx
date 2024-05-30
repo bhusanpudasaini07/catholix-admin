@@ -1,8 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import { authImage, Logo, LogoLight } from "../lib/image-config";
-import { useRouter } from "next/router";
+import { authImage, favIcon, Logo, LogoLight } from "../lib/image-config";
 
 const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
   children,
@@ -11,8 +10,8 @@ const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
   return (
     <>
       <Head>
-        <title>{`MTN ${title && `| ${title}`}`}</title>
-        {/* <link rel="icon" type="image/x-icon" href={FavIcon}></link> */}
+        <title>{`MTN`}</title>
+        <link rel="icon" type="image/x-icon" href={favIcon} />
       </Head>
       <div className="flex flex-row items-center w-full h-screen">
         <div className="relative w-[60%] h-full hidden lg:block">

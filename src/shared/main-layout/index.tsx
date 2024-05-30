@@ -6,6 +6,7 @@ import Sidebar from "./sidebar";
 import SidebarSheet from "./sidebar-sheet";
 import { cn } from "../utils/utils";
 import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";
+import { favIcon } from "../lib/image-config";
 
 const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   children,
@@ -53,7 +54,8 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
   return (
     <>
       <Head>
-        <title>Resource Planning</title>
+        <link rel="icon" type="image/x-icon" href={favIcon} />
+        <title>MTN</title>
       </Head>
 
       {/* Body Content */}

@@ -1,4 +1,6 @@
+const favIcon = "/favicon.svg";
 const authImage = "/auth-img.jpg";
+
 const Logo = "/Logo.svg";
 const LogoLight = "/Logo-light.svg";
 const PageNotFound = "/not-found.svg";
@@ -12,6 +14,7 @@ const projects = {
 };
 
 export {
+  favIcon,
   authImage,
   Logo,
   LogoLight,

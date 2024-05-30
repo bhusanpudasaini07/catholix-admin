@@ -7,8 +7,6 @@ import DashboardOverview from "@/features/Dashboard/dashboard-overview";
 import TimeLogInformation from "@/features/Dashboard/time-log-information";
 
 const Home: NextPageWithLayout = () => {
-  const { profileData } = useCommonStore();
-
   return (
     <>
       <div className="flex justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
@@ -22,7 +20,6 @@ const Home: NextPageWithLayout = () => {
         </div>
       </div>
 
-    
       <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto">
         <div className="grid grid-cols-1 gap-4">
           <DashboardOverview />

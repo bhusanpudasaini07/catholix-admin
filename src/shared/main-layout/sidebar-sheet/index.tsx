@@ -1,12 +1,21 @@
-import { Calculator, Clock, File, Folder, Gitlab, LayoutGrid, User2, Users } from 'lucide-react';
-import { useTranslation } from 'next-i18next';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React from 'react';
+import {
+  Calculator,
+  Clock,
+  File,
+  Folder,
+  Gitlab,
+  LayoutGrid,
+  User2,
+  Users,
+} from "lucide-react";
+import { useTranslation } from "next-i18next";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React from "react";
 
-import { Button } from '@/shared/components/ui/button';
-import { Sheet, SheetContent } from '@/shared/components/ui/sheet';
-import { Logo } from '@/shared/lib/image-config';
+import { Button } from "@/shared/components/ui/button";
+import { Sheet, SheetContent } from "@/shared/components/ui/sheet";
+import { Logo } from "@/shared/lib/image-config";
 
 interface IProps {
   openSheet: boolean;
@@ -133,19 +142,19 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
   };
 
   return (
-    <div className="block lg:hidden ">
+    <div className="block lg:hidden">
       <Sheet open={openSheet} onOpenChange={setOpenSheet}>
         <SheetContent side="left" className="max-h-[100vh] overflow-y-auto">
           <div className="mb-4">
             <Button
               variant={"ghost"}
               onClick={() => changeRoute("/")}
-              className="flex items-center justify-center h-12 rounded-md "
+              className="flex justify-center items-center h-12 rounded-md"
             >
               <Image
                 src={Logo}
                 alt="Logo"
-                priority
+                priority={true}
                 width={117}
                 height={30}
                 quality={100}
@@ -160,7 +169,7 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
                   {item?.menuName}
                 </h2>
                 {item?.hasChildren ? (
-                  <div className={`flex flex-col `}>
+                  <div className={`flex flex-col`}>
                     {item?.subMenu.map((subItem: any, subIndex: number) => (
                       <Button
                         variant={
@@ -170,7 +179,7 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
                         }
                         key={subIndex}
                         onClick={() => changeRoute(subItem.menuSlug)}
-                        className={`flex items-center text-sm gap-3 py-3 h-auto px-4 rounded-lg font-normal justify-start`}
+                        className={`flex gap-3 justify-start items-center px-4 py-3 h-auto text-sm font-normal rounded-lg`}
                       >
                         <span
                           className={`min-w-[20px] [&>svg]:max-w-[20px] h-auto flex justify-center `}
@@ -192,7 +201,7 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
                         ? "default"
                         : "ghost"
                     }
-                    className={`flex items-center text-sm gap-3 py-3 h-auto px-4 rounded-lg font-normal justify-start`}
+                    className={`flex gap-3 justify-start items-center px-4 py-3 h-auto text-sm font-normal rounded-lg`}
                   >
                     <span
                       className={`min-w-[20px] [&>svg]:max-w-[20px] h-auto flex justify-center`}

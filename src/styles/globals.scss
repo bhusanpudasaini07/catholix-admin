@@ -58,7 +58,7 @@
     --primary: red;
     --primary-foreground: 240 5.9% 10%;
 
-    --secondary: #27272a;
+    --secondary: #f4f4f5;
     --secondary-foreground: 0 0% 98%;
 
     --muted: #737373;
@@ -165,7 +165,7 @@
     padding-right: 1rem;
     padding-top: 12px !important;
     padding-bottom: 12px !important;
-    // margin: 0.3rem 0;
+    border-radius: 8px; // margin: 0.3rem 0;
     @apply p-4 ps-[3.7rem] relative cursor-pointer;
     &:hover {
       background-color: #f4f4f5;

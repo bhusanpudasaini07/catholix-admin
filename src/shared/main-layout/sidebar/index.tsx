@@ -1,26 +1,9 @@
 import {
-  Activity,
-  ArrowLeftFromLine,
-  Calculator,
-  Clock,
-  Command,
-  File,
-  FileLineChart,
-  FileSpreadsheet,
   Folder,
-  FolderOpen,
-  FolderTree,
-  Gitlab,
   LayoutDashboard,
   LayoutGrid,
-  LayoutPanelLeft,
-  LayoutPanelTop,
-  Search,
-  SearchX,
-  User,
   User2,
   UserCog,
-  Users,
 } from "lucide-react";
 import moment from "moment";
 import { useTranslation } from "next-i18next";
@@ -54,6 +37,7 @@ import { Logo } from "@/shared/lib/image-config";
 import { cn } from "@/shared/utils/utils";
 import ProfileDropdown from "../header/profile-dropdown";
 import GlobalSearch from "./global-search";
+import ChevronRight from "@/shared/svg/chevron-right";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -61,7 +45,7 @@ interface ISidebarProps {
   setIsExpanded: any;
 }
 
-const SidebarNew = ({
+const Sidebar = ({
   sidebarWidth,
   isExpanded,
   setIsExpanded,
@@ -131,19 +115,19 @@ const SidebarNew = ({
       style={{
         width: sidebarWidth,
       }}
-      className={`bg-light-white shrink-0 sidebar ${
-        isExpanded ? "pb-12 pt-[120px]" : "pt-[140px] pb-[88px]"
-      } border-r border-r-slate-100 max-h-[calc(100vh)] overflow-y-auto hidden xl:block`}
+      className={`hidden overflow-y-auto border-r border-black border-opacity-10 bg-light-white shrink-0 sidebar max-h-[calc(100vh)] xl:block`}
     >
       <div
         style={{
           width: sidebarWidth,
         }}
-        className="fixed top-0 z-10 bg-white border-r border-b border-r-slate-100 border-b-slate-100"
+        className="fixed top-0 z-10 bg-white border-r border-black border-opacity-10"
       >
         <div
-          className={` pt-4  w-full  ${
-            isExpanded ? "flex justify-between items-center ps-7 pe-2" : ""
+          className={` py-4  w-full flex justify-between items-center  ${
+            isExpanded
+              ? "flex-row justify-between items-center ps-7 pe-4"
+              : "flex-col"
           }`}
         >
           <Link
@@ -168,31 +152,26 @@ const SidebarNew = ({
           </Link>
           <button
             title="menu"
-            className={`hidden xl:block focus:outline-none hover:bg-zinc-100 ${
-              isExpanded
-                ? "px-3 py-[0.25rem] rounded-md"
-                : "px-[1.35rem] py-[0.75rem] rotate-180"
+            className={`hidden xl:block focus:outline-none  ${
+              isExpanded ? "" : "rotate-180"
             }`}
             onClick={() => setIsExpanded(!isExpanded)}
           >
-            <ArrowLeftFromLine className="text-zinc-700" size={20} />
+            <ChevronRight className="text-zinc-700" size={24} />
           </button>
         </div>
-        <div>
+        {/* <div>
           <GlobalSearch isExpanded={isExpanded} />
-        </div>
+        </div> */}
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2 px-4 pt-24 pb-9">
         {menuItems?.map((item: any, index) => (
-          <div
-            key={index}
-            className="flex flex-col gap-[8px] pb-4 border-b border-b-slate-100 first:pt-4"
-          >
-            {isExpanded && (
+          <div key={index} className="flex flex-col gap-2">
+            {/* {isExpanded && (
               <h2 className="px-8 py-[2px] text-xs font-semibold uppercase text-zinc-600">
                 {item?.menuName}
               </h2>
-            )}
+            )} */}
             {item?.subMenu?.map((subItem: any, subIndex: number) =>
               subItem?.hasAccordion ? (
                 <React.Fragment key={subIndex}>
@@ -209,9 +188,7 @@ const SidebarNew = ({
                       <AccordionItem value="item-1" className="border-0">
                         <AccordionTrigger
                           className={`btn-primary min-w-0 !shadow-none rounded-none w-full ${
-                            isExpanded
-                              ? "justify-start pl-8"
-                              : "justify-center pl-4"
+                            isExpanded ? "justify-start" : "justify-center"
                           } ${isActive(subItem?.menuSlug) && "active"}`}
                         >
                           <div className={`flex w-full font-medium`}>
@@ -245,7 +222,7 @@ const SidebarNew = ({
                                   }
                                   className={`mb-1 font-medium ${
                                     isActive(accordionItem?.itemSlug)
-                                      ? "text-blue-500"
+                                      ? "text-blue-600"
                                       : "text-zinc-600 "
                                   }`}
                                 >
@@ -302,9 +279,7 @@ const SidebarNew = ({
                       key={subIndex}
                       className={`
                       btn-primary h-[44px] !shadow-none rounded-none  ${
-                        isExpanded
-                          ? "justify-start pl-8"
-                          : "justify-center pl-4"
+                        isExpanded ? "justify-start" : "justify-center"
                       } ${
                         (router.pathname === subItem?.menuSlug ||
                           (router.pathname.startsWith(subItem?.menuSlug) &&
@@ -365,7 +340,7 @@ const SidebarNew = ({
           width: sidebarWidth,
           maxWidth: sidebarWidth,
         }}
-        className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-r-slate-100 border-t border-t-slate-100 ${
+        className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-black border-opacity-10 border-t  ${
           isExpanded ? "flex justify-between items-center px-7" : ""
         }`}
       >
@@ -375,4 +350,4 @@ const SidebarNew = ({
   );
 };
 
-export default SidebarNew;
+export default Sidebar;

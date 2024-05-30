@@ -22,7 +22,7 @@ const buttonVariants = cva(
         white:
           "text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
         secondary:
-          "bg-white border border-purple-60 text-purple-60 hover:bg-purple-60 hover:text-white ",
+          "bg-secondary border border-secondary text-zinc-700 hover:bg-amber-200 ",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         submit:
@@ -41,9 +41,10 @@ const buttonVariants = cva(
         default: "h-10 px-4 py-2 gap-2",
         xs: "text-xs font-normal h-8 px-3",
         sm: "h-8 rounded-md px-3",
-        lg: "h-12 rounded-md px-4 py-2 min-w-[148px] text-lg",
+        base: "h-9 rounded-md px-4 py-2 text-sm",
+        lg: "h-12 rounded-md px-4 py-2 text-lg",
         icon: "h-10 w-10",
-        md: "h-9 py-2 px-4",
+        md: "h-10 py-2 px-4 text-base",
       },
     },
     defaultVariants: {

@@ -31,7 +31,7 @@ const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
               Digital Solutions
             </h2>
             <p className="text-4xl font-medium tracking-wide 2xl:text-4xl">
-              for Africa's progress
+              for Africa&apos;s progress
             </p>
           </div>
         </div>

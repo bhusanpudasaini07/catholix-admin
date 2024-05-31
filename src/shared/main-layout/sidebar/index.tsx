@@ -334,17 +334,25 @@ const Sidebar = ({
           </div>
         ))}
       </div>
+
       <div
         style={{
           minWidth: sidebarWidth,
           width: sidebarWidth,
           maxWidth: sidebarWidth,
         }}
-        className={`py-2 fixed w-full bg-white z-10 bottom-0 border-r border-black border-opacity-10 border-t  ${
-          isExpanded ? "flex justify-between items-center px-7" : ""
-        }`}
+        className={`fixed bottom-0 z-10 w-full bg-white border-r border-black border-opacity-10`}
       >
-        <ProfileDropdown IsExpanded={isExpanded} />
+        <p className="py-2.5 text-center text-xs font-normal text-muted">
+          powered by Unitelos
+        </p>
+        <div
+          className={`py-2  bg-white border-t border-black border-opacity-10 ${
+            isExpanded ? "flex justify-between items-center px-7" : ""
+          }`}
+        >
+          <ProfileDropdown IsExpanded={isExpanded} />
+        </div>
       </div>
     </div>
   );

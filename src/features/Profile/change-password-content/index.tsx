@@ -18,9 +18,12 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const ChangePasswordContent = () => {
-  const router = useRouter();
   const form = useForm<IChangePasswordFormInput>({
     resolver: zodResolver(ChangePasswordSchema),
     mode: "onChange",
@@ -31,12 +34,13 @@ const ChangePasswordContent = () => {
   const changePasswordMutation = useMutation({
     mutationFn: changePassword,
     onSuccess: (data) => {
-      form.reset();
-      // showToast(TOAST_TYPES.success, "Logged in Successfully.");
-      // router.push("/");
+      form.reset({ oldPassword: "", confirmPassword: "", password: "" });
+      showToast(TOAST_TYPES.success, "Password updated Successfully");
     },
     onError: (error: any) => {
-      // showToast(TOAST_TYPES.error, error[0]?.detail || SOMETHING_WENT_WRONG);
+      form.reset({ oldPassword: "", confirmPassword: "", password: "" });
+      form.setError("oldPassword", { message: error.message });
+      // showToast(TOAST_TYPES.error, error.message || SOMETHING_WENT_WRONG);
     },
   });
 
@@ -44,14 +48,14 @@ const ChangePasswordContent = () => {
     const payload = {
       ...data,
     };
-    // changePasswordMutation.mutate(payload);
-    router.push("/");
+    changePasswordMutation.mutate(payload);
   };
+
   const cancelHandler = () => {
     form.reset({
-      new_password: "",
-      confirm_password: "",
-      current_password: "",
+      oldPassword: "",
+      confirmPassword: "",
+      password: "",
     });
   };
   return (
@@ -65,7 +69,7 @@ const ChangePasswordContent = () => {
           <div className="mb-4">
             <FormField
               control={form.control}
-              name="current_password"
+              name="oldPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-normal">Old Password</FormLabel>
@@ -85,7 +89,7 @@ const ChangePasswordContent = () => {
           <div className="mb-4">
             <FormField
               control={form.control}
-              name="new_password"
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-normal">New Password</FormLabel>
@@ -105,7 +109,7 @@ const ChangePasswordContent = () => {
           <div>
             <FormField
               control={form.control}
-              name="confirm_password"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="font-normal">

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -19,6 +18,10 @@ import {
 } from "@/shared/components/ui/form";
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const ForgotPasswordForm = () => {
   const router = useRouter();
@@ -33,11 +36,17 @@ const ForgotPasswordForm = () => {
     mutationFn: forgotPassword,
     onSuccess: (data) => {
       form.reset();
-      // showToast(TOAST_TYPES.success, "Logged in Successfully.");
-      // router.push("/");
+      showToast(
+        TOAST_TYPES.success,
+        "Forgot-password link has been sent to you email"
+      );
+      router.push("/login");
     },
     onError: (error: any) => {
-      // showToast(TOAST_TYPES.error, error[0]?.detail || SOMETHING_WENT_WRONG);
+      showToast(
+        TOAST_TYPES.error,
+        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG
+      );
     },
   });
 
@@ -45,13 +54,12 @@ const ForgotPasswordForm = () => {
     const payload = {
       ...data,
     };
-    // forgotPasswordMutation.mutate(payload);
-    router.push("/");
+    forgotPasswordMutation.mutate(payload);
   };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
-        <div className="mb-6">
+        <div>
           <FormField
             control={form.control}
             name="email"
@@ -74,29 +82,6 @@ const ForgotPasswordForm = () => {
           />
         </div>
 
-        <div className="flex justify-between items-center">
-          {/* <div className="flex items-center space-x-2">
-            <Checkbox
-              variant="primary"
-              id="terms"
-              onCheckedChange={(e) => setCookie("rememberMe", e)}
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium cursor-pointer text-zinc-700"
-            >
-              Remember Me
-            </label>
-          </div> */}
-
-          <Link
-            href={"/login"}
-            className="text-sm font-semibold text-gray-600 hover:text-primary"
-          >
-            Back
-          </Link>
-        </div>
-
         <Button
           size={"lg"}
           disabled={forgotPasswordMutation.isLoading}
@@ -107,6 +92,21 @@ const ForgotPasswordForm = () => {
           )}
           Submit
         </Button>
+
+        <div className="pt-6 mt-6 text-center border-t border-black border-opacity-10">
+          <p className="mb-4 text-sm text-center text-gray-600">
+            Already have an account?
+          </p>
+          <Button
+            type="button"
+            variant={"secondary"}
+            onClick={() => router.push("/login")}
+            className="w-full"
+            size={"lg"}
+          >
+            Login
+          </Button>
+        </div>
       </form>
     </Form>
   );

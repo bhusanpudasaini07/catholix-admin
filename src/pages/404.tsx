@@ -1,10 +1,10 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import React from 'react';
+import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React from "react";
 
-import { Button } from '@/shared/components/ui/button';
-import { Logo, PageNotFound } from '@/shared/lib/image-config';
+import { Button } from "@/shared/components/ui/button";
+import { Logo, PageNotFound } from "@/shared/lib/image-config";
 
 const NotFound = () => {
   const router = useRouter();
@@ -13,11 +13,11 @@ const NotFound = () => {
       <Head>
         <title>Page Not Found</title>
       </Head>
-      <div className="h-screen p-3">
+      <div className="p-3 h-screen">
         <div className="ml-4">
           <Image src={Logo} alt="Logo" width={65} height={20} />
         </div>
-        <div className="flex flex-col items-center justify-center h-full ">
+        <div className="flex flex-col justify-center items-center h-full">
           <Image
             alt="Not Found"
             className="w-[560px]"
@@ -34,9 +34,7 @@ const NotFound = () => {
               {"Sorry, we couldn’t find the page you’re looking for."}
             </p>
 
-            <Button onClick={() => router.push("/")}>
-              Go Back to Dashboard
-            </Button>
+            <Button onClick={() => router.push("/")}>Go Back</Button>
           </div>
         </div>
       </div>

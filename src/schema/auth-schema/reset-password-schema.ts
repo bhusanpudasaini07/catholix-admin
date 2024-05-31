@@ -3,9 +3,9 @@ import { passwordFieldsValidation } from "../basic-schema";
 
 const ResetPasswordSchema = z
   .object({ ...passwordFieldsValidation })
-  .refine((data) => data.new_password === data.confirm_password, {
+  .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords doesn't match.",
-    path: ["confirm_password"],
+    path: ["confirmPassword"],
   });
 
 export { ResetPasswordSchema };

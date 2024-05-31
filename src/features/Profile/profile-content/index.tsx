@@ -6,7 +6,7 @@ import {
 import { Button } from "@/shared/components/ui/button";
 import { useRouter } from "next/router";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { IChangePasswordFormInput } from "@/interface/auth-interface";
 import { changePassword } from "@/services/auth/auth-service";
@@ -22,54 +22,86 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProfileSchema } from "@/schema/profile-schema/profile-schema";
-import { IProfile } from "@/interface/profile-interface";
+import { IProfile, IProfileData } from "@/interface/profile-interface";
+import { useCommonStore } from "@/store/common-store";
+import { getProfile, updateProfile } from "@/services/profile/profile-service";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const ProfileContent = () => {
   const router = useRouter();
+  const { setProfile } = useCommonStore();
+  const queryClient = useQueryClient();
+
   const form = useForm<IProfile>({
     resolver: zodResolver(ProfileSchema),
     mode: "onChange",
     reValidateMode: "onChange",
   });
 
+  const { data: profileData } = useQuery<IProfileData>(
+    ["profile"],
+    getProfile,
+    {
+      onSuccess: (data) => {
+        form.reset({
+          firstName: data?.data?.firstName,
+          lastName: data?.data?.lastName,
+          email: data?.data?.email,
+          contact: data?.data?.contact || "",
+        });
+        setProfile(data?.data);
+      },
+    }
+  );
+
   //FUNCTIONS
-  const changePasswordMutation = useMutation({
-    mutationFn: changePassword,
+  const updateProfileMutation = useMutation({
+    mutationFn: updateProfile,
     onSuccess: (data) => {
-      form.reset();
-      // showToast(TOAST_TYPES.success, "Logged in Successfully.");
-      // router.push("/");
+      form.reset({ ...data?.data });
+      showToast(TOAST_TYPES.success, "Profile updated successfully");
+      queryClient.invalidateQueries("profile");
     },
     onError: (error: any) => {
-      // showToast(TOAST_TYPES.error, error[0]?.detail || SOMETHING_WENT_WRONG);
+      showToast(TOAST_TYPES.error, error.message || SOMETHING_WENT_WRONG);
     },
   });
 
   const onSubmit: SubmitHandler<IProfile> = (data) => {
+    const { email, ...restPayload } = data;
     const payload = {
-      ...data,
+      ...restPayload,
     };
-    // changePasswordMutation.mutate(payload);
-    router.push("/");
+    updateProfileMutation.mutate(payload);
   };
+
   const cancelHandler = () => {
     form.reset({
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      mobile_number: "",
+      contact: "",
     });
   };
+
   return (
     <div className="p-6">
       <div className="flex gap-9 items-center">
         <Avatar className="w-[100px] h-[100px]">
-          <AvatarFallback>JD</AvatarFallback>
-          <AvatarImage src="https://avatars.githubusercontent.com/u/1017377?v=4" />
+          <AvatarImage src={profileData?.data?.avatar || ""} />
+          <AvatarFallback className="text-2xl uppercase">
+            {profileData?.data?.firstName[0]}
+            {profileData?.data?.lastName[0]}
+          </AvatarFallback>
         </Avatar>
 
         <div>
-          <p className="mb-2 text-lg tetx-zinc-900">John Doe</p>
+          <p className="mb-2 text-lg tetx-zinc-900">
+            {profileData?.data?.firstName} {profileData?.data?.lastName}
+          </p>
           <Button variant="secondary" size={"base"}>
             Update Picture
           </Button>
@@ -85,13 +117,12 @@ const ProfileContent = () => {
             <div>
               <FormField
                 control={form.control}
-                name="first_name"
+                name="firstName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-normal">First Name</FormLabel>
                     <FormControl>
                       <Input
-                        type="password"
                         className="placeholder:text-gray-270"
                         placeholder="First Name"
                         {...field}
@@ -106,7 +137,7 @@ const ProfileContent = () => {
             <div>
               <FormField
                 control={form.control}
-                name="last_name"
+                name="lastName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-normal">Last Name</FormLabel>
@@ -133,6 +164,7 @@ const ProfileContent = () => {
                     <FormControl>
                       <Input
                         type="email"
+                        readOnly
                         className="placeholder:text-gray-270"
                         placeholder="Email"
                         {...field}
@@ -146,7 +178,7 @@ const ProfileContent = () => {
             <div>
               <FormField
                 control={form.control}
-                name="mobile_number"
+                name="contact"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-normal">Mobile Number</FormLabel>
@@ -166,8 +198,8 @@ const ProfileContent = () => {
           </div>
 
           <div className="flex gap-2 items-center mt-9">
-            <Button size={"md"} disabled={changePasswordMutation.isLoading}>
-              {changePasswordMutation.isLoading && (
+            <Button size={"md"} disabled={updateProfileMutation.isLoading}>
+              {updateProfileMutation.isLoading && (
                 <ButtonLoader className="mr-3" />
               )}
               Update

@@ -15,22 +15,19 @@ interface ICommonStoreProps {
 
 export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
   profileData: {
-    fullname: "",
-    department_id: "",
-    employee_id: null,
-    mattermost_username: null,
-    is_team_lead: "",
-    is_project_lead: "",
-    git_username: null,
-    oa_id: null,
-    permitted_modules: [],
-    role: "",
-    role_id: null,
-    special_permission: [],
+    id: null,
     email: "",
-    username: "",
-    image: undefined,
-    id: "",
+    firstName: "",
+    lastName: "",
+    contact: null,
+    avatar: null,
+    isTwoFAEnabled: false,
+
+    role: {
+      id: null,
+      name: "",
+      permissions: [],
+    },
   },
   setProfile: (data: any) => {
     set(() => ({ profileData: data }));

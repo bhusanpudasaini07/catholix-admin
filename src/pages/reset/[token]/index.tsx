@@ -3,7 +3,7 @@ import React from "react";
 import ResetPasswordForm from "@/features/Auth/reset-password-form";
 import AuthLayout from "@/shared/auth-layout";
 
-import { NextPageWithLayout } from "../_app";
+import { NextPageWithLayout } from "../../_app";
 
 const ResetPassword: NextPageWithLayout = () => {
   return (

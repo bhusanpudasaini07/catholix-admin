@@ -27,9 +27,11 @@ import { setAuthCookies } from "@/shared/utils/cookie-utils";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { useLoggedInStore } from "@/store/auth-store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import appConfig from "../../../../config";
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;
+const { LOGGED_IN_KEY } = appConfig;
 
 const LoginForm = () => {
   const router = useRouter();
@@ -39,20 +41,23 @@ const LoginForm = () => {
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      remember: false,
+    },
   });
 
   //FUNCTIONS
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
+    onSuccess: () => {
       form.reset();
-      setAuthCookies(data?.data);
+      setCookie(LOGGED_IN_KEY, true, { maxAge: 60 * 60 * 24 });
       setLoggedInState(true);
       showToast(TOAST_TYPES.success, "Logged in Successfully.");
       router.push("/");
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error[0]?.detail || SOMETHING_WENT_WRONG);
+      showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
     },
   });
 
@@ -60,8 +65,7 @@ const LoginForm = () => {
     const payload = {
       ...data,
     };
-    // loginMutation.mutate(payload);
-    router.push("/");
+    loginMutation.mutate(payload);
   };
 
   return (
@@ -70,7 +74,7 @@ const LoginForm = () => {
         <div className="mb-6">
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-normal">
@@ -115,19 +119,31 @@ const LoginForm = () => {
         </div>
 
         <div className="flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              variant="primary"
-              id="terms"
-              onCheckedChange={(e) => setCookie("rememberMe", e)}
-            />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium cursor-pointer text-zinc-700"
-            >
-              Remember Me
-            </label>
-          </div>
+          <FormField
+            control={form.control}
+            name="remember"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl className="!border-0">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      variant="primary"
+                      id="terms"
+                    />
+                    <label
+                      htmlFor="terms"
+                      className="text-sm font-medium cursor-pointer text-zinc-700"
+                    >
+                      Remember Me
+                    </label>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <Link
             href={"/forgot-password"}

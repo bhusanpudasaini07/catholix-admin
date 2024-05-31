@@ -6,21 +6,19 @@ import { httpMethods } from "../enums";
 import { logout } from "@/services/auth/auth-service";
 import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
-import { getAccessToken } from "@/shared/utils/cookie-utils";
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import toast from "react-hot-toast";
 
 const { SESSION_EXPIRED } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY } = config;
 
 export const axiosInstance = axios.create({
-  // withCredentials: true,
+  withCredentials: true,
   baseURL: `${API_BASE_URL}`,
 });
 
 const refreshAuthLogic = (_failedRequest: any) => {
   return axiosInstance
-    .get("/refresh-token")
+    .post("/refresh")
     .then(() => {
       return Promise.resolve();
     })
@@ -33,14 +31,13 @@ const refreshAuthLogic = (_failedRequest: any) => {
 createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
   shouldRefresh: (error: any) => {
     let shouldRefresh = false;
-    const responseData = error.response?.data?.errors;
+    const responseData = error.response?.data;
     const responseStatus = error.response?.status;
-    const errorCode = responseData[0]?.code;
-    // if (responseStatus === 401 && errorCode === 1006) {
-    //   shouldRefresh = true;
-    // } else
-    // if (responseStatus === 401 && errorCode === 1017) {
-    if (responseStatus === 401 && errorCode === 10002) {
+    const errorCode = responseData?.code;
+    if (responseStatus === 403 && errorCode === 1006) {
+      shouldRefresh = true;
+    } else if (responseStatus === 401 && errorCode === 1017) {
+      // if (responseStatus === 401 && errorCode === 10002) {
       clearAllSessionAndLocalStates();
     }
     return shouldRefresh;
@@ -73,14 +70,14 @@ const clearAllSessionAndLocalStates = () => {
 };
 
 // Function to set the Authorization header dynamically
-const setAuthorizationHeader = () => {
-  const token = getAccessToken();
-  if (token) {
-    axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
-    delete axiosInstance.defaults.headers.common["Authorization"];
-  }
-};
+// const setAuthorizationHeader = () => {
+//   const token = getAccessToken();
+//   if (token) {
+//     axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+//   } else {
+//     delete axiosInstance.defaults.headers.common["Authorization"];
+//   }
+// };
 
 const httpRequest = async (
   url: string,
@@ -90,22 +87,22 @@ const httpRequest = async (
     "Content-Type": "application/json",
   }
 ) => {
-  setAuthorizationHeader();
+  // setAuthorizationHeader();
   try {
     const response = await axiosInstance[method](`${url}`, data, { headers });
     return {
       ...(response?.data?.pagination && {
         pagination: response?.data?.pagination,
       }),
-      data: response?.data?.data,
+      data: response?.data,
     };
   } catch (error: any) {
-    error?.response?.status === 404
-      ? (window.location.href = "/not-found")
-      : error?.response?.status === 403
-      ? (window.location.href = "/forbidden")
-      : null;
-    throw error?.response?.data?.errors;
+    // error?.response?.status === 404
+    //   ? (window.location.href = "/not-found")
+    //   : error?.response?.status === 403
+    //   ? (window.location.href = "/forbidden")
+    //   : null;
+    throw error.response?.data;
   }
 };
 

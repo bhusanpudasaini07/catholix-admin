@@ -1,6 +1,6 @@
 import { ChevronUp, LogOutIcon, Settings, User } from "lucide-react";
 import { useRouter } from "next/router";
-import { useMutation, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { logout } from "@/services/auth/auth-service";
 import {
@@ -23,6 +23,10 @@ import { useCommonStore } from "@/store/common-store";
 import { version } from "../../../../../version";
 import { FC } from "react";
 import { cn } from "@/shared/utils/utils";
+import { deleteCookie } from "cookies-next";
+import { cookieKeys } from "@/enums";
+import { getProfile } from "@/services/profile/profile-service";
+import { useLoggedInStore } from "@/store/auth-store";
 
 interface IProps {
   IsExpanded: boolean;
@@ -32,25 +36,17 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const queryClient = useQueryClient();
 
   // const { profileData, setProfile } = useCommonStore();
+  const { isLoggedIn } = useLoggedInStore();
 
-  const profileData = {
-    fullname: "Suman RajBhandari",
-    department_id: "",
-    employee_id: null,
-    mattermost_username: null,
-    is_team_lead: "",
-    is_project_lead: "",
-    git_username: null,
-    oa_id: null,
-    permitted_modules: [],
-    role: "",
-    role_id: null,
-    special_permission: [],
-    email: "sumanr@ekbana.info",
-    username: "sumanr",
-    image: undefined,
-    id: "10",
-  };
+  const { profileData, setProfile } = useCommonStore();
+
+  useQuery(["profile"], getProfile, {
+    enabled: !!isLoggedIn,
+    refetchOnWindowFocus: false,
+    onSuccess: (data) => {
+      setProfile(data?.data);
+    },
+  });
 
   const changeRoute = (route: string) => {
     router.push(route);
@@ -61,16 +57,15 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Logged out successfully.");
       queryClient.removeQueries();
-      removeAuthCookies();
       router.push("/login");
+      deleteCookie("isLoggedIn");
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error[0]?.detail);
     },
   });
   const logoutHandler = () => {
-    // logoutMutation.mutate();
-    router.push("/login");
+    logoutMutation.mutate();
   };
   return (
     <DropdownMenu modal={false}>
@@ -79,15 +74,16 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         ${IsExpanded ? "flex" : "p-2 px-4"}`}
       >
         <Avatar className={cn("w-[32px] h-[32px]", !IsExpanded && "m-auto")}>
-          <AvatarImage src={profileData?.image} />
-          <AvatarFallback>
-            <User width={15} className="text-zinc-700" />
+          <AvatarImage src={profileData?.avatar} />
+          <AvatarFallback className="text-xs uppercase">
+            {profileData?.firstName[0]}
+            {profileData?.lastName[0]}
           </AvatarFallback>
         </Avatar>
         {IsExpanded ? (
           <div className="min-w-0">
             <p className={`text-sm truncate text-start text-zinc-700`}>
-              {profileData?.fullname}
+              {profileData?.firstName} {profileData?.lastName}
             </p>
             <p className={`text-start text-[10px] text-zinc-500`}>
               Version {version}
@@ -111,17 +107,16 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         <DropdownMenuGroup>
           <div className="flex gap-4 items-start p-4">
             <Avatar className="w-[40px] h-[40px]">
-              <AvatarImage src={profileData?.image} />
-              <AvatarFallback className="">
-                {profileData?.fullname
-                  .split(" ")
-                  .map((item: string) => item[0])}
+              <AvatarImage src={profileData?.avatar} />
+              <AvatarFallback className="uppercase">
+                {profileData?.firstName[0]}
+                {profileData?.lastName[0]}
               </AvatarFallback>
             </Avatar>
 
             <div className="w-full min-w-0">
-              <p className="text-sm font-bold text-zinc-800">
-                {profileData?.fullname}
+              <p className="text-sm font-bold capitalize text-zinc-800">
+                {profileData?.firstName} {profileData?.lastName}
               </p>
               <p className="text-sm break-words text-zinc-500">
                 {profileData?.email}

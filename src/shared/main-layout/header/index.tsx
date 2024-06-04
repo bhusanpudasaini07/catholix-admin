@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useQuery } from "react-query";
 
-import { getConfig, getProfile } from "@/services/profile/profile-service";
 import { Logo } from "@/shared/lib/image-config";
 import { useLoggedInStore } from "@/store/auth-store";
 import { useCommonStore } from "@/store/common-store";

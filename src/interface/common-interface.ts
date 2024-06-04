@@ -109,3 +109,11 @@ export interface IFilterConfigRoleGroup {
     status: string;
   }>;
 }
+
+export interface IPagination {
+  currentPage: number;
+  next: number;
+  pageSize: number;
+  previous: number;
+  totalItems: number;
+}

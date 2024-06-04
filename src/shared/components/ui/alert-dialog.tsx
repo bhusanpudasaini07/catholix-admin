@@ -1,10 +1,10 @@
 "use client";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { buttonVariants } from '@/shared/components/ui/button';
-import { cn } from '@/shared/utils/utils';
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
+import { buttonVariants } from "@/shared/components/ui/button";
+import { cn } from "@/shared/utils/utils";
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 
 const AlertDialog = AlertDialogPrimitive.Root;
 
@@ -18,7 +18,7 @@ const AlertDialogOverlay = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -102,11 +102,7 @@ const AlertDialogAction = React.forwardRef<
   React.ElementRef<typeof AlertDialogPrimitive.Action>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Action
-    ref={ref}
-    className={cn(className)}
-    {...props}
-  />
+  <AlertDialogPrimitive.Action ref={ref} className={cn(className)} {...props} />
 ));
 AlertDialogAction.displayName = AlertDialogPrimitive.Action.displayName;
 

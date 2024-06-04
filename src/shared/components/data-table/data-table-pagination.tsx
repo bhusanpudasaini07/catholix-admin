@@ -46,7 +46,8 @@ const DataTablePagination: React.FC<IPagination> = memo(
               variant={"pagination"}
               key={pageNumber}
               className={`${
-                pageNumber === currentPage && "border-primary text-primary"
+                pageNumber === currentPage &&
+                "border-yellow-600 text-yellow-600"
               }`}
               onClick={() => pageChange(pageNumber)}
             >
@@ -93,7 +94,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
               <SelectValue placeholder={JSON.stringify(perPage)} />
             </SelectTrigger>
             <SelectContent>
-              {[12, 24, 36, 48].map((pageSize) => (
+              {[10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -109,7 +110,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
             variant={"pagination"}
             className={
               currentPage === 1
-                ? "disabled:bg-zinc-100 disabled:border-zinc-300 disabled:text-zinc-500"
+                ? "disabled:bg-slate-400 disabled:border-slate-400 disabled:text-slate-300"
                 : ""
             }
             disabled={currentPage === 1}
@@ -122,7 +123,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
             variant={"pagination"}
             className={
               currentPage === totalPages
-                ? "disabled:bg-zinc-100 disabled:border-zinc-300 disabled:text-zinc-500"
+                ? "disabled:bg-slate-400 disabled:border-slate-400 disabled:text-slate-300"
                 : ""
             }
             disabled={currentPage === totalPages}

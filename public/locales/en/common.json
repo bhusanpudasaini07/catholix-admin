@@ -38,7 +38,9 @@
       "feedback_report": "Feedback Report",
       "gitlab_hooks": "Gitlab Hooks",
       "market": "Market",
-      "market_page": "Market Page"
+      "market_page": "Market Page",
+
+      "admins": "Admins"
     },
 
     "search": "Input here to search"

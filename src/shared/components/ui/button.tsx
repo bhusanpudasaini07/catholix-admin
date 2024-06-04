@@ -13,12 +13,15 @@ const buttonVariants = cva(
       variant: {
         default:
           "bg-primary border-primary text-zinc-900 shadow-custom-primary hover:bg-yellow-500",
+        primary:
+          "bg-yellow-500 border-yellow-500 text-zinc-900 shadow-custom-primary hover:bg-yellow-400",
         destructive:
           "bg-destructive text-white hover:bg-red-600/90 shadow-custom-primary",
+        info: "bg-info text-white hover:bg-blue-500 shadow-custom-primary",
         outline:
           "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
         outline_secondary:
-          "border border-zinc-500 text-zinc-500 bg-white  hover:border-primary hover:text-primary",
+          "border border-zinc-700 text-zinc-700 bg-white hover:border-primary hover:text-primary",
         white:
           "text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
         secondary:

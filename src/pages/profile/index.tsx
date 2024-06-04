@@ -14,11 +14,12 @@ import LockOpen from "@/shared/svg/lock-open";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
+import PageHeader from "@/shared/components/page-header";
 
 const Profile: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
-      <h4 className="text-4xl font-bold">My Profile</h4>
+      <PageHeader title="My Profile" />
 
       <div className="grid grid-cols-1 gap-6 mt-8">
         <Tabs defaultValue="profile">

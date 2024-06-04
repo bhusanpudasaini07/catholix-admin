@@ -103,6 +103,17 @@ const Sidebar = ({
         },
       ],
     },
+    {
+      menuName: t("common.side_nav.admins "),
+      icon: <UserCog />,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.admins"),
+          menuSlug: "/admins",
+          icon: <UserCog width={20} height={20} />,
+        },
+      ],
+    },
   ];
 
   const isActive = (tabRoute: string) => {

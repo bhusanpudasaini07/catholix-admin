@@ -100,9 +100,9 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         alignOffset={0}
-        sideOffset={5}
-        className="flex flex-col px-0 gap-2 w-[256px]"
-        align="end"
+        sideOffset={8}
+        className="flex flex-col px-0 w-[256px] rounded-b-none"
+        align="center"
       >
         <DropdownMenuGroup>
           <div className="flex gap-4 items-start p-4">
@@ -115,16 +115,15 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
             </Avatar>
 
             <div className="w-full min-w-0">
-              <p className="text-sm font-bold capitalize text-zinc-800">
+              <p className="text-sm capitalize truncate text-zinc-700">
                 {profileData?.firstName} {profileData?.lastName}
               </p>
-              <p className="text-sm break-words text-zinc-500">
+              <p className="text-xs truncate break-words text-zinc-500">
                 {profileData?.email}
               </p>
             </div>
           </div>
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
 
         <DropdownMenuGroup className="px-3">
           <DropdownMenuItem
@@ -141,7 +140,6 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
-        <DropdownMenuSeparator />
         <DropdownMenuGroup className="px-3 pb-3">
           <DropdownMenuItem
             className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-red-500 hover:!text-red-500"

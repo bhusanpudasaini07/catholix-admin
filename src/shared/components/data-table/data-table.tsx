@@ -123,7 +123,7 @@ export function DataTable<TData, TValue>({
       )}
       <div
         className={cn(
-          "overflow-x-auto rounded-md mt-4",
+          "overflow-x-auto rounded-md mt-6",
           border && "border-2 border-slate-100",
           height && height
         )}
@@ -137,7 +137,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       className={cn(
                         border
-                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0 "
+                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0 text-zinc-800 font-medium "
                           : "",
                         headerSticky &&
                           "sticky top-[0px] z-[10] bg-light-white",

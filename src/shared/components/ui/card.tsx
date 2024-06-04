@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { cn } from '@/shared/utils/utils';
+import { cn } from "@/shared/utils/utils";
 
 const Card = React.forwardRef<
   HTMLDivElement,
@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border border-zinc-100 h-full bg-light-white shadow-sm",
+      "h-full rounded-lg border shadow-sm border-zinc-100 bg-light-white",
       className
     )}
     {...props}
@@ -36,7 +36,7 @@ const CardTitle = React.forwardRef<
   <h3
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-2xl font-semibold tracking-tight leading-none",
       className
     )}
     {...props}
@@ -60,7 +60,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-4 2xl:p-6", className)} {...props} />
+  <div ref={ref} className={cn("p-4 xl:px-6 xl:py-8", className)} {...props} />
 ));
 CardContent.displayName = "CardContent";
 

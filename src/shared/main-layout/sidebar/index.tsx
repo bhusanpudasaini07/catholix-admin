@@ -126,7 +126,7 @@ const Sidebar = ({
       style={{
         width: sidebarWidth,
       }}
-      className={`hidden overflow-y-auto border-r border-black border-opacity-10 bg-light-white shrink-0 sidebar max-h-[calc(100vh)] xl:block`}
+      className={`overflow-y-auto border-r border-black border-opacity-10 bg-light-white shrink-0 sidebar max-h-[calc(100vh)]`}
     >
       <div
         style={{

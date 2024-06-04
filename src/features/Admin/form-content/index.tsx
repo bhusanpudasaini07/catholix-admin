@@ -105,7 +105,12 @@ const AdminFormContent = ({ form }: IProps) => {
                 </FormLabel>
                 <FormControl>
                   <div className="flex justify-center items-center p-6 rounded-lg min-h-[120px] shadow-sm">
-                    <Button variant={"primary"} size={"base"} className="gap-2">
+                    <Button
+                      onClick={() => router.push("/regional-permissions")}
+                      variant={"primary"}
+                      size={"base"}
+                      className="gap-2"
+                    >
                       <ShieldCheck size={20} />
                       Assign Permission
                     </Button>
@@ -126,7 +131,12 @@ const AdminFormContent = ({ form }: IProps) => {
                 <FormLabel className="font-normal">CMS Permission</FormLabel>
                 <FormControl>
                   <div className="flex justify-center items-center p-6 rounded-lg min-h-[120px] shadow-sm">
-                    <Button variant={"primary"} size={"base"} className="gap-2">
+                    <Button
+                      onClick={() => router.push("/cms-permissions")}
+                      variant={"primary"}
+                      size={"base"}
+                      className="gap-2"
+                    >
                       <ShieldCheck size={20} />
                       Assign Permission
                     </Button>

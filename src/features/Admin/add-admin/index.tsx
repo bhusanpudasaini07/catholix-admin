@@ -1,10 +1,12 @@
+import React from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
 import { Card, CardContent } from "@/shared/components/ui/card";
+import { Form } from "@/shared/components/ui/form";
 import { Label } from "@/shared/components/ui/label";
 import { Switch } from "@/shared/components/ui/switch";
-import React from "react";
+
 import AdminFormContent from "../form-content";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Form } from "@/shared/components/ui/form";
 
 const AddAdminForm = () => {
   const form = useForm({

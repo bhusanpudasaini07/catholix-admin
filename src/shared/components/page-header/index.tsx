@@ -17,7 +17,7 @@ const PageHeader = ({ title, subTitle, back, backUrl }: IProps) => {
       {back && backUrl && (
         <Button
           variant="outline_secondary"
-          className="gap-2 p-0 rounded-full size-8"
+          className="gap-2 p-0 rounded-full size-8 shrink-0"
           size={"sm"}
           onClick={() => router.push(backUrl)}
         >

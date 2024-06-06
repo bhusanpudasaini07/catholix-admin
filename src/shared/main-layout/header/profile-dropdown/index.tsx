@@ -13,10 +13,8 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { removeAuthCookies } from "@/shared/utils/cookie-utils";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { useCommonStore } from "@/store/common-store";
 
@@ -24,29 +22,37 @@ import { version } from "../../../../../version";
 import { FC } from "react";
 import { cn } from "@/shared/utils/utils";
 import { deleteCookie } from "cookies-next";
-import { cookieKeys } from "@/enums";
 import { getProfile } from "@/services/profile/profile-service";
 import { useLoggedInStore } from "@/store/auth-store";
+import appConfig from "../../../../../config";
 
 interface IProps {
   IsExpanded: boolean;
 }
+const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
+
 const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  // const { profileData, setProfile } = useCommonStore();
   const { isLoggedIn } = useLoggedInStore();
 
   const { profileData, setProfile } = useCommonStore();
 
-  useQuery(["profile"], getProfile, {
-    enabled: !!isLoggedIn,
-    refetchOnWindowFocus: false,
-    onSuccess: (data) => {
-      setProfile(data?.data);
+  useQuery(
+    ["profile"],
+    async () => {
+      if (isLoggedIn) {
+        const profile = await getProfile();
+        return profile;
+      }
     },
-  });
+    {
+      onSuccess: (data) => {
+        setProfile(data?.data);
+      },
+    }
+  );
 
   const changeRoute = (route: string) => {
     router.push(route);
@@ -58,7 +64,8 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       showToast(TOAST_TYPES.success, "Logged out successfully.");
       queryClient.removeQueries();
       router.push("/login");
-      deleteCookie("isLoggedIn");
+      deleteCookie(LOGGED_IN_KEY);
+      deleteCookie(REMEMBER_ME);
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error[0]?.detail);

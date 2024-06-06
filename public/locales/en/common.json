@@ -40,7 +40,8 @@
       "market": "Market",
       "market_page": "Market Page",
 
-      "admins": "Admins"
+      "admins": "Admins",
+      "roles": "Roles"
     },
 
     "search": "Input here to search"

@@ -7,9 +7,10 @@ import { logout } from "@/services/auth/auth-service";
 import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import toast from "react-hot-toast";
+import { getCookie } from "cookies-next";
 
 const { SESSION_EXPIRED } = constants.messages;
-const { API_BASE_URL, LOGGED_IN_KEY } = config;
+const { API_BASE_URL, LOGGED_IN_KEY, REMEMBER_ME } = config;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
@@ -34,7 +35,8 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
     const responseData = error.response?.data;
     const responseStatus = error.response?.status;
     const errorCode = responseData?.code;
-    if (responseStatus === 403 && errorCode === 1006) {
+    const rememberMe = getCookie(REMEMBER_ME);
+    if (responseStatus === 403 && errorCode === 1006 && rememberMe) {
       shouldRefresh = true;
     } else if (responseStatus === 401 && errorCode === 1017) {
       // if (responseStatus === 401 && errorCode === 10002) {
@@ -50,17 +52,11 @@ const clearAllSessionAndLocalStates = () => {
       toast.error(SESSION_EXPIRED, {
         id: "session",
       });
-      localStorage.setItem(
-        "sessionmessage",
-        JSON.stringify({
-          type: "error",
-          message: SESSION_EXPIRED,
-        })
-      );
+
       clearCookie(LOGGED_IN_KEY);
       clearCookie("access_token");
       clearCookie("refresh_token");
-      clearCookie("isLoggedIn");
+      clearCookie(REMEMBER_ME);
       window.location.href = "/login";
     })
     .catch((_err: any) => {

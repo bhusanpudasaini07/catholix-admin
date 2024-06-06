@@ -16,3 +16,5 @@ export interface IRoleDetail {
   name: string;
   updatedAt: string;
 }
+
+

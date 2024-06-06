@@ -10,9 +10,10 @@ import { Input } from "@/shared/components/ui/input";
 import { ShieldCheck } from "lucide-react";
 import { useRouter } from "next/router";
 import React from "react";
+import { UseFormReturn } from "react-hook-form";
 
 interface IProps {
-  form: any;
+  form: UseFormReturn;
 }
 
 const AdminFormContent = ({ form }: IProps) => {

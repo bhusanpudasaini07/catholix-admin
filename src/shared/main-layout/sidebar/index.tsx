@@ -2,6 +2,7 @@ import {
   Folder,
   LayoutDashboard,
   LayoutGrid,
+  ScrollText,
   User2,
   UserCog,
 } from "lucide-react";
@@ -111,6 +112,17 @@ const Sidebar = ({
           menuName: t("common.side_nav.admins"),
           menuSlug: "/admins",
           icon: <UserCog width={20} height={20} />,
+        },
+      ],
+    },
+    {
+      menuName: t("common.side_nav.roles "),
+      icon: <ScrollText />,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.roles"),
+          menuSlug: "/roles",
+          icon: <ScrollText width={20} height={20} />,
         },
       ],
     },
@@ -233,7 +245,7 @@ const Sidebar = ({
                                   }
                                   className={`mb-1 font-medium ${
                                     isActive(accordionItem?.itemSlug)
-                                      ? "text-blue-600"
+                                      ? "text-yellow-600"
                                       : "text-zinc-600 "
                                   }`}
                                 >

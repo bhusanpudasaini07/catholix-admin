@@ -39,8 +39,7 @@ const Admins: NextPageWithLayout = () => {
     adminColumns,
     adminList,
     adminLoading,
-    rolesList,
-    rolesLoading,
+
     adminId,
     setAdminId,
     deleteModalOpen,

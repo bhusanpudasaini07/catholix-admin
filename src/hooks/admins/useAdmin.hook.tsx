@@ -1,8 +1,8 @@
-import { EyeIcon, FileKey2, PencilLine, Trash2, TrashIcon } from "lucide-react";
+import { EyeIcon, PencilLine, Trash2 } from "lucide-react";
 import { useState } from "react";
 
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
-import { Button, buttonVariants } from "@/shared/components/ui/button";
+import { Button } from "@/shared/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/utils";
@@ -59,11 +59,6 @@ const useAdmin = () => {
   const { data: adminList, isLoading: adminLoading } = useQuery<IAdmin>({
     queryFn: () => getAdmins(page, perPage, searchText, role),
     queryKey: ["adminList", page, perPage, searchTrigger],
-  });
-
-  const { data: rolesList, isLoading: rolesLoading } = useQuery<IRoles>({
-    queryFn: () => getRoles(),
-    queryKey: ["roles"],
   });
 
   const deleteUserMutation = useMutation({
@@ -211,8 +206,8 @@ const useAdmin = () => {
     // API
     adminList,
     adminLoading,
-    rolesList,
-    rolesLoading,
+    // rolesList,
+    // rolesLoading,
 
     deleteUserMutation,
   };

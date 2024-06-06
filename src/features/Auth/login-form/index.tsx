@@ -2,7 +2,7 @@ import { setCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
@@ -31,10 +31,11 @@ import appConfig from "../../../../config";
 
 // CONSTANTS
 const { SOMETHING_WENT_WRONG } = constants.messages;
-const { LOGGED_IN_KEY } = appConfig;
+const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
 
 const LoginForm = () => {
   const router = useRouter();
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const { setLoggedInState } = useLoggedInStore();
 
   const form = useForm<ILoginFormInput>({
@@ -49,9 +50,11 @@ const LoginForm = () => {
   //FUNCTIONS
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       form.reset();
       setCookie(LOGGED_IN_KEY, true, { maxAge: 60 * 60 * 24 });
+      setCookie(REMEMBER_ME, rememberMe);
       setLoggedInState(true);
       showToast(TOAST_TYPES.success, "Logged in Successfully.");
       router.push("/");
@@ -67,7 +70,6 @@ const LoginForm = () => {
     };
     loginMutation.mutate(payload);
   };
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
@@ -128,7 +130,10 @@ const LoginForm = () => {
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(value) => {
+                        field.onChange(value);
+                        setRememberMe(value === true);
+                      }}
                       variant="primary"
                       id="terms"
                     />

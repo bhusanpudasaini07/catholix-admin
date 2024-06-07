@@ -1,27 +1,27 @@
 import { z } from "zod";
 const basicFieldsValidation = {
-  first_name: z
-    .string()
+  firstName: z
+    .string({ required_error: "Firstname is required." })
     .min(1, "Firstname is required.")
-    .max(50, "Firstname must not exceed 50 characters."),
-  last_name: z
-    .string()
+    .max(15, "Firstname must not exceed 50 characters."),
+  lastName: z
+    .string({ required_error: "Lastname is required." })
     .min(1, "Lastname is required.")
-    .max(50, "Lastname must not exceed 50 characters."),
-  mobile_number: z
-    .string()
-    .min(1, "Mobile number is required.")
-    .max(20, "Mobile number must not exceed 20 numbers.")
+    .max(15, "Lastname must not exceed 50 characters."),
+  contact: z
+    .string({ required_error: "Contact number is required." })
+    .min(1, "Contact number is required.")
+    .max(15, "Contact number must not exceed 20 numbers.")
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed."),
 
   // .regex(/^[0-9]+$/, "Phone number must contain only numbers."),
 
-  address: z
-    .string()
-    .min(1, "Adress is required.")
-    .max(100, "Address must not exceed 100 characters"),
+  // address: z
+  //   .string()
+  //   .min(1, "Adress is required.")
+  //   .max(100, "Address must not exceed 100 characters"),
   email: z
-    .string()
+    .string({ required_error: "Email is required." })
     .email("Please enter a valid email address.")
     .min(1, "Email is required.")
     .max(50, "Email must not exceed 50 characters."),

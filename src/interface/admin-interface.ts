@@ -1,3 +1,6 @@
+import { AdminFormSchema } from "@/schema/auth-schema/admin-schema";
+import { z } from "zod";
+
 export interface IAdmin {
   data: {
     results: IAdminDetail[];
@@ -26,3 +29,5 @@ export interface IAdminDetail {
   status: string;
   updatedAt: string;
 }
+
+export interface IAdminForm extends z.infer<typeof AdminFormSchema> {}

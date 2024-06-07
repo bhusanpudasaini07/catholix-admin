@@ -1,19 +1,21 @@
 import { EyeIcon, PencilLine, Trash2 } from "lucide-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
-
-import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
-import { Button } from "@/shared/components/ui/button";
-import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/shared/components/ui/badge";
-import { cn } from "@/shared/utils/utils";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import { IAdmin, IAdminDetail } from "@/interface/admin-interface";
+import { IRoles } from "@/interface/roles-interface";
 import { deleteAdmin, getAdmins } from "@/services/admin/admin-service";
 import { getRoles } from "@/services/roles/roles-service";
-import { IRoles } from "@/interface/roles-interface";
-import { IAdmin, IAdminDetail } from "@/interface/admin-interface";
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
+import { Badge } from "@/shared/components/ui/badge";
+import { Button } from "@/shared/components/ui/button";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
+import { cn } from "@/shared/utils/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 const useAdmin = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   // STATES
   const [role, setRole] = useState<string>("");
@@ -135,7 +137,12 @@ const useAdmin = () => {
             <EyeIcon size={16} />
             View
           </Button>
-          <Button size={"base"} variant={"white"} className="gap-2">
+          <Button
+            onClick={() => router.push(`/admins/${row.original.id}/edit`)}
+            size={"base"}
+            variant={"white"}
+            className="gap-2"
+          >
             <PencilLine size={16} />
             Edit
           </Button>

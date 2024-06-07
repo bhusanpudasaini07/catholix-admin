@@ -7,11 +7,15 @@ import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon, PencilLine, Trash2 } from "lucide-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 const useRoles = () => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+
+  // STATES
   const [searchText, setSearchText] = useState<string>("");
   const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
@@ -109,7 +113,12 @@ const useRoles = () => {
             <EyeIcon size={16} />
             View
           </Button> */}
-          <Button size={"base"} variant={"primary"} className="gap-2">
+          <Button
+            size={"base"}
+            onClick={() => router.push(`/roles/${row.original.id}/edit`)}
+            variant={"primary"}
+            className="gap-2"
+          >
             <PencilLine size={16} />
             Edit
           </Button>

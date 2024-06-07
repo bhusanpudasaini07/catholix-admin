@@ -1,3 +1,6 @@
+import { RoleSchema } from "@/schema/auth-schema/role-schema";
+import { z } from "zod";
+
 export interface IRoles {
   data: {
     results: IRoleDetail[];
@@ -17,4 +20,37 @@ export interface IRoleDetail {
   updatedAt: string;
 }
 
+export interface IPermissionDetail {
+  createdAt: string;
+  description: string;
+  id: number;
+  isDefault: boolean;
+  method: string;
+  path: string;
+  resource: string;
+  updatedAt: string;
+}
 
+export interface IPermissions {
+  data: {
+    currentPage: number;
+    next: number;
+    pageSize: number;
+    previous: number;
+    results: IPermissionDetail[];
+    totalItems: number;
+  };
+}
+
+export interface IRolesForm extends z.infer<typeof RoleSchema> {}
+
+export interface IRoleDetails {
+  data: {
+    createdAt: string;
+    description: string | null;
+    id: number;
+    name: string;
+    permission: IPermissionDetail[];
+    updatedAt: string;
+  };
+}

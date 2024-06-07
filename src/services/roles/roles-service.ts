@@ -11,7 +11,7 @@ const getRoles = (page: number, limit: number, keywords?: string) => {
   return httpRequest(finalUrl, httpMethods.GET);
 };
 
-const getUsersRoles = (id: string) => {
+const getRolesDetail = (id: any) => {
   return httpRequest(`/roles/${id}`, httpMethods.GET);
 };
 
@@ -19,7 +19,7 @@ const addRole = (data: any) => {
   return httpRequest("/roles", httpMethods.POST, data);
 };
 
-const editRole = (id: string, data: any) => {
+const editRole = (id: any, data: any) => {
   return httpRequest(`/roles/${id}`, httpMethods.PUT, data);
 };
 
@@ -38,7 +38,7 @@ const getPermissions = () => {
 export {
   getRoles,
   deleteRole,
-  getUsersRoles,
+  getRolesDetail,
   editRole,
   getAssociatedRoleUsers,
   addRole,

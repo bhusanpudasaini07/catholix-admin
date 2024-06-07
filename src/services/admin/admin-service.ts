@@ -1,5 +1,6 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
+import { IAdminForm } from "@/interface/admin-interface";
 import { IResetPasswordFormInput } from "@/interface/auth-interface";
 
 const getAdmins = (
@@ -26,4 +27,23 @@ const deleteAdmin = (id: string) => {
   return httpRequest(`/users/${id}`, httpMethods.DELETE);
 };
 
-export { getAdmins, changeAdminPassword, deleteAdmin };
+const addAdmin = (data: IAdminForm) => {
+  return httpRequest("/users", httpMethods.POST, data);
+};
+
+const getAdminDetail = (id: string) => {
+  return httpRequest(`/users/${id}`, httpMethods.GET);
+};
+
+const editAdmin = (id: string, data: IAdminForm) => {
+  return httpRequest(`/users/${id}`, httpMethods.PUT, data);
+};
+
+export {
+  getAdmins,
+  changeAdminPassword,
+  deleteAdmin,
+  addAdmin,
+  getAdminDetail,
+  editAdmin,
+};

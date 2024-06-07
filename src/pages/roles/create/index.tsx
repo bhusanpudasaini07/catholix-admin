@@ -6,7 +6,7 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import CreateRoleContent from "@/features/Roles/add-role";
 
-const CreateRoll: NextPageWithLayout = () => {
+const CreateRole: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
       {/* Header */}
@@ -24,9 +24,9 @@ const CreateRoll: NextPageWithLayout = () => {
   );
 };
 
-export default CreateRoll;
+export default CreateRole;
 export const getStaticProps = getI18nProps;
 
-CreateRoll.getLayout = (page) => {
+CreateRole.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

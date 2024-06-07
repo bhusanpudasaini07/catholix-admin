@@ -2,8 +2,8 @@ import * as z from "zod";
 import { basicFieldsValidation } from "../basic-schema";
 
 export const ProfileSchema = z.object({
-  firstName: basicFieldsValidation?.first_name,
-  lastName: basicFieldsValidation?.last_name,
+  firstName: basicFieldsValidation?.firstName,
+  lastName: basicFieldsValidation?.lastName,
   email: basicFieldsValidation?.email,
   contact: z
     .string()

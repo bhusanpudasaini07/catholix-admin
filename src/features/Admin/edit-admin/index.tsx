@@ -1,18 +1,22 @@
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { IAdminForm } from "@/interface/admin-interface";
 import { AdminFormSchema } from "@/schema/auth-schema/admin-schema";
-import { addAdmin } from "@/services/admin/admin-service";
+import {
+  addAdmin,
+  editAdmin,
+  getAdminDetail,
+} from "@/services/admin/admin-service";
 import { Form } from "@/shared/components/ui/form";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
 
-const AddAdminForm = () => {
+const EditAdminForm = () => {
   const router = useRouter();
   const form = useForm<IAdminForm>({
     resolver: zodResolver(AdminFormSchema),
@@ -20,10 +24,23 @@ const AddAdminForm = () => {
     reValidateMode: "onChange",
   });
 
-  const addAdminMutation = useMutation({
-    mutationFn: addAdmin,
+  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery({
+    queryKey: ["adminDetail", router.query?.id],
+    queryFn: () => getAdminDetail(router.query?.id as string),
+    onSuccess(data) {
+      form.reset({
+        ...data?.data,
+        status: data?.data?.status === "active" ? true : false,
+        roleId: data?.data?.role?.id.toString(),
+      });
+    },
+  });
+
+  const editAdminMutation = useMutation({
+    mutationFn: (data: IAdminForm) =>
+      editAdmin(router.query?.id as string, data),
     onSuccess: () => {
-      showToast(TOAST_TYPES.success, "Admin added successfully");
+      showToast(TOAST_TYPES.success, "Admin edited successfully");
       router.push("/admins");
     },
     onError: (error: any) => {
@@ -32,20 +49,21 @@ const AddAdminForm = () => {
   });
 
   const onSubmit: SubmitHandler<IAdminForm> = (data) => {
+    const { email, ...restPayload } = data;
     const payload: any = {
-      ...data,
+      ...restPayload,
       status: data.status ? "active" : "inactive",
       roleId: Number(data?.roleId),
     };
-    addAdminMutation.mutate(payload);
+    editAdminMutation.mutate(payload);
   };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
-        <AdminFormContent form={form} loading={addAdminMutation.isLoading} />
+        <AdminFormContent form={form} loading={editAdminMutation.isLoading} />
       </form>
     </Form>
   );
 };
 
-export default AddAdminForm;
+export default EditAdminForm;

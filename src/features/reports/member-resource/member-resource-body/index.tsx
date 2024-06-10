@@ -356,7 +356,6 @@ const MemberResourceBody = () => {
     <div className="p-6">
       <Card>
         <CardContent>
-          {" "}
           <DataTable
             height={"max-h-[500px]"}
             headerSticky
@@ -364,6 +363,7 @@ const MemberResourceBody = () => {
             columns={columns}
             data={data}
             showManageColumn
+            module="team_members"
           ></DataTable>
         </CardContent>
       </Card>

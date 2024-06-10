@@ -1,9 +1,10 @@
 import {
-  Folder,
   LayoutDashboard,
   LayoutGrid,
   ScrollText,
-  User2,
+  Server,
+  SquareKanban,
+  UserCircle2,
   UserCog,
 } from "lucide-react";
 import moment from "moment";
@@ -62,6 +63,7 @@ const Sidebar = ({
 
   // Sidebar Items
   const menuItems = [
+    // Dashboard
     {
       menuName: t("common.side_nav.dashboard"),
       icon: <LayoutGrid width={20} height={20} />,
@@ -73,37 +75,71 @@ const Sidebar = ({
         },
       ],
     },
+
+    // DLCM Data
     {
-      menuName: t("common.side_nav.projects"),
-      icon: <User2 />,
+      menuName: t("common.side_nav.dlcm_data"),
+      icon: <UserCircle2 width={20} height={20} />,
       subMenu: [
         {
-          menuName: t("common.side_nav.member_resource_report"),
-          menuSlug: "/reports/member-resource",
-          icon: <Folder width={20} height={20} />,
+          menuName: t("common.side_nav.dlcm_data"),
+          menuSlug: "/dlcm",
+          icon: <UserCircle2 width={20} height={20} />,
         },
       ],
     },
+    // SSP Data
     {
-      menuName: t("common.side_nav.department"),
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
+      menuName: t("common.side_nav.ssp_data"),
+      icon: <Server width={20} height={20} />,
       subMenu: [
         {
-          menuName: t("common.side_nav.user_management"),
-          menuSlug: "/user-management",
-          icon: <UserCog width={20} height={20} />,
-          hasAccordion: true,
-          accordionItem: [
-            {
-              itemName: "Team Member List",
-              itemSlug: "/user-management/team-members",
-            },
-          ],
+          menuName: t("common.side_nav.ssp_data"),
+          menuSlug: "/ssp",
+          icon: <Server width={20} height={20} />,
         },
       ],
     },
+    // Device Data
+    {
+      menuName: t("common.side_nav.devices_data"),
+      icon: <SquareKanban width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.devices_data"),
+          menuSlug: "/devices",
+          icon: (
+            <SquareKanban
+              className="transform rotate-180"
+              width={20}
+              height={20}
+            />
+          ),
+        },
+      ],
+    },
+
+    // {
+    //   menuName: t("common.side_nav.department"),
+    //   menuSlug: "",
+    //   icon: <User2 />,
+    //   hasChildren: true,
+    //   subMenu: [
+    //     {
+    //       menuName: t("common.side_nav.user_management"),
+    //       menuSlug: "/user-management",
+    //       icon: <UserCog width={20} height={20} />,
+    //       hasAccordion: true,
+    //       accordionItem: [
+    //         {
+    //           itemName: "Team Member List",
+    //           itemSlug: "/user-management/team-members",
+    //         },
+    //       ],
+    //     },
+    //   ],
+    // },
+    // Admins
     {
       menuName: t("common.side_nav.admins "),
       icon: <UserCog />,
@@ -115,6 +151,7 @@ const Sidebar = ({
         },
       ],
     },
+    // Roles
     {
       menuName: t("common.side_nav.roles "),
       icon: <ScrollText />,

@@ -38,21 +38,12 @@ const Roles: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <PageHeader
-          title="Roles"
-          subTitle="CMS permissions, and setting their status as active"
-        />
-        <Button
-          variant={"primary"}
-          size={"lg"}
-          className="gap-2"
-          onClick={() => router.push("/roles/create")}
-        >
-          <Plus size={20} />
-          Create Role
-        </Button>
-      </div>
+      <PageHeader
+        title="Roles"
+        subTitle="CMS permissions, and setting their status as active"
+        createUrl="/roles/create"
+        createBtnName="Create Role"
+      />
 
       <div>
         <DataTable

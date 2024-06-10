@@ -53,21 +53,12 @@ const Admins: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
-        <PageHeader
-          title="Admins"
-          subTitle="Manage data access for admin: Give or revoke admin regional and cms data access permissions."
-        />
-        <Button
-          variant={"primary"}
-          size={"lg"}
-          className="gap-2"
-          onClick={() => router.push("/admins/create")}
-        >
-          <Plus size={20} />
-          Add New Admin
-        </Button>
-      </div>
+      <PageHeader
+        title="Admins"
+        subTitle="Manage data access for admin: Give or revoke admin regional and cms data access permissions."
+        createUrl="/admins/create"
+        createBtnName="Add New Admin"
+      />
 
       {/* Data Table */}
       <DataTable

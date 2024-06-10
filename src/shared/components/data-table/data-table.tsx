@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Table,
@@ -46,6 +46,7 @@ interface DataTableProps<TData, TValue> {
   selectedId?: string | number;
   showManageColumn?: boolean;
   children?: React.ReactNode;
+  module?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -63,6 +64,7 @@ export function DataTable<TData, TValue>({
   selectedId,
   showManageColumn,
   children,
+  module,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -77,6 +79,7 @@ export function DataTable<TData, TValue>({
 
   const [columnVisibility, setColumnVisibility] =
     useState<VisibilityState>(initialVisibility);
+
   const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     data,
@@ -113,11 +116,35 @@ export function DataTable<TData, TValue>({
   };
 
   const totals = total ? calculateTotals(data, total) : [];
+
+  // Load column visibility from localStorage
+  useEffect(() => {
+    if (module) {
+      const storedVisibility = localStorage.getItem(
+        `columnVisibility_${module}`
+      );
+      if (storedVisibility) {
+        const parsedVisibility = JSON.parse(storedVisibility);
+        setColumnVisibility((prev) => ({
+          ...prev,
+          ...parsedVisibility,
+        }));
+      }
+    }
+  }, [module]);
+
   return (
     <div>
       {(showManageColumn || children) && (
         <div className="flex justify-between items-center">
-          {showManageColumn && <DataTableManageColumns table={table} />}
+          {showManageColumn && (
+            <DataTableManageColumns
+              module={module ?? ""}
+              table={table}
+              columnVisibility={columnVisibility}
+              setColumnVisibility={setColumnVisibility}
+            />
+          )}
           {children}
         </div>
       )}

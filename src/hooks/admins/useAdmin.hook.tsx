@@ -4,9 +4,7 @@ import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { IAdmin, IAdminDetail } from "@/interface/admin-interface";
-import { IRoles } from "@/interface/roles-interface";
 import { deleteAdmin, getAdmins } from "@/services/admin/admin-service";
-import { getRoles } from "@/services/roles/roles-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
@@ -134,8 +132,8 @@ const useAdmin = () => {
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
           <Button
-            size={"base"}
             onClick={() => router.push(`/admins/${row.original.id}`)}
+            size={"base"}
             className="gap-2"
           >
             <EyeIcon size={16} />

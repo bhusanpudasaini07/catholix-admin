@@ -1,4 +1,4 @@
-import { Columns } from "lucide-react";
+import { Columns, Plus } from "lucide-react";
 
 import { Table } from "@tanstack/react-table";
 
@@ -12,15 +12,31 @@ import { Label } from "../ui/label";
 
 interface DataTableManageColumnsProps<TData> {
   table: Table<TData>;
+  module: string;
+  columnVisibility: { [key: string]: boolean };
+  setColumnVisibility: (visibility: { [key: string]: boolean }) => void;
 }
 
 export function DataTableManageColumns<TData>({
   table,
+  module,
+  columnVisibility,
+  setColumnVisibility,
 }: DataTableManageColumnsProps<TData>) {
+  const handleCheckboxChange = (columnId: string, value: boolean) => {
+    table.getColumn(columnId)?.toggleVisibility(value);
+    const newVisibility = { ...columnVisibility, [columnId]: value };
+    setColumnVisibility(newVisibility);
+    localStorage.setItem(
+      `columnVisibility_${module}`,
+      JSON.stringify(newVisibility)
+    );
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex gap-2 items-center px-3 py-2 h-8 text-sm text-center rounded-md border focus:outline-none border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary">
-        <Columns size={15} />
+      <DropdownMenuTrigger className="flex gap-2 items-center px-4 py-2.5 text-sm text-center rounded-md text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-zinc-400 focus:border-zinc-200">
+        <Plus size={18} />
         Manage Column
       </DropdownMenuTrigger>
 
@@ -33,8 +49,10 @@ export function DataTableManageColumns<TData>({
             <Checkbox
               variant="primary"
               id={column.id}
-              checked={column.getIsVisible()}
-              onCheckedChange={(value) => column.toggleVisibility(!!value)}
+              checked={columnVisibility[column.id] ?? column.getIsVisible()}
+              onCheckedChange={(value) =>
+                handleCheckboxChange(column.id, !!value)
+              }
               disabled={!column.columnDef.enableHiding}
             />
             <Label

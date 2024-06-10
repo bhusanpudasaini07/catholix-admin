@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useQueryClient } from "react-query";
 
-const useSSP = () => {
+const useDevices = () => {
   const queryClient = useQueryClient();
 
   const [searchText, setSearchText] = useState<string>("");
@@ -34,7 +34,7 @@ const useSSP = () => {
   };
 
   //   COLUMNS
-  const sspColumns: ColumnDef<any>[] = [
+  const devicesColumns: ColumnDef<any>[] = [
     // SN
     {
       id: "sn",
@@ -45,29 +45,29 @@ const useSSP = () => {
         <SerialNumberCell row={row} pageNumber={page} perPage={perPage} />
       ),
     },
-    // Dealer Name
+    // Model
     {
-      id: "name",
-      accessorKey: "name",
-      header: "Dealer Name",
+      id: "model",
+      accessorKey: "model",
+      header: "Model",
       enableHiding: false,
-      cell: ({ row }) => <p className="font-medium">{row.original.name}</p>,
+      cell: ({ row }) => <p className="font-medium">{row.original.model}</p>,
     },
-    // Dealer Address
+    // App Version Name
     {
-      id: "address",
-      accessorKey: "address",
-      header: "Address",
+      id: "app_version_name",
+      accessorKey: "app_version_name",
+      header: "App Version Name",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.address}</p>,
+      cell: ({ row }) => <p>{row.original.app_version_name}</p>,
     },
-    // Dealer Code
+    // OS Version
     {
-      id: "code",
-      accessorKey: "code",
-      header: "Code",
+      id: "os_version",
+      accessorKey: "os_version",
+      header: "OS Version",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.code}</p>,
+      cell: ({ row }) => <p>{row.original.os_version}</p>,
     },
     // License Expire At
     {
@@ -89,22 +89,22 @@ const useSSP = () => {
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.trial}</p>,
     },
-    // Registration City
+    // Licence Name
     {
-      id: "registration_city",
-      accessorKey: "registration_city",
-      header: "Registration City",
+      id: "licence_name",
+      accessorKey: "licence_name",
+      header: "Licence Name",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.registration_city}</p>,
+      cell: ({ row }) => <p>{row.original.licence_name}</p>,
     },
-    // Eligibility Privilege
+    // Power Status
     {
-      id: "eligibility_privilege",
-      accessorKey: "eligibility_privilege",
-      header: "Eligibility Privilege",
+      id: "power_status",
+      accessorKey: "power_status",
+      header: "Power Status",
       enableHiding: false,
       cell: ({ row }) => (
-        <p className="uppercase">{row.original.eligibility_privilege}</p>
+        <p className="uppercase">{row.original.power_status}</p>
       ),
     },
     // Status
@@ -112,7 +112,7 @@ const useSSP = () => {
       id: "status",
       accessorKey: "status",
       header: "Status",
-      enableHiding: true,
+      enableHiding: false,
       cell: ({ row }) => (
         <Badge
           variant={
@@ -129,58 +129,63 @@ const useSSP = () => {
   const dummyData = [
     {
       sn: "1234567890",
+      model: "Model 1",
+      app_version_name: "App Version 1",
+      os_version: "OS Version 1",
       license_expire: "2023-12-31",
       trial: "Yes",
-      registration_city: "New York",
+      licence_name: "Licence 1",
+      power_status: "active",
       eligibility_privilege: "Gold",
       status: "active",
-      name: "Dealer 1",
-      address: "Address 1",
-      code: "Code 1",
     },
     {
-      sn: "1234567891",
-      license_expire: "2024-01-15",
+      sn: "1234567890",
+      model: "Model 2",
+      app_version_name: "App Version 2",
+      os_version: "OS Version 2",
+      license_expire: "2024-06-30",
       trial: "No",
-      registration_city: "Los Angeles",
+      licence_name: "Licence 2",
+      power_status: "disabled",
       eligibility_privilege: "Silver",
       status: "disabled",
-      name: "Dealer 2",
-      address: "Address 2",
-      code: "Code 2",
     },
     {
-      sn: "1234567892",
-      license_expire: "2023-11-20",
+      sn: "1234567890",
+      model: "Model 3",
+      app_version_name: "App Version 3",
+      os_version: "OS Version 3",
+      license_expire: "2023-11-15",
       trial: "Yes",
-      registration_city: "Chicago",
+      licence_name: "Licence 3",
+      power_status: "active",
       eligibility_privilege: "Platinum",
       status: "active",
-      name: "Dealer 3",
-      address: "Address 3",
-      code: "Code 3",
     },
     {
-      sn: "1234567893",
-      license_expire: "2024-02-10",
+      sn: "1234567890",
+      model: "Model 4",
+      app_version_name: "App Version 4",
+      os_version: "OS Version 4",
+      license_expire: "2024-01-20",
       trial: "No",
-      registration_city: "Houston",
+      licence_name: "Licence 4",
+      power_status: "disabled",
       eligibility_privilege: "Gold",
       status: "disabled",
-      name: "Dealer 4",
-      address: "Address 4",
-      code: "Code 4",
     },
     {
-      sn: "1234567894",
+      sn: "1234567890",
+      model: "Model 5",
+      app_version_name: "App Version 5",
+      os_version: "OS Version 5",
       license_expire: "2023-10-05",
       trial: "Yes",
-      registration_city: "Phoenix",
+      licence_name: "Licence 5",
+      power_status: "active",
       eligibility_privilege: "Silver",
       status: "active",
-      name: "Dealer 5",
-      address: "Address 5",
-      code: "Code 5",
     },
   ];
 
@@ -203,9 +208,9 @@ const useSSP = () => {
     // API
 
     // Column
-    sspColumns,
+    devicesColumns,
     dummyData,
   };
 };
 
-export default useSSP;
+export default useDevices;

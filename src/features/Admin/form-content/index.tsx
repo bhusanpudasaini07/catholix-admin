@@ -1,3 +1,8 @@
+import { useRouter } from "next/router";
+import React from "react";
+import { UseFormReturn } from "react-hook-form";
+import { useQuery } from "react-query";
+
 import { IAdminForm } from "@/interface/admin-interface";
 import { IRoles } from "@/interface/roles-interface";
 import { getRoles } from "@/services/roles/roles-service";
@@ -21,11 +26,6 @@ import {
 } from "@/shared/components/ui/select";
 import { Switch } from "@/shared/components/ui/switch";
 import { handleKeyDownNumber } from "@/shared/utils/form-utils";
-import { ShieldCheck } from "lucide-react";
-import { useRouter } from "next/router";
-import React from "react";
-import { UseFormReturn } from "react-hook-form";
-import { useQuery } from "react-query";
 
 interface IProps {
   form: UseFormReturn<IAdminForm>;
@@ -46,7 +46,13 @@ const AdminFormContent = ({ form, loading }: IProps) => {
         <CardContent>
           <div className="flex justify-between items-center mb-6">
             <h5 className="text-xl font-bold text-zinc-900">
-              Admins/{id ? "Edit" : "Add"} Admin
+              Admins/
+              {router.asPath.includes("/edit")
+                ? "Edit"
+                : id
+                ? "View"
+                : "Add"}{" "}
+              Admin
             </h5>
             <div className="flex items-center px-4 py-2 rounded-lg bg-secondary">
               <FormField
@@ -57,6 +63,9 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                     <FormLabel>User Status</FormLabel>
                     <FormControl>
                       <Switch
+                        disabled={
+                          !router.asPath.includes("edit") && id ? true : false
+                        }
                         checked={field.value}
                         defaultChecked={false}
                         onCheckedChange={(value) => field.onChange(value)}
@@ -77,6 +86,9 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                   <FormLabel className="font-normal">First Name</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={
+                        !router.asPath.includes("edit") && id ? true : false
+                      }
                       className="placeholder:text-gray-270"
                       placeholder="First Name"
                       {...field}
@@ -95,6 +107,9 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                   <FormLabel className="font-normal">Last Name</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={
+                        !router.asPath.includes("edit") && id ? true : false
+                      }
                       className="placeholder:text-gray-270"
                       placeholder="Last Name"
                       {...field}
@@ -132,6 +147,9 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                   <FormLabel className="font-normal">Phone</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={
+                        !router.asPath.includes("edit") && id ? true : false
+                      }
                       className="placeholder:text-gray-270"
                       placeholder="987-897-789456"
                       {...field}
@@ -170,6 +188,7 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                 )}
               />
             </div> */}
+
             {/* Role  */}
             <div>
               <FormField
@@ -185,8 +204,12 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                       </FormLabel>
                       <FormControl>
                         <Select
+                          defaultValue={field.value ? field.value : ""}
                           value={field.value}
                           onValueChange={(value) => field.onChange(value)}
+                          disabled={
+                            !router.asPath.includes("edit") && id ? true : false
+                          }
                         >
                           <SelectTrigger className="max-w-80">
                             <SelectValue placeholder="Select Role" />
@@ -210,20 +233,25 @@ const AdminFormContent = ({ form, loading }: IProps) => {
               />
             </div>
           </div>
-          <div className="flex gap-2 justify-start mt-6">
-            <Button variant={"primary"} disabled={loading} className="gap-2">
-              {loading && <ButtonLoader />}
-              {id ? "Update" : "Create"}
-            </Button>
-            <Button
-              type="button"
-              onClick={() => router.push("/admins")}
-              variant={"secondary"}
-              className="gap-2"
-            >
-              Cancel
-            </Button>
-          </div>
+
+          {!router.asPath.includes("edit") && id ? (
+            ""
+          ) : (
+            <div className="flex gap-2 justify-start mt-6">
+              <Button variant={"primary"} disabled={loading} className="gap-2">
+                {loading && <ButtonLoader />}
+                {id ? "Update" : "Create"}
+              </Button>
+              <Button
+                type="button"
+                onClick={() => router.push("/admins")}
+                variant={"secondary"}
+                className="gap-2"
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
     </>

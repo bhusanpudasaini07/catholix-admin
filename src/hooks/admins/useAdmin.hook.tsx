@@ -133,7 +133,11 @@ const useAdmin = () => {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
-          <Button size={"base"} className="gap-2">
+          <Button
+            size={"base"}
+            onClick={() => router.push(`/admins/${row.original.id}`)}
+            className="gap-2"
+          >
             <EyeIcon size={16} />
             View
           </Button>

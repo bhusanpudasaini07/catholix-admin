@@ -1,0 +1,49 @@
+import { useRouter } from "next/router";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { useQuery } from "react-query";
+
+import { IAdminDetail, IAdminForm } from "@/interface/admin-interface";
+import { AdminFormSchema } from "@/schema/auth-schema/admin-schema";
+import { getAdminDetail } from "@/services/admin/admin-service";
+import { Form } from "@/shared/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import AdminFormContent from "../form-content";
+
+interface IProps {
+  data: IAdminDetail;
+}
+
+const ViewAdminContent = () => {
+  const router = useRouter();
+
+  const form = useForm<IAdminForm>({
+    resolver: zodResolver(AdminFormSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
+  });
+
+  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
+    {
+      queryKey: ["adminDetail", router.query?.id],
+      queryFn: () => getAdminDetail(router.query?.id as string),
+      onSuccess(data) {
+        form.reset({
+          ...data?.data,
+          status: data?.data?.status === "active" ? true : false,
+          roleId: data?.data?.role?.id.toString(),
+        });
+      },
+    }
+  );
+  return (
+    <Form {...form}>
+      <form autoComplete="off">
+        <AdminFormContent form={form} loading={false} />
+      </form>
+    </Form>
+  );
+};
+
+export default ViewAdminContent;

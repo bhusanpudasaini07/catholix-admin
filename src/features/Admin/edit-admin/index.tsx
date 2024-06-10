@@ -3,7 +3,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 
-import { IAdminForm } from "@/interface/admin-interface";
+import { IAdminDetail, IAdminForm } from "@/interface/admin-interface";
 import { AdminFormSchema } from "@/schema/auth-schema/admin-schema";
 import {
   addAdmin,
@@ -16,6 +16,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
 
+interface IProps {
+  data: IAdminDetail;
+}
+
 const EditAdminForm = () => {
   const router = useRouter();
   const form = useForm<IAdminForm>({
@@ -24,17 +28,19 @@ const EditAdminForm = () => {
     reValidateMode: "onChange",
   });
 
-  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery({
-    queryKey: ["adminDetail", router.query?.id],
-    queryFn: () => getAdminDetail(router.query?.id as string),
-    onSuccess(data) {
-      form.reset({
-        ...data?.data,
-        status: data?.data?.status === "active" ? true : false,
-        roleId: data?.data?.role?.id.toString(),
-      });
-    },
-  });
+  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
+    {
+      queryKey: ["adminDetail", router.query?.id],
+      queryFn: () => getAdminDetail(router.query?.id as string),
+      onSuccess(data) {
+        form.reset({
+          ...data?.data,
+          status: data?.data?.status === "active" ? true : false,
+          roleId: data?.data?.role?.id.toString(),
+        });
+      },
+    }
+  );
 
   const editAdminMutation = useMutation({
     mutationFn: (data: IAdminForm) =>

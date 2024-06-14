@@ -45,6 +45,7 @@ const DevicesData: NextPageWithLayout = () => {
             className="h-10 max-w-[500px]"
             searchText={searchText}
             setSearchText={searchTextHandler}
+            handleClick={searchHandler}
           />
           <Button variant={"secondary"} onClick={resetHandler}>
             <ListRestart size={20} />

@@ -28,19 +28,24 @@ const EditAdminForm = () => {
     reValidateMode: "onChange",
   });
 
-  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
-    {
-      queryKey: ["adminDetail", router.query?.id],
-      queryFn: () => getAdminDetail(router.query?.id as string),
-      onSuccess(data) {
-        form.reset({
-          ...data?.data,
-          status: data?.data?.status === "active" ? true : false,
-          roleId: data?.data?.role?.id.toString(),
-        });
-      },
-    }
-  );
+  const { isLoading: adminDetailLoading } = useQuery<IProps>({
+    queryKey: ["adminDetail", router.query?.id],
+    queryFn: () => getAdminDetail(router.query?.id as string),
+    onSuccess: (data) => {
+      console.log(
+        data?.data?.role?.id.toString(),
+        typeof data?.data?.role?.id.toString()
+      );
+      form.reset({
+        firstName: data?.data?.firstName,
+        lastName: data?.data?.lastName,
+        email: data?.data?.email,
+        contact: data?.data?.contact,
+        status: data?.data?.status === "active" ? true : false,
+        roleId: data?.data?.role?.id.toString(),
+      });
+    },
+  });
 
   const editAdminMutation = useMutation({
     mutationFn: (data: IAdminForm) =>

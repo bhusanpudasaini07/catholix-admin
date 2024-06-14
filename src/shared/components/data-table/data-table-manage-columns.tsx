@@ -40,7 +40,10 @@ export function DataTableManageColumns<TData>({
         Manage Column
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent
+        align="end"
+        className="max-h-[350px] overflow-y-auto"
+      >
         {table.getAllColumns().map((column) => (
           <div
             key={column.id}

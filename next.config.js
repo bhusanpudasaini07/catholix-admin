@@ -7,8 +7,8 @@ const nextConfig = {
   },
   reactStrictMode: true,
   i18n: {
-    locales: ["en-US", "np-NP"],
-    defaultLocale: "en-US",
+    locales: ["en", "jp"],
+    defaultLocale: "en",
   },
   webpack: (config, { isServer, webpack }) => {
     if (isServer) {

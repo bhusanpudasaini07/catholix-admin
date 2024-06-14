@@ -1,0 +1,21 @@
+{
+  "common": {
+    "langs": {
+      "en-us": "English",
+      "np": "Nepali"
+    },
+    "theme": {
+      "dark": "ダーク",
+      "light": "ライト"
+    },
+    "side_nav": {
+      "dashboard": "ダッシュボード",
+      "dlcm_data": "DLCMデータ",
+      "ssp_data": "SSPデータ",
+      "devices_data": "デバイスデータ",
+      "admins": "管理者",
+      "roles": "役割"
+    },
+    "search": "ここで検索"
+  }
+}

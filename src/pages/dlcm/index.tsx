@@ -22,7 +22,8 @@ const DLCMData: NextPageWithLayout = () => {
     perPageHandler,
     pageChangeHandler,
     dlcmColumns,
-    dummyData,
+    dlcmData,
+    dlcmLoading,
   } = useDLCM();
 
   return (
@@ -32,9 +33,9 @@ const DLCMData: NextPageWithLayout = () => {
 
       <DataTable
         columns={dlcmColumns}
-        data={dummyData ?? []}
+        data={dlcmData?.results ?? []}
         showManageColumn
-        loading={false}
+        loading={dlcmLoading}
         border
         headerSticky
         loadingDataNum={10}
@@ -47,6 +48,7 @@ const DLCMData: NextPageWithLayout = () => {
             className="h-10 max-w-[500px]"
             searchText={searchText}
             setSearchText={searchTextHandler}
+            handleClick={searchHandler}
           />
           <Button variant={"secondary"} onClick={resetHandler}>
             <ListRestart size={20} />
@@ -60,16 +62,12 @@ const DLCMData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        // currentPage={rolesList?.data?.currentPage ?? 1}
-        currentPage={1}
-        totalPages={10}
-        // totalPages={
-        //   (rolesList &&
-        //     Math.ceil(
-        //       rolesList?.data?.totalItems / rolesList?.data?.pageSize
-        //     )) ??
-        //   1
-        // }
+        currentPage={dlcmData?.currentPage ?? 1}
+        totalPages={
+          (dlcmData &&
+            Math.ceil(Number(dlcmData?.totalItems) / dlcmData?.pageSize)) ??
+          1
+        }
         setPerPage={perPageHandler}
         perPage={perPage}
         pageChange={pageChangeHandler}

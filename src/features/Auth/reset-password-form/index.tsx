@@ -20,6 +20,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -113,9 +114,12 @@ const ResetPasswordForm = () => {
 
         <div className="pt-6 mt-6 text-center border-t border-black border-opacity-10">
           <p className="mb-4 text-sm text-center text-gray-600">
-            Already have an account?
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary">
+              Login
+            </Link>
           </p>
-          <Button
+          {/* <Button
             type="button"
             variant={"secondary"}
             size={"lg"}
@@ -123,7 +127,7 @@ const ResetPasswordForm = () => {
             className="w-full"
           >
             Login
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>

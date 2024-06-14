@@ -1,12 +1,16 @@
 //Next
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 //React
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 //UI
 import {
-    Select, SelectContent, SelectItem, SelectTrigger, SelectValue
-} from '@/shared/components/ui/select';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 
 const LanguageToggler = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -14,7 +18,7 @@ const LanguageToggler = () => {
   const { pathname, asPath, query } = router;
   const options = [
     { value: "en", text: "English" },
-    { value: "np", text: "नेपाली" },
+    { value: "jp", text: "Japanese" },
   ];
 
   // const [selected, setSelected] = useState<string>("en-US");

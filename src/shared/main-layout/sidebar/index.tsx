@@ -40,6 +40,7 @@ import { cn } from "@/shared/utils/utils";
 import ProfileDropdown from "../header/profile-dropdown";
 import GlobalSearch from "./global-search";
 import ChevronRight from "@/shared/svg/chevron-right";
+import LanguageToggler from "../header/language-toggler";
 
 interface ISidebarProps {
   sidebarWidth: string;
@@ -406,6 +407,7 @@ const Sidebar = ({
         <p className="py-2.5 text-center text-xs font-normal text-muted">
           powered by Unitelos
         </p>
+        {/* <LanguageToggler /> */}
         <div
           className={`py-2  bg-white border-t border-black border-opacity-10 ${
             isExpanded ? "flex justify-between items-center px-7" : ""

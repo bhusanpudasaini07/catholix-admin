@@ -20,6 +20,7 @@ import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { constants } from "@/constants";
+import Link from "next/link";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -95,9 +96,12 @@ const ForgotPasswordForm = () => {
 
         <div className="pt-6 mt-6 text-center border-t border-black border-opacity-10">
           <p className="mb-4 text-sm text-center text-gray-600">
-            Already have an account?
+            Already have an account?{" "}
+            <Link href="/login" className="text-primary">
+              Login
+            </Link>
           </p>
-          <Button
+          {/* <Button
             type="button"
             variant={"secondary"}
             onClick={() => router.push("/login")}
@@ -105,7 +109,7 @@ const ForgotPasswordForm = () => {
             size={"lg"}
           >
             Login
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>

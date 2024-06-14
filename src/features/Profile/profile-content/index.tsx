@@ -80,10 +80,10 @@ const ProfileContent = () => {
 
   const cancelHandler = () => {
     form.reset({
-      firstName: "",
-      lastName: "",
-      email: "",
-      contact: "",
+      firstName: profileData?.data?.firstName,
+      lastName: profileData?.data?.lastName,
+      email: profileData?.data?.email,
+      contact: profileData?.data?.contact || "",
     });
   };
 

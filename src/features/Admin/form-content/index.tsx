@@ -204,9 +204,8 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                       </FormLabel>
                       <FormControl>
                         <Select
-                          defaultValue={field.value ? field.value : ""}
                           value={field.value}
-                          onValueChange={(value) => field.onChange(value)}
+                          onValueChange={field.onChange}
                           disabled={
                             !router.asPath.includes("edit") && id ? true : false
                           }
@@ -217,10 +216,10 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                           <SelectContent>
                             {rolesList?.data?.results?.map((role) => (
                               <SelectItem
-                                key={role.id}
-                                value={role.id.toString()}
+                                key={role?.id?.toString()}
+                                value={role?.id?.toString()}
                               >
-                                {role.name}
+                                {role?.name}
                               </SelectItem>
                             ))}
                           </SelectContent>

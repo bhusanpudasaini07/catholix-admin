@@ -8,9 +8,15 @@ interface IProps {
   setSearchText: (arg: string) => void;
   searchText?: string;
   className?: string;
+  handleClick?: () => void;
 }
 
-const FilterSearch = ({ setSearchText, className, searchText }: IProps) => {
+const FilterSearch = ({
+  setSearchText,
+  className,
+  searchText,
+  handleClick,
+}: IProps) => {
   return (
     <div
       className={cn(
@@ -29,6 +35,11 @@ const FilterSearch = ({ setSearchText, className, searchText }: IProps) => {
         value={searchText ? searchText : ""}
         className="p-0 h-auto rounded-none border-0 shadow-none"
         onChange={(e) => setSearchText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleClick && handleClick();
+          }
+        }}
       />
     </div>
   );

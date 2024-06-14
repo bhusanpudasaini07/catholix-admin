@@ -1,9 +1,12 @@
+import { IDLCMDetails, IDlcmData } from "@/interface/dlcm-interface";
+import { getDlcmData } from "@/services/dlcm/dlcm-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 import { useState } from "react";
-import { useQueryClient } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 const useDLCM = () => {
   const queryClient = useQueryClient();
@@ -12,6 +15,7 @@ const useDLCM = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
+  const [columns, setColumns] = useState<string>("");
 
   //   FUNCTIONS
   const searchTextHandler = (value: string) => {
@@ -22,9 +26,18 @@ const useDLCM = () => {
     setSearchTrigger(!searchTrigger);
   };
   const searchHandler = () => {
+    const columns = localStorage.getItem("columnVisibility_dlcm");
+    const parsedValue: string = columns
+      ? Object.entries(JSON.parse(columns))
+          .filter(([key, value]) => value === true && key !== "sn")
+          .map(([key]) => key)
+          .join(",")
+      : "";
+    setColumns(parsedValue);
     setSearchTrigger(!searchTrigger);
     setPage(1);
   };
+
   const perPageHandler = (value: number) => {
     setPerPage(value);
     setPage(1);
@@ -33,8 +46,13 @@ const useDLCM = () => {
     setPage(value);
   };
 
+  const { data: dlcmData, isLoading: dlcmLoading } = useQuery<IDlcmData>({
+    queryKey: ["dlcm", page, perPage, searchTrigger],
+    queryFn: () => getDlcmData(page, perPage, searchText, columns),
+  });
+
   //   COLUMNS
-  const dlcmColumns: ColumnDef<any>[] = [
+  const dlcmColumns: ColumnDef<IDLCMDetails>[] = [
     // SN
     {
       id: "sn",
@@ -55,95 +73,249 @@ const useDLCM = () => {
     },
     // Business Location
     {
-      id: "address",
-      accessorKey: "address",
+      id: "LocationName",
+      accessorKey: "LocationName",
       header: "Business Location",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.address}</p>,
+      cell: ({ row }) => (
+        <p className="max-w-[300px]">{row.original.LocationName}</p>
+      ),
     },
     // Phone Number
     {
-      id: "phoneNumber",
-      accessorKey: "phoneNumber",
+      id: "PhoneNumber",
+      accessorKey: "PhoneNumber",
       header: "Phone Number",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.phoneNumber}</p>,
+      cell: ({ row }) => <p>{row.original.PhoneNumber}</p>,
     },
     // Sales Rep Location
     {
-      id: "sales_rep_location",
-      accessorKey: "sales_rep_location",
+      id: "SalesRepBusinessLocation",
+      accessorKey: "SalesRepBusinessLocation",
       header: "Sales Rep Location",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.sales_rep_location}</p>,
+      cell: ({ row }) => <p>{row.original.SalesRepBusinessLocation}</p>,
     },
     // Enrollment Date
     {
-      id: "enrollment_date",
-      accessorKey: "enrollment_date",
+      id: "CreatedAt",
+      accessorKey: "CreatedAt",
       header: "Enrollment Date",
       enableHiding: false,
       cell: ({ row }) => (
         <p className="inline-block px-2 py-1 text-sm font-medium text-yellow-700 bg-yellow-50 rounded">
-          {row.original.enrollment_date}
+          {moment(row.original.CreatedAt).format("DD/MM/YYYY")}
         </p>
       ),
     },
     // Partner Code
     {
-      id: "partner_code",
-      accessorKey: "partner_code",
+      id: "PartnerCode",
+      accessorKey: "PartnerCode",
       header: "Partner Code",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.partner_code}</p>,
+      cell: ({ row }) => <p>{row.original.PartnerCode}</p>,
     },
-  ];
-
-  const dummyData = [
+    // Category
     {
-      id: 1,
-      name: "John Doe",
-      address: "123 Main St, New York, NY",
-      phoneNumber: "123-456-7890",
-      sales_rep_location: "New York",
-      enrollment_date: "2023-01-15",
-      partner_code: "P123",
+      id: "Category",
+      accessorKey: "Category",
+      header: "Category",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Category}</p>,
     },
+    // MoMoAccNo
     {
-      id: 2,
-      name: "Jane Smith",
-      address: "456 Elm St, Los Angeles, CA",
-      phoneNumber: "987-654-3210",
-      sales_rep_location: "Los Angeles",
-      enrollment_date: "2023-02-20",
-      partner_code: "P456",
+      id: "MoMoAccNo",
+      accessorKey: "MoMoAccNo",
+      header: "MoMo Account No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.MoMoAccNo}</p>,
     },
+    // MSISDNNo
     {
-      id: 3,
-      name: "Alice Johnson",
-      address: "789 Oak St, Chicago, IL",
-      phoneNumber: "555-123-4567",
-      sales_rep_location: "Chicago",
-      enrollment_date: "2023-03-25",
-      partner_code: "P789",
+      id: "MSISDNNo",
+      accessorKey: "MSISDNNo",
+      header: "MSISDN No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.MSISDNNo}</p>,
     },
+    // Mail Address
     {
-      id: 4,
-      name: "Bob Brown",
-      address: "101 Pine St, Houston, TX",
-      phoneNumber: "444-987-6543",
-      sales_rep_location: "Houston",
-      enrollment_date: "2023-04-30",
-      partner_code: "P101",
+      id: "MailAddress",
+      accessorKey: "MailAddress",
+      header: "Mail Address",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.MailAddress}</p>,
     },
+    // Country
     {
-      id: 5,
-      name: "Charlie Davis",
-      address: "202 Maple St, Phoenix, AZ",
-      phoneNumber: "333-555-6789",
-      sales_rep_location: "Phoenix",
-      enrollment_date: "2023-05-05",
-      partner_code: "P202",
+      id: "Country",
+      accessorKey: "Country",
+      header: "Country",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Country}</p>,
+    },
+    // Country State
+    {
+      id: "CountryState",
+      accessorKey: "CountryState",
+      header: "Country State",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.CountryState}</p>,
+    },
+    // Address
+    {
+      id: "Address",
+      accessorKey: "Address",
+      header: "Address",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Address}</p>,
+    },
+    // ISTag
+    {
+      id: "ISTag",
+      accessorKey: "ISTag",
+      header: "IS Tag",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.ISTag}</p>,
+    },
+    // Serial No
+    {
+      id: "SerialNo",
+      accessorKey: "SerialNo",
+      header: "Serial No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.SerialNo}</p>,
+    },
+    // LG
+    {
+      id: "LG",
+      accessorKey: "LG",
+      header: "LG",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.LG}</p>,
+    },
+    // Shipment
+    {
+      id: "Shipment",
+      accessorKey: "Shipment",
+      header: "Shipment",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Shipment}</p>,
+    },
+    // Description
+    {
+      id: "Description",
+      accessorKey: "Description",
+      header: "Description",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Description}</p>,
+    },
+    // Partner Name
+    {
+      id: "PartnerName",
+      accessorKey: "PartnerName",
+      header: "Partner Name",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.PartnerName}</p>,
+    },
+    // Partner Mail
+    {
+      id: "PartnerMail",
+      accessorKey: "PartnerMail",
+      header: "Partner Mail",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.PartnerMail}</p>,
+    },
+    // Parent Request Holder
+    {
+      id: "ParentRequestHolder",
+      accessorKey: "ParentRequestHolder",
+      header: "Parent Request Holder",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.ParentRequestHolder}</p>,
+    },
+    // Partner Business Location
+    {
+      id: "PartnerBusinessLocation",
+      accessorKey: "PartnerBusinessLocation",
+      header: "Partner Business Location",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.PartnerBusinessLocation}</p>,
+    },
+    // Sales Rep Mail
+    {
+      id: "SalesRepMail",
+      accessorKey: "SalesRepMail",
+      header: "Sales Rep Mail",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.SalesRepMail}</p>,
+    },
+    // Device
+    {
+      id: "Device",
+      accessorKey: "Device",
+      header: "Device",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Device}</p>,
+    },
+    // IMEI No 2
+    {
+      id: "IMEINo2",
+      accessorKey: "IMEINo2",
+      header: "IMEI No 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.IMEINo2}</p>,
+    },
+    // Comment From Unlock
+    {
+      id: "CommentFromUnlock",
+      accessorKey: "CommentFromUnlock",
+      header: "Comment From Unlock",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.CommentFromUnlock}</p>,
+    },
+    // Comment
+    {
+      id: "Comment",
+      accessorKey: "Comment",
+      header: "Comment",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Comment}</p>,
+    },
+    // Tenant
+    {
+      id: "Tenant",
+      accessorKey: "Tenant",
+      header: "Tenant",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Tenant}</p>,
+    },
+    // Error
+    {
+      id: "Error",
+      accessorKey: "Error",
+      header: "Error",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.Error}</p>,
+    },
+    // Updated At
+    {
+      id: "UpdatedAt",
+      accessorKey: "UpdatedAt",
+      header: "Updated At",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.UpdatedAt}</p>,
+    },
+    // State
+    {
+      id: "State",
+      accessorKey: "State",
+      header: "State",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.State}</p>,
     },
   ];
 
@@ -164,10 +336,11 @@ const useDLCM = () => {
     pageChangeHandler,
 
     // API
+    dlcmData,
+    dlcmLoading,
 
     // Column
     dlcmColumns,
-    dummyData,
   };
 };
 

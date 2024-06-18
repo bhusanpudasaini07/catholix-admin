@@ -1,7 +1,9 @@
 import React from "react";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { ChevronLeft, Plus } from "lucide-react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   title: string;
@@ -27,14 +29,16 @@ const PageHeader = ({
     <div className="flex justify-between items-center mb-8">
       <div className="flex gap-6 items-center">
         {back && backUrl && (
-          <Button
-            variant="outline_secondary"
-            className="gap-2 p-0 rounded-full size-8 shrink-0"
-            size={"sm"}
+          <Link
+            href={backUrl}
+            className={cn(
+              buttonVariants({ variant: "outline_secondary", size: "sm" }),
+              "gap-2 p-0 rounded-full size-8 shrink-0"
+            )}
             onClick={() => router.push(backUrl)}
           >
             <ChevronLeft size={18} />
-          </Button>
+          </Link>
         )}
         <div>
           <h4 className="text-4xl font-bold">{title}</h4>
@@ -46,15 +50,16 @@ const PageHeader = ({
 
       {children && children}
       {createUrl && (
-        <Button
-          variant={"primary"}
-          size={"lg"}
-          className="gap-2"
-          onClick={() => router.push(createUrl)}
+        <Link
+          href={createUrl}
+          className={cn(
+            buttonVariants({ variant: "primary", size: "lg" }),
+            "gap-2"
+          )}
         >
           <Plus size={20} />
           {createBtnName}
-        </Button>
+        </Link>
       )}
     </div>
   );

@@ -1,5 +1,4 @@
 "use client";
-
 import { Check, ChevronDown } from "lucide-react";
 import * as React from "react";
 
@@ -76,7 +75,9 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
+    value: number | string;
+  }
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Item
     ref={ref}

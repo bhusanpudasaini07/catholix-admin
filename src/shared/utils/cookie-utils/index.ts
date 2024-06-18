@@ -22,5 +22,5 @@ export const setAuthCookies = (data: any) => {
 export const removeAuthCookies = () => {
   deleteCookie(cookieKeys.ACCESS_TOKEN);
   deleteCookie(cookieKeys.REFRESH_TOKEN);
-  deleteCookie("isLoggedIn");
+  deleteCookie(LOGGED_IN_KEY);
 };

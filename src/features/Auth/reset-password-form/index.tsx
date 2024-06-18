@@ -35,14 +35,13 @@ const ResetPasswordForm = () => {
   //FUNCTIONS
   const resetPasswordMutation = useMutation({
     mutationFn: resetPassword,
-    onSuccess: (data) => {
+    onSuccess: () => {
       form.reset();
       showToast(TOAST_TYPES.success, "Password reset successful");
       router.push("/login");
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
-      router.push("/login");
     },
   });
 

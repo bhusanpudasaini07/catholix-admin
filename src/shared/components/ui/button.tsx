@@ -12,33 +12,26 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary border-primary text-zinc-900 shadow-custom-primary hover:bg-yellow-500",
+          "bg-primary border-primary text-primary-foreground shadow-custom-primary hover:bg-primary-hover",
         primary:
-          "bg-yellow-500 border-yellow-500 text-zinc-900 shadow-custom-primary hover:bg-yellow-400",
+          "bg-primary border-primary text-primary-foreground shadow-custom-primary hover:bg-primary-hover",
+        secondary:
+          "bg-secondary border border-secondary text-zinc-700 hover:bg-amber-200 ",
         destructive:
           "bg-destructive text-white hover:bg-red-600/90 shadow-custom-primary",
-        info: "bg-info text-white hover:bg-blue-500 shadow-custom-primary",
+        info: "bg-info text-info-text hover:bg-info-foreground shadow-sm",
         outline:
           "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
         outline_secondary:
           "border border-zinc-700 text-zinc-700 bg-white hover:border-primary hover:text-primary",
-        white:
-          "text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
-        secondary:
-          "bg-secondary border border-secondary text-zinc-700 hover:bg-amber-200 ",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        submit:
-          "bg-gradient-to-r from-green-250 to-green-350 border-primary text-white shadow-custom-submit",
-        pagination:
-          "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
-        table:
-          "border border-b-zinc-200 text-zinc-600 hover:border-primary hover:text-primary",
-        date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
-        success:
-          "bg-green-500 border border-green-500 shadow-sm py-2 px-3 text-white hover:bg-green-600 hover:border-green-600",
         outline_tertiary:
           "shadow-sm text-blue-500 text-sm rounded-lg border border-blue-100 hover:bg-blue-500 hover:text-white",
+        white:
+          "text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        pagination:
+          "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
+        date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",
@@ -77,7 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {props?.children}
-        {loading && <ButtonLoader className="mr-3" />}
+        {loading && <ButtonLoader className="ms-3" />}
       </Comp>
     );
   }

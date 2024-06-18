@@ -110,271 +110,14 @@ const RoleForm = ({ form, loading }: IProps) => {
 
         {/* Dashboard, Agent Data */}
         <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
-          {/* <Card className="col-span-3 xl:col-span-2">
-            <CardContent>
-              <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">Dashboard</h5>
-              </div>
-              <div className="grid grid-cols-2 gap-10 items-center 2xl:gap-0 2xl:grid-cols-4">
-                {dummyPermissions
-                  .find((module) => module.module_name === "Dashboard")
-                  ?.permissions.map((permission) => (
-                    <FormField
-                      key={permission.id}
-                      control={form.control}
-                      name="permissions"
-                      render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                          <FormControl>
-                            <Checkbox
-                              id={permission.id.toString()}
-                              variant="primary"
-                              className="border-zinc-700"
-                              checked={field.value?.includes(
-                                permission.id.toString()
-                              )}
-                              onCheckedChange={(checked) => {
-                                handleCheckedChange(
-                                  permission.id.toString(),
-                                  checked as boolean
-                                );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className="!mt-0"
-                            htmlFor={permission.id.toString()}
-                          >
-                            {permission.description}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-              </div>
-            </CardContent>
-          </Card> */}
-
           {/* Agent */}
-          {/* <Card className="col-span-3 xl:col-span-1">
+          <Card className="col-span-3 xl:col-span-1">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">
-                  Agent Data
-                </h5>
+                <h5 className="text-base font-bold text-zinc-900">DLCM Data</h5>
               </div>
               <div className="grid grid-cols-1 items-center">
-                {dummyPermissions
-                  .find((module) => module.module_name === "Agent Data")
-                  ?.permissions.map((permission) => (
-                    <FormField
-                      key={permission.id}
-                      control={form.control}
-                      name="permissions"
-                      render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                          <FormControl>
-                            <Checkbox
-                              id={permission.id.toString()}
-                              variant="primary"
-                              className="border-zinc-700"
-                              checked={field.value?.includes(
-                                permission.id.toString()
-                              )}
-                              onCheckedChange={(checked) => {
-                                handleCheckedChange(
-                                  permission.id.toString(),
-                                  checked as boolean
-                                );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className="!mt-0"
-                            htmlFor={permission.id.toString()}
-                          >
-                            {permission.description}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-              </div>
-            </CardContent>
-          </Card> */}
-        </div>
-
-        {/* SSP, device, productivity */}
-        <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
-          {/* SSP Data */}
-          {/* <Card>
-            <CardContent>
-              <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">SSP Data</h5>
-              </div>
-              <div className="grid grid-cols-2 items-center">
-                {dummyPermissions
-                  .find((module) => module.module_name === "SSP Data")
-                  ?.permissions.map((permission) => (
-                    <FormField
-                      key={permission.id}
-                      control={form.control}
-                      name="permissions"
-                      render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                          <FormControl>
-                            <Checkbox
-                              id={permission.id.toString()}
-                              variant="primary"
-                              className="border-zinc-700"
-                              checked={field.value?.includes(
-                                permission.id.toString()
-                              )}
-                              onCheckedChange={(checked) => {
-                                handleCheckedChange(
-                                  permission.id.toString(),
-                                  checked as boolean
-                                );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className="!mt-0"
-                            htmlFor={permission.id.toString()}
-                          >
-                            {permission.description}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-              </div>
-            </CardContent>
-          </Card> */}
-
-          {/* Device Data */}
-          {/* <Card>
-            <CardContent>
-              <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">
-                  Device Data
-                </h5>
-              </div>
-              <div className="grid grid-cols-2 items-center">
-                {dummyPermissions
-                  .find((module) => module.module_name === "Device Data")
-                  ?.permissions.map((permission) => (
-                    <FormField
-                      key={permission.id}
-                      control={form.control}
-                      name="permissions"
-                      render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                          <FormControl>
-                            <Checkbox
-                              id={permission.id.toString()}
-                              variant="primary"
-                              className="border-zinc-700"
-                              checked={field.value?.includes(
-                                permission.id.toString()
-                              )}
-                              onCheckedChange={(checked) => {
-                                const currentValue = field.value || [];
-                                return checked
-                                  ? field.onChange([
-                                      ...currentValue,
-                                      permission.id.toString(),
-                                    ])
-                                  : field.onChange(
-                                      currentValue.filter(
-                                        (value: string) =>
-                                          value !== permission.id.toString()
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className="!mt-0"
-                            htmlFor={permission.id.toString()}
-                          >
-                            {permission.description}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-              </div>
-            </CardContent>
-          </Card> */}
-
-          {/* Productivity */}
-          {/* <Card className="col-span-2 xl:col-auto">
-            <CardContent>
-              <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">
-                  Productivity
-                </h5>
-              </div>
-              <div className="grid grid-cols-2 items-center">
-                {dummyPermissions
-                  .find((module) => module.module_name === "Productivity")
-                  ?.permissions.map((permission) => (
-                    <FormField
-                      key={permission.id}
-                      control={form.control}
-                      name="permissions"
-                      render={({ field }) => (
-                        <FormItem className="flex gap-2 items-center">
-                          <FormControl>
-                            <Checkbox
-                              id={permission.id.toString()}
-                              variant="primary"
-                              className="border-zinc-700"
-                              checked={field.value?.includes(
-                                permission.id.toString()
-                              )}
-                              onCheckedChange={(checked) => {
-                                const currentValue = field.value || [];
-                                return checked
-                                  ? field.onChange([
-                                      ...currentValue,
-                                      permission.id.toString(),
-                                    ])
-                                  : field.onChange(
-                                      currentValue.filter(
-                                        (value: string) =>
-                                          value !== permission.id.toString()
-                                      )
-                                    );
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            className="!mt-0"
-                            htmlFor={permission.id.toString()}
-                          >
-                            {permission.description}
-                          </FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
-              </div>
-            </CardContent>
-          </Card> */}
-        </div>
-
-        {/* Security */}
-        {/* <Card>
-          <CardContent>
-            <div className="flex justify-between items-center mb-6">
-              <h5 className="text-base font-bold text-zinc-900">Security</h5>
-            </div>
-            <div className="grid grid-cols-2 gap-10 items-center 2xl:gap-0 2xl:grid-cols-6">
-              {dummyPermissions
-                .find((module) => module.module_name === "Security")
-                ?.permissions.map((permission) => (
+                {groupedPermissionsByResource?.dlcm?.map((permission) => (
                   <FormField
                     key={permission.id}
                     control={form.control}
@@ -392,7 +135,8 @@ const RoleForm = ({ form, loading }: IProps) => {
                             onCheckedChange={(checked) => {
                               handleCheckedChange(
                                 permission.id.toString(),
-                                checked as boolean
+                                checked as boolean,
+                                permission
                               );
                             }}
                           />
@@ -407,6 +151,55 @@ const RoleForm = ({ form, loading }: IProps) => {
                     )}
                   />
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* SSP, device, productivity */}
+        {/* <div className="grid grid-cols-2 gap-4 xl:grid-cols-3"></div> */}
+
+        {/* Security */}
+        {/* <Card>
+          <CardContent>
+            <div className="flex justify-between items-center mb-6">
+              <h5 className="text-base font-bold text-zinc-900">Security</h5>
+            </div>
+            <div className="grid grid-cols-2 gap-10 items-center 2xl:gap-0 2xl:grid-cols-6">
+              {groupedPermissionsByResource?.security?.map((permission) => (
+                <FormField
+                  key={permission.id}
+                  control={form.control}
+                  name="permissions"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-2 items-center">
+                      <FormControl>
+                        <Checkbox
+                          id={permission.id.toString()}
+                          variant="primary"
+                          className="border-zinc-700"
+                          checked={field.value?.includes(
+                            permission.id.toString()
+                          )}
+                          onCheckedChange={(checked) => {
+                            handleCheckedChange(
+                              permission.id.toString(),
+                              checked as boolean,
+                              permission
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        className="!mt-0"
+                        htmlFor={permission.id.toString()}
+                      >
+                        {permission.description}
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+              ))}
             </div>
           </CardContent>
         </Card> */}

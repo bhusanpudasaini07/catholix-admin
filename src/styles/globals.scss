@@ -18,7 +18,8 @@
     --popover-foreground: 240 10% 3.9%;
 
     --primary: #f8c000;
-    --primary-foreground: 0 0% 98%;
+    --primary-foreground: #18181b; /* zinc-900 */
+    --primary-hover: #f59e0b; /* yellow-500 */
     --primary-50: #eab308;
 
     --secondary: #f4f4f5;
@@ -34,7 +35,8 @@
     --destructive-foreground: 0 0% 98%;
 
     --info: #2563eb;
-    --info-foreground: 240 100% 100%;
+    --info-text: #fff;
+    --info-foreground: #3b82f6; // bg-blue-500
 
     --border: "#E2E8F0";
     --input: #ccc;

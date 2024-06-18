@@ -21,10 +21,12 @@ import { useCommonStore } from "@/store/common-store";
 import { version } from "../../../../../version";
 import { FC } from "react";
 import { cn } from "@/shared/utils/utils";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { getProfile } from "@/services/profile/profile-service";
-import { useLoggedInStore } from "@/store/auth-store";
 import appConfig from "../../../../../config";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 interface IProps {
   IsExpanded: boolean;
@@ -34,15 +36,14 @@ const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
 const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
-
-  const { isLoggedIn } = useLoggedInStore();
+  const authCookie = getCookie(LOGGED_IN_KEY);
 
   const { profileData, setProfile } = useCommonStore();
 
   useQuery(
     ["profile"],
     async () => {
-      if (isLoggedIn) {
+      if (authCookie) {
         const profile = await getProfile();
         return profile;
       }
@@ -51,6 +52,8 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       onSuccess: (data) => {
         setProfile(data?.data);
       },
+      enabled: !!authCookie,
+      refetchOnWindowFocus: false,
     }
   );
 
@@ -61,14 +64,17 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
   const logoutMutation = useMutation({
     mutationFn: logout,
     onSuccess: () => {
+      deleteCookie(LOGGED_IN_KEY);
+      deleteCookie(REMEMBER_ME);
       showToast(TOAST_TYPES.success, "Logged out successfully.");
       queryClient.removeQueries();
       router.push("/login");
-      deleteCookie(LOGGED_IN_KEY);
-      deleteCookie(REMEMBER_ME);
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error[0]?.detail);
+      showToast(
+        TOAST_TYPES.error,
+        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG
+      );
     },
   });
   const logoutHandler = () => {

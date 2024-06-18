@@ -28,6 +28,9 @@ export interface IAdminDetail {
   };
   status: string;
   updatedAt: string;
+  regionId: number;
+  stateId: number;
+  localGovernments: { id: number; name: string }[];
 }
 
 export interface IAdminForm extends z.infer<typeof AdminFormSchema> {}

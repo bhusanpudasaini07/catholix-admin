@@ -1,5 +1,5 @@
 import { ListRestart, Search } from "lucide-react";
-import React from "react";
+import React, { use } from "react";
 
 import useAdmin from "@/hooks/admins/useAdmin.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
@@ -23,9 +23,12 @@ import PageHeader from "@/shared/components/page-header";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
 import AdminResetPasswordModal from "@/features/Admin/admin-reset-password-modal";
 import { useRouter } from "next/router";
+import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
+import { useCommonStore } from "@/store/common-store";
 
 const Admins: NextPageWithLayout = () => {
   const router = useRouter();
+  const { profileData } = useCommonStore();
   const {
     role,
     setRole,
@@ -56,7 +59,11 @@ const Admins: NextPageWithLayout = () => {
       <PageHeader
         title="Admins"
         subTitle="Manage data access for admin: Give or revoke admin regional and cms data access permissions."
-        createUrl="/admins/create"
+        createUrl={
+          checkPermissions(profileData, "/users", "post")
+            ? "/admins/create"
+            : ""
+        }
         createBtnName="Add New Admin"
       />
 
@@ -133,6 +140,7 @@ const Admins: NextPageWithLayout = () => {
         variant={"destructive"}
         key={`delete- ${adminId}`}
         btnFuntion={deleteUserMutation.mutate}
+        disabled={deleteUserMutation.isLoading}
       />
 
       {/* Reset Password modal */}

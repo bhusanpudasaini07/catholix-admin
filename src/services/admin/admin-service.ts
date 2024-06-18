@@ -39,6 +39,10 @@ const editAdmin = (id: string, data: IAdminForm) => {
   return httpRequest(`/users/${id}`, httpMethods.PUT, data);
 };
 
+const getRegions = () => {
+  return httpRequest("/region-with-states-local-government", httpMethods.GET);
+};
+
 export {
   getAdmins,
   changeAdminPassword,
@@ -46,4 +50,7 @@ export {
   addAdmin,
   getAdminDetail,
   editAdmin,
+
+  // Region, state , LGA
+  getRegions,
 };

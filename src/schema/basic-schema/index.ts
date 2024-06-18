@@ -30,7 +30,7 @@ const basicFieldsValidation = {
 const passwordFieldsValidation = {
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters.")
+    .min(10, "Password must be at least 10 characters.")
     .max(50, "Password must not exceed 50 characters.")
     .refine(
       (password) => /[a-z]/.test(password),

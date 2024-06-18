@@ -49,6 +49,7 @@ module.exports = {
         info: {
           DEFAULT: "var(--info)",
           foreground: "var(--info-foreground)",
+          text: "var(--info-text)",
         },
         muted: {
           DEFAULT: "var(--muted)",

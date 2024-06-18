@@ -63,6 +63,7 @@ export function DataTableManageColumns<TData>({
               className="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
               {column?.id
+                .replace(/([a-z])([A-Z])/g, '$1 $2') // Add space before camel case
                 .split("_")
                 .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                 .join(" ")}

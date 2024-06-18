@@ -1,19 +1,26 @@
 "use client";
 
-import { Command as CommandPrimitive } from 'cmdk';
-import { X } from 'lucide-react';
-import * as React from 'react';
+import { Command as CommandPrimitive } from "cmdk";
+import { X } from "lucide-react";
+import * as React from "react";
 
-import { Badge } from '@/shared/components/ui/badge';
-import { Command, CommandGroup, CommandItem } from '@/shared/components/ui/command';
+import { Badge } from "@/shared/components/ui/badge";
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+} from "@/shared/components/ui/command";
 
-import { Button } from '../ui/button';
+import { Button } from "../ui/button";
+import { cn } from "@/shared/utils/utils";
 
 export const MultiSelect = ({
   dataList,
   placeholder,
   selected,
   setSelected,
+  module,
+  disabled,
 }: any) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -55,20 +62,34 @@ export const MultiSelect = ({
   return (
     <Command
       onKeyDown={handleKeyDown}
-      className="overflow-visible bg-transparent"
+      className="overflow-visible relative bg-transparent"
     >
-      <div className="px-2 py-2 text-sm border border-gray-300 rounded-md group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
-        <div className="flex flex-wrap h-full gap-1">
+      <div
+        className={cn(
+          "px-2 py-2 min-h-9 text-sm rounded-md border shadow-sm border-zinc-200 group ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+          disabled && "cursor-not-allowed pointer-events-none bg-zinc-100"
+        )}
+      >
+        <div
+          className={cn(
+            "flex flex-wrap gap-1 h-full",
+            disabled && "cursor-not-allowed pointer-events-none"
+          )}
+        >
           {selected.map((item: any) => {
             return (
-              <Badge key={item.email} className="h-auto p-2" variant="select">
+              <Badge
+                key={item.id}
+                className="px-2 py-1 h-auto"
+                variant="secondary"
+              >
                 <span className="text-xs font-medium capitalize">
-                  {item?.fullname}
+                  {item?.name}
                 </span>
                 <Button
                   variant={"ghost"}
                   type="button"
-                  className="h-auto p-0 ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-transparent"
+                  className="p-0 h-auto rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2 hover:bg-transparent"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       handleUnselect(item);
@@ -91,20 +112,21 @@ export const MultiSelect = ({
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            placeholder={placeholder}
-            className="flex-1 ml-2 bg-transparent outline-none placeholder:text-muted-foreground"
+            placeholder={disabled ? "" : placeholder}
+            readOnly={disabled}
+            className="flex-1 ml-2 text-sm bg-transparent outline-none placeholder:text-muted-foreground"
           />
         </div>
       </div>
-      <div className="relative mt-2">
+      <div className={`absolute -bottom-1 w-full`}>
         {open &&
           (selectables?.length > 0 ? (
-            <div className="absolute top-0 z-10 w-full bg-white border rounded-md shadow-md outline-none text-popover-foreground animate-in">
+            <div className="absolute top-0 z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in">
               <CommandGroup className="h-[250px] overflow-auto">
                 {selectables.map((item: any) => {
                   return (
                     <CommandItem
-                      key={item?.email}
+                      key={item?.id}
                       onMouseDown={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -115,16 +137,16 @@ export const MultiSelect = ({
                       }}
                       className={"cursor-pointer"}
                     >
-                      {item?.fullname}
+                      {item?.name}
                     </CommandItem>
                   );
                 })}
               </CommandGroup>
             </div>
           ) : (
-            <div className="absolute top-0 z-10 w-full bg-white border rounded-md shadow-md outline-none text-popover-foreground animate-in">
-              <CommandGroup className="h-full p-3 overflow-auto text-sm ">
-                No members available.
+            <div className="absolute top-0 z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in">
+              <CommandGroup className="overflow-auto p-3 h-full text-sm">
+                No {module} available.
               </CommandGroup>
             </div>
           ))}

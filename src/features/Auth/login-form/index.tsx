@@ -162,8 +162,8 @@ const LoginForm = () => {
           size={"lg"}
           disabled={loginMutation.isLoading}
           className="mt-8 w-full"
+          loading={loginMutation.isLoading}
         >
-          {loginMutation.isLoading && <ButtonLoader className="mr-3" />}
           Login
         </Button>
       </form>

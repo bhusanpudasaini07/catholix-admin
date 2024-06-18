@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 
@@ -15,6 +15,7 @@ import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
+import { ILocalGovernment } from "@/interface/common-interface";
 
 interface IProps {
   data: IAdminDetail;
@@ -28,24 +29,27 @@ const EditAdminForm = () => {
     reValidateMode: "onChange",
   });
 
-  const { isLoading: adminDetailLoading } = useQuery<IProps>({
-    queryKey: ["adminDetail", router.query?.id],
-    queryFn: () => getAdminDetail(router.query?.id as string),
-    onSuccess: (data) => {
-      console.log(
-        data?.data?.role?.id.toString(),
-        typeof data?.data?.role?.id.toString()
-      );
-      form.reset({
-        firstName: data?.data?.firstName,
-        lastName: data?.data?.lastName,
-        email: data?.data?.email,
-        contact: data?.data?.contact,
-        status: data?.data?.status === "active" ? true : false,
-        roleId: data?.data?.role?.id.toString(),
-      });
-    },
-  });
+  const [selectedLocalGovs, setSelectedLocalGovs] = useState<
+    { id: number; name: string }[]
+  >([]);
+
+  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
+    {
+      queryKey: ["adminDetail", router.query?.id],
+      queryFn: () => getAdminDetail(router.query?.id as string),
+      // onSuccess: (data) => {
+      //   setSelectedLocalGovs([]);
+      //   form.reset({
+      //     firstName: data?.data?.firstName,
+      //     lastName: data?.data?.lastName,
+      //     email: data?.data?.email,
+      //     contact: data?.data?.contact,
+      //     status: data?.data?.status === "active" ? true : false,
+      //     roleId: data?.data?.role?.id.toString(),
+      //   });
+      // },
+    }
+  );
 
   const editAdminMutation = useMutation({
     mutationFn: (data: IAdminForm) =>
@@ -65,13 +69,46 @@ const EditAdminForm = () => {
       ...restPayload,
       status: data.status ? "active" : "inactive",
       roleId: Number(data?.roleId),
+      localGovId: data?.localGovId?.map((lg) => Number(lg)),
+      regionId: Number(data?.regionId),
+      stateId: Number(data?.stateId),
     };
     editAdminMutation.mutate(payload);
   };
+
+  useEffect(() => {
+    if (router?.query?.id && adminDetail !== undefined) {
+      form.reset({
+        firstName: adminDetail?.data?.firstName,
+        lastName: adminDetail?.data?.lastName,
+        email: adminDetail?.data?.email,
+        contact: adminDetail?.data?.contact,
+        status: adminDetail?.data?.status === "active" ? true : false,
+        roleId: adminDetail?.data?.role?.id?.toString(),
+        regionId: adminDetail?.data?.regionId?.toString(),
+        stateId: adminDetail?.data?.stateId?.toString(),
+      });
+      setSelectedLocalGovs(adminDetail?.data?.localGovernments);
+    }
+  }, [router?.query?.id, adminDetail]);
+
+  useEffect(() => {
+    if (adminDetail !== undefined) {
+      form.setValue("regionId", adminDetail?.data?.regionId?.toString());
+      form.setValue("stateId", adminDetail?.data?.stateId?.toString());
+      form.setValue("roleId", adminDetail?.data?.role?.id?.toString());
+    }
+  }, [router.query?.id, adminDetail]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
-        <AdminFormContent form={form} loading={editAdminMutation.isLoading} />
+        <AdminFormContent
+          form={form}
+          loading={editAdminMutation.isLoading}
+          selected={selectedLocalGovs}
+          setSelected={setSelectedLocalGovs}
+        />
       </form>
     </Form>
   );

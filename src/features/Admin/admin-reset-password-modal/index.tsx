@@ -5,7 +5,6 @@ import { useMutation } from "react-query";
 import { IResetPasswordFormInput } from "@/interface/auth-interface";
 import { ResetPasswordSchema } from "@/schema/auth-schema/reset-password-schema";
 import { changeAdminPassword } from "@/services/admin/admin-service";
-import ButtonLoader from "@/shared/components/loader/button-loader";
 import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
@@ -119,10 +118,8 @@ const AdminResetPasswordModal = ({ name, id, open, setOpen }: IProps) => {
               <Button
                 size={"base"}
                 disabled={resetUserPasswordMutation.isLoading}
+                loading={resetUserPasswordMutation.isLoading}
               >
-                {resetUserPasswordMutation.isLoading && (
-                  <ButtonLoader className="mr-3" />
-                )}
                 Update
               </Button>
 

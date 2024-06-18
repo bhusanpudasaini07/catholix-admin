@@ -11,10 +11,17 @@ import { Button } from "@/shared/components/ui/button";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
+import { useCommonStore } from "@/store/common-store";
+import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const useAdmin = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { profileData } = useCommonStore();
+
   // STATES
   const [role, setRole] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
@@ -69,6 +76,9 @@ const useAdmin = () => {
       showToast(TOAST_TYPES.success, "User deleted successfully");
       setDeleteModalOpen(false);
       queryClient.invalidateQueries("adminList");
+    },
+    onError: (error: any) => {
+      showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
     },
   });
 
@@ -139,44 +149,56 @@ const useAdmin = () => {
             <EyeIcon size={16} />
             View
           </Button>
-          <Button
-            onClick={() => router.push(`/admins/${row.original.id}/edit`)}
-            size={"base"}
-            variant={"white"}
-            className="gap-2"
-          >
-            <PencilLine size={16} />
-            Edit
-          </Button>
+          {checkPermissions(profileData, "/users/:id", "get") &&
+            checkPermissions(profileData, "/users/:id", "put") && (
+              <Button
+                onClick={() => router.push(`/admins/${row.original.id}/edit`)}
+                size={"base"}
+                variant={"white"}
+                className="gap-2"
+              >
+                <PencilLine size={16} />
+                Edit
+              </Button>
+            )}
           {/* Reset Password */}
-          <Button
-            size={"base"}
-            variant={"info"}
-            className="gap-2"
-            onClick={() =>
-              openResetPasswordModal(
-                row.original.id.toString(),
-                `${row.original.firstName} ${row.original.lastName}`
-              )
-            }
-          >
-            <PencilLine size={16} />
-            Reset
-          </Button>
 
-          <Button
-            onClick={() =>
-              deleteHandler(
-                row.original.id.toString(),
-                row.original.firstName,
-                row.original.lastName
-              )
-            }
-            size={"base"}
-            variant={"destructive"}
-          >
-            <Trash2 size={16} />
-          </Button>
+          {checkPermissions(
+            profileData,
+            "/users/reset-password/:id",
+            "put"
+          ) && (
+            <Button
+              size={"base"}
+              variant={"info"}
+              className="gap-2"
+              onClick={() =>
+                openResetPasswordModal(
+                  row.original.id.toString(),
+                  `${row.original.firstName} ${row.original.lastName}`
+                )
+              }
+            >
+              <PencilLine size={16} />
+              Reset
+            </Button>
+          )}
+
+          {checkPermissions(profileData, "/users/:id", "delete") && (
+            <Button
+              onClick={() =>
+                deleteHandler(
+                  row.original.id.toString(),
+                  row.original.firstName,
+                  row.original.lastName
+                )
+              }
+              size={"base"}
+              variant={"destructive"}
+            >
+              <Trash2 size={16} />
+            </Button>
+          )}
         </div>
       ),
     },

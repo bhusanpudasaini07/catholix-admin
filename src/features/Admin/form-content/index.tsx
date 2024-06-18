@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { useQuery } from "react-query";
 
@@ -7,6 +7,7 @@ import { IAdminForm } from "@/interface/admin-interface";
 import { IRoles } from "@/interface/roles-interface";
 import { getRoles } from "@/services/roles/roles-service";
 import ButtonLoader from "@/shared/components/loader/button-loader";
+import { MultiSelect } from "@/shared/components/multi-select";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
 import {
@@ -26,19 +27,74 @@ import {
 } from "@/shared/components/ui/select";
 import { Switch } from "@/shared/components/ui/switch";
 import { handleKeyDownNumber } from "@/shared/utils/form-utils";
+import { getRegions } from "@/services/admin/admin-service";
+import {
+  ILocalGovernment,
+  IRegionProps,
+  IState,
+} from "@/interface/common-interface";
 
 interface IProps {
   form: UseFormReturn<IAdminForm>;
   loading: boolean;
+  selected: { id: number; name: string }[];
+  setSelected: (selected: { id: number; name: string }[]) => void;
 }
 
-const AdminFormContent = ({ form, loading }: IProps) => {
+const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
+
+  const [localGovernments, setLocalGovernments] = useState<ILocalGovernment[]>(
+    []
+  );
+
   const { data: rolesList, isLoading: rolesLoading } = useQuery<IRoles>({
     queryFn: () => getRoles(1, 100),
     queryKey: ["roles"],
   });
+
+  const { data: regionsList, isLoading: regionsListLoading } =
+    useQuery<IRegionProps>({
+      queryFn: getRegions,
+      queryKey: ["regionsList"],
+    });
+
+  // const filterRegionStates = (id: string) => {
+  //   const region = regionsList?.data?.regions?.find(
+  //     (region) => region.id === Number(id)
+  //   );
+  //   setRegionStates(region?.states ?? []);
+  //   // form.setValue("stateId", "");
+  //   // form.setValue("localGovId", []);
+  // };
+
+  const filterLocalGovs = (id: string) => {
+    const state = regionsList?.data?.regions
+      ?.find((region) => region?.id === Number(form.watch("regionId")))
+      ?.states?.find((state) => state?.id === Number(id));
+    setLocalGovernments(state?.localGovernments ?? []);
+    form.setValue("localGovId", []);
+    setSelected([]);
+  };
+
+  useEffect(() => {
+    if (selected.length > 0) {
+      form.setValue(
+        "localGovId",
+        selected?.map((lg) => lg?.id?.toString())
+      );
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    if (form.watch("stateId")) {
+      const state = regionsList?.data?.regions
+        ?.find((region) => region?.id === Number(form.watch("regionId")))
+        ?.states?.find((state) => state?.id === Number(form.watch("stateId")));
+      setLocalGovernments(state?.localGovernments ?? []);
+    }
+  }, [form.watch("stateId")]);
 
   return (
     <>
@@ -60,7 +116,7 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                 name="status"
                 render={({ field }) => (
                   <FormItem className="items-center space-x-2 !space-y-0 flex">
-                    <FormLabel>User Status</FormLabel>
+                    <FormLabel>Admin Status</FormLabel>
                     <FormControl>
                       <Switch
                         disabled={
@@ -160,34 +216,161 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                 </FormItem>
               )}
             />
-            {/* Reginal Permission */}
-            {/* <div>
-              <FormField
-                control={form.control}
-                name="regionalPermission"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-normal">
-                      Regional Permission
-                    </FormLabel>
-                    <FormControl>
-                      <div className="flex justify-center items-center p-6 rounded-lg min-h-[120px] shadow-sm">
-                        <Button
-                          onClick={() => router.push("/regional-permissions")}
-                          variant={"primary"}
-                          size={"base"}
-                          className="gap-2"
-                        >
-                          <ShieldCheck size={20} />
-                          Assign Permission
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div> */}
+
+            {/* Regional Permissions  */}
+            <div>
+              <FormItem>
+                <FormLabel className="font-normal">
+                  Regional Permission
+                </FormLabel>
+                <div className="grid grid-cols-3 gap-2 p-6 rounded-lg border shadow-sm">
+                  {/* Region */}
+                  <FormField
+                    control={form.control}
+                    name="regionId"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col">
+                        <FormLabel>
+                          Select Region
+                          <span className="text-destructive">*</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={(value) => {
+                              field.onChange(value);
+                              form.setValue("stateId", "");
+                              form.setValue("localGovId", []);
+                              setSelected([]);
+                            }}
+                            disabled={
+                              !router.asPath.includes("edit") && id
+                                ? true
+                                : false
+                            }
+                          >
+                            <SelectTrigger className="max-w-80">
+                              <SelectValue
+                                placeholder="Select Region"
+                                defaultValue={field.value}
+                              />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="0">All</SelectItem>
+
+                              {regionsList?.data?.regions?.map((region) => (
+                                <SelectItem
+                                  key={region?.id}
+                                  value={region?.id?.toString()}
+                                >
+                                  {region?.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* State */}
+                  {form.watch("regionId") && form.watch("regionId") !== "0" && (
+                    <FormField
+                      control={form.control}
+                      name="stateId"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            Select State
+                            <span className="text-destructive">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Select
+                              value={field.value ?? ""}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                filterLocalGovs(value);
+                              }}
+                              disabled={
+                                !router.asPath.includes("edit") && id
+                                  ? true
+                                  : false
+                              }
+                            >
+                              <SelectTrigger className="max-w-80">
+                                <SelectValue
+                                  placeholder="Select State"
+                                  defaultValue={field.value ?? ""}
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="0">All</SelectItem>
+                                {regionsList?.data?.regions
+                                  ?.find(
+                                    (region) =>
+                                      region?.id ===
+                                      Number(form.watch("regionId"))
+                                  )
+                                  ?.states?.map((state) => (
+                                    <SelectItem
+                                      key={state?.id}
+                                      value={state?.id?.toString()}
+                                    >
+                                      {state?.name}
+                                    </SelectItem>
+                                  ))}
+                                {/* {regionStates?.map((state) => (
+                                    <SelectItem
+                                      key={state?.id}
+                                      value={state?.id?.toString()}
+                                    >
+                                      {state?.name}
+                                    </SelectItem>
+                                  ))} */}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                  {/* LGA */}
+                  {form.watch("stateId") && form.watch("stateId") !== "0" && (
+                    <FormField
+                      control={form.control}
+                      name="localGovId"
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                          <FormLabel>
+                            Select LGA
+                            <span className="text-destructive">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <MultiSelect
+                              disabled={
+                                !router.asPath.includes("edit") && id
+                                  ? true
+                                  : false
+                              }
+                              dataList={localGovernments?.map((lg) => ({
+                                id: lg?.id,
+                                name: lg?.name,
+                              }))}
+                              placeholder={"Select LGA"}
+                              selected={selected}
+                              setSelected={setSelected}
+                              module="LGA"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+              </FormItem>
+            </div>
 
             {/* Role  */}
             <div>
@@ -205,7 +388,7 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                       <FormControl>
                         <Select
                           value={field.value}
-                          onValueChange={field.onChange}
+                          onValueChange={(value) => field.onChange(value)}
                           disabled={
                             !router.asPath.includes("edit") && id ? true : false
                           }
@@ -216,7 +399,7 @@ const AdminFormContent = ({ form, loading }: IProps) => {
                           <SelectContent>
                             {rolesList?.data?.results?.map((role) => (
                               <SelectItem
-                                key={role?.id?.toString()}
+                                key={role?.id}
                                 value={role?.id?.toString()}
                               >
                                 {role?.name}
@@ -243,7 +426,10 @@ const AdminFormContent = ({ form, loading }: IProps) => {
               </Button>
               <Button
                 type="button"
-                onClick={() => router.push("/admins")}
+                onClick={() => {
+                  router.push("/admins");
+                  form.reset();
+                }}
                 variant={"secondary"}
                 className="gap-2"
               >

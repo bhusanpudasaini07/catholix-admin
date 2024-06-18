@@ -14,10 +14,12 @@ import FilterSearch from "@/shared/components/filter-search";
 import { ListRestart, Search } from "lucide-react";
 import useRoles from "@/hooks/roles/useRoles.hook";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
+import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
+import { useCommonStore } from "@/store/common-store";
 
 const Roles: NextPageWithLayout = () => {
   const router = useRouter();
-
+  const { profileData } = useCommonStore();
   const {
     searchText,
     searchTextHandler,
@@ -41,7 +43,9 @@ const Roles: NextPageWithLayout = () => {
       <PageHeader
         title="Roles"
         subTitle="CMS permissions, and setting their status as active"
-        createUrl="/roles/create"
+        createUrl={
+          checkPermissions(profileData, "/roles", "post") ? "/roles/create" : ""
+        }
         createBtnName="Create Role"
       />
 
@@ -99,6 +103,7 @@ const Roles: NextPageWithLayout = () => {
         variant={"destructive"}
         key={`delete- ${roleId}`}
         btnFuntion={deleteRoleMutation.mutate}
+        disabled={deleteRoleMutation.isLoading}
       />
     </div>
   );

@@ -1,12 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { cn } from '@/shared/utils/utils';
+import { cn } from "@/shared/utils/utils";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
-} from '../ui/alert-dialog';
-import { buttonVariants } from '../ui/button';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
+import { buttonVariants } from "../ui/button";
+import ButtonLoader from "../loader/button-loader";
 
 interface IConfirmModalProps {
   open: boolean;
@@ -55,6 +62,7 @@ const ConfirmationModal = ({
             disabled={disabled}
           >
             {btnName}
+            {disabled && <ButtonLoader />}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

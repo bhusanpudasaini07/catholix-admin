@@ -117,3 +117,36 @@ export interface IPagination {
   previous: number;
   totalItems: number;
 }
+
+export interface ILocalGovernment {
+  id: number;
+  admin_level: string;
+  name: string;
+  code: string;
+  admin1_code: string;
+  admin1_name: string;
+  area: string | null;
+}
+
+export interface IState {
+  id: number;
+  admin_level: string;
+  name: string;
+  code: string;
+  area: string | null;
+  region_code: string;
+  region_name: string;
+  localGovernments: ILocalGovernment[];
+}
+
+export interface IRegion {
+  id: number;
+  name: string;
+  code: string;
+  states: IState[];
+}
+export interface IRegionProps {
+  data: {
+    regions: IRegion[];
+  };
+}

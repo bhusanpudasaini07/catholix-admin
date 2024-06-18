@@ -52,15 +52,16 @@ const clearAllSessionAndLocalStates = () => {
       toast.error(SESSION_EXPIRED, {
         id: "session",
       });
-
       clearCookie(LOGGED_IN_KEY);
-      clearCookie("access_token");
-      clearCookie("refresh_token");
       clearCookie(REMEMBER_ME);
       window.location.href = "/login";
     })
     .catch((_err: any) => {
+      toast.error(SESSION_EXPIRED, {
+        id: "session",
+      });
       clearCookie(LOGGED_IN_KEY);
+      clearCookie(REMEMBER_ME);
       window.location.href = "/login";
     });
 };
@@ -93,11 +94,11 @@ const httpRequest = async (
       data: response?.data,
     };
   } catch (error: any) {
-    // error?.response?.status === 404
-    //   ? (window.location.href = "/not-found")
-    //   : error?.response?.status === 403
-    //   ? (window.location.href = "/forbidden")
-    //   : null;
+    error?.response?.status === 404
+      ? (window.location.href = "/not-found")
+      : error?.response?.status === 403
+      ? (window.location.href = "/forbidden")
+      : null;
     throw error.response?.data;
   }
 };

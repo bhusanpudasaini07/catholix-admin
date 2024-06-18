@@ -123,7 +123,7 @@ const useDLCM = () => {
       accessorKey: "Category",
       header: "Category",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Category}</p>,
+      cell: ({ row }) => <p>{row.original.Category ?? "-"}</p>,
     },
     // MoMoAccNo
     {
@@ -131,7 +131,7 @@ const useDLCM = () => {
       accessorKey: "MoMoAccNo",
       header: "MoMo Account No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.MoMoAccNo}</p>,
+      cell: ({ row }) => <p>{row.original.MoMoAccNo ?? "-"}</p>,
     },
     // MSISDNNo
     {
@@ -139,7 +139,7 @@ const useDLCM = () => {
       accessorKey: "MSISDNNo",
       header: "MSISDN No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.MSISDNNo}</p>,
+      cell: ({ row }) => <p>{row.original.MSISDNNo ?? "-"}</p>,
     },
     // Mail Address
     {
@@ -147,7 +147,7 @@ const useDLCM = () => {
       accessorKey: "MailAddress",
       header: "Mail Address",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.MailAddress}</p>,
+      cell: ({ row }) => <p>{row.original.MailAddress ?? "-"}</p>,
     },
     // Country
     {
@@ -155,7 +155,7 @@ const useDLCM = () => {
       accessorKey: "Country",
       header: "Country",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Country}</p>,
+      cell: ({ row }) => <p>{row.original.Country ?? "-"}</p>,
     },
     // Country State
     {
@@ -163,7 +163,7 @@ const useDLCM = () => {
       accessorKey: "CountryState",
       header: "Country State",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.CountryState}</p>,
+      cell: ({ row }) => <p>{row.original.CountryState ?? "-"}</p>,
     },
     // Address
     {
@@ -171,7 +171,7 @@ const useDLCM = () => {
       accessorKey: "Address",
       header: "Address",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Address}</p>,
+      cell: ({ row }) => <p>{row.original.Address ?? "-"}</p>,
     },
     // ISTag
     {
@@ -179,7 +179,7 @@ const useDLCM = () => {
       accessorKey: "ISTag",
       header: "IS Tag",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.ISTag}</p>,
+      cell: ({ row }) => <p>{row.original.ISTag ?? "-"}</p>,
     },
     // Serial No
     {
@@ -187,7 +187,7 @@ const useDLCM = () => {
       accessorKey: "SerialNo",
       header: "Serial No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.SerialNo}</p>,
+      cell: ({ row }) => <p>{row.original.SerialNo ?? "-"}</p>,
     },
     // LG
     {
@@ -195,7 +195,7 @@ const useDLCM = () => {
       accessorKey: "LG",
       header: "LG",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.LG}</p>,
+      cell: ({ row }) => <p>{row.original.LG ?? "-"}</p>,
     },
     // Shipment
     {
@@ -203,7 +203,7 @@ const useDLCM = () => {
       accessorKey: "Shipment",
       header: "Shipment",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Shipment}</p>,
+      cell: ({ row }) => <p>{row.original.Shipment ?? "-"}</p>,
     },
     // Description
     {
@@ -211,7 +211,7 @@ const useDLCM = () => {
       accessorKey: "Description",
       header: "Description",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Description}</p>,
+      cell: ({ row }) => <p>{row.original.Description ?? "-"}</p>,
     },
     // Partner Name
     {
@@ -219,7 +219,7 @@ const useDLCM = () => {
       accessorKey: "PartnerName",
       header: "Partner Name",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.PartnerName}</p>,
+      cell: ({ row }) => <p>{row.original.PartnerName ?? "-"}</p>,
     },
     // Partner Mail
     {
@@ -227,7 +227,7 @@ const useDLCM = () => {
       accessorKey: "PartnerMail",
       header: "Partner Mail",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.PartnerMail}</p>,
+      cell: ({ row }) => <p>{row.original.PartnerMail ?? "-"}</p>,
     },
     // Parent Request Holder
     {
@@ -235,7 +235,7 @@ const useDLCM = () => {
       accessorKey: "ParentRequestHolder",
       header: "Parent Request Holder",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.ParentRequestHolder}</p>,
+      cell: ({ row }) => <p>{row.original.ParentRequestHolder ?? "-"}</p>,
     },
     // Partner Business Location
     {
@@ -243,7 +243,7 @@ const useDLCM = () => {
       accessorKey: "PartnerBusinessLocation",
       header: "Partner Business Location",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.PartnerBusinessLocation}</p>,
+      cell: ({ row }) => <p>{row.original.PartnerBusinessLocation ?? "-"}</p>,
     },
     // Sales Rep Mail
     {
@@ -251,7 +251,7 @@ const useDLCM = () => {
       accessorKey: "SalesRepMail",
       header: "Sales Rep Mail",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.SalesRepMail}</p>,
+      cell: ({ row }) => <p>{row.original.SalesRepMail ?? "-"}</p>,
     },
     // Device
     {
@@ -259,7 +259,7 @@ const useDLCM = () => {
       accessorKey: "Device",
       header: "Device",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Device}</p>,
+      cell: ({ row }) => <p>{row.original.Device ?? "-"}</p>,
     },
     // IMEI No 2
     {
@@ -267,7 +267,7 @@ const useDLCM = () => {
       accessorKey: "IMEINo2",
       header: "IMEI No 2",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.IMEINo2}</p>,
+      cell: ({ row }) => <p>{row.original.IMEINo2 ?? "-"}</p>,
     },
     // Comment From Unlock
     {
@@ -275,7 +275,7 @@ const useDLCM = () => {
       accessorKey: "CommentFromUnlock",
       header: "Comment From Unlock",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.CommentFromUnlock}</p>,
+      cell: ({ row }) => <p>{row.original.CommentFromUnlock ?? "-"}</p>,
     },
     // Comment
     {
@@ -283,7 +283,7 @@ const useDLCM = () => {
       accessorKey: "Comment",
       header: "Comment",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Comment}</p>,
+      cell: ({ row }) => <p>{row.original.Comment ?? "-"}</p>,
     },
     // Tenant
     {
@@ -291,7 +291,7 @@ const useDLCM = () => {
       accessorKey: "Tenant",
       header: "Tenant",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Tenant}</p>,
+      cell: ({ row }) => <p>{row.original.Tenant ?? "-"}</p>,
     },
     // Error
     {
@@ -299,7 +299,7 @@ const useDLCM = () => {
       accessorKey: "Error",
       header: "Error",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.Error}</p>,
+      cell: ({ row }) => <p>{row.original.Error ?? "-"}</p>,
     },
     // Updated At
     {
@@ -307,7 +307,9 @@ const useDLCM = () => {
       accessorKey: "UpdatedAt",
       header: "Updated At",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.UpdatedAt}</p>,
+      cell: ({ row }) => (
+        <p>{moment(row.original.UpdatedAt).format("DD/MM/YYYY") ?? "-"}</p>
+      ),
     },
     // State
     {
@@ -315,7 +317,7 @@ const useDLCM = () => {
       accessorKey: "State",
       header: "State",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.State}</p>,
+      cell: ({ row }) => <p>{row.original.State ?? "-"}</p>,
     },
   ];
 

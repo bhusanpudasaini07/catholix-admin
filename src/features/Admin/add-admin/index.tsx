@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
@@ -11,9 +11,14 @@ import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
+import { ILocalGovernment } from "@/interface/common-interface";
 
 const AddAdminForm = () => {
   const router = useRouter();
+  const [selectedLocalGovs, setSelectedLocalGovs] = useState<
+    ILocalGovernment[]
+  >([]);
+
   const form = useForm<IAdminForm>({
     resolver: zodResolver(AdminFormSchema),
     mode: "onChange",
@@ -36,13 +41,21 @@ const AddAdminForm = () => {
       ...data,
       status: data.status ? "active" : "inactive",
       roleId: Number(data?.roleId),
+      localGovId: data?.localGovId?.map((lg) => Number(lg)),
+      regionId: Number(data?.regionId),
+      stateId: Number(data?.stateId),
     };
     addAdminMutation.mutate(payload);
   };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
-        <AdminFormContent form={form} loading={addAdminMutation.isLoading} />
+        <AdminFormContent
+          form={form}
+          loading={addAdminMutation.isLoading}
+          selected={selectedLocalGovs}
+          setSelected={setSelectedLocalGovs}
+        />
       </form>
     </Form>
   );

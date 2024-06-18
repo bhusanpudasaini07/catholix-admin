@@ -12,6 +12,9 @@ const AdminFormSchema = z.object({
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed."),
   status: z.boolean().default(false),
   roleId: z.string({ required_error: "Role is required." }),
+  regionId: z.string({ required_error: "Region is required." }),
+  stateId: z.string().optional().nullable(),
+  localGovId: z.array(z.string()).optional().nullable(),
 });
 
 export { AdminFormSchema };

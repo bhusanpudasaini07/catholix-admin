@@ -7,7 +7,8 @@ export const ProfileSchema = z.object({
   email: basicFieldsValidation?.email,
   contact: z
     .string()
-    .max(20, "Mobile number must not exceed 20 numbers.")
+    .min(9, "Mobile number must be atleast 9 numbers.")
+    .max(15, "Mobile number must not exceed 15 numbers.")
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed.")
     .optional(),
   image: z.string().optional(),

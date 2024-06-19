@@ -18,6 +18,7 @@ export interface IRoleDetail {
   id: number;
   name: string;
   updatedAt: string;
+  userCount: number;
 }
 
 export interface IPermissionDetail {

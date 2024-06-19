@@ -27,6 +27,8 @@ import { useCommonStore } from "@/store/common-store";
 import { getProfile, updateProfile } from "@/services/profile/profile-service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { constants } from "@/constants";
+import { useRef, useState } from "react";
+import ProfilePicture from "./profile-picture";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -66,9 +68,16 @@ const ProfileContent = () => {
       queryClient.invalidateQueries("profile");
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error.message || SOMETHING_WENT_WRONG);
+      console.log(error);
+      // if (error) {
+      //   showToast(TOAST_TYPES.error, error.message || SOMETHING_WENT_WRONG);
+      // } else {
+      //   showToast(TOAST_TYPES.error, SOMETHING_WENT_WRONG);
+      // }
     },
   });
+
+  // Update prof
 
   const onSubmit: SubmitHandler<IProfile> = (data) => {
     const { email, ...restPayload } = data;
@@ -89,24 +98,7 @@ const ProfileContent = () => {
 
   return (
     <div className="p-6">
-      <div className="flex gap-9 items-center">
-        <Avatar className="w-[100px] h-[100px]">
-          <AvatarImage src={profileData?.data?.avatar || ""} />
-          <AvatarFallback className="text-2xl uppercase">
-            {profileData?.data?.firstName[0]}
-            {profileData?.data?.lastName[0]}
-          </AvatarFallback>
-        </Avatar>
-
-        <div>
-          <p className="mb-2 text-lg tetx-zinc-900">
-            {profileData?.data?.firstName} {profileData?.data?.lastName}
-          </p>
-          <Button variant="secondary" size={"base"}>
-            Update Picture
-          </Button>
-        </div>
-      </div>
+      <ProfilePicture profileData={profileData} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -125,7 +117,10 @@ const ProfileContent = () => {
                       <Input
                         className="placeholder:text-gray-270"
                         placeholder="First Name"
-                        {...field}
+                        value={field.value}
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -146,7 +141,10 @@ const ProfileContent = () => {
                         type="text"
                         className="placeholder:text-gray-270"
                         placeholder="Last Name"
-                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -167,7 +165,10 @@ const ProfileContent = () => {
                         readOnly
                         className="placeholder:text-gray-270"
                         placeholder="Email"
-                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -187,7 +188,10 @@ const ProfileContent = () => {
                         type="tel"
                         className="placeholder:text-gray-270"
                         placeholder="Mobile Number"
-                        {...field}
+                        onChange={(e) => {
+                          field.onChange(e);
+                        }}
+                        value={field.value}
                       />
                     </FormControl>
                     <FormMessage />
@@ -198,10 +202,11 @@ const ProfileContent = () => {
           </div>
 
           <div className="flex gap-2 items-center mt-9">
-            <Button size={"md"} disabled={updateProfileMutation.isLoading}>
-              {updateProfileMutation.isLoading && (
-                <ButtonLoader className="mr-3" />
-              )}
+            <Button
+              size={"md"}
+              disabled={updateProfileMutation.isLoading}
+              loading={updateProfileMutation.isLoading}
+            >
               Update
             </Button>
             <Button

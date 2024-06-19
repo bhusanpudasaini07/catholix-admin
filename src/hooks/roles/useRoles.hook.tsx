@@ -4,6 +4,7 @@ import { deleteRole, getRoles } from "@/services/roles/roles-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
+import { Input } from "@/shared/components/ui/input";
 import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { cn } from "@/shared/utils/utils";
@@ -103,14 +104,22 @@ const useRoles = () => {
     //   accessorKey: "status",
     //   header: "Status",
     //   cell: ({ row }) => (
-    //     <Badge
-    //       variant={
-    //         row.getValue("status") === "active" ? "success" : "secondary"
-    //       }
-    //       className={cn("h-6 capitalize rounded border-0")}
-    //     >
-    //       {row.getValue("status") === "active" ? "Active" : "Disabled"}
-    //     </Badge>
+    //     <div>
+    //       <Input
+    //         disabled={!edit}
+    //         type="text"
+    //         value={status}
+    //         onChange={(e) => setStatus(e.target.value)}
+    //       />
+    //       <Button
+    //         onClick={() => {
+    //           setEdit(true);
+    //           setStatus(row.original.userCount.toString());
+    //         }}
+    //       >
+    //         edit
+    //       </Button>
+    //     </div>
     //   ),
     // },
     // Actions

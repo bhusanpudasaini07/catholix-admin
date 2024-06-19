@@ -11,7 +11,9 @@ export interface IProfileData {
     contact: string | null;
     avatar: string | null;
     isTwoFAEnabled: boolean;
-
+    localGovId: number[];
+    regionId: number;
+    stateId: number;
     role: {
       id: string | null;
       name: string;

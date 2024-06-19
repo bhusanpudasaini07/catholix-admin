@@ -12,11 +12,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
 import { ILocalGovernment } from "@/interface/common-interface";
+import { constants } from "@/constants";
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const AddAdminForm = () => {
   const router = useRouter();
   const [selectedLocalGovs, setSelectedLocalGovs] = useState<
-    ILocalGovernment[]
+    { id: number; name: string }[]
   >([]);
 
   const form = useForm<IAdminForm>({
@@ -32,7 +35,15 @@ const AddAdminForm = () => {
       router.push("/admins");
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error?.message[0]?.errors[0]);
+      if (error) {
+        error?.message.map((err: any) => {
+          form.setError(err?.name, {
+            message: err?.errors[0],
+          });
+        });
+      } else {
+        showToast(TOAST_TYPES.error, SOMETHING_WENT_WRONG);
+      }
     },
   });
 

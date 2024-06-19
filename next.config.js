@@ -3,7 +3,7 @@ const { i18n } = require("./next-i18next.config");
 
 const nextConfig = {
   images: {
-    domains: [""],
+    domains: ["localhost"],
   },
   reactStrictMode: true,
   i18n: {

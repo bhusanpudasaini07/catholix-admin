@@ -10,4 +10,10 @@ const updateProfile = (data: any) => {
   return httpRequest("/auth/profile", httpMethods.PUT, data);
 };
 
-export { getProfile, updateProfile };
+const updateProfilePicture = (file: any) => {
+  return httpRequest("/auth/update-picture", httpMethods.PATCH, file, {
+    "Content-Type": "multipart/form-data",
+  });
+};
+
+export { getProfile, updateProfile, updateProfilePicture };

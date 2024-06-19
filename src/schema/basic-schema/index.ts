@@ -10,7 +10,7 @@ const basicFieldsValidation = {
     .max(15, "Lastname must not exceed 50 characters."),
   contact: z
     .string({ required_error: "Contact number is required." })
-    .min(1, "Contact number is required.")
+    .min(9, "Mobile number must be atleast 9 numbers.")
     .max(15, "Contact number must not exceed 20 numbers.")
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed."),
 
@@ -30,7 +30,7 @@ const basicFieldsValidation = {
 const passwordFieldsValidation = {
   password: z
     .string()
-    .min(10, "Password must be at least 10 characters.")
+    .min(8, "Password must be at least 8 characters.")
     .max(50, "Password must not exceed 50 characters.")
     .refine(
       (password) => /[a-z]/.test(password),

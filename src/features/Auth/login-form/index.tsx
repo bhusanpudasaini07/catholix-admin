@@ -50,8 +50,7 @@ const LoginForm = () => {
   //FUNCTIONS
   const loginMutation = useMutation({
     mutationFn: login,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       form.reset();
       setCookie(LOGGED_IN_KEY, true, { maxAge: 60 * 60 * 24 });
       setCookie(REMEMBER_ME, rememberMe);

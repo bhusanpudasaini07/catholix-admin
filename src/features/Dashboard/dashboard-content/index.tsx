@@ -9,14 +9,14 @@ const MapContent = dynamic(import("@/shared/components/map"), {
 
 const DashboardContent = () => {
   return (
-    // <MapContent>
-    //   <Marker position={[51.505, -0.09]}>
-    //     <Popup>
-    //       A pretty CSS3 popup. <br /> Easily customizable.
-    //     </Popup>
-    //   </Marker>
-    // </MapContent>
-    <div></div>
+    <MapContent>
+      {/* <Marker position={[51.505, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker> */}
+      di
+    </MapContent>
   );
 };
 

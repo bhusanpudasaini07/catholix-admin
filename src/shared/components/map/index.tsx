@@ -3,12 +3,14 @@ import "leaflet/dist/leaflet.css";
 import { LatLngBoundsExpression } from "leaflet";
 import { Minus, Plus } from "lucide-react";
 import React, { useRef } from "react";
-import { GeoJSON, Marker, Popup, TileLayer } from "react-leaflet";
+import { GeoJSON, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
 
 import nigeriaJson from "../../../../public/map-json/coordinates.json";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import ZoomControls from "./zoom-controls";
+import DashboardContent from "@/features/Dashboard/dashboard-content";
 
 const nigeriaBounds: LatLngBoundsExpression = [
   [4.272, 2.676], // Southwest coordinates
@@ -21,7 +23,6 @@ interface IProps {
 
 const MapContent = ({ children }: IProps) => {
   const mapRef = useRef(null);
-  const zoomHandler = (type: "increase" | "decrease") => {};
 
   return (
     <div className="w-full h-full">
@@ -41,28 +42,9 @@ const MapContent = ({ children }: IProps) => {
           //   onEachFeature={onEachFeature}
         /> */}
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <ZoomControls />
         {children}
       </MapContainer>
-
-      <div className="flex absolute p-2 right-4 bottom-4 flex-col gap-2 bg-white rounded-lg shadow-lg z-[400] text-primary">
-        <Button
-          onClick={() => zoomHandler("increase")}
-          variant={"ghost"}
-          className="p-0 h-auto hover:bg-transparent"
-          size={"sm"}
-        >
-          <Plus size={18} />
-        </Button>
-        <Separator />
-        <Button
-          variant={"ghost"}
-          className="p-0 h-auto hover:bg-transparent"
-          size={"sm"}
-          onClick={() => zoomHandler("decrease")}
-        >
-          <Minus size={18} />
-        </Button>
-      </div>
     </div>
   );
 };

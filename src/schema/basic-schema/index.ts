@@ -2,12 +2,12 @@ import { z } from "zod";
 const basicFieldsValidation = {
   firstName: z
     .string({ required_error: "Firstname is required." })
-    .min(1, "Firstname is required.")
-    .max(16, "Firstname must not exceed 16 characters."),
+    .min(1, "First name is required.")
+    .max(16, "First name must not exceed 16 characters."),
   lastName: z
     .string({ required_error: "Lastname is required." })
-    .min(1, "Lastname is required.")
-    .max(16, "Lastname must not exceed 16 characters."),
+    .min(1, "Last name is required.")
+    .max(16, "Last name must not exceed 16 characters."),
   contact: z
     .string({ required_error: "Contact number is required." })
     .min(9, "Mobile number must be atleast 9 numbers.")

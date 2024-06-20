@@ -29,7 +29,7 @@ const basicFieldsValidation = {
 
 const passwordFieldsValidation = {
   password: z
-    .string()
+    .string({ required_error: "Password is required" })
     .min(8, "Password must be at least 8 characters.")
     .max(50, "Password must not exceed 50 characters.")
     .refine(
@@ -48,7 +48,9 @@ const passwordFieldsValidation = {
       (password) => /[!@#$%^&*(),.?":{}|<>]/.test(password),
       "Password must contain at least one special character."
     ),
-  confirmPassword: z.string().min(1, "Confirm password is required."),
+  confirmPassword: z
+    .string({ required_error: "Confirm password is required." })
+    .min(1, "Confirm password is required."),
 };
 
 export { basicFieldsValidation, passwordFieldsValidation };

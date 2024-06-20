@@ -1,70 +1,113 @@
 pipeline {
-    agent any
-    tools {nodejs "nodejs-16"}
-    environment {
-        APP_NAME = "rp-revamp-frontend"
-        DIR_NAME = getDirName(env.BRANCH_NAME)
-        SERVER_IP = getServerIp(env.BRANCH_NAME)
-        PROCESS_NAME = getProcessName(env.BRANCH_NAME)
-        PM2_NAME = getPM2Name(env.BRANCH_NAME)
+  agent any
+  environment {
+      scannerHome = tool 'SonarQubeScan'
+      REGISTRY = 'registry.ekbana.net'
+      HARBOR_NAMESPACE = "mtn-analytics"
+      HARBOR_CREDENTIAL = credentials('mtn-inhouse')
+      APP_NAME = getAppName(env.BRANCH_NAME)
+      DIR_NAME = getDirName(env.BRANCH_NAME)
+      SERVER_IP = getServerIp(env.BRANCH_NAME)
+  }
+  stages {
+    stage('get_commit_msg') {
+        steps {
+          script {
+            notifyStarted()
+            passedBuilds = []
+            lastSuccessfulBuild(passedBuilds, currentBuild);
+            env.changeLog = getChangeLog(passedBuilds)
+            echo "changeLog \n${env.changeLog}"
+          }
+        }
     }
-    stages {
-        stage('get_commit_msg') {
-            steps {
-              script {
-                notifyStarted()
-                passedBuilds = []
-                lastSuccessfulBuild(passedBuilds, currentBuild);
-                env.changeLog = getChangeLog(passedBuilds)
-                echo "changeLog \n${env.changeLog}"
+    stage("Checkout code") {
+      when {
+        anyOf{
+          branch 'dev';
+          branch 'qa';
+          branch 'uat';
+        }
+      }     
+      steps {
+          checkout scm
+      }
+    }
+    stage('Analysis & Deploy') {
+      parallel{
+        stage('Build & Deploy') {   
+          stages{
+            stage("Build image") {
+              when {
+                anyOf{
+                  branch 'dev';
+                  branch 'qa';
+                  branch 'uat';
+                }
+              }  
+              steps {
+                  sh 'docker build -t $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER .'
               }
             }
+            stage("Harbor login & Push image") {
+              when {
+                anyOf{
+                  branch 'dev';
+                  branch 'qa';
+                  branch 'uat';
+                }
+              } 
+              steps {
+                  sh '''echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'robot$mtn-analytics+inhouse' --password-stdin'''
+                  sh 'docker push  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER'
+                  sh 'docker rmi $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER'
+              }
+            }
+            stage('Deploy to server') {
+              when {
+                anyOf{
+                  branch 'dev';
+                  branch 'qa';
+                  branch 'uat';
+                }
+              } 
+              steps{
+                script {
+                  sshagent(['c1ef4eff-d399-4b1d-bfa9-038bafafdb04']) {
+                  sh '''
+                  ssh -tt -o StrictHostKeyChecking=no root@$SERVER_IP -p 1123 << EOF
+                  cd $DIR_NAME; \
+                  echo $HARBOR_CREDENTIAL_PSW | docker login $REGISTRY -u 'robot$mtn-analytics+inhouse' --password-stdin; \
+                  docker pull  $REGISTRY/$HARBOR_NAMESPACE/$APP_NAME:SNAPSHOT-$BRANCH_NAME-$BUILD_NUMBER; \
+                  docker-compose -f docker-compose.yml down; \
+                  BUILD_NUMBER=$BUILD_NUMBER docker-compose -f docker-compose.yml up -d; \
+                  docker image prune -a -f; \
+                  exit
+                  EOF '''
+                  }
+                }
+              }    
+            }
+          }  
         }
-        stage('Analysis & Deploy') {     
-                        steps{
-                        script {
-                            sshagent(['72c3455a-de8d-4b39-9f02-771ddb2fdf00']) {
-                            sh '''
-                            ssh -tt -o StrictHostKeyChecking=no root@$SERVER_IP -p 3030 << EOF
-                            cd $DIR_NAME; \
-                            git pull origin $PROCESS_NAME; \
-                            nvm use system; \
-                            pnpm i; \
-                            pnpm build; \
-                            pm2 restart $PM2_NAME; \
-                            exit
-                        EOF '''
-                        }
-                        }
-                    }    
-                    
-  
-        
-    }
-
-    }
-
-    post{
-      success{
-        //script {
-          //if (env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'qa' || env.BRANCH_NAME == 'uat' )
-            notifySuccessful()
-        //}
-      }
-      failure{
-        notifyFailed()
-      }
-      aborted{
-        notifyAborted()
       }
     }
+  }
+  post{
+    success{
+      notifySuccessful()
+    }
+    failure{
+      notifyFailed()
+    }
+  }
 }
 
 def notifyStarted() {
 mattermostSend (
   color: "#2A42EE",
-  channel: 'rp-revamp-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
+  channel: 'mdm-expansion-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/7aw7rwik9preuxmhgyr7ntbe7r',
   message: "Build STARTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
   )
 }
@@ -73,8 +116,8 @@ mattermostSend (
 def notifySuccessful() {
 mattermostSend (
   color: "#00f514",
-  channel: 'rp-revamp-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
+  channel: 'mdm-expansion-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/7aw7rwik9preuxmhgyr7ntbe7r',
   message: "Build SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>):\n${changeLog}"
   )
 }
@@ -82,21 +125,11 @@ mattermostSend (
 def notifyFailed() {
 mattermostSend (
   color: "#e00707",
-  channel: 'rp-revamp-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
+  channel: 'mdm-expansion-jenkins',
+  endpoint: 'https://ekbana.letsperk.com/hooks/7aw7rwik9preuxmhgyr7ntbe7r',
   message: "Build FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
   )
 }
-
-def notifyAborted(){
-mattermostSend (
-  color: "#e00707",
-  channel: 'rp-revamp-jenkins',
-  endpoint: 'https://ekbana.letsperk.com/hooks/muepfmt91brnmnqym44ce7kpda',
-  message: "Build ABORTED: ${env.JOB_NAME} #${env.BUILD_NUMBER} (<${env.BUILD_URL}|Link to build>)"
-  )
-}
-
 def lastSuccessfulBuild(passedBuilds, build) {
   if ((build != null) && (build.result != 'SUCCESS')) {
       passedBuilds.add(build)
@@ -121,74 +154,38 @@ def getChangeLog(passedBuilds) {
     return log;
   }
 
-
-//Getting server ip for respective branches
- def getServerIp(branchName) {
-    if("main".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    if("dev".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    if("qa".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    if("uat".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    if("dev-ek".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    if("live".equals(branchName)) {
-        return "157.245.148.131";
-    }
-    else {
-        return "157.245.148.131";
-    }//can use comment to comment else and run like the pm2 in the last 
- }
-
-
-//Getting branch name for respective branches
 def getDirName(branchName) {
     if("dev".equals(branchName)) {
-        return "/var/www/rp/frontend";
-    } else if ("qa".equals(branchName)) {
-        return "not-given";
-    } else if ("uat".equals(branchName)) {
-        return "not-given";
-    } else if ("live".equals(branchName)) {
-        return "/mnt/ekcms_vol1_sgp/www/rp-frontend-revamp";
+        return "/usr/share/nginx/mtn-analytics/frontend/dev/";
+    } else if("qa".equals(branchName)) {
+        return "/var/www/mtn-analytics/frontend/qa/";
+    } else if("uat".equals(branchName)) {
+        return "/var/www/mtn-analytics/frontend/uat/";
     } else {
-        return "not-given";
+        return "/var/www/mtn-analytics/frontend/";
     }
 }
 
-
-//Getting branch name for git branch
-def getProcessName(branchName) {
+def getAppName(branchName) {
     if("dev".equals(branchName)) {
-        return "dev";
+        return "mtn-frontend-app";
     } else if ("qa".equals(branchName)) {
-        return "qa";
+        return "mtn-frontend-app";
     } else if ("uat".equals(branchName)) {
-        return "not-given";
-    } else if ("live".equals(branchName)) {
-        return "live";
+        return "mtn-frontend-app";
     } else {
-        return "not-given";
+        return "mtn-frontend-app";
     }
 }
 
-
-//Getting branch name for PM2 restart
-def getPM2Name(branchName) {
+def getServerIp(branchName) {
     if("dev".equals(branchName)) {
-        return "rp-dev-frontend";
-    } else if ("live".equals(branchName)) {
-        return "rp-frontend-revamp";
-    } /*else if ("uat".equals(branchName)) {
-        return "uat_frontend";
+        return "110.44.123.47";
+    } else if ("qa".equals(branchName)){
+        return "20.224.68.171";
+    } else if ("uat".equals(branchName)){
+        return "20.224.68.171";
     } else {
-        return "not-given";
-    }*/
+        return "20.224.68.171";
+    }
 }

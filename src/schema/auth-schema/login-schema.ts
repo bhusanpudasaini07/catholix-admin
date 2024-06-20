@@ -5,7 +5,10 @@ const LoginSchema = z.object({
     .string({ required_error: "Email is required." })
     .min(1, "Email is required.")
     .max(50, "Email must not exceed 50 characters.")
-    .regex(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Invalid email format."),
+    .regex(
+      /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+      "Please enter a valid email address."
+    ),
   password: z.string({ required_error: "Password is required." }).min(1, {
     message: "Password is required.",
   }),

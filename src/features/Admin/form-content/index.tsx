@@ -123,7 +123,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                           !router.asPath.includes("edit") && id ? true : false
                         }
                         checked={field.value}
-                        defaultChecked={false}
+                        defaultChecked={true}
                         onCheckedChange={(value) => field.onChange(value)}
                       />
                     </FormControl>
@@ -236,7 +236,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                         </FormLabel>
                         <FormControl>
                           <Select
-                            value={field.value}
+                            value={field.value ? field.value.toString() : ""}
                             onValueChange={(value) => {
                               field.onChange(value);
                               form.setValue("stateId", "");
@@ -286,7 +286,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                           </FormLabel>
                           <FormControl>
                             <Select
-                              value={field.value ?? ""}
+                              value={field.value ? field.value.toString() : ""}
                               onValueChange={(value) => {
                                 field.onChange(value);
                                 filterLocalGovs(value);

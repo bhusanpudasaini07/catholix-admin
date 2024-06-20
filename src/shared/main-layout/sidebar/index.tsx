@@ -160,6 +160,14 @@ const Sidebar = ({
           icon: <UserCog width={20} height={20} />,
         },
       ],
+      permissions: [
+        {
+          path: "/users",
+          method: "get",
+          resource: "user",
+          id: 1,
+        },
+      ],
     },
     // Roles
     {
@@ -170,6 +178,14 @@ const Sidebar = ({
           menuName: t("common.side_nav.roles"),
           menuSlug: "/roles",
           icon: <ScrollText width={20} height={20} />,
+        },
+      ],
+      permissions: [
+        {
+          path: "/roles",
+          method: "get",
+          resource: "role",
+          id: 7,
         },
       ],
     },

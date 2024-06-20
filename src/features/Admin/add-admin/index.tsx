@@ -26,6 +26,9 @@ const AddAdminForm = () => {
     resolver: zodResolver(AdminFormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      regionId: "0",
+    },
   });
 
   const addAdminMutation = useMutation({

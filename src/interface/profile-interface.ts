@@ -9,7 +9,7 @@ export interface IProfileData {
     firstName: string;
     lastName: string;
     contact: string | null;
-    avatar: string | null;
+    avatar: string;
     isTwoFAEnabled: boolean;
     localGovId: number[];
     regionId: number;

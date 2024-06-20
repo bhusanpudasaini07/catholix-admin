@@ -2,12 +2,12 @@ import { z } from "zod";
 const basicFieldsValidation = {
   firstName: z
     .string({ required_error: "Firstname is required." })
-    .min(1, "Firstname is required.")
-    .max(15, "Firstname must not exceed 50 characters."),
+    .min(1, "First name is required.")
+    .max(16, "First name must not exceed 16 characters."),
   lastName: z
     .string({ required_error: "Lastname is required." })
-    .min(1, "Lastname is required.")
-    .max(15, "Lastname must not exceed 50 characters."),
+    .min(1, "Last name is required.")
+    .max(16, "Last name must not exceed 16 characters."),
   contact: z
     .string({ required_error: "Contact number is required." })
     .min(9, "Mobile number must be atleast 9 numbers.")
@@ -33,20 +33,11 @@ const passwordFieldsValidation = {
     .min(8, "Password must be at least 8 characters.")
     .max(50, "Password must not exceed 50 characters.")
     .refine(
-      (password) => /[a-z]/.test(password),
-      "Password must contain at least one lowercase character."
-    )
-    .refine(
-      (password) => /[A-Z]/.test(password),
-      "Password must contain at least one uppercase character."
-    )
-    .refine(
-      (password) => /[0-9]/.test(password),
-      "Password must contain at least one number."
-    )
-    .refine(
-      (password) => /[!@#$%^&*(),.?":{}|<>]/.test(password),
-      "Password must contain at least one special character."
+      (password) =>
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s)/.test(
+          password
+        ),
+      "Password should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"
     ),
   confirmPassword: z
     .string({ required_error: "Confirm password is required." })

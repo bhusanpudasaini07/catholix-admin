@@ -112,7 +112,7 @@ export const MultiSelect = ({
             onValueChange={setInputValue}
             onBlur={() => setOpen(false)}
             onFocus={() => setOpen(true)}
-            placeholder={disabled ? "" : placeholder}
+            placeholder={disabled || selected.length > 0 ? "" : placeholder}
             readOnly={disabled}
             className="flex-1 ml-2 text-sm bg-transparent outline-none placeholder:text-muted-foreground"
           />

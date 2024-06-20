@@ -293,6 +293,50 @@ const RoleForm = ({ form, loading }: IProps) => {
             </div>
           </CardContent>
         </Card>
+        {/* Roles */}
+        <Card>
+          <CardContent>
+            <div className="flex justify-between items-center mb-6">
+              <h5 className="text-base font-bold text-zinc-900">Permissions</h5>
+            </div>
+            <div className="grid grid-cols-3 gap-10 items-center 2xl:gap-5 2xl:grid-cols-6">
+              {groupedPermissionsByResource?.permission?.map((permission) => (
+                <FormField
+                  key={permission.id}
+                  control={form.control}
+                  name="permissions"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-2 items-center">
+                      <FormControl>
+                        <Checkbox
+                          id={permission.id.toString()}
+                          variant="primary"
+                          className="border-zinc-700"
+                          checked={field.value?.includes(
+                            permission.id.toString()
+                          )}
+                          onCheckedChange={(checked) => {
+                            handleCheckedChange(
+                              permission.id.toString(),
+                              checked as boolean,
+                              permission
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        className="!mt-0"
+                        htmlFor={permission.id.toString()}
+                      >
+                        {permission.description}
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
       <div className="flex gap-2 justify-start items-center mt-6">
         <Button variant={"primary"} disabled={loading} className="gap-2">

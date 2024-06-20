@@ -10,7 +10,7 @@ const AdminFormSchema = z.object({
     .min(1, "Phone number is required.")
     .max(15, "Phone number must not exceed 20 numbers.")
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed."),
-  status: z.boolean().default(false),
+  status: z.boolean().default(true),
   roleId: z.string({ required_error: "Role is required." }),
   regionId: z.string({ required_error: "Region is required." }),
   stateId: z.string().optional().nullable(),

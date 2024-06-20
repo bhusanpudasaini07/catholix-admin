@@ -4,6 +4,7 @@ import "@/styles/globals.scss";
  */
 import "@/styles/components/card.scss";
 import "@/styles/components/button.scss";
+import "@/styles/components/map.scss";
 
 import { NextPage } from "next";
 import { appWithTranslation } from "next-i18next";

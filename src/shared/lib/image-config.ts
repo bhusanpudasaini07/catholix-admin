@@ -13,6 +13,16 @@ const projects = {
   pointer: "/projects/Pointer.svg",
 };
 
+const dashboard = {
+  totalDevices: "/dashboard/total-devices.svg",
+  activeDevices: "/dashboard/active-devices.svg",
+  heartbeatDevices: "/dashboard/heartbeat-devices.svg",
+  inactiveDevices: "/dashboard/inactive-devices.svg",
+  noHeartbeatDevices: "/dashboard/no-heartbeat-devices.svg",
+  activeUsers: "/dashboard/active-users.svg",
+  helpIcon: "/dashboard/help-icon.svg",
+};
+
 export {
   favIcon,
   authImage,
@@ -22,4 +32,5 @@ export {
   projects,
   PageNotFound,
   PermissionDenied,
+  dashboard,
 };

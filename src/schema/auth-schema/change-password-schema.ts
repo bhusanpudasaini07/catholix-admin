@@ -5,9 +5,7 @@ export const ChangePasswordSchema = z
   .object({
     ...passwordFieldsValidation,
     oldPassword: z
-      .string({
-        required_error: "Old password is required.",
-      })
+      .string({ required_error: "Old password is required." })
       .min(1, "Password is required.")
       .min(5, "Password must be atleast of 5 characters")
       .max(50, "Password must not exceed 50 characters."),

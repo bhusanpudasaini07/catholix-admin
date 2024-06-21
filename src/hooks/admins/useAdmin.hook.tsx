@@ -141,14 +141,16 @@ const useAdmin = () => {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
-          <Button
-            onClick={() => router.push(`/admins/${row.original.id}`)}
-            size={"base"}
-            className="gap-2"
-          >
-            <EyeIcon size={16} />
-            View
-          </Button>
+          {checkPermissions(profileData, "/users/:id", "get") && (
+            <Button
+              onClick={() => router.push(`/admins/${row.original.id}`)}
+              size={"base"}
+              className="gap-2"
+            >
+              <EyeIcon size={16} />
+              View
+            </Button>
+          )}
           {checkPermissions(profileData, "/users/:id", "get") &&
             checkPermissions(profileData, "/users/:id", "put") && (
               <Button

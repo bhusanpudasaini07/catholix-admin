@@ -101,7 +101,10 @@ const RoleForm = ({ form, loading }: IProps) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Role Name</FormLabel>
+                <FormLabel>
+                  Role Name
+                  <span className="text-destructive">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input
                     className="placeholder:text-gray-270"

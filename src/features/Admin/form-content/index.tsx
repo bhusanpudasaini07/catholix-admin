@@ -290,10 +290,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       name="stateId"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>
-                            Select State
-                            <span className="text-destructive">*</span>
-                          </FormLabel>
+                          <FormLabel>Select State</FormLabel>
                           <FormControl>
                             <Select
                               value={field.value ? field.value.toString() : ""}
@@ -352,10 +349,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       name="localGovId"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>
-                            Select LGA
-                            <span className="text-destructive">*</span>
-                          </FormLabel>
+                          <FormLabel>Select LGA</FormLabel>
                           <FormControl>
                             <MultiSelect
                               disabled={

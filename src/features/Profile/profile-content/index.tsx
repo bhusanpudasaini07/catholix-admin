@@ -44,7 +44,7 @@ const ProfileContent = () => {
     reValidateMode: "onChange",
   });
 
-  const { data: profileData } = useQuery<IProfileData>(
+  const { data: profileData, isLoading } = useQuery<IProfileData>(
     ["profile"],
     getProfile,
     {
@@ -101,7 +101,7 @@ const ProfileContent = () => {
 
   return (
     <div className="p-6">
-      <ProfilePicture profileData={profileData} />
+      <ProfilePicture profileData={profileData} loading={isLoading} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

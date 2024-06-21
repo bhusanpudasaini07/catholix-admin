@@ -16,10 +16,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import AdminFormContent from "../form-content";
 import { ILocalGovernment } from "@/interface/common-interface";
+import { constants } from "@/constants";
 
 interface IProps {
   data: IAdminDetail;
 }
+
+const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const EditAdminForm = () => {
   const router = useRouter();
@@ -59,7 +62,15 @@ const EditAdminForm = () => {
       router.push("/admins");
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error?.message[0]?.errors[0]);
+      if (error) {
+        error?.message.map((err: any) => {
+          form.setError(err?.name, {
+            message: err?.errors[0],
+          });
+        });
+      } else {
+        showToast(TOAST_TYPES.error, SOMETHING_WENT_WRONG);
+      }
     },
   });
 

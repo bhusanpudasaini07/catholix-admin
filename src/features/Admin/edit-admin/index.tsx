@@ -77,7 +77,7 @@ const EditAdminForm = () => {
   };
 
   useEffect(() => {
-    if (router?.query?.id && adminDetail !== undefined) {
+    if (router?.query?.id && adminDetail?.data) {
       form.reset({
         firstName: adminDetail?.data?.firstName,
         lastName: adminDetail?.data?.lastName,
@@ -93,7 +93,7 @@ const EditAdminForm = () => {
   }, [router?.query?.id, adminDetail]);
 
   useEffect(() => {
-    if (adminDetail !== undefined) {
+    if (router?.query?.id && adminDetail !== undefined) {
       form.setValue("regionId", adminDetail?.data?.regionId?.toString());
       form.setValue("stateId", adminDetail?.data?.stateId?.toString());
       form.setValue("roleId", adminDetail?.data?.role?.id?.toString());

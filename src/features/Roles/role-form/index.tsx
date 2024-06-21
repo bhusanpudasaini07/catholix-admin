@@ -34,7 +34,9 @@ const RoleForm = ({ form, loading }: IProps) => {
 
   const filterDependency = (module: any) => {
     const filteredValue = permissions?.data?.results
-      ?.filter((item) => item.method === "get" && item.path === module.path)
+      ?.filter(
+        (item) => item.method === "get" && item.resource === module.resource
+      )
       ?.map((item) => item.id);
     return filteredValue;
   };
@@ -43,7 +45,12 @@ const RoleForm = ({ form, loading }: IProps) => {
     const dependentPermissions = permissions?.data?.results?.map((item) => {
       return {
         ...item,
-        dependsOn: item?.method === "put" ? filterDependency(item) : [],
+        dependsOn:
+          item?.method === "put" ||
+          item?.method === "delete" ||
+          item?.method === "get"
+            ? filterDependency(item)
+            : [],
       };
     });
 

@@ -139,7 +139,10 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">First Name</FormLabel>
+                  <FormLabel className="font-normal">
+                    First Name
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={
@@ -160,7 +163,10 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">Last Name</FormLabel>
+                  <FormLabel className="font-normal">
+                    Last Name
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={
@@ -181,7 +187,10 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">Email</FormLabel>
+                  <FormLabel className="font-normal">
+                    Email
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input
                       disabled={id ? true : false}
@@ -209,6 +218,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       className="placeholder:text-gray-270"
                       placeholder="987-897-789456"
                       {...field}
+                      value={field.value ?? ""}
                       onKeyDown={handleKeyDownNumber}
                     />
                   </FormControl>

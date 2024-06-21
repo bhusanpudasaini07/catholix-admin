@@ -44,10 +44,7 @@ const ForgotPasswordForm = () => {
       router.push("/login");
     },
     onError: (error: any) => {
-      showToast(
-        TOAST_TYPES.error,
-        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG
-      );
+      showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
     },
   });
 

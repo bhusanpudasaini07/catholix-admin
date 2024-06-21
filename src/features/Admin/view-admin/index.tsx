@@ -36,7 +36,7 @@ const ViewAdminContent = () => {
   );
 
   useEffect(() => {
-    if (adminDetail !== undefined) {
+    if (router.query?.id && adminDetail?.data) {
       form.reset({
         firstName: adminDetail?.data?.firstName,
         lastName: adminDetail?.data?.lastName,
@@ -52,7 +52,7 @@ const ViewAdminContent = () => {
   }, [router.query?.id, adminDetail?.data]);
 
   useEffect(() => {
-    if (adminDetail !== undefined) {
+    if (router?.query?.id && adminDetail !== undefined) {
       form.setValue("regionId", adminDetail?.data?.regionId?.toString());
       form.setValue("stateId", adminDetail?.data?.stateId?.toString());
       form.setValue("roleId", adminDetail?.data?.role?.id?.toString());

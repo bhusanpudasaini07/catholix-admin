@@ -1,6 +1,4 @@
 import "leaflet/dist/leaflet.css";
-import "react-leaflet-cluster/lib/assets/MarkerCluster.css";
-import "react-leaflet-cluster/lib/assets/MarkerCluster.Default.css";
 
 import { Icon, LatLngBoundsExpression } from "leaflet";
 import { Minus, MonitorSpeaker, Plus } from "lucide-react";

@@ -57,7 +57,7 @@ const Roles: NextPageWithLayout = () => {
           border
           headerSticky
           loadingDataNum={10}
-          height="max-h-[calc(100vh-260px)]"
+          height="max-h-[calc(100vh-270px)]"
         >
           {/* Filter */}
           <div className="flex gap-1 justify-end items-center grow">

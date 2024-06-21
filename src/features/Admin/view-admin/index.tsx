@@ -79,6 +79,7 @@ const ViewAdminContent = () => {
           loading={false}
           selected={selectedLocalGovs}
           setSelected={setSelectedLocalGovs}
+          showSkeleton={adminDetailLoading}
         />
       </form>
     </Form>

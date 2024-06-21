@@ -120,6 +120,7 @@ const EditAdminForm = () => {
           loading={editAdminMutation.isLoading}
           selected={selectedLocalGovs}
           setSelected={setSelectedLocalGovs}
+          showSkeleton={adminDetailLoading}
         />
       </form>
     </Form>

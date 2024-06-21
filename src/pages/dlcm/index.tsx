@@ -39,7 +39,7 @@ const DLCMData: NextPageWithLayout = () => {
         border
         headerSticky
         loadingDataNum={10}
-        height="max-h-[calc(100vh-260px)]"
+        height="max-h-[calc(100vh-270px)]"
         module="dlcm"
       >
         {/* Filter */}

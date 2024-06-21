@@ -74,7 +74,7 @@ const Admins: NextPageWithLayout = () => {
         loading={adminLoading}
         loadingDataNum={10}
         border
-        height="max-h-[calc(100vh-260px)]"
+        height="max-h-[calc(100vh-270px)]"
         headerSticky
       >
         {/* Filter */}

@@ -102,7 +102,9 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         </div>
         {IsExpanded ? (
           <div className="min-w-0">
-            <p className={`text-sm truncate text-start text-zinc-700`}>
+            <p
+              className={`text-sm capitalize truncate text-start text-zinc-700`}
+            >
               {profileData?.firstName} {profileData?.lastName}
             </p>
             <p className={`text-start text-[10px] text-zinc-500`}>

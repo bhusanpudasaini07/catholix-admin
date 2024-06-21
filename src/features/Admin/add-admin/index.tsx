@@ -69,6 +69,7 @@ const AddAdminForm = () => {
           loading={addAdminMutation.isLoading}
           selected={selectedLocalGovs}
           setSelected={setSelectedLocalGovs}
+          showSkeleton={false}
         />
       </form>
     </Form>

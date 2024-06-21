@@ -31,33 +31,45 @@ const ViewAdminContent = () => {
   const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
     {
       queryKey: ["adminDetail", router.query?.id],
-      queryFn: () => getAdminDetail(router.query?.id as string),
+      queryFn: async () => {
+        if (router?.query?.id) {
+          const response = await getAdminDetail(router.query?.id);
+          return response;
+        }
+      },
     }
   );
+  // onSuccess: (data) => {
+  //   if (data?.data) {
+  //     form.reset({
+  //       firstName: data?.data?.firstName,
+  //       lastName: data?.data?.lastName,
+  //       email: data?.data?.email,
+  //       contact: data?.data?.contact,
+  //       status: data?.data?.status === "active" ? true : false,
+  //       roleId: data?.data?.role?.id?.toString(),
+  //       regionId: data?.data?.regionId?.toString() ?? "",
+  //       stateId: data?.data?.stateId?.toString(),
+  //     });
+  //     setSelectedLocalGovs(data?.data?.localGovernments);
+  //   }
+  // },
 
   useEffect(() => {
-    if (router.query?.id && adminDetail?.data) {
+    if (router?.query?.id && adminDetail) {
+      setSelectedLocalGovs(adminDetail?.data?.localGovernments);
       form.reset({
         firstName: adminDetail?.data?.firstName,
         lastName: adminDetail?.data?.lastName,
         email: adminDetail?.data?.email,
         contact: adminDetail?.data?.contact,
         status: adminDetail?.data?.status === "active" ? true : false,
-        roleId: adminDetail?.data?.role?.id?.toString(),
-        regionId: adminDetail?.data?.regionId?.toString() ?? "",
+        roleId: adminDetail?.data?.role?.id.toString(),
+        regionId: adminDetail?.data?.regionId?.toString(),
         stateId: adminDetail?.data?.stateId?.toString(),
       });
-      setSelectedLocalGovs(adminDetail?.data?.localGovernments);
     }
-  }, [router.query?.id, adminDetail?.data]);
-
-  useEffect(() => {
-    if (router?.query?.id && adminDetail !== undefined) {
-      form.setValue("regionId", adminDetail?.data?.regionId?.toString());
-      form.setValue("stateId", adminDetail?.data?.stateId?.toString());
-      form.setValue("roleId", adminDetail?.data?.role?.id?.toString());
-    }
-  }, [router.query?.id, adminDetail]);
+  }, [adminDetail]);
 
   return (
     <Form {...form}>

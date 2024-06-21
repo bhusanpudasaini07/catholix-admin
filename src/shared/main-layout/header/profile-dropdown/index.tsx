@@ -89,14 +89,16 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         ${IsExpanded ? "flex" : "p-2 px-4"}`}
       >
         <div className={!IsExpanded ? "flex justify-center" : ""}>
-          <CustomImage
-            fallbackText={`${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}`}
-            loading={isLoading}
-            src={profile?.data?.avatar || ""}
-            width={32}
-            height={32}
-            alt="Profile Image"
-          />
+          <div className="size-[32px]">
+            <CustomImage
+              fallbackText={`${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}`}
+              loading={isLoading}
+              src={profile?.data?.avatar || ""}
+              width={32}
+              height={32}
+              alt="Profile Image"
+            />
+          </div>
         </div>
         {IsExpanded ? (
           <div className="min-w-0">

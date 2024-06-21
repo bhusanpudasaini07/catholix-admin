@@ -31,11 +31,11 @@ const addAdmin = (data: IAdminForm) => {
   return httpRequest("/users", httpMethods.POST, data);
 };
 
-const getAdminDetail = (id: string) => {
+const getAdminDetail = (id: any) => {
   return httpRequest(`/users/${id}`, httpMethods.GET);
 };
 
-const editAdmin = (id: string, data: IAdminForm) => {
+const editAdmin = (id: any, data: IAdminForm) => {
   return httpRequest(`/users/${id}`, httpMethods.PUT, data);
 };
 

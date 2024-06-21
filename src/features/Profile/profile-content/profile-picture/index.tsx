@@ -62,14 +62,16 @@ const ProfilePicture = ({ profileData, loading }: IProps) => {
   return (
     <>
       <div className="flex gap-9 items-center">
-        <CustomImage
-          fallbackText={`${profileData?.data?.firstName[0]} ${profileData?.data?.lastName[0]}`}
-          loading={loading || profileImageMutation.isLoading}
-          src={profileData?.data?.avatar || ""}
-          width={100}
-          height={100}
-          alt="Profile Image"
-        />
+        <div className="size-[100px]">
+          <CustomImage
+            fallbackText={`${profileData?.data?.firstName[0]} ${profileData?.data?.lastName[0]}`}
+            loading={loading || profileImageMutation.isLoading}
+            src={profileData?.data?.avatar || ""}
+            width={100}
+            height={100}
+            alt="Profile Image"
+          />
+        </div>
 
         <div>
           <p className="mb-2 text-lg tetx-zinc-900">

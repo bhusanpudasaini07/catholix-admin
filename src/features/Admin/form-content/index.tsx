@@ -391,6 +391,7 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       </FormLabel>
                       <FormControl>
                         <Select
+                          defaultValue={field.value}
                           value={field.value}
                           onValueChange={(value) => field.onChange(value)}
                           disabled={

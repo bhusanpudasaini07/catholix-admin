@@ -30,7 +30,7 @@ const CustomImage = ({ alt, src, loading, fallbackText, ...props }: any) => {
           src={src}
           onError={setError}
           {...props}
-          className="rounded-full"
+          className="object-cover rounded-full aspect-square"
         />
       )}
     </div>

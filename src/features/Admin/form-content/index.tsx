@@ -33,15 +33,23 @@ import {
   IRegionProps,
   IState,
 } from "@/interface/common-interface";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 interface IProps {
   form: UseFormReturn<IAdminForm>;
   loading: boolean;
   selected: { id: number; name: string }[];
   setSelected: (selected: { id: number; name: string }[]) => void;
+  showSkeleton: boolean;
 }
 
-const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
+const AdminFormContent = ({
+  form,
+  loading,
+  selected,
+  setSelected,
+  showSkeleton,
+}: IProps) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -139,16 +147,23 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">First Name</FormLabel>
+                  <FormLabel className="font-normal">
+                    First Name
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={
-                        !router.asPath.includes("edit") && id ? true : false
-                      }
-                      className="placeholder:text-gray-270"
-                      placeholder="First Name"
-                      {...field}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton className="w-full h-11" />
+                    ) : (
+                      <Input
+                        disabled={
+                          !router.asPath.includes("edit") && id ? true : false
+                        }
+                        className="placeholder:text-gray-270"
+                        placeholder="First Name"
+                        {...field}
+                      />
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -160,16 +175,23 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">Last Name</FormLabel>
+                  <FormLabel className="font-normal">
+                    Last Name
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={
-                        !router.asPath.includes("edit") && id ? true : false
-                      }
-                      className="placeholder:text-gray-270"
-                      placeholder="Last Name"
-                      {...field}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton className="w-full h-11" />
+                    ) : (
+                      <Input
+                        disabled={
+                          !router.asPath.includes("edit") && id ? true : false
+                        }
+                        className="placeholder:text-gray-270"
+                        placeholder="Last Name"
+                        {...field}
+                      />
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -181,14 +203,21 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="font-normal">Email</FormLabel>
+                  <FormLabel className="font-normal">
+                    Email
+                    <span className="text-destructive">*</span>
+                  </FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={id ? true : false}
-                      className="placeholder:text-gray-270"
-                      placeholder="Email"
-                      {...field}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton className="w-full h-11" />
+                    ) : (
+                      <Input
+                        disabled={id ? true : false}
+                        className="placeholder:text-gray-270"
+                        placeholder="Email"
+                        {...field}
+                      />
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -202,15 +231,20 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                 <FormItem>
                   <FormLabel className="font-normal">Phone</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={
-                        !router.asPath.includes("edit") && id ? true : false
-                      }
-                      className="placeholder:text-gray-270"
-                      placeholder="987-897-789456"
-                      {...field}
-                      onKeyDown={handleKeyDownNumber}
-                    />
+                    {showSkeleton ? (
+                      <Skeleton className="w-full h-11" />
+                    ) : (
+                      <Input
+                        disabled={
+                          !router.asPath.includes("edit") && id ? true : false
+                        }
+                        className="placeholder:text-gray-270"
+                        placeholder="987-897-789456"
+                        {...field}
+                        value={field.value ?? ""}
+                        onKeyDown={handleKeyDownNumber}
+                      />
+                    )}
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -235,39 +269,43 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                           <span className="text-destructive">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Select
-                            value={field.value ? field.value.toString() : ""}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                              form.setValue("stateId", "");
-                              form.setValue("localGovId", []);
-                              setSelected([]);
-                            }}
-                            disabled={
-                              !router.asPath.includes("edit") && id
-                                ? true
-                                : false
-                            }
-                          >
-                            <SelectTrigger className="max-w-80">
-                              <SelectValue
-                                placeholder="Select Region"
-                                defaultValue={field.value}
-                              />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="0">All</SelectItem>
+                          {showSkeleton || regionsListLoading ? (
+                            <Skeleton className="w-full h-9" />
+                          ) : (
+                            <Select
+                              value={field.value ? field.value.toString() : ""}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                form.setValue("stateId", "");
+                                form.setValue("localGovId", []);
+                                setSelected([]);
+                              }}
+                              disabled={
+                                !router.asPath.includes("edit") && id
+                                  ? true
+                                  : false
+                              }
+                            >
+                              <SelectTrigger className="max-w-80">
+                                <SelectValue
+                                  placeholder="Select Region"
+                                  defaultValue={field.value}
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="0">All</SelectItem>
 
-                              {regionsList?.data?.regions?.map((region) => (
-                                <SelectItem
-                                  key={region?.id}
-                                  value={region?.id?.toString()}
-                                >
-                                  {region?.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                                {regionsList?.data?.regions?.map((region) => (
+                                  <SelectItem
+                                    key={region?.id}
+                                    value={region?.id?.toString()}
+                                  >
+                                    {region?.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -280,46 +318,48 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       name="stateId"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>
-                            Select State
-                            <span className="text-destructive">*</span>
-                          </FormLabel>
+                          <FormLabel>Select State</FormLabel>
                           <FormControl>
-                            <Select
-                              value={field.value ? field.value.toString() : ""}
-                              onValueChange={(value) => {
-                                field.onChange(value);
-                                filterLocalGovs(value);
-                              }}
-                              disabled={
-                                !router.asPath.includes("edit") && id
-                                  ? true
-                                  : false
-                              }
-                            >
-                              <SelectTrigger className="max-w-80">
-                                <SelectValue
-                                  placeholder="Select State"
-                                  defaultValue={field.value ?? ""}
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="0">All</SelectItem>
-                                {regionsList?.data?.regions
-                                  ?.find(
-                                    (region) =>
-                                      region?.id ===
-                                      Number(form.watch("regionId"))
-                                  )
-                                  ?.states?.map((state) => (
-                                    <SelectItem
-                                      key={state?.id}
-                                      value={state?.id?.toString()}
-                                    >
-                                      {state?.name}
-                                    </SelectItem>
-                                  ))}
-                                {/* {regionStates?.map((state) => (
+                            {showSkeleton || regionsListLoading ? (
+                              <Skeleton className="w-full h-9" />
+                            ) : (
+                              <Select
+                                value={
+                                  field.value ? field.value.toString() : ""
+                                }
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                  filterLocalGovs(value);
+                                }}
+                                disabled={
+                                  !router.asPath.includes("edit") && id
+                                    ? true
+                                    : false
+                                }
+                              >
+                                <SelectTrigger className="max-w-80">
+                                  <SelectValue
+                                    placeholder="Select State"
+                                    defaultValue={field.value ?? ""}
+                                  />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="0">All</SelectItem>
+                                  {regionsList?.data?.regions
+                                    ?.find(
+                                      (region) =>
+                                        region?.id ===
+                                        Number(form.watch("regionId"))
+                                    )
+                                    ?.states?.map((state) => (
+                                      <SelectItem
+                                        key={state?.id}
+                                        value={state?.id?.toString()}
+                                      >
+                                        {state?.name}
+                                      </SelectItem>
+                                    ))}
+                                  {/* {regionStates?.map((state) => (
                                     <SelectItem
                                       key={state?.id}
                                       value={state?.id?.toString()}
@@ -327,8 +367,9 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                                       {state?.name}
                                     </SelectItem>
                                   ))} */}
-                              </SelectContent>
-                            </Select>
+                                </SelectContent>
+                              </Select>
+                            )}
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -342,26 +383,27 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                       name="localGovId"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>
-                            Select LGA
-                            <span className="text-destructive">*</span>
-                          </FormLabel>
+                          <FormLabel>Select LGA</FormLabel>
                           <FormControl>
-                            <MultiSelect
-                              disabled={
-                                !router.asPath.includes("edit") && id
-                                  ? true
-                                  : false
-                              }
-                              dataList={localGovernments?.map((lg) => ({
-                                id: lg?.id,
-                                name: lg?.name,
-                              }))}
-                              placeholder={"Select LGA"}
-                              selected={selected}
-                              setSelected={setSelected}
-                              module="LGA"
-                            />
+                            {showSkeleton || regionsListLoading ? (
+                              <Skeleton className="w-full h-9" />
+                            ) : (
+                              <MultiSelect
+                                disabled={
+                                  !router.asPath.includes("edit") && id
+                                    ? true
+                                    : false
+                                }
+                                dataList={localGovernments?.map((lg) => ({
+                                  id: lg?.id,
+                                  name: lg?.name,
+                                }))}
+                                placeholder={"Select LGA"}
+                                selected={selected}
+                                setSelected={setSelected}
+                                module="LGA"
+                              />
+                            )}
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -386,27 +428,34 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
                         <span className="text-destructive">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(value) => field.onChange(value)}
-                          disabled={
-                            !router.asPath.includes("edit") && id ? true : false
-                          }
-                        >
-                          <SelectTrigger className="max-w-80">
-                            <SelectValue placeholder="Select Role" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {rolesList?.data?.results?.map((role) => (
-                              <SelectItem
-                                key={role?.id}
-                                value={role?.id?.toString()}
-                              >
-                                {role?.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        {showSkeleton || rolesLoading ? (
+                          <Skeleton className="h-9 max-w-80" />
+                        ) : (
+                          <Select
+                            defaultValue={field.value}
+                            value={field.value}
+                            onValueChange={(value) => field.onChange(value)}
+                            disabled={
+                              !router.asPath.includes("edit") && id
+                                ? true
+                                : false
+                            }
+                          >
+                            <SelectTrigger className="max-w-80">
+                              <SelectValue placeholder="Select Role" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {rolesList?.data?.results?.map((role) => (
+                                <SelectItem
+                                  key={role?.id}
+                                  value={role?.id?.toString()}
+                                >
+                                  {role?.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
                       </FormControl>
                       <FormMessage />
                     </div>
@@ -420,8 +469,12 @@ const AdminFormContent = ({ form, loading, selected, setSelected }: IProps) => {
             ""
           ) : (
             <div className="flex gap-2 justify-start mt-6">
-              <Button variant={"primary"} disabled={loading} className="gap-2">
-                {loading && <ButtonLoader />}
+              <Button
+                variant={"primary"}
+                loading={loading}
+                disabled={loading}
+                className="gap-2"
+              >
                 {id ? "Update" : "Create"}
               </Button>
               <Button

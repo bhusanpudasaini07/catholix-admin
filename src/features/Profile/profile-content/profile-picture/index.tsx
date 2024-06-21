@@ -12,15 +12,17 @@ import { useMutation, useQueryClient } from "react-query";
 import { updateProfilePicture } from "@/services/profile/profile-service";
 import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import Image from "next/image";
+import CustomImage from "@/shared/components/custom-avatar";
 
 interface IProps {
   profileData: IProfileData | undefined;
+  loading: boolean;
 }
 
 const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif"];
 const maxSize = 5; // MB
 
-const ProfilePicture = ({ profileData }: IProps) => {
+const ProfilePicture = ({ profileData, loading }: IProps) => {
   const queryClient = useQueryClient();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -60,16 +62,16 @@ const ProfilePicture = ({ profileData }: IProps) => {
   return (
     <>
       <div className="flex gap-9 items-center">
-        <Avatar className="w-[100px] h-[100px]">
-          <AvatarImage
+        <div className="size-[100px]">
+          <CustomImage
+            fallbackText={`${profileData?.data?.firstName[0]} ${profileData?.data?.lastName[0]}`}
+            loading={loading || profileImageMutation.isLoading}
             src={profileData?.data?.avatar || ""}
+            width={100}
+            height={100}
             alt="Profile Image"
           />
-          <AvatarFallback className="text-2xl uppercase">
-            {profileData?.data?.firstName[0]}
-            {profileData?.data?.lastName[0]}
-          </AvatarFallback>
-        </Avatar>
+        </div>
 
         <div>
           <p className="mb-2 text-lg tetx-zinc-900">

@@ -35,7 +35,7 @@ const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
 
 const LoginForm = () => {
   const router = useRouter();
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const { setLoggedInState } = useLoggedInStore();
 
   const form = useForm<ILoginFormInput>({
@@ -43,7 +43,7 @@ const LoginForm = () => {
     mode: "onChange",
     reValidateMode: "onChange",
     defaultValues: {
-      remember: false,
+      remember: true,
     },
   });
 

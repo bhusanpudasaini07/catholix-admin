@@ -6,10 +6,11 @@ const AdminFormSchema = z.object({
   lastName: basicFieldsValidation?.lastName,
   email: basicFieldsValidation?.email,
   contact: z
-    .string({ required_error: "Phone number is required." })
-    .min(1, "Phone number is required.")
-    .max(15, "Phone number must not exceed 20 numbers.")
-    .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed."),
+    .string()
+    .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed.")
+    .regex(/^(|.{9,15})$/, "Phone number must be 9-15 digits")
+    .optional()
+    .nullable(),
   status: z.boolean().default(true),
   roleId: z.string({ required_error: "Role is required." }),
   regionId: z.string({ required_error: "Region is required." }),

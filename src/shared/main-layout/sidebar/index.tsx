@@ -99,35 +99,35 @@ const Sidebar = ({
       ],
     },
     // SSP Data
-    {
-      menuName: t("common.side_nav.ssp_data"),
-      icon: <Server width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.ssp_data"),
-          menuSlug: "/ssp",
-          icon: <Server width={20} height={20} />,
-        },
-      ],
-    },
+    // {
+    //   menuName: t("common.side_nav.ssp_data"),
+    //   icon: <Server width={20} height={20} />,
+    //   subMenu: [
+    //     {
+    //       menuName: t("common.side_nav.ssp_data"),
+    //       menuSlug: "/ssp",
+    //       icon: <Server width={20} height={20} />,
+    //     },
+    //   ],
+    // },
     // Device Data
-    {
-      menuName: t("common.side_nav.devices_data"),
-      icon: <SquareKanban width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.devices_data"),
-          menuSlug: "/devices",
-          icon: (
-            <SquareKanban
-              className="transform rotate-180"
-              width={20}
-              height={20}
-            />
-          ),
-        },
-      ],
-    },
+    // {
+    //   menuName: t("common.side_nav.devices_data"),
+    //   icon: <SquareKanban width={20} height={20} />,
+    //   subMenu: [
+    //     {
+    //       menuName: t("common.side_nav.devices_data"),
+    //       menuSlug: "/devices",
+    //       icon: (
+    //         <SquareKanban
+    //           className="transform rotate-180"
+    //           width={20}
+    //           height={20}
+    //         />
+    //       ),
+    //     },
+    //   ],
+    // },
 
     // {
     //   menuName: t("common.side_nav.department"),

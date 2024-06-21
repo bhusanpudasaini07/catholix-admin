@@ -25,6 +25,8 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { getProfile } from "@/services/profile/profile-service";
 import appConfig from "../../../../../config";
 import { constants } from "@/constants";
+import CustomImage from "@/shared/components/custom-avatar";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -40,7 +42,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
 
   const { profileData, setProfile } = useCommonStore();
 
-  useQuery(
+  const { data: profile, isLoading } = useQuery(
     ["profile"],
     async () => {
       if (authCookie) {
@@ -86,16 +88,23 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
         className={` items-center gap-3 focus:outline-none w-full
         ${IsExpanded ? "flex" : "p-2 px-4"}`}
       >
-        <Avatar className={cn("w-[32px] h-[32px]", !IsExpanded && "m-auto")}>
-          <AvatarImage src={profileData?.avatar} />
-          <AvatarFallback className="text-xs uppercase">
-            {profileData?.firstName[0]}
-            {profileData?.lastName[0]}
-          </AvatarFallback>
-        </Avatar>
+        <div className={!IsExpanded ? "flex justify-center" : ""}>
+          <div className="size-[32px]">
+            <CustomImage
+              fallbackText={`${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}`}
+              loading={isLoading}
+              src={profile?.data?.avatar || ""}
+              width={32}
+              height={32}
+              alt="Profile Image"
+            />
+          </div>
+        </div>
         {IsExpanded ? (
           <div className="min-w-0">
-            <p className={`text-sm truncate text-start text-zinc-700`}>
+            <p
+              className={`text-sm capitalize truncate text-start text-zinc-700`}
+            >
               {profileData?.firstName} {profileData?.lastName}
             </p>
             <p className={`text-start text-[10px] text-zinc-500`}>
@@ -119,13 +128,19 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       >
         <DropdownMenuGroup>
           <div className="flex gap-4 items-start p-4">
-            <Avatar className="w-[40px] h-[40px]">
-              <AvatarImage src={profileData?.avatar} />
-              <AvatarFallback className="uppercase">
-                {profileData?.firstName[0]}
-                {profileData?.lastName[0]}
-              </AvatarFallback>
-            </Avatar>
+            <div className="w-[40px] h-[40px] shrink-0">
+              <CustomImage
+                fallbackText={
+                  `${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}` ??
+                  ""
+                }
+                loading={isLoading}
+                src={profile?.data?.avatar || ""}
+                width={40}
+                height={40}
+                alt="Profile Image"
+              />
+            </div>
 
             <div className="w-full min-w-0">
               <p className="text-sm capitalize truncate text-zinc-700">

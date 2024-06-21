@@ -29,6 +29,7 @@ import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { constants } from "@/constants";
 import { useRef, useState } from "react";
 import ProfilePicture from "./profile-picture";
+import { handleKeyDownNumber } from "@/shared/utils/form-utils";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -43,7 +44,7 @@ const ProfileContent = () => {
     reValidateMode: "onChange",
   });
 
-  const { data: profileData } = useQuery<IProfileData>(
+  const { data: profileData, isLoading } = useQuery<IProfileData>(
     ["profile"],
     getProfile,
     {
@@ -68,7 +69,9 @@ const ProfileContent = () => {
       queryClient.invalidateQueries("profile");
     },
     onError: (error: any) => {
-      console.log(error);
+      error?.message?.map((err: any) => {
+        form.setError(err?.name, { message: err?.errors[0] });
+      });
       // if (error) {
       //   showToast(TOAST_TYPES.error, error.message || SOMETHING_WENT_WRONG);
       // } else {
@@ -98,7 +101,7 @@ const ProfileContent = () => {
 
   return (
     <div className="p-6">
-      <ProfilePicture profileData={profileData} />
+      <ProfilePicture profileData={profileData} loading={isLoading} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -185,13 +188,13 @@ const ProfileContent = () => {
                     <FormLabel className="font-normal">Mobile Number</FormLabel>
                     <FormControl>
                       <Input
-                        type="tel"
                         className="placeholder:text-gray-270"
                         placeholder="Mobile Number"
                         onChange={(e) => {
                           field.onChange(e);
                         }}
-                        value={field.value}
+                        value={field.value ?? ""}
+                        onKeyDown={handleKeyDownNumber}
                       />
                     </FormControl>
                     <FormMessage />

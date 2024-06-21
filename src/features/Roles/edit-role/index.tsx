@@ -50,10 +50,15 @@ const EditRoleContent = () => {
       router.push("/roles");
     },
     onError: (error: any) => {
-      showToast(
-        TOAST_TYPES.error,
-        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG
-      );
+      if (error) {
+        error?.message.map((err: any) => {
+          form.setError(err?.name, {
+            message: err?.errors[0],
+          });
+        });
+      } else {
+        showToast(TOAST_TYPES.error, SOMETHING_WENT_WRONG);
+      }
     },
   });
 

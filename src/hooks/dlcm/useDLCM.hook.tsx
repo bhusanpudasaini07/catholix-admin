@@ -5,7 +5,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
 const useDLCM = () => {
@@ -37,6 +37,9 @@ const useDLCM = () => {
     setSearchTrigger(!searchTrigger);
     setPage(1);
   };
+  const applyColumns = (parsedColumns: string) => {
+    setColumns(parsedColumns);
+  };
 
   const perPageHandler = (value: number) => {
     setPerPage(value);
@@ -47,8 +50,13 @@ const useDLCM = () => {
   };
 
   const { data: dlcmData, isLoading: dlcmLoading } = useQuery<IDlcmData>({
-    queryKey: ["dlcm", page, perPage, searchTrigger],
-    queryFn: () => getDlcmData(page, perPage, searchText, columns),
+    queryKey: ["dlcm", page, perPage, searchTrigger, columns],
+    queryFn: async () => {
+      if (columns) {
+        const response = await getDlcmData(page, perPage, searchText, columns);
+        return response;
+      }
+    },
   });
 
   //   COLUMNS
@@ -321,6 +329,38 @@ const useDLCM = () => {
     },
   ];
 
+  useEffect(() => {
+    const localStorageColumns = localStorage.getItem("columnVisibility_dlcm");
+    if (localStorageColumns) {
+      const parsedColumns: string = Object.entries(
+        JSON.parse(localStorageColumns)
+      )
+        .filter(([key, value]) => value === true && key !== "sn")
+        .map(([key]) => key)
+        .join(",");
+      setColumns(parsedColumns);
+    } else {
+      const visibleColumns = dlcmColumns?.reduce(
+        (acc: Record<string, boolean>, column: ColumnDef<IDLCMDetails>) => {
+          if (column.id) {
+            acc[column.id] = column.enableHiding ? false : true;
+          }
+          return acc;
+        },
+        {}
+      );
+
+      localStorage.setItem(
+        "columnVisibility_dlcm",
+        JSON.stringify(visibleColumns)
+      );
+      const parsedColumns: string = Object.keys(visibleColumns)
+        .filter((key) => key !== "sn")
+        .join(",");
+      setColumns(parsedColumns);
+    }
+  }, []);
+
   return {
     // STATES
     searchText,
@@ -336,6 +376,7 @@ const useDLCM = () => {
     searchHandler,
     perPageHandler,
     pageChangeHandler,
+    applyColumns,
 
     // API
     dlcmData,

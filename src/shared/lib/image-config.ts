@@ -1,5 +1,6 @@
 const favIcon = "/favicon.svg";
 const authImage = "/auth-img.jpg";
+const dummyUser = "/dummy.png";
 
 const Logo = "/Logo.svg";
 const LogoLight = "/Logo-light.svg";
@@ -33,4 +34,5 @@ export {
   PageNotFound,
   PermissionDenied,
   dashboard,
+  dummyUser,
 };

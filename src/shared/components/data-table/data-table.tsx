@@ -47,6 +47,7 @@ interface DataTableProps<TData, TValue> {
   showManageColumn?: boolean;
   children?: React.ReactNode;
   module?: string;
+  applyColumns?: (arg: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -65,6 +66,7 @@ export function DataTable<TData, TValue>({
   showManageColumn,
   children,
   module,
+  applyColumns,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -114,12 +116,14 @@ export function DataTable<TData, TValue>({
       };
     });
   };
-
-  const totals = total ? calculateTotals(data, total) : [];
-
-  // Load column visibility from localStorage
-  useEffect(() => {
-    if (module) {
+  const showColumnHandler = (newVisibility?: VisibilityState) => {
+    if (newVisibility) {
+      const parsedColumns = Object.keys(newVisibility)
+        .filter((key) => newVisibility[key] === true && key !== "sn")
+        .join(",");
+      setColumnVisibility(newVisibility);
+      applyColumns && applyColumns(parsedColumns);
+    } else {
       const storedVisibility = localStorage.getItem(
         `columnVisibility_${module}`
       );
@@ -129,7 +133,16 @@ export function DataTable<TData, TValue>({
           ...prev,
           ...parsedVisibility,
         }));
+        applyColumns && applyColumns(parsedVisibility);
       }
+    }
+  };
+  const totals = total ? calculateTotals(data, total) : [];
+
+  // Load column visibility from localStorage
+  useEffect(() => {
+    if (module) {
+      showColumnHandler();
     }
   }, [module]);
 
@@ -143,6 +156,7 @@ export function DataTable<TData, TValue>({
               table={table}
               columnVisibility={columnVisibility}
               setColumnVisibility={setColumnVisibility}
+              applyManageColumn={showColumnHandler}
             />
           )}
           {children}

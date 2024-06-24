@@ -1,5 +1,3 @@
-import { IRegionProps } from "@/interface/common-interface";
-import { getRegions } from "@/services/admin/admin-service";
 import { useState } from "react";
 import { useQuery } from "react-query";
 
@@ -8,12 +6,7 @@ const useDashboard = () => {
   const [mapType, setMapType] = useState<string>("device");
   const [regionId, setRegionId] = useState<string>("0");
   const [stateId, setStateId] = useState<string>("0");
-
-  const { data: regionsList, isLoading: regionsLoading } =
-    useQuery<IRegionProps>({
-      queryKey: ["regions"],
-      queryFn: () => getRegions(),
-    });
+  const [lga, setLga] = useState<{ id: number; name: string }[]>([]);
 
   return {
     // States
@@ -23,10 +16,8 @@ const useDashboard = () => {
     setRegionId,
     stateId,
     setStateId,
-
-    // API
-    regionsList,
-    regionsLoading,
+    lga,
+    setLga,
   };
 };
 

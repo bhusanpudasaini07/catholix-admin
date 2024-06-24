@@ -14,6 +14,16 @@ const projects = {
   pointer: "/projects/Pointer.svg",
 };
 
+const marker = {
+  active: "/markers/active.svg",
+  inactive: "/markers/inactive.svg",
+  popup: {
+    polygonUser: "/markers/popup-icons/polygon-user.svg",
+    roundUser: "/markers/popup-icons/user-round.svg",
+    battery: "/markers/popup-icons/battery.svg",
+  },
+};
+
 const dashboard = {
   totalDevices: "/dashboard/total-devices.svg",
   activeDevices: "/dashboard/active-devices.svg",
@@ -35,4 +45,5 @@ export {
   PermissionDenied,
   dashboard,
   dummyUser,
+  marker,
 };

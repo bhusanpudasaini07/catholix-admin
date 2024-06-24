@@ -4,14 +4,8 @@ import React from "react";
 
 import useDashboard from "@/hooks/dashboard/useDashboard.hook";
 import { Button } from "@/shared/components/ui/button";
-import { Label } from "@/shared/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/shared/components/ui/select";
+
+import RegionalFilter from "@/shared/components/regional-filter";
 
 const MapContent = dynamic(import("./dashboard-map"), {
   ssr: false,
@@ -37,7 +31,16 @@ const DashboardContent = () => {
     },
   ];
 
-  const { mapType, setMapType, regionsList, regionsLoading } = useDashboard();
+  const {
+    mapType,
+    setMapType,
+    regionId,
+    stateId,
+    setRegionId,
+    setStateId,
+    lga,
+    setLga,
+  } = useDashboard();
 
   return (
     <div className="relative w-full h-full">
@@ -62,46 +65,16 @@ const DashboardContent = () => {
       {/* Filter */}
       <div
         className="absolute bottom-6 left-6 bg-white z-[400] rounded-lg
-       py-3 px-4 shadow-sm flex items-center gap-4"
+       py-3 px-4 shadow"
       >
-        <div className="flex flex-col gap-2">
-          <Label className="font-normal">Select Region</Label>
-          <Select>
-            <SelectTrigger className="min-w-[160px]">
-              <SelectValue placeholder="Select Region" />
-            </SelectTrigger>
-            <SelectContent className="z-[400]">
-              <SelectItem value="0">All</SelectItem>
-              {regionsList?.data?.regions?.map((region) => (
-                <SelectItem key={region.id} value={region.id.toString()}>
-                  {region.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label className="font-normal">Select State</Label>
-          <Select>
-            <SelectTrigger className="min-w-[160px]">
-              <SelectValue placeholder="Select Region" />
-            </SelectTrigger>
-            <SelectContent className="z-[400]">
-              <SelectItem value="0">All</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label className="font-normal">Select LGA</Label>
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select Region" />
-            </SelectTrigger>
-            <SelectContent className="z-[400]">
-              <SelectItem value="0">All</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <RegionalFilter
+          regionId={regionId}
+          stateId={stateId}
+          setRegionId={setRegionId}
+          setStateId={setStateId}
+          lga={lga}
+          setLga={setLga}
+        />
       </div>
     </div>
   );

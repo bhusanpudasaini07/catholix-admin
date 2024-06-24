@@ -26,19 +26,19 @@ const PageHeader = ({
 }: IProps) => {
   const router = useRouter();
   return (
-    <div className="flex justify-between items-center mb-8">
+    <div className="flex justify-between items-start mb-8">
       <div className="flex gap-6 items-center">
-        {back && backUrl && (
-          <Link
-            href={backUrl}
-            className={cn(
-              buttonVariants({ variant: "outline_secondary", size: "sm" }),
-              "gap-2 p-0 rounded-full size-8 shrink-0"
-            )}
-            onClick={() => router.push(backUrl)}
+        {back && (
+          <Button
+            variant="outline_secondary"
+            size="sm"
+            className="gap-2 p-0 rounded-full size-8 shrink-0"
+            onClick={() => {
+              backUrl ? router.push(backUrl) : router?.back();
+            }}
           >
             <ChevronLeft size={18} />
-          </Link>
+          </Button>
         )}
         <div>
           <h4 className="text-4xl font-bold">{title}</h4>

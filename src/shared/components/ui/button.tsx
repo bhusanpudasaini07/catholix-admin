@@ -22,6 +22,8 @@ const buttonVariants = cva(
         info: "bg-info text-info-text hover:bg-info-foreground shadow-sm",
         outline:
           "border border-primary text-primary bg-white hover:bg-primary hover:text-white",
+        warning:
+          "bg-warning-foreground border text-warning-text border-warning-muted hover:bg-warning-muted ",
         outline_secondary:
           "border border-zinc-700 text-zinc-700 bg-white hover:border-primary hover:text-primary",
         outline_tertiary:
@@ -31,7 +33,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         pagination:
           "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
-        date_picker: "border border-zinc-200 shadow-sm py-2 px-3",
+        date_picker: "border bg-white border-zinc-200 shadow-sm py-2 px-4",
         inactive:
           "py-3 px-4 text-zinc-700 bg-white border-2  border-white h-auto shadow-sm",
         active:

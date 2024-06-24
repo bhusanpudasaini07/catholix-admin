@@ -33,7 +33,7 @@ const DLCMData: NextPageWithLayout = () => {
 
       <DataTable
         columns={dlcmColumns}
-        data={dlcmData?.results ?? []}
+        data={dlcmData?.data?.results ?? []}
         showManageColumn
         loading={dlcmLoading}
         border
@@ -62,10 +62,12 @@ const DLCMData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        currentPage={dlcmData?.currentPage ?? 1}
+        currentPage={dlcmData?.data?.currentPage ?? 1}
         totalPages={
           (dlcmData &&
-            Math.ceil(Number(dlcmData?.totalItems) / dlcmData?.pageSize)) ??
+            Math.ceil(
+              Number(dlcmData?.data?.totalItems) / dlcmData?.data?.pageSize
+            )) ??
           1
         }
         setPerPage={perPageHandler}

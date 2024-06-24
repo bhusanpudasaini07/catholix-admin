@@ -1,11 +1,13 @@
 export interface IDlcmData {
-  results: IDLCMDetails[];
-  totalCount: number;
-  totalItems: string;
-  totalPages: number;
-  currentPage: number;
-  next: number;
-  pageSize: number;
+  data: {
+    results: IDLCMDetails[];
+    totalCount: number;
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    pageSize: number;
+  };
 }
 
 export interface IDLCMDetails {

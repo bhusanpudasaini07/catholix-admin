@@ -83,8 +83,6 @@ const CustomDateFilter = ({
             buttonClassName="w-[250px] text-sm"
             setDateRange={changeDateHandler}
             dateRange={date}
-            setDateRangeOpen={setDateRangeOpen}
-            dateRangeOpen={dateRangeOpen}
             disabled
           />
         );

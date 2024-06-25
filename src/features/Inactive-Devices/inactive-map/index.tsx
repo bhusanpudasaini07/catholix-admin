@@ -24,13 +24,9 @@ const nigeriaBounds: LatLngBoundsExpression = [
 
 interface IProps {}
 
-const DashboardMapContent = ({}: IProps) => {
+const InactiveMapContent = ({}: IProps) => {
   const mapRef = useRef(null);
 
-  const activeMarker = new Icon({
-    iconUrl: "/markers/active-devices-marker.svg",
-    iconSize: [10, 10],
-  });
   const inactiveMarker = new Icon({
     iconUrl: "/markers/inactive-devices-marker.svg",
     iconSize: [10, 10],
@@ -76,7 +72,7 @@ const DashboardMapContent = ({}: IProps) => {
           iconCreateFunction={createCustomClusterIcon}
         >
           {/* Devices */}
-          <Marker position={[9.082, 8.6753]} icon={activeMarker}>
+          <Marker position={[9.082, 8.6753]} icon={inactiveMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -147,7 +143,7 @@ const DashboardMapContent = ({}: IProps) => {
             </Popup>
           </Marker>
           {/* Agents */}
-          <Marker position={[9.17, 8.6753]} icon={activeMarker}>
+          <Marker position={[9.17, 8.6753]} icon={inactiveMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -218,7 +214,7 @@ const DashboardMapContent = ({}: IProps) => {
           </Marker>
 
           {/* Dealer */}
-          <Marker position={[9.11, 8.6753]} icon={activeMarker}>
+          <Marker position={[9.11, 8.6753]} icon={inactiveMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -296,4 +292,4 @@ const DashboardMapContent = ({}: IProps) => {
   );
 };
 
-export default DashboardMapContent;
+export default InactiveMapContent;

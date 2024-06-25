@@ -9,10 +9,7 @@ const PermissionDenied = "/permission-denied.svg";
 const NoImage = "/placeholder.jpg";
 
 const noResult = "/no-result.svg";
-
-const projects = {
-  pointer: "/projects/Pointer.svg",
-};
+const userBriefcase = "/user-briefcase.svg";
 
 const marker = {
   active: "/markers/active.svg",
@@ -20,7 +17,9 @@ const marker = {
   popup: {
     polygonUser: "/markers/popup-icons/polygon-user.svg",
     roundUser: "/markers/popup-icons/user-round.svg",
+    roundUserAdd: "/markers/popup-icons/user-round-add.svg",
     battery: "/markers/popup-icons/battery.svg",
+    phone: "/markers/popup-icons/call.svg",
   },
 };
 
@@ -34,16 +33,28 @@ const dashboard = {
   helpIcon: "/dashboard/help-icon.svg",
 };
 
+const misMatched = {
+  imei: "/mis-matched/imei.svg",
+  password: "/mis-matched/password.svg",
+};
+
+const devices = {
+  inactive: "/devices/inactive.svg",
+  // active: "/devices/active.svg",
+};
+
 export {
   favIcon,
   authImage,
   Logo,
   LogoLight,
   noResult,
-  projects,
   PageNotFound,
   PermissionDenied,
   dashboard,
   dummyUser,
   marker,
+  misMatched,
+  userBriefcase,
+  devices,
 };

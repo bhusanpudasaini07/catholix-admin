@@ -10,15 +10,30 @@ import {
 import { ILocalGovernment, IRegionProps } from "@/interface/common-interface";
 import { useQuery } from "react-query";
 import { getRegions } from "@/services/admin/admin-service";
-import { MultiSelect } from "../multi-select";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Button } from "../ui/button";
+import { ChevronDown } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
+import { cn } from "@/shared/utils/utils";
+
+interface ILGA {
+  id: number;
+  name: string;
+}
 
 interface IProps {
   regionId: string;
   stateId: string;
   setRegionId: (value: string) => void;
   setStateId: (value: string) => void;
-  lga: { id: number; name: string }[];
-  setLga: (lga: { id: number; name: string }[]) => void;
+  lga: ILGA[];
+  setLga: (lga: ILGA[]) => void;
 }
 
 const RegionalFilter = ({
@@ -29,9 +44,7 @@ const RegionalFilter = ({
   lga,
   setLga,
 }: IProps) => {
-  const [localGovernments, setLocalGovernments] = useState<ILocalGovernment[]>(
-    []
-  );
+  const [localGovernments, setLocalGovernments] = useState<ILGA[]>([]);
 
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
@@ -49,11 +62,26 @@ const RegionalFilter = ({
     setLga([]);
   };
 
+  const addLGA = (localGov: ILGA) => {
+    setLga([...lga, localGov]);
+  };
+
+  const removeLGA = (localGov: ILGA) => {
+    setLga(lga.filter((l) => l.id !== localGov.id));
+  };
+
   return (
     <div className="flex gap-4 items-center">
       <div className="flex flex-col gap-2">
-        <Label className="font-normal">Select Region</Label>
-        <Select value={regionId} onValueChange={setRegionId}>
+        <Label>Select Region</Label>
+        <Select
+          value={regionId}
+          onValueChange={(e) => {
+            setRegionId(e);
+            setStateId("0");
+            setLga([]);
+          }}
+        >
           <SelectTrigger className="min-w-[160px]">
             <SelectValue placeholder="Select Region" />
           </SelectTrigger>
@@ -68,7 +96,7 @@ const RegionalFilter = ({
         </Select>
       </div>
       <div className="flex flex-col gap-2">
-        <Label className="font-normal">Select State</Label>
+        <Label>Select State</Label>
         <Select
           disabled={regionId === "0"}
           value={stateId}
@@ -90,18 +118,47 @@ const RegionalFilter = ({
         </Select>
       </div>
       <div className="flex flex-col gap-2">
-        <Label className="font-normal">Select LGA</Label>
-        <MultiSelect
-          disabled={stateId === "0"}
-          dataList={localGovernments?.map((lg) => ({
-            id: lg?.id,
-            name: lg?.name,
-          }))}
-          placeholder={"Select LGA"}
-          selected={lga}
-          setSelected={setLga}
-          module="LGA"
-        />
+        <Label>Select LGA</Label>
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant={"select"}
+              disabled={stateId === "0"}
+              className={cn(
+                "w-[150px] h-9",
+                stateId === "0" && "pointer-events-none"
+              )}
+            >
+              {lga.length > 0 ? `${lga.length} selected` : "Select LGA's"}
+              <ChevronDown className="w-4 h-4 opacity-50" />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent
+            loop
+            className="z-[400] max-h-[250px] overflow-auto p-2 flex flex-col gap-2"
+          >
+            {localGovernments.map((localGovernment) => (
+              <div className="flex gap-2 items-center p-1">
+                <Checkbox
+                  id={localGovernment?.id.toString()}
+                  variant="primary"
+                  checked={lga.some((l) => l.id === localGovernment.id)}
+                  onCheckedChange={(checked) => {
+                    if (checked) {
+                      return addLGA(localGovernment);
+                    } else {
+                      return removeLGA(localGovernment);
+                    }
+                  }}
+                />
+                <Label htmlFor={localGovernment.id.toString()}>
+                  {localGovernment.name}
+                </Label>
+              </div>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

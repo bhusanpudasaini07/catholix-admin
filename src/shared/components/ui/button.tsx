@@ -38,6 +38,8 @@ const buttonVariants = cva(
           "py-3 px-4 text-zinc-700 bg-white border-2  border-white h-auto shadow-sm",
         active:
           "py-3 px-4 text-primary bg-white border-2 border-primary h-auto shadow-sm",
+        select:
+          "flex justify-between font-normal items-center px-3 py-2 w-full h-9 text-sm bg-white rounded-md border shadow-sm border-zinc-200 placeholder:text-muted-foreground focus:outline-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-gray-250",
       },
       size: {
         default: "h-10 px-4 py-2 gap-2",

@@ -128,7 +128,7 @@ const InactiveMapContent = ({}: IProps) => {
                     width={20}
                     height={20}
                   />
-                  <span className="text-xs">ABDUL'AHAD TUJJANI</span>
+                  <span className="text-xs">ABDUL AHAD TUJJANI</span>
                 </div>
                 <Link
                   href="/devices/1"
@@ -270,7 +270,7 @@ const InactiveMapContent = ({}: IProps) => {
                     width={20}
                     height={20}
                   />
-                  <span className="text-xs">ABDUL'AHAD TUJJANI</span>
+                  <span className="text-xs">ABDUL AHAD TUJJANI</span>
                 </div>
                 <Link
                   href="/devices/1"

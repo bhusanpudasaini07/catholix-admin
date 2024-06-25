@@ -139,7 +139,10 @@ const RegionalFilter = ({
             className="z-[400] max-h-[250px] overflow-auto p-2 flex flex-col gap-2"
           >
             {localGovernments.map((localGovernment) => (
-              <div className="flex gap-2 items-center p-1">
+              <div
+                className="flex gap-2 items-center p-1"
+                key={localGovernment.id}
+              >
                 <Checkbox
                   id={localGovernment?.id.toString()}
                   variant="primary"

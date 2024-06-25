@@ -4,13 +4,14 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
-import { Logo, PageNotFound } from "@/shared/lib/image-config";
+import { Logo, PageNotFound, favIcon } from "@/shared/lib/image-config";
 
 const NotFound = () => {
   const router = useRouter();
   return (
     <>
       <Head>
+        <link rel="icon" type="image/x-icon" href={favIcon} />
         <title>Page Not Found</title>
       </Head>
       <div className="p-3 h-screen">

@@ -20,7 +20,9 @@ const DevicesData: NextPageWithLayout = () => {
     perPageHandler,
     pageChangeHandler,
     devicesColumns,
-    dummyData,
+    devicesData,
+    devicesLoading,
+    applyColumns,
   } = useDevices();
 
   return (
@@ -30,15 +32,15 @@ const DevicesData: NextPageWithLayout = () => {
 
       <DataTable
         columns={devicesColumns}
-        data={dummyData ?? []}
+        data={devicesData?.data?.results ?? []}
         showManageColumn
-        loading={false}
+        loading={devicesLoading}
         border
         headerSticky
         loadingDataNum={10}
+        applyColumns={applyColumns}
         height="max-h-[calc(100vh-270px)]"
         module="devices"
-        
       >
         {/* Filter */}
         <div className="flex gap-1 justify-end items-center grow">
@@ -60,16 +62,8 @@ const DevicesData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        // currentPage={rolesList?.data?.currentPage ?? 1}
-        currentPage={1}
-        totalPages={10}
-        // totalPages={
-        //   (rolesList &&
-        //     Math.ceil(
-        //       rolesList?.data?.totalItems / rolesList?.data?.pageSize
-        //     )) ??
-        //   1
-        // }
+        currentPage={devicesData?.data?.currentPage ?? 1}
+        totalPages={devicesData?.data?.totalPages ?? 1}
         setPerPage={perPageHandler}
         perPage={perPage}
         pageChange={pageChangeHandler}

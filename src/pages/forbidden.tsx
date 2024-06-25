@@ -4,13 +4,14 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { Button } from "@/shared/components/ui/button";
-import { Logo, PermissionDenied } from "@/shared/lib/image-config";
+import { Logo, PermissionDenied, favIcon } from "@/shared/lib/image-config";
 
 const Error403 = () => {
   const router = useRouter();
   return (
     <>
       <Head>
+        <link rel="icon" type="image/x-icon" href={favIcon} />
         <title>Permission Denied</title>
       </Head>
       <div className="p-3 h-screen">

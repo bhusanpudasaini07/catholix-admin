@@ -32,7 +32,7 @@ const buttonVariants = cva(
           "text-zinc-700 border-zinc-200 border-[1px] border-solid shadow-sm bg-white hover:border-primary hover:text-primary",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         pagination:
-          "min-w-[32px] !p-0 max-w-[32px] max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
+          "min-w-[32px] !p-0 max-h-[32px] text-color leading-auto h-auto border hover:border-primary hover:text-primary text-sm",
         date_picker: "border bg-white border-zinc-200 shadow-sm py-2 px-4",
         inactive:
           "py-3 px-4 text-zinc-700 bg-white border-2  border-white h-auto shadow-sm",

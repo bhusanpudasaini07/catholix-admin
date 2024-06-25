@@ -1,9 +1,12 @@
+import { IDeviceDetail, IDevicesData } from "@/interface/device-interface";
+import { getDevicesData } from "@/services/devices/devices-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
-import { useQueryClient } from "react-query";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "react-query";
 
 const useDevices = () => {
   const queryClient = useQueryClient();
@@ -12,6 +15,7 @@ const useDevices = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
+  const [columns, setColumns] = useState<string>("");
 
   //   FUNCTIONS
   const searchTextHandler = (value: string) => {
@@ -32,9 +36,28 @@ const useDevices = () => {
   const pageChangeHandler = (value: number) => {
     setPage(value);
   };
+  const applyColumns = (parsedColumns: string) => {
+    setColumns(parsedColumns);
+  };
+
+  const { data: devicesData, isLoading: devicesLoading } =
+    useQuery<IDevicesData>({
+      queryKey: ["devices", page, perPage, searchTrigger, columns],
+      queryFn: async () => {
+        if (columns) {
+          const response = await getDevicesData(
+            page,
+            perPage,
+            searchText,
+            columns
+          );
+          return response;
+        }
+      },
+    });
 
   //   COLUMNS
-  const devicesColumns: ColumnDef<any>[] = [
+  const devicesColumns: ColumnDef<IDeviceDetail>[] = [
     // SN
     {
       id: "sn",
@@ -47,11 +70,13 @@ const useDevices = () => {
     },
     // Model
     {
-      id: "model",
-      accessorKey: "model",
+      id: "model_name",
+      accessorKey: "model_name",
       header: "Model",
       enableHiding: false,
-      cell: ({ row }) => <p className="font-medium">{row.original.model}</p>,
+      cell: ({ row }) => (
+        <p className="font-medium w-[150px]">{row.original.model_name}</p>
+      ),
     },
     // App Version Name
     {
@@ -71,31 +96,35 @@ const useDevices = () => {
     },
     // License Expire At
     {
-      id: "license_expire",
-      accessorKey: "license_expire",
+      id: "licence_expires_at",
+      accessorKey: "licence_expires_at",
       header: "License Expires At",
       enableHiding: false,
       cell: ({ row }) => (
         <p className="inline-block px-2 py-1 text-sm font-medium text-yellow-700 bg-yellow-50 rounded">
-          {row.original.license_expire}
+          {moment(row.original.licence_expires_at).format("DD/MM/YYYY")}
         </p>
       ),
     },
     // Trial
     {
-      id: "trial",
-      accessorKey: "trial",
+      id: "in_trial",
+      accessorKey: "in_trial",
       header: "Trial",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.trial}</p>,
+      cell: ({ row }) => (
+        <p className="uppercase">
+          {row.original.in_trial === 0 ? "No" : "Yes"}
+        </p>
+      ),
     },
     // Licence Name
     {
-      id: "licence_name",
-      accessorKey: "licence_name",
+      id: "name",
+      accessorKey: "name",
       header: "Licence Name",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.licence_name}</p>,
+      cell: ({ row }) => <p>{row.original.name}</p>,
     },
     // Power Status
     {
@@ -104,7 +133,9 @@ const useDevices = () => {
       header: "Power Status",
       enableHiding: false,
       cell: ({ row }) => (
-        <p className="uppercase">{row.original.power_status}</p>
+        <p className="uppercase">
+          {row.original.power_status === 0 ? "No" : "Yes"}
+        </p>
       ),
     },
     // Status
@@ -116,78 +147,426 @@ const useDevices = () => {
       cell: ({ row }) => (
         <Badge
           variant={
-            row.getValue("status") === "active" ? "success" : "secondary"
+            row.getValue("status") === "LICENSED" ? "success" : "secondary"
           }
           className={cn("h-6 capitalize rounded border-0")}
         >
-          {row.getValue("status") === "active" ? "Active" : "Disabled"}
+          {row.getValue("status") === "LICENSED" ? "LICENSED" : "Inactive"}
         </Badge>
+      ),
+    },
+
+    // Battery Status
+    {
+      id: "battery_status",
+      accessorKey: "battery_status",
+      header: "Battery Status",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.battery_status}</p>,
+    },
+    // Battery Charging
+    {
+      id: "battery_charging",
+      accessorKey: "battery_charging",
+      header: "Battery Charging",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.battery_charging === 0 ? "No" : "Yes"}</p>
+      ),
+    },
+    // Serial No
+    {
+      id: "serial_no",
+      accessorKey: "serial_no",
+      header: "Serial No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.serial_no}</p>,
+    },
+    // IMEI No
+    {
+      id: "imei_no",
+      accessorKey: "imei_no",
+      header: "IMEI No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imei_no}</p>,
+    },
+    // Model
+    {
+      id: "model",
+      accessorKey: "model",
+      header: "Model",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.model}</p>,
+    },
+    // Make
+    {
+      id: "make",
+      accessorKey: "make",
+      header: "Make",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.make}</p>,
+    },
+    // Android ID
+    {
+      id: "android_id",
+      accessorKey: "android_id",
+      header: "Android ID",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.android_id}</p>,
+    },
+    // // UDID
+    // {
+    //   id: "udid",
+    //   accessorKey: "udid",
+    //   header: "UDID",
+    //   enableHiding: true,
+    //   cell: ({ row }) => <p>{row.original.udid}</p>,
+    // },
+    // Licence Active
+    {
+      id: "licence_active",
+      accessorKey: "licence_active",
+      header: "Licence Active",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.licence_active === 0 ? "No" : "Yes"}</p>
+      ),
+    },
+    // Locked
+    {
+      id: "locked",
+      accessorKey: "locked",
+      header: "Locked",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.locked === 0 ? "No" : "Yes"}</p>,
+    },
+    // Last Connected At
+    {
+      id: "last_connected_at",
+      accessorKey: "last_connected_at",
+      header: "Last Connected At",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{new Date(row.original.last_connected_at).toLocaleString()}</p>
+      ),
+    },
+    // Wifi MAC Address
+    {
+      id: "wifi_mac_address",
+      accessorKey: "wifi_mac_address",
+      header: "Wifi MAC Address",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.wifi_mac_address}</p>,
+    },
+    // IP Address
+    {
+      id: "ip_address",
+      accessorKey: "ip_address",
+      header: "IP Address",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.ip_address}</p>,
+    },
+    // Public IP
+    {
+      id: "public_ip",
+      accessorKey: "public_ip",
+      header: "Public IP",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.public_ip}</p>,
+    },
+    // Bluetooth MAC
+    {
+      id: "bluetooth_mac",
+      accessorKey: "bluetooth_mac",
+      header: "Bluetooth MAC",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.bluetooth_mac}</p>,
+    },
+    // Rooted
+    {
+      id: "rooted",
+      accessorKey: "rooted",
+      header: "Rooted",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.rooted}</p>,
+    },
+    // Enrollment Date
+    {
+      id: "enrollment_date",
+      accessorKey: "enrollment_date",
+      header: "Enrollment Date",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{new Date(row.original.enrollment_date).toLocaleString()}</p>
+      ),
+    },
+    // Gsuite Account
+    {
+      id: "gsuite_account",
+      accessorKey: "gsuite_account",
+      header: "Gsuite Account",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.gsuite_account}</p>,
+    },
+    // Build Serial No
+    {
+      id: "build_serial_no",
+      accessorKey: "build_serial_no",
+      header: "Build Serial No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.build_serial_no}</p>,
+    },
+    // GSM Serial No
+    {
+      id: "gsm_serial_no",
+      accessorKey: "gsm_serial_no",
+      header: "GSM Serial No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.gsm_serial_no}</p>,
+    },
+    // ICCID No
+    {
+      id: "iccid_no",
+      accessorKey: "iccid_no",
+      header: "ICCID No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.iccid_no}</p>,
+    },
+    // Phone No
+    {
+      id: "phone_no",
+      accessorKey: "phone_no",
+      header: "Phone No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.phone_no}</p>,
+    },
+    // OS Type
+    {
+      id: "os_type",
+      accessorKey: "os_type",
+      header: "OS Type",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.os_type}</p>,
+    },
+    // Unique ID
+    {
+      id: "unique_id",
+      accessorKey: "unique_id",
+      header: "Unique ID",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.unique_id}</p>,
+    },
+    // Custom Properties
+    {
+      id: "custom_properties",
+      accessorKey: "custom_properties",
+      header: "Custom Properties",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.custom_properties}</p>,
+    },
+    // Build Version
+    {
+      id: "build_version",
+      accessorKey: "build_version",
+      header: "Build Version",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.build_version}</p>,
+    },
+    // IMEI No 2
+    {
+      id: "imei_no_2",
+      accessorKey: "imei_no_2",
+      header: "IMEI No 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imei_no_2}</p>,
+    },
+    // IMSI No
+    {
+      id: "imsi_no",
+      accessorKey: "imsi_no",
+      header: "IMSI No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imsi_no}</p>,
+    },
+    // IMSI No 2
+    {
+      id: "imsi_no_2",
+      accessorKey: "imsi_no_2",
+      header: "IMSI No 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imsi_no_2}</p>,
+    },
+    // ICCID No 2
+    {
+      id: "iccid_no_2",
+      accessorKey: "iccid_no_2",
+      header: "ICCID No 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.iccid_no_2}</p>,
+    },
+    // Phone No 2
+    {
+      id: "phone_no_2",
+      accessorKey: "phone_no_2",
+      header: "Phone No 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.phone_no_2}</p>,
+    },
+    // Management Details Enrollment Mode
+    {
+      id: "management_details_enrollment_mode",
+      accessorKey: "management_details_enrollment_mode",
+      header: "Management Details Enrollment Mode",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.management_details_enrollment_mode}</p>
+      ),
+    },
+    // Management Details Management Agent
+    {
+      id: "management_details_management_agent",
+      accessorKey: "management_details_management_agent",
+      header: "Management Details Management Agent",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.management_details_management_agent}</p>
+      ),
+    },
+    // Management Details Enrollment Method
+    {
+      id: "management_details_enrollment_method",
+      accessorKey: "management_details_enrollment_method",
+      header: "Management Details Enrollment Method",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.management_details_enrollment_method}</p>
+      ),
+    },
+    // Management Details Enrollment Type
+    {
+      id: "management_details_enrollment_type",
+      accessorKey: "management_details_enrollment_type",
+      header: "Management Details Enrollment Type",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.management_details_enrollment_type}</p>
+      ),
+    },
+    // Management Details Management Mode
+    {
+      id: "management_details_management_mode",
+      accessorKey: "management_details_management_mode",
+      header: "Management Details Management Mode",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.management_details_management_mode}</p>
+      ),
+    },
+    // MAC PIN
+    {
+      id: "mac_pin",
+      accessorKey: "mac_pin",
+      header: "MAC PIN",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.mac_pin}</p>,
+    },
+    // Screen Locked
+    {
+      id: "screen_locked",
+      accessorKey: "screen_locked",
+      header: "Screen Locked",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{row.original.screen_locked === 0 ? "No" : "Yes"}</p>
+      ),
+    },
+    // iTunes Account Status
+    {
+      id: "itunes_account_status",
+      accessorKey: "itunes_account_status",
+      header: "iTunes Account Status",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.itunes_account_status}</p>,
+    },
+    // Location Lat
+    {
+      id: "location_lat",
+      accessorKey: "location_lat",
+      header: "Location Lat",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.location_lat}</p>,
+    },
+    // Location Lng
+    {
+      id: "location_lng",
+      accessorKey: "location_lng",
+      header: "Location Lng",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.location_lng}</p>,
+    },
+    // Location Address
+    {
+      id: "location_address",
+      accessorKey: "location_address",
+      header: "Location Address",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.location_address}</p>,
+    },
+    // Location Date Time
+    {
+      id: "location_date_time",
+      accessorKey: "location_date_time",
+      header: "Location Date Time",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{new Date(row.original.location_date_time).toLocaleString()}</p>
+      ),
+    },
+    // Location Created At
+    {
+      id: "location_created_at",
+      accessorKey: "location_created_at",
+      header: "Location Created At",
+      enableHiding: true,
+      cell: ({ row }) => (
+        <p>{new Date(row.original.location_created_at).toLocaleString()}</p>
       ),
     },
   ];
 
-  const dummyData = [
-    {
-      sn: "1234567890",
-      model: "Model 1",
-      app_version_name: "App Version 1",
-      os_version: "OS Version 1",
-      license_expire: "2023-12-31",
-      trial: "Yes",
-      licence_name: "Licence 1",
-      power_status: "active",
-      eligibility_privilege: "Gold",
-      status: "active",
-    },
-    {
-      sn: "1234567890",
-      model: "Model 2",
-      app_version_name: "App Version 2",
-      os_version: "OS Version 2",
-      license_expire: "2024-06-30",
-      trial: "No",
-      licence_name: "Licence 2",
-      power_status: "disabled",
-      eligibility_privilege: "Silver",
-      status: "disabled",
-    },
-    {
-      sn: "1234567890",
-      model: "Model 3",
-      app_version_name: "App Version 3",
-      os_version: "OS Version 3",
-      license_expire: "2023-11-15",
-      trial: "Yes",
-      licence_name: "Licence 3",
-      power_status: "active",
-      eligibility_privilege: "Platinum",
-      status: "active",
-    },
-    {
-      sn: "1234567890",
-      model: "Model 4",
-      app_version_name: "App Version 4",
-      os_version: "OS Version 4",
-      license_expire: "2024-01-20",
-      trial: "No",
-      licence_name: "Licence 4",
-      power_status: "disabled",
-      eligibility_privilege: "Gold",
-      status: "disabled",
-    },
-    {
-      sn: "1234567890",
-      model: "Model 5",
-      app_version_name: "App Version 5",
-      os_version: "OS Version 5",
-      license_expire: "2023-10-05",
-      trial: "Yes",
-      licence_name: "Licence 5",
-      power_status: "active",
-      eligibility_privilege: "Silver",
-      status: "active",
-    },
-  ];
+  useEffect(() => {
+    const localStorageColumns = localStorage.getItem(
+      "columnVisibility_devices"
+    );
+    if (localStorageColumns) {
+      const parsedColumns: string = Object.entries(
+        JSON.parse(localStorageColumns)
+      )
+        .filter(([key, value]) => value === true && key !== "sn")
+        .map(([key]) => key)
+        .join(",");
+      setColumns(parsedColumns);
+    } else {
+      const visibleColumns = devicesColumns?.reduce(
+        (acc: Record<string, boolean>, column: ColumnDef<IDeviceDetail>) => {
+          if (column.id) {
+            acc[column.id] = column.enableHiding ? false : true;
+          }
+          return acc;
+        },
+        {}
+      );
+
+      localStorage.setItem(
+        "columnVisibility_devices",
+        JSON.stringify(visibleColumns)
+      );
+      const parsedColumns: string = Object.keys(visibleColumns)
+        .filter((key) => key !== "sn")
+        .join(",");
+      setColumns(parsedColumns);
+    }
+  }, []);
 
   return {
     // STATES
@@ -204,12 +583,14 @@ const useDevices = () => {
     searchHandler,
     perPageHandler,
     pageChangeHandler,
+    applyColumns,
 
     // API
+    devicesData,
+    devicesLoading,
 
     // Column
     devicesColumns,
-    dummyData,
   };
 };
 

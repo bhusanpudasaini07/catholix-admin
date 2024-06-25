@@ -94,40 +94,39 @@ const Sidebar = ({
           path: "/dlcm",
           method: "get",
           resource: "dlcm",
-          id: 151,
         },
       ],
     },
     // SSP Data
-    // {
-    //   menuName: t("common.side_nav.ssp_data"),
-    //   icon: <Server width={20} height={20} />,
-    //   subMenu: [
-    //     {
-    //       menuName: t("common.side_nav.ssp_data"),
-    //       menuSlug: "/ssp",
-    //       icon: <Server width={20} height={20} />,
-    //     },
-    //   ],
-    // },
+    {
+      menuName: t("common.side_nav.ssp_data"),
+      icon: <Server width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.ssp_data"),
+          menuSlug: "/ssp",
+          icon: <Server width={20} height={20} />,
+        },
+      ],
+    },
     // Device Data
-    // {
-    //   menuName: t("common.side_nav.devices_data"),
-    //   icon: <SquareKanban width={20} height={20} />,
-    //   subMenu: [
-    //     {
-    //       menuName: t("common.side_nav.devices_data"),
-    //       menuSlug: "/devices",
-    //       icon: (
-    //         <SquareKanban
-    //           className="transform rotate-180"
-    //           width={20}
-    //           height={20}
-    //         />
-    //       ),
-    //     },
-    //   ],
-    // },
+    {
+      menuName: t("common.side_nav.devices_data"),
+      icon: <SquareKanban width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: t("common.side_nav.devices_data"),
+          menuSlug: "/devices",
+          icon: (
+            <SquareKanban
+              className="transform rotate-180"
+              width={20}
+              height={20}
+            />
+          ),
+        },
+      ],
+    },
 
     // {
     //   menuName: t("common.side_nav.department"),
@@ -165,7 +164,6 @@ const Sidebar = ({
           path: "/users",
           method: "get",
           resource: "user",
-          id: 1,
         },
       ],
     },
@@ -185,7 +183,6 @@ const Sidebar = ({
           path: "/roles",
           method: "get",
           resource: "role",
-          id: 7,
         },
       ],
     },

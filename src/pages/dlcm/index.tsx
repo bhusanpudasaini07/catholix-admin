@@ -24,6 +24,7 @@ const DLCMData: NextPageWithLayout = () => {
     dlcmColumns,
     dlcmData,
     dlcmLoading,
+    applyColumns,
   } = useDLCM();
 
   return (
@@ -41,6 +42,7 @@ const DLCMData: NextPageWithLayout = () => {
         loadingDataNum={10}
         height="max-h-[calc(100vh-270px)]"
         module="dlcm"
+        applyColumns={applyColumns}
       >
         {/* Filter */}
         <div className="flex gap-1 justify-end items-center grow">

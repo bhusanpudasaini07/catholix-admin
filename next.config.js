@@ -10,6 +10,7 @@ const nextConfig = {
     locales: ["en", "jp"],
     defaultLocale: "en",
   },
+  transpilePackages: ["react-leaflet-cluster"],
   webpack: (config, { isServer, webpack }) => {
     if (isServer) {
       config.plugins = [

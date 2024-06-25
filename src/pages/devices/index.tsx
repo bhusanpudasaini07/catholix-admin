@@ -38,6 +38,7 @@ const DevicesData: NextPageWithLayout = () => {
         loadingDataNum={10}
         height="max-h-[calc(100vh-270px)]"
         module="devices"
+        
       >
         {/* Filter */}
         <div className="flex gap-1 justify-end items-center grow">

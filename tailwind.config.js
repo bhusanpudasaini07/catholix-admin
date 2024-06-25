@@ -51,6 +51,12 @@ module.exports = {
           foreground: "var(--info-foreground)",
           text: "var(--info-text)",
         },
+        warning: {
+          DEFAULT: "var(--warning)",
+          foreground: "var(--warning-foreground)",
+          text: "var(--warning-text)",
+          muted: "var(--warning-muted)",
+        },
         muted: {
           DEFAULT: "var(--muted)",
           foreground: "var(--muted-foreground)",

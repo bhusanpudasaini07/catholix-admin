@@ -24,6 +24,7 @@ export const MultiSelect = ({
 }: any) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   const [inputValue, setInputValue] = React.useState("");
 
@@ -58,6 +59,19 @@ export const MultiSelect = ({
   const selectables = dataList?.filter(
     (data: any) => !selected.some((sel: any) => sel.id === data.id)
   );
+
+  React.useEffect(() => {
+    if (open && dropdownRef.current) {
+      const dropdownRect = dropdownRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const fitsBelow = dropdownRect.bottom <= viewportHeight;
+      const fitsAbove = dropdownRect.top >= 0;
+
+      dropdownRef.current.style.top = fitsBelow || !fitsAbove ? "110%" : "auto";
+      dropdownRef.current.style.bottom =
+        fitsBelow || !fitsAbove ? "auto" : "110%";
+    }
+  }, [open]);
 
   return (
     <Command
@@ -118,39 +132,40 @@ export const MultiSelect = ({
           />
         </div>
       </div>
-      <div className={`absolute -bottom-1 w-full`}>
-        {open &&
-          (selectables?.length > 0 ? (
-            <div className="absolute top-0 z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in">
-              <CommandGroup className="h-[250px] overflow-auto">
-                {selectables.map((item: any) => {
-                  return (
-                    <CommandItem
-                      key={item?.id}
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      onSelect={(value) => {
-                        setInputValue("");
-                        setSelected((prev: any) => [...prev, item]);
-                      }}
-                      className={"cursor-pointer"}
-                    >
-                      {item?.name}
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-            </div>
-          ) : (
-            <div className="absolute top-0 z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in">
-              <CommandGroup className="overflow-auto p-3 h-full text-sm">
-                No {module} available.
-              </CommandGroup>
-            </div>
-          ))}
-      </div>
+      {open &&
+        (selectables?.length > 0 ? (
+          <div
+            ref={dropdownRef}
+            className="absolute z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in"
+          >
+            <CommandGroup className="h-[250px] overflow-auto">
+              {selectables.map((item: any) => {
+                return (
+                  <CommandItem
+                    key={item?.id}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onSelect={(value) => {
+                      setInputValue("");
+                      setSelected((prev: any) => [...prev, item]);
+                    }}
+                    className={"cursor-pointer"}
+                  >
+                    {item?.name}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+          </div>
+        ) : (
+          <div className="absolute top-0 z-10 w-full bg-white rounded-md border shadow-md outline-none text-popover-foreground animate-in">
+            <CommandGroup className="overflow-auto p-3 h-full text-sm">
+              No {module} available.
+            </CommandGroup>
+          </div>
+        ))}
     </Command>
   );
 };

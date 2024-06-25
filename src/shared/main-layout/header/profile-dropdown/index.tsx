@@ -27,6 +27,7 @@ import appConfig from "../../../../../config";
 import { constants } from "@/constants";
 import CustomImage from "@/shared/components/custom-avatar";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { dummyUser } from "@/shared/lib/image-config";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -93,7 +94,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
             <CustomImage
               fallbackText={`${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}`}
               loading={isLoading}
-              src={profile?.data?.avatar || ""}
+              src={profile?.data?.avatar || dummyUser}
               width={32}
               height={32}
               alt="Profile Image"
@@ -135,7 +136,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
                   ""
                 }
                 loading={isLoading}
-                src={profile?.data?.avatar || ""}
+                src={profile?.data?.avatar || dummyUser}
                 width={40}
                 height={40}
                 alt="Profile Image"

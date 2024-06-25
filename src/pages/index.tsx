@@ -1,31 +1,24 @@
 import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
-import { useCommonStore } from "@/store/common-store";
 
 import { NextPageWithLayout } from "./_app";
-import DashboardOverview from "@/features/Dashboard/dashboard-overview";
-import TimeLogInformation from "@/features/Dashboard/time-log-information";
+import DashboardHeaderCards from "@/features/Dashboard/dashboad-header-cards";
+import dynamic from "next/dynamic";
+import { Marker, Popup } from "react-leaflet";
+import DashboardContent from "@/features/Dashboard/dashboard-content";
 
 const Home: NextPageWithLayout = () => {
   return (
     <>
-      <div className="flex justify-between items-end px-8 py-6 border-b bg-light-white border-b-slate-100">
-        <div>
-          <h1 className="mb-1.5 text-2xl font-medium text-zinc-700">
-            Dashboard
-          </h1>
-          <p className="text-base text-zinc-500">
-            Welcome back, get insights and overview of all the activities.
-          </p>
+      <div className="px-4 py-6">
+        <DashboardHeaderCards />
+
+        <div className="mt-4">
+          <div className="h-[calc(100vh-185px)] w-full relative">
+            <DashboardContent />
+          </div>
         </div>
       </div>
-
-      {/* <div className="py-6 px-4 max-h-[calc(100vh-115px)] overflow-auto">
-        <div className="grid grid-cols-1 gap-4">
-          <DashboardOverview />
-          <TimeLogInformation />
-        </div>
-      </div> */}
     </>
   );
 };

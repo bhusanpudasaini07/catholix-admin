@@ -12,8 +12,6 @@ interface IProps {
   dateRange: string | any;
   setDateRange: (arg: string | any) => void;
   setPageNumber?: (arg: number) => void;
-  dateRangeOpen: boolean;
-  setDateRangeOpen: (arg: boolean) => void;
   placeholder?: string;
   buttonClassName?: string;
   disabled?: boolean;
@@ -23,21 +21,20 @@ const DateRangeFilter = ({
   dateRange,
   setDateRange,
   setPageNumber,
-  dateRangeOpen,
-  setDateRangeOpen,
+
   placeholder,
   buttonClassName,
   disabled,
 }: IProps) => {
   return (
-    <Popover open={dateRangeOpen} onOpenChange={setDateRangeOpen}>
+    <Popover>
       <PopoverTrigger asChild>
         <Button
           id="date"
           variant={"date_picker"}
-          size={"md"}
+          size={"sm"}
           className={cn(
-            "w-full justify-between pl-3 text-left font-normal",
+            "w-full h-auto justify-between pl-3 text-left font-normal",
             !dateRange && "text-muted-foreground",
             buttonClassName
           )}
@@ -71,14 +68,14 @@ const DateRangeFilter = ({
                 }
               }}
             >
-              <X className="w-4 h-4 ml-auto cursor-pointer" />
+              <X className="ml-auto w-4 h-4 cursor-pointer" />
             </div>
           ) : (
-            <CalendarIcon className="w-4 h-4 ml-auto opacity-50 ms-1" />
+            <CalendarIcon className="ml-auto w-4 h-4 opacity-50 ms-1" />
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="end">
+      <PopoverContent className="p-0 w-auto" align="end">
         <Calendar
           captionLayout="dropdown-buttons"
           initialFocus

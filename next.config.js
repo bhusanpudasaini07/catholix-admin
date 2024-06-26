@@ -4,21 +4,22 @@ const { version } = require("./package.json");
 
 const CSP_API_ORIGIN = process.env.NEXT_PUBLIC_API_URL;
 const CSP_IMAGE_ORIGIN = process.env.NEXT_PUBLIC_IMAGE_BASE_URL;
+const CSP_MAP_TILE_ORIGIN = "https://*.tile.openstreetmap.org";
 
 const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval';
   style-src 'self' example.com 'unsafe-inline';
-  connect-src 'self' ${CSP_API_ORIGIN} ${CSP_IMAGE_ORIGIN} blob: ws: wss:;
+  connect-src 'self' ${CSP_API_ORIGIN} ${CSP_IMAGE_ORIGIN} ${CSP_MAP_TILE_ORIGIN} blob: ws: wss:;
   font-src 'self';
   child-src 'self'; 
   worker-src 'self' blob:;
-  img-src 'self' data: blob: https:;
+  img-src 'self' ${CSP_IMAGE_ORIGIN} ${CSP_MAP_TILE_ORIGIN} data: blob:;
 `;
 
 const nextConfig = {
   images: {
-    domains: [CSP_IMAGE_ORIGIN],
+    domains: [CSP_IMAGE_ORIGIN, "tile.openstreetmap.org"],
   },
   reactStrictMode: true,
   i18n: {

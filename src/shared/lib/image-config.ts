@@ -1,5 +1,5 @@
 const favIcon = "/favicon.svg";
-const authImage = "/auth-img.jpg";
+const AuthImage = "/auth-img.jpg";
 const dummyUser = "/dummy.png";
 
 const Logo = "/Logo.svg";
@@ -45,7 +45,7 @@ const devices = {
 
 export {
   favIcon,
-  authImage,
+  AuthImage,
   Logo,
   LogoLight,
   noResult,

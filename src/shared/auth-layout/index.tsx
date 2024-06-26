@@ -1,12 +1,12 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import { authImage, favIcon, Logo, LogoLight } from "../lib/image-config";
+import { AuthImage, favIcon } from "../lib/image-config";
 
-const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
-  children,
-  title,
-}) => {
+import authImage from "../../../public/auth-img.jpg";
+import Logo from "../../../public/Logo.svg";
+import LogoLight from "../../../public/Logo-light.svg";
+const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <Head>
@@ -24,13 +24,13 @@ const AuthLayout: React.FC<{ children: React.ReactNode; title: string }> = ({
           <div className="flex absolute top-8 left-8 flex-col items-start p-10 w-full h-full text-white bg-opacity-50 2xl:top-10 2xl:left-10">
             <Image alt="MTN Logo" width={130} height={50} src={LogoLight} />
             <h1 className="mt-4 text-4xl 2xl:text-6xl font-bold  2xl:leading-[78px] tracking-wide">
-              Leading
+              Intelligence
             </h1>
             <h2 className="text-4xl 2xl:text-6xl font-bold leading-[80px] 2xl:leading-[120px] tracking-wide">
-              Digital Solutions
+              Dashboard
             </h2>
             <p className="text-4xl font-medium tracking-wide 2xl:text-4xl">
-              for Africa&apos;s progress
+              By MDM
             </p>
           </div>
         </div>

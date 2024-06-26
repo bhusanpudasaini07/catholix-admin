@@ -27,5 +27,5 @@ const ForgotPassword: NextPageWithLayout = () => {
 export default ForgotPassword;
 
 ForgotPassword.getLayout = (page) => {
-  return <AuthLayout title="Forgot Password">{page}</AuthLayout>;
+  return <AuthLayout>{page}</AuthLayout>;
 };

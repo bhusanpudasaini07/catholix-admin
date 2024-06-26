@@ -27,5 +27,5 @@ const ResetPassword: NextPageWithLayout = () => {
 export default ResetPassword;
 
 ResetPassword.getLayout = (page) => {
-  return <AuthLayout title="Reset Password">{page}</AuthLayout>;
+  return <AuthLayout>{page}</AuthLayout>;
 };

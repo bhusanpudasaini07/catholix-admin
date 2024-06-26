@@ -34,5 +34,7 @@ export async function middleware(req: NextRequest) {
 /**
  * Add all the protected routes here in the matcher.
  */
-
-export const config = { matcher: ["/((?!.*\\.).*)", "/"] };
+// export const config = { matcher: ["/((?!.*\\.).*)", "/"] };
+export const config = {
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)", "/"],
+};

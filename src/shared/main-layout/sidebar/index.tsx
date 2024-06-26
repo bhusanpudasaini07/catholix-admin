@@ -126,6 +126,13 @@ const Sidebar = ({
           ),
         },
       ],
+      permissions: [
+        {
+          path: "/devices",
+          method: "get",
+          resource: "device",
+        },
+      ],
     },
 
     // {

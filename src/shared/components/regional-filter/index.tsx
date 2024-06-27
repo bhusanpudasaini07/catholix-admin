@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Label } from "@/shared/components/ui/label";
 import {
   Select,
@@ -7,20 +7,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/components/ui/select";
-import { ILocalGovernment, IRegionProps } from "@/interface/common-interface";
+import { IRegionProps } from "@/interface/common-interface";
 import { useQuery } from "react-query";
 import { getRegions } from "@/services/admin/admin-service";
-
+import { useCommonStore } from "@/store/common-store";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
+import { cn } from "@/shared/utils/utils";
 import { ChevronDown } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
-import { cn } from "@/shared/utils/utils";
 
 interface ILGA {
   id: number;
@@ -32,8 +31,8 @@ interface IProps {
   stateId: string;
   setRegionId: (value: string) => void;
   setStateId: (value: string) => void;
-  lga: ILGA[];
-  setLga: (lga: ILGA[]) => void;
+  lga: string[];
+  setLga: (lga: string[]) => void;
 }
 
 const RegionalFilter = ({
@@ -44,15 +43,14 @@ const RegionalFilter = ({
   lga,
   setLga,
 }: IProps) => {
+  const { profileData } = useCommonStore();
   const [localGovernments, setLocalGovernments] = useState<ILGA[]>([]);
-
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
       queryKey: ["regions"],
       queryFn: () => getRegions(),
     });
 
-  // Functions
   const filterLocalGovs = (id: string) => {
     setStateId(id);
     const state = regionsList?.data?.regions
@@ -62,13 +60,30 @@ const RegionalFilter = ({
     setLga([]);
   };
 
-  const addLGA = (localGov: ILGA) => {
+  const addLGA = (localGov: string) => {
     setLga([...lga, localGov]);
   };
 
-  const removeLGA = (localGov: ILGA) => {
-    setLga(lga.filter((l) => l.id !== localGov.id));
+  const removeLGA = (localGov: string) => {
+    setLga(lga.filter((l) => Number(l) !== Number(localGov)));
   };
+
+  useEffect(() => {
+    if (profileData.regionId !== 0) {
+      setRegionId(profileData.regionId?.toString());
+      setStateId(profileData.stateId?.toString());
+      const state = regionsList?.data?.regions
+        ?.find((region) => region.id === profileData.regionId)
+        ?.states?.find((state) => state.id === profileData.stateId);
+      setLocalGovernments(state?.localGovernments ?? []);
+      setLga(profileData.localGovId || []);
+    } else {
+      setRegionId("0");
+      setStateId("0");
+      setLocalGovernments([]);
+      setLga([]);
+    }
+  }, [profileData, regionsList]);
 
   return (
     <div className="flex gap-4 items-center">
@@ -81,6 +96,7 @@ const RegionalFilter = ({
             setStateId("0");
             setLga([]);
           }}
+          disabled={profileData.regionId !== 0}
         >
           <SelectTrigger className="min-w-[160px]">
             <SelectValue placeholder="Select Region" />
@@ -98,12 +114,15 @@ const RegionalFilter = ({
       <div className="flex flex-col gap-2">
         <Label>Select State</Label>
         <Select
-          disabled={regionId === "0"}
+          disabled={
+            regionId === "0" ||
+            (profileData.stateId !== null && profileData.stateId !== 0)
+          }
           value={stateId}
           onValueChange={filterLocalGovs}
         >
           <SelectTrigger className="min-w-[160px]">
-            <SelectValue placeholder="Select Region" />
+            <SelectValue placeholder="Select State" />
           </SelectTrigger>
           <SelectContent className="z-[400]">
             <SelectItem value="0">All</SelectItem>
@@ -123,7 +142,7 @@ const RegionalFilter = ({
           <DropdownMenuTrigger asChild>
             <Button
               variant={"select"}
-              disabled={stateId === "0"}
+              disabled={stateId === "0" && profileData.stateId !== 0}
               className={cn(
                 "w-[150px] h-9",
                 stateId === "0" && "pointer-events-none"
@@ -146,12 +165,18 @@ const RegionalFilter = ({
                 <Checkbox
                   id={localGovernment?.id.toString()}
                   variant="primary"
-                  checked={lga.some((l) => l.id === localGovernment.id)}
+                  disabled={
+                    profileData?.localGovId?.length > 0 &&
+                    !profileData.localGovId?.includes(
+                      localGovernment.id.toString()
+                    )
+                  }
+                  checked={lga.some((l) => Number(l) === localGovernment.id)}
                   onCheckedChange={(checked) => {
                     if (checked) {
-                      return addLGA(localGovernment);
+                      return addLGA(localGovernment.id.toString());
                     } else {
-                      return removeLGA(localGovernment);
+                      return removeLGA(localGovernment.id.toString());
                     }
                   }}
                 />

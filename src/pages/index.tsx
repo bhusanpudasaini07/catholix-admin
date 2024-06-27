@@ -10,11 +10,11 @@ import DashboardContent from "@/features/Dashboard/dashboard-content";
 const Home: NextPageWithLayout = () => {
   return (
     <>
-      <div className="px-4 py-6">
+      <div className="flex flex-col px-4 py-6 h-screen">
         <DashboardHeaderCards />
 
-        <div className="mt-4">
-          <div className="h-[calc(100vh-185px)] w-full relative">
+        <div className="mt-4 grow">
+          <div className="relative w-full h-full">
             <DashboardContent />
           </div>
         </div>

@@ -6,7 +6,7 @@ const useDashboard = () => {
   const [mapType, setMapType] = useState<string>("device");
   const [regionId, setRegionId] = useState<string>("0");
   const [stateId, setStateId] = useState<string>("0");
-  const [lga, setLga] = useState<{ id: number; name: string }[]>([]);
+  const [lga, setLga] = useState<string[]>([]);
 
   return {
     // States

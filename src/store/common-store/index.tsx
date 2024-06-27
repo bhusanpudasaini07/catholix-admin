@@ -22,7 +22,9 @@ export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
     contact: null,
     avatar: null,
     isTwoFAEnabled: false,
-
+    regionId: null,
+    stateId: null,
+    localGovId: [],
     role: {
       id: null,
       name: "",

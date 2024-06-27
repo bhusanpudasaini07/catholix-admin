@@ -1,3 +1,4 @@
+"use client";
 import { ChevronRight, Clock } from "lucide-react";
 import moment from "moment-timezone";
 import Image from "next/image";
@@ -104,7 +105,7 @@ const DashboardHeaderCards = () => {
                   href={item.pageUrl}
                   className={cn(
                     buttonVariants({ variant: "outline", size: "xs" }),
-                    "absolute top-3 right-3 p-0 w-6 h-6 rounded-sm"
+                    "absolute top-3 right-3 p-0 w-5 h-5 rounded-sm 2xl:w-6 2xl:h-6"
                   )}
                 >
                   <ChevronRight size={14} />
@@ -120,10 +121,12 @@ const DashboardHeaderCards = () => {
                   />
                 )}
                 <div>
-                  <h3 className="text-2xl font-semibold text-zinc-700">
+                  <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">
                     {item.value}
                   </h3>
-                  <p className="text-sm text-zinc-500">{item.title}</p>
+                  <p className="text-[10px] text-nowrap 2xl:text-sm text-zinc-500">
+                    {item.title}
+                  </p>
                 </div>
               </div>
               <div className="flex justify-between p-1 mt-4 rounded-lg bg-slate-100">
@@ -131,7 +134,7 @@ const DashboardHeaderCards = () => {
                   <div className={`${item.footerIconColor}`}>
                     <Clock size={18} />
                   </div>
-                  <p className="text-xs font-medium text-black">
+                  <p className="text-[10px] font-medium text-black 2xl:text-xs">
                     {item.footerText}
                   </p>
                 </div>
@@ -159,8 +162,10 @@ const DashboardHeaderCards = () => {
       {/* Time */}
       <Card className="h-auto flex flex-col justify-center shrink-0 w-[150px]">
         <CardContent className="p-3 xl:py-3 xl:px-4">
-          <p className="text-sm text-zinc-500">{watTime.format("LL")}</p>
-          <p className="text-xl font-semibold text-zinc-700">
+          <p className="text-sm  text-nowrap text-zinc-500">
+            {watTime.format("LL")}
+          </p>
+          <p className="text-lg font-semibold text-zinc-700 2xl:text-xl">
             {watTime.format("h:mm A")}
           </p>
           <p className="text-sm font-medium text-zinc-500">(GMT+2)</p>

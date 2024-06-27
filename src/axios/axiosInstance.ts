@@ -8,6 +8,7 @@ import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import toast from "react-hot-toast";
 import { getCookie } from "cookies-next";
+import { useCommonStore } from "@/store/common-store";
 
 const { SESSION_EXPIRED } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY, REMEMBER_ME } = config;
@@ -53,6 +54,7 @@ const clearAllSessionAndLocalStates = () => {
       });
       clearCookie(LOGGED_IN_KEY);
       clearCookie(REMEMBER_ME);
+
       window.location.href = "/login";
     })
     .catch((_err: any) => {

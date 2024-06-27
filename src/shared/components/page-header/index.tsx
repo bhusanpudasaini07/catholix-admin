@@ -32,7 +32,7 @@ const PageHeader = ({
           <Button
             variant="outline_secondary"
             size="sm"
-            className="gap-2 p-0 rounded-full size-8 shrink-0"
+            className="gap-2 p-0 rounded-full !size-7 2xl:size-8 shrink-0"
             onClick={() => {
               backUrl ? router.push(backUrl) : router?.back();
             }}
@@ -40,8 +40,8 @@ const PageHeader = ({
             <ChevronLeft size={18} />
           </Button>
         )}
-        <div>
-          <h4 className="text-4xl font-bold">{title}</h4>
+        <div className="shrink-0">
+          <h4 className="text-2xl font-bold 2xl:text-4xl">{title}</h4>
           {subTitle && (
             <p className="text-sm font-medium text-zinc-700">{subTitle}</p>
           )}

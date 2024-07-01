@@ -87,11 +87,11 @@ const DataTablePagination: React.FC<IPagination> = memo(
         <div className="flex gap-2 items-center">
           <p className="text-sm">Show</p>
           <Select
-            value={JSON.stringify(perPage)}
+            value={perPage.toString()}
             onValueChange={(value) => perPageHandler(value)}
           >
             <SelectTrigger className="px-3 py-2 w-[68px]">
-              <SelectValue placeholder={JSON.stringify(perPage)} />
+              <SelectValue placeholder={perPage.toString()} />
             </SelectTrigger>
             <SelectContent>
               {[10, 20, 30, 40, 50].map((pageSize) => (

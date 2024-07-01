@@ -20,6 +20,7 @@ const marker = {
     roundUserAdd: "/markers/popup-icons/user-round-add.svg",
     battery: "/markers/popup-icons/battery.svg",
     phone: "/markers/popup-icons/call.svg",
+    users: "/markers/popup-icons/users.svg",
   },
 };
 

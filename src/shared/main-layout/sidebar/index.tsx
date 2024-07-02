@@ -41,7 +41,7 @@ import ProfileDropdown from "../header/profile-dropdown";
 import ChevronRight from "@/shared/svg/chevron-right";
 import { useCommonStore } from "@/store/common-store";
 import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
-
+import { permissionConfig } from "@/config/permissionConfig";
 interface ISidebarProps {
   sidebarWidth: string;
   isExpanded: boolean;
@@ -64,136 +64,16 @@ const Sidebar = ({
   const { t } = useTranslation("common");
 
   // Sidebar Items
-  const menuItems = [
-    // Dashboard
-    {
-      menuName: t("common.side_nav.dashboard"),
-      icon: <LayoutGrid width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.dashboard"),
-          menuSlug: "/",
-          icon: <LayoutDashboard width={20} height={20} />,
-        },
-      ],
-    },
-
-    // DLCM Data
-    {
-      menuName: t("common.side_nav.dlcm_data"),
-      icon: <UserCircle2 width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.dlcm_data"),
-          menuSlug: "/dlcm",
-          icon: <UserCircle2 width={20} height={20} />,
-        },
-      ],
-      permissions: [
-        {
-          path: "/dlcm",
-          method: "get",
-          resource: "dlcm",
-        },
-      ],
-    },
-    // SSP Data
-    {
-      menuName: t("common.side_nav.ssp_data"),
-      icon: <Server width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.ssp_data"),
-          menuSlug: "/ssp",
-          icon: <Server width={20} height={20} />,
-        },
-      ],
-    },
-    // Device Data
-    {
-      menuName: t("common.side_nav.devices_data"),
-      icon: <SquareKanban width={20} height={20} />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.devices_data"),
-          menuSlug: "/devices",
-          icon: (
-            <SquareKanban
-              className="transform rotate-180"
-              width={20}
-              height={20}
-            />
-          ),
-        },
-      ],
-      permissions: [
-        {
-          path: "/devices",
-          method: "get",
-          resource: "device",
-        },
-      ],
-    },
-
-    // {
-    //   menuName: t("common.side_nav.department"),
-    //   menuSlug: "",
-    //   icon: <User2 />,
-    //   hasChildren: true,
-    //   subMenu: [
-    //     {
-    //       menuName: t("common.side_nav.user_management"),
-    //       menuSlug: "/user-management",
-    //       icon: <UserCog width={20} height={20} />,
-    //       hasAccordion: true,
-    //       accordionItem: [
-    //         {
-    //           itemName: "Team Member List",
-    //           itemSlug: "/user-management/team-members",
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // },
-    // Admins
-    {
-      menuName: t("common.side_nav.admins "),
-      icon: <UserCog />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.admins"),
-          menuSlug: "/admins",
-          icon: <UserCog width={20} height={20} />,
-        },
-      ],
-      permissions: [
-        {
-          path: "/users",
-          method: "get",
-          resource: "user",
-        },
-      ],
-    },
-    // Roles
-    {
-      menuName: t("common.side_nav.roles "),
-      icon: <ScrollText />,
-      subMenu: [
-        {
-          menuName: t("common.side_nav.roles"),
-          menuSlug: "/roles",
-          icon: <ScrollText width={20} height={20} />,
-        },
-      ],
-      permissions: [
-        {
-          path: "/roles",
-          method: "get",
-          resource: "role",
-        },
-      ],
-    },
-  ];
+  const menuItems = permissionConfig.sidebarItems.map((item) => ({
+    menuName: t(item.menuName),
+    icon: item.icon,
+    subMenu: item.subMenu.map((subItem) => ({
+      menuName: t(subItem.menuName),
+      menuSlug: subItem.menuSlug,
+      icon: subItem.icon,
+    })),
+    permissions: item.permissions,
+  }));
 
   const isActive = (tabRoute: string) => {
     const result = router.pathname.startsWith(tabRoute);

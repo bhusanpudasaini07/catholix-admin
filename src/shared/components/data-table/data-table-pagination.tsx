@@ -82,7 +82,7 @@ const DataTablePagination: React.FC<IPagination> = memo(
     }, [handlePaginationEllipsis]);
 
     return (
-      <div className="flex justify-between items-center px-2 mt-6">
+      <div className="flex gap-4 justify-between items-center px-2 mt-6">
         {/* Entries */}
         <div className="flex gap-2 items-center">
           <p className="text-sm">Show</p>

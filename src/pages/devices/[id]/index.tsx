@@ -35,7 +35,7 @@ const DeviceDetail: NextPageWithLayout = () => {
           </div>
           {/* reset */}
           <Button
-            variant={"secondary"}
+            variant={"white"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
             // onClick={resetHandler}

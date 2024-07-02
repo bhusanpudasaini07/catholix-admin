@@ -33,6 +33,7 @@ interface IProps {
   setStateId: (value: string) => void;
   lga: string[];
   setLga: (lga: string[]) => void;
+  hideLga?: boolean;
 }
 
 const RegionalFilter = ({
@@ -42,6 +43,7 @@ const RegionalFilter = ({
   setStateId,
   lga,
   setLga,
+  hideLga = false,
 }: IProps) => {
   const { profileData } = useCommonStore();
   const [localGovernments, setLocalGovernments] = useState<ILGA[]>([]);
@@ -136,58 +138,60 @@ const RegionalFilter = ({
           </SelectContent>
         </Select>
       </div>
-      <div className="flex flex-col gap-2">
-        <Label>Select LGA</Label>
-        <DropdownMenu modal={false}>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant={"select"}
-              disabled={stateId === "0" && profileData.stateId !== 0}
-              className={cn(
-                "w-[150px] h-9",
-                stateId === "0" && "pointer-events-none"
-              )}
-            >
-              {lga.length > 0 ? `${lga.length} selected` : "Select LGA's"}
-              <ChevronDown className="w-4 h-4 opacity-50" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent
-            loop
-            className="z-[400] max-h-[250px] overflow-auto p-2 flex flex-col gap-2"
-          >
-            {localGovernments.map((localGovernment) => (
-              <div
-                className="flex gap-2 items-center p-1"
-                key={localGovernment.id}
+      {!hideLga && (
+        <div className="flex flex-col gap-2">
+          <Label>Select LGA</Label>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant={"select"}
+                disabled={stateId === "0" && profileData.stateId !== 0}
+                className={cn(
+                  "w-[150px] h-9",
+                  stateId === "0" && "pointer-events-none"
+                )}
               >
-                <Checkbox
-                  id={localGovernment?.id.toString()}
-                  variant="primary"
-                  disabled={
-                    profileData?.localGovId?.length > 0 &&
-                    !profileData.localGovId?.includes(
-                      localGovernment.id.toString()
-                    )
-                  }
-                  checked={lga.some((l) => Number(l) === localGovernment.id)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      return addLGA(localGovernment.id.toString());
-                    } else {
-                      return removeLGA(localGovernment.id.toString());
+                {lga.length > 0 ? `${lga.length} selected` : "Select LGA's"}
+                <ChevronDown className="w-4 h-4 opacity-50" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent
+              loop
+              className="z-[400] max-h-[250px] overflow-auto p-2 flex flex-col gap-2"
+            >
+              {localGovernments.map((localGovernment) => (
+                <div
+                  className="flex gap-2 items-center p-1"
+                  key={localGovernment.id}
+                >
+                  <Checkbox
+                    id={localGovernment?.id.toString()}
+                    variant="primary"
+                    disabled={
+                      profileData?.localGovId?.length > 0 &&
+                      !profileData.localGovId?.includes(
+                        localGovernment.id.toString()
+                      )
                     }
-                  }}
-                />
-                <Label htmlFor={localGovernment.id.toString()}>
-                  {localGovernment.name}
-                </Label>
-              </div>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+                    checked={lga.some((l) => Number(l) === localGovernment.id)}
+                    onCheckedChange={(checked) => {
+                      if (checked) {
+                        return addLGA(localGovernment.id.toString());
+                      } else {
+                        return removeLGA(localGovernment.id.toString());
+                      }
+                    }}
+                  />
+                  <Label htmlFor={localGovernment.id.toString()}>
+                    {localGovernment.name}
+                  </Label>
+                </div>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </div>
   );
 };

@@ -16,15 +16,23 @@ import { cn } from "@/shared/utils/utils";
 import { Badge } from "@/shared/components/ui/badge";
 import Image from "next/image";
 import { marker } from "@/shared/lib/image-config";
+import {
+  IDashboardDeviceDetail,
+  IDeviceGroup,
+} from "@/interface/dashboard-interface";
 
 const nigeriaBounds: LatLngBoundsExpression = [
   [4.272, 2.676], // Southwest coordinates
   [13.892, 14.678], // Northeast coordinates
 ];
 
-interface IProps {}
+interface IProps {
+  mapType: string;
+  loading: boolean;
+  deviceData: IDeviceGroup | undefined;
+}
 
-const DashboardMapContent = ({}: IProps) => {
+const DashboardMapContent = ({ mapType, loading, deviceData }: IProps) => {
   const mapRef = useRef(null);
 
   const activeMarker = new Icon({
@@ -57,7 +65,7 @@ const DashboardMapContent = ({}: IProps) => {
       <MapContainer
         center={[9.082, 8.6753]}
         ref={mapRef}
-        zoom={8}
+        zoom={5}
         scrollWheelZoom={true}
         className="w-full h-full rounded-lg my-custom-map"
         bounds={nigeriaBounds}
@@ -76,7 +84,97 @@ const DashboardMapContent = ({}: IProps) => {
           iconCreateFunction={createCustomClusterIcon}
         >
           {/* Devices */}
-          <Marker position={[9.082, 8.6753]} icon={activeMarker}>
+          {mapType === "device" &&
+            deviceData &&
+            Object.entries(deviceData).map(([key, value]) => {
+              return (value as IDashboardDeviceDetail[]).map((device) => (
+                <Marker
+                  key={device?.id}
+                  position={[device?.location_lat, device?.location_lng]}
+                  icon={
+                    key === "active_device"
+                      ? activeMarker
+                      : key === "inactive_device"
+                      ? inactiveMarker
+                      : key === "noheartbeat_device"
+                      ? noHeartBeatMarker
+                      : heartbeatMarker
+                  }
+                >
+                  <Popup
+                    closeOnEscapeKey={true}
+                    closeButton={false}
+                    className="w-[380px] min-w-0"
+                  >
+                    <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <span className="text-base font-semibold">
+                          {device?.name}
+                        </span>
+                        <div className="flex gap-2 items-center">
+                          <div className="flex gap-1.5 items-center">
+                            <Image
+                              src={marker?.popup?.battery}
+                              alt="Battery"
+                              width={12}
+                              height={12}
+                            />
+                            <span className="text-sm font-medium text-green-600">
+                              {device?.battery_status}%
+                            </span>
+                          </div>
+
+                          <Badge
+                            variant={
+                              key === "active_device" ? "success" : "secondary"
+                            }
+                            className={cn(
+                              "h-6 font-medium capitalize rounded border-0"
+                            )}
+                          >
+                            {key.split("_")[0]}
+                          </Badge>
+                        </div>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        {device?.gsuite_account}
+                      </span>
+                      <div className="flex gap-2 items-center mt-2">
+                        <Image
+                          src={marker?.popup?.polygonUser}
+                          alt="User"
+                          width={20}
+                          height={20}
+                        />
+                        <span className="text-xs">
+                          {device?.group_name ?? "-"}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 items-center mt-2">
+                        <Image
+                          src={marker?.popup?.roundUser}
+                          alt="User"
+                          width={20}
+                          height={20}
+                        />
+                        <span className="text-xs">{device?.profile_name}</span>
+                      </div>
+                      <Link
+                        href={`/devices/${device.id}`}
+                        className={cn(
+                          buttonVariants({ variant: "primary", size: "sm" }),
+                          "mt-4"
+                        )}
+                      >
+                        View Detail
+                      </Link>
+                    </div>
+                  </Popup>
+                </Marker>
+              ));
+            })}
+
+          {/* <Marker position={[9.082, 8.6753]} icon={activeMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -145,9 +243,10 @@ const DashboardMapContent = ({}: IProps) => {
                 </Link>
               </div>
             </Popup>
-          </Marker>
+          </Marker> */}
+
           {/* Agents */}
-          <Marker position={[9.17, 8.6753]} icon={activeMarker}>
+          {/* <Marker position={[9.17, 8.6753]} icon={activeMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -215,10 +314,10 @@ const DashboardMapContent = ({}: IProps) => {
                 </Link>
               </div>
             </Popup>
-          </Marker>
+          </Marker> */}
 
           {/* Dealer */}
-          <Marker position={[9.11, 8.6753]} icon={activeMarker}>
+          {/* <Marker position={[9.11, 8.6753]} icon={activeMarker}>
             <Popup
               closeOnEscapeKey={true}
               closeButton={false}
@@ -287,7 +386,7 @@ const DashboardMapContent = ({}: IProps) => {
                 </Link>
               </div>
             </Popup>
-          </Marker>
+          </Marker> */}
         </MarkerClusterGroup>
 
         <ZoomControls />

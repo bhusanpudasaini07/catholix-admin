@@ -3,8 +3,6 @@ import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "./_app";
 import DashboardHeaderCards from "@/features/Dashboard/dashboad-header-cards";
-import dynamic from "next/dynamic";
-import { Marker, Popup } from "react-leaflet";
 import DashboardContent from "@/features/Dashboard/dashboard-content";
 
 const Home: NextPageWithLayout = () => {

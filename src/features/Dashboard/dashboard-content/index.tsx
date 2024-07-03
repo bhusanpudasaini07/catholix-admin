@@ -1,4 +1,4 @@
-import { AreaChart, Phone, Smartphone, User2 } from "lucide-react";
+import { AreaChart, Search, Smartphone, User2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -40,11 +40,18 @@ const DashboardContent = () => {
     setStateId,
     lga,
     setLga,
+    deviceMapData,
+    deviceMapLoading,
+    searchTriggerHandler,
   } = useDashboard();
 
   return (
     <div className="relative w-full h-full">
-      <MapContent />
+      <MapContent
+        mapType={mapType}
+        loading={deviceMapLoading}
+        deviceData={deviceMapData?.data}
+      />
 
       {/* Options */}
       <div className="absolute  z-[400] top-6 left-6 flex flex-col gap-4">
@@ -64,7 +71,7 @@ const DashboardContent = () => {
 
       {/* Filter */}
       <div
-        className="absolute bottom-6 left-6 bg-white z-[400] rounded-lg
+        className="absolute bottom-6 left-6 bg-white z-[400] rounded-lg flex items-end gap-3
        py-3 px-4 shadow"
       >
         <RegionalFilter
@@ -75,6 +82,16 @@ const DashboardContent = () => {
           lga={lga}
           setLga={setLga}
         />
+
+        <Button
+          variant={"primary"}
+          size={"sm"}
+          className="gap-1 px-4 py-2 h-9"
+          onClick={searchTriggerHandler}
+        >
+          <Search size={20} />
+          Search
+        </Button>
       </div>
     </div>
   );

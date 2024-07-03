@@ -14,8 +14,11 @@ import {
 } from "@/shared/components/ui/tooltip";
 import { dashboard } from "@/shared/lib/image-config";
 import { cn } from "@/shared/utils/utils";
+import useDashboard from "@/hooks/dashboard/useDashboard.hook";
 
 const DashboardHeaderCards = () => {
+  const { deviceStats, deviceStatsLoading } = useDashboard();
+
   const [watTime, setWatTime] = useState(moment().tz("Africa/Lagos"));
 
   const dashboardData = [
@@ -23,7 +26,7 @@ const DashboardHeaderCards = () => {
     {
       id: "activeDevices",
       title: "Active Devices",
-      value: 1090,
+      value: deviceStats?.data?.active_device_count ?? 0,
       icon: dashboard?.activeDevices,
       footerText: "Completed GC 6:00am",
       footerIconColor: "text-blue-500",
@@ -33,7 +36,7 @@ const DashboardHeaderCards = () => {
     {
       id: "totalDevices",
       title: "Total Device",
-      value: 1250,
+      value: deviceStats?.data?.total_device_count ?? 0,
       icon: dashboard?.totalDevices,
       footerText: "All Deployed 6:00am",
       footerIconColor: "text-purple-500",
@@ -43,7 +46,7 @@ const DashboardHeaderCards = () => {
     {
       id: "heartbeatDevices",
       title: "Heartbeat Devices",
-      value: 1090,
+      value: deviceStats?.data?.heartbeat_device_count ?? 0,
       icon: dashboard?.heartbeatDevices,
       footerText: "6:00am Prepared",
       footerIconColor: "text-red-500",
@@ -53,7 +56,7 @@ const DashboardHeaderCards = () => {
     {
       id: "inactiveDevices",
       title: "Inactive Devices",
-      value: 160,
+      value: deviceStats?.data?.inactive_device_count ?? 0,
       icon: dashboard?.inactiveDevices,
       pageUrl: "/",
       // pageUrl: "/inactive-devices",
@@ -65,7 +68,7 @@ const DashboardHeaderCards = () => {
     {
       id: "noHeartbeatDevices",
       title: "No Heartbeat Devices",
-      value: 90,
+      value: deviceStats?.data?.noheartbeat_device_count ?? 0,
       icon: dashboard?.noHeartbeatDevices,
       pageUrl: "/",
       // pageUrl: "/no-heartbeat-devices",
@@ -77,7 +80,7 @@ const DashboardHeaderCards = () => {
     {
       id: "activeUsers",
       title: "Active Users",
-      value: 1090,
+      value: deviceStats?.data?.active_users ?? 0,
       icon: dashboard?.activeUsers,
       footerText: "6:00am Registered",
       footerIconColor: "text-blue-500",
@@ -162,7 +165,7 @@ const DashboardHeaderCards = () => {
       {/* Time */}
       <Card className="h-auto flex flex-col justify-center shrink-0 w-[150px]">
         <CardContent className="p-3 xl:py-3 xl:px-4">
-          <p className="text-sm  text-nowrap text-zinc-500">
+          <p className="text-sm text-nowrap text-zinc-500">
             {watTime.format("LL")}
           </p>
           <p className="text-lg font-semibold text-zinc-700 2xl:text-xl">

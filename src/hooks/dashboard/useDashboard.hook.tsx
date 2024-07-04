@@ -20,6 +20,12 @@ const useDashboard = () => {
   const searchTriggerHandler = () => {
     setSearchTrigger(!searchTrigger);
   };
+  const resetHandler = () => {
+    setRegionId("0");
+    setStateId("0");
+    setLga([]);
+    setSearchTrigger(!searchTrigger);
+  };
 
   // Device Stats
   const { data: deviceStats, isLoading: deviceStatsLoading } =
@@ -55,6 +61,7 @@ const useDashboard = () => {
 
     // FUNCTION
     searchTriggerHandler,
+    resetHandler,
 
     // API
     deviceStats,

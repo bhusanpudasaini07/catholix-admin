@@ -171,7 +171,7 @@ const DashboardHeaderCards = () => {
           <p className="text-lg font-semibold text-zinc-700 2xl:text-xl">
             {watTime.format("h:mm A")}
           </p>
-          <p className="text-sm font-medium text-zinc-500">(GMT+2)</p>
+          <p className="text-sm font-medium text-zinc-500">(GMT+1)</p>
         </CardContent>
       </Card>
     </div>

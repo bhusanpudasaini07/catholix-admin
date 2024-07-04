@@ -1,4 +1,10 @@
-import { AreaChart, Search, Smartphone, User2 } from "lucide-react";
+import {
+  AreaChart,
+  ListRestart,
+  Search,
+  Smartphone,
+  User2,
+} from "lucide-react";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -43,6 +49,7 @@ const DashboardContent = () => {
     deviceMapData,
     deviceMapLoading,
     searchTriggerHandler,
+    resetHandler,
   } = useDashboard();
 
   return (
@@ -82,15 +89,21 @@ const DashboardContent = () => {
           lga={lga}
           setLga={setLga}
         />
-
+        <Button
+          variant={"white"}
+          size={"icon"}
+          className="gap-1 p-2 h-9"
+          onClick={resetHandler}
+        >
+          <ListRestart size={20} />
+        </Button>
         <Button
           variant={"primary"}
-          size={"sm"}
-          className="gap-1 px-4 py-2 h-9"
+          size={"icon"}
+          className="gap-1 p-2 h-9"
           onClick={searchTriggerHandler}
         >
           <Search size={20} />
-          Search
         </Button>
       </div>
     </div>

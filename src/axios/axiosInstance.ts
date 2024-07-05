@@ -36,8 +36,8 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
     const responseData = error.response?.data;
     const responseStatus = error.response?.status;
     const errorCode = responseData?.code;
-    const rememberMe = getCookie(REMEMBER_ME);
-    if (responseStatus === 403 && errorCode === 1006 && rememberMe) {
+    // const rememberMe = getCookie(REMEMBER_ME);
+    if (responseStatus === 403 && errorCode === 1006) {
       shouldRefresh = true;
     } else if (responseStatus === 401 && errorCode === 1005) {
       clearAllSessionAndLocalStates();

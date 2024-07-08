@@ -11,8 +11,6 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
-import { ColumnDef } from "@tanstack/react-table";
-import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 
 const SSPData: NextPageWithLayout = () => {
   const {
@@ -22,9 +20,11 @@ const SSPData: NextPageWithLayout = () => {
     searchHandler,
     searchTextHandler,
     sspColumns,
-    dummyData,
     perPageHandler,
     pageChangeHandler,
+    sspList,
+    sspListLoading,
+    applyColumns,
   } = useSSP();
 
   return (
@@ -34,14 +34,15 @@ const SSPData: NextPageWithLayout = () => {
 
       <DataTable
         columns={sspColumns}
-        data={dummyData ?? []}
+        data={sspList?.data?.results ?? []}
         showManageColumn
-        loading={false}
+        loading={sspListLoading}
+        loadingDataNum={10}
         border
         headerSticky
-        loadingDataNum={10}
         height="max-h-[calc(100vh-270px)]"
         module="ssp"
+        applyColumns={applyColumns}
       >
         {/* Filter */}
         <div className="flex gap-1 justify-end items-center grow">
@@ -64,16 +65,8 @@ const SSPData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        // currentPage={rolesList?.data?.currentPage ?? 1}
-        currentPage={1}
-        totalPages={10}
-        // totalPages={
-        //   (rolesList &&
-        //     Math.ceil(
-        //       rolesList?.data?.totalItems / rolesList?.data?.pageSize
-        //     )) ??
-        //   1
-        // }
+        currentPage={sspList?.data?.currentPage ?? 1}
+        totalPages={sspList?.data?.totalPages ?? 1}
         setPerPage={perPageHandler}
         perPage={perPage}
         pageChange={pageChangeHandler}

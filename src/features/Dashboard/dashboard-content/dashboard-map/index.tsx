@@ -177,7 +177,8 @@ const DashboardMapContent = ({
                         <span className="text-xs">{device?.profile_name}</span>
                       </div>
                       <Link
-                        href={`/devices/${device.id}`}
+                        href={`/`}
+                        // href={`/devices/${device.id}`}
                         className={cn(
                           buttonVariants({ variant: "primary", size: "sm" }),
                           "mt-4"
@@ -341,7 +342,8 @@ const DashboardMapContent = ({
                       <span className="text-sm">{agent?.address1}</span>
                     </div>
                     <Link
-                      href={`/agent/${agent?.code}`}
+                      href={`/`}
+                      // href={`/agent/${agent?.code}`}
                       className={cn(
                         buttonVariants({ variant: "primary", size: "sm" }),
                         "mt-4"

@@ -98,3 +98,33 @@ export interface IDashboardDeviceDetail {
   updateInfo: string;
   wifi_mac_address: string;
 }
+
+export interface IDealerMap {
+  data: IDealerDetail[];
+}
+
+export interface IDealerDetail {
+  dealer_address: string;
+  dealer_code: string;
+  dealer_division: string;
+  dealer_name: string;
+  dealer_type: string;
+  latitude: string;
+  longitude: string;
+}
+
+export interface IAgentMap {
+  data: IAgentDetail[];
+}
+
+export interface IAgentDetail {
+  address1: string;
+  address2: string;
+  address3: string;
+  agent_msisdn: string;
+  alter_mobile_num: string;
+  code: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+}

@@ -15,4 +15,24 @@ const getDeviceMapData = (region: string, state: string, lga: string) => {
   });
 };
 
-export { getDeviceStats, getDeviceMapData };
+const getDealerMapData = (region: string, state: string, lga: string) => {
+  return httpRequest("/dashboard/dealer-map-data", httpMethods.GET, {
+    params: {
+      region,
+      state,
+      lga,
+    },
+  });
+};
+
+const getAgentMapData = (region: string, state: string, lga: string) => {
+  return httpRequest("/dashboard/agent-map-data", httpMethods.GET, {
+    params: {
+      region,
+      state,
+      lga,
+    },
+  });
+};
+
+export { getDeviceStats, getDeviceMapData, getDealerMapData, getAgentMapData };

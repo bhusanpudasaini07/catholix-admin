@@ -50,14 +50,20 @@ const DashboardContent = () => {
     deviceMapLoading,
     searchTriggerHandler,
     resetHandler,
+    dealerMapData,
+    dealerMapLoading,
+    agentMapData,
+    agentMapLoading,
   } = useDashboard();
 
   return (
     <div className="relative w-full h-full">
       <MapContent
         mapType={mapType}
-        loading={deviceMapLoading}
+        loading={deviceMapLoading || dealerMapLoading || agentMapLoading}
         deviceData={deviceMapData?.data}
+        dealerData={dealerMapData?.data ?? []}
+        agentData={agentMapData?.data ?? []}
       />
 
       {/* Options */}

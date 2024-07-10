@@ -164,7 +164,7 @@ const RoleForm = ({ form, loading }: IProps) => {
               </div>
             </CardContent>
           </Card>
-          {/* DLCM */}
+          {/* Devices */}
           <Card className="col-span-3 xl:col-span-1">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
@@ -174,6 +174,50 @@ const RoleForm = ({ form, loading }: IProps) => {
               </div>
               <div className="grid grid-cols-1 items-center">
                 {groupedPermissionsByResource?.devices?.map((permission) => (
+                  <FormField
+                    key={permission.id}
+                    control={form.control}
+                    name="permissions"
+                    render={({ field }) => (
+                      <FormItem className="flex gap-2 items-center">
+                        <FormControl>
+                          <Checkbox
+                            id={permission.id.toString()}
+                            variant="primary"
+                            className="border-zinc-700"
+                            checked={field.value?.includes(
+                              permission.id.toString()
+                            )}
+                            onCheckedChange={(checked) => {
+                              handleCheckedChange(
+                                permission.id.toString(),
+                                checked as boolean,
+                                permission
+                              );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel
+                          className="!mt-0"
+                          htmlFor={permission.id.toString()}
+                        >
+                          {permission.description}
+                        </FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          {/* SSP */}
+          <Card className="col-span-3 xl:col-span-1">
+            <CardContent>
+              <div className="flex justify-between items-center mb-6">
+                <h5 className="text-base font-bold text-zinc-900">SSP Data</h5>
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                {groupedPermissionsByResource?.ssp?.map((permission) => (
                   <FormField
                     key={permission.id}
                     control={form.control}

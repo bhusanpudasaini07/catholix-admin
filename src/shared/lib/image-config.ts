@@ -21,6 +21,7 @@ const marker = {
     battery: "/markers/popup-icons/battery.svg",
     phone: "/markers/popup-icons/call.svg",
     users: "/markers/popup-icons/users.svg",
+    chart: "/markers/popup-icons/chart.svg",
   },
 };
 

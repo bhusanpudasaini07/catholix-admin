@@ -1,8 +1,15 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
-import { IDeviceMap, IDeviceStats } from "@/interface/dashboard-interface";
 import {
+  IAgentMap,
+  IDealerMap,
+  IDeviceMap,
+  IDeviceStats,
+} from "@/interface/dashboard-interface";
+import {
+  getAgentMapData,
+  getDealerMapData,
   getDeviceMapData,
   getDeviceStats,
 } from "@/services/dashboard/dashboard-service";
@@ -32,19 +39,57 @@ const useDashboard = () => {
     useQuery<IDeviceStats>({
       queryKey: ["deviceStats"],
       queryFn: getDeviceStats,
-      // refetchInterval: 20000,
+      refetchInterval: 20000,
     });
 
+  // Device map
   const { data: deviceMapData, isLoading: deviceMapLoading } =
     useQuery<IDeviceMap>({
       queryKey: ["deviceMap", searchTrigger],
-      queryFn: () =>
-        getDeviceMapData(
-          regionId,
-          stateId,
-          lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
-        ),
-      // refetchInterval: 20000
+      queryFn: async () => {
+        if (mapType === "device") {
+          return await getDeviceMapData(
+            regionId,
+            stateId,
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+          );
+        }
+      },
+      enabled: !!mapType && mapType === "device",
+      refetchInterval: 20000,
+    });
+
+  // Dealer map
+  const { data: dealerMapData, isLoading: dealerMapLoading } =
+    useQuery<IDealerMap>({
+      queryKey: ["dealerMap", searchTrigger],
+      queryFn: async () => {
+        if (mapType === "dealer") {
+          const response = await getDealerMapData(
+            regionId,
+            stateId,
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+          );
+          return response;
+        }
+      },
+      enabled: !!mapType && mapType === "dealer",
+    });
+
+  // Agent map
+  const { data: agentMapData, isLoading: agentMapLoading } =
+    useQuery<IAgentMap>({
+      queryKey: ["agentMap", searchTrigger],
+      queryFn: async () => {
+        if (mapType === "agent") {
+          return await getAgentMapData(
+            regionId,
+            stateId,
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+          );
+        }
+      },
+      enabled: !!mapType && mapType === "agent",
     });
 
   return {
@@ -68,6 +113,10 @@ const useDashboard = () => {
     deviceStatsLoading,
     deviceMapData,
     deviceMapLoading,
+    dealerMapData,
+    dealerMapLoading,
+    agentMapData,
+    agentMapLoading,
   };
 };
 

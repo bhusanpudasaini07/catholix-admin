@@ -1,5 +1,5 @@
 import { ListRestart, Search } from "lucide-react";
-import React from "react";
+import React, { useRef } from "react";
 
 import useDLCM from "@/hooks/dlcm/useDLCM.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
@@ -13,6 +13,7 @@ import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import { NextPageWithLayout } from "../_app";
 
 const DLCMData: NextPageWithLayout = () => {
+  const tableRef = useRef<HTMLDivElement>(null);
   const {
     searchText,
     perPage,
@@ -26,7 +27,6 @@ const DLCMData: NextPageWithLayout = () => {
     dlcmLoading,
     applyColumns,
   } = useDLCM();
-
   return (
     <div className="px-8 py-6">
       {/* Header */}

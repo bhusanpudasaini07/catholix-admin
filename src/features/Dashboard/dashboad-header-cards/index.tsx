@@ -1,9 +1,8 @@
 "use client";
 import { ChevronRight, Clock } from "lucide-react";
-import moment from "moment-timezone";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -19,18 +18,26 @@ import useDashboard from "@/hooks/dashboard/useDashboard.hook";
 const DashboardHeaderCards = () => {
   const { deviceStats, deviceStatsLoading } = useDashboard();
 
-  const [watTime, setWatTime] = useState(moment().tz("Africa/Lagos"));
-
   const dashboardData = [
-    // Active Devices
+    // GC
     {
-      id: "activeDevices",
-      title: "Active Devices",
-      value: deviceStats?.data?.active_device_count ?? 0,
-      icon: dashboard?.activeDevices,
-      footerText: "Completed GC 6:00am",
+      id: "connectedDevices",
+      title: "Connected Devices",
+      value: deviceStats?.data?.connected_device_gc_count ?? 0,
+      icon: dashboard?.connectedDevices,
+      footerText: "GC 6:00am",
       footerIconColor: "text-blue-500",
-      tooltipText: "Active devices that have done minimum 1GC",
+      tooltipText: "Connected devices since 6:00am",
+    },
+    // GA
+    {
+      id: "registeredDevices",
+      title: "Registered Devices",
+      value: deviceStats?.data?.registered_device_ga_count ?? 0,
+      icon: dashboard?.registeredDevices,
+      footerText: "GA 6:00am",
+      footerIconColor: "text-green-500",
+      tooltipText: "Registered devices since 6:00am",
     },
     // Total Devices
     {
@@ -88,18 +95,9 @@ const DashboardHeaderCards = () => {
     },
   ];
 
-  //   For time change
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWatTime(moment().tz("Africa/Lagos"));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="flex gap-4">
-      <div className="grid grid-cols-1 gap-4 grow md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+      <div className="grid grid-cols-1 gap-4 grow md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7">
         {dashboardData.map((item) => (
           <Card key={item.id}>
             <CardContent className="relative p-3 xl:p-3">
@@ -162,18 +160,6 @@ const DashboardHeaderCards = () => {
           </Card>
         ))}
       </div>
-      {/* Time */}
-      <Card className="h-auto flex flex-col justify-center shrink-0 w-[150px]">
-        <CardContent className="p-3 xl:py-3 xl:px-4">
-          <p className="text-sm text-nowrap text-zinc-500">
-            {watTime.format("LL")}
-          </p>
-          <p className="text-lg font-semibold text-zinc-700 2xl:text-xl">
-            {watTime.format("h:mm A")}
-          </p>
-          <p className="text-sm font-medium text-zinc-500">(GMT+1)</p>
-        </CardContent>
-      </Card>
     </div>
   );
 };

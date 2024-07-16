@@ -52,6 +52,13 @@ export const permissionConfig = {
           icon: <Server width={20} height={20} />,
         },
       ],
+      permissions: [
+        {
+          path: "/ssp",
+          method: "get",
+          resource: "ssp",
+        },
+      ],
     },
     // Devices
     {

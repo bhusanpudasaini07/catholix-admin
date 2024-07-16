@@ -33,6 +33,8 @@ const dashboard = {
   noHeartbeatDevices: "/dashboard/no-heartbeat-devices.svg",
   activeUsers: "/dashboard/active-users.svg",
   helpIcon: "/dashboard/help-icon.svg",
+  connectedDevices: "/dashboard/connected-devices.svg",
+  registeredDevices: "/dashboard/registered-devices.svg",
 };
 
 const misMatched = {

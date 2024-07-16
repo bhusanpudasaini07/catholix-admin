@@ -128,11 +128,11 @@ const useSSP = () => {
         <p className="uppercase">{row.original.eligibility_privilege || "-"}</p>
       ),
     },
-    // Status
+    // NIN Status
     {
       id: "nin_status",
       accessorKey: "nin_status",
-      header: "Status",
+      header: "NIN Status",
       enableHiding: true,
       cell: ({ row }) => (
         <Badge
@@ -449,14 +449,6 @@ const useSSP = () => {
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.quarantine_flag_v || "-"}</p>,
     },
-    // Dealer Code
-    {
-      id: "dealer_code_v",
-      accessorKey: "dealer_code_v",
-      header: "Dealer Code",
-      enableHiding: true,
-      cell: ({ row }) => <p>{row.original.dealer_code_v || "-"}</p>,
-    },
     // Quarantine Reason
     {
       id: "quarantine_reason_v",
@@ -528,6 +520,278 @@ const useSSP = () => {
       header: "Dealer Division",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.dealer_division || "-"}</p>,
+    },
+    // Seq No
+    {
+      id: "seq_no_n",
+      accessorKey: "seq_no_n",
+      header: "Seq No",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.seq_no_n || "-"}</p>,
+    },
+    // MSISDN
+    {
+      id: "msisdn_v",
+      accessorKey: "msisdn_v",
+      header: "MSISDN",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.msisdn_v || "-"}</p>,
+    },
+    // Last Name
+    {
+      id: "last_name_v",
+      accessorKey: "last_name_v",
+      header: "Last Name",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.last_name_v || "-"}</p>,
+    },
+    // First Name
+    {
+      id: "first_name_v",
+      accessorKey: "first_name_v",
+      header: "First Name",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.first_name_v || "-"}</p>,
+    },
+    // Mother Maiden Name
+    {
+      id: "mother_maiden_v",
+      accessorKey: "mother_maiden_v",
+      header: "Mother Maiden Name",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.mother_maiden_v || "-"}</p>,
+    },
+    // Gender
+    {
+      id: "gender_v",
+      accessorKey: "gender_v",
+      header: "Gender",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.gender_v || "-"}</p>,
+    },
+    // Date of Birth
+    {
+      id: "date_of_birth",
+      accessorKey: "date_of_birth",
+      header: "Date of Birth",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.date_of_birth || "-"}</p>,
+    },
+    // Nationality
+    {
+      id: "nationality_v",
+      accessorKey: "nationality_v",
+      header: "Nationality",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.nationality_v || "-"}</p>,
+    },
+    // SIM Number
+    {
+      id: "sim_number_v",
+      accessorKey: "sim_number_v",
+      header: "SIM Number",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.sim_number_v || "-"}</p>,
+    },
+    // Pin Ref Num
+    {
+      id: "pin_ref_num_v",
+      accessorKey: "pin_ref_num_v",
+      header: "Pin Ref Num",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.pin_ref_num_v || "-"}</p>,
+    },
+    // Status
+    {
+      id: "status_v",
+      accessorKey: "status_v",
+      header: "Status",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.status_v || "-"}</p>,
+    },
+    // SIM Reg Type
+    {
+      id: "sim_reg_type_v",
+      accessorKey: "sim_reg_type_v",
+      header: "SIM Reg Type",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.sim_reg_type_v || "-"}</p>,
+    },
+    // Updated Date
+    {
+      id: "updated_dt",
+      accessorKey: "updated_dt",
+      header: "Updated Date",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.updated_dt || "-"}</p>,
+    },
+    // Remarks
+    {
+      id: "remarks_v",
+      accessorKey: "remarks_v",
+      header: "Remarks",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.remarks_v || "-"}</p>,
+    },
+    // Provident Status
+    {
+      id: "provident_status",
+      accessorKey: "provident_status",
+      header: "Provident Status",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.provident_status || "-"}</p>,
+    },
+    // AGL Status
+    {
+      id: "agl_status",
+      accessorKey: "agl_status",
+      header: "AGL Status",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.agl_status || "-"}</p>,
+    },
+    // Occupation
+    {
+      id: "occupation_v",
+      accessorKey: "occupation_v",
+      header: "Occupation",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.occupation_v || "-"}</p>,
+    },
+    // SIM
+    {
+      id: "sim_v",
+      accessorKey: "sim_v",
+      header: "SIM",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.sim_v || "-"}</p>,
+    },
+    // Identification Number
+    {
+      id: "identification_number",
+      accessorKey: "identification_number",
+      header: "Identification Number",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.identification_number || "-"}</p>,
+    },
+    // Address 1
+    {
+      id: "address1",
+      accessorKey: "address1",
+      header: "Address 1",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.address1 || "-"}</p>,
+    },
+    // Address 2
+    {
+      id: "address2",
+      accessorKey: "address2",
+      header: "Address 2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.address2 || "-"}</p>,
+    },
+    // Address 3
+    {
+      id: "address3",
+      accessorKey: "address3",
+      header: "Address 3",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.address3 || "-"}</p>,
+    },
+    // Street Description
+    {
+      id: "street_desc",
+      accessorKey: "street_desc",
+      header: "Street Description",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.street_desc || "-"}</p>,
+    },
+    // Transaction ID
+    {
+      id: "transaction_id",
+      accessorKey: "transaction_id",
+      header: "Transaction ID",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.transaction_id || "-"}</p>,
+    },
+    // Uploaded Date
+    {
+      id: "uploaded_date",
+      accessorKey: "uploaded_date",
+      header: "Uploaded Date",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.uploaded_date || "-"}</p>,
+    },
+    // Vendor Channel
+    {
+      id: "vendor_channel",
+      accessorKey: "vendor_channel",
+      header: "Vendor Channel",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.vendor_channel || "-"}</p>,
+    },
+    // SIM Reg Device ID
+    {
+      id: "sim_reg_device_id",
+      accessorKey: "sim_reg_device_id",
+      header: "SIM Reg Device ID",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.sim_reg_device_id || "-"}</p>,
+    },
+    // Device User ID
+    {
+      id: "device_user_id",
+      accessorKey: "device_user_id",
+      header: "Device User ID",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.device_user_id || "-"}</p>,
+    },
+    // LGA
+    {
+      id: "lga",
+      accessorKey: "lga",
+      header: "LGA",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.lga || "-"}</p>,
+    },
+    // State
+    {
+      id: "state",
+      accessorKey: "state",
+      header: "State",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.state || "-"}</p>,
+    },
+    // Other Name
+    {
+      id: "other_name",
+      accessorKey: "other_name",
+      header: "Other Name",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.other_name || "-"}</p>,
+    },
+    // Region Code
+    {
+      id: "region_code",
+      accessorKey: "region_code",
+      header: "Region Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.region_code}</p>,
+    },
+    // State Code
+    {
+      id: "state_code",
+      accessorKey: "state_code",
+      header: "State Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.state_code}</p>,
+    },
+    // LG Code
+    {
+      id: "lg_code",
+      accessorKey: "lg_code",
+      header: "LG Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.lg_code}</p>,
     },
   ];
 

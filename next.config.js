@@ -19,7 +19,7 @@ const ContentSecurityPolicy = `
 
 const nextConfig = {
   images: {
-    domains: [CSP_IMAGE_ORIGIN, "tile.openstreetmap.org"],
+    domains: [CSP_IMAGE_ORIGIN, "tile.openstreetmap.org", "localhost"],
   },
   reactStrictMode: true,
   i18n: {

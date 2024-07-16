@@ -11,7 +11,7 @@ export interface ISSPData {
 }
 
 export interface ISSPDetail {
-  seq_no_n: string;
+  seq_no_n: number;
   msisdn_v: string;
   last_name_v: string;
   sim_number_v: string;
@@ -56,14 +56,14 @@ export interface ISSPDetail {
   other_name: string;
   primary_msisdn_v: string;
   secondary_sim_v: string;
-  instance_id_n: string;
+  instance_id_n: number;
   session_token_v: string;
   action_code_v: string;
   eyeball_status_v: string;
   eyeball_user_n: string;
   eyeball_on_d: string;
   eyeball_remarks_v: string;
-  record_locked_by_n: string;
+  record_locked_by_n: number;
   record_locked_on_d: string;
   addnl_attrb_x: string;
   eyeball_type_v: string;
@@ -74,7 +74,7 @@ export interface ISSPDetail {
   serv_addnl_fld_3_v: string;
   serv_addnl_fld_4_v: string;
   serv_addnl_fld_5_v: string;
-  is_posted_to_clm: string;
+  is_posted_to_clm: number;
   posted_to_clm_date: string;
   req_received_date_from_clm: string;
   eyeball_details_v: string;
@@ -82,7 +82,7 @@ export interface ISSPDetail {
   quarantine_flag_v: string;
   dealer_code_v: string;
   quarantine_reason_v: string;
-  transaction_num_n: string;
+  transaction_num_n: number;
   reg_type_v: string;
   dept_code_v: string;
   fast_eyeball_date_d: string;
@@ -123,8 +123,8 @@ export interface ISSPDetail {
   sim_network: string;
   reference_id: string;
   foreigner_passport: string;
-  sim_reg_face_score: string;
-  nimc_face_score: string;
+  sim_reg_face_score: number;
+  nimc_face_score: number;
   service_class_v: string;
   language_v: string;
   seam_fix_ref: string;
@@ -140,4 +140,7 @@ export interface ISSPDetail {
   override_portrait: string;
   over_ride_reason: string;
   verification_status: string;
+  region_code: string;
+  state_code: string;
+  lg_code: string;
 }

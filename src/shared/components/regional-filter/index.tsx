@@ -23,6 +23,7 @@ import { Checkbox } from "../ui/checkbox";
 
 interface ILGA {
   id: number;
+  code: string;
   name: string;
 }
 
@@ -34,6 +35,7 @@ interface IProps {
   lga: string[];
   setLga: (lga: string[]) => void;
   hideLga?: boolean;
+  searchTriggerHandler: () => void;
 }
 
 const RegionalFilter = ({
@@ -44,6 +46,7 @@ const RegionalFilter = ({
   lga,
   setLga,
   hideLga = false,
+  searchTriggerHandler,
 }: IProps) => {
   const { profileData } = useCommonStore();
   const [localGovernments, setLocalGovernments] = useState<ILGA[]>([]);
@@ -56,8 +59,8 @@ const RegionalFilter = ({
   const filterLocalGovs = (id: string) => {
     setStateId(id);
     const state = regionsList?.data?.regions
-      ?.find((region) => region?.id === Number(regionId))
-      ?.states?.find((state) => state?.id === Number(id));
+      ?.find((region) => region?.code === regionId)
+      ?.states?.find((state) => state?.code === id);
     setLocalGovernments(state?.localGovernments ?? []);
     setLga([]);
   };
@@ -71,19 +74,29 @@ const RegionalFilter = ({
   };
 
   useEffect(() => {
-    if (profileData.regionId !== 0) {
-      setRegionId(profileData.regionId?.toString());
-      setStateId(profileData.stateId?.toString());
+    if (profileData && profileData?.regionId !== null) {
+      const region = regionsList?.data?.regions?.find(
+        (region) => region.id === profileData?.regionId
+      );
       const state = regionsList?.data?.regions
-        ?.find((region) => region.id === profileData.regionId)
-        ?.states?.find((state) => state.id === profileData.stateId);
-      setLocalGovernments(state?.localGovernments ?? []);
-      setLga(profileData.localGovId || []);
-    } else {
-      setRegionId("0");
-      setStateId("0");
-      setLocalGovernments([]);
-      setLga([]);
+        ?.find((region) => region?.id === profileData?.regionId)
+        ?.states?.find((state) => state?.id === profileData?.stateId);
+      const localGovs = state?.localGovernments
+        ?.filter((lg) => profileData.localGovId?.includes(lg.id))
+        ?.map((lg) => lg.code);
+      if (profileData?.regionId !== 0) {
+        setRegionId(region?.code!);
+        setStateId(state?.code!);
+        setLocalGovernments(state?.localGovernments ?? []);
+        setLga(localGovs || []);
+        searchTriggerHandler();
+      } else {
+        setRegionId("all");
+        setStateId("all");
+        setLocalGovernments([]);
+        setLga([]);
+        searchTriggerHandler();
+      }
     }
   }, [profileData, regionsList]);
 
@@ -95,7 +108,7 @@ const RegionalFilter = ({
           value={regionId}
           onValueChange={(e) => {
             setRegionId(e);
-            setStateId("0");
+            setStateId("all");
             setLga([]);
           }}
           disabled={profileData.regionId !== 0}
@@ -104,9 +117,9 @@ const RegionalFilter = ({
             <SelectValue placeholder="Select Region" />
           </SelectTrigger>
           <SelectContent className="z-[400]">
-            <SelectItem value="0">All</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             {regionsList?.data?.regions?.map((region) => (
-              <SelectItem key={region.id} value={region.id.toString()}>
+              <SelectItem key={region.id} value={region.code}>
                 {region.name}
               </SelectItem>
             ))}
@@ -117,7 +130,7 @@ const RegionalFilter = ({
         <Label>Select State</Label>
         <Select
           disabled={
-            regionId === "0" ||
+            regionId === "all" ||
             (profileData.stateId !== null && profileData.stateId !== 0)
           }
           value={stateId}
@@ -127,11 +140,11 @@ const RegionalFilter = ({
             <SelectValue placeholder="Select State" />
           </SelectTrigger>
           <SelectContent className="z-[400]">
-            <SelectItem value="0">All</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             {regionsList?.data?.regions
-              ?.find((region) => region.id === Number(regionId))
+              ?.find((region) => region.code === regionId)
               ?.states?.map((state) => (
-                <SelectItem key={state.id} value={state.id.toString()}>
+                <SelectItem key={state.id} value={state.code}>
                   {state.name}
                 </SelectItem>
               ))}
@@ -145,7 +158,7 @@ const RegionalFilter = ({
             <DropdownMenuTrigger asChild>
               <Button
                 variant={"select"}
-                disabled={stateId === "0" && profileData.stateId !== 0}
+                disabled={stateId === "all" && profileData.stateId !== 0}
                 className={cn(
                   "w-[150px] h-9",
                   stateId === "0" && "pointer-events-none"
@@ -166,24 +179,22 @@ const RegionalFilter = ({
                   key={localGovernment.id}
                 >
                   <Checkbox
-                    id={localGovernment?.id.toString()}
+                    id={localGovernment?.code}
                     variant="primary"
                     disabled={
                       profileData?.localGovId?.length > 0 &&
-                      !profileData.localGovId?.includes(
-                        localGovernment.id.toString()
-                      )
+                      !profileData.localGovId?.includes(localGovernment.code)
                     }
-                    checked={lga.some((l) => Number(l) === localGovernment.id)}
+                    checked={lga.some((l) => l === localGovernment.code)}
                     onCheckedChange={(checked) => {
                       if (checked) {
-                        return addLGA(localGovernment.id.toString());
+                        return addLGA(localGovernment.code);
                       } else {
-                        return removeLGA(localGovernment.id.toString());
+                        return removeLGA(localGovernment.code);
                       }
                     }}
                   />
-                  <Label htmlFor={localGovernment.id.toString()}>
+                  <Label htmlFor={localGovernment.code}>
                     {localGovernment.name}
                   </Label>
                 </div>

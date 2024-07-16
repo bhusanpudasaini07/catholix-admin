@@ -6,6 +6,8 @@ export interface IDeviceStats {
     inactive_device_count: number;
     noheartbeat_device_count: number;
     total_device_count: number;
+    registered_device_ga_count: number;
+    connected_device_gc_count: number;
   };
 }
 

@@ -5,12 +5,11 @@ import { Badge } from "@/shared/components/ui/badge";
 import { cn } from "@/shared/utils/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "react-query";
 
 const useDLCM = () => {
   const queryClient = useQueryClient();
-
   const [searchText, setSearchText] = useState<string>("");
   const [perPage, setPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);

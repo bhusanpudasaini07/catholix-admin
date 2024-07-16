@@ -13,13 +13,15 @@ import {
   getDeviceMapData,
   getDeviceStats,
 } from "@/services/dashboard/dashboard-service";
+import { useCommonStore } from "@/store/common-store";
 
 const useDashboard = () => {
   const queryClient = useQueryClient();
+  const { profileData } = useCommonStore();
   // STATES
   const [mapType, setMapType] = useState<string>("device");
-  const [regionId, setRegionId] = useState<string>("0");
-  const [stateId, setStateId] = useState<string>("0");
+  const [regionId, setRegionId] = useState<string>("");
+  const [stateId, setStateId] = useState<string>("");
   const [lga, setLga] = useState<string[]>([]);
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
 
@@ -47,16 +49,14 @@ const useDashboard = () => {
     useQuery<IDeviceMap>({
       queryKey: ["deviceMap", searchTrigger],
       queryFn: async () => {
-        if (mapType === "device") {
+        if (mapType === "device" && profileData && regionId && stateId) {
           return await getDeviceMapData(
-            regionId,
-            stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+            regionId ? regionId : "all",
+            stateId ? stateId : "all",
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
           );
         }
       },
-      enabled: !!mapType && mapType === "device",
-      refetchInterval: 20000,
     });
 
   // Dealer map
@@ -68,7 +68,7 @@ const useDashboard = () => {
           const response = await getDealerMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
           );
           return response;
         }
@@ -91,6 +91,16 @@ const useDashboard = () => {
       },
       enabled: !!mapType && mapType === "agent",
     });
+
+  useEffect(() => {
+    if (mapType === "device") {
+      const interval = setInterval(() => {
+        queryClient.invalidateQueries(["deviceMap"]);
+      }, 20000);
+
+      return () => clearInterval(interval);
+    }
+  }, [mapType]);
 
   return {
     // States

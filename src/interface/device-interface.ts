@@ -85,4 +85,7 @@ export interface IDeviceDetail {
   last_seen_on: string;
   connection_state: string;
   connection_status: string;
+  region_code: string;
+  state_code: string;
+  lg_code: string;
 }

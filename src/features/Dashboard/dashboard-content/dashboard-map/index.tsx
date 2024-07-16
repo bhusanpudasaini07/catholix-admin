@@ -276,7 +276,7 @@ const DashboardMapContent = ({
           {/* Agents */}
           {mapType === "agent" &&
             agentData &&
-            agentData.map((agent) => (
+            agentData?.map((agent) => (
               <Marker
                 key={agent?.code}
                 position={[Number(agent?.latitude), Number(agent?.longitude)]}

@@ -532,6 +532,30 @@ const useDevices = () => {
         <p>{new Date(row.original.location_created_at).toLocaleString()}</p>
       ),
     },
+    // Region Code
+    {
+      id: "region_code",
+      accessorKey: "region_code",
+      header: "Region Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.region_code}</p>,
+    },
+    // State Code
+    {
+      id: "state_code",
+      accessorKey: "state_code",
+      header: "State Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.state_code}</p>,
+    },
+    // LG Code
+    {
+      id: "lg_code",
+      accessorKey: "lg_code",
+      header: "LG Code",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.lg_code}</p>,
+    },
   ];
 
   useEffect(() => {

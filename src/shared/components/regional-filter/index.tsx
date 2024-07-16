@@ -35,7 +35,7 @@ interface IProps {
   lga: string[];
   setLga: (lga: string[]) => void;
   hideLga?: boolean;
-  searchTriggerHandler: () => void;
+  searchTriggerHandler?: () => void;
 }
 
 const RegionalFilter = ({
@@ -89,13 +89,13 @@ const RegionalFilter = ({
         setStateId(state?.code!);
         setLocalGovernments(state?.localGovernments ?? []);
         setLga(localGovs || []);
-        searchTriggerHandler();
+        searchTriggerHandler && searchTriggerHandler();
       } else {
         setRegionId("all");
         setStateId("all");
         setLocalGovernments([]);
         setLga([]);
-        searchTriggerHandler();
+        searchTriggerHandler && searchTriggerHandler();
       }
     }
   }, [profileData, regionsList]);

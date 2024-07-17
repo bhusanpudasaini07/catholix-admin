@@ -5,14 +5,14 @@ import {
   Smartphone,
   User2,
 } from "lucide-react";
-import moment from "moment-timezone";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 
 import useDashboard from "@/hooks/dashboard/useDashboard.hook";
 import RegionalFilter from "@/shared/components/regional-filter";
 import { Button } from "@/shared/components/ui/button";
-import { Card, CardContent } from "@/shared/components/ui/card";
+import { useCommonStore } from "@/store/common-store";
+import DashboardTime from "./dashboard-time";
 
 const MapContent = dynamic(import("./dashboard-map"), {
   ssr: false,
@@ -20,7 +20,7 @@ const MapContent = dynamic(import("./dashboard-map"), {
 });
 
 const DashboardContent = () => {
-  const [watTime, setWatTime] = useState(moment().tz("Africa/Lagos"));
+  const { profileData } = useCommonStore();
 
   const mapOptions = [
     {
@@ -59,21 +59,12 @@ const DashboardContent = () => {
     agentMapLoading,
   } = useDashboard();
 
-  //   For time change
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWatTime(moment().tz("Africa/Lagos"));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="relative w-full h-full">
       <MapContent
         mapType={mapType}
         loading={deviceMapLoading || dealerMapLoading || agentMapLoading}
-        deviceData={deviceMapData?.data}
+        deviceData={deviceMapData}
         dealerData={dealerMapData?.data ?? []}
         agentData={agentMapData?.data ?? []}
       />
@@ -108,36 +99,32 @@ const DashboardContent = () => {
           setLga={setLga}
           searchTriggerHandler={searchTriggerHandler}
         />
+        {/* Reset */}
         <Button
           variant={"white"}
           size={"icon"}
           className="gap-1 p-2 h-9"
           onClick={resetHandler}
+          disabled={
+            (profileData.regionId !== 0 || profileData.regionId !== null) &&
+            (profileData.stateId !== 0 || profileData.stateId !== null)
+          }
         >
           <ListRestart size={20} />
         </Button>
+        {/* Search */}
         <Button
           variant={"primary"}
           size={"icon"}
           className="gap-1 p-2 h-9"
           onClick={searchTriggerHandler}
+          disabled={profileData.regionId !== 0 && profileData.stateId !== 0}
         >
           <Search size={20} />
         </Button>
       </div>
 
-      {/* Time */}
-      <Card className="h-auto shadow-sm flex border border-primary flex-col justify-center w-[150px] absolute z-[400] top-3 right-6">
-        <CardContent className="p-3 xl:py-4 xl:px-5">
-          <p className="text-sm text-nowrap text-zinc-500">
-            {watTime.format("LL")}
-          </p>
-          <p className="text-lg font-semibold text-zinc-700 2xl:text-2xl">
-            {watTime.format("h:mm A")}
-          </p>
-          <p className="text-sm font-medium text-zinc-500">(GMT+1)</p>
-        </CardContent>
-      </Card>
+      <DashboardTime />
     </div>
   );
 };

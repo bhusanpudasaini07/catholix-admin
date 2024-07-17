@@ -793,6 +793,22 @@ const useSSP = () => {
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.lg_code}</p>,
     },
+    // Latitude
+    {
+      id: "latitude",
+      accessorKey: "latitude",
+      header: "Latitude",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.latitude || "-"}</p>,
+    },
+    // Longitude
+    {
+      id: "longitude",
+      accessorKey: "longitude",
+      header: "Longitude",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.longitude || "-"}</p>,
+    },
   ];
 
   useEffect(() => {

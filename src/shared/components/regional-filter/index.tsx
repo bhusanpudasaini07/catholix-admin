@@ -70,7 +70,7 @@ const RegionalFilter = ({
   };
 
   const removeLGA = (localGov: string) => {
-    setLga(lga.filter((l) => Number(l) !== Number(localGov)));
+    setLga(lga.filter((l) => l !== localGov));
   };
 
   useEffect(() => {
@@ -161,7 +161,7 @@ const RegionalFilter = ({
                 disabled={stateId === "all" && profileData.stateId !== 0}
                 className={cn(
                   "w-[150px] h-9",
-                  stateId === "0" && "pointer-events-none"
+                  stateId === "all" && "pointer-events-none"
                 )}
               >
                 {lga.length > 0 ? `${lga.length} selected` : "Select LGA's"}

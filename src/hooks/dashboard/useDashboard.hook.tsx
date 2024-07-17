@@ -143,9 +143,6 @@ const useDashboard = () => {
         return await parseStreamedData(reader!);
       }
     },
-    onSuccess: (data) => {
-      console.log("data", data);
-    },
   });
 
   // Dealer map
@@ -174,7 +171,7 @@ const useDashboard = () => {
           return await getAgentMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "0"
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
           );
         }
       },

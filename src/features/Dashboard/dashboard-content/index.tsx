@@ -6,7 +6,7 @@ import {
   User2,
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import useDashboard from "@/hooks/dashboard/useDashboard.hook";
 import RegionalFilter from "@/shared/components/regional-filter";
@@ -105,10 +105,7 @@ const DashboardContent = () => {
           size={"icon"}
           className="gap-1 p-2 h-9"
           onClick={resetHandler}
-          disabled={
-            (profileData.regionId !== 0 || profileData.regionId !== null) &&
-            (profileData.stateId !== 0 || profileData.stateId !== null)
-          }
+          disabled={profileData.regionId !== 0 && profileData.stateId !== 0}
         >
           <ListRestart size={20} />
         </Button>

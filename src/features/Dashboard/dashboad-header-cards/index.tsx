@@ -114,12 +114,14 @@ const DashboardHeaderCards = () => {
               )}
               <div className="flex gap-2 items-center">
                 {item.icon && (
-                  <Image
-                    src={item.icon}
-                    alt={item.title}
-                    width={44}
-                    height={44}
-                  />
+                  <div className="shrink-0 size-[32px] 2xl:size-[44px]">
+                    <Image
+                      src={item.icon}
+                      alt={item.title}
+                      width={44}
+                      height={44}
+                    />
+                  </div>
                 )}
                 <div>
                   <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">

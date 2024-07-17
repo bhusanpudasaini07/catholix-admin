@@ -456,7 +456,7 @@ const DashboardMapContent = ({
               <DealerCustomMarker
                 key={dealer?.dealer_code}
                 position={[Number(dealer?.latitude), Number(dealer?.longitude)]}
-                text={"10000"}
+                text={"0"}
               >
                 <Popup
                   closeOnEscapeKey={true}

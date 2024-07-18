@@ -36,6 +36,10 @@ interface IProps {
   deviceData: IDeviceGroup | undefined;
   dealerData: IDealerDetail[];
   agentData: IAgentDetail[];
+  southWest: string;
+  northEast: string;
+  setSouthWest: (southWest: string) => void;
+  setNorthEast: (northEast: string) => void;
 }
 
 function MapEventHandler({
@@ -69,6 +73,10 @@ const DashboardMapContent = ({
   deviceData,
   dealerData,
   agentData,
+  southWest,
+  northEast,
+  setSouthWest,
+  setNorthEast,
 }: IProps) => {
   const mapRef = useRef(null);
   const initialBounds = L.latLng(mapConstants.center).toBounds(
@@ -76,8 +84,8 @@ const DashboardMapContent = ({
   );
   const initialSouthWest = `${initialBounds.getWest()},${initialBounds.getSouth()}`;
   const initialNorthEast = `${initialBounds.getEast()},${initialBounds.getNorth()}`;
-  const [southWest, setSouthWest] = useState<string>(initialSouthWest);
-  const [northEast, setNorthEast] = useState<string>(initialNorthEast);
+  // const [southWest, setSouthWest] = useState<string>(initialSouthWest);
+  // const [northEast, setNorthEast] = useState<string>(initialNorthEast);
   const [filteredDeviceData, setFilteredDeviceData] = useState<
     IDeviceGroup | undefined
   >(undefined);
@@ -176,35 +184,40 @@ const DashboardMapContent = ({
     if (deviceData) filterData();
   }, [deviceData, southWest, northEast]);
 
-  const dealerDummyData = [
-    {
-      dealer_code: "D001",
-      latitude: "6.5244",
-      longitude: "3.3792",
-      name: "Dealer One",
-      address: "123 Lagos Street, Lagos, Nigeria",
-      phone: "+234 800 123 4567",
-      email: "dealerone@example.com",
-    },
-    {
-      dealer_code: "D002",
-      latitude: "9.0578",
-      longitude: "7.4951",
-      name: "Dealer Two",
-      address: "456 Abuja Avenue, Abuja, Nigeria",
-      phone: "+234 800 234 5678",
-      email: "dealertwo@example.com",
-    },
-    {
-      dealer_code: "D003",
-      latitude: "4.8156",
-      longitude: "7.0498",
-      name: "Dealer Three",
-      address: "789 Port Harcourt Road, Port Harcourt, Nigeria",
-      phone: "+234 800 345 6789",
-      email: "dealerthree@example.com",
-    },
-  ];
+  useEffect(() => {
+    setSouthWest(initialSouthWest);
+    setNorthEast(initialNorthEast);
+  }, []);
+
+  // const dealerDummyData = [
+  //   {
+  //     dealer_code: "D001",
+  //     latitude: "6.5244",
+  //     longitude: "3.3792",
+  //     name: "Dealer One",
+  //     address: "123 Lagos Street, Lagos, Nigeria",
+  //     phone: "+234 800 123 4567",
+  //     email: "dealerone@example.com",
+  //   },
+  //   {
+  //     dealer_code: "D002",
+  //     latitude: "9.0578",
+  //     longitude: "7.4951",
+  //     name: "Dealer Two",
+  //     address: "456 Abuja Avenue, Abuja, Nigeria",
+  //     phone: "+234 800 234 5678",
+  //     email: "dealertwo@example.com",
+  //   },
+  //   {
+  //     dealer_code: "D003",
+  //     latitude: "4.8156",
+  //     longitude: "7.0498",
+  //     name: "Dealer Three",
+  //     address: "789 Port Harcourt Road, Port Harcourt, Nigeria",
+  //     phone: "+234 800 345 6789",
+  //     email: "dealerthree@example.com",
+  //   },
+  // ];
   return (
     <div className="relative w-full h-full">
       {/* {loading && (
@@ -464,59 +477,66 @@ const DashboardMapContent = ({
                   className="w-[380px] min-w-0"
                 >
                   <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <span className="text-base font-semibold">
-                        Meretricious_model_3
-                      </span>
+                    <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
+                      <div className="flex gap-2 items-center min-w-0">
+                        <Image
+                          src={marker?.popup?.polygonUser}
+                          width={22}
+                          height={22}
+                          alt="Agent Image"
+                          className="shrink-0"
+                        />
+                        <span className="text-base font-semibold uppercase truncate">
+                          {dealer?.dealer_name}
+                        </span>
+                      </div>
+                      <Badge
+                        variant={"success"}
+                        className={cn(
+                          "h-6 font-medium capitalize rounded border-0"
+                        )}
+                      >
+                        {dealer?.dealer_code}
+                      </Badge>
+                    </div>
+                    <div className="flex justify-between items-center mt-2 ml-1">
                       <div className="flex gap-2 items-center">
-                        <div className="flex gap-1.5 items-center">
-                          <Image
-                            src={marker?.popup?.battery}
-                            alt="User"
-                            width={12}
-                            height={12}
-                          />
-                          <span className="text-sm font-medium text-green-600">
-                            90%
-                          </span>
-                        </div>
-
-                        <Badge
-                          variant={
-                            "success"
-                            // : "secondary"
-                          }
-                          className={cn(
-                            "h-6 font-medium capitalize rounded border-0"
-                          )}
-                        >
-                          {"Active"}
-                        </Badge>
+                        <Image
+                          src={marker?.popup?.phone}
+                          alt="User"
+                          width={20}
+                          height={20}
+                        />
+                        <span className="text-sm">
+                          {dealer?.dealer_contact ?? "N/A"}
+                        </span>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">Zainab Khoury</span>
-                    <div className="flex gap-2 items-center mt-2">
+                    <div className="flex gap-2 items-start mt-2 ml-1">
                       <Image
-                        src={marker?.popup?.polygonUser}
+                        src={marker?.popup?.roundUserAdd}
                         alt="User"
                         width={20}
                         height={20}
                       />
-                      <span className="text-xs">
-                        MACSWORTH SERVICES NIGERIA LTD
+                      <span className="text-sm">
+                        {dealer?.dealer_address ?? "N/A"}
                       </span>
                     </div>
-                    <div className="flex gap-2 items-center mt-2">
+                    {/* <div className="flex gap-2 items-start mt-2 ml-1">
                       <Image
-                        src={marker?.popup?.roundUser}
+                        src={marker?.popup?.roundUserAdd}
                         alt="User"
                         width={20}
                         height={20}
                       />
-                      <span className="text-xs">ABDUL AHAD TUJJANI</span>
-                    </div>
+                      <span className="text-sm">
+                        {dealer?.dealer_type ?? "N/A"}
+                      </span>
+                    </div> */}
                     <Link
-                      href="/devices/1"
+                      href={`/`}
+                      // href={`/agent/${agent?.code}`}
                       className={cn(
                         buttonVariants({ variant: "primary", size: "sm" }),
                         "mt-4"

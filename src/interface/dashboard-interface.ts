@@ -113,6 +113,7 @@ export interface IDealerDetail {
   dealer_type: string;
   latitude: string;
   longitude: string;
+  dealer_contact: string;
 }
 
 export interface IAgentMap {

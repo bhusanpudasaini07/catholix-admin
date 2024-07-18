@@ -57,6 +57,10 @@ const DashboardContent = () => {
     dealerMapLoading,
     agentMapData,
     agentMapLoading,
+    southWest,
+    setSouthWest,
+    northEast,
+    setNorthEast,
   } = useDashboard();
 
   return (
@@ -67,6 +71,10 @@ const DashboardContent = () => {
         deviceData={deviceMapData}
         dealerData={dealerMapData?.data ?? []}
         agentData={agentMapData?.data ?? []}
+        southWest={southWest}
+        setSouthWest={setSouthWest}
+        northEast={northEast}
+        setNorthEast={setNorthEast}
       />
 
       {/* Options */}

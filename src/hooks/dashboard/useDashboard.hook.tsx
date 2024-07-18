@@ -28,8 +28,8 @@ const useDashboard = () => {
   const [stateId, setStateId] = useState<string>("");
   const [lga, setLga] = useState<string[]>([]);
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
-  // const [deviceMapLoading, setDeviceMapLoading] = useState<boolean>(false);
-  // const [deviceMapData, setDeviceMapData] = useState<any>([]);
+  const [southWest, setSouthWest] = useState<string>("");
+  const [northEast, setNorthEast] = useState<string>("");
   // FUNCTION
   const searchTriggerHandler = () => {
     setSearchTrigger(!searchTrigger);
@@ -155,6 +155,8 @@ const useDashboard = () => {
             regionId,
             stateId,
             lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
+            // southWest,
+            // northEast
           );
           return response;
         }
@@ -172,6 +174,8 @@ const useDashboard = () => {
             regionId,
             stateId,
             lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
+            // southWest,
+            // northEast
           );
         }
       },
@@ -213,6 +217,10 @@ const useDashboard = () => {
     dealerMapLoading,
     agentMapData,
     agentMapLoading,
+    southWest,
+    setSouthWest,
+    northEast,
+    setNorthEast,
   };
 };
 

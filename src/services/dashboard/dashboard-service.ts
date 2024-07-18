@@ -15,22 +15,38 @@ const getDeviceMapData = (region: string, state: string, lga: string) => {
   });
 };
 
-const getDealerMapData = (region: string, state: string, lga: string) => {
+const getDealerMapData = (
+  region: string,
+  state: string,
+  lga: string
+  // southwest: string,
+  // northeast: string
+) => {
   return httpRequest("/dashboard/dealer-map-data", httpMethods.GET, {
     params: {
       region,
       state,
       lga,
+      // southwest,
+      // northeast,
     },
   });
 };
 
-const getAgentMapData = (region: string, state: string, lga: string) => {
+const getAgentMapData = (
+  region: string,
+  state: string,
+  lga: string
+  // southwest: string,
+  // northeast: string
+) => {
   return httpRequest("/dashboard/agent-map-data", httpMethods.GET, {
     params: {
       region,
       state,
       lga,
+      // southwest,
+      // northeast,
     },
   });
 };

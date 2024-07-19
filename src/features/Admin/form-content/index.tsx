@@ -87,7 +87,7 @@ const AdminFormContent = ({
   };
 
   useEffect(() => {
-    if (selected.length > 0) {
+    if (selected) {
       form.setValue(
         "localGovId",
         selected?.map((lg) => lg?.id?.toString())

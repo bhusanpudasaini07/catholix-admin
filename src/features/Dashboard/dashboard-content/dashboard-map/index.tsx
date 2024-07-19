@@ -8,7 +8,7 @@ import {
 } from "leaflet";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
+import { Marker, Popup, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet/MapContainer";
 import MarkerClusterGroup from "react-leaflet-cluster";
 
@@ -68,6 +68,24 @@ function MapEventHandler({
   });
   return null;
 }
+function MapComponent({
+  setSouthWest,
+  setNorthEast,
+}: {
+  setSouthWest: (southWest: string) => void;
+  setNorthEast: (northEast: string) => void;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    const bounds = map.getBounds();
+    const southWest = `${bounds.getWest()},${bounds.getSouth()}`;
+    const northEast = `${bounds.getEast()},${bounds.getNorth()}`;
+    setSouthWest(southWest);
+    setNorthEast(northEast);
+  }, [map]);
+  return null;
+}
 
 const mapConstants = {
   center: [10.0, 8.0] as [number, number], // New coordinates for the center
@@ -80,20 +98,13 @@ const DashboardMapContent = ({
   deviceData,
   dealerData,
   agentData,
-  southWest,
-  northEast,
   setSouthWest,
   setNorthEast,
 }: IProps) => {
   const { profileData } = useCommonStore();
-  const mapRef = useRef(null);
-  const initialBounds = L.latLng(mapConstants.center).toBounds(
-    mapConstants.zoom * 1000
-  );
-  const [centerPoint, setCenterPoint] = useState<LatLngExpression>();
-  const initialSouthWest = `${initialBounds.getWest()},${initialBounds.getSouth()}`;
-  const initialNorthEast = `${initialBounds.getEast()},${initialBounds.getNorth()}`;
+  const [mapRef, setMapRef] = useState<any>(null);
 
+  const [centerPoint, setCenterPoint] = useState<LatLngExpression>();
   const activeMarker = new Icon({
     iconUrl: "/markers/active-devices-marker.svg",
     iconSize: [10, 10],
@@ -163,38 +174,6 @@ const DashboardMapContent = ({
     });
   };
 
-  // const filterData = () => {
-  //   if (deviceData && southWest && northEast) {
-  //     const [swLng, swLat] = southWest.split(",").map(Number);
-  //     const [neLng, neLat] = northEast.split(",").map(Number);
-
-  //     const filteredData: IDeviceGroup = Object.entries(deviceData).reduce(
-  //       (acc: any, [key, value]) => {
-  //         acc[key] = (value as IDashboardDeviceDetail[]).filter((device) => {
-  //           const lat = device?.location_lat;
-  //           const lng = device?.location_lng;
-  //           return lat >= swLat && lat <= neLat && lng >= swLng && lng <= neLng;
-  //         });
-  //         return acc;
-  //       },
-  //       {} as IDeviceGroup
-  //     );
-
-  //     setFilteredDeviceData(filteredData);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (deviceData) filterData();
-  // }, [deviceData, southWest, northEast]);
-
-  useEffect(() => {
-    if (centerPoint) {
-      setSouthWest(initialSouthWest);
-      setNorthEast(initialNorthEast);
-    }
-  }, [centerPoint]);
-
   useEffect(() => {
     if (profileData && profileData?.regionId !== 0) {
       const region = Object.values(regions).find(
@@ -209,46 +188,17 @@ const DashboardMapContent = ({
     }
   }, [profileData]);
 
-  // const dealerDummyData = [
-  //   {
-  //     dealer_code: "D001",
-  //     latitude: "6.5244",
-  //     longitude: "3.3792",
-  //     name: "Dealer One",
-  //     address: "123 Lagos Street, Lagos, Nigeria",
-  //     phone: "+234 800 123 4567",
-  //     email: "dealerone@example.com",
-  //   },
-  //   {
-  //     dealer_code: "D002",
-  //     latitude: "9.0578",
-  //     longitude: "7.4951",
-  //     name: "Dealer Two",
-  //     address: "456 Abuja Avenue, Abuja, Nigeria",
-  //     phone: "+234 800 234 5678",
-  //     email: "dealertwo@example.com",
-  //   },
-  //   {
-  //     dealer_code: "D003",
-  //     latitude: "4.8156",
-  //     longitude: "7.0498",
-  //     name: "Dealer Three",
-  //     address: "789 Port Harcourt Road, Port Harcourt, Nigeria",
-  //     phone: "+234 800 345 6789",
-  //     email: "dealerthree@example.com",
-  //   },
-  // ];
   return (
     <div className="relative w-full h-full">
-      {/* {loading && (
+      {loading && (
         <div className="flex absolute justify-center items-center w-full h-full z-[401] bg-black/40">
-          <ButtonLoader />
+          {/* <ButtonLoader /> */}
         </div>
-      )} */}
+      )}
       {centerPoint && centerPoint !== undefined && (
         <MapContainer
           center={centerPoint}
-          ref={mapRef}
+          ref={setMapRef}
           zoom={mapConstants.zoom}
           scrollWheelZoom={true}
           className="w-full h-full rounded-lg my-custom-map"
@@ -256,6 +206,10 @@ const DashboardMapContent = ({
           // maxBounds={nigeriaBounds}
           zoomControl={false}
         >
+          <MapComponent
+            setSouthWest={setSouthWest}
+            setNorthEast={setNorthEast}
+          />
           {/* <GeoJSON
           // style={geoJsonStyles}
           data={nigeriaJson as any}
@@ -430,7 +384,7 @@ const DashboardMapContent = ({
                               {agent?.code}
                             </Badge>
                           </div>
-                          <div className="flex justify-between items-center mt-2 ml-1">
+                          {/* <div className="flex justify-between items-center mt-2 ml-1">
                             <div className="flex gap-2 items-center">
                               <Image
                                 src={marker?.popup?.phone}
@@ -442,7 +396,7 @@ const DashboardMapContent = ({
                                 {agent?.alter_mobile_num ?? "N/A"}
                               </span>
                             </div>
-                            {/* <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center">
                               <Image
                                 src={marker?.popup?.chart}
                                 alt="User"
@@ -450,9 +404,9 @@ const DashboardMapContent = ({
                                 height={16}
                               />
                               <span className="text-sm text-zinc-700">0</span>
-                            </div> */}
-                          </div>
-                          <div className="flex gap-2 items-center mt-2 ml-1">
+                            </div>
+                          </div> */}
+                          {/* <div className="flex gap-2 items-center mt-2 ml-1">
                             <Image
                               src={marker?.popup?.roundUserAdd}
                               alt="User"
@@ -462,7 +416,7 @@ const DashboardMapContent = ({
                             <span className="text-sm">
                               {agent?.address1 ?? "N/A"}
                             </span>
-                          </div>
+                          </div> */}
                           <Link
                             href={`/`}
                             // href={`/agent/${agent?.code}`}

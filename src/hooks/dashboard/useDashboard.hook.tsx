@@ -46,14 +46,16 @@ const useDashboard = () => {
     API_BASE_URL: string | undefined,
     regionId: string,
     stateId: string,
-    lga: string[]
+    lga: string[],
+    southWest: string,
+    northEast: string
   ) => {
     const response = await fetch(
       `${API_BASE_URL}/dashboard/device-map-data?region=${
         regionId || "all"
       }&state=${stateId || "all"}&lga=${
         lga.length > 0 ? lga.join(",") : "all"
-      }`,
+      }&southwest=${southWest}&northeast=${northEast}`,
       {
         method: "GET",
         credentials: "include",
@@ -130,33 +132,44 @@ const useDashboard = () => {
 
   // Device map
   const { data: deviceMapData, isLoading: deviceMapLoading } = useQuery<any>({
-    queryKey: ["deviceMap", searchTrigger],
+    queryKey: ["deviceMap", searchTrigger, southWest, northEast],
     queryFn: async () => {
-      if (mapType === "device" && profileData && regionId && stateId) {
+      if (
+        mapType === "device" &&
+        profileData &&
+        regionId &&
+        stateId &&
+        southWest &&
+        northEast
+      ) {
+        console.log(southWest, northEast);
         const body = await fetchDeviceMapData(
           API_BASE_URL,
           regionId,
           stateId,
-          lga
+          lga,
+          southWest,
+          northEast
         );
         const reader = body?.getReader();
         return await parseStreamedData(reader!);
       }
     },
+    enabled: !!mapType && mapType === "device",
   });
 
   // Dealer map
   const { data: dealerMapData, isLoading: dealerMapLoading } =
     useQuery<IDealerMap>({
-      queryKey: ["dealerMap", searchTrigger],
+      queryKey: ["dealerMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
         if (mapType === "dealer") {
           const response = await getDealerMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
-            // southWest,
-            // northEast
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+            southWest,
+            northEast
           );
           return response;
         }
@@ -167,15 +180,15 @@ const useDashboard = () => {
   // Agent map
   const { data: agentMapData, isLoading: agentMapLoading } =
     useQuery<IAgentMap>({
-      queryKey: ["agentMap", searchTrigger],
+      queryKey: ["agentMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
         if (mapType === "agent") {
           return await getAgentMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
-            // southWest,
-            // northEast
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+            southWest,
+            northEast
           );
         }
       },
@@ -186,7 +199,7 @@ const useDashboard = () => {
     if (mapType === "device") {
       const interval = setInterval(() => {
         queryClient.invalidateQueries(["deviceMap"]);
-      }, 20000);
+      }, 60000);
 
       return () => clearInterval(interval);
     }

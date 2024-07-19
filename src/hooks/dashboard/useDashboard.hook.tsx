@@ -132,9 +132,16 @@ const useDashboard = () => {
 
   // Device map
   const { data: deviceMapData, isLoading: deviceMapLoading } = useQuery<any>({
-    queryKey: ["deviceMap", searchTrigger],
+    queryKey: ["deviceMap", searchTrigger, southWest, northEast],
     queryFn: async () => {
-      if (mapType === "device" && profileData && regionId && stateId) {
+      if (
+        mapType === "device" &&
+        profileData &&
+        regionId &&
+        stateId &&
+        southWest &&
+        northEast
+      ) {
         const body = await fetchDeviceMapData(
           API_BASE_URL,
           regionId,
@@ -153,7 +160,7 @@ const useDashboard = () => {
   // Dealer map
   const { data: dealerMapData, isLoading: dealerMapLoading } =
     useQuery<IDealerMap>({
-      queryKey: ["dealerMap", searchTrigger],
+      queryKey: ["dealerMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
         if (mapType === "dealer") {
           const response = await getDealerMapData(
@@ -172,7 +179,7 @@ const useDashboard = () => {
   // Agent map
   const { data: agentMapData, isLoading: agentMapLoading } =
     useQuery<IAgentMap>({
-      queryKey: ["agentMap", searchTrigger],
+      queryKey: ["agentMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
         if (mapType === "agent") {
           return await getAgentMapData(

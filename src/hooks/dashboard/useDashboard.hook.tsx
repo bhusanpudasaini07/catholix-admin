@@ -127,7 +127,7 @@ const useDashboard = () => {
     useQuery<IDeviceStats>({
       queryKey: ["deviceStats"],
       queryFn: getDeviceStats,
-      refetchInterval: 20000,
+      refetchInterval: 60000,
     });
 
   // Device map

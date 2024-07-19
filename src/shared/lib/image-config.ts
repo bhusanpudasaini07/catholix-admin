@@ -22,6 +22,7 @@ const marker = {
     phone: "/markers/popup-icons/call.svg",
     users: "/markers/popup-icons/users.svg",
     chart: "/markers/popup-icons/chart.svg",
+    mapPin: "/markers/popup-icons/map-pin.svg",
   },
 };
 

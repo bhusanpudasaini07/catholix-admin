@@ -46,14 +46,16 @@ const useDashboard = () => {
     API_BASE_URL: string | undefined,
     regionId: string,
     stateId: string,
-    lga: string[]
+    lga: string[],
+    southWest: string,
+    northEast: string
   ) => {
     const response = await fetch(
       `${API_BASE_URL}/dashboard/device-map-data?region=${
         regionId || "all"
       }&state=${stateId || "all"}&lga=${
         lga.length > 0 ? lga.join(",") : "all"
-      }`,
+      }&southwest=${southWest}&northeast=${northEast}`,
       {
         method: "GET",
         credentials: "include",
@@ -137,12 +139,15 @@ const useDashboard = () => {
           API_BASE_URL,
           regionId,
           stateId,
-          lga
+          lga,
+          southWest,
+          northEast
         );
         const reader = body?.getReader();
         return await parseStreamedData(reader!);
       }
     },
+    enabled: !!mapType && mapType === "device",
   });
 
   // Dealer map
@@ -154,9 +159,9 @@ const useDashboard = () => {
           const response = await getDealerMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
-            // southWest,
-            // northEast
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+            southWest,
+            northEast
           );
           return response;
         }
@@ -173,9 +178,9 @@ const useDashboard = () => {
           return await getAgentMapData(
             regionId,
             stateId,
-            lga?.length > 0 ? lga.map((l) => l).join(",") : "all"
-            // southWest,
-            // northEast
+            lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+            southWest,
+            northEast
           );
         }
       },

@@ -479,13 +479,6 @@ const DashboardMapContent = ({
                   <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
                     <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
                       <div className="flex gap-2 items-center min-w-0">
-                        <Image
-                          src={marker?.popup?.polygonUser}
-                          width={22}
-                          height={22}
-                          alt="Agent Image"
-                          className="shrink-0"
-                        />
                         <span className="text-base font-semibold uppercase truncate">
                           {dealer?.dealer_name}
                         </span>
@@ -493,7 +486,7 @@ const DashboardMapContent = ({
                       <Badge
                         variant={"success"}
                         className={cn(
-                          "h-6 font-medium capitalize rounded border-0"
+                          "h-6 font-bold capitalize rounded border-0"
                         )}
                       >
                         {dealer?.dealer_code}
@@ -514,10 +507,10 @@ const DashboardMapContent = ({
                     </div>
                     <div className="flex gap-2 items-start mt-2 ml-1">
                       <Image
-                        src={marker?.popup?.roundUserAdd}
+                        src={marker?.popup?.mapPin}
                         alt="User"
-                        width={20}
-                        height={20}
+                        width={18}
+                        height={18}
                       />
                       <span className="text-sm">
                         {dealer?.dealer_address ?? "N/A"}

@@ -1,6 +1,11 @@
 import "leaflet/dist/leaflet.css";
 
-import { Icon, LatLngBoundsExpression, divIcon } from "leaflet";
+import {
+  Icon,
+  LatLngBoundsExpression,
+  LatLngExpression,
+  divIcon,
+} from "leaflet";
 
 import React, { useEffect, useRef, useState } from "react";
 import { Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
@@ -24,6 +29,8 @@ import {
 } from "@/interface/dashboard-interface";
 import { isValidLatLng } from "@/shared/utils/map-utils/lat-lng-utils";
 import ButtonLoader from "@/shared/components/loader/button-loader";
+import { useCommonStore } from "@/store/common-store";
+import { regions } from "@/constants/regionPoints";
 
 const nigeriaBounds: LatLngBoundsExpression = [
   [4.272, 2.676], // Southwest coordinates
@@ -78,17 +85,14 @@ const DashboardMapContent = ({
   setSouthWest,
   setNorthEast,
 }: IProps) => {
+  const { profileData } = useCommonStore();
   const mapRef = useRef(null);
   const initialBounds = L.latLng(mapConstants.center).toBounds(
     mapConstants.zoom * 1000
   );
+  const [centerPoint, setCenterPoint] = useState<LatLngExpression>();
   const initialSouthWest = `${initialBounds.getWest()},${initialBounds.getSouth()}`;
   const initialNorthEast = `${initialBounds.getEast()},${initialBounds.getNorth()}`;
-  // const [southWest, setSouthWest] = useState<string>(initialSouthWest);
-  // const [northEast, setNorthEast] = useState<string>(initialNorthEast);
-  const [filteredDeviceData, setFilteredDeviceData] = useState<
-    IDeviceGroup | undefined
-  >(undefined);
 
   const activeMarker = new Icon({
     iconUrl: "/markers/active-devices-marker.svg",
@@ -159,35 +163,51 @@ const DashboardMapContent = ({
     });
   };
 
-  const filterData = () => {
-    if (deviceData && southWest && northEast) {
-      const [swLng, swLat] = southWest.split(",").map(Number);
-      const [neLng, neLat] = northEast.split(",").map(Number);
+  // const filterData = () => {
+  //   if (deviceData && southWest && northEast) {
+  //     const [swLng, swLat] = southWest.split(",").map(Number);
+  //     const [neLng, neLat] = northEast.split(",").map(Number);
 
-      const filteredData: IDeviceGroup = Object.entries(deviceData).reduce(
-        (acc: any, [key, value]) => {
-          acc[key] = (value as IDashboardDeviceDetail[]).filter((device) => {
-            const lat = device?.location_lat;
-            const lng = device?.location_lng;
-            return lat >= swLat && lat <= neLat && lng >= swLng && lng <= neLng;
-          });
-          return acc;
-        },
-        {} as IDeviceGroup
-      );
+  //     const filteredData: IDeviceGroup = Object.entries(deviceData).reduce(
+  //       (acc: any, [key, value]) => {
+  //         acc[key] = (value as IDashboardDeviceDetail[]).filter((device) => {
+  //           const lat = device?.location_lat;
+  //           const lng = device?.location_lng;
+  //           return lat >= swLat && lat <= neLat && lng >= swLng && lng <= neLng;
+  //         });
+  //         return acc;
+  //       },
+  //       {} as IDeviceGroup
+  //     );
 
-      setFilteredDeviceData(filteredData);
+  //     setFilteredDeviceData(filteredData);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (deviceData) filterData();
+  // }, [deviceData, southWest, northEast]);
+
+  useEffect(() => {
+    if (centerPoint) {
+      setSouthWest(initialSouthWest);
+      setNorthEast(initialNorthEast);
     }
-  };
+  }, [centerPoint]);
 
   useEffect(() => {
-    if (deviceData) filterData();
-  }, [deviceData, southWest, northEast]);
-
-  useEffect(() => {
-    setSouthWest(initialSouthWest);
-    setNorthEast(initialNorthEast);
-  }, []);
+    if (profileData && profileData?.regionId !== 0) {
+      const region = Object.values(regions).find(
+        (region) => region.id === profileData?.regionId
+      )?.centralPoint;
+      if (region) {
+        console.log("Region lat and lng", region);
+        setCenterPoint([region.lat, region.lng]);
+      }
+    } else {
+      setCenterPoint(mapConstants.center);
+    }
+  }, [profileData]);
 
   // const dealerDummyData = [
   //   {
@@ -221,122 +241,231 @@ const DashboardMapContent = ({
   return (
     <div className="relative w-full h-full">
       {/* {loading && (
-        <div className="flex absolute justify-center items-center w-full h-full z-[401] bg-black/50">
+        <div className="flex absolute justify-center items-center w-full h-full z-[401] bg-black/40">
           <ButtonLoader />
         </div>
       )} */}
-      <MapContainer
-        center={mapConstants.center}
-        ref={mapRef}
-        zoom={mapConstants.zoom}
-        scrollWheelZoom={true}
-        className="w-full h-full rounded-lg my-custom-map"
-        // bounds={nigeriaBounds}
-        // maxBounds={nigeriaBounds}
-        zoomControl={false}
-      >
-        {/* <GeoJSON
+      {centerPoint && centerPoint !== undefined && (
+        <MapContainer
+          center={centerPoint}
+          ref={mapRef}
+          zoom={mapConstants.zoom}
+          scrollWheelZoom={true}
+          className="w-full h-full rounded-lg my-custom-map"
+          // bounds={nigeriaBounds}
+          // maxBounds={nigeriaBounds}
+          zoomControl={false}
+        >
+          {/* <GeoJSON
           // style={geoJsonStyles}
           data={nigeriaJson as any}
           //   onEachFeature={onEachFeature}
         /> */}
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-        {mapType === "device" && (
-          <MarkerClusterGroup
-            chunkedLoading={true}
-            iconCreateFunction={deviceCustomClusterIcon}
-          >
-            {/* Devices */}
-            {filteredDeviceData &&
-              Object.entries(filteredDeviceData).map(([key, value]) => {
-                return (value as IDashboardDeviceDetail[])
-                  .filter(
-                    (device) =>
-                      device?.location_lat &&
-                      device?.location_lng &&
-                      isValidLatLng(device?.location_lat, device?.location_lng)
+          {mapType === "device" && (
+            <MarkerClusterGroup
+              chunkedLoading={true}
+              iconCreateFunction={deviceCustomClusterIcon}
+            >
+              {/* Devices */}
+              {deviceData &&
+                Object.entries(deviceData).map(([key, value]) => {
+                  return (value as IDashboardDeviceDetail[])
+                    .filter(
+                      (device) =>
+                        device?.location_lat &&
+                        device?.location_lng &&
+                        isValidLatLng(
+                          device?.location_lat,
+                          device?.location_lng
+                        )
+                    )
+                    .map((device, index) => (
+                      <Marker
+                        key={device?.id + index}
+                        position={[device?.location_lat, device?.location_lng]}
+                        icon={
+                          key === "active_device"
+                            ? activeMarker
+                            : key === "inactive_device"
+                            ? inactiveMarker
+                            : key === "noheartbeat_device"
+                            ? noHeartBeatMarker
+                            : heartbeatMarker
+                        }
+                      >
+                        <Popup
+                          closeOnEscapeKey={true}
+                          closeButton={false}
+                          className="w-[380px] min-w-0"
+                        >
+                          <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
+                            <div className="flex justify-between items-center">
+                              <span className="text-base font-semibold">
+                                {device?.name}
+                              </span>
+                              <div className="flex gap-2 items-center">
+                                <div className="flex gap-1.5 items-center">
+                                  <Image
+                                    src={marker?.popup?.battery}
+                                    alt="Battery"
+                                    width={12}
+                                    height={12}
+                                  />
+                                  <span className="text-sm font-medium text-green-600">
+                                    {device?.battery_status}%
+                                  </span>
+                                </div>
+
+                                <Badge
+                                  variant={
+                                    key === "active_device" ||
+                                    key === "heartbeat_device"
+                                      ? "success"
+                                      : "secondary"
+                                  }
+                                  className={cn(
+                                    "h-6 text-xs font-medium capitalize rounded border-0"
+                                  )}
+                                >
+                                  {key.split("_")[0]}
+                                </Badge>
+                              </div>
+                            </div>
+                            {/* <span className="text-xs text-gray-500">
+                {device?.gsuite_account}
+              </span> */}
+                            <div className="flex gap-2 items-center mt-2">
+                              <Image
+                                src={marker?.popup?.polygonUser}
+                                alt="User"
+                                width={20}
+                                height={20}
+                              />
+                              <span className="text-xs">
+                                {device?.group_name ?? "-"}
+                              </span>
+                            </div>
+                            <div className="flex gap-2 items-center mt-2">
+                              <Image
+                                src={marker?.popup?.roundUser}
+                                alt="User"
+                                width={20}
+                                height={20}
+                              />
+                              <span className="text-xs">
+                                {device?.profile_name}
+                              </span>
+                            </div>
+                            <Link
+                              href={`/`}
+                              // href={`/devices/${device.id}`}
+                              className={cn(
+                                buttonVariants({
+                                  variant: "primary",
+                                  size: "sm",
+                                }),
+                                "mt-4"
+                              )}
+                            >
+                              View Detail
+                            </Link>
+                          </div>
+                        </Popup>
+                      </Marker>
+                    ));
+                })}
+            </MarkerClusterGroup>
+          )}
+
+          {mapType === "agent" && (
+            <MarkerClusterGroup
+              chunkedLoading={true}
+              iconCreateFunction={agentCustomClusterIcon}
+            >
+              {/* Agents */}
+              {agentData &&
+                agentData
+                  ?.filter((agent) =>
+                    isValidLatLng(
+                      Number(agent?.latitude),
+                      Number(agent?.longitude)
+                    )
                   )
-                  .map((device, index) => (
+                  .map((agent) => (
                     <Marker
-                      key={device?.id + index}
-                      position={[device?.location_lat, device?.location_lng]}
-                      icon={
-                        key === "active_device"
-                          ? activeMarker
-                          : key === "inactive_device"
-                          ? inactiveMarker
-                          : key === "noheartbeat_device"
-                          ? noHeartBeatMarker
-                          : heartbeatMarker
-                      }
+                      key={agent?.code}
+                      position={[
+                        Number(agent?.latitude),
+                        Number(agent?.longitude),
+                      ]}
+                      icon={agentMarker}
                     >
                       <Popup
                         closeOnEscapeKey={true}
                         closeButton={false}
-                        className="w-[380px] min-w-0"
+                        className="w-[410px] min-w-0"
                       >
                         <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
-                          <div className="flex justify-between items-center">
-                            <span className="text-base font-semibold">
-                              {device?.name}
-                            </span>
-                            <div className="flex gap-2 items-center">
-                              <div className="flex gap-1.5 items-center">
-                                <Image
-                                  src={marker?.popup?.battery}
-                                  alt="Battery"
-                                  width={12}
-                                  height={12}
-                                />
-                                <span className="text-sm font-medium text-green-600">
-                                  {device?.battery_status}%
-                                </span>
-                              </div>
-
-                              <Badge
-                                variant={
-                                  key === "active_device" ||
-                                  key === "heartbeat_device"
-                                    ? "success"
-                                    : "secondary"
-                                }
-                                className={cn(
-                                  "h-6 text-xs font-medium capitalize rounded border-0"
-                                )}
-                              >
-                                {key.split("_")[0]}
-                              </Badge>
+                          <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
+                            <div className="flex gap-2 items-center min-w-0">
+                              <Image
+                                src={marker?.popup?.polygonUser}
+                                width={22}
+                                height={22}
+                                alt="Agent Image"
+                                className="shrink-0"
+                              />
+                              <span className="text-base font-semibold uppercase truncate">
+                                {agent?.name}
+                              </span>
                             </div>
+                            <Badge
+                              variant={"success"}
+                              className={cn(
+                                "h-6 font-medium capitalize rounded border-0"
+                              )}
+                            >
+                              {agent?.code}
+                            </Badge>
                           </div>
-                          {/* <span className="text-xs text-gray-500">
-                {device?.gsuite_account}
-              </span> */}
-                          <div className="flex gap-2 items-center mt-2">
+                          <div className="flex justify-between items-center mt-2 ml-1">
+                            <div className="flex gap-2 items-center">
+                              <Image
+                                src={marker?.popup?.phone}
+                                alt="User"
+                                width={20}
+                                height={20}
+                              />
+                              <span className="text-sm">
+                                {agent?.alter_mobile_num ?? "N/A"}
+                              </span>
+                            </div>
+                            {/* <div className="flex gap-2 items-center">
+                              <Image
+                                src={marker?.popup?.chart}
+                                alt="User"
+                                width={16}
+                                height={16}
+                              />
+                              <span className="text-sm text-zinc-700">0</span>
+                            </div> */}
+                          </div>
+                          <div className="flex gap-2 items-center mt-2 ml-1">
                             <Image
-                              src={marker?.popup?.polygonUser}
+                              src={marker?.popup?.roundUserAdd}
                               alt="User"
                               width={20}
                               height={20}
                             />
-                            <span className="text-xs">
-                              {device?.group_name ?? "-"}
-                            </span>
-                          </div>
-                          <div className="flex gap-2 items-center mt-2">
-                            <Image
-                              src={marker?.popup?.roundUser}
-                              alt="User"
-                              width={20}
-                              height={20}
-                            />
-                            <span className="text-xs">
-                              {device?.profile_name}
+                            <span className="text-sm">
+                              {agent?.address1 ?? "N/A"}
                             </span>
                           </div>
                           <Link
                             href={`/`}
-                            // href={`/devices/${device.id}`}
+                            // href={`/agent/${agent?.code}`}
                             className={cn(
                               buttonVariants({
                                 variant: "primary",
@@ -350,173 +479,79 @@ const DashboardMapContent = ({
                         </div>
                       </Popup>
                     </Marker>
-                  ));
-              })}
-          </MarkerClusterGroup>
-        )}
+                  ))}
+            </MarkerClusterGroup>
+          )}
+          {mapType === "dealer" &&
+            // <MarkerClusterGroup
+            //   chunkedLoading={true}
+            //   iconCreateFunction={createCustomClusterIcon}
+            // >
+            //   {dealerData &&
 
-        {mapType === "agent" && (
-          <MarkerClusterGroup
-            chunkedLoading={true}
-            iconCreateFunction={agentCustomClusterIcon}
-          >
-            {/* Agents */}
-            {agentData &&
-              agentData
-                ?.filter((agent) =>
-                  isValidLatLng(
-                    Number(agent?.latitude),
-                    Number(agent?.longitude)
-                  )
+            // </MarkerClusterGroup>
+            dealerData
+              .filter((dealer) =>
+                isValidLatLng(
+                  Number(dealer?.latitude),
+                  Number(dealer?.longitude)
                 )
-                .map((agent) => (
-                  <Marker
-                    key={agent?.code}
-                    position={[
-                      Number(agent?.latitude),
-                      Number(agent?.longitude),
-                    ]}
-                    icon={agentMarker}
+              )
+              .map((dealer) => (
+                <DealerCustomMarker
+                  key={dealer?.dealer_code}
+                  position={[
+                    Number(dealer?.latitude),
+                    Number(dealer?.longitude),
+                  ]}
+                  text={dealer?.total_agents}
+                >
+                  <Popup
+                    closeOnEscapeKey={true}
+                    closeButton={false}
+                    className="w-[380px] min-w-0"
                   >
-                    <Popup
-                      closeOnEscapeKey={true}
-                      closeButton={false}
-                      className="w-[410px] min-w-0"
-                    >
-                      <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
-                        <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
-                          <div className="flex gap-2 items-center min-w-0">
-                            <Image
-                              src={marker?.popup?.polygonUser}
-                              width={22}
-                              height={22}
-                              alt="Agent Image"
-                              className="shrink-0"
-                            />
-                            <span className="text-base font-semibold uppercase truncate">
-                              {agent?.name}
-                            </span>
-                          </div>
-                          <Badge
-                            variant={"success"}
-                            className={cn(
-                              "h-6 font-medium capitalize rounded border-0"
-                            )}
-                          >
-                            {agent?.code}
-                          </Badge>
+                    <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
+                      <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
+                        <div className="flex gap-2 items-center min-w-0">
+                          <span className="text-base font-semibold uppercase truncate">
+                            {dealer?.dealer_name}
+                          </span>
                         </div>
-                        <div className="flex justify-between items-center mt-2 ml-1">
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src={marker?.popup?.phone}
-                              alt="User"
-                              width={20}
-                              height={20}
-                            />
-                            <span className="text-sm">
-                              {agent?.alter_mobile_num}
-                            </span>
-                          </div>
-                          <div className="flex gap-2 items-center">
-                            <Image
-                              src={marker?.popup?.chart}
-                              alt="User"
-                              width={16}
-                              height={16}
-                            />
-                            <span className="text-sm text-zinc-700">0</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-2 items-center mt-2 ml-1">
+                        <Badge
+                          variant={"success"}
+                          className={cn(
+                            "h-6 font-bold capitalize rounded border-0"
+                          )}
+                        >
+                          {dealer?.dealer_code}
+                        </Badge>
+                      </div>
+                      <div className="flex justify-between items-center mt-2 ml-1">
+                        <div className="flex gap-2 items-center">
                           <Image
-                            src={marker?.popup?.roundUserAdd}
+                            src={marker?.popup?.phone}
                             alt="User"
                             width={20}
                             height={20}
                           />
-                          <span className="text-sm">{agent?.address1}</span>
+                          <span className="text-sm">
+                            {dealer?.dealer_contact ?? "N/A"}
+                          </span>
                         </div>
-                        <Link
-                          href={`/`}
-                          // href={`/agent/${agent?.code}`}
-                          className={cn(
-                            buttonVariants({ variant: "primary", size: "sm" }),
-                            "mt-4"
-                          )}
-                        >
-                          View Detail
-                        </Link>
                       </div>
-                    </Popup>
-                  </Marker>
-                ))}
-          </MarkerClusterGroup>
-        )}
-        {mapType === "dealer" &&
-          // <MarkerClusterGroup
-          //   chunkedLoading={true}
-          //   iconCreateFunction={createCustomClusterIcon}
-          // >
-          //   {dealerData &&
-
-          // </MarkerClusterGroup>
-          dealerData
-            .filter((dealer) =>
-              isValidLatLng(Number(dealer?.latitude), Number(dealer?.longitude))
-            )
-            .map((dealer) => (
-              <DealerCustomMarker
-                key={dealer?.dealer_code}
-                position={[Number(dealer?.latitude), Number(dealer?.longitude)]}
-                text={"0"}
-              >
-                <Popup
-                  closeOnEscapeKey={true}
-                  closeButton={false}
-                  className="w-[380px] min-w-0"
-                >
-                  <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
-                    <div className="flex gap-1 justify-between items-center min-w-0 max-w-full">
-                      <div className="flex gap-2 items-center min-w-0">
-                        <span className="text-base font-semibold uppercase truncate">
-                          {dealer?.dealer_name}
-                        </span>
-                      </div>
-                      <Badge
-                        variant={"success"}
-                        className={cn(
-                          "h-6 font-bold capitalize rounded border-0"
-                        )}
-                      >
-                        {dealer?.dealer_code}
-                      </Badge>
-                    </div>
-                    <div className="flex justify-between items-center mt-2 ml-1">
-                      <div className="flex gap-2 items-center">
+                      <div className="flex gap-2 items-start mt-2 ml-1">
                         <Image
-                          src={marker?.popup?.phone}
+                          src={marker?.popup?.mapPin}
                           alt="User"
-                          width={20}
-                          height={20}
+                          width={18}
+                          height={18}
                         />
                         <span className="text-sm">
-                          {dealer?.dealer_contact ?? "N/A"}
+                          {dealer?.dealer_address ?? "N/A"}
                         </span>
                       </div>
-                    </div>
-                    <div className="flex gap-2 items-start mt-2 ml-1">
-                      <Image
-                        src={marker?.popup?.mapPin}
-                        alt="User"
-                        width={18}
-                        height={18}
-                      />
-                      <span className="text-sm">
-                        {dealer?.dealer_address ?? "N/A"}
-                      </span>
-                    </div>
-                    {/* <div className="flex gap-2 items-start mt-2 ml-1">
+                      {/* <div className="flex gap-2 items-start mt-2 ml-1">
                       <Image
                         src={marker?.popup?.roundUserAdd}
                         alt="User"
@@ -527,101 +562,102 @@ const DashboardMapContent = ({
                         {dealer?.dealer_type ?? "N/A"}
                       </span>
                     </div> */}
-                    <Link
-                      href={`/`}
-                      // href={`/agent/${agent?.code}`}
-                      className={cn(
-                        buttonVariants({ variant: "primary", size: "sm" }),
-                        "mt-4"
-                      )}
-                    >
-                      View Detail
-                    </Link>
-                  </div>
-                </Popup>
-              </DealerCustomMarker>
-              // <Marker
-              //   key={dealer?.dealer_code}
-              //   position={[Number(dealer?.latitude), Number(dealer?.longitude)]}
-              //   icon={dealerMarker}
-              // >
-              //   <Popup
-              //     closeOnEscapeKey={true}
-              //     closeButton={false}
-              //     className="w-[380px] min-w-0"
-              //   >
-              //     <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
-              //       <div className="flex justify-between items-center">
-              //         <span className="text-base font-semibold">
-              //           Meretricious_model_3
-              //         </span>
-              //         <div className="flex gap-2 items-center">
-              //           <div className="flex gap-1.5 items-center">
-              //             <Image
-              //               src={marker?.popup?.battery}
-              //               alt="User"
-              //               width={12}
-              //               height={12}
-              //             />
-              //             <span className="text-sm font-medium text-green-600">
-              //               90%
-              //             </span>
-              //           </div>
+                      <Link
+                        href={`/`}
+                        // href={`/agent/${agent?.code}`}
+                        className={cn(
+                          buttonVariants({ variant: "primary", size: "sm" }),
+                          "mt-4"
+                        )}
+                      >
+                        View Detail
+                      </Link>
+                    </div>
+                  </Popup>
+                </DealerCustomMarker>
+                // <Marker
+                //   key={dealer?.dealer_code}
+                //   position={[Number(dealer?.latitude), Number(dealer?.longitude)]}
+                //   icon={dealerMarker}
+                // >
+                //   <Popup
+                //     closeOnEscapeKey={true}
+                //     closeButton={false}
+                //     className="w-[380px] min-w-0"
+                //   >
+                //     <div className="px-6 py-4 w-full min-w-0 bg-white rounded-lg">
+                //       <div className="flex justify-between items-center">
+                //         <span className="text-base font-semibold">
+                //           Meretricious_model_3
+                //         </span>
+                //         <div className="flex gap-2 items-center">
+                //           <div className="flex gap-1.5 items-center">
+                //             <Image
+                //               src={marker?.popup?.battery}
+                //               alt="User"
+                //               width={12}
+                //               height={12}
+                //             />
+                //             <span className="text-sm font-medium text-green-600">
+                //               90%
+                //             </span>
+                //           </div>
 
-              //           <Badge
-              //             variant={
-              //               "success"
-              //               // : "secondary"
-              //             }
-              //             className={cn(
-              //               "h-6 font-medium capitalize rounded border-0"
-              //             )}
-              //           >
-              //             {"Active"}
-              //           </Badge>
-              //         </div>
-              //       </div>
-              //       <span className="text-xs text-gray-500">Zainab Khoury</span>
-              //       <div className="flex gap-2 items-center mt-2">
-              //         <Image
-              //           src={marker?.popup?.polygonUser}
-              //           alt="User"
-              //           width={20}
-              //           height={20}
-              //         />
-              //         <span className="text-xs">
-              //           MACSWORTH SERVICES NIGERIA LTD
-              //         </span>
-              //       </div>
-              //       <div className="flex gap-2 items-center mt-2">
-              //         <Image
-              //           src={marker?.popup?.roundUser}
-              //           alt="User"
-              //           width={20}
-              //           height={20}
-              //         />
-              //         <span className="text-xs">ABDUL AHAD TUJJANI</span>
-              //       </div>
-              //       <Link
-              //         href="/devices/1"
-              //         className={cn(
-              //           buttonVariants({ variant: "primary", size: "sm" }),
-              //           "mt-4"
-              //         )}
-              //       >
-              //         View Detail
-              //       </Link>
-              //     </div>
-              //   </Popup>
-              // </Marker>
-            ))}
+                //           <Badge
+                //             variant={
+                //               "success"
+                //               // : "secondary"
+                //             }
+                //             className={cn(
+                //               "h-6 font-medium capitalize rounded border-0"
+                //             )}
+                //           >
+                //             {"Active"}
+                //           </Badge>
+                //         </div>
+                //       </div>
+                //       <span className="text-xs text-gray-500">Zainab Khoury</span>
+                //       <div className="flex gap-2 items-center mt-2">
+                //         <Image
+                //           src={marker?.popup?.polygonUser}
+                //           alt="User"
+                //           width={20}
+                //           height={20}
+                //         />
+                //         <span className="text-xs">
+                //           MACSWORTH SERVICES NIGERIA LTD
+                //         </span>
+                //       </div>
+                //       <div className="flex gap-2 items-center mt-2">
+                //         <Image
+                //           src={marker?.popup?.roundUser}
+                //           alt="User"
+                //           width={20}
+                //           height={20}
+                //         />
+                //         <span className="text-xs">ABDUL AHAD TUJJANI</span>
+                //       </div>
+                //       <Link
+                //         href="/devices/1"
+                //         className={cn(
+                //           buttonVariants({ variant: "primary", size: "sm" }),
+                //           "mt-4"
+                //         )}
+                //       >
+                //         View Detail
+                //       </Link>
+                //     </div>
+                //   </Popup>
+                // </Marker>
+              ))}
 
-        <MapEventHandler
-          setSouthWest={setSouthWest}
-          setNorthEast={setNorthEast}
-        />
-        <ZoomControls />
-      </MapContainer>
+          <MapEventHandler
+            setSouthWest={setSouthWest}
+            setNorthEast={setNorthEast}
+          />
+          <ZoomControls />
+        </MapContainer>
+      )}
     </div>
   );
 };

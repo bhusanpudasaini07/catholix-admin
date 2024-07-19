@@ -142,6 +142,7 @@ const useDashboard = () => {
         southWest &&
         northEast
       ) {
+        console.log(southWest, northEast);
         const body = await fetchDeviceMapData(
           API_BASE_URL,
           regionId,
@@ -198,7 +199,7 @@ const useDashboard = () => {
     if (mapType === "device") {
       const interval = setInterval(() => {
         queryClient.invalidateQueries(["deviceMap"]);
-      }, 20000);
+      }, 60000);
 
       return () => clearInterval(interval);
     }

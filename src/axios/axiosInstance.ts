@@ -47,24 +47,15 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
 });
 
 const clearAllSessionAndLocalStates = () => {
-  logout()
-    .then(() => {
-      toast.error(SESSION_EXPIRED, {
-        id: "session",
-      });
-      clearCookie(LOGGED_IN_KEY);
-      clearCookie(REMEMBER_ME);
+  toast.error(SESSION_EXPIRED, {
+    id: "session",
+  });
+  clearCookie(LOGGED_IN_KEY);
+  clearCookie(REMEMBER_ME);
 
-      window.location.href = "/login";
-    })
-    .catch((_err: any) => {
-      toast.error(SESSION_EXPIRED, {
-        id: "session",
-      });
-      clearCookie(LOGGED_IN_KEY);
-      clearCookie(REMEMBER_ME);
-      window.location.href = "/login";
-    });
+  setTimeout(() => {
+    window.location.href = "/login";
+  }, 1000);
 };
 
 // Function to set the Authorization header dynamically

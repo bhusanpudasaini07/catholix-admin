@@ -210,6 +210,22 @@ const useSSP = () => {
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.longitude || "-"}</p>,
     },
+    // IMEI1
+    {
+      id: "imei1",
+      accessorKey: "imei1",
+      header: "IMEI1",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imei1 || "-"}</p>,
+    },
+    // IMEI2
+    {
+      id: "imei2",
+      accessorKey: "imei2",
+      header: "IMEI2",
+      enableHiding: true,
+      cell: ({ row }) => <p>{row.original.imei2 || "-"}</p>,
+    },
   ];
 
   useEffect(() => {

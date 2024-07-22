@@ -143,4 +143,6 @@ export interface ISSPDetail {
   region_code: string;
   state_code: string;
   lg_code: string;
+  imei1: string;
+  imei2: string;
 }

@@ -17,11 +17,18 @@ import { useCommonStore } from "@/store/common-store";
 import config from "../../../config";
 import axios from "axios";
 import { axiosInstance } from "@/axios/axiosInstance";
+import { IRegionProps } from "@/interface/common-interface";
+import { getRegions } from "@/services/admin/admin-service";
 
 const useDashboard = () => {
   const queryClient = useQueryClient();
   const { API_BASE_URL } = config;
   const { profileData } = useCommonStore();
+  const { data: regionsList, isLoading: regionsLoading } =
+    useQuery<IRegionProps>({
+      queryKey: ["regions"],
+      queryFn: () => getRegions(),
+    });
   // STATES
   const [mapType, setMapType] = useState<string>("device");
   const [regionId, setRegionId] = useState<string>("");
@@ -35,9 +42,29 @@ const useDashboard = () => {
     setSearchTrigger(!searchTrigger);
   };
   const resetHandler = () => {
-    setRegionId("all");
-    setStateId("all");
-    setLga([]);
+    if (profileData && profileData?.regionId !== null) {
+      const region = regionsList?.data?.regions?.find(
+        (region) => region.id === profileData?.regionId
+      );
+      const state = regionsList?.data?.regions
+        ?.find((region) => region?.id === profileData?.regionId)
+        ?.states?.find((state) => state?.id === profileData?.stateId);
+
+      const localGovs = state?.localGovernments
+        ?.filter((lg) => profileData.localGovId?.includes(lg.id))
+        ?.map((lg) => lg.code);
+
+      if (profileData?.regionId !== 0) {
+        setRegionId(region?.code!);
+        setStateId(profileData?.stateId !== 0 ? state?.code! : "all");
+        setLga(localGovs || []);
+        searchTriggerHandler && searchTriggerHandler();
+      } else {
+        setRegionId("all");
+        setStateId("all");
+        setLga([]);
+      }
+    }
     setSearchTrigger(!searchTrigger);
   };
 

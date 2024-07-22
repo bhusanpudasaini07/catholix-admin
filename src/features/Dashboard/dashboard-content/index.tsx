@@ -113,7 +113,11 @@ const DashboardContent = () => {
           size={"icon"}
           className="gap-1 p-2 h-9"
           onClick={resetHandler}
-          disabled={profileData.regionId !== 0 && profileData.stateId !== 0}
+          disabled={
+            profileData.regionId !== 0 &&
+            profileData.stateId !== 0 &&
+            profileData.localGovId.length > 0
+          }
         >
           <ListRestart size={20} />
         </Button>
@@ -123,7 +127,11 @@ const DashboardContent = () => {
           size={"icon"}
           className="gap-1 p-2 h-9"
           onClick={searchTriggerHandler}
-          disabled={profileData.regionId !== 0 && profileData.stateId !== 0}
+          disabled={
+            profileData.regionId !== 0 &&
+            profileData.stateId !== 0 &&
+            profileData.localGovId.length > 0
+          }
         >
           <Search size={20} />
         </Button>

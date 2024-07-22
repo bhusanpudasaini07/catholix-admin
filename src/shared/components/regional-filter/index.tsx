@@ -81,12 +81,13 @@ const RegionalFilter = ({
       const state = regionsList?.data?.regions
         ?.find((region) => region?.id === profileData?.regionId)
         ?.states?.find((state) => state?.id === profileData?.stateId);
+
       const localGovs = state?.localGovernments
         ?.filter((lg) => profileData.localGovId?.includes(lg.id))
         ?.map((lg) => lg.code);
       if (profileData?.regionId !== 0) {
         setRegionId(region?.code!);
-        setStateId(state?.code!);
+        setStateId(profileData?.stateId !== 0 ? state?.code! : "all");
         setLocalGovernments(state?.localGovernments ?? []);
         setLga(localGovs || []);
         searchTriggerHandler && searchTriggerHandler();

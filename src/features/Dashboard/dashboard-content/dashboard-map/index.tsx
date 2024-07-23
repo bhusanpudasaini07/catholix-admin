@@ -89,7 +89,7 @@ function MapComponent({
 
 const mapConstants = {
   center: [10.0, 8.0] as [number, number], // New coordinates for the center
-  zoom: 8, // Example zoom level
+  zoom: 15, // Example zoom level
 };
 
 const DashboardMapContent = ({
@@ -180,8 +180,7 @@ const DashboardMapContent = ({
         (region) => region.id === profileData?.regionId
       )?.centralPoint;
       if (region) {
-        console.log("Region lat and lng", region);
-        setCenterPoint([region.lat, region.lng]);
+        setCenterPoint([region?.lat, region?.lng]);
       }
     } else {
       setCenterPoint(mapConstants.center);
@@ -191,7 +190,7 @@ const DashboardMapContent = ({
   return (
     <div className="relative w-full h-full">
       {loading && (
-        <div className="flex absolute justify-center items-center w-full h-full z-[401] bg-black/40">
+        <div className="flex absolute justify-center rounded-lg items-center w-full h-full z-[401] bg-black/40">
           {/* <ButtonLoader /> */}
         </div>
       )}

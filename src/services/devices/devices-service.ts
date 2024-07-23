@@ -21,4 +21,91 @@ const getDevicesData = async (
   return httpRequest(finalUrl, httpMethods.GET);
 };
 
-export { getDevicesData };
+// inactive table data and map
+const getInactiveDevices = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  timeframe: string,
+  page: number,
+  pageSize: number,
+  searchTerm?: string
+) => {
+  return httpRequest(`/devices/inactive-devices`, httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      timeframe,
+      page,
+      pageSize,
+      southwest: "3.5430908203125004,9.194292714912653",
+      northeast: "12.453002929687502,10.79553674395381",
+      ...(searchTerm && { searchTerm }),
+    },
+  });
+};
+const fetchInactiveDevicesMap = async (
+  API_BASE_URL: string | undefined,
+  regionId: string,
+  stateId: string,
+  lga: string[],
+  timeframe: string,
+  southWest: string,
+  northEast: string
+) => {
+  const response = await fetch(
+    `${API_BASE_URL}/devices/inactive-devices-map?region=${
+      regionId || "all"
+    }&state=${stateId || "all"}&lga=${
+      lga.length > 0 ? lga.join(",") : "all"
+    }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.body;
+};
+const getInactiveDevicesMap = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  timeframe: string,
+  southwest: string,
+  northeast: string
+) => {
+  return httpRequest("/devices/inactive-devices-map", httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      timeframe,
+      southwest,
+      northeast,
+    },
+  });
+};
+
+const getNoHeartbeatDevices = async () => {
+  return httpRequest("/devices/no-heartbeat-devices", httpMethods.GET);
+};
+
+export {
+  getDevicesData,
+  getInactiveDevices,
+  getInactiveDevicesMap,
+  fetchInactiveDevicesMap,
+  getNoHeartbeatDevices,
+};

@@ -20,7 +20,7 @@ const InactiveDeviceStats = () => {
   ];
 
   return (
-    <div className="flex overflow-y-auto flex-col gap-4 max-h-[calc(100vh-160px)] no-scrollbar">
+    <div className="flex flex-col gap-4">
       {stats.map((stat) => (
         <div
           key={stat.id}

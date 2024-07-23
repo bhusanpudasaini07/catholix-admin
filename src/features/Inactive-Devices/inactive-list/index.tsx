@@ -38,7 +38,7 @@ const InactiveDeviceList = ({
         loading={inactiveDevicesLoading}
         loadingDataNum={10}
         border
-        height="max-h-[calc(100vh-284px)]"
+        height="max-h-[calc(100vh-330px)] 2xl:max-h-[calc(100vh-284px)]"
         headerSticky
       >
         <div className="flex justify-between grow">

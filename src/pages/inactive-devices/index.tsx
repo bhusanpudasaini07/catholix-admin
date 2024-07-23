@@ -129,7 +129,7 @@ const InactiveDevices: NextPageWithLayout = () => {
       </PageHeader>
 
       <div className="grid overflow-auto grid-cols-12 gap-9 grow no-scrollbar">
-        <div className="col-span-2">
+        <div className="overflow-auto col-span-2 no-scrollbar">
           <InactiveDeviceStats />
         </div>
         <div className="col-span-5">

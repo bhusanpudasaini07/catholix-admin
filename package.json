@@ -64,6 +64,7 @@
     "react-query": "^3.39.3",
     "react-responsive": "^9.0.2",
     "sass": "^1.69.0",
+    "sharp": "^0.33.4",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
     "xlsx": "^0.18.5",

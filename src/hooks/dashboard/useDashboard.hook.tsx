@@ -169,7 +169,6 @@ const useDashboard = () => {
         southWest &&
         northEast
       ) {
-        console.log(southWest, northEast);
         const body = await fetchDeviceMapData(
           API_BASE_URL,
           regionId,

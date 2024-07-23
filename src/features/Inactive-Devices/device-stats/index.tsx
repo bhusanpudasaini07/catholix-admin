@@ -20,7 +20,7 @@ const InactiveDeviceStats = () => {
   ];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex overflow-y-auto flex-col gap-4 max-h-[calc(100vh-160px)] no-scrollbar">
       {stats.map((stat) => (
         <div
           key={stat.id}
@@ -43,7 +43,7 @@ const InactiveDeviceStats = () => {
               </div>
               <p className="text-xs text-black">{stat.label}</p>
             </div>
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger>
                 <Image
                   src={dashboard?.helpIcon}
@@ -58,7 +58,7 @@ const InactiveDeviceStats = () => {
               >
                 <p>Inactive Devices</p>
               </TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
       ))}

@@ -14,14 +14,14 @@ const badgeVariants = cva(
         destructive:
           "border bg-destructive text-destructive-foreground hover:bg-destructive/80",
         destructiveLight: "border border-red-50 bg-red-200 text-red-600 ",
-        info: "bg-blue-50 text-blue-700 border-blue-50",
+        info: "bg-blue-50 font-medium text-blue-700 border-blue-50",
         warning:
           "bg-warning-foreground text-warning-text border-warning-foreground",
         warningDark: "bg-orange-200 text-orange-700 border-orange-200",
         outline: "bg-transparent border text-foreground",
         select: "rounded-md h-full gap-2",
         dark: "border border-zinc-800 bg-zinc-800 text-white",
-        success: "bg-green-50 text-green-700",
+        success: "bg-green-50 border-green-50 font-medium text-green-700",
       },
       size: {
         default: "px-2.5 py-0.5 text-sm",

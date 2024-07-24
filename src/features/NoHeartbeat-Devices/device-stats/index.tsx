@@ -19,22 +19,22 @@ const NoHeartbeatDeviceStats = () => {
       {
         id: 2,
         count: noHeartbeatDevicesStats?.data?.["2"] ?? 0,
-        label: "Inactive for 2 Days",
+        label: "Offline for 2 Days",
       },
       {
         id: 5,
         count: noHeartbeatDevicesStats?.data?.["5"] ?? 0,
-        label: "Inactive for 5 Days",
+        label: "Offline for 5 Days",
       },
       {
         id: 7,
         count: noHeartbeatDevicesStats?.data?.["7"] ?? 0,
-        label: "Inactive for 7 Days",
+        label: "Offline for 7 Days",
       },
       {
         id: 31,
         count: noHeartbeatDevicesStats?.data?.total ?? 0,
-        label: "Total Inactive Devices",
+        label: "Total Offline Devices",
       },
     ],
     [noHeartbeatDevicesStats]

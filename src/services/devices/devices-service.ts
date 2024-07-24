@@ -43,8 +43,6 @@ const getInactiveDevices = async (
       timeframe,
       page,
       pageSize,
-      southwest: "3.5430908203125004,9.194292714912653",
-      northeast: "12.453002929687502,10.79553674395381",
       ...(searchTerm && { searchTerm }),
     },
   });
@@ -56,10 +54,12 @@ const fetchInactiveDevicesMap = async (
   lga: string[],
   timeframe: string,
   southWest: string,
-  northEast: string
+  northEast: string,
+  startDate: string,
+  endDate: string
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/devices/inactive-devices-map?region=${
+    `${API_BASE_URL}/devices/inactive-devices-map?startDate=${startDate}&endDate=${endDate}&region=${
       regionId || "all"
     }&state=${stateId || "all"}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
@@ -97,6 +97,9 @@ const getInactiveDevicesMap = async (
     },
   });
 };
+const getInactiveDevicesStats = async () => {
+  return httpRequest("/devices/inactive-devices-days", httpMethods.GET);
+};
 
 const getNoHeartbeatDevices = async () => {
   return httpRequest("/devices/no-heartbeat-devices", httpMethods.GET);
@@ -107,5 +110,6 @@ export {
   getInactiveDevices,
   getInactiveDevicesMap,
   fetchInactiveDevicesMap,
+  getInactiveDevicesStats,
   getNoHeartbeatDevices,
 };

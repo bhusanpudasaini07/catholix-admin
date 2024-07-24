@@ -33,6 +33,7 @@ const InactiveDeviceList = ({
   return (
     <>
       <DataTable
+        showManageColumn
         columns={inactiveDeviceColumns}
         data={inactiveDevices?.data?.results ?? []}
         loading={inactiveDevicesLoading}
@@ -40,8 +41,9 @@ const InactiveDeviceList = ({
         border
         height="max-h-[calc(100vh-330px)] 2xl:max-h-[calc(100vh-284px)]"
         headerSticky
+        module="inactive_devices"
       >
-        <div className="flex justify-between grow">
+        <div className="flex justify-between ml-2 grow">
           <Button
             variant={"white"}
             size={"md"}
@@ -55,6 +57,7 @@ const InactiveDeviceList = ({
               className="h-10 max-w-[300px]"
               setSearchText={searchTextHandler}
               searchText={searchText}
+              handleClick={searchTableTriggerHandler}
             />
             <Button variant={"primary"} onClick={searchTableTriggerHandler}>
               <Search size={20} />

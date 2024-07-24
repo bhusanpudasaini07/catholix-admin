@@ -346,9 +346,9 @@ const DashboardMapContent = ({
                       Number(agent?.longitude)
                     )
                   )
-                  .map((agent) => (
+                  .map((agent, index) => (
                     <Marker
-                      key={agent?.code}
+                      key={index}
                       position={[
                         Number(agent?.latitude),
                         Number(agent?.longitude),
@@ -371,7 +371,7 @@ const DashboardMapContent = ({
                                 className="shrink-0"
                               />
                               <span className="text-base font-semibold uppercase truncate">
-                                {agent?.name}
+                                {agent?.name ?? "N/A"}
                               </span>
                             </div>
                             <Badge
@@ -380,7 +380,7 @@ const DashboardMapContent = ({
                                 "h-6 font-medium capitalize rounded border-0"
                               )}
                             >
-                              {agent?.code}
+                              {agent?.code ?? "N/A"}
                             </Badge>
                           </div>
                           {/* <div className="flex justify-between items-center mt-2 ml-1">

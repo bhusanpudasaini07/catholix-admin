@@ -1,3 +1,5 @@
+import useInactiveDevices from "@/hooks/devices/useInactiveDevices.hook";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -6,18 +8,52 @@ import {
 import { dashboard } from "@/shared/lib/image-config";
 import { Clock } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 
 const InactiveDeviceStats = () => {
-  const stats = [
-    { id: 1, count: 540, label: "Inactive for 2 Days" },
-    { id: 2, count: 1520, label: "Inactive for 5 Days" },
-    { id: 3, count: 2357, label: "Inactive for 7 Days" },
-    { id: 4, count: 357, label: "Inactive for 10 Days" },
-    { id: 5, count: 57, label: "Inactive for 15 Days" },
-    { id: 6, count: 157, label: "Inactive for a Month" },
-    { id: 7, count: 4988, label: "Total Inactive Devices" },
-  ];
+  const { inactiveDevicesStats, inactiveDevicesStatsLoading } =
+    useInactiveDevices();
+
+  const stats = useMemo(
+    () => [
+      {
+        id: 2,
+        count: inactiveDevicesStats?.data?.["2"] ?? 0,
+        label: "Inactive for 2 Days",
+      },
+      {
+        id: 5,
+        count: inactiveDevicesStats?.data?.["5"] ?? 0,
+        label: "Inactive for 5 Days",
+      },
+      {
+        id: 7,
+        count: inactiveDevicesStats?.data?.["7"] ?? 0,
+        label: "Inactive for 7 Days",
+      },
+      {
+        id: 10,
+        count: inactiveDevicesStats?.data?.["10"] ?? 0,
+        label: "Inactive for 10 Days",
+      },
+      {
+        id: 15,
+        count: inactiveDevicesStats?.data?.["15"] ?? 0,
+        label: "Inactive for 15 Days",
+      },
+      {
+        id: 30,
+        count: inactiveDevicesStats?.data?.["30"] ?? 0,
+        label: "Inactive for a Month",
+      },
+      {
+        id: 31,
+        count: inactiveDevicesStats?.data?.total ?? 0,
+        label: "Total Inactive Devices",
+      },
+    ],
+    [inactiveDevicesStats]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -33,7 +69,13 @@ const InactiveDeviceStats = () => {
               width={32}
               height={32}
             />
-            <p className="text-xl font-semibold text-zinc-700">{stat.count}</p>
+            {inactiveDevicesStatsLoading ? (
+              <Skeleton className="w-14 h-4" />
+            ) : (
+              <p className="text-xl font-semibold text-zinc-700">
+                {stat.count}
+              </p>
+            )}
           </div>
 
           <div className="flex justify-between p-2 rounded bg-slate-100">

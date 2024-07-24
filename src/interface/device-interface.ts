@@ -89,3 +89,15 @@ export interface IDeviceDetail {
   state_code: string;
   lg_code: string;
 }
+
+export interface IInactiveStats {
+  data: {
+    "2": number;
+    "5": number;
+    "7": number;
+    "10": number;
+    "15": number;
+    "30": number;
+    total: number;
+  };
+}

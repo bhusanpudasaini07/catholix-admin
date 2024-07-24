@@ -103,8 +103,64 @@ const getInactiveDevicesStats = async () => {
   return httpRequest("/devices/inactive-devices-days", httpMethods.GET);
 };
 
-const getNoHeartbeatDevices = async () => {
-  return httpRequest("/devices/no-heartbeat-devices", httpMethods.GET);
+// ________________ NO HEARTBEAT________________
+
+const getNoHeartbeatDevicesStats = async () => {
+  return httpRequest("/devices/noheartbeat-devices-days", httpMethods.GET);
+};
+const fetchNoHeartbeatDevicesMap = async (
+  API_BASE_URL: string | undefined,
+  regionId: string,
+  stateId: string,
+  lga: string[],
+  timeframe: string,
+  southWest: string,
+  northEast: string,
+  startDate: string,
+  endDate: string
+) => {
+  const response = await fetch(
+    `${API_BASE_URL}/devices/noheartbeat-devices-map?startDate=${startDate}&endDate=${endDate}&region=${
+      regionId || "all"
+    }&state=${stateId || "all"}&lga=${
+      lga.length > 0 ? lga.join(",") : "all"
+    }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.body;
+};
+const getNoHeartbeatDevices = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  timeframe: string,
+  page: number,
+  pageSize: number,
+  columns: string,
+  searchTerm?: string
+) => {
+  return httpRequest(`/devices/noheartbeat-devices`, httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      timeframe,
+      page,
+      pageSize,
+      columns,
+      ...(searchTerm && { searchTerm }),
+    },
+  });
 };
 
 export {
@@ -113,5 +169,9 @@ export {
   getInactiveDevicesMap,
   fetchInactiveDevicesMap,
   getInactiveDevicesStats,
+
+  // No heartbeat
+  getNoHeartbeatDevicesStats,
+  fetchNoHeartbeatDevicesMap,
   getNoHeartbeatDevices,
 };

@@ -1,3 +1,5 @@
+import useNoHeartbeatDevices from "@/hooks/devices/useNoHeartbeatDevices.hook";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -6,15 +8,37 @@ import {
 import { dashboard } from "@/shared/lib/image-config";
 import { Clock } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useMemo } from "react";
 
 const NoHeartbeatDeviceStats = () => {
-  const stats = [
-    { id: 1, count: 540, label: "Offline for 2 Days" },
-    { id: 2, count: 1520, label: "Offline for 5 Days" },
-    { id: 3, count: 2357, label: "Offline for 7 Days" },
-    { id: 7, count: 4988, label: "Total Offline Devices" },
-  ];
+  const { noHeartbeatDevicesStats, noHeartbeatDevicesStatsLoading } =
+    useNoHeartbeatDevices();
+
+  const stats = useMemo(
+    () => [
+      {
+        id: 2,
+        count: noHeartbeatDevicesStats?.data?.["2"] ?? 0,
+        label: "Inactive for 2 Days",
+      },
+      {
+        id: 5,
+        count: noHeartbeatDevicesStats?.data?.["5"] ?? 0,
+        label: "Inactive for 5 Days",
+      },
+      {
+        id: 7,
+        count: noHeartbeatDevicesStats?.data?.["7"] ?? 0,
+        label: "Inactive for 7 Days",
+      },
+      {
+        id: 31,
+        count: noHeartbeatDevicesStats?.data?.total ?? 0,
+        label: "Total Inactive Devices",
+      },
+    ],
+    [noHeartbeatDevicesStats]
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -30,7 +54,13 @@ const NoHeartbeatDeviceStats = () => {
               width={44}
               height={44}
             />
-            <p className="text-xl font-semibold text-zinc-700">{stat.count}</p>
+            {noHeartbeatDevicesStatsLoading ? (
+              <Skeleton className="w-14 h-4" />
+            ) : (
+              <p className="text-xl font-semibold text-zinc-700">
+                {stat.count}
+              </p>
+            )}
           </div>
 
           <div className="flex justify-between p-2 rounded bg-slate-100">
@@ -40,7 +70,7 @@ const NoHeartbeatDeviceStats = () => {
               </div>
               <p className="text-xs text-black">{stat.label}</p>
             </div>
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger>
                 <Image
                   src={dashboard?.helpIcon}
@@ -55,7 +85,7 @@ const NoHeartbeatDeviceStats = () => {
               >
                 <p>Offline Devices</p>
               </TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </div>
       ))}

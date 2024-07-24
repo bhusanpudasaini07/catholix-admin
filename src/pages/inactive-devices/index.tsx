@@ -57,6 +57,7 @@ const InactiveDevices: NextPageWithLayout = () => {
     setSouthWest,
     setNorthEast,
     inactiveDevicesMap,
+    applyColumns,
     inactiveDevicesMapLoading,
   } = useInactiveDevices();
 
@@ -66,7 +67,8 @@ const InactiveDevices: NextPageWithLayout = () => {
     { value: "5", label: "5 Days" },
     { value: "7", label: "7 Days" },
     { value: "10", label: "10 Days" },
-    { value: "30", label: "30 Days" },
+    { value: "15", label: "15 Days" },
+    { value: "more_than_month", label: "More Than Months" },
   ];
 
   return (
@@ -153,6 +155,7 @@ const InactiveDevices: NextPageWithLayout = () => {
             searchTextHandler={searchTextHandler}
             searchTableTriggerHandler={searchTableTriggerHandler}
             searchText={searchText}
+            applyColumns={applyColumns}
           />
         </div>
       </div>

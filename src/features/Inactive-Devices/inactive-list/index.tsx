@@ -17,6 +17,7 @@ interface IProps {
   searchText: string;
   searchTextHandler: (value: string) => void;
   searchTableTriggerHandler: () => void;
+  applyColumns: (columns: string) => void;
 }
 
 const InactiveDeviceList = ({
@@ -29,6 +30,7 @@ const InactiveDeviceList = ({
   searchTextHandler,
   searchTableTriggerHandler,
   searchText,
+  applyColumns,
 }: IProps) => {
   return (
     <>
@@ -42,6 +44,7 @@ const InactiveDeviceList = ({
         height="max-h-[calc(100vh-330px)] 2xl:max-h-[calc(100vh-284px)]"
         headerSticky
         module="inactive_devices"
+        applyColumns={applyColumns}
       >
         <div className="flex justify-between ml-2 grow">
           <Button

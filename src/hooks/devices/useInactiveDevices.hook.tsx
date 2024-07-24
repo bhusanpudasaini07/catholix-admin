@@ -63,9 +63,10 @@ const useInactiveDevices = () => {
         page,
         perPage,
         searchTableTrigger,
+        columns,
       ],
       queryFn: async () => {
-        if (profileData && regionId && stateId) {
+        if (profileData && regionId && stateId && columns) {
           const response = await getInactiveDevices(
             moment(dateRange?.from).format("YYYY-MM-DD"),
             moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -75,6 +76,7 @@ const useInactiveDevices = () => {
             timeFrame,
             page,
             perPage,
+            columns,
             searchText
           );
           return response;
@@ -211,20 +213,20 @@ const useInactiveDevices = () => {
       enableHiding: false,
     },
     // Identification Number
-    {
-      id: "identificationNumber",
-      accessorKey: "identificationNumber",
-      enableHiding: false,
-      header: () => {
-        return (
-          <p>
-            Identification <br />
-            Number
-          </p>
-        );
-      },
-      cell: ({ row }) => <Badge variant={"info"}>{"N/A"}</Badge>,
-    },
+    // {
+    //   id: "identificationNumber",
+    //   accessorKey: "identificationNumber",
+    //   enableHiding: false,
+    //   header: () => {
+    //     return (
+    //       <p>
+    //         Identification <br />
+    //         Number
+    //       </p>
+    //     );
+    //   },
+    //   cell: ({ row }) => <Badge variant={"info"}>{"N/A"}</Badge>,
+    // },
     // IMEI
     {
       id: "imei_no",

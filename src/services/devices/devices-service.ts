@@ -31,6 +31,7 @@ const getInactiveDevices = async (
   timeframe: string,
   page: number,
   pageSize: number,
+  columns: string,
   searchTerm?: string
 ) => {
   return httpRequest(`/devices/inactive-devices`, httpMethods.GET, {
@@ -43,6 +44,7 @@ const getInactiveDevices = async (
       timeframe,
       page,
       pageSize,
+      columns,
       ...(searchTerm && { searchTerm }),
     },
   });

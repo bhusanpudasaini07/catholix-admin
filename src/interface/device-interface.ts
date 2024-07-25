@@ -101,3 +101,14 @@ export interface IInactiveStats {
     total: number;
   };
 }
+export interface INoHeartbeatStats {
+  data: {
+    "2": number;
+    "5": number;
+    "7": number;
+    "10": number;
+    "15": number;
+    "30": number;
+    total: number;
+  };
+}

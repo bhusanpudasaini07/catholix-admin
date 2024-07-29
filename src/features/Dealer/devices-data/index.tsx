@@ -5,13 +5,13 @@ import React from "react";
 const DealerDevicesData = () => {
   return (
     <div className="grid grid-cols-1 gap-4">
-      <RegistrationChart />
+      {/* <RegistrationChart />
 
       <DeviceModelsList
         searchText={""}
         searchTextHandler={() => {}}
         searchTriggerHandler={() => {}}
-      />
+      /> */}
       {/* <DeviceModelsList
         searchText={searchText}
         searchTextHandler={searchTextHandler}

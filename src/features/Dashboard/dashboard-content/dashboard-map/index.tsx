@@ -28,7 +28,6 @@ import {
   IDeviceGroup,
 } from "@/interface/dashboard-interface";
 import { isValidLatLng } from "@/shared/utils/map-utils/lat-lng-utils";
-import ButtonLoader from "@/shared/components/loader/button-loader";
 import { useCommonStore } from "@/store/common-store";
 import { regions } from "@/constants/regionPoints";
 
@@ -312,8 +311,7 @@ const DashboardMapContent = ({
                               </span>
                             </div>
                             <Link
-                              href={`/`}
-                              // href={`/devices/${device.id}`}
+                              href={`/devices/${device?.id}`}
                               className={cn(
                                 buttonVariants({
                                   variant: "primary",

@@ -163,6 +163,41 @@ const getNoHeartbeatDevices = async (
   });
 };
 
+// ________________DEVICE DETAIL __________________
+const getDeviceDetail = async (deviceId: string) => {
+  return httpRequest(`/devices/${deviceId}`, httpMethods.GET);
+};
+const getDeviceDetailTable = async (
+  deviceId: string,
+  page: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  searchTerm?: string
+) => {
+  return httpRequest(`/devices/registered/${deviceId}`, httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      ...(searchTerm && { searchTerm }),
+    },
+  });
+};
+const getDeviceChartData = async (
+  deviceId: string,
+  startDate: string,
+  endDate: string
+) => {
+  return httpRequest(`/devices/registered-chart/${deviceId}`, httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+    },
+  });
+};
+
 export {
   getDevicesData,
   getInactiveDevices,
@@ -174,4 +209,9 @@ export {
   getNoHeartbeatDevicesStats,
   fetchNoHeartbeatDevicesMap,
   getNoHeartbeatDevices,
+
+  // Device Detail
+  getDeviceDetail,
+  getDeviceDetailTable,
+  getDeviceChartData,
 };

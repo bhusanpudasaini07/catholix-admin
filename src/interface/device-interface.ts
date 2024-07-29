@@ -112,3 +112,30 @@ export interface INoHeartbeatStats {
     total: number;
   };
 }
+
+export interface IDeviceDetailTable {
+  data: {
+    results: IRegisteredDevice[];
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    previous: number;
+    pageSize: number;
+  };
+}
+export interface IRegisteredDevice {
+  action_code_v: string;
+  device_user_id: string;
+  simreg_kit_num_v: string;
+  status_v: string;
+  updated_dt: string;
+  vendor_channel: string;
+}
+
+export interface IDeviceChartData {
+  data: {
+    count: string;
+    date: string;
+  }[];
+}

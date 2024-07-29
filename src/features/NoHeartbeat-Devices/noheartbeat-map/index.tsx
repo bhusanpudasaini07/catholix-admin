@@ -78,7 +78,7 @@ function MapComponent({
 
 const mapConstants = {
   center: [10.0, 8.0] as [number, number], // New coordinates for the center
-  zoom: 8, // Example zoom level
+  zoom: 12, // Example zoom level
 };
 interface IProps {
   loading: boolean;

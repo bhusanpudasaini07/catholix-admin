@@ -87,15 +87,6 @@ const AdminFormContent = ({
   };
 
   useEffect(() => {
-    if (selected) {
-      form.setValue(
-        "localGovId",
-        selected?.map((lg) => lg?.id?.toString())
-      );
-    }
-  }, [selected]);
-
-  useEffect(() => {
     if (form.watch("stateId")) {
       const state = regionsList?.data?.regions
         ?.find((region) => region?.id === Number(form.watch("regionId")))
@@ -103,6 +94,15 @@ const AdminFormContent = ({
       setLocalGovernments(state?.localGovernments ?? []);
     }
   }, [form.watch("stateId")]);
+
+  useEffect(() => {
+    if (selected) {
+      form.setValue(
+        "localGovId",
+        selected?.map((lg) => lg?.id?.toString())
+      );
+    }
+  }, [selected]);
 
   return (
     <>

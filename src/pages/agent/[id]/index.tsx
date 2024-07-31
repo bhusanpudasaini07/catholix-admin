@@ -37,7 +37,7 @@ const AgentDetail: NextPageWithLayout = () => {
   } = useAgentDetail();
   return (
     <div className="px-8 py-6">
-      <PageHeader title="Agent Information" back backUrl="">
+      <PageHeader title="Agent Information" back backUrl="/?mapType=agent">
         {/* Filters */}
         <div className="flex justify-end items-start ml-3 grow">
           {/* <div className="flex gap-2 items-center">

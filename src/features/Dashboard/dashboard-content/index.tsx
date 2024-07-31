@@ -60,6 +60,7 @@ const DashboardContent = () => {
     southWest,
     setSouthWest,
     northEast,
+    changeMapType,
     setNorthEast,
   } = useDashboard();
 
@@ -85,7 +86,7 @@ const DashboardContent = () => {
             variant={mapType === option.id ? "active" : "inactive"}
             size="xl"
             className="gap-2.5"
-            onClick={() => setMapType(option.id)}
+            onClick={() => changeMapType(option.id)}
           >
             {option.icon}
             {option.title}

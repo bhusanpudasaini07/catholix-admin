@@ -127,7 +127,9 @@ const AgentInfo = () => {
                       "h-6 font-medium capitalize rounded border-0 w-fit"
                     )}
                   >
-                    {"Active"}
+                    {agentDetail?.data?.power_status === 1
+                      ? "Active"
+                      : "Inactive"}
                   </Badge>
                 )}
                 <p className="text-sm text-zinc-500">Device Model</p>

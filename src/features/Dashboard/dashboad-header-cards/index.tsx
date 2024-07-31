@@ -125,7 +125,7 @@ const DashboardHeaderCards = () => {
                   <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">
                     {item.value}
                   </h3>
-                  <p className="text-[10px] text-nowrap 2xl:text-sm text-zinc-500">
+                  <p className="text-[10px] 2xl:text-xs 3xl:text-sm text-zinc-500">
                     {item.title}
                   </p>
                 </div>

@@ -95,7 +95,7 @@ const useAgentDetail = () => {
       },
     });
 
-  // Device detail table
+  // agent detail table
   const { data: agentDetailTable, isLoading: agentDetailTableLoading } =
     useQuery<IAgentDetailTable>({
       queryKey: [

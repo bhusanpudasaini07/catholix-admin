@@ -19,9 +19,11 @@ import axios from "axios";
 import { axiosInstance } from "@/axios/axiosInstance";
 import { IRegionProps } from "@/interface/common-interface";
 import { getRegions } from "@/services/admin/admin-service";
+import { useRouter } from "next/router";
 
 const useDashboard = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { API_BASE_URL } = config;
   const { profileData } = useCommonStore();
   const { data: regionsList, isLoading: regionsLoading } =
@@ -66,6 +68,13 @@ const useDashboard = () => {
       }
     }
     setSearchTrigger(!searchTrigger);
+  };
+  const changeMapType = (type: string) => {
+    setMapType(type);
+    router.push({
+      pathname: router.pathname,
+      query: { mapType: type },
+    });
   };
 
   // DEVICE DATA FETCHING
@@ -231,6 +240,12 @@ const useDashboard = () => {
     }
   }, [mapType]);
 
+  useEffect(() => {
+    if (router.query.mapType) {
+      setMapType(router.query.mapType as string);
+    }
+  }, [router.query]);
+
   return {
     // States
     mapType,
@@ -246,6 +261,7 @@ const useDashboard = () => {
     // FUNCTION
     searchTriggerHandler,
     resetHandler,
+    changeMapType,
 
     // API
     deviceStats,

@@ -133,7 +133,7 @@ export interface IRegisteredDevice {
   vendor_channel: string;
 }
 
-export interface IDeviceChartData {
+export interface IChartCount {
   data: {
     count: string;
     date: string;

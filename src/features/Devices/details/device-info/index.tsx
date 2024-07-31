@@ -91,7 +91,7 @@ const DeviceInfo = () => {
               {deviceDetailLoading ? (
                 <Skeleton className="w-10 h-8" />
               ) : (
-                <p className="text-lg font-semibold leading-3 text-zinc-7000">
+                <p className="text-lg font-semibold leading-3 text-zinc-700">
                   {deviceDetail?.data?.os_version}
                 </p>
               )}
@@ -104,7 +104,7 @@ const DeviceInfo = () => {
             </div>
             <div className="p-3">
               <p className="mb-3 text-sm text-zinc-500">User Role</p>
-              <p className="text-lg font-semibold leading-3 text-zinc-7000">
+              <p className="text-lg font-semibold leading-3 text-zinc-700">
                 {/* Normal User */} N/A
               </p>
             </div>

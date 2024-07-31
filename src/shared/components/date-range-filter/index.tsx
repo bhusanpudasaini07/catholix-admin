@@ -80,6 +80,7 @@ const DateRangeFilter = ({
           captionLayout="dropdown-buttons"
           initialFocus
           mode="range"
+          defaultMonth={dateRange?.from}
           selected={dateRange}
           onSelect={setDateRange}
           numberOfMonths={2}

@@ -11,7 +11,7 @@ import { Badge } from "@/shared/components/ui/badge";
 import { marker } from "@/shared/lib/image-config";
 
 interface IProps {
-  deviceDetail: IDeviceDetail | undefined;
+  deviceDetail: IDeviceDetail | any;
   latitude: number;
   longitude: number;
 }
@@ -88,7 +88,7 @@ const DeviceMapLocation = ({ deviceDetail, latitude, longitude }: IProps) => {
                     height={12}
                   />
                   <span className="text-sm font-medium text-green-600">
-                    {deviceDetail?.battery_status}%
+                    {deviceDetail?.battery_status ?? "N/A"}%
                   </span>
                 </div>
 
@@ -125,7 +125,9 @@ const DeviceMapLocation = ({ deviceDetail, latitude, longitude }: IProps) => {
                 width={20}
                 height={20}
               />
-              <span className="text-xs">{deviceDetail?.profile_name}</span>
+              <span className="text-xs">
+                {deviceDetail?.profile_name ?? "-"}
+              </span>
             </div>
           </div>
         </Popup>

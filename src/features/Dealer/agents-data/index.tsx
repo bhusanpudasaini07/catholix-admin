@@ -5,13 +5,13 @@ import React from "react";
 const DealerAgentsData = () => {
   return (
     <div className="grid grid-cols-1 gap-4">
-      <TransactionPerformanceChart />
+      {/* <TransactionPerformanceChart />
 
       <AgentDataList
         searchText={""}
         searchTextHandler={() => {}}
         searchTriggerHandler={() => {}}
-      />
+      /> */}
       {/* <AgentDataList
         searchText={searchText}
         searchTextHandler={searchTextHandler}

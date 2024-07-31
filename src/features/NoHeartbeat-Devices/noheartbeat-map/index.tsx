@@ -241,8 +241,7 @@ const NoHeartbeatMapContent = ({
                             </span>
                           </div>
                           <Link
-                            href={`/`}
-                            // href={`/devices/${device.id}`}
+                            href={`/devices/${device.id}`}
                             className={cn(
                               buttonVariants({
                                 variant: "primary",

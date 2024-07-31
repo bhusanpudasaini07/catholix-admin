@@ -14,7 +14,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Label } from "@/shared/components/ui/label";
 import { misMatched } from "@/shared/lib/image-config";
 import MainLayout from "@/shared/main-layout";
-import useAgentDetail from "@/hooks/dlcm/useAgentDetail.hook";
+import useAgentDetail from "@/hooks/agent/useAgentDetail.hook";
 
 const AgentDetail: NextPageWithLayout = () => {
   const {
@@ -23,13 +23,24 @@ const AgentDetail: NextPageWithLayout = () => {
     searchText,
     searchTextHandler,
     searchTriggerHandler,
+    headerResetHandler,
+    headerSearchTriggerHandler,
+    agentChartDataLoading,
+    chartOption,
+    agentDetailTable,
+    agentDetailTableLoading,
+    pageChangeHandler,
+    perPageHandler,
+    perPage,
+    agentDetailColumns,
+    resetHandler,
   } = useAgentDetail();
   return (
     <div className="px-8 py-6">
       <PageHeader title="Agent Information" back backUrl="">
         {/* Filters */}
-        <div className="flex justify-between items-start ml-3 grow">
-          <div className="flex gap-2 items-center">
+        <div className="flex justify-end items-start ml-3 grow">
+          {/* <div className="flex gap-2 items-center">
             <Badge variant={"destructiveLight"} size={"lg"}>
               <Image
                 src={misMatched.imei}
@@ -49,12 +60,13 @@ const AgentDetail: NextPageWithLayout = () => {
               Password Mis-matched
               <div className="bg-red-50 py-0.5 px-2 rounded-md text-xs">5</div>
             </Badge>
-          </div>
+          </div> */}
           <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
-            <div>
+            <div className="max-w-[250px]">
               <Label>Select Date Range</Label>
               <DateRangeFilter
                 dateRange={dateRange}
+                disabled
                 setDateRange={setDateRange}
               />
             </div>
@@ -63,7 +75,7 @@ const AgentDetail: NextPageWithLayout = () => {
               variant={"white"}
               size={"sm"}
               className="gap-1 px-4 py-2 h-9"
-              // onClick={resetHandler}
+              onClick={headerResetHandler}
             >
               <ListRestart size={20} />
               Reset
@@ -73,7 +85,7 @@ const AgentDetail: NextPageWithLayout = () => {
               variant={"primary"}
               size={"sm"}
               className="gap-1 px-4 py-2 h-9"
-              // onClick={searchTriggerHandler}
+              onClick={headerSearchTriggerHandler}
             >
               <Search size={20} />
               Search
@@ -88,12 +100,22 @@ const AgentDetail: NextPageWithLayout = () => {
         </div>
         <div className="col-span-6">
           <div className="grid grid-cols-1 gap-4">
-            <TransactionPerformanceChart />
+            <TransactionPerformanceChart
+              chartOption={chartOption}
+              loading={agentChartDataLoading}
+            />
 
             <AgentDataList
               searchText={searchText}
               searchTextHandler={searchTextHandler}
               searchTriggerHandler={searchTriggerHandler}
+              resetHandler={resetHandler}
+              columns={agentDetailColumns}
+              agentDetailTable={agentDetailTable}
+              loading={agentDetailTableLoading}
+              pageChangeHandler={pageChangeHandler}
+              perPageHandler={perPageHandler}
+              perPage={perPage}
             />
           </div>
         </div>

@@ -415,8 +415,7 @@ const DashboardMapContent = ({
                             </span>
                           </div> */}
                           <Link
-                            href={`/`}
-                            // href={`/agent/${agent?.code}`}
+                            href={`/agent/${agent?.agent_msisdn}`}
                             className={cn(
                               buttonVariants({
                                 variant: "primary",

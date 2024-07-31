@@ -1,31 +1,27 @@
+import { IAgent, IAgentDetailTable } from "@/interface/agent-interface";
+import { IChartCount } from "@/interface/device-interface";
+import {
+  getAgentChartData,
+  getAgentDetail,
+  getAgentDetailTable,
+} from "@/services/agent/agent-service";
+import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
+import { Badge } from "@/shared/components/ui/badge";
+import { ColumnDef } from "@tanstack/react-table";
+import moment from "moment";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useQuery } from "react-query";
 
-import {
-  getDeviceChartData,
-  getDeviceDetail,
-  getDeviceDetailTable,
-} from "@/services/devices/devices-service";
-import {
-  IChartCount,
-  IDeviceDetail,
-  IDeviceDetailTable,
-  IRegisteredDevice,
-} from "@/interface/device-interface";
-import { ColumnDef } from "@tanstack/react-table";
-import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
-import { Badge } from "@/shared/components/ui/badge";
-import moment from "moment";
-
 interface IProps {
-  data: IDeviceDetail;
+  data: IAgent;
 }
 
-const useDeviceDetail = () => {
+const useAgentDetail = () => {
   const router = useRouter();
   const { id } = router.query;
+
   // States
   const [searchText, setSearchText] = useState<string>("");
   const [perPage, setPerPage] = useState<number>(10);
@@ -37,7 +33,6 @@ const useDeviceDetail = () => {
   });
   const [headerSearchTrigger, setHeaderSearchTrigger] =
     useState<boolean>(false);
-
   const [openMapModal, setOpenMapModal] = useState<boolean>(false);
 
   //   FUNCTIONS
@@ -73,21 +68,38 @@ const useDeviceDetail = () => {
   };
 
   // API CALLS
-  const { data: deviceDetail, isLoading: deviceDetailLoading } =
-    useQuery<IProps>({
-      queryKey: ["deviceDetail", id],
+
+  const { data: agentDetail, isLoading: agentDetailLoading } = useQuery<IProps>(
+    {
+      queryKey: ["agentDetail", id],
       queryFn: async () => {
         if (id) {
-          return await getDeviceDetail(id as string);
+          return await getAgentDetail(id as string);
+        }
+      },
+    }
+  );
+
+  // Chart data
+  const { data: agentChartData, isLoading: agentChartDataLoading } =
+    useQuery<IChartCount>({
+      queryKey: ["agentChartData", id, headerSearchTrigger],
+      queryFn: async () => {
+        if (id) {
+          return await getAgentChartData(
+            id as string,
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD")
+          );
         }
       },
     });
 
   // Device detail table
-  const { data: deviceDetailTable, isLoading: deviceDetailTableLoading } =
-    useQuery<IDeviceDetailTable>({
+  const { data: agentDetailTable, isLoading: agentDetailTableLoading } =
+    useQuery<IAgentDetailTable>({
       queryKey: [
-        "deviceDetailTable",
+        "agentDetailTable",
         id,
         searchTrigger,
         page,
@@ -96,7 +108,7 @@ const useDeviceDetail = () => {
       ],
       queryFn: async () => {
         if (id) {
-          return await getDeviceDetailTable(
+          return await getAgentDetailTable(
             id as string,
             page,
             perPage,
@@ -108,23 +120,8 @@ const useDeviceDetail = () => {
       },
     });
 
-  // Chart data
-  const { data: deviceChartData, isLoading: deviceChartDataLoading } =
-    useQuery<IChartCount>({
-      queryKey: ["deviceChartData", id, headerSearchTrigger],
-      queryFn: async () => {
-        if (id) {
-          return await getDeviceChartData(
-            id as string,
-            moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD")
-          );
-        }
-      },
-    });
-
   // COLUMNS
-  const deviceDetailColumns: ColumnDef<IRegisteredDevice>[] = [
+  const agentDetailColumns: ColumnDef<IAgent>[] = [
     // SN
     {
       id: "sn",
@@ -136,20 +133,20 @@ const useDeviceDetail = () => {
         );
       },
     },
-    // simreg_kit_num_v
+    // SIM Reg Kit
     {
       id: "simreg_kit_num_v",
-      header: "SIM Reg Kit",
+      header: "SIM Reg Kit No.",
       accessorKey: "simreg_kit_num_v",
       cell: ({ row }) => (
-        <p className="font-semibold">{row?.original.simreg_kit_num_v}</p>
+        <Badge variant={"info"}>{row?.original.simreg_kit_num_v}</Badge>
       ),
     },
-    // vendor_channel
+    // Action Code
     {
-      id: "vendor_channel",
-      header: "Vendor Channel",
-      accessorKey: "vendor_channel",
+      id: "action_code_v",
+      header: "Action Code",
+      accessorKey: "action_code_v",
     },
     // status
     {
@@ -160,43 +157,28 @@ const useDeviceDetail = () => {
         return <Badge variant={"info"}>{row?.original.status_v}</Badge>;
       },
     },
-    // device_user_id
+    // SSP IMEI
     {
-      id: "device_user_id",
-      header: "Device User ID",
-      accessorKey: "device_user_id",
+      id: "imei1",
+      header: "SSP IMEI",
+      accessorKey: "imei1",
     },
-    // action_code
+    // MDM IMEI
     {
-      id: "action_code_v",
-      header: "Action Code",
-      accessorKey: "action_code_v",
-    },
-    // update_dt
-    {
-      id: "updated_dt",
-      header: "Updated Date",
-      accessorKey: "updated_dt",
-      cell: ({ row }) => {
-        return (
-          <Badge variant={"secondary"}>
-            {moment(row?.original.updated_dt).format("YYYY-MM-DD")}
-            <br />
-            {moment(row?.original.updated_dt).format("HH:mm:ss")}
-          </Badge>
-        );
-      },
+      id: "imei_no",
+      header: "MDM IMEI",
+      accessorKey: "imei_no",
     },
   ];
 
   // Chart
   const groupedChartData = useMemo(() => {
     if (
-      deviceChartData &&
+      agentChartData &&
       dateRange &&
       moment(dateRange.to).diff(moment(dateRange.from), "months") > 1
     ) {
-      const groupedData: any = deviceChartData?.data.reduce((acc, item) => {
+      const groupedData: any = agentChartData?.data.reduce((acc, item) => {
         const month = moment(item.date).format("MMM");
         if (!acc[month]) {
           acc[month] = 0;
@@ -233,13 +215,13 @@ const useDeviceDetail = () => {
       };
     } else {
       return {
-        xAxisData: deviceChartData?.data?.map((item) =>
+        xAxisData: agentChartData?.data?.map((item) =>
           moment(item.date).format("DD MMM")
         ),
-        seriesData: deviceChartData?.data?.map((item) => item.count),
+        seriesData: agentChartData?.data?.map((item) => item.count),
       };
     }
-  }, [deviceChartData]);
+  }, [agentChartData]);
 
   const chartOption = useMemo(() => {
     return {
@@ -267,47 +249,12 @@ const useDeviceDetail = () => {
           data: groupedChartData?.seriesData,
           type: "bar",
           itemStyle: {
-            color: "#5470C6",
+            color: "#FF0000",
           },
         },
       ],
     };
   }, [groupedChartData]);
-
-  // const chartOption = useMemo(() => {
-  //   return {
-  //     tooltip: {
-  //       trigger: "axis",
-  //       axisPointer: {
-  //         type: "shadow",
-  //       },
-  //     },
-  //     grid: {
-  //       left: "3%",
-  //       right: "4%",
-  //       bottom: "10%",
-  //       containLabel: true,
-  //     },
-  //     xAxis: {
-  //       type: "category",
-  //       data: deviceChartData?.data?.map((item) =>
-  //         moment(item.date).format("DD")
-  //       ),
-  //     },
-  //     yAxis: {
-  //       type: "value",
-  //     },
-  //     series: [
-  //       {
-  //         data: deviceChartData?.data?.map((item) => item.count),
-  //         type: "bar",
-  //         itemStyle: {
-  //           color: "#5470C6",
-  //         },
-  //       },
-  //     ],
-  //   };
-  // }, [deviceChartData]);
 
   return {
     // States
@@ -336,16 +283,16 @@ const useDeviceDetail = () => {
     headerSearchTriggerHandler,
 
     // API CALLS
-    deviceDetail,
-    deviceDetailLoading,
-    deviceDetailTable,
-    deviceDetailTableLoading,
-    deviceChartDataLoading,
+    agentDetail,
+    agentDetailLoading,
+    agentDetailTable,
+    agentDetailTableLoading,
+    agentChartDataLoading,
     // Columns
-    deviceDetailColumns,
+    agentDetailColumns,
     // Chart Option
     chartOption,
   };
 };
 
-export default useDeviceDetail;
+export default useAgentDetail;

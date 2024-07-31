@@ -98,7 +98,7 @@ const DashboardHeaderCards = () => {
       <div className="grid grid-cols-1 gap-4 grow md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7">
         {dashboardData.map((item) => (
           <Card key={item.id}>
-            <CardContent className="relative p-3 xl:p-3">
+            <CardContent className="flex relative flex-col justify-between p-3 h-full xl:p-3">
               {item.pageUrl && (
                 <Link
                   href={item.pageUrl}

@@ -157,7 +157,7 @@ const DeviceInfo = () => {
                 </Badge>
                 <p className="text-sm text-zinc-500">Agent Name</p>
                 <h4 className="text-lg font-semibold text-zinc-700">
-                  Kingsley onoefejewq
+                  {/* {deviceDetail?.data?.agent_name} */} N/A
                 </h4>
               </div>
             </div>

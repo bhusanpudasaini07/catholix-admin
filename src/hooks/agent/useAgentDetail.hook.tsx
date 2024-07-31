@@ -41,6 +41,7 @@ const useAgentDetail = () => {
   };
   const resetHandler = () => {
     setSearchText("");
+    setPage(1);
     setSearchTrigger(!searchTrigger);
   };
   const headerResetHandler = () => {
@@ -49,6 +50,7 @@ const useAgentDetail = () => {
       to: moment().toDate(),
     });
     setHeaderSearchTrigger(!headerSearchTrigger);
+    setPage(1);
   };
   const perPageHandler = (value: number) => {
     setPerPage(value);

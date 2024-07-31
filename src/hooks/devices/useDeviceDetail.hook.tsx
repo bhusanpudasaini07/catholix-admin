@@ -46,6 +46,7 @@ const useDeviceDetail = () => {
   };
   const resetHandler = () => {
     setSearchText("");
+    setPage(1);
     setSearchTrigger(!searchTrigger);
   };
   const headerResetHandler = () => {
@@ -53,6 +54,7 @@ const useDeviceDetail = () => {
       from: moment().subtract(1, "month").toDate(),
       to: moment().toDate(),
     });
+    setPage(1);
     setHeaderSearchTrigger(!headerSearchTrigger);
   };
   const perPageHandler = (value: number) => {

@@ -49,7 +49,7 @@ const AgentInfo = () => {
                       "h-6 font-medium capitalize rounded border-0 w-fit"
                     )}
                   >
-                    DTP443
+                    {/* DTP443 */} N/A
                   </Badge>
                 )}
 

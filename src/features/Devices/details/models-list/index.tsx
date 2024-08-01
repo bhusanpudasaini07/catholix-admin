@@ -17,7 +17,7 @@ interface IProps {
   searchTriggerHandler: () => void;
   resetHandler: () => void;
   columns: ColumnDef<IRegisteredDevice>[];
-  deviceDetailTable: IDeviceDetailTable | undefined;
+  deviceDetailTable: IDeviceDetailTable | any;
   loading: boolean;
   pageChangeHandler: (page: number) => void;
   perPageHandler: (pageSize: number) => void;

@@ -449,7 +449,7 @@ const DashboardMapContent = ({
               )
               .map((dealer) => (
                 <DealerCustomMarker
-                  key={dealer?.dealer_code}
+                  key={dealer?.dealer_code_v}
                   position={[
                     Number(dealer?.latitude),
                     Number(dealer?.longitude),
@@ -513,8 +513,7 @@ const DashboardMapContent = ({
                       </span>
                     </div> */}
                       <Link
-                        href={`/`}
-                        // href={`/agent/${agent?.code}`}
+                        href={`/dealer/${dealer?.dealer_code_v}`}
                         className={cn(
                           buttonVariants({ variant: "primary", size: "sm" }),
                           "mt-4"

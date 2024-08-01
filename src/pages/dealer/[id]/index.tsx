@@ -1,6 +1,9 @@
 import DealerAgentsData from "@/features/Dealer/agents-data";
+import DealerChart from "@/features/Dealer/dealer-chart";
 import DealerInfo from "@/features/Dealer/dealer-info";
 import DealerDevicesData from "@/features/Dealer/devices-data";
+import DeviceModelsList from "@/features/Devices/details/models-list";
+import useDealerDetail from "@/hooks/dealer/useDealerDetail.hook";
 import { NextPageWithLayout } from "@/pages/_app";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import PageHeader from "@/shared/components/page-header";
@@ -19,18 +22,40 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React, { useState } from "react";
 
 const DealerDetail: NextPageWithLayout = () => {
-  const [type, setType] = useState("agents");
+  const {
+    type,
+    setType,
+    dateRange,
+    setDateRange,
+    searchText,
+    searchTextHandler,
+    headerSearchTriggerHandler,
+    headerResetHandler,
+    resetHandler,
+    searchTriggerHandler,
+    perPage,
+    perPageHandler,
+    pageChangeHandler,
+    deviceColumns,
+    dealerTable,
+    dealerTableLoading,
+    chartOption,
+    dealerChart,
+    dealerChartLoading,
+  } = useDealerDetail();
+
   return (
     <div className="px-8 py-6">
-      <PageHeader title="Dealer Information" back backUrl="">
+      <PageHeader title="Dealer Information" back backUrl="/?mapType=dealer">
         {/* Filters */}
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
-          <div>
+          <div className="max-w-[250px]">
             <Label>Select Date Range</Label>
-            {/* <DateRangeFilter
+            <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
-            /> */}
+              disabled
+            />
           </div>
           <div>
             <Label>Select Types</Label>
@@ -39,8 +64,8 @@ const DealerDetail: NextPageWithLayout = () => {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="agents">Agents</SelectItem>
-                <SelectItem value="devices">Devices</SelectItem>
+                <SelectItem value="agent">Agents</SelectItem>
+                <SelectItem value="device">Devices</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -49,7 +74,7 @@ const DealerDetail: NextPageWithLayout = () => {
             variant={"white"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
-            // onClick={resetHandler}
+            onClick={headerResetHandler}
           >
             <ListRestart size={20} />
             Reset
@@ -59,7 +84,7 @@ const DealerDetail: NextPageWithLayout = () => {
             variant={"primary"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
-            // onClick={searchTriggerHandler}
+            onClick={headerSearchTriggerHandler}
           >
             <Search size={20} />
             Search
@@ -72,15 +97,26 @@ const DealerDetail: NextPageWithLayout = () => {
           <DealerInfo />
         </div>
         <div className="col-span-6">
-          {type === "agents" ? <DealerAgentsData /> : <DealerDevicesData />}
+          {/* {type === "agents" ? <DealerAgentsData /> : <DealerDevicesData />} */}
           <div className="grid grid-cols-1 gap-4">
-            {/* <TransactionPerformanceChart />
+            <DealerChart
+              loading={dealerChartLoading}
+              chartOption={chartOption}
+              type={dealerChart?.data[0]?.agents ? "agent" : "device"}
+            />
 
-            <AgentDataList
+            <DeviceModelsList
               searchText={searchText}
               searchTextHandler={searchTextHandler}
               searchTriggerHandler={searchTriggerHandler}
-            /> */}
+              resetHandler={resetHandler}
+              columns={deviceColumns}
+              deviceDetailTable={dealerTable}
+              loading={dealerTableLoading}
+              pageChangeHandler={pageChangeHandler}
+              perPage={perPage}
+              perPageHandler={perPageHandler}
+            />
           </div>
         </div>
       </div>

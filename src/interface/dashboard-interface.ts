@@ -108,6 +108,7 @@ export interface IDealerMap {
 export interface IDealerDetail {
   dealer_address: string;
   dealer_code: string;
+  dealer_code_v: string;
   dealer_division: string;
   dealer_name: string;
   dealer_type: string;

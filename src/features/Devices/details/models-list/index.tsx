@@ -22,6 +22,8 @@ interface IProps {
   pageChangeHandler: (page: number) => void;
   perPageHandler: (pageSize: number) => void;
   perPage: number;
+  exportHandler: () => void;
+  exportLoading: boolean;
 }
 
 const DeviceModelsList = ({
@@ -35,6 +37,8 @@ const DeviceModelsList = ({
   pageChangeHandler,
   perPageHandler,
   perPage,
+  exportHandler,
+  exportLoading,
 }: IProps) => {
   return (
     <>
@@ -52,6 +56,8 @@ const DeviceModelsList = ({
             variant={"white"}
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2"
+            onClick={exportHandler}
+            disabled={exportLoading}
           >
             <ExternalLink size={20} />
             Export

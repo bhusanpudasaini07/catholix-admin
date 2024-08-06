@@ -41,4 +41,26 @@ const getAgentDetailTable = (
   });
 };
 
-export { getAgentDetail, getAgentChartData, getAgentDetailTable };
+const exportAgentData = (
+  agentId: string,
+  startDate: string,
+  endDate: string
+) => {
+  return httpRequest(
+    `/ssp/agent/registered-export/${agentId}`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+      },
+    }
+  );
+};
+
+export {
+  getAgentDetail,
+  getAgentChartData,
+  getAgentDetailTable,
+  exportAgentData,
+};

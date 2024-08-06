@@ -34,6 +34,8 @@ const AgentDetail: NextPageWithLayout = () => {
     perPage,
     agentDetailColumns,
     resetHandler,
+    exportHandler,
+    exportAgentDataMutation,
   } = useAgentDetail();
   return (
     <div className="px-8 py-6">
@@ -116,6 +118,8 @@ const AgentDetail: NextPageWithLayout = () => {
               pageChangeHandler={pageChangeHandler}
               perPageHandler={perPageHandler}
               perPage={perPage}
+              exportHandler={exportHandler}
+              exportLoading={exportAgentDataMutation.isLoading}
             />
           </div>
         </div>

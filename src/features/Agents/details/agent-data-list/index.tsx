@@ -19,6 +19,8 @@ interface IProps {
   pageChangeHandler: (page: number) => void;
   perPageHandler: (pageSize: number) => void;
   perPage: number;
+  exportHandler: () => void;
+  exportLoading: boolean;
 }
 
 const AgentDataList = ({
@@ -32,6 +34,8 @@ const AgentDataList = ({
   perPageHandler,
   perPage,
   columns,
+  exportHandler,
+  exportLoading,
 }: IProps) => {
   return (
     <>
@@ -49,6 +53,8 @@ const AgentDataList = ({
             variant={"white"}
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2"
+            onClick={exportHandler}
+            disabled={exportLoading}
           >
             <ExternalLink size={20} />
             Export

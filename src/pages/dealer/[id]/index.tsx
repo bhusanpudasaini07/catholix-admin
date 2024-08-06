@@ -42,6 +42,8 @@ const DealerDetail: NextPageWithLayout = () => {
     chartOption,
     dealerChart,
     dealerChartLoading,
+    exportHandler,
+    exportDealerDataMutation,
   } = useDealerDetail();
 
   return (
@@ -116,6 +118,8 @@ const DealerDetail: NextPageWithLayout = () => {
               pageChangeHandler={pageChangeHandler}
               perPage={perPage}
               perPageHandler={perPageHandler}
+              exportHandler={exportHandler}
+              exportLoading={exportDealerDataMutation.isLoading}
             />
           </div>
         </div>

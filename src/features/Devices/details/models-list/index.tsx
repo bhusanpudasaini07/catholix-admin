@@ -22,8 +22,8 @@ interface IProps {
   pageChangeHandler: (page: number) => void;
   perPageHandler: (pageSize: number) => void;
   perPage: number;
-  exportHandler: () => void;
-  exportLoading: boolean;
+  exportHandler?: () => void;
+  exportLoading?: boolean;
 }
 
 const DeviceModelsList = ({

@@ -59,6 +59,8 @@ const InactiveDevices: NextPageWithLayout = () => {
     inactiveDevicesMap,
     applyColumns,
     inactiveDevicesMapLoading,
+    exportHandler,
+    exportInactiveDeviceMutation,
   } = useInactiveDevices();
 
   const timeFrameOptions = [
@@ -156,6 +158,8 @@ const InactiveDevices: NextPageWithLayout = () => {
             searchTableTriggerHandler={searchTableTriggerHandler}
             searchText={searchText}
             applyColumns={applyColumns}
+            exportHandler={exportHandler}
+            exportLoading={exportInactiveDeviceMutation.isLoading}
           />
         </div>
       </div>

@@ -6,6 +6,7 @@ import {
 } from "@/interface/device-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import {
+  exportInactiveDevices,
   fetchInactiveDevicesMap,
   getInactiveDevices,
   getInactiveDevicesStats,
@@ -18,9 +19,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import config from "../../../config";
 import { cn } from "@/shared/utils/utils";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 
 const useInactiveDevices = () => {
   const { profileData } = useCommonStore();
@@ -128,6 +131,27 @@ const useInactiveDevices = () => {
       queryKey: ["inactive-devices-stats"],
       queryFn: getInactiveDevicesStats,
     });
+
+  const exportInactiveDeviceMutation = useMutation({
+    mutationFn: () =>
+      exportInactiveDevices(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        regionId,
+        stateId,
+        lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+        timeFrame,
+        columns
+      ),
+    onSuccess: (data) => {
+      exportToCsv("inactive_devices.csv", data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportInactiveDeviceMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
 
   // FUNCTION
   const searchTextHandler = (value: string) => {
@@ -754,6 +778,7 @@ const useInactiveDevices = () => {
     searchTextHandler,
     searchTableTriggerHandler,
     applyColumns,
+    exportHandler,
 
     // COlumns
     inactiveDeviceColumns,
@@ -765,6 +790,9 @@ const useInactiveDevices = () => {
     inactiveDevicesMapLoading,
     inactiveDevicesStats,
     inactiveDevicesStatsLoading,
+
+    // Mutation
+    exportInactiveDeviceMutation,
   };
 };
 

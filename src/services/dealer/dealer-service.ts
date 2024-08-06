@@ -45,4 +45,28 @@ const getDealerTableData = (
   });
 };
 
-export { getDealerDetail, getDealerChartData, getDealerTableData };
+const exportDealerData = (
+  dealerCode: string,
+  startDate: string,
+  endDate: string,
+  type: string
+) => {
+  return httpRequest(
+    `/ssp/dealer/registered-export/${dealerCode}`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        type,
+      },
+    }
+  );
+};
+
+export {
+  getDealerDetail,
+  getDealerChartData,
+  getDealerTableData,
+  exportDealerData,
+};

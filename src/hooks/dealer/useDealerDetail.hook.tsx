@@ -1,18 +1,21 @@
 import { IDealerDetails, IDealerTable } from "@/interface/dealer-interface";
 import { IRegisteredDevice } from "@/interface/device-interface";
 import {
+  exportDealerData,
   getDealerChartData,
   getDealerDetail,
   getDealerTableData,
 } from "@/services/dealer/dealer-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 interface IProps {
   data: IDealerDetails;
@@ -118,6 +121,24 @@ const useDealerDetail = () => {
         }
       },
     });
+
+  const exportDealerDataMutation = useMutation({
+    mutationFn: () =>
+      exportDealerData(
+        id as string,
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        type
+      ),
+    onSuccess: (data) => {
+      exportToCsv("dealer_data.csv", data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportDealerDataMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
 
   const deviceColumns: ColumnDef<IRegisteredDevice>[] = [
     // SN
@@ -315,6 +336,7 @@ const useDealerDetail = () => {
     dealerTableLoading,
     dealerChart,
     dealerChartLoading,
+    exportDealerDataMutation,
 
     // FUNCTIONS
     searchTextHandler,
@@ -324,6 +346,7 @@ const useDealerDetail = () => {
     pageChangeHandler,
     searchTriggerHandler,
     headerSearchTriggerHandler,
+    exportHandler,
 
     // Columns
     deviceColumns,

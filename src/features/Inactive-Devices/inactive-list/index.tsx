@@ -18,6 +18,8 @@ interface IProps {
   searchTextHandler: (value: string) => void;
   searchTableTriggerHandler: () => void;
   applyColumns: (columns: string) => void;
+  exportHandler: () => void;
+  exportLoading: boolean;
 }
 
 const InactiveDeviceList = ({
@@ -31,6 +33,8 @@ const InactiveDeviceList = ({
   searchTableTriggerHandler,
   searchText,
   applyColumns,
+  exportHandler,
+  exportLoading,
 }: IProps) => {
   return (
     <>
@@ -51,6 +55,8 @@ const InactiveDeviceList = ({
             variant={"white"}
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2"
+            onClick={exportHandler}
+            disabled={exportLoading}
           >
             <ExternalLink size={20} />
             Export

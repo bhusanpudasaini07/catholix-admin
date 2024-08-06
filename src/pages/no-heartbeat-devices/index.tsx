@@ -59,6 +59,8 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
     noHeartbeatDevicesMap,
     applyColumns,
     noHeartbeatDevicesMapLoading,
+    exportHandler,
+    exportNoHeartbeatDeviceMutation,
   } = useNoHeartbeatDevices();
   const timeFrameOptions = [
     { value: "all", label: "All" },
@@ -154,6 +156,8 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
             searchTableTriggerHandler={searchTableTriggerHandler}
             searchText={searchText}
             applyColumns={applyColumns}
+            exportHandler={exportHandler}
+            exportLoading={exportNoHeartbeatDeviceMutation.isLoading}
           />
         </div>
       </div>

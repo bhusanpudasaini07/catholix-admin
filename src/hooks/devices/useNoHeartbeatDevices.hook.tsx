@@ -6,6 +6,7 @@ import {
 } from "@/interface/device-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import {
+  exportNoHeartbeatDevices,
   fetchNoHeartbeatDevicesMap,
   getNoHeartbeatDevices,
   getNoHeartbeatDevicesStats,
@@ -18,9 +19,11 @@ import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import config from "../../../config";
 import { cn } from "@/shared/utils/utils";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 
 const useNoHeartbeatDevices = () => {
   const { profileData } = useCommonStore();
@@ -121,6 +124,27 @@ const useNoHeartbeatDevices = () => {
     queryKey: ["no-heartbeat-devices-stats"],
     queryFn: getNoHeartbeatDevicesStats,
   });
+
+  const exportNoHeartbeatDeviceMutation = useMutation({
+    mutationFn: () =>
+      exportNoHeartbeatDevices(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        regionId,
+        stateId,
+        lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+        timeFrame,
+        columns
+      ),
+    onSuccess: (data) => {
+      exportToCsv("no_heartbeat_devices.csv", data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportNoHeartbeatDeviceMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
 
   // FUNCTION
   const searchTextHandler = (value: string) => {
@@ -747,6 +771,7 @@ const useNoHeartbeatDevices = () => {
     searchTextHandler,
     searchTableTriggerHandler,
     applyColumns,
+    exportHandler,
 
     // COlumns
     noHeartbeatDeviceColumns,
@@ -758,6 +783,7 @@ const useNoHeartbeatDevices = () => {
     noHeartbeatDevicesMapLoading,
     noHeartbeatDevicesStats,
     noHeartbeatDevicesStatsLoading,
+    exportNoHeartbeatDeviceMutation,
   };
 };
 

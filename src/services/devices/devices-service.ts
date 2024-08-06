@@ -102,6 +102,27 @@ const getInactiveDevicesMap = async (
 const getInactiveDevicesStats = async () => {
   return httpRequest("/devices/inactive-devices-days", httpMethods.GET);
 };
+const exportInactiveDevices = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  timeframe: string,
+  columns: string
+) => {
+  return httpRequest("/devices/inactive-devices-export", httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      timeframe,
+      columns,
+    },
+  });
+};
 
 // ________________ NO HEARTBEAT________________
 
@@ -162,6 +183,27 @@ const getNoHeartbeatDevices = async (
     },
   });
 };
+const exportNoHeartbeatDevices = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  timeframe: string,
+  columns: string
+) => {
+  return httpRequest("/devices/noheartbeat-devices-export", httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      timeframe,
+      columns,
+    },
+  });
+};
 
 // ________________DEVICE DETAIL __________________
 const getDeviceDetail = async (deviceId: string) => {
@@ -200,15 +242,18 @@ const getDeviceChartData = async (
 
 export {
   getDevicesData,
+  // Inactive
   getInactiveDevices,
   getInactiveDevicesMap,
   fetchInactiveDevicesMap,
   getInactiveDevicesStats,
+  exportInactiveDevices,
 
   // No heartbeat
   getNoHeartbeatDevicesStats,
   fetchNoHeartbeatDevicesMap,
   getNoHeartbeatDevices,
+  exportNoHeartbeatDevices,
 
   // Device Detail
   getDeviceDetail,

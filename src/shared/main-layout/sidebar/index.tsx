@@ -67,9 +67,11 @@ const Sidebar = ({
   const menuItems = permissionConfig.sidebarItems.map((item) => ({
     menuName: t(item.menuName),
     icon: item.icon,
-    subMenu: item.subMenu.map((subItem) => ({
+    subMenu: item.subMenu.map((subItem: any) => ({
       menuName: t(subItem.menuName),
       menuSlug: subItem.menuSlug,
+      hasAccordion: subItem.hasAccordion ? subItem.hasAccordion : false,
+      accordionItem: subItem.accordionItem ? subItem.accordionItem : [],
       icon: subItem.icon,
     })),
     permissions: item.permissions,
@@ -187,25 +189,47 @@ const Sidebar = ({
                             </div>
                           </AccordionTrigger>
                           <AccordionContent className="[&>div]:pb-0">
-                            <ul className={`sidebarList`}>
+                            <ul className={`w-full sidebarList`}>
                               {subItem?.accordionItem?.map(
                                 (
                                   accordionItem: any,
                                   accordionItemIndex: number
                                 ) => (
-                                  <li
+                                  // <li
+                                  //   key={`accordion-item-${accordionItemIndex}`}
+                                  //   onClick={() =>
+                                  //     router?.push(accordionItem?.itemSlug)
+                                  //   }
+                                  //   className={`mb-1 font-medium ${
+                                  //     isActive(accordionItem?.itemSlug)
+                                  //       ? "text-yellow-600"
+                                  //       : "text-zinc-600 "
+                                  //   }`}
+                                  // >
+                                  //   {t(accordionItem?.itemName)}
+                                  // </li>
+                                  <Button
                                     key={`accordion-item-${accordionItemIndex}`}
+                                    className={`
+                                      btn-primary h-[44px] !pl-11 w-full !shadow-none rounded-none  ${
+                                        isExpanded
+                                          ? "justify-start"
+                                          : "justify-center"
+                                      } ${
+                                      isActive(accordionItem?.itemSlug) &&
+                                      "active"
+                                    }
+                                      `}
                                     onClick={() =>
                                       router?.push(accordionItem?.itemSlug)
                                     }
-                                    className={`mb-1 font-medium ${
-                                      isActive(accordionItem?.itemSlug)
-                                        ? "text-yellow-600"
-                                        : "text-zinc-600 "
-                                    }`}
                                   >
-                                    {accordionItem?.itemName}
-                                  </li>
+                                    <span
+                                      className={isExpanded ? "" : "hidden"}
+                                    >
+                                      {t(accordionItem?.itemName)}
+                                    </span>
+                                  </Button>
                                 )
                               )}
                             </ul>
@@ -239,9 +263,14 @@ const Sidebar = ({
                                   onClick={() =>
                                     router?.push(accordionItem?.itemSlug)
                                   }
+                                  className={
+                                    isActive(accordionItem?.itemSlug)
+                                      ? "bg-primary"
+                                      : ""
+                                  }
                                   key={`accordion-item-${accordionItemIndex}`}
                                 >
-                                  {accordionItem?.itemName}
+                                  {t(accordionItem?.itemName)}
                                 </DropdownMenuItem>
                               )
                             )}

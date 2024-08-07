@@ -15,7 +15,14 @@
       "ssp_data": "SSP Data",
       "devices_data": "Devices Data",
       "admins": "Admins",
-      "roles": "Roles"
+      "roles": "Roles",
+      "device_analytics": "Device Analytics",
+      "performance": "Performance",
+      "comparison": "Comparison",
+      "lga_performance": "Performance By LG",
+      "security": "Security",
+      "imei_mismatch": "IMEI Mismatch",
+      "password_mismatch": "Password Mismatch"
     },
 
     "search": "Input here to search"

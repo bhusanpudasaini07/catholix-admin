@@ -1,4 +1,8 @@
 import {
+  FileBadge,
+  FileBadge2,
+  FileBarChart,
+  FileLineChart,
   LayoutDashboard,
   LayoutGrid,
   ScrollText,
@@ -76,6 +80,60 @@ export const permissionConfig = {
           path: "/devices",
           method: "get",
           resource: "device",
+        },
+      ],
+    },
+    // Device Analytics
+    {
+      menuName: "common.side_nav.device_analytics",
+      menuSlug: "",
+      icon: <FileLineChart width={20} height={20} />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "common.side_nav.device_analytics",
+          menuSlug: "/device-analytics",
+          icon: <FileLineChart width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "common.side_nav.performance",
+              itemSlug: "/device-performance",
+            },
+            {
+              itemName: "common.side_nav.comparison",
+              itemSlug: "/device-comparison",
+            },
+            {
+              itemName: "common.side_nav.lga_performance",
+              itemSlug: "/lga-performance",
+            },
+          ],
+        },
+      ],
+    },
+    // Security
+    {
+      menuName: "common.side_nav.security",
+      menuSlug: "",
+      icon: <FileLineChart width={20} height={20} />,
+      hasChildren: true,
+      subMenu: [
+        {
+          menuName: "common.side_nav.security",
+          menuSlug: "/device-analytics",
+          icon: <FileBadge2 width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "common.side_nav.imei_mismatch",
+              itemSlug: "/imei-mismatch",
+            },
+            {
+              itemName: "common.side_nav.password_mismatch",
+              itemSlug: "/password-mismatch",
+            },
+          ],
         },
       ],
     },

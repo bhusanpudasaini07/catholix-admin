@@ -76,7 +76,7 @@ const useSSP = () => {
     {
       id: "dealer_code",
       accessorKey: "dealer_code",
-      header: "Code",
+      header: "Dealer Code",
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.dealer_code || "-"}</p>,
     },
@@ -84,7 +84,7 @@ const useSSP = () => {
     {
       id: "status_v",
       accessorKey: "status_v",
-      header: "Status",
+      header: "Status V",
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.status_v || "-"}</p>,
     },
@@ -116,7 +116,7 @@ const useSSP = () => {
     {
       id: "agent_name_v_from_xml",
       accessorKey: "agent_name_v_from_xml",
-      header: "Agent Name (XML)",
+      header: "Agent Name V From Xml",
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.agent_name_v_from_xml || "-"}</p>,
     },
@@ -124,7 +124,7 @@ const useSSP = () => {
     {
       id: "action_code_v",
       accessorKey: "action_code_v",
-      header: "Action Code",
+      header: "Action Code V",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.action_code_v || "-"}</p>,
     },
@@ -132,7 +132,7 @@ const useSSP = () => {
     {
       id: "simreg_kit_num_v",
       accessorKey: "simreg_kit_num_v",
-      header: "SIM Registration Kit Number",
+      header: "SimReg Kit Num V",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.simreg_kit_num_v || "-"}</p>,
     },
@@ -140,7 +140,7 @@ const useSSP = () => {
     {
       id: "agent_name_v_from_table",
       accessorKey: "agent_name_v_from_table",
-      header: "Agent Name (Table)",
+      header: "Agent Name V From Table",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.agent_name_v_from_table || "-"}</p>,
     },
@@ -148,7 +148,7 @@ const useSSP = () => {
     {
       id: "seq_no_n",
       accessorKey: "seq_no_n",
-      header: "Seq No",
+      header: "Seq No N",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.seq_no_n || "-"}</p>,
     },
@@ -157,7 +157,7 @@ const useSSP = () => {
     {
       id: "sim_reg_device_id",
       accessorKey: "sim_reg_device_id",
-      header: "SIM Reg Device ID",
+      header: "SimReg Device Id",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.sim_reg_device_id || "-"}</p>,
     },
@@ -165,7 +165,7 @@ const useSSP = () => {
     {
       id: "device_user_id",
       accessorKey: "device_user_id",
-      header: "Device User ID",
+      header: "Device User Id",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.device_user_id || "-"}</p>,
     },
@@ -189,7 +189,7 @@ const useSSP = () => {
     {
       id: "lg_code",
       accessorKey: "lg_code",
-      header: "LG Code",
+      header: "Lg Code",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.lg_code}</p>,
     },
@@ -214,7 +214,7 @@ const useSSP = () => {
     {
       id: "imei1",
       accessorKey: "imei1",
-      header: "IMEI1",
+      header: "Imei1",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.imei1 || "-"}</p>,
     },
@@ -222,7 +222,7 @@ const useSSP = () => {
     {
       id: "imei2",
       accessorKey: "imei2",
-      header: "IMEI2",
+      header: "Imei2",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.imei2 || "-"}</p>,
     },

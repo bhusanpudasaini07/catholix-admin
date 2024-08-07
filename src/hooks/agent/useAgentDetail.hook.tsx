@@ -134,7 +134,10 @@ const useAgentDetail = () => {
       ),
 
     onSuccess: (data) => {
-      exportToCsv("agent_data.csv", data?.data);
+      const fileName = `agent_data_(${id})_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
     },
   });
 

@@ -74,7 +74,7 @@ const useDLCM = () => {
     {
       id: "name",
       accessorKey: "name",
-      header: " Name",
+      header: "Name",
       enableHiding: false,
       cell: ({ row }) => <p className="font-medium">{row.original.name}</p>,
     },
@@ -82,7 +82,7 @@ const useDLCM = () => {
     {
       id: "LocationName",
       accessorKey: "LocationName",
-      header: "Business Location",
+      header: "Location Name",
       enableHiding: false,
       cell: ({ row }) => (
         <p className="max-w-[300px]">{row.original.LocationName}</p>
@@ -100,7 +100,7 @@ const useDLCM = () => {
     {
       id: "SalesRepBusinessLocation",
       accessorKey: "SalesRepBusinessLocation",
-      header: "Sales Rep Location",
+      header: "Sales Rep Business Location",
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.SalesRepBusinessLocation}</p>,
     },
@@ -108,7 +108,7 @@ const useDLCM = () => {
     {
       id: "CreatedAt",
       accessorKey: "CreatedAt",
-      header: "Enrollment Date",
+      header: "Created At",
       enableHiding: false,
       cell: ({ row }) => (
         <p className="inline-block px-2 py-1 text-sm font-medium text-yellow-700 bg-yellow-50 rounded">
@@ -136,7 +136,7 @@ const useDLCM = () => {
     {
       id: "MoMoAccNo",
       accessorKey: "MoMoAccNo",
-      header: "MoMo Account No",
+      header: "Mo Mo Acc No",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.MoMoAccNo ?? "-"}</p>,
     },
@@ -144,7 +144,7 @@ const useDLCM = () => {
     {
       id: "MSISDNNo",
       accessorKey: "MSISDNNo",
-      header: "MSISDN No",
+      header: "MSISDNNo",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.MSISDNNo ?? "-"}</p>,
     },
@@ -184,7 +184,7 @@ const useDLCM = () => {
     {
       id: "ISTag",
       accessorKey: "ISTag",
-      header: "IS Tag",
+      header: "ISTag",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.ISTag ?? "-"}</p>,
     },
@@ -272,7 +272,7 @@ const useDLCM = () => {
     {
       id: "IMEINo2",
       accessorKey: "IMEINo2",
-      header: "IMEI No 2",
+      header: "IMEINo2",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.IMEINo2 ?? "-"}</p>,
     },

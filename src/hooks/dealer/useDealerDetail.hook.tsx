@@ -131,7 +131,10 @@ const useDealerDetail = () => {
         type
       ),
     onSuccess: (data) => {
-      exportToCsv("dealer_data.csv", data?.data);
+      const fileName = `dealer_data_(${id})_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
     },
   });
 
@@ -155,7 +158,7 @@ const useDealerDetail = () => {
     // simreg_kit_num_v
     {
       id: "simreg_kit_num_v",
-      header: "SIM Reg Kit",
+      header: "Sim Reg Kit No.",
       accessorKey: "simreg_kit_num_v",
       cell: ({ row }) => (
         <p className="font-semibold">{row?.original.simreg_kit_num_v}</p>

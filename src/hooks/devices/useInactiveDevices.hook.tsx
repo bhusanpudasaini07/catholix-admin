@@ -144,7 +144,10 @@ const useInactiveDevices = () => {
         columns
       ),
     onSuccess: (data) => {
-      exportToCsv("inactive_devices.csv", data?.data);
+      const fileName = `inactive_devices_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
     },
   });
 
@@ -233,7 +236,7 @@ const useInactiveDevices = () => {
     {
       id: "name",
       accessorKey: "name",
-      header: "Model Name",
+      header: "Name",
       enableHiding: false,
     },
     // Identification Number
@@ -255,7 +258,7 @@ const useInactiveDevices = () => {
     {
       id: "imei_no",
       accessorKey: "imei_no",
-      header: "IMEI",
+      header: "Imei No",
       enableHiding: false,
       cell: ({ row }) => <p>{row.original.imei_no}</p>,
     },
@@ -263,7 +266,7 @@ const useInactiveDevices = () => {
     {
       id: "power_status",
       accessorKey: "power_status",
-      header: "Status",
+      header: "Power Status",
       enableHiding: false,
       cell: ({ row }) => (
         <Badge variant={"success"}>
@@ -283,7 +286,7 @@ const useInactiveDevices = () => {
     {
       id: "os_version",
       accessorKey: "os_version",
-      header: "OS Version",
+      header: "Os Version",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.os_version}</p>,
     },
@@ -303,7 +306,7 @@ const useInactiveDevices = () => {
     {
       id: "in_trial",
       accessorKey: "in_trial",
-      header: "Trial",
+      header: "In Trial",
       enableHiding: true,
       cell: ({ row }) => (
         <p className="uppercase">
@@ -374,7 +377,7 @@ const useInactiveDevices = () => {
     {
       id: "android_id",
       accessorKey: "android_id",
-      header: "Android ID",
+      header: "Android Id",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.android_id}</p>,
     },
@@ -410,7 +413,7 @@ const useInactiveDevices = () => {
     {
       id: "wifi_mac_address",
       accessorKey: "wifi_mac_address",
-      header: "Wifi MAC Address",
+      header: "Wifi Mac Address",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.wifi_mac_address}</p>,
     },
@@ -418,7 +421,7 @@ const useInactiveDevices = () => {
     {
       id: "ip_address",
       accessorKey: "ip_address",
-      header: "IP Address",
+      header: "Ip Address",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.ip_address}</p>,
     },
@@ -426,7 +429,7 @@ const useInactiveDevices = () => {
     {
       id: "public_ip",
       accessorKey: "public_ip",
-      header: "Public IP",
+      header: "Public Ip",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.public_ip}</p>,
     },
@@ -434,7 +437,7 @@ const useInactiveDevices = () => {
     {
       id: "bluetooth_mac",
       accessorKey: "bluetooth_mac",
-      header: "Bluetooth MAC",
+      header: "Bluetooth Mac",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.bluetooth_mac}</p>,
     },
@@ -476,7 +479,7 @@ const useInactiveDevices = () => {
     {
       id: "gsm_serial_no",
       accessorKey: "gsm_serial_no",
-      header: "GSM Serial No",
+      header: "Gsm Serial No",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.gsm_serial_no}</p>,
     },
@@ -484,7 +487,7 @@ const useInactiveDevices = () => {
     {
       id: "iccid_no",
       accessorKey: "iccid_no",
-      header: "ICCID No",
+      header: "Iccid No",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.iccid_no}</p>,
     },
@@ -500,7 +503,7 @@ const useInactiveDevices = () => {
     {
       id: "os_type",
       accessorKey: "os_type",
-      header: "OS Type",
+      header: "Os Type",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.os_type}</p>,
     },
@@ -508,7 +511,7 @@ const useInactiveDevices = () => {
     {
       id: "unique_id",
       accessorKey: "unique_id",
-      header: "Unique ID",
+      header: "Unique Id",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.unique_id}</p>,
     },
@@ -532,7 +535,7 @@ const useInactiveDevices = () => {
     {
       id: "imei_no_2",
       accessorKey: "imei_no_2",
-      header: "IMEI No 2",
+      header: "Imei No 2",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.imei_no_2}</p>,
     },
@@ -540,7 +543,7 @@ const useInactiveDevices = () => {
     {
       id: "imsi_no",
       accessorKey: "imsi_no",
-      header: "IMSI No",
+      header: "Imsi No",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.imsi_no}</p>,
     },
@@ -548,7 +551,7 @@ const useInactiveDevices = () => {
     {
       id: "imsi_no_2",
       accessorKey: "imsi_no_2",
-      header: "IMSI No 2",
+      header: "Imsi No 2",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.imsi_no_2}</p>,
     },
@@ -556,7 +559,7 @@ const useInactiveDevices = () => {
     {
       id: "iccid_no_2",
       accessorKey: "iccid_no_2",
-      header: "ICCID No 2",
+      header: "Iccid No 2",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.iccid_no_2}</p>,
     },
@@ -622,7 +625,7 @@ const useInactiveDevices = () => {
     {
       id: "mac_pin",
       accessorKey: "mac_pin",
-      header: "MAC PIN",
+      header: "Mac PIN",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.mac_pin}</p>,
     },
@@ -640,7 +643,7 @@ const useInactiveDevices = () => {
     {
       id: "itunes_account_status",
       accessorKey: "itunes_account_status",
-      header: "iTunes Account Status",
+      header: "Itunes Account Status",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.itunes_account_status}</p>,
     },
@@ -708,7 +711,7 @@ const useInactiveDevices = () => {
     {
       id: "lg_code",
       accessorKey: "lg_code",
-      header: "LG Code",
+      header: "Lg Code",
       enableHiding: true,
       cell: ({ row }) => <p>{row.original.lg_code}</p>,
     },

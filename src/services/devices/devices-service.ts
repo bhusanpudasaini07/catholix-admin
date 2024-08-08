@@ -109,7 +109,8 @@ const exportInactiveDevices = async (
   state: string,
   lga: string,
   timeframe: string,
-  columns: string
+  columns: string,
+  searchTerm?: string
 ) => {
   return httpRequest("/devices/inactive-devices-export", httpMethods.GET, {
     params: {
@@ -120,6 +121,7 @@ const exportInactiveDevices = async (
       lga,
       timeframe,
       columns,
+      ...(searchTerm && { searchTerm }),
     },
   });
 };
@@ -190,7 +192,8 @@ const exportNoHeartbeatDevices = async (
   state: string,
   lga: string,
   timeframe: string,
-  columns: string
+  columns: string,
+  searchTerm?: string
 ) => {
   return httpRequest("/devices/noheartbeat-devices-export", httpMethods.GET, {
     params: {
@@ -201,6 +204,7 @@ const exportNoHeartbeatDevices = async (
       lga,
       timeframe,
       columns,
+      ...(searchTerm && { searchTerm }),
     },
   });
 };

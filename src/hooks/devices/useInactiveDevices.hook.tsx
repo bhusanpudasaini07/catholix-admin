@@ -141,7 +141,8 @@ const useInactiveDevices = () => {
         stateId,
         lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
         timeFrame,
-        columns
+        columns,
+        searchText
       ),
     onSuccess: (data) => {
       const fileName = `inactive_devices_${moment(new Date()).format(

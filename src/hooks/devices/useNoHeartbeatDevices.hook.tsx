@@ -134,7 +134,8 @@ const useNoHeartbeatDevices = () => {
         stateId,
         lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
         timeFrame,
-        columns
+        columns,
+        searchText
       ),
     onSuccess: (data) => {
       const fileName = `no_heartbeat_devices_${moment(new Date()).format(

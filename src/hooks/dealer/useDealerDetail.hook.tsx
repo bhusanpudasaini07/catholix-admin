@@ -128,7 +128,8 @@ const useDealerDetail = () => {
         id as string,
         moment(dateRange?.from).format("YYYY-MM-DD"),
         moment(dateRange?.to).format("YYYY-MM-DD"),
-        type
+        type,
+        searchText
       ),
     onSuccess: (data) => {
       const fileName = `dealer_data_(${id})_${moment(new Date()).format(

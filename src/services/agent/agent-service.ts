@@ -44,7 +44,8 @@ const getAgentDetailTable = (
 const exportAgentData = (
   agentId: string,
   startDate: string,
-  endDate: string
+  endDate: string,
+  searchTerm?: string
 ) => {
   return httpRequest(
     `/ssp/agent/registered-export/${agentId}`,
@@ -53,6 +54,7 @@ const exportAgentData = (
       params: {
         startDate,
         endDate,
+        ...(searchTerm && { searchTerm }),
       },
     }
   );

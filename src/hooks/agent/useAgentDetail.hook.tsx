@@ -130,7 +130,8 @@ const useAgentDetail = () => {
       exportAgentData(
         id as string,
         moment(dateRange?.from).format("YYYY-MM-DD"),
-        moment(dateRange?.to).format("YYYY-MM-DD")
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        searchText
       ),
 
     onSuccess: (data) => {

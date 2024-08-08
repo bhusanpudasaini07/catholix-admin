@@ -49,7 +49,8 @@ const exportDealerData = (
   dealerCode: string,
   startDate: string,
   endDate: string,
-  type: string
+  type: string,
+  searchTerm?: string
 ) => {
   return httpRequest(
     `/ssp/dealer/registered-export/${dealerCode}`,
@@ -59,6 +60,7 @@ const exportDealerData = (
         startDate,
         endDate,
         type,
+        ...(searchTerm && { searchTerm }),
       },
     }
   );

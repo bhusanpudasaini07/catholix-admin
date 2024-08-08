@@ -112,11 +112,7 @@ const useDevices = () => {
       accessorKey: "in_trial",
       header: "In Trial",
       enableHiding: false,
-      cell: ({ row }) => (
-        <p className="uppercase">
-          {row.original.in_trial === 0 ? "No" : "Yes"}
-        </p>
-      ),
+      cell: ({ row }) => <p>{row.original.in_trial === 0 ? "No" : "Yes"}</p>,
     },
     // Licence Name
     {
@@ -133,9 +129,7 @@ const useDevices = () => {
       header: "Power Status",
       enableHiding: false,
       cell: ({ row }) => (
-        <p className="uppercase">
-          {row.original.power_status === 0 ? "No" : "Yes"}
-        </p>
+        <p>{row.original.power_status === 0 ? "Inactive" : "Active"}</p>
       ),
     },
     // Status
@@ -538,7 +532,7 @@ const useDevices = () => {
       accessorKey: "region_code",
       header: "Region Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.region_code}</p>,
+      cell: ({ row }) => <p>{row.original.region_code || "-"}</p>,
     },
     // State Code
     {
@@ -546,7 +540,7 @@ const useDevices = () => {
       accessorKey: "state_code",
       header: "State Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.state_code}</p>,
+      cell: ({ row }) => <p>{row.original.state_code || "-"}</p>,
     },
     // LG Code
     {
@@ -554,7 +548,7 @@ const useDevices = () => {
       accessorKey: "lg_code",
       header: "Lg Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.lg_code}</p>,
+      cell: ({ row }) => <p>{row.original.lg_code || "-"}</p>,
     },
   ];
 

@@ -160,15 +160,14 @@ const useDealerDetail = () => {
       id: "simreg_kit_num_v",
       header: "Sim Reg Kit No.",
       accessorKey: "simreg_kit_num_v",
-      cell: ({ row }) => (
-        <p className="font-semibold">{row?.original.simreg_kit_num_v}</p>
-      ),
+      cell: ({ row }) => <p>{row?.original.simreg_kit_num_v ?? "-"}</p>,
     },
     // vendor_channel
     {
       id: "vendor_channel",
       header: "Vendor Channel",
       accessorKey: "vendor_channel",
+      cell: ({ row }) => <p>{row?.original.vendor_channel ?? "-"}</p>,
     },
     // status
     {
@@ -184,12 +183,14 @@ const useDealerDetail = () => {
       id: "device_user_id",
       header: "Device User ID",
       accessorKey: "device_user_id",
+      cell: ({ row }) => <p>{row?.original.device_user_id ?? "-"}</p>,
     },
     // action_code
     {
       id: "action_code_v",
       header: "Action Code",
       accessorKey: "action_code_v",
+      cell: ({ row }) => <p>{row?.original.action_code_v ?? "-"}</p>,
     },
     // update_dt
     {

@@ -165,7 +165,7 @@ const useAgentDetail = () => {
       header: "SIM Reg Kit No.",
       accessorKey: "simreg_kit_num_v",
       cell: ({ row }) => (
-        <Badge variant={"info"}>{row?.original.simreg_kit_num_v}</Badge>
+        <Badge variant={"info"}>{row?.original.simreg_kit_num_v || "-"}</Badge>
       ),
     },
     // Action Code
@@ -173,6 +173,7 @@ const useAgentDetail = () => {
       id: "action_code_v",
       header: "Action Code",
       accessorKey: "action_code_v",
+      cell: ({ row }) => <p>{row?.original.action_code_v || "-"}</p>,
     },
     // status
     {
@@ -188,12 +189,14 @@ const useAgentDetail = () => {
       id: "imei1",
       header: "SSP IMEI",
       accessorKey: "imei1",
+      cell: ({ row }) => <p>{row?.original.imei1 || "-"}</p>,
     },
     // MDM IMEI
     {
       id: "imei_no",
       header: "MDM IMEI",
       accessorKey: "imei_no",
+      cell: ({ row }) => <p>{row?.original.imei_no || "-"}</p>,
     },
   ];
 

@@ -205,9 +205,16 @@ export function DataTable<TData, TValue>({
                 { length: loadingDataNum ? loadingDataNum : 1 },
                 (_, index) => (
                   <TableRow key={index}>
-                    {Array.from({ length: columns.length }, (_, index) => (
-                      <TableSkeleton key={index} />
-                    ))}
+                    {Array.from(
+                      {
+                        length: columns.filter(
+                          (column) => column.id && columnVisibility[column.id]
+                        ).length,
+                      },
+                      (_, index) => (
+                        <TableSkeleton key={index} />
+                      )
+                    )}
                   </TableRow>
                 )
               )

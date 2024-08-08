@@ -308,11 +308,7 @@ const useInactiveDevices = () => {
       accessorKey: "in_trial",
       header: "In Trial",
       enableHiding: true,
-      cell: ({ row }) => (
-        <p className="uppercase">
-          {row.original.in_trial === 0 ? "No" : "Yes"}
-        </p>
-      ),
+      cell: ({ row }) => <p>{row.original.in_trial === 0 ? "No" : "Yes"}</p>,
     },
     // Status
     {
@@ -355,7 +351,7 @@ const useInactiveDevices = () => {
       accessorKey: "serial_no",
       header: "Serial No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.serial_no}</p>,
+      cell: ({ row }) => <p>{row.original.serial_no || "-"}</p>,
     },
     // Model
     {
@@ -363,7 +359,7 @@ const useInactiveDevices = () => {
       accessorKey: "model",
       header: "Model",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.model}</p>,
+      cell: ({ row }) => <p>{row.original.model || "-"}</p>,
     },
     // Make
     {
@@ -371,7 +367,7 @@ const useInactiveDevices = () => {
       accessorKey: "make",
       header: "Make",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.make}</p>,
+      cell: ({ row }) => <p>{row.original.make || "-"}</p>,
     },
     // Android ID
     {
@@ -379,7 +375,7 @@ const useInactiveDevices = () => {
       accessorKey: "android_id",
       header: "Android Id",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.android_id}</p>,
+      cell: ({ row }) => <p>{row.original.android_id || "-"}</p>,
     },
     // Licence Active
     {
@@ -415,7 +411,7 @@ const useInactiveDevices = () => {
       accessorKey: "wifi_mac_address",
       header: "Wifi Mac Address",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.wifi_mac_address}</p>,
+      cell: ({ row }) => <p>{row.original.wifi_mac_address || "-"}</p>,
     },
     // IP Address
     {
@@ -423,7 +419,7 @@ const useInactiveDevices = () => {
       accessorKey: "ip_address",
       header: "Ip Address",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.ip_address}</p>,
+      cell: ({ row }) => <p>{row.original.ip_address || "-"}</p>,
     },
     // Public IP
     {
@@ -431,7 +427,7 @@ const useInactiveDevices = () => {
       accessorKey: "public_ip",
       header: "Public Ip",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.public_ip}</p>,
+      cell: ({ row }) => <p>{row.original.public_ip || "-"}</p>,
     },
     // Bluetooth MAC
     {
@@ -439,7 +435,7 @@ const useInactiveDevices = () => {
       accessorKey: "bluetooth_mac",
       header: "Bluetooth Mac",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.bluetooth_mac}</p>,
+      cell: ({ row }) => <p>{row.original.bluetooth_mac || "-"}</p>,
     },
     // Rooted
     {
@@ -447,7 +443,7 @@ const useInactiveDevices = () => {
       accessorKey: "rooted",
       header: "Rooted",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.rooted}</p>,
+      cell: ({ row }) => <p>{row.original.rooted || "-"}</p>,
     },
     // Enrollment Date
     {
@@ -465,7 +461,7 @@ const useInactiveDevices = () => {
       accessorKey: "gsuite_account",
       header: "Gsuite Account",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.gsuite_account}</p>,
+      cell: ({ row }) => <p>{row.original.gsuite_account || "-"}</p>,
     },
     // Build Serial No
     {
@@ -473,7 +469,7 @@ const useInactiveDevices = () => {
       accessorKey: "build_serial_no",
       header: "Build Serial No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.build_serial_no}</p>,
+      cell: ({ row }) => <p>{row.original.build_serial_no || "-"}</p>,
     },
     // GSM Serial No
     {
@@ -481,7 +477,7 @@ const useInactiveDevices = () => {
       accessorKey: "gsm_serial_no",
       header: "Gsm Serial No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.gsm_serial_no}</p>,
+      cell: ({ row }) => <p>{row.original.gsm_serial_no || "-"}</p>,
     },
     // ICCID No
     {
@@ -489,7 +485,7 @@ const useInactiveDevices = () => {
       accessorKey: "iccid_no",
       header: "Iccid No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.iccid_no}</p>,
+      cell: ({ row }) => <p>{row.original.iccid_no || "-"}</p>,
     },
     // Phone No
     {
@@ -497,7 +493,7 @@ const useInactiveDevices = () => {
       accessorKey: "phone_no",
       header: "Phone No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.phone_no}</p>,
+      cell: ({ row }) => <p>{row.original.phone_no || "-"}</p>,
     },
     // OS Type
     {
@@ -505,7 +501,7 @@ const useInactiveDevices = () => {
       accessorKey: "os_type",
       header: "Os Type",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.os_type}</p>,
+      cell: ({ row }) => <p>{row.original.os_type || "-"}</p>,
     },
     // Unique ID
     {
@@ -513,7 +509,7 @@ const useInactiveDevices = () => {
       accessorKey: "unique_id",
       header: "Unique Id",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.unique_id}</p>,
+      cell: ({ row }) => <p>{row.original.unique_id || "-"}</p>,
     },
     // Custom Properties
     {
@@ -521,7 +517,7 @@ const useInactiveDevices = () => {
       accessorKey: "custom_properties",
       header: "Custom Properties",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.custom_properties}</p>,
+      cell: ({ row }) => <p>{row.original.custom_properties || "-"}</p>,
     },
     // Build Version
     {
@@ -529,7 +525,7 @@ const useInactiveDevices = () => {
       accessorKey: "build_version",
       header: "Build Version",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.build_version}</p>,
+      cell: ({ row }) => <p>{row.original.build_version || "-"}</p>,
     },
     // IMEI No 2
     {
@@ -537,7 +533,7 @@ const useInactiveDevices = () => {
       accessorKey: "imei_no_2",
       header: "Imei No 2",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.imei_no_2}</p>,
+      cell: ({ row }) => <p>{row.original.imei_no_2 || "-"}</p>,
     },
     // IMSI No
     {
@@ -545,7 +541,7 @@ const useInactiveDevices = () => {
       accessorKey: "imsi_no",
       header: "Imsi No",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.imsi_no}</p>,
+      cell: ({ row }) => <p>{row.original.imsi_no || "-"}</p>,
     },
     // IMSI No 2
     {
@@ -553,7 +549,7 @@ const useInactiveDevices = () => {
       accessorKey: "imsi_no_2",
       header: "Imsi No 2",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.imsi_no_2}</p>,
+      cell: ({ row }) => <p>{row.original.imsi_no_2 || "-"}</p>,
     },
     // ICCID No 2
     {
@@ -561,7 +557,7 @@ const useInactiveDevices = () => {
       accessorKey: "iccid_no_2",
       header: "Iccid No 2",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.iccid_no_2}</p>,
+      cell: ({ row }) => <p>{row.original.iccid_no_2 || "-"}</p>,
     },
     // Phone No 2
     {
@@ -569,7 +565,7 @@ const useInactiveDevices = () => {
       accessorKey: "phone_no_2",
       header: "Phone No 2",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.phone_no_2}</p>,
+      cell: ({ row }) => <p>{row.original.phone_no_2 || "-"}</p>,
     },
     // Management Details Enrollment Mode
     {
@@ -578,7 +574,7 @@ const useInactiveDevices = () => {
       header: "Management Details Enrollment Mode",
       enableHiding: true,
       cell: ({ row }) => (
-        <p>{row.original.management_details_enrollment_mode}</p>
+        <p>{row.original.management_details_enrollment_mode || "-"}</p>
       ),
     },
     // Management Details Management Agent
@@ -588,7 +584,7 @@ const useInactiveDevices = () => {
       header: "Management Details Management Agent",
       enableHiding: true,
       cell: ({ row }) => (
-        <p>{row.original.management_details_management_agent}</p>
+        <p>{row.original.management_details_management_agent || "-"}</p>
       ),
     },
     // Management Details Enrollment Method
@@ -598,7 +594,7 @@ const useInactiveDevices = () => {
       header: "Management Details Enrollment Method",
       enableHiding: true,
       cell: ({ row }) => (
-        <p>{row.original.management_details_enrollment_method}</p>
+        <p>{row.original.management_details_enrollment_method || "-"}</p>
       ),
     },
     // Management Details Enrollment Type
@@ -608,7 +604,7 @@ const useInactiveDevices = () => {
       header: "Management Details Enrollment Type",
       enableHiding: true,
       cell: ({ row }) => (
-        <p>{row.original.management_details_enrollment_type}</p>
+        <p>{row.original.management_details_enrollment_type || "-"}</p>
       ),
     },
     // Management Details Management Mode
@@ -618,7 +614,7 @@ const useInactiveDevices = () => {
       header: "Management Details Management Mode",
       enableHiding: true,
       cell: ({ row }) => (
-        <p>{row.original.management_details_management_mode}</p>
+        <p>{row.original.management_details_management_mode || "-"}</p>
       ),
     },
     // MAC PIN
@@ -627,7 +623,7 @@ const useInactiveDevices = () => {
       accessorKey: "mac_pin",
       header: "Mac PIN",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.mac_pin}</p>,
+      cell: ({ row }) => <p>{row.original.mac_pin || "-"}</p>,
     },
     // Screen Locked
     {
@@ -645,7 +641,7 @@ const useInactiveDevices = () => {
       accessorKey: "itunes_account_status",
       header: "Itunes Account Status",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.itunes_account_status}</p>,
+      cell: ({ row }) => <p>{row.original.itunes_account_status || "-"}</p>,
     },
     // Location Lat
     {
@@ -653,7 +649,7 @@ const useInactiveDevices = () => {
       accessorKey: "location_lat",
       header: "Location Lat",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.location_lat}</p>,
+      cell: ({ row }) => <p>{row.original.location_lat || "-"}</p>,
     },
     // Location Lng
     {
@@ -661,7 +657,7 @@ const useInactiveDevices = () => {
       accessorKey: "location_lng",
       header: "Location Lng",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.location_lng}</p>,
+      cell: ({ row }) => <p>{row.original.location_lng || "-"}</p>,
     },
     // Location Address
     {
@@ -669,7 +665,7 @@ const useInactiveDevices = () => {
       accessorKey: "location_address",
       header: "Location Address",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.location_address}</p>,
+      cell: ({ row }) => <p>{row.original.location_address || "-"}</p>,
     },
     // Location Date Time
     {
@@ -697,7 +693,7 @@ const useInactiveDevices = () => {
       accessorKey: "region_code",
       header: "Region Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.region_code}</p>,
+      cell: ({ row }) => <p>{row.original.region_code || "-"}</p>,
     },
     // State Code
     {
@@ -705,7 +701,7 @@ const useInactiveDevices = () => {
       accessorKey: "state_code",
       header: "State Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.state_code}</p>,
+      cell: ({ row }) => <p>{row.original.state_code || "-"}</p>,
     },
     // LG Code
     {
@@ -713,7 +709,7 @@ const useInactiveDevices = () => {
       accessorKey: "lg_code",
       header: "Lg Code",
       enableHiding: true,
-      cell: ({ row }) => <p>{row.original.lg_code}</p>,
+      cell: ({ row }) => <p>{row.original.lg_code || "-"}</p>,
     },
   ];
 

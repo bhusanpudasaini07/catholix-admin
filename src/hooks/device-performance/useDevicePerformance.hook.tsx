@@ -280,6 +280,10 @@ const useDevicePerformance = () => {
       data: devicePerformanceChart
         ? Object.keys(devicePerformanceChart?.data)
         : [],
+      show: true,
+      axisLabel: {
+        interval: 0,
+      },
     },
     yAxis: {
       type: "value",

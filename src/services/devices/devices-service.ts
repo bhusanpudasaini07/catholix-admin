@@ -244,6 +244,54 @@ const getDeviceChartData = async (
   });
 };
 
+// ________________DEVICE PERFORMANCE __________________
+const getDevicePerformance = async (
+  page: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-performance`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        page,
+        pageSize,
+      },
+    }
+  );
+};
+const getDevicePerformanceChart = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-chart`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+      },
+    }
+  );
+};
+
 export {
   getDevicesData,
   // Inactive
@@ -263,4 +311,8 @@ export {
   getDeviceDetail,
   getDeviceDetailTable,
   getDeviceChartData,
+
+  // Device Performance
+  getDevicePerformance,
+  getDevicePerformanceChart,
 };

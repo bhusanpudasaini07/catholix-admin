@@ -25,9 +25,16 @@ const DevicePerformance: NextPageWithLayout = () => {
     stateId,
     setStateId,
     perPage,
+    lga,
+    setLga,
     perPageHandler,
     pageChangeHandler,
     devicePerformanceColumns,
+    devicePerformanceTable,
+    devicePerformanceTableLoading,
+    resetHandler,
+    searchTriggerHandler,
+    gaChartOption,
   } = useDevicePerformance();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -39,6 +46,7 @@ const DevicePerformance: NextPageWithLayout = () => {
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
+              disabled
             />
           </div>
 
@@ -47,8 +55,8 @@ const DevicePerformance: NextPageWithLayout = () => {
             setRegionId={setRegionId}
             stateId={stateId}
             setStateId={setStateId}
-            setLga={() => {}}
-            lga={[]}
+            setLga={setLga}
+            lga={lga}
             hideLga
           />
           {/* reset */}
@@ -56,7 +64,7 @@ const DevicePerformance: NextPageWithLayout = () => {
             variant={"white"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
-            // onClick={resetHandler}
+            onClick={resetHandler}
           >
             <ListRestart size={20} />
             Reset
@@ -66,7 +74,7 @@ const DevicePerformance: NextPageWithLayout = () => {
             variant={"primary"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
-            // onClick={searchTriggerHandler}
+            onClick={searchTriggerHandler}
           >
             <Search size={20} />
             Search
@@ -77,11 +85,17 @@ const DevicePerformance: NextPageWithLayout = () => {
       <div className="overflow-y-auto grow no-scrollbar">
         <div className="grid grid-cols-5 gap-4">
           <GCPercentChart option={{}} />
-          <GANumberChart option={{}} />
+          <GANumberChart option={gaChartOption} />
         </div>
 
-        <DataTable columns={devicePerformanceColumns} data={[]} border />
- 
+        <DataTable
+          columns={devicePerformanceColumns}
+          data={devicePerformanceTable?.data?.results ?? []}
+          border
+          loadingDataNum={10}
+          loading={devicePerformanceTableLoading}
+        />
+
         <div className="flex justify-between items-center">
           <Button
             variant={"white"}
@@ -93,9 +107,9 @@ const DevicePerformance: NextPageWithLayout = () => {
           </Button>
 
           <DataTablePagination
-            currentPage={1}
+            currentPage={devicePerformanceTable?.data?.currentPage ?? 1}
             pageChange={pageChangeHandler}
-            totalPages={10}
+            totalPages={devicePerformanceTable?.data?.totalPages ?? 1}
             perPage={perPage}
             setPerPage={perPageHandler}
           />

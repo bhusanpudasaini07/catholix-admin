@@ -139,3 +139,26 @@ export interface IChartCount {
     date: string;
   }[];
 }
+
+export interface IDevicePerformance {
+  data: {
+    results: IDevicePerformanceData[];
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    pageSize: number;
+  };
+}
+export interface IDevicePerformanceData {
+  onboarded_percent: number;
+  onboarded_number: string;
+  lga: string;
+  region: string;
+  state: string;
+}
+export interface IDevicePerformanceChart {
+  data: {
+    [key: string]: string;
+  };
+}

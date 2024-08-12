@@ -1,18 +1,45 @@
+import { IRegionProps } from "@/interface/common-interface";
+import {
+  IDeviceComparison,
+  IDeviceComparisonChart,
+  IDeviceComparisonData,
+} from "@/interface/device-interface";
+import { getRegions } from "@/services/admin/admin-service";
+import {
+  exportDevicesComparison,
+  getDeviceComparison,
+  getDeviceComparisonChart,
+} from "@/services/devices/devices-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
+import { Badge } from "@/shared/components/ui/badge";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
+import { EChartsOption } from "echarts-for-react";
+import moment from "moment";
+import { useMemo, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 const useDeviceComparison = () => {
-  const [from, setFrom] = useState<string>("");
-  const [to, setTo] = useState<string>("");
+  const { profileData } = useCommonStore();
+  const [from, setFrom] = useState<string>(
+    moment().subtract(1, "months").format("MMM YYYY")
+  );
+  const [to, setTo] = useState<string>(moment().format("MMM YYYY"));
 
-  const [regionId, setRegionId] = useState<string>("0");
-  const [stateId, setStateId] = useState<string>("0");
+  const [regionId, setRegionId] = useState<string>("");
+  const [stateId, setStateId] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
+  const [lga, setLga] = useState<string[]>([]);
 
+  const { data: regionsList, isLoading: regionsLoading } =
+    useQuery<IRegionProps>({
+      queryKey: ["regions"],
+      queryFn: () => getRegions(),
+    });
   // FUNCTIONS
   const perPageHandler = (value: number) => {
     setPerPage(value);
@@ -23,23 +50,100 @@ const useDeviceComparison = () => {
   };
 
   const resetHandler = () => {
-    setRegionId("0");
-    setStateId("0");
-    setFrom("");
-    setTo("");
+    if (profileData && profileData?.regionId !== null) {
+      const region = regionsList?.data?.regions?.find(
+        (region) => region.id === profileData?.regionId
+      );
+      const state = regionsList?.data?.regions
+        ?.find((region) => region?.id === profileData?.regionId)
+        ?.states?.find((state) => state?.id === profileData?.stateId);
+
+      const localGovs = state?.localGovernments
+        ?.filter((lg) => profileData.localGovId?.includes(lg.id))
+        ?.map((lg) => lg.code);
+
+      if (profileData?.regionId !== 0) {
+        setRegionId(region?.code!);
+        setStateId(profileData?.stateId !== 0 ? state?.code! : "all");
+        setLga(localGovs || []);
+        searchTriggerHandler && searchTriggerHandler();
+      } else {
+        setRegionId("all");
+        setStateId("all");
+        setLga([]);
+      }
+    }
+    setFrom(moment().subtract(1, "months").format("MMM YYYY"));
+    setTo(moment().format("MMM YYYY"));
+    setSearchTrigger(!searchTrigger);
+    setPage(1);
   };
+
   const searchTriggerHandler = () => {
     setSearchTrigger(!searchTrigger);
   };
 
+  const { data: deviceComparisonData, isLoading: deviceComparisonLoading } =
+    useQuery<IDeviceComparison>({
+      queryKey: ["device-comparison", page, perPage, searchTrigger],
+      queryFn: async () => {
+        if (lga && regionId && stateId) {
+          return await getDeviceComparison(
+            page,
+            perPage,
+            moment(from).format("YYYY-MM-15"),
+            moment(to).format("YYYY-MM-15"),
+            regionId,
+            stateId,
+            lga.length > 0 ? lga.join(",") : "all"
+          );
+        }
+      },
+    });
+
+  const {
+    data: deviceComparisonChartData,
+    isLoading: deviceComparisonChartLoading,
+  } = useQuery<IDeviceComparisonChart>({
+    queryKey: ["device-comparison-chart", searchTrigger],
+    queryFn: async () => {
+      if (regionId && stateId && lga) {
+        return await getDeviceComparisonChart(
+          moment(from).format("YYYY-MM-15"),
+          moment(to).format("YYYY-MM-15"),
+          regionId,
+          stateId,
+          lga.length > 0 ? lga.join(",") : "all"
+        );
+      }
+    },
+  });
+
+  const chartData = useMemo(() => {
+    if (!deviceComparisonChartData) return {};
+
+    const formattedData: any = {};
+
+    Object.entries(deviceComparisonChartData.data).forEach(([key, value]) => {
+      Object.entries(value).forEach(([innerKey, innerValue]) => {
+        if (!formattedData[innerKey]) {
+          formattedData[innerKey] = {};
+        }
+        formattedData[innerKey][key] = innerValue;
+      });
+    });
+
+    return formattedData;
+  }, [deviceComparisonChartData]);
+
   // Columns
-  const deviceComparisonColumns: ColumnDef<any>[] = [
+  const deviceComparisonColumns: ColumnDef<IDeviceComparisonData>[] = [
     {
       id: "sn",
       accessorKey: "sn",
       header: "S.N",
       cell: ({ row }) => (
-        <SerialNumberCell row={row} page={page} perPage={perPage} />
+        <SerialNumberCell row={row} pageNumber={page} perPage={perPage} />
       ),
     },
     // Region
@@ -47,18 +151,21 @@ const useDeviceComparison = () => {
       id: "region",
       accessorKey: "region",
       header: "Region",
+      cell: ({ row }) => <div>{row.original.region || "-"}</div>,
     },
     // State
     {
       id: "state",
       accessorKey: "state",
       header: "State",
+      cell: ({ row }) => <div>{row.original.state || "-"}</div>,
     },
     // LGA
     {
       id: "lga",
       accessorKey: "lga",
       header: "Lga",
+      cell: ({ row }) => <div>{row.original.lga || "-"}</div>,
     },
     // Onboarded
     {
@@ -66,7 +173,31 @@ const useDeviceComparison = () => {
       accessorKey: "onboarded_percent",
       header: "% Onboarded",
       cell: ({ row }) => (
-        <div>{row.original.onboarded_percent.toFixed(2)}%</div>
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[55px] justify-center"
+            variant={
+              row.original.onboarded_percent_range1 >
+              row.original.onboarded_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.onboarded_percent_range1 || 0}%
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[55px] justify-center"
+            variant={
+              row.original.onboarded_percent_range1 <
+              row.original.onboarded_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.onboarded_percent_range2 || 0}%
+          </Badge>
+        </div>
       ),
     },
     // Active
@@ -74,7 +205,7 @@ const useDeviceComparison = () => {
       id: "active_percent",
       accessorKey: "active_percent",
       header: "% Active",
-      cell: ({ row }) => <div>{row.original.active_percent.toFixed(2)}%</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
     // GC Perform 1 to 4
     {
@@ -85,7 +216,7 @@ const useDeviceComparison = () => {
           Device Performing 1-4 GCs <br /> Daily
         </div>
       ),
-      cell: ({ row }) => <div>{row.original["gc-perform_1_to_4"]}</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
     // GC Greateer than 4
     {
@@ -96,7 +227,7 @@ const useDeviceComparison = () => {
           Device Performing <br /> Greater than 4 GCs <br /> Daily
         </div>
       ),
-      cell: ({ row }) => <div>{row.original["gc-greater_than_4"]}</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
     // Inactive Onboarded
     {
@@ -107,23 +238,106 @@ const useDeviceComparison = () => {
           Inactive since <br /> Onboarded
         </div>
       ),
-      cell: ({ row }) => <div>{row.original["inactive_onboarded"]}</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
     // Gross Connections
     {
       id: "gross_connections",
       accessorKey: "gross_connections",
       header: "Gross Connections",
-      cell: ({ row }) => <div>{row.original["gross_connections"]}</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
     // Deployed
     {
       id: "deployed",
       accessorKey: "deployed",
       header: "Deployed",
-      cell: ({ row }) => <div>{row.original["deployed"]}</div>,
+      cell: ({ row }) => <div>{"-"}</div>,
     },
   ];
+
+  const generateChartColors = (data: any) => {
+    return data
+      .map((item: any) => {
+        return item[1] > item[0] ? "#4ADE80" : "#F87171";
+      })
+      .flat();
+  };
+
+  const exportDeviceComparisonMutation = useMutation({
+    mutationFn: () =>
+      exportDevicesComparison(
+        moment(from).format("YYYY-MM-15"),
+        moment(to).format("YYYY-MM-15"),
+        regionId,
+        stateId,
+        lga.length > 0 ? lga.join(",") : "all"
+      ),
+
+    onSuccess: (data) => {
+      const fileName = `device_comparison_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportDeviceComparisonMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
+  // CHART
+  const deviceComparisonChartOption: EChartsOption = {
+    tooltip: {
+      trigger: "axis",
+      axisPointer: {
+        type: "shadow",
+      },
+    },
+    // legend: {
+    //   data: ["Comparison 1", "Comparison 2"],
+    // },
+    grid: {
+      top: 15,
+      left: "10%",
+      right: "10%",
+      bottom: 30,
+    },
+    xAxis: {
+      type: "category",
+      data: deviceComparisonChartData ? Object.keys(chartData) : [],
+      show: true,
+      axisLabel: {
+        interval: 0,
+      },
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        name: "Comparison 1",
+        data: deviceComparisonChartData
+          ? Object.values(chartData).map((item: any) => item[0])
+          : [],
+        color: "#EAB308",
+
+        type: "bar",
+      },
+      {
+        name: "Comparison 2",
+        data: deviceComparisonChartData
+          ? Object.values(chartData).map((item: any) => item[1])
+          : [],
+        itemStyle: {
+          color: (params: any) =>
+            generateChartColors(Object.values(chartData))[params.dataIndex],
+        },
+        type: "bar",
+      },
+    ],
+  };
+
   return {
     // STATES
     from,
@@ -134,6 +348,8 @@ const useDeviceComparison = () => {
     setRegionId,
     stateId,
     setStateId,
+    lga,
+    setLga,
     page,
     setPage,
     perPage,
@@ -144,9 +360,19 @@ const useDeviceComparison = () => {
     pageChangeHandler,
     resetHandler,
     searchTriggerHandler,
+    exportHandler,
 
     // COlumns
     deviceComparisonColumns,
+
+    // API
+    deviceComparisonLoading,
+    deviceComparisonData,
+    deviceComparisonChartLoading,
+    exportDeviceComparisonMutation,
+
+    // Chart
+    deviceComparisonChartOption,
   };
 };
 

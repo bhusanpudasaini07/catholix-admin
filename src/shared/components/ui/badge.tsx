@@ -13,7 +13,7 @@ const badgeVariants = cva(
           "text-zinc-500 bg-secondary border-secondary h-auto rounded-sm gap-1",
         destructive:
           "border bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        destructiveLight: "border border-red-50 bg-red-200 text-red-600 ",
+        destructiveLight: "border border-red-50 bg-red-100 text-red-500 ",
         info: "bg-blue-50 font-medium text-blue-700 border-blue-50",
         warning:
           "bg-warning-foreground text-warning-text border-warning-foreground",

@@ -6,17 +6,21 @@ import {
 } from "@/interface/device-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import {
+  exportDevicePerformance,
+  exportDevicesComparison,
   getDevicePerformance,
   getDevicePerformanceChart,
 } from "@/services/devices/devices-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EChartsOption } from "echarts-for-react";
 import moment from "moment";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 const useDevicePerformance = () => {
   const { profileData } = useCommonStore();
@@ -122,6 +126,29 @@ const useDevicePerformance = () => {
     queryKey: ["device-performance-chart", searchTrigger],
   });
 
+  const exportDevicePerformanceMutation = useMutation({
+    mutationFn: () =>
+      exportDevicePerformance(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        regionId,
+        stateId,
+        lga.length > 0 ? lga.join(",") : "all"
+      ),
+
+    onSuccess: (data) => {
+      const fileName = `device_performance_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportDevicePerformanceMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
+
   // COLUMNS
 
   const devicePerformanceColumns: ColumnDef<IDevicePerformanceData>[] = [
@@ -180,7 +207,7 @@ const useDevicePerformance = () => {
       accessorKey: "onboarded_percent",
       header: "Onboarded %",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.onboarded_percent || "-"}</p>,
+      cell: ({ row }) => <p>{row.original.onboarded_percent || "-"}%</p>,
     },
 
     // ACTIVE
@@ -325,6 +352,7 @@ const useDevicePerformance = () => {
     pageChangeHandler,
     searchTriggerHandler,
     resetHandler,
+    exportHandler,
 
     // COlumns
     devicePerformanceColumns,
@@ -335,6 +363,7 @@ const useDevicePerformance = () => {
     // API
     devicePerformanceTable,
     devicePerformanceTableLoading,
+    exportDevicePerformanceMutation,
   };
 };
 

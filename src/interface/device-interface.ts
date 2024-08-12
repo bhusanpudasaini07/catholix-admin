@@ -162,3 +162,34 @@ export interface IDevicePerformanceChart {
     [key: string]: string;
   };
 }
+
+export interface IDeviceComparison {
+  data: {
+    results: IDeviceComparisonData[];
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    pageSize: number;
+  };
+}
+export interface IDeviceComparisonData {
+  lg_code: string;
+  lga: string;
+  onboarded_number_range1: string;
+  onboarded_number_range2: string;
+  onboarded_percent_range1: number;
+  onboarded_percent_range2: number;
+  region: string;
+  region_code: string;
+  state: string;
+  state_code: string;
+}
+
+export interface IDeviceComparisonChart {
+  data: {
+    [key: string]: {
+      [key: string]: number;
+    };
+  };
+}

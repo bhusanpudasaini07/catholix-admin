@@ -35,6 +35,8 @@ const DevicePerformance: NextPageWithLayout = () => {
     resetHandler,
     searchTriggerHandler,
     gaChartOption,
+    exportHandler,
+    exportDevicePerformanceMutation,
   } = useDevicePerformance();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -58,6 +60,7 @@ const DevicePerformance: NextPageWithLayout = () => {
             setLga={setLga}
             lga={lga}
             hideLga
+            searchTriggerHandler={searchTriggerHandler}
           />
           {/* reset */}
           <Button
@@ -101,6 +104,8 @@ const DevicePerformance: NextPageWithLayout = () => {
             variant={"white"}
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2 mt-6"
+            onClick={exportHandler}
+            disabled={exportDevicePerformanceMutation.isLoading}
           >
             <ExternalLink size={20} />
             Export

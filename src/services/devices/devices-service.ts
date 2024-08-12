@@ -291,7 +291,96 @@ const getDevicePerformanceChart = async (
     }
   );
 };
+const exportDevicePerformance = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-performance-export`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+      },
+    }
+  );
+};
 
+// _______________DEVICE COMPARISON ____________________
+const getDeviceComparison = async (
+  page: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-comparison`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        page,
+        pageSize,
+      },
+    }
+  );
+};
+const getDeviceComparisonChart = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-comparision-chart`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+      },
+    }
+  );
+};
+const exportDevicesComparison = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-comparison-export`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+      },
+    }
+  );
+};
 export {
   getDevicesData,
   // Inactive
@@ -315,4 +404,10 @@ export {
   // Device Performance
   getDevicePerformance,
   getDevicePerformanceChart,
+  exportDevicePerformance,
+
+  // Device Comparison
+  getDeviceComparison,
+  getDeviceComparisonChart,
+  exportDevicesComparison,
 };

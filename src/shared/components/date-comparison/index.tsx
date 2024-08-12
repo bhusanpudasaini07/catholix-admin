@@ -14,9 +14,16 @@ import {
 interface DateComparisonProps {
   setFrom: (from: string) => void;
   setTo: (to: string) => void;
+  from: string;
+  to: string;
 }
 
-const DateComparisonFilter = ({ setFrom, setTo }: DateComparisonProps) => {
+const DateComparisonFilter = ({
+  setFrom,
+  setTo,
+  from,
+  to,
+}: DateComparisonProps) => {
   const [dates, setDates] = useState<{ year: string; months: string[] }[]>([]);
   const startDateEnv = process.env.NEXT_PUBLIC_START_YEAR || "2023";
 
@@ -53,7 +60,7 @@ const DateComparisonFilter = ({ setFrom, setTo }: DateComparisonProps) => {
     <div className="flex flex-col gap-2">
       <Label>Select Comparison Date</Label>
       <div className="flex gap-2 items-center">
-        <Select onValueChange={setFrom}>
+        <Select onValueChange={setFrom} value={from}>
           <SelectTrigger className="min-w-[120px]">
             <SelectValue placeholder="Select Date" />
           </SelectTrigger>
@@ -74,7 +81,7 @@ const DateComparisonFilter = ({ setFrom, setTo }: DateComparisonProps) => {
           </SelectContent>
         </Select>
         <span className="text-sm">&</span>
-        <Select onValueChange={setTo}>
+        <Select onValueChange={setTo} value={to}>
           <SelectTrigger className="min-w-[120px]">
             <SelectValue placeholder="Select Date" />
           </SelectTrigger>

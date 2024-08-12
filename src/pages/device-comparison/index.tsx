@@ -14,11 +14,16 @@ import GANumberChart from "@/features/Device-Performance/ga-number-chart";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import useDeviceComparison from "@/hooks/device-comparison/useDeviceComparison.hook";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 const DeviceComparison: NextPageWithLayout = () => {
   const {
+    from,
+    to,
     setFrom,
     setTo,
+    lga,
+    setLga,
     regionId,
     setRegionId,
     stateId,
@@ -26,22 +31,36 @@ const DeviceComparison: NextPageWithLayout = () => {
     resetHandler,
     searchTriggerHandler,
     deviceComparisonColumns,
+    deviceComparisonData,
+    deviceComparisonLoading,
+    perPage,
+    pageChangeHandler,
+    perPageHandler,
+    deviceComparisonChartOption,
+    deviceComparisonChartLoading,
+    exportHandler,
   } = useDeviceComparison();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
       <PageHeader title="Device Comparison">
         {/* Filter */}
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
-          <DateComparisonFilter setFrom={setFrom} setTo={setTo} />
+          <DateComparisonFilter
+            setFrom={setFrom}
+            setTo={setTo}
+            from={from}
+            to={to}
+          />
 
           <RegionalFilter
             regionId={regionId}
             setRegionId={setRegionId}
             stateId={stateId}
             setStateId={setStateId}
-            setLga={() => {}}
-            lga={[]}
+            setLga={setLga}
+            lga={lga}
             hideLga
+            searchTriggerHandler={searchTriggerHandler}
           />
           {/* reset */}
           <Button
@@ -68,29 +87,41 @@ const DeviceComparison: NextPageWithLayout = () => {
       <div className="overflow-y-auto grow no-scrollbar">
         <div className="grid grid-cols-5 gap-4">
           <GCPercentChart option={{}} />
-          <GANumberChart option={{}} />
+
+          {deviceComparisonChartLoading ? (
+            <div className="col-span-2">
+              <Skeleton className="w-full h-[250px]" />
+            </div>
+          ) : (
+            <GANumberChart option={deviceComparisonChartOption} />
+          )}
         </div>
 
-        <DataTable columns={deviceComparisonColumns} data={[]} border />
+        <DataTable
+          columns={deviceComparisonColumns}
+          data={deviceComparisonData?.data?.results ?? []}
+          loading={deviceComparisonLoading}
+          loadingDataNum={10}
+          border
+        />
 
         <div className="flex justify-between items-center">
           <Button
             variant={"white"}
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2 mt-6"
+            onClick={exportHandler}
           >
             <ExternalLink size={20} />
             Export
           </Button>
 
           <DataTablePagination
-            currentPage={1}
-            // pageChange={pageChangeHandler}
-            pageChange={() => {}}
-            totalPages={10}
-            // perPage={perPage}
-            perPage={10}
-            setPerPage={() => {}}
+            currentPage={deviceComparisonData?.data?.currentPage ?? 1}
+            pageChange={pageChangeHandler}
+            totalPages={deviceComparisonData?.data?.totalPages ?? 1}
+            perPage={perPage}
+            setPerPage={perPageHandler}
           />
         </div>
       </div>

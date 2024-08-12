@@ -47,7 +47,7 @@ const LGAPerformance: NextPageWithLayout = () => {
       <PageHeader title="Performance by LGA">
         {/* Filter */}
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
-          <DateComparisonFilter setFrom={setFrom} setTo={setTo} />
+          {/* <DateComparisonFilter setFrom={setFrom} setTo={setTo} /> */}
 
           <RegionalFilter
             regionId={regionId}

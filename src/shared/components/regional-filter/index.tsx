@@ -98,7 +98,7 @@ const RegionalFilter = ({
       }
       searchTriggerHandler && searchTriggerHandler();
     }
-  }, [profileData]);
+  }, [profileData, regionsList]);
 
   return (
     <div className="flex gap-2 items-center">

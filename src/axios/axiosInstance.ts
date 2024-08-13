@@ -9,13 +9,15 @@ import { clearCookie } from "@/shared/utils/utils";
 import toast from "react-hot-toast";
 import { getCookie } from "cookies-next";
 import { useCommonStore } from "@/store/common-store";
+import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 
-const { SESSION_EXPIRED } = constants.messages;
+const { SESSION_EXPIRED, TIMEOUT } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY, REMEMBER_ME } = config;
 
 export const axiosInstance = axios.create({
   withCredentials: true,
   baseURL: `${API_BASE_URL}`,
+  timeout: 60000,
 });
 
 const refreshAuthLogic = (_failedRequest: any) => {
@@ -78,7 +80,9 @@ const httpRequest = async (
 ) => {
   // setAuthorizationHeader();
   try {
-    const response = await axiosInstance[method](`${url}`, data, { headers });
+    const response = await axiosInstance[method](`${url}`, data, {
+      headers,
+    });
     return {
       ...(response?.data?.pagination && {
         pagination: response?.data?.pagination,
@@ -86,12 +90,18 @@ const httpRequest = async (
       data: response?.data,
     };
   } catch (error: any) {
-    error?.response?.status === 404
-      ? (window.location.href = "/not-found")
-      : error?.response?.status === 403 && error?.response?.data?.code === 1010
-      ? (window.location.href = "/forbidden")
-      : null;
-    throw error.response?.data;
+    if (error.code === "ECONNABORTED") {
+      toast.error(TIMEOUT, {
+        id: "timeout",
+      });
+    } else {
+      error?.response?.status === 404
+        ? (window.location.href = "/not-found")
+        : error?.response?.status === 403 &&
+          error?.response?.data?.code === 1010
+        ? (window.location.href = "/forbidden")
+        : null;
+    }
   }
 };
 

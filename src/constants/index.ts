@@ -9,5 +9,6 @@ export const constants = {
     NOTFOUND: "Record not found.",
     SOMETHING_WENT_WRONG: "Something went wrong.",
     SESSION_EXPIRED: "Your session has expired!",
+    TIMEOUT: "Request timed out",
   },
 };

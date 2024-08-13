@@ -3,12 +3,15 @@ import {
   IDeviceComparison,
   IDeviceComparisonChart,
   IDeviceComparisonData,
+  IDevicePerformanceGCChart,
 } from "@/interface/device-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import {
   exportDevicesComparison,
   getDeviceComparison,
   getDeviceComparisonChart,
+  getDeviceComparisonGCChart,
+  getDevicePerformanceGCChart,
 } from "@/services/devices/devices-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
@@ -87,7 +90,7 @@ const useDeviceComparison = () => {
     useQuery<IDeviceComparison>({
       queryKey: ["device-comparison", page, perPage, searchTrigger],
       queryFn: async () => {
-        if (lga && regionId && stateId) {
+        if (regionId && stateId) {
           return await getDeviceComparison(
             page,
             perPage,
@@ -107,7 +110,7 @@ const useDeviceComparison = () => {
   } = useQuery<IDeviceComparisonChart>({
     queryKey: ["device-comparison-chart", searchTrigger],
     queryFn: async () => {
-      if (regionId && stateId && lga) {
+      if (regionId && stateId) {
         return await getDeviceComparisonChart(
           moment(from).format("YYYY-MM-15"),
           moment(to).format("YYYY-MM-15"),
@@ -118,6 +121,22 @@ const useDeviceComparison = () => {
       }
     },
   });
+
+  const { data: gcChartData, isLoading: gcChartLoading } =
+    useQuery<IDeviceComparisonChart>({
+      queryFn: async () => {
+        if (regionId && stateId) {
+          return await getDeviceComparisonGCChart(
+            moment(from).format("YYYY-MM-15"),
+            moment(to).format("YYYY-MM-15"),
+            regionId,
+            stateId,
+            lga.length > 0 ? lga.join(",") : "all"
+          );
+        }
+      },
+      queryKey: ["device-comparison-gc-chart", searchTrigger],
+    });
 
   const chartData = useMemo(() => {
     if (!deviceComparisonChartData) return {};
@@ -135,6 +154,48 @@ const useDeviceComparison = () => {
 
     return formattedData;
   }, [deviceComparisonChartData]);
+
+  const groupedGCChartData = useMemo(() => {
+    if (gcChartData) {
+      const dateFormat = "DD";
+      const groupedData: any = {};
+
+      Object.entries(gcChartData?.data).forEach(([monthIndex, monthData]) => {
+        Object.entries(monthData).forEach(([date, value]) => {
+          const day = moment(date).format(dateFormat);
+          if (!groupedData[day]) {
+            groupedData[day] = [0, 0];
+          }
+          groupedData[day][parseInt(monthIndex, 10)] += parseInt(
+            String(value),
+            10
+          );
+        });
+      });
+
+      const allDays = Array.from({ length: moment(to).daysInMonth() }, (_, i) =>
+        (i + 1).toString().padStart(2, "0")
+      );
+
+      allDays.forEach((day) => {
+        if (!groupedData[day]) {
+          groupedData[day] = [0, 0];
+        }
+      });
+
+      return {
+        xAxisData: allDays,
+        seriesData1: allDays.map((day) => groupedData[day][0]),
+        seriesData2: allDays.map((day) => groupedData[day][1]),
+      };
+    } else {
+      return {
+        xAxisData: [],
+        seriesData1: [],
+        seriesData2: [],
+      };
+    }
+  }, [gcChartData]);
 
   // Columns
   const deviceComparisonColumns: ColumnDef<IDeviceComparisonData>[] = [
@@ -264,6 +325,12 @@ const useDeviceComparison = () => {
       .flat();
   };
 
+  const generateGCChartColors = (data: any) => {
+    return data[0].map((_: any, i: number) =>
+      data[2][i] > data[1][i] ? "#4ADE80" : "#F87171"
+    );
+  };
+
   const exportDeviceComparisonMutation = useMutation({
     mutationFn: () =>
       exportDevicesComparison(
@@ -338,6 +405,51 @@ const useDeviceComparison = () => {
     ],
   };
 
+  const gcChartOption = useMemo(() => {
+    return {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
+      grid: {
+        left: "7%",
+        right: "4%",
+        bottom: "10%",
+        top: "10%",
+      },
+      xAxis: {
+        type: "category",
+        data: groupedGCChartData?.xAxisData,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          name: "Comparison 1",
+          data: groupedGCChartData?.seriesData1,
+          type: "bar",
+          itemStyle: {
+            color: "#EAB308",
+          },
+        },
+        {
+          name: "Comparison 2",
+          data: groupedGCChartData?.seriesData2,
+          type: "bar",
+          itemStyle: {
+            color: (params: any) =>
+              generateGCChartColors(Object.values(groupedGCChartData))[
+                params.dataIndex
+              ],
+          },
+        },
+      ],
+    };
+  }, [groupedGCChartData]);
+
   return {
     // STATES
     from,
@@ -370,9 +482,11 @@ const useDeviceComparison = () => {
     deviceComparisonData,
     deviceComparisonChartLoading,
     exportDeviceComparisonMutation,
+    gcChartLoading,
 
     // Chart
     deviceComparisonChartOption,
+    gcChartOption,
   };
 };
 

@@ -39,6 +39,8 @@ const DeviceComparison: NextPageWithLayout = () => {
     deviceComparisonChartOption,
     deviceComparisonChartLoading,
     exportHandler,
+    gcChartLoading,
+    gcChartOption,
   } = useDeviceComparison();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -86,7 +88,13 @@ const DeviceComparison: NextPageWithLayout = () => {
       </PageHeader>
       <div className="overflow-y-auto grow no-scrollbar">
         <div className="grid grid-cols-5 gap-4">
-          <GCPercentChart option={{}} />
+          {gcChartLoading ? (
+            <div className="col-span-3">
+              <Skeleton className="w-full h-[250px]" />
+            </div>
+          ) : (
+            <GCPercentChart option={gcChartOption} />
+          )}
 
           {deviceComparisonChartLoading ? (
             <div className="col-span-2">

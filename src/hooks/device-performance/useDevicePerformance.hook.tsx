@@ -3,6 +3,7 @@ import {
   IDevicePerformance,
   IDevicePerformanceChart,
   IDevicePerformanceData,
+  IDevicePerformanceGCChart,
 } from "@/interface/device-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import {
@@ -10,6 +11,7 @@ import {
   exportDevicesComparison,
   getDevicePerformance,
   getDevicePerformanceChart,
+  getDevicePerformanceGCChart,
 } from "@/services/devices/devices-service";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { exportToCsv } from "@/shared/utils/export-utils/export-util";
@@ -18,7 +20,7 @@ import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EChartsOption } from "echarts-for-react";
 import moment from "moment";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useMutation, useQuery } from "react-query";
 
@@ -30,8 +32,8 @@ const useDevicePerformance = () => {
     to: moment().toDate(),
   });
 
-  const [regionId, setRegionId] = useState<string>("all");
-  const [stateId, setStateId] = useState<string>("all");
+  const [regionId, setRegionId] = useState<string>("");
+  const [stateId, setStateId] = useState<string>("");
   const [lga, setLga] = useState<string[]>([]);
   const [page, setPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(10);
@@ -93,8 +95,8 @@ const useDevicePerformance = () => {
     isLoading: devicePerformanceTableLoading,
   } = useQuery<IDevicePerformance>({
     queryFn: async () => {
-      if (lga) {
-        return await getDevicePerformance(
+      if (regionId && stateId) {
+        const response = await getDevicePerformance(
           page,
           perPage,
           moment(dateRange?.from).format("YYYY-MM-DD"),
@@ -103,6 +105,7 @@ const useDevicePerformance = () => {
           stateId,
           lga.length > 0 ? lga.join(",") : "all"
         );
+        return response;
       }
     },
     queryKey: ["device-performance", page, perPage, searchTrigger],
@@ -113,7 +116,7 @@ const useDevicePerformance = () => {
     isLoading: devicePerformanceChartLoading,
   } = useQuery<IDevicePerformanceChart>({
     queryFn: async () => {
-      if (lga) {
+      if (regionId && stateId) {
         return await getDevicePerformanceChart(
           moment(dateRange?.from).format("YYYY-MM-DD"),
           moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -125,6 +128,22 @@ const useDevicePerformance = () => {
     },
     queryKey: ["device-performance-chart", searchTrigger],
   });
+
+  const { data: gcChartData, isLoading: gcChartLoading } =
+    useQuery<IDevicePerformanceGCChart>({
+      queryFn: async () => {
+        if (regionId && stateId) {
+          return await getDevicePerformanceGCChart(
+            moment(dateRange?.from).format("YYYY-MM-DD"),
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            regionId,
+            stateId,
+            lga.length > 0 ? lga.join(",") : "all"
+          );
+        }
+      },
+      queryKey: ["device-performance-gc-chart", searchTrigger],
+    });
 
   const exportDevicePerformanceMutation = useMutation({
     mutationFn: () =>
@@ -330,6 +349,99 @@ const useDevicePerformance = () => {
     ],
   };
 
+  const groupedGCChartData = useMemo(() => {
+    if (gcChartData) {
+      const isWithinMonth =
+        moment(dateRange?.to).diff(moment(dateRange?.from), "months") > 1;
+      const dateFormat = isWithinMonth ? "MMM" : "DD MMM";
+
+      const groupedData: any = Object.entries(gcChartData?.data).reduce(
+        (acc, item) => {
+          const date = moment(item[0]).format(dateFormat);
+          if (!acc[date]) {
+            acc[date] = 0;
+          }
+          acc[date] += parseInt(item[1], 10);
+          return acc;
+        },
+        {} as Record<string, number>
+      );
+
+      if (isWithinMonth) {
+        // Ensure all months are included
+        const allMonths = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        allMonths.forEach((month) => {
+          if (!groupedData[month]) {
+            groupedData[month] = 0;
+          }
+        });
+
+        return {
+          xAxisData: allMonths,
+          seriesData: allMonths.map((month) => groupedData[month]),
+        };
+      } else {
+        const allDates = Object.keys(groupedData);
+        return {
+          xAxisData: allDates,
+          seriesData: allDates.map((date) => groupedData[date]),
+        };
+      }
+    } else {
+      return {
+        xAxisData: [],
+        seriesData: [],
+      };
+    }
+  }, [gcChartData]);
+
+  const gcChartOption = useMemo(() => {
+    return {
+      tooltip: {
+        trigger: "axis",
+        axisPointer: {
+          type: "shadow",
+        },
+      },
+      grid: {
+        left: "7%",
+        right: "4%",
+        bottom: "10%",
+        top: "10%",
+      },
+      xAxis: {
+        type: "category",
+        data: groupedGCChartData?.xAxisData,
+      },
+      yAxis: {
+        type: "value",
+      },
+      series: [
+        {
+          data: groupedGCChartData?.seriesData,
+          type: "bar",
+          itemStyle: {
+            color: "#FF0000",
+          },
+        },
+      ],
+    };
+  }, [groupedGCChartData]);
+
   return {
     // STATES
     dateRange,
@@ -359,11 +471,14 @@ const useDevicePerformance = () => {
 
     // Chart
     gaChartOption,
+    gcChartOption,
 
     // API
     devicePerformanceTable,
     devicePerformanceTableLoading,
     exportDevicePerformanceMutation,
+    devicePerformanceChartLoading,
+    gcChartLoading,
   };
 };
 

@@ -15,6 +15,7 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
 const DevicePerformance: NextPageWithLayout = () => {
   const {
@@ -37,6 +38,9 @@ const DevicePerformance: NextPageWithLayout = () => {
     gaChartOption,
     exportHandler,
     exportDevicePerformanceMutation,
+    devicePerformanceChartLoading,
+    gcChartLoading,
+    gcChartOption,
   } = useDevicePerformance();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -87,8 +91,22 @@ const DevicePerformance: NextPageWithLayout = () => {
 
       <div className="overflow-y-auto grow no-scrollbar">
         <div className="grid grid-cols-5 gap-4">
-          <GCPercentChart option={{}} />
-          <GANumberChart option={gaChartOption} />
+          {/* GC CHart */}
+          {gcChartLoading ? (
+            <div className="col-span-3">
+              <Skeleton className="w-full h-[250px]" />
+            </div>
+          ) : (
+            <GCPercentChart option={gcChartOption} />
+          )}
+          {/* Number of GA Chart */}
+          {devicePerformanceChartLoading ? (
+            <div className="col-span-2">
+              <Skeleton className="w-full h-[250px]" />
+            </div>
+          ) : (
+            <GANumberChart option={gaChartOption} />
+          )}
         </div>
 
         <DataTable

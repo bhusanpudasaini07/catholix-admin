@@ -90,16 +90,15 @@ const RegionalFilter = ({
         setStateId(profileData?.stateId !== 0 ? state?.code! : "all");
         setLocalGovernments(state?.localGovernments ?? []);
         setLga(localGovs || []);
-        searchTriggerHandler && searchTriggerHandler();
       } else {
         setRegionId("all");
         setStateId("all");
         setLocalGovernments([]);
         setLga([]);
-        searchTriggerHandler && searchTriggerHandler();
       }
+      searchTriggerHandler && searchTriggerHandler();
     }
-  }, [profileData, regionsList]);
+  }, [profileData]);
 
   return (
     <div className="flex gap-2 items-center">

@@ -198,7 +198,7 @@ const useDashboard = () => {
     useQuery<IDealerMap>({
       queryKey: ["dealerMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
-        if (mapType === "dealer") {
+        if (mapType === "dealer" && regionId && stateId) {
           const response = await getDealerMapData(
             regionId,
             stateId,
@@ -217,7 +217,7 @@ const useDashboard = () => {
     useQuery<IAgentMap>({
       queryKey: ["agentMap", searchTrigger, southWest, northEast],
       queryFn: async () => {
-        if (mapType === "agent") {
+        if (mapType === "agent" && regionId && stateId) {
           return await getAgentMapData(
             regionId,
             stateId,

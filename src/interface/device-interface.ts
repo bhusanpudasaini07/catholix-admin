@@ -173,6 +173,11 @@ export interface IDeviceComparison {
     pageSize: number;
   };
 }
+export interface IDevicePerformanceGCChart {
+  data: {
+    [key: string]: string;
+  };
+}
 export interface IDeviceComparisonData {
   lg_code: string;
   lga: string;

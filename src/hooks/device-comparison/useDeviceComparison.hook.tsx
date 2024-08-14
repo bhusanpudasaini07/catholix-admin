@@ -212,21 +212,27 @@ const useDeviceComparison = () => {
       id: "region",
       accessorKey: "region",
       header: "Region",
-      cell: ({ row }) => <div>{row.original.region || "-"}</div>,
+      cell: ({ row }) => (
+        <div>{row.original.region || row.original.region_code || "-"}</div>
+      ),
     },
     // State
     {
       id: "state",
       accessorKey: "state",
       header: "State",
-      cell: ({ row }) => <div>{row.original.state || "-"}</div>,
+      cell: ({ row }) => (
+        <div>{row.original.state || row.original.state_code || "-"}</div>
+      ),
     },
     // LGA
     {
       id: "lga",
       accessorKey: "lga",
       header: "Lga",
-      cell: ({ row }) => <div>{row.original.lga || "-"}</div>,
+      cell: ({ row }) => (
+        <div>{row.original.lga || row.original.lg_code || "-"}</div>
+      ),
     },
     // Onboarded
     {

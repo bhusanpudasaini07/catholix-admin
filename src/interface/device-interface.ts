@@ -156,6 +156,9 @@ export interface IDevicePerformanceData {
   lga: string;
   region: string;
   state: string;
+  region_code: string;
+  state_code: string;
+  lg_code: string;
 }
 export interface IDevicePerformanceChart {
   data: {

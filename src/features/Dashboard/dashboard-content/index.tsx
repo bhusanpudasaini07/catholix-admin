@@ -115,6 +115,7 @@ const DashboardContent = () => {
           className="gap-1 p-2 h-9"
           onClick={resetHandler}
           disabled={
+            profileData &&
             profileData.regionId !== 0 &&
             profileData.stateId !== 0 &&
             profileData.localGovId.length > 0
@@ -129,6 +130,7 @@ const DashboardContent = () => {
           className="gap-1 p-2 h-9"
           onClick={searchTriggerHandler}
           disabled={
+            profileData &&
             profileData.regionId !== 0 &&
             profileData.stateId !== 0 &&
             profileData.localGovId.length > 0

@@ -188,7 +188,9 @@ const useDevicePerformance = () => {
       accessorKey: "region_code",
       header: "Region",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.region || "-"}</p>,
+      cell: ({ row }) => (
+        <p>{row.original.region || row.original?.region_code || "-"}</p>
+      ),
     },
 
     // STATE
@@ -198,7 +200,9 @@ const useDevicePerformance = () => {
       header: "State",
       enableHiding: false,
       cell: ({ row }) => (
-        <p className="whitespace-nowrap">{row.original.state || "-"}</p>
+        <p className="whitespace-nowrap">
+          {row.original.state || row.original.state_code || "-"}
+        </p>
       ),
     },
 
@@ -208,7 +212,9 @@ const useDevicePerformance = () => {
       accessorKey: "lg_code",
       header: "LGA",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.lga || "-"}</p>,
+      cell: ({ row }) => (
+        <p>{row.original.lga || row.original.lg_code || "-"}</p>
+      ),
     },
 
     // ONBOARDED NUMBER
@@ -226,7 +232,13 @@ const useDevicePerformance = () => {
       accessorKey: "onboarded_percent",
       header: "Onboarded %",
       enableHiding: false,
-      cell: ({ row }) => <p>{row.original.onboarded_percent || "-"}%</p>,
+      cell: ({ row }) => (
+        <p>
+          {row.original.onboarded_percent
+            ? `${row.original.onboarded_percent} %`
+            : "-"}
+        </p>
+      ),
     },
 
     // ACTIVE

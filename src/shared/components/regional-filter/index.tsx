@@ -111,7 +111,7 @@ const RegionalFilter = ({
             setStateId("all");
             setLga([]);
           }}
-          disabled={profileData.regionId !== 0}
+          disabled={profileData && profileData.regionId !== 0}
         >
           <SelectTrigger className="min-w-[160px]">
             <SelectValue placeholder="Select Region" />
@@ -131,7 +131,9 @@ const RegionalFilter = ({
         <Select
           disabled={
             regionId === "all" ||
-            (profileData.stateId !== null && profileData.stateId !== 0)
+            (profileData &&
+              profileData.stateId !== null &&
+              profileData.stateId !== 0)
           }
           value={stateId}
           onValueChange={filterLocalGovs}

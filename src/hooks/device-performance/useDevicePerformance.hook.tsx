@@ -232,13 +232,7 @@ const useDevicePerformance = () => {
       accessorKey: "onboarded_percent",
       header: "Onboarded %",
       enableHiding: false,
-      cell: ({ row }) => (
-        <p>
-          {row.original.onboarded_percent
-            ? `${row.original.onboarded_percent} %`
-            : "-"}
-        </p>
-      ),
+      cell: ({ row }) => <p>{row.original.onboarded_percent || "0"}%</p>,
     },
 
     // ACTIVE

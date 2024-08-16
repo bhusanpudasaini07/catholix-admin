@@ -423,6 +423,84 @@ const exportDevicesComparison = async (
     }
   );
 };
+
+// ________________PERFORMANCE BY LGA ____________________
+const getPerformanceByLGA = async (
+  page: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  searchTerm?: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-performance-lga`,
+    httpMethods.GET,
+    {
+      params: {
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        ...(searchTerm && { searchTerm }),
+      },
+    }
+  );
+};
+const exportPerformanceByLGA = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  searchTerm?: string
+) => {
+  return httpRequest(
+    `/devices/device-analytics/devices-performance-lga-export`,
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        ...(searchTerm && { searchTerm }),
+      },
+    }
+  );
+};
+const fetchPerformanceByLGA = async (
+  API_BASE_URL: string | undefined,
+  regionId: string,
+  stateId: string,
+  lga: string[],
+  southWest: string,
+  northEast: string,
+  startDate: string,
+  endDate: string
+) => {
+  const response = await fetch(
+    `${API_BASE_URL}/devices/device-analytics/devices-performance-lga-map?startDate=${startDate}&endDate=${endDate}&region=${
+      regionId || "all"
+    }&state=${stateId || "all"}&lga=${
+      lga.length > 0 ? lga.join(",") : "all"
+    }&southwest=${southWest}&northeast=${northEast}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  return response.body;
+};
 export {
   getDevicesData,
   // Inactive
@@ -454,4 +532,9 @@ export {
   getDeviceComparisonChart,
   exportDevicesComparison,
   getDeviceComparisonGCChart,
+
+  // Performance by LGA
+  getPerformanceByLGA,
+  exportPerformanceByLGA,
+  fetchPerformanceByLGA,
 };

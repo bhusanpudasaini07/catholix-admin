@@ -45,7 +45,9 @@ const ImeiMismatch: NextPageWithLayout = () => {
       <PageHeader title="IMEI Mismatch">
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
           <div className="w-[250px]">
-            <Label className="block mb-2 font-medium">Select Date Range</Label>
+            <Label className="block mb-1.5 font-medium">
+              Select Date Range
+            </Label>
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}

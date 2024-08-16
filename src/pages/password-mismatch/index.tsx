@@ -85,9 +85,7 @@ const PasswordMisMatch: NextPageWithLayout = () => {
       <div className="grow">
         <div className="grid grid-cols-2 gap-4 h-full">
           {/* Map */}
-          <div>
-            <PasswordMisMatchMapContent />
-          </div>
+          <div>{/* <PasswordMisMatchMapContent /> */}</div>
           {/* Table Filters */}
           <div>
             <div className="flex gap-2 items-center">

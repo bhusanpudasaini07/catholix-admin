@@ -65,7 +65,9 @@ const AgentDetail: NextPageWithLayout = () => {
           </div> */}
           <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
             <div className="max-w-[250px]">
-              <Label>Select Date Range</Label>
+              <Label className="block mb-1.5 font-medium">
+                Select Date Range
+              </Label>
               <DateRangeFilter
                 dateRange={dateRange}
                 disabled

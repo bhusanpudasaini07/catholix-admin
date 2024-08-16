@@ -5,7 +5,6 @@ import React from "react";
 import useLgaPerformance from "@/hooks/lga-performance/useLgaPerformance.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
-import DateComparisonFilter from "@/shared/components/date-comparison";
 import FilterSearch from "@/shared/components/filter-search";
 import PageHeader from "@/shared/components/page-header";
 import RegionalFilter from "@/shared/components/regional-filter";
@@ -14,6 +13,8 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Label } from "@/shared/components/ui/label";
 
 const LGAMapContent = dynamic(
   import("../../features/LGA-Performance/lga-performance-map"),
@@ -25,21 +26,31 @@ const LGAMapContent = dynamic(
 
 const LGAPerformance: NextPageWithLayout = () => {
   const {
+    dateRange,
+    setDateRange,
     regionId,
     setRegionId,
     stateId,
     setStateId,
     perPage,
-    lgaId,
-    setLgaId,
+    lga,
+    setLga,
     resetHandler,
     pageChangeHandler,
     perPageHandler,
     lgaPerformanceColumns,
     searchText,
     setSearchText,
-    setFrom,
-    setTo,
+    setSouthWest,
+    setNorthEast,
+
+    searchTriggerHandler,
+    lgaPerformanceData,
+    lgaPerformanceLoading,
+    exportHandler,
+    exportPerformanceLgaMutation,
+    lgaPerformanceMap,
+    lgaPerformanceMapLoading,
   } = useLgaPerformance();
 
   return (
@@ -47,15 +58,25 @@ const LGAPerformance: NextPageWithLayout = () => {
       <PageHeader title="Performance by LGA">
         {/* Filter */}
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
-          {/* <DateComparisonFilter setFrom={setFrom} setTo={setTo} /> */}
+          <div className="w-[250px]">
+            <Label className="block mb-1.5 font-medium">
+              Select Date Range
+            </Label>
+            <DateRangeFilter
+              dateRange={dateRange}
+              setDateRange={setDateRange}
+              disabled
+            />
+          </div>
 
           <RegionalFilter
             regionId={regionId}
             setRegionId={setRegionId}
             stateId={stateId}
             setStateId={setStateId}
-            setLga={setLgaId}
-            lga={lgaId}
+            setLga={setLga}
+            lga={lga}
+            searchTriggerHandler={searchTriggerHandler}
           />
           {/* reset */}
           <Button
@@ -72,7 +93,7 @@ const LGAPerformance: NextPageWithLayout = () => {
             variant={"primary"}
             size={"sm"}
             className="gap-1 px-4 py-2 h-9"
-            // onClick={searchTriggerHandler}
+            onClick={searchTriggerHandler}
           >
             <Search size={20} />
             Search
@@ -84,7 +105,12 @@ const LGAPerformance: NextPageWithLayout = () => {
         <div className="grid grid-cols-2 gap-4 h-full">
           {/* Map */}
           <div>
-            <LGAMapContent />
+            <LGAMapContent
+              loading={lgaPerformanceMapLoading}
+              lgaPerformanceMap={lgaPerformanceMap}
+              setSouthWest={setSouthWest}
+              setNorthEast={setNorthEast}
+            />
           </div>
           {/* Table Filters */}
           <div>
@@ -93,6 +119,8 @@ const LGAPerformance: NextPageWithLayout = () => {
                 variant={"white"}
                 size={"md"}
                 className="py-2.5 h-auto text-sm gap-2 "
+                onClick={exportHandler}
+                disabled={exportPerformanceLgaMutation.isLoading}
               >
                 <ExternalLink size={20} />
                 Export
@@ -104,11 +132,19 @@ const LGAPerformance: NextPageWithLayout = () => {
                 setSearchText={setSearchText}
               />
             </div>
-            <DataTable columns={lgaPerformanceColumns} data={[]} border />
+            <DataTable
+              columns={lgaPerformanceColumns}
+              data={lgaPerformanceData?.data.results ?? []}
+              border
+              loading={lgaPerformanceLoading}
+              loadingDataNum={10}
+              headerSticky
+              height="max-h-[calc(100vh-280px)]"
+            />
             <DataTablePagination
-              currentPage={1}
+              currentPage={lgaPerformanceData?.data.currentPage ?? 1}
               pageChange={pageChangeHandler}
-              totalPages={10}
+              totalPages={lgaPerformanceData?.data.totalPages ?? 1}
               perPage={perPage}
               setPerPage={perPageHandler}
             />

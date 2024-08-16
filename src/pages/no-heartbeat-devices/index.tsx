@@ -76,7 +76,9 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
       <PageHeader title="No Heartbeat Devices" back backUrl="">
         <div className="flex gap-2 justify-end items-end px-5 py-2 ml-auto rounded-lg 2xl:w-auto bg-zinc-200">
           <div className="w-[240px]">
-            <Label>Select Date Range</Label>
+            <Label className="block mb-1.5 font-medium">
+              Select Date Range
+            </Label>
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}

@@ -201,3 +201,19 @@ export interface IDeviceComparisonChart {
     };
   };
 }
+
+export interface ILgaPerformance {
+  agent_name: string;
+  device_id: string;
+  gc_count: string;
+}
+export interface ILgaPerformanceData {
+  data: {
+    results: ILgaPerformance[];
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    pageSize: number;
+  };
+}

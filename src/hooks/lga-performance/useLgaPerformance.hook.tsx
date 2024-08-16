@@ -47,7 +47,6 @@ const useLgaPerformance = () => {
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
 
   const debouncedValue = useDebounce(searchText, 300);
-  console.log(debouncedValue);
 
   // FUNCTIONS
   const perPageHandler = (value: number) => {
@@ -181,7 +180,7 @@ const useLgaPerformance = () => {
       accessorKey: "device_id",
       header: "Device ID",
       cell: ({ row }) => (
-        <Badge variant={"info"}>{row.original.device_id}</Badge>
+        <Badge variant={"info"}>{row.original.device_id || "-"}</Badge>
       ),
     },
     // Agent Name
@@ -189,14 +188,14 @@ const useLgaPerformance = () => {
       id: "agent_name",
       accessorKey: "agent_name",
       header: "Agent Name",
-      cell: ({ row }) => <div>{row.original.agent_name}</div>,
+      cell: ({ row }) => <div>{row.original.agent_name || "-"}</div>,
     },
     // No of GC Performed
     {
       id: "gc_count",
       accessorKey: "gc_count",
       header: "No of GC Performed",
-      cell: ({ row }) => <div>{row.original.gc_count}</div>,
+      cell: ({ row }) => <div>{row.original.gc_count || "-"}</div>,
     },
   ];
   return {

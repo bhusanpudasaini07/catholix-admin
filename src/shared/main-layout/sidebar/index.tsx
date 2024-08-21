@@ -73,6 +73,7 @@ const Sidebar = ({
       hasAccordion: subItem.hasAccordion ? subItem.hasAccordion : false,
       accordionItem: subItem.accordionItem ? subItem.accordionItem : [],
       icon: subItem.icon,
+      permissions: subItem.permissions,
     })),
     permissions: item.permissions,
   }));
@@ -140,7 +141,7 @@ const Sidebar = ({
         {menuItems
           ?.filter((item) =>
             item?.permissions
-              ? item?.permissions.every((perm) =>
+              ? item?.permissions.some((perm) =>
                   checkPermissions(profileData, perm.path, perm.method)
                 )
               : true
@@ -190,48 +191,61 @@ const Sidebar = ({
                           </AccordionTrigger>
                           <AccordionContent className="[&>div]:pb-0">
                             <ul className={`w-full sidebarList`}>
-                              {subItem?.accordionItem?.map(
-                                (
-                                  accordionItem: any,
-                                  accordionItemIndex: number
-                                ) => (
-                                  // <li
-                                  //   key={`accordion-item-${accordionItemIndex}`}
-                                  //   onClick={() =>
-                                  //     router?.push(accordionItem?.itemSlug)
-                                  //   }
-                                  //   className={`mb-1 font-medium ${
-                                  //     isActive(accordionItem?.itemSlug)
-                                  //       ? "text-yellow-600"
-                                  //       : "text-zinc-600 "
-                                  //   }`}
-                                  // >
-                                  //   {t(accordionItem?.itemName)}
-                                  // </li>
-                                  <Button
-                                    key={`accordion-item-${accordionItemIndex}`}
-                                    className={`
+                              {subItem?.accordionItem
+                                ?.filter((accordionItem: any) =>
+                                  accordionItem?.permissions
+                                    ? accordionItem?.permissions.every(
+                                        (perm: any) =>
+                                          checkPermissions(
+                                            profileData,
+                                            perm.path,
+                                            perm.method
+                                          )
+                                      )
+                                    : true
+                                )
+                                .map(
+                                  (
+                                    accordionItem: any,
+                                    accordionItemIndex: number
+                                  ) => (
+                                    // <li
+                                    //   key={`accordion-item-${accordionItemIndex}`}
+                                    //   onClick={() =>
+                                    //     router?.push(accordionItem?.itemSlug)
+                                    //   }
+                                    //   className={`mb-1 font-medium ${
+                                    //     isActive(accordionItem?.itemSlug)
+                                    //       ? "text-yellow-600"
+                                    //       : "text-zinc-600 "
+                                    //   }`}
+                                    // >
+                                    //   {t(accordionItem?.itemName)}
+                                    // </li>
+                                    <Button
+                                      key={`accordion-item-${accordionItemIndex}`}
+                                      className={`
                                       btn-primary h-[44px] !pl-11 w-full !shadow-none rounded-none  ${
                                         isExpanded
                                           ? "justify-start"
                                           : "justify-center"
                                       } ${
-                                      isActive(accordionItem?.itemSlug) &&
-                                      "active"
-                                    }
+                                        isActive(accordionItem?.itemSlug) &&
+                                        "active"
+                                      }
                                       `}
-                                    onClick={() =>
-                                      router?.push(accordionItem?.itemSlug)
-                                    }
-                                  >
-                                    <span
-                                      className={isExpanded ? "" : "hidden"}
+                                      onClick={() =>
+                                        router?.push(accordionItem?.itemSlug)
+                                      }
                                     >
-                                      {t(accordionItem?.itemName)}
-                                    </span>
-                                  </Button>
-                                )
-                              )}
+                                      <span
+                                        className={isExpanded ? "" : "hidden"}
+                                      >
+                                        {t(accordionItem?.itemName)}
+                                      </span>
+                                    </Button>
+                                  )
+                                )}
                             </ul>
                           </AccordionContent>
                         </AccordionItem>

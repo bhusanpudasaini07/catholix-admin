@@ -195,6 +195,7 @@ const useAdmin = () => {
                   row.original.lastName
                 )
               }
+              disabled={row.original.id === 1}
               size={"base"}
               variant={"destructive"}
             >

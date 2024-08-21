@@ -46,10 +46,9 @@ const RoleForm = ({ form, loading }: IProps) => {
       return {
         ...item,
         dependsOn:
-          item?.method === "put" ||
-          item?.method === "delete" ||
-          item?.method === "get"
-            ? filterDependency(item)
+          item?.method === "put" || item?.method === "delete"
+            ? // item?.method === "get"
+              filterDependency(item)
             : [],
       };
     });
@@ -92,6 +91,8 @@ const RoleForm = ({ form, loading }: IProps) => {
     form.setValue("permissions", newValues);
   };
 
+  console.log(groupedPermissionsByResource);
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4">
@@ -118,16 +119,16 @@ const RoleForm = ({ form, loading }: IProps) => {
           />
         </div>
 
-        {/* Dashboard, Agent Data */}
+        {/* Dashboard, SSP */}
         <div className="grid grid-cols-2 gap-4 xl:grid-cols-3">
-          {/* DLCM */}
-          <Card className="col-span-3 xl:col-span-1">
+          {/* Dashboard */}
+          <Card className="col-span-3 xl:col-span-2">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">DLCM Data</h5>
+                <h5 className="text-base font-bold text-zinc-900">Dashboard</h5>
               </div>
-              <div className="grid grid-cols-1 items-center">
-                {groupedPermissionsByResource?.dlcm?.map((permission) => (
+              <div className="grid grid-cols-3 gap-10 items-center 2xl:gap-0 2xl:grid-cols-4">
+                {groupedPermissionsByResource?.dashboard?.map((permission) => (
                   <FormField
                     key={permission.id}
                     control={form.control}
@@ -164,8 +165,57 @@ const RoleForm = ({ form, loading }: IProps) => {
               </div>
             </CardContent>
           </Card>
-          {/* Devices */}
+
+          {/* SSP */}
           <Card className="col-span-3 xl:col-span-1">
+            <CardContent>
+              <div className="flex justify-between items-center mb-6">
+                <h5 className="text-base font-bold text-zinc-900">SSP Data</h5>
+              </div>
+              <div className="grid grid-cols-1 items-center">
+                {groupedPermissionsByResource?.ssp?.map((permission) => (
+                  <FormField
+                    key={permission.id}
+                    control={form.control}
+                    name="permissions"
+                    render={({ field }) => (
+                      <FormItem className="flex gap-2 items-center">
+                        <FormControl>
+                          <Checkbox
+                            id={permission.id.toString()}
+                            variant="primary"
+                            className="border-zinc-700"
+                            checked={field.value?.includes(
+                              permission.id.toString()
+                            )}
+                            onCheckedChange={(checked) => {
+                              handleCheckedChange(
+                                permission.id.toString(),
+                                checked as boolean,
+                                permission
+                              );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel
+                          className="!mt-0"
+                          htmlFor={permission.id.toString()}
+                        >
+                          {permission.description}
+                        </FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Devices, Device Analytics */}
+        <div className="grid grid-cols-2 gap-4 xl:grid-cols-2">
+          {/* Devices */}
+          <Card className="col-span-2 xl:col-span-1">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
                 <h5 className="text-base font-bold text-zinc-900">
@@ -210,14 +260,67 @@ const RoleForm = ({ form, loading }: IProps) => {
               </div>
             </CardContent>
           </Card>
-          {/* SSP */}
+
+          {/* Device Analytics */}
           <Card className="col-span-3 xl:col-span-1">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">SSP Data</h5>
+                <h5 className="text-base font-bold text-zinc-900">
+                  Device Analytics
+                </h5>
+              </div>
+              <div className="grid grid-cols-3 gap-10 items-center">
+                {groupedPermissionsByResource?.deviceAnalytics?.map(
+                  (permission) => (
+                    <FormField
+                      key={permission.id}
+                      control={form.control}
+                      name="permissions"
+                      render={({ field }) => (
+                        <FormItem className="flex gap-2 items-center">
+                          <FormControl>
+                            <Checkbox
+                              id={permission.id.toString()}
+                              variant="primary"
+                              className="border-zinc-700"
+                              checked={field.value?.includes(
+                                permission.id.toString()
+                              )}
+                              onCheckedChange={(checked) => {
+                                handleCheckedChange(
+                                  permission.id.toString(),
+                                  checked as boolean,
+                                  permission
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className="!mt-0"
+                            htmlFor={permission.id.toString()}
+                          >
+                            {permission.description}
+                          </FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  )
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* DLCM, Security */}
+        <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+          {/* DLCM */}
+          <Card className="col-span-2 xl:col-span-1">
+            <CardContent>
+              <div className="flex justify-between items-center mb-6">
+                <h5 className="text-base font-bold text-zinc-900">DLCM Data</h5>
               </div>
               <div className="grid grid-cols-1 items-center">
-                {groupedPermissionsByResource?.ssp?.map((permission) => (
+                {groupedPermissionsByResource?.dlcm?.map((permission) => (
                   <FormField
                     key={permission.id}
                     control={form.control}
@@ -251,6 +354,53 @@ const RoleForm = ({ form, loading }: IProps) => {
                     )}
                   />
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Secutiry */}
+          <Card className="col-span-3 xl:col-span-2">
+            <CardContent>
+              <div className="flex justify-between items-center mb-6">
+                <h5 className="text-base font-bold text-zinc-900">Security</h5>
+              </div>
+              <div className="grid grid-cols-3 gap-10 items-center 2xl:gap-0 2xl:grid-cols-4">
+                {groupedPermissionsByResource?.deviceSecurity?.map(
+                  (permission) => (
+                    <FormField
+                      key={permission.id}
+                      control={form.control}
+                      name="permissions"
+                      render={({ field }) => (
+                        <FormItem className="flex gap-2 items-center">
+                          <FormControl>
+                            <Checkbox
+                              id={permission.id.toString()}
+                              variant="primary"
+                              className="border-zinc-700"
+                              checked={field.value?.includes(
+                                permission.id.toString()
+                              )}
+                              onCheckedChange={(checked) => {
+                                handleCheckedChange(
+                                  permission.id.toString(),
+                                  checked as boolean,
+                                  permission
+                                );
+                              }}
+                            />
+                          </FormControl>
+                          <FormLabel
+                            className="!mt-0"
+                            htmlFor={permission.id.toString()}
+                          >
+                            {permission.description}
+                          </FormLabel>
+                        </FormItem>
+                      )}
+                    />
+                  )
+                )}
               </div>
             </CardContent>
           </Card>
@@ -394,7 +544,7 @@ const RoleForm = ({ form, loading }: IProps) => {
           </CardContent>
         </Card>
         {/* Permissions */}
-        <Card>
+        {/* <Card>
           <CardContent>
             <div className="flex justify-between items-center mb-6">
               <h5 className="text-base font-bold text-zinc-900">Permissions</h5>
@@ -436,10 +586,14 @@ const RoleForm = ({ form, loading }: IProps) => {
               ))}
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
       <div className="flex gap-2 justify-start items-center mt-6">
-        <Button variant={"primary"} disabled={loading} className="gap-2">
+        <Button
+          variant={"primary"}
+          disabled={loading || router.query.id === "1"}
+          className="gap-2"
+        >
           {loading && <ButtonLoader />}
           {id ? "Update" : "Create"}
         </Button>

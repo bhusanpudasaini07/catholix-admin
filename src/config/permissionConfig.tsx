@@ -89,6 +89,23 @@ export const permissionConfig = {
       menuSlug: "",
       icon: <FileLineChart width={20} height={20} />,
       hasChildren: true,
+      permissions: [
+        {
+          path: "/devices/device_analytics/performance",
+          method: "get",
+          resource: "deviceAnalytics",
+        },
+        {
+          path: "/devices/device_analytics/comparison",
+          method: "get",
+          resource: "deviceAnalytics",
+        },
+        {
+          path: "/devices/device_analytics/performance-by-lg",
+          method: "get",
+          resource: "deviceAnalytics",
+        },
+      ],
       subMenu: [
         {
           menuName: "common.side_nav.device_analytics",
@@ -99,14 +116,35 @@ export const permissionConfig = {
             {
               itemName: "common.side_nav.performance",
               itemSlug: "/device-performance",
+              permissions: [
+                {
+                  path: "/devices/device_analytics/performance",
+                  method: "get",
+                  resource: "deviceAnalytics",
+                },
+              ],
             },
             {
               itemName: "common.side_nav.comparison",
               itemSlug: "/device-comparison",
+              permissions: [
+                {
+                  path: "/devices/device_analytics/comparison",
+                  method: "get",
+                  resource: "deviceAnalytics",
+                },
+              ],
             },
             {
               itemName: "common.side_nav.lga_performance",
               itemSlug: "/lga-performance",
+              permissions: [
+                {
+                  path: "/devices/device_analytics/performance-by-lg",
+                  method: "get",
+                  resource: "deviceAnalytics",
+                },
+              ],
             },
           ],
         },
@@ -118,6 +156,18 @@ export const permissionConfig = {
       menuSlug: "",
       icon: <FileLineChart width={20} height={20} />,
       hasChildren: true,
+      permissions: [
+        {
+          path: "/security/imei-mismatch",
+          method: "get",
+          resource: "deviceSecurity",
+        },
+        {
+          path: "/security/password-mismatch/",
+          method: "get",
+          resource: "deviceSecurity",
+        },
+      ],
       subMenu: [
         {
           menuName: "common.side_nav.security",
@@ -128,10 +178,24 @@ export const permissionConfig = {
             {
               itemName: "common.side_nav.imei_mismatch",
               itemSlug: "/imei-mismatch",
+              permissions: [
+                {
+                  path: "/security/imei-mismatch",
+                  method: "get",
+                  resource: "deviceSecurity",
+                },
+              ],
             },
             {
               itemName: "common.side_nav.password_mismatch",
               itemSlug: "/password-mismatch",
+              permissions: [
+                {
+                  path: "/security/password-mismatch/",
+                  method: "get",
+                  resource: "deviceSecurity",
+                },
+              ],
             },
           ],
         },

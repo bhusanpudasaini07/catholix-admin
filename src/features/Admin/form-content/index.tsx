@@ -128,7 +128,9 @@ const AdminFormContent = ({
                     <FormControl>
                       <Switch
                         disabled={
-                          !router.asPath.includes("edit") && id ? true : false
+                          (!router.asPath.includes("edit") && id
+                            ? true
+                            : false) || router.query.id === "1"
                         }
                         checked={field.value}
                         defaultChecked={true}
@@ -436,9 +438,9 @@ const AdminFormContent = ({
                             value={field.value}
                             onValueChange={(value) => field.onChange(value)}
                             disabled={
-                              !router.asPath.includes("edit") && id
+                              (!router.asPath.includes("edit") && id
                                 ? true
-                                : false
+                                : false) || router.query.id === "1"
                             }
                           >
                             <SelectTrigger className="max-w-80">

@@ -242,7 +242,7 @@ const useDeviceComparison = () => {
       cell: ({ row }) => (
         <div className="flex gap-3 items-center">
           <Badge
-            className="w-[55px] justify-center"
+            className="w-[85px] justify-center"
             variant={
               row.original.onboarded_percent_range1 >
               row.original.onboarded_percent_range2
@@ -254,7 +254,7 @@ const useDeviceComparison = () => {
           </Badge>
           <span>-</span>
           <Badge
-            className="w-[55px] justify-center"
+            className="w-[85px] justify-center"
             variant={
               row.original.onboarded_percent_range1 <
               row.original.onboarded_percent_range2
@@ -272,23 +272,75 @@ const useDeviceComparison = () => {
       id: "active_percent",
       accessorKey: "active_percent",
       header: "% Active",
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => (
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row?.original?.active_devices_pecent_range1 >
+              row?.original?.active_devices_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.active_devices_pecent_range1 || 0}%
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row.original.active_devices_pecent_range1 <
+              row.original.active_devices_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.active_devices_percent_range2 || 0}%
+          </Badge>
+        </div>
+      ),
     },
     // GC Perform 1 to 4
     {
-      id: "gc-perform_1_to_4",
-      accessorKey: "gc-perform_1_to_4",
+      id: "active_devices_perform_1_to_4",
+      accessorKey: "active_devices_perform_1_to_4",
       header: ({ header }) => (
         <div>
           Device Performing 1-4 GCs <br /> Daily
         </div>
       ),
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => (
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row?.original?.active_with_min_1gc_percent_range1 >
+              row?.original?.active_with_min_1gc_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.active_with_min_1gc_range1 || 0}
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row.original.active_with_min_1gc_percent_range1 <
+              row.original.active_with_min_1gc_percent_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.active_with_min_1gc_range2 || 0}
+          </Badge>
+        </div>
+      ),
     },
     // GC Greateer than 4
     {
-      id: "gc-greater_than_4",
-      accessorKey: "gc-greater_than_4",
+      id: "active_with_min_4gc",
+      accessorKey: "active_with_min_4gc",
       header: ({ header }) => (
         <div>
           Device Performing <br /> Greater than 4 GCs <br /> Daily
@@ -312,14 +364,62 @@ const useDeviceComparison = () => {
       id: "gross_connections",
       accessorKey: "gross_connections",
       header: "Gross Connections",
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => (
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row?.original?.gc_count_range1 > row?.original?.gc_count_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.gc_count_range1 || 0}
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row.original.gc_count_range1 < row.original.gc_count_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.gc_count_range2 || 0}
+          </Badge>
+        </div>
+      ),
     },
     // Deployed
     {
       id: "deployed",
       accessorKey: "deployed",
       header: "Deployed",
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => (
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row?.original?.deployed_range1 > row?.original?.deployed_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.deployed_range1 || 0}
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row.original.deployed_range1 < row.original.deployed_range2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.deployed_range2 || 0}
+          </Badge>
+        </div>
+      ),
     },
   ];
 

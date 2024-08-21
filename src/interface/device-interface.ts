@@ -151,14 +151,20 @@ export interface IDevicePerformance {
   };
 }
 export interface IDevicePerformanceData {
-  onboarded_percent: number;
-  onboarded_number: string;
-  lga: string;
-  region: string;
-  state: string;
-  region_code: string;
-  state_code: string;
+  active_devices: string;
+  active_devices_percent: number;
+  active_with_min_1gc: string;
+  active_with_min_1gc_percent: number;
+  deployed: string;
+  gc_count: string;
   lg_code: string;
+  lga: string;
+  onboarded_number: string;
+  onboarded_percent: number;
+  region: string;
+  region_code: string;
+  state: string;
+  state_code: string;
 }
 export interface IDevicePerformanceChart {
   data: {
@@ -182,6 +188,18 @@ export interface IDevicePerformanceGCChart {
   };
 }
 export interface IDeviceComparisonData {
+  active_devices_pecent_range1: number;
+  active_devices_percent_range2: number;
+  active_devices_range1: string;
+  active_devices_range2: string;
+  active_with_min_1gc_percent_range1: number;
+  active_with_min_1gc_percent_range2: number;
+  active_with_min_1gc_range1: string;
+  active_with_min_1gc_range2: string;
+  deployed_range1: string;
+  deployed_range2: string;
+  gc_count_range1: string;
+  gc_count_range2: string;
   lg_code: string;
   lga: string;
   onboarded_number_range1: string;

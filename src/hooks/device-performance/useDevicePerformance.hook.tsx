@@ -213,7 +213,9 @@ const useDevicePerformance = () => {
       header: "LGA",
       enableHiding: false,
       cell: ({ row }) => (
-        <p>{row.original.lga || row.original.lg_code || "-"}</p>
+        <p className="whitespace-nowrap">
+          {row.original.lga || row.original.lg_code || "-"}
+        </p>
       ),
     },
 
@@ -237,26 +239,26 @@ const useDevicePerformance = () => {
 
     // ACTIVE
     {
-      id: "active",
-      accessorKey: "active",
+      id: "active_devices",
+      accessorKey: "active_devices",
       header: "Active",
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => <p>{row.original.active_devices || "-"}</p>,
     },
 
     // % ACTIVE
     {
-      id: "activePercent",
-      accessorKey: "activePercent",
+      id: "active_devices_percent",
+      accessorKey: "active_devices_percent",
       header: "% Active",
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => <p>{row.original.active_devices_percent || "0"}%</p>,
     },
 
     // ACTIVE WITH min 1 GC
     {
-      id: "activeWith1GC",
-      accessorKey: "activeWith1GC",
+      id: "active_with_min_1gc",
+      accessorKey: "active_with_min_1gc",
       header: () => (
         <p>
           Active with Min 1GC post <br />
@@ -264,13 +266,13 @@ const useDevicePerformance = () => {
         </p>
       ),
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => <p>{row.original.active_with_min_1gc || "-"}</p>,
     },
 
     // % ACTIVE WITH min 1 GC
     {
-      id: "activeWith1GCPercent",
-      accessorKey: "activeWith1GCPercent",
+      id: "active_with_min_1gc_percent",
+      accessorKey: "active_with_min_1gc_percent",
       header: () => (
         <p>
           % Active with Min 1GC post <br />
@@ -278,7 +280,9 @@ const useDevicePerformance = () => {
         </p>
       ),
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => (
+        <p>{row.original.active_with_min_1gc_percent || "0"}%</p>
+      ),
     },
 
     // INACTIVE SINCE ONBOARDING
@@ -297,11 +301,11 @@ const useDevicePerformance = () => {
 
     // GROSS CONNECTIONS
     {
-      id: "grossConnections",
-      accessorKey: "grossConnections",
+      id: "gc_count",
+      accessorKey: "gc_count",
       header: "Gross Connections",
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => <p>{row.original.gc_count || "-"}</p>,
     },
 
     // DEPLOYED
@@ -310,7 +314,7 @@ const useDevicePerformance = () => {
       accessorKey: "deployed",
       header: "Deployed",
       enableHiding: false,
-      cell: ({ row }) => <p>{"-"}</p>,
+      cell: ({ row }) => <p>{row.original.deployed || "-"}</p>,
     },
   ];
 

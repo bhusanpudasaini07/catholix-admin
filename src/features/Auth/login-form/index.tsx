@@ -59,7 +59,11 @@ const LoginForm = () => {
       router.push("/");
     },
     onError: (error: any) => {
-      showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
+      if (error?.statusCode === 401) {
+        form.setError("password", { message: error?.message });
+      } else {
+        showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
+      }
     },
   });
 

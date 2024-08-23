@@ -23,6 +23,8 @@ export interface IDeviceGroup {
 }
 
 export interface IDashboardDeviceDetail {
+  latitude: number;
+  longitude: number;
   android_id: string;
   app_version_name: string;
   avbl_wifi_ssids: string;

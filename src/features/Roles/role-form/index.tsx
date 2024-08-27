@@ -23,9 +23,10 @@ import ButtonLoader from "@/shared/components/loader/button-loader";
 interface IProps {
   form: UseFormReturn<IRolesForm>;
   loading: boolean;
+  isViewModule: boolean;
 }
 
-const RoleForm = ({ form, loading }: IProps) => {
+const RoleForm = ({ form, loading, isViewModule }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
 
@@ -108,6 +109,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    disabled={isViewModule}
                     className="placeholder:text-gray-270"
                     placeholder="Role Name"
                     {...field}
@@ -143,6 +145,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                             checked={field.value?.includes(
                               permission.id.toString()
                             )}
+                            disabled={isViewModule}
                             onCheckedChange={(checked) => {
                               handleCheckedChange(
                                 permission.id.toString(),
@@ -185,6 +188,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                             id={permission.id.toString()}
                             variant="primary"
                             className="border-zinc-700"
+                            disabled={isViewModule}
                             checked={field.value?.includes(
                               permission.id.toString()
                             )}
@@ -238,6 +242,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                             checked={field.value?.includes(
                               permission.id.toString()
                             )}
+                            disabled={isViewModule}
                             onCheckedChange={(checked) => {
                               handleCheckedChange(
                                 permission.id.toString(),
@@ -286,6 +291,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                               checked={field.value?.includes(
                                 permission.id.toString()
                               )}
+                              disabled={isViewModule}
                               onCheckedChange={(checked) => {
                                 handleCheckedChange(
                                   permission.id.toString(),
@@ -335,6 +341,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                             checked={field.value?.includes(
                               permission.id.toString()
                             )}
+                            disabled={isViewModule}
                             onCheckedChange={(checked) => {
                               handleCheckedChange(
                                 permission.id.toString(),
@@ -378,6 +385,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                               id={permission.id.toString()}
                               variant="primary"
                               className="border-zinc-700"
+                              disabled={isViewModule}
                               checked={field.value?.includes(
                                 permission.id.toString()
                               )}
@@ -476,6 +484,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                           checked={field.value?.includes(
                             permission.id.toString()
                           )}
+                          disabled={isViewModule}
                           onCheckedChange={(checked) => {
                             handleCheckedChange(
                               permission.id.toString(),
@@ -521,6 +530,7 @@ const RoleForm = ({ form, loading }: IProps) => {
                           checked={field.value?.includes(
                             permission.id.toString()
                           )}
+                          disabled={isViewModule}
                           onCheckedChange={(checked) => {
                             handleCheckedChange(
                               permission.id.toString(),
@@ -588,23 +598,25 @@ const RoleForm = ({ form, loading }: IProps) => {
           </CardContent>
         </Card> */}
       </div>
-      <div className="flex gap-2 justify-start items-center mt-6">
-        <Button
-          variant={"primary"}
-          disabled={loading || router.query.id === "1"}
-          className="gap-2"
-        >
-          {loading && <ButtonLoader />}
-          {id ? "Update" : "Create"}
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => router.push("/roles")}
-        >
-          Cancel
-        </Button>
-      </div>
+      {!isViewModule && (
+        <div className="flex gap-2 justify-start items-center mt-6">
+          <Button
+            variant={"primary"}
+            disabled={loading || router.query.id === "1"}
+            className="gap-2"
+          >
+            {loading && <ButtonLoader />}
+            {id ? "Update" : "Create"}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => router.push("/roles")}
+          >
+            Cancel
+          </Button>
+        </div>
+      )}
     </>
   );
 };

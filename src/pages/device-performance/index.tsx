@@ -125,7 +125,11 @@ const DevicePerformance: NextPageWithLayout = () => {
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2 mt-6"
             onClick={exportHandler}
-            disabled={exportDevicePerformanceMutation.isLoading}
+            disabled={
+              exportDevicePerformanceMutation.isLoading ||
+              devicePerformanceTable?.data?.results.length === 0 ||
+              devicePerformanceTableLoading
+            }
           >
             <ExternalLink size={20} />
             Export

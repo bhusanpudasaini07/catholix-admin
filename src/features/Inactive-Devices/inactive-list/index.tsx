@@ -41,8 +41,8 @@ const InactiveDeviceList = ({
       <DataTable
         showManageColumn
         columns={inactiveDeviceColumns}
-        data={inactiveDevices?.data?.results ?? []}
         loading={inactiveDevicesLoading}
+        data={inactiveDevices?.data?.results || []}
         loadingDataNum={10}
         border
         height="max-h-[calc(100vh-330px)] 2xl:max-h-[calc(100vh-284px)]"
@@ -56,7 +56,11 @@ const InactiveDeviceList = ({
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2"
             onClick={exportHandler}
-            disabled={exportLoading}
+            disabled={
+              exportLoading ||
+              inactiveDevices?.data?.results.length === 0 ||
+              inactiveDevicesLoading
+            }
           >
             <ExternalLink size={20} />
             Export
@@ -78,8 +82,16 @@ const InactiveDeviceList = ({
 
       <DataTablePagination
         perPage={perPage}
-        currentPage={inactiveDevices?.data?.currentPage ?? 1}
-        totalPages={inactiveDevices?.data?.totalPages ?? 1}
+        currentPage={
+          (inactiveDevices?.data?.currentPage === 0
+            ? 1
+            : inactiveDevices?.data?.currentPage) || 1
+        }
+        totalPages={
+          (inactiveDevices?.data?.totalPages === 0
+            ? 1
+            : inactiveDevices?.data?.totalPages) || 1
+        }
         setPerPage={perPageChange}
         pageChange={pageChange}
       />

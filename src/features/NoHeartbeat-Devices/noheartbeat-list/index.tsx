@@ -56,7 +56,11 @@ const NoHeartbeatDeviceList = ({
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2"
             onClick={exportHandler}
-            disabled={exportLoading}
+            disabled={
+              exportLoading ||
+              noHeartbeatDevices?.data?.results.length === 0 ||
+              noHeartbeatDevicesLoading
+            }
           >
             <ExternalLink size={20} />
             Export
@@ -78,8 +82,16 @@ const NoHeartbeatDeviceList = ({
 
       <DataTablePagination
         perPage={perPage}
-        currentPage={noHeartbeatDevices?.data?.currentPage ?? 1}
-        totalPages={noHeartbeatDevices?.data?.totalPages ?? 1}
+        currentPage={
+          (noHeartbeatDevices?.data?.currentPage === 0
+            ? 1
+            : noHeartbeatDevices?.data?.currentPage) ?? 1
+        }
+        totalPages={
+          (noHeartbeatDevices?.data?.totalPages === 0
+            ? 1
+            : noHeartbeatDevices?.data?.totalPages) ?? 1
+        }
         setPerPage={perPageChange}
         pageChange={pageChange}
       />

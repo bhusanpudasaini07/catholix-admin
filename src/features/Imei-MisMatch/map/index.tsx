@@ -174,20 +174,21 @@ const ImeiMisMatchMap = ({
           >
             {imeiMisMatchMap &&
               Object?.entries(imeiMisMatchMap)?.map(([key, value]) => {
-                return (value as IDashboardDeviceDetail[])
-                  .filter(
-                    (device) =>
-                      device?.latitude &&
-                      device?.longitude &&
-                      isValidLatLng(device?.latitude, device?.longitude)
-                  )
-                  .map((device, index) => (
-                    <Marker
-                      key={device?.id + index}
-                      position={[device?.latitude, device?.longitude]}
-                      icon={activeMarker}
-                    >
-                      {/* <Popup
+                return (
+                  (value as IDashboardDeviceDetail[])
+                    // .filter(
+                    //   (device) =>
+                    //     device?.latitude &&
+                    //     device?.longitude &&
+                    //     isValidLatLng(device?.latitude, device?.longitude)
+                    // )
+                    .map((device, index) => (
+                      <Marker
+                        key={device?.id + index}
+                        position={[device?.latitude, device?.longitude]}
+                        icon={activeMarker}
+                      >
+                        {/* <Popup
                         closeOnEscapeKey={true}
                         closeButton={false}
                         className="w-[380px] min-w-0"
@@ -262,8 +263,9 @@ const ImeiMisMatchMap = ({
                           </Link>
                         </div>
                       </Popup> */}
-                    </Marker>
-                  ));
+                      </Marker>
+                    ))
+                );
               })}
             {/* <Marker position={[9.082, 8.6753]} icon={inactiveMarker}>
               <Popup

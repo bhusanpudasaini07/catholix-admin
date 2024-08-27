@@ -120,7 +120,11 @@ const LGAPerformance: NextPageWithLayout = () => {
                 size={"md"}
                 className="py-2.5 h-auto text-sm gap-2 "
                 onClick={exportHandler}
-                disabled={exportPerformanceLgaMutation.isLoading}
+                disabled={
+                  exportPerformanceLgaMutation.isLoading ||
+                  lgaPerformanceData?.data?.results.length === 0 ||
+                  lgaPerformanceLoading
+                }
               >
                 <ExternalLink size={20} />
                 Export

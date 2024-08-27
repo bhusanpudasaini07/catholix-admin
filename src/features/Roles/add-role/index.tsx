@@ -62,7 +62,11 @@ const CreateRoleContent = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <RoleForm form={form} loading={addRoleMutation.isLoading} />
+        <RoleForm
+          form={form}
+          loading={addRoleMutation.isLoading}
+          isViewModule={false}
+        />
       </form>
     </Form>
   );

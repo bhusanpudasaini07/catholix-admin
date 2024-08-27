@@ -1,4 +1,5 @@
 import {
+  exportImeiMismatchData,
   getImeiMisMatchData,
   getImeiMisMatchMapData,
 } from "@/services/security/security-service";
@@ -7,7 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import moment from "moment";
 import { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useDebounce } from "../debounce.hooks";
 import {
   ImeiMismatch,
@@ -18,6 +19,8 @@ import { IRegionProps } from "@/interface/common-interface";
 import { getRegions } from "@/services/admin/admin-service";
 import config from "../../../config";
 import { parseStreamedData } from "@/shared/utils/streamed-data-parse-utils";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 
 const useImeiMismatch = () => {
   const { profileData } = useCommonStore();
@@ -130,6 +133,29 @@ const useImeiMismatch = () => {
     setPage(1);
   };
 
+  const exportImeiMismatchMutation = useMutation({
+    mutationFn: () =>
+      exportImeiMismatchData(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        regionId,
+        stateId,
+        lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
+        searchText
+      ),
+    onSuccess: (data) => {
+      const fileName = `imei_mismatch_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportImeiMismatchMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
+
   // Columns
   const columns: ColumnDef<ImeiMismatchDetails>[] = [
     {
@@ -172,10 +198,10 @@ const useImeiMismatch = () => {
     },
     // Device Id
     {
-      id: "deviceId",
-      accessorKey: "deviceId",
+      id: "sim_reg_device_id",
+      accessorKey: "sim_reg_device_id",
       header: "Device Id",
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => <div>{row.original.sim_reg_device_id || "-"}</div>,
     },
     // Mis-match IMEI at
     {
@@ -227,12 +253,13 @@ const useImeiMismatch = () => {
     pageChangeHandler,
     resetHandler,
     searchTriggerHandler,
-
+    exportHandler,
     // API
     imeiMisMatchData,
     imeiMisMatchLoading,
     imeiMisMatchMap,
     imeiMisMatchMapLoading,
+    exportImeiMismatchMutation,
 
     // Columns
     columns,

@@ -50,6 +50,8 @@ const ImeiMismatch: NextPageWithLayout = () => {
     setNorthEast,
     imeiMisMatchMap,
     imeiMisMatchMapLoading,
+    exportImeiMismatchMutation,
+    exportHandler,
   } = useImeiMismatch();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -114,6 +116,12 @@ const ImeiMismatch: NextPageWithLayout = () => {
               <Button
                 variant={"white"}
                 size={"md"}
+                onClick={exportHandler}
+                disabled={
+                  exportImeiMismatchMutation.isLoading ||
+                  imeiMisMatchData?.data?.results.length === 0 ||
+                  imeiMisMatchLoading
+                }
                 className="py-2.5 h-auto text-sm gap-2 "
               >
                 <ExternalLink size={20} />

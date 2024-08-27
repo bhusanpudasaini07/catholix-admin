@@ -56,4 +56,24 @@ const getImeiMisMatchMapData = async (
   return response.body;
 };
 
-export { getImeiMisMatchData, getImeiMisMatchMapData };
+const exportImeiMismatchData = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  searchTerm?: string
+) => {
+  return httpRequest(`/security/imei-mismatch/export`, httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      ...(searchTerm && { searchTerm }),
+    },
+  });
+};
+
+export { getImeiMisMatchData, getImeiMisMatchMapData, exportImeiMismatchData };

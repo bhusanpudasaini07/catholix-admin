@@ -128,10 +128,17 @@ const useRoles = () => {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
-          {/* <Button size={"base"} className="gap-2">
-            <EyeIcon size={16} />
-            View
-          </Button> */}
+          {checkPermissions(profileData, "/roles/:id", "get") && (
+            <Button
+              size={"base"}
+              className="gap-2"
+              variant={"secondary"}
+              onClick={() => router.push(`/roles/${row.original.id}`)}
+            >
+              <EyeIcon size={16} />
+              View
+            </Button>
+          )}
           {checkPermissions(profileData, "/roles/:id", "get") &&
             checkPermissions(profileData, "/roles/:id", "put") && (
               <Button

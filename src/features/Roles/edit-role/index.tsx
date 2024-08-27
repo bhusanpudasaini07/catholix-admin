@@ -79,7 +79,11 @@ const EditRoleContent = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <RoleForm form={form} loading={editRoleMutation.isLoading} />
+        <RoleForm
+          form={form}
+          loading={editRoleMutation.isLoading}
+          isViewModule={!router.pathname.includes("edit")}
+        />
       </form>
     </Form>
   );

@@ -161,7 +161,11 @@ const InactiveDevices: NextPageWithLayout = () => {
             searchText={searchText}
             applyColumns={applyColumns}
             exportHandler={exportHandler}
-            exportLoading={exportInactiveDeviceMutation.isLoading}
+            exportLoading={
+              exportInactiveDeviceMutation.isLoading ||
+              inactiveDevices?.data?.results.length === 0 ||
+              inactiveDevicesLoading
+            }
           />
         </div>
       </div>

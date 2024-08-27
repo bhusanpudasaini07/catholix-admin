@@ -159,7 +159,11 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
             searchText={searchText}
             applyColumns={applyColumns}
             exportHandler={exportHandler}
-            exportLoading={exportNoHeartbeatDeviceMutation.isLoading}
+            exportLoading={
+              exportNoHeartbeatDeviceMutation.isLoading ||
+              noHeartbeatDevices?.data?.results.length === 0 ||
+              noHeartbeatDevicesLoading
+            }
           />
         </div>
       </div>

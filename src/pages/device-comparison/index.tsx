@@ -41,6 +41,7 @@ const DeviceComparison: NextPageWithLayout = () => {
     exportHandler,
     gcChartLoading,
     gcChartOption,
+    exportDeviceComparisonMutation,
   } = useDeviceComparison();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -119,6 +120,11 @@ const DeviceComparison: NextPageWithLayout = () => {
             size={"md"}
             className="py-2.5 h-auto text-sm gap-2 mt-6"
             onClick={exportHandler}
+            disabled={
+              exportDeviceComparisonMutation.isLoading ||
+              deviceComparisonData?.data?.results.length === 0 ||
+              deviceComparisonLoading
+            }
           >
             <ExternalLink size={20} />
             Export

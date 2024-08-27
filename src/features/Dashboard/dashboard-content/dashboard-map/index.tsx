@@ -238,7 +238,7 @@ const DashboardMapContent = ({
                         key={device?.id + index}
                         position={[device?.location_lat, device?.location_lng]}
                         icon={
-                          key === "active_device"
+                          key === "active_user"
                             ? activeMarker
                             : key === "inactive_device"
                             ? inactiveMarker

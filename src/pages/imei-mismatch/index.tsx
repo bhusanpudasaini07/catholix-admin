@@ -17,7 +17,7 @@ import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import { NextPageWithLayout } from "../_app";
 
 const ImeiMisMatchMapContent = dynamic(
-  import("../../features/LGA-Performance/lga-performance-map"),
+  import("../../features/Imei-MisMatch/map"),
   {
     ssr: false,
     loading: () => <div>Loading...</div>,
@@ -39,6 +39,17 @@ const ImeiMismatch: NextPageWithLayout = () => {
     searchText,
     setSearchText,
     columns,
+    imeiMisMatchData,
+    imeiMisMatchLoading,
+    perPage,
+    perPageHandler,
+    pageChangeHandler,
+    southWest,
+    setSouthWest,
+    northEast,
+    setNorthEast,
+    imeiMisMatchMap,
+    imeiMisMatchMapLoading,
   } = useImeiMismatch();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -51,6 +62,7 @@ const ImeiMismatch: NextPageWithLayout = () => {
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
+              disabled
             />
           </div>
           <RegionalFilter
@@ -60,6 +72,7 @@ const ImeiMismatch: NextPageWithLayout = () => {
             setStateId={setStateId}
             setLga={setLga}
             lga={lga}
+            searchTriggerHandler={searchTriggerHandler}
           />
           {/* reset */}
           <Button
@@ -87,7 +100,14 @@ const ImeiMismatch: NextPageWithLayout = () => {
       <div className="grow">
         <div className="grid grid-cols-2 gap-4 h-full">
           {/* Map */}
-          <div>{/* <ImeiMisMatchMapContent /> */}</div>
+          <div>
+            <ImeiMisMatchMapContent
+              loading={imeiMisMatchMapLoading}
+              setSouthWest={setSouthWest}
+              setNorthEast={setNorthEast}
+              imeiMisMatchMap={imeiMisMatchMap}
+            />
+          </div>
           {/* Table Filters */}
           <div>
             <div className="flex gap-2 items-center">
@@ -106,13 +126,20 @@ const ImeiMismatch: NextPageWithLayout = () => {
                 setSearchText={setSearchText}
               />
             </div>
-            <DataTable columns={columns} data={[]} border />
+            <DataTable
+              columns={columns}
+              data={imeiMisMatchData?.data?.results ?? []}
+              loading={imeiMisMatchLoading}
+              loadingDataNum={10}
+              border
+              height="max-h-[calc(100vh-280px)]"
+            />
             <DataTablePagination
-              currentPage={1}
-              pageChange={() => {}}
-              totalPages={10}
-              perPage={10}
-              setPerPage={() => {}}
+              currentPage={imeiMisMatchData?.data?.currentPage ?? 1}
+              pageChange={pageChangeHandler}
+              totalPages={imeiMisMatchData?.data?.totalPages ?? 1}
+              perPage={perPage}
+              setPerPage={perPageHandler}
             />
           </div>
         </div>

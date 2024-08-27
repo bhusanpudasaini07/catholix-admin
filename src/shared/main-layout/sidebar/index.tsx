@@ -365,7 +365,7 @@ const Sidebar = ({
         className={`fixed bottom-0 z-10 w-full bg-white border-r border-black border-opacity-10`}
       >
         <p className="py-2.5 text-center text-xs font-normal text-muted">
-          powered by Unitelos
+          powered by Unotelos
         </p>
         {/* <LanguageToggler /> */}
         <div

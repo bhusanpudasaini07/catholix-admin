@@ -22,22 +22,22 @@ const DashboardHeaderCards = () => {
     // GC
     {
       id: "connectedDevices",
-      title: "Connected Devices",
+      title: "Gross Connections",
       value: deviceStats?.data?.connected_device_gc_count ?? 0,
       icon: dashboard?.connectedDevices,
       footerText: "GC 6:00am",
       footerIconColor: "text-blue-500",
-      tooltipText: "Connected devices since 6:00am",
+      tooltipText: "Gross connected devices since 6:00am",
     },
     // GA
     {
       id: "registeredDevices",
-      title: "Registered Devices",
+      title: "Gross Activated Count",
       value: deviceStats?.data?.registered_device_ga_count ?? 0,
       icon: dashboard?.registeredDevices,
       footerText: "GA 6:00am",
       footerIconColor: "text-green-500",
-      tooltipText: "Registered devices since 6:00am",
+      tooltipText: "No. of registrations done since 6:00am",
     },
     // Total Devices
     {
@@ -47,7 +47,7 @@ const DashboardHeaderCards = () => {
       icon: dashboard?.totalDevices,
       footerText: "All Deployed 6:00am",
       footerIconColor: "text-purple-500",
-      tooltipText: "Number of all devices deployed since 6am",
+      tooltipText: "Number of all devices deployed since 6:00am",
     },
     // Heartbeat Devices
     {
@@ -57,7 +57,7 @@ const DashboardHeaderCards = () => {
       icon: dashboard?.heartbeatDevices,
       footerText: "6:00am Prepared",
       footerIconColor: "text-red-500",
-      tooltipText: "Devices ready for transaction since 6am",
+      tooltipText: "Devices ready for transaction since 6:00am",
     },
     // Inactive Devices
     {
@@ -68,7 +68,7 @@ const DashboardHeaderCards = () => {
       pageUrl: "/inactive-devices",
       footerText: "6:00am Ideal",
       footerIconColor: "text-orange-500",
-      tooltipText: "Devices yet to compute any registration since 6am",
+      tooltipText: "Devices yet to compute any registration since 6:00am",
     },
     // No Heartbeat Devices
     {
@@ -84,12 +84,12 @@ const DashboardHeaderCards = () => {
     // Active Users
     {
       id: "activeUsers",
-      title: "Active Users",
+      title: "Active Agent Users",
       value: deviceStats?.data?.active_users ?? 0,
       icon: dashboard?.activeUsers,
       footerText: "6:00am Registered",
       footerIconColor: "text-blue-500",
-      tooltipText: "Number of registration done since 6am",
+      tooltipText: "Number of devices that have registered since 6:00am",
     },
   ];
 

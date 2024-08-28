@@ -74,7 +74,12 @@ const RegionalFilter = ({
   };
 
   useEffect(() => {
-    if (profileData && profileData?.regionId !== null && !regionsLoading) {
+    if (
+      profileData &&
+      profileData?.regionId !== null &&
+      regionsList &&
+      regionsList?.data?.regions?.length > 0
+    ) {
       const region = regionsList?.data?.regions?.find(
         (region) => region.id === profileData?.regionId
       );
@@ -98,7 +103,7 @@ const RegionalFilter = ({
       }
       searchTriggerHandler && searchTriggerHandler();
     }
-  }, [profileData, regionsLoading]);
+  }, [profileData, regionsList]);
 
   return (
     <div className="flex gap-2 items-center">

@@ -95,7 +95,7 @@ const useDevicePerformance = () => {
     isLoading: devicePerformanceTableLoading,
   } = useQuery<IDevicePerformance>({
     queryFn: async () => {
-      if (regionId && stateId) {
+      if (regionId !== "" && stateId !== "") {
         const response = await getDevicePerformance(
           page,
           perPage,

@@ -40,9 +40,7 @@ const getImeiMisMatchMapData = async (
   endDate: string
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/security/imei-mismatch/map-data?startDate=${startDate}&endDate=${endDate}&region=${
-      regionId || "all"
-    }&state=${stateId || "all"}&lga=${
+    `${API_BASE_URL}/security/imei-mismatch/map-data?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
     }&southwest=${southWest}&northeast=${northEast}`,
     {

@@ -61,9 +61,7 @@ const fetchInactiveDevicesMap = async (
   endDate: string
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/devices/inactive-devices-map?startDate=${startDate}&endDate=${endDate}&region=${
-      regionId || "all"
-    }&state=${stateId || "all"}&lga=${
+    `${API_BASE_URL}/devices/inactive-devices-map?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
     }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}`,
     {
@@ -143,9 +141,7 @@ const fetchNoHeartbeatDevicesMap = async (
   endDate: string
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/devices/noheartbeat-devices-map?startDate=${startDate}&endDate=${endDate}&region=${
-      regionId || "all"
-    }&state=${stateId || "all"}&lga=${
+    `${API_BASE_URL}/devices/noheartbeat-devices-map?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
     }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}`,
     {
@@ -486,9 +482,7 @@ const fetchPerformanceByLGA = async (
   endDate: string
 ) => {
   const response = await fetch(
-    `${API_BASE_URL}/devices/device-analytics/devices-performance-lga-map?startDate=${startDate}&endDate=${endDate}&region=${
-      regionId || "all"
-    }&state=${stateId || "all"}&lga=${
+    `${API_BASE_URL}/devices/device-analytics/devices-performance-lga-map?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
     }&southwest=${southWest}&northeast=${northEast}`,
     {

@@ -69,7 +69,7 @@ const useInactiveDevices = () => {
         columns,
       ],
       queryFn: async () => {
-        if (profileData && regionId && stateId && columns) {
+        if ( regionId && stateId && columns) {
           const response = await getInactiveDevices(
             moment(dateRange?.from).format("YYYY-MM-DD"),
             moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -94,7 +94,7 @@ const useInactiveDevices = () => {
     useQuery<any>({
       queryKey: ["inactive-devices-map", southWest, northEast, searchTrigger],
       queryFn: async () => {
-        if (profileData && regionId && stateId && southWest && northEast) {
+        if ( regionId && stateId && southWest && northEast) {
           //   const response = await getInactiveDevicesMap(
           //     moment(dateRange?.from).format("YYYY-MM-DD"),
           //     moment(dateRange?.to).format("YYYY-MM-DD"),

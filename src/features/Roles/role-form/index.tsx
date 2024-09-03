@@ -92,8 +92,6 @@ const RoleForm = ({ form, loading, isViewModule }: IProps) => {
     form.setValue("permissions", newValues);
   };
 
-  console.log(groupedPermissionsByResource);
-
   return (
     <>
       <div className="grid grid-cols-1 gap-4">

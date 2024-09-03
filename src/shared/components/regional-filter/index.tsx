@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Label } from "@/shared/components/ui/label";
 import {
   Select,
@@ -20,6 +20,7 @@ import { Button } from "../ui/button";
 import { cn } from "@/shared/utils/utils";
 import { ChevronDown } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
+import { debounce } from "lodash";
 
 interface ILGA {
   id: number;
@@ -101,9 +102,22 @@ const RegionalFilter = ({
         setLocalGovernments([]);
         setLga([]);
       }
-      searchTriggerHandler && searchTriggerHandler();
+      // searchTriggerHandler && searchTriggerHandler();
     }
   }, [profileData, regionsList]);
+
+  // Debounced function to set search trigger
+  const debouncedSearchTriggerHandler = useMemo(() => {
+    if (searchTriggerHandler) {
+      return debounce(searchTriggerHandler, 100);
+    }
+  }, [searchTriggerHandler]);
+
+  useEffect(() => {
+    if (debouncedSearchTriggerHandler) {
+      debouncedSearchTriggerHandler();
+    }
+  }, [regionId, stateId]);
 
   return (
     <div className="flex gap-2 items-center">

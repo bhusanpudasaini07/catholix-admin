@@ -20,7 +20,7 @@ import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EChartsOption } from "echarts-for-react";
 import moment from "moment";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useMutation, useQuery } from "react-query";
 

@@ -39,6 +39,7 @@ const useDashboard = () => {
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
   // FUNCTION
   const searchTriggerHandler = () => {
     setSearchTrigger(!searchTrigger);
@@ -84,14 +85,15 @@ const useDashboard = () => {
     stateId: string,
     lga: string[],
     southWest: string,
-    northEast: string
+    northEast: string,
+    zoom_level: number
   ) => {
     const response = await fetch(
       `${API_BASE_URL}/dashboard/device-map-data?region=${
         regionId || "all"
       }&state=${stateId || "all"}&lga=${
         lga.length > 0 ? lga.join(",") : "all"
-      }&southwest=${southWest}&northeast=${northEast}`,
+      }&southwest=${southWest}&northeast=${northEast}&zoom_level=${zoom_level}`,
       {
         method: "GET",
         credentials: "include",
@@ -184,7 +186,8 @@ const useDashboard = () => {
           stateId,
           lga,
           southWest,
-          northEast
+          northEast,
+          zoomLevel
         );
         const reader = body?.getReader();
         return await parseStreamedData(reader!);
@@ -192,6 +195,7 @@ const useDashboard = () => {
     },
     enabled: !!mapType && mapType === "device",
   });
+  console.log(deviceMapData);
 
   // Dealer map
   const { data: dealerMapData, isLoading: dealerMapLoading } =
@@ -276,6 +280,8 @@ const useDashboard = () => {
     setSouthWest,
     northEast,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
   };
 };
 

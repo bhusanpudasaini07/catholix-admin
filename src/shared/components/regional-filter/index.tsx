@@ -77,7 +77,7 @@ const RegionalFilter = ({
     if (
       profileData &&
       profileData?.regionId !== null &&
-      regionsList &&
+      regionsList !== undefined &&
       regionsList?.data?.regions?.length > 0
     ) {
       const region = regionsList?.data?.regions?.find(

@@ -39,6 +39,8 @@ const nigeriaBounds: LatLngBoundsExpression = [
 interface IProps {
   mapType: string;
   loading: boolean;
+  zoomLevel: number;
+  setZoomLevel: (zoomLevel: number) => void;
   deviceData: IDeviceGroup | undefined;
   dealerData: IDealerDetail[];
   agentData: IAgentDetail[];
@@ -51,9 +53,11 @@ interface IProps {
 function MapEventHandler({
   setSouthWest,
   setNorthEast,
+  setZoomLevel,
 }: {
   setSouthWest: (southWest: string) => void;
   setNorthEast: (northEast: string) => void;
+  setZoomLevel: (zoom: number) => void;
 }) {
   useMapEvents({
     load: () => {},
@@ -63,6 +67,7 @@ function MapEventHandler({
       const northEast = `${bounds.getEast()},${bounds.getNorth()}`;
       setSouthWest(southWest);
       setNorthEast(northEast);
+      setZoomLevel(e.target.getZoom());
     },
   });
   return null;
@@ -70,9 +75,11 @@ function MapEventHandler({
 function MapComponent({
   setSouthWest,
   setNorthEast,
+  setZoomLevel,
 }: {
   setSouthWest: (southWest: string) => void;
   setNorthEast: (northEast: string) => void;
+  setZoomLevel: (zoomLevel: number) => void;
 }) {
   const map = useMap();
 
@@ -82,6 +89,7 @@ function MapComponent({
     const northEast = `${bounds.getEast()},${bounds.getNorth()}`;
     setSouthWest(southWest);
     setNorthEast(northEast);
+    setZoomLevel(map.getZoom());
   }, [map]);
   return null;
 }
@@ -89,6 +97,38 @@ function MapComponent({
 const mapConstants = {
   center: [10.0, 8.0] as [number, number], // New coordinates for the center
   zoom: 8, // Example zoom level
+};
+
+const sumClusterValues = (cluster: any) => {
+  const markers = cluster.getAllChildMarkers();
+  const totalValue = markers.reduce((sum: any, marker: any) => {
+    return sum + Number(marker.options.icon.options.text);
+  }, 0);
+  return totalValue;
+};
+
+const ZoomableMarker = ({
+  position,
+  icon,
+  zoomIncrement = 1,
+}: {
+  position: [number, number];
+  icon: L.DivIcon;
+  zoomIncrement?: number;
+}) => {
+  const map = useMap();
+
+  const handleClick = () => {
+    map.setView(position, map.getZoom() + zoomIncrement);
+  };
+
+  return (
+    <Marker
+      position={position}
+      icon={icon}
+      eventHandlers={{ click: handleClick }}
+    />
+  );
 };
 
 const DashboardMapContent = ({
@@ -99,6 +139,8 @@ const DashboardMapContent = ({
   agentData,
   setSouthWest,
   setNorthEast,
+  zoomLevel,
+  setZoomLevel,
 }: IProps) => {
   const { profileData } = useCommonStore();
   const [mapRef, setMapRef] = useState<any>(null);
@@ -151,16 +193,25 @@ const DashboardMapContent = ({
       </Marker>
     );
   };
+  // const createCustomClusterIcon = (cluster: any) => {
+  //   return divIcon({
+  //     html: `<div class="cluster-icon-wrapper"><div class="cluster-icon">${cluster.getChildCount()}</div></div>`,
+  //     className: "custom-cluster-icon",
+  //     iconSize: [20, 20],
+  //   });
+  // };
   const createCustomClusterIcon = (cluster: any) => {
+    const totalValue = sumClusterValues(cluster);
     return divIcon({
-      html: `<div class="cluster-icon-wrapper"><div class="cluster-icon">${cluster.getChildCount()}</div></div>`,
+      html: `<div class="cluster-icon-wrapper"><div class="cluster-icon">${totalValue}</div></div>`,
       className: "custom-cluster-icon",
       iconSize: [20, 20],
     });
   };
   const deviceCustomClusterIcon = (cluster: any) => {
+    const totalValue = sumClusterValues(cluster);
     return divIcon({
-      html: `<div class="device-cluster-icon-wrapper"><div class="cluster-icon">${cluster.getChildCount()}</div></div>`,
+      html: `<div class="device-cluster-icon-wrapper"><div class="cluster-icon">${totalValue}</div></div>`,
       className: "device-custom-cluster-icon",
       iconSize: [20, 20],
     });
@@ -197,7 +248,7 @@ const DashboardMapContent = ({
         <MapContainer
           center={centerPoint}
           ref={setMapRef}
-          zoom={mapConstants.zoom}
+          zoom={zoomLevel}
           scrollWheelZoom={true}
           className="w-full h-full rounded-lg my-custom-map"
           // bounds={nigeriaBounds}
@@ -207,6 +258,7 @@ const DashboardMapContent = ({
           <MapComponent
             setSouthWest={setSouthWest}
             setNorthEast={setNorthEast}
+            setZoomLevel={setZoomLevel}
           />
           {/* <GeoJSON
           // style={geoJsonStyles}
@@ -215,11 +267,41 @@ const DashboardMapContent = ({
         /> */}
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-          {mapType === "device" && (
+          {mapType === "device" && zoomLevel <= 12 && (
             <MarkerClusterGroup
               chunkedLoading={true}
               iconCreateFunction={deviceCustomClusterIcon}
             >
+              {deviceData &&
+                Object.entries(deviceData).map(([key, value]) => {
+                  return (value as any[])
+                    .filter(
+                      (device) =>
+                        device?.avg_lat &&
+                        device?.avg_lng &&
+                        isValidLatLng(device?.avg_lat, device?.avg_lng)
+                    )
+                    .map((device, index) => (
+                      <ZoomableMarker
+                        key={device?.device_id}
+                        position={[
+                          Number(device?.avg_lat),
+                          Number(device?.avg_lng),
+                        ]}
+                        icon={L.divIcon({
+                          className: "device-custom-cluster-icon",
+                          html: `<div class="device-cluster-icon-wrapper"><div class="cluster-icon">${device?.total}</div></div>`,
+                          iconSize: [30, 42],
+                          iconAnchor: [15, 42],
+                          text: device?.total, // Add the value to the marker options
+                        } as L.DivIconOptions)}
+                      />
+                    ));
+                })}
+            </MarkerClusterGroup>
+          )}
+          {mapType === "device" && zoomLevel > 12 && (
+            <>
               {/* Devices */}
               {deviceData &&
                 Object.entries(deviceData).map(([key, value]) => {
@@ -327,7 +409,7 @@ const DashboardMapContent = ({
                       </Marker>
                     ));
                 })}
-            </MarkerClusterGroup>
+            </>
           )}
 
           {mapType === "agent" && (
@@ -603,6 +685,7 @@ const DashboardMapContent = ({
           <MapEventHandler
             setSouthWest={setSouthWest}
             setNorthEast={setNorthEast}
+            setZoomLevel={setZoomLevel}
           />
           <ZoomControls />
         </MapContainer>

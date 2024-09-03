@@ -62,6 +62,8 @@ const DashboardContent = () => {
     northEast,
     changeMapType,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
   } = useDashboard();
 
   return (
@@ -76,6 +78,8 @@ const DashboardContent = () => {
         setSouthWest={setSouthWest}
         northEast={northEast}
         setNorthEast={setNorthEast}
+        zoomLevel={zoomLevel}
+        setZoomLevel={setZoomLevel}
       />
 
       {/* Options */}

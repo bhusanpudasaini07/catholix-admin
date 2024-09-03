@@ -73,7 +73,7 @@ const useImeiMismatch = () => {
     useQuery<any>({
       queryKey: ["imei-mismatch-map", southWest, northEast, searchTrigger],
       queryFn: async () => {
-        if (profileData && regionId && stateId && southWest && northEast) {
+        if (regionId && stateId && southWest && northEast) {
           const body = await getImeiMisMatchMapData(
             API_BASE_URL,
             regionId,

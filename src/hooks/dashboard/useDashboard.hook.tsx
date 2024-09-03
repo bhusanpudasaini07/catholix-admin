@@ -89,9 +89,7 @@ const useDashboard = () => {
     zoom_level: number
   ) => {
     const response = await fetch(
-      `${API_BASE_URL}/dashboard/device-map-data?region=${
-        regionId || "all"
-      }&state=${stateId || "all"}&lga=${
+      `${API_BASE_URL}/dashboard/device-map-data?region=${regionId}&state=${stateId}&lga=${
         lga.length > 0 ? lga.join(",") : "all"
       }&southwest=${southWest}&northeast=${northEast}&zoom_level=${zoom_level}`,
       {
@@ -174,7 +172,6 @@ const useDashboard = () => {
     queryFn: async () => {
       if (
         mapType === "device" &&
-        profileData &&
         regionId &&
         stateId &&
         southWest &&
@@ -193,9 +190,7 @@ const useDashboard = () => {
         return await parseStreamedData(reader!);
       }
     },
-    enabled: !!mapType && mapType === "device",
   });
-  console.log(deviceMapData);
 
   // Dealer map
   const { data: dealerMapData, isLoading: dealerMapLoading } =

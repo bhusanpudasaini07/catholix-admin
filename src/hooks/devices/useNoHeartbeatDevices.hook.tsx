@@ -69,7 +69,7 @@ const useNoHeartbeatDevices = () => {
         columns,
       ],
       queryFn: async () => {
-        if (profileData && regionId && stateId && columns) {
+        if (regionId && stateId && columns) {
           const response = await getNoHeartbeatDevices(
             moment(dateRange?.from).format("YYYY-MM-DD"),
             moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -96,7 +96,7 @@ const useNoHeartbeatDevices = () => {
   } = useQuery<any>({
     queryKey: ["noheartbeat-devices-map", southWest, northEast, searchTrigger],
     queryFn: async () => {
-      if (profileData && regionId && stateId && southWest && northEast) {
+      if (regionId && stateId && southWest && northEast) {
         const body = await fetchNoHeartbeatDevicesMap(
           API_BASE_URL,
           regionId,

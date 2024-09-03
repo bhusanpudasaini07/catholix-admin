@@ -20,8 +20,9 @@ import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
 import { useCommonStore } from "@/store/common-store";
 import { ColumnDef } from "@tanstack/react-table";
 import { EChartsOption } from "echarts-for-react";
+import { debounce } from "lodash";
 import moment from "moment";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 
 const useDeviceComparison = () => {

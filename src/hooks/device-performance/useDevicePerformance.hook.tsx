@@ -23,6 +23,7 @@ import moment from "moment";
 import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useMutation, useQuery } from "react-query";
+import { debounce } from "lodash";
 
 const useDevicePerformance = () => {
   const { profileData } = useCommonStore();
@@ -95,7 +96,7 @@ const useDevicePerformance = () => {
     isLoading: devicePerformanceTableLoading,
   } = useQuery<IDevicePerformance>({
     queryFn: async () => {
-      if (regionId !== "" && stateId !== "") {
+      if (regionId && stateId) {
         const response = await getDevicePerformance(
           page,
           perPage,

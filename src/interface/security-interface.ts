@@ -22,3 +22,28 @@ export interface ImeiMismatchDetails {
   state_code: string | null;
   updated_dt: string;
 }
+
+export interface PasswordMismatch {
+  data: {
+    results: PasswordMismatchDetails[];
+    totalCount: number;
+    totalItems: string;
+    totalPages: number;
+    currentPage: number;
+    next: number;
+    pageSize: number;
+  };
+}
+
+export interface PasswordMismatchDetails {
+  latitude: number;
+  longitude: number;
+  imei_no: string;
+  agent_name: string;
+  dealer_name: string;
+  last_connected_at: string;
+  wrong_attempt_at: string;
+  device_id: string;
+  name: string;
+  total_count: string;
+}

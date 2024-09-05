@@ -64,12 +64,12 @@ const DLCMData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        currentPage={dlcmData?.data?.currentPage ?? 1}
+        currentPage={dlcmData?.data?.currentPage || 1}
         totalPages={
           (dlcmData &&
             Math.ceil(
               Number(dlcmData?.data?.totalItems) / dlcmData?.data?.pageSize
-            )) ??
+            )) ||
           1
         }
         setPerPage={perPageHandler}

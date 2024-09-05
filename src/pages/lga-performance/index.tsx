@@ -51,6 +51,8 @@ const LGAPerformance: NextPageWithLayout = () => {
     exportPerformanceLgaMutation,
     lgaPerformanceMap,
     lgaPerformanceMapLoading,
+    searchTableTriggerHandler,
+    searchTextHandler,
   } = useLgaPerformance();
 
   return (
@@ -130,11 +132,18 @@ const LGAPerformance: NextPageWithLayout = () => {
                 Export
               </Button>
 
-              <FilterSearch
-                className="max-w-[400px] ml-auto"
-                searchText={searchText}
-                setSearchText={setSearchText}
-              />
+              <div className="flex gap-1 justify-end items-center ml-2 grow">
+                <FilterSearch
+                  className="h-10 max-w-[300px]"
+                  setSearchText={searchTextHandler}
+                  searchText={searchText}
+                  handleClick={searchTableTriggerHandler}
+                />
+                <Button variant={"primary"} onClick={searchTableTriggerHandler}>
+                  <Search size={20} />
+                  Search
+                </Button>
+              </div>
             </div>
             <DataTable
               columns={lgaPerformanceColumns}
@@ -146,9 +155,9 @@ const LGAPerformance: NextPageWithLayout = () => {
               height="max-h-[calc(100vh-280px)]"
             />
             <DataTablePagination
-              currentPage={lgaPerformanceData?.data.currentPage ?? 1}
+              currentPage={lgaPerformanceData?.data.currentPage || 1}
               pageChange={pageChangeHandler}
-              totalPages={lgaPerformanceData?.data.totalPages ?? 1}
+              totalPages={lgaPerformanceData?.data.totalPages || 1}
               perPage={perPage}
               setPerPage={perPageHandler}
             />

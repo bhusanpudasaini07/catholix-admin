@@ -79,12 +79,12 @@ const Roles: NextPageWithLayout = () => {
           </div>
         </DataTable>
         <DataTablePagination
-          currentPage={rolesList?.data?.currentPage ?? 1}
+          currentPage={rolesList?.data?.currentPage || 1}
           totalPages={
             (rolesList &&
               Math.ceil(
                 rolesList?.data?.totalItems / rolesList?.data?.pageSize
-              )) ??
+              )) ||
             1
           }
           setPerPage={perPageHandler}

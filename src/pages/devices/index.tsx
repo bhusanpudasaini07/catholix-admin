@@ -62,8 +62,8 @@ const DevicesData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        currentPage={devicesData?.data?.currentPage ?? 1}
-        totalPages={devicesData?.data?.totalPages ?? 1}
+        currentPage={devicesData?.data?.currentPage || 1}
+        totalPages={devicesData?.data?.totalPages || 1}
         setPerPage={perPageHandler}
         perPage={perPage}
         pageChange={pageChangeHandler}

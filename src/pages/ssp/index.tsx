@@ -65,8 +65,8 @@ const SSPData: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        currentPage={sspList?.data?.currentPage ?? 1}
-        totalPages={sspList?.data?.totalPages ?? 1}
+        currentPage={sspList?.data?.currentPage || 1}
+        totalPages={sspList?.data?.totalPages || 1}
         setPerPage={perPageHandler}
         perPage={perPage}
         pageChange={pageChangeHandler}

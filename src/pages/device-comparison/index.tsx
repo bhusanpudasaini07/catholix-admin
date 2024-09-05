@@ -131,9 +131,9 @@ const DeviceComparison: NextPageWithLayout = () => {
           </Button>
 
           <DataTablePagination
-            currentPage={deviceComparisonData?.data?.currentPage ?? 1}
+            currentPage={deviceComparisonData?.data?.currentPage || 1}
             pageChange={pageChangeHandler}
-            totalPages={deviceComparisonData?.data?.totalPages ?? 1}
+            totalPages={deviceComparisonData?.data?.totalPages || 1}
             perPage={perPage}
             setPerPage={perPageHandler}
           />

@@ -41,8 +41,7 @@ const useImeiMismatch = () => {
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
-
-  const debouncedValue = useDebounce(searchText, 300);
+  const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
 
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
@@ -52,7 +51,13 @@ const useImeiMismatch = () => {
   // API
   const { data: imeiMisMatchData, isLoading: imeiMisMatchLoading } =
     useQuery<ImeiMismatch>({
-      queryKey: ["imei-mismatch", page, perPage, searchTrigger, debouncedValue],
+      queryKey: [
+        "imei-mismatch",
+        page,
+        perPage,
+        searchTrigger,
+        searchTableTrigger,
+      ],
       queryFn: async () => {
         if (regionId && stateId) {
           return await getImeiMisMatchData(
@@ -130,6 +135,13 @@ const useImeiMismatch = () => {
       to: moment().toDate(),
     });
     setSearchTrigger(!searchTrigger);
+    setPage(1);
+  };
+  const searchTextHandler = (value: string) => {
+    setSearchText(value);
+  };
+  const searchTableTriggerHandler = () => {
+    setSearchTableTrigger(!searchTableTrigger);
     setPage(1);
   };
 
@@ -254,6 +266,8 @@ const useImeiMismatch = () => {
     resetHandler,
     searchTriggerHandler,
     exportHandler,
+    searchTextHandler,
+    searchTableTriggerHandler,
     // API
     imeiMisMatchData,
     imeiMisMatchLoading,

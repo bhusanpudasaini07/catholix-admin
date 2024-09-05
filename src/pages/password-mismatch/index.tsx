@@ -8,21 +8,21 @@ import DateRangeFilter from "@/shared/components/date-range-filter";
 import RegionalFilter from "@/shared/components/regional-filter";
 import { Button } from "@/shared/components/ui/button";
 import { ExternalLink, ListRestart, Search } from "lucide-react";
-import usePasswordMisMatch from "@/hooks/password-mismatch/usePasswordMisMatch.hook";
 import dynamic from "next/dynamic";
 import FilterSearch from "@/shared/components/filter-search";
 import { DataTable } from "@/shared/components/data-table/data-table";
 import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
+import usePasswordMismatch from "@/hooks/password-mismatch/usePasswordMisMatch.hook";
 
 const PasswordMisMatchMapContent = dynamic(
-  import("../../features/LGA-Performance/lga-performance-map"),
+  import("../../features/Password-MisMatch/map"),
   {
     ssr: false,
     loading: () => <div>Loading...</div>,
   }
 );
 
-const PasswordMisMatch: NextPageWithLayout = () => {
+const PasswordMismatch: NextPageWithLayout = () => {
   const {
     dateRange,
     setDateRange,
@@ -37,7 +37,23 @@ const PasswordMisMatch: NextPageWithLayout = () => {
     searchText,
     setSearchText,
     columns,
-  } = usePasswordMisMatch();
+    passwordMisMatchData,
+    passwordMisMatchLoading,
+    perPage,
+    perPageHandler,
+    pageChangeHandler,
+    southWest,
+    setSouthWest,
+    northEast,
+    setNorthEast,
+    passwordMisMatchMap,
+    passwordMisMatchMapLoading,
+    exportPasswordMismatchMutation,
+    exportHandler,
+    searchTextHandler,
+    searchTableTriggerHandler,
+  } = usePasswordMismatch();
+
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
       <PageHeader title="Password Mismatch">
@@ -49,6 +65,7 @@ const PasswordMisMatch: NextPageWithLayout = () => {
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
+              disabled
             />
           </div>
           <RegionalFilter
@@ -58,6 +75,7 @@ const PasswordMisMatch: NextPageWithLayout = () => {
             setStateId={setStateId}
             setLga={setLga}
             lga={lga}
+            searchTriggerHandler={searchTriggerHandler}
           />
           {/* reset */}
           <Button
@@ -85,32 +103,60 @@ const PasswordMisMatch: NextPageWithLayout = () => {
       <div className="grow">
         <div className="grid grid-cols-2 gap-4 h-full">
           {/* Map */}
-          <div>{/* <PasswordMisMatchMapContent /> */}</div>
+          <div>
+            <PasswordMisMatchMapContent
+              loading={passwordMisMatchMapLoading}
+              setSouthWest={setSouthWest}
+              setNorthEast={setNorthEast}
+              passwordMisMatchMap={passwordMisMatchMap}
+            />
+          </div>
           {/* Table Filters */}
           <div>
             <div className="flex gap-2 items-center">
               <Button
                 variant={"white"}
                 size={"md"}
+                onClick={exportHandler}
+                disabled={
+                  exportPasswordMismatchMutation.isLoading ||
+                  passwordMisMatchData?.data?.results.length === 0 ||
+                  passwordMisMatchLoading
+                }
                 className="py-2.5 h-auto text-sm gap-2 "
               >
                 <ExternalLink size={20} />
                 Export
               </Button>
 
-              <FilterSearch
-                className="max-w-[400px] ml-auto"
-                searchText={searchText}
-                setSearchText={setSearchText}
-              />
+              <div className="flex gap-1 justify-end items-center ml-2 grow">
+                <FilterSearch
+                  className="h-10 max-w-[300px]"
+                  setSearchText={searchTextHandler}
+                  searchText={searchText}
+                  handleClick={searchTableTriggerHandler}
+                />
+                <Button variant={"primary"} onClick={searchTableTriggerHandler}>
+                  <Search size={20} />
+                  Search
+                </Button>
+              </div>
             </div>
-            <DataTable columns={columns} data={[]} border />
+            <DataTable
+              columns={columns}
+              data={passwordMisMatchData?.data?.results ?? []}
+              loading={passwordMisMatchLoading}
+              loadingDataNum={10}
+              border
+              headerSticky
+              height="max-h-[calc(100vh-280px)]"
+            />
             <DataTablePagination
-              currentPage={1}
-              pageChange={() => {}}
-              totalPages={10}
-              perPage={10}
-              setPerPage={() => {}}
+              currentPage={passwordMisMatchData?.data?.currentPage || 1}
+              pageChange={pageChangeHandler}
+              totalPages={passwordMisMatchData?.data?.totalPages || 1}
+              perPage={perPage}
+              setPerPage={perPageHandler}
             />
           </div>
         </div>
@@ -119,8 +165,8 @@ const PasswordMisMatch: NextPageWithLayout = () => {
   );
 };
 
-export default PasswordMisMatch;
+export default PasswordMismatch;
 
 export const getStaticProps = getI18nProps;
 
-PasswordMisMatch.getLayout = (page) => <MainLayout>{page}</MainLayout>;
+PasswordMismatch.getLayout = (page) => <MainLayout>{page}</MainLayout>;

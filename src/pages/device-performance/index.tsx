@@ -136,9 +136,9 @@ const DevicePerformance: NextPageWithLayout = () => {
           </Button>
 
           <DataTablePagination
-            currentPage={devicePerformanceTable?.data?.currentPage ?? 1}
+            currentPage={devicePerformanceTable?.data?.currentPage || 1}
             pageChange={pageChangeHandler}
-            totalPages={devicePerformanceTable?.data?.totalPages ?? 1}
+            totalPages={devicePerformanceTable?.data?.totalPages || 1}
             perPage={perPage}
             setPerPage={perPageHandler}
           />

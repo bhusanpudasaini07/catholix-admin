@@ -118,12 +118,12 @@ const Admins: NextPageWithLayout = () => {
       </DataTable>
 
       <DataTablePagination
-        currentPage={adminList?.data?.currentPage ?? 1}
+        currentPage={adminList?.data?.currentPage || 1}
         totalPages={
           (adminList &&
             Math.ceil(
               adminList?.data?.totalItems / adminList?.data?.pageSize
-            )) ??
+            )) ||
           1
         }
         perPage={perPage}

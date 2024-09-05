@@ -45,8 +45,7 @@ const useLgaPerformance = () => {
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
-
-  const debouncedValue = useDebounce(searchText, 300);
+  const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
 
   // FUNCTIONS
   const perPageHandler = (value: number) => {
@@ -92,6 +91,13 @@ const useLgaPerformance = () => {
     setPage(1);
   };
 
+  const searchTextHandler = (value: string) => {
+    setSearchText(value);
+  };
+  const searchTableTriggerHandler = () => {
+    setSearchTableTrigger(!searchTableTrigger);
+    setPage(1);
+  };
   const { data: lgaPerformanceData, isLoading: lgaPerformanceLoading } =
     useQuery<ILgaPerformanceData>({
       queryKey: [
@@ -99,7 +105,7 @@ const useLgaPerformance = () => {
         page,
         perPage,
         searchTrigger,
-        debouncedValue,
+        searchTableTrigger,
       ],
       queryFn: async () => {
         if (regionId && stateId) {
@@ -226,7 +232,8 @@ const useLgaPerformance = () => {
     resetHandler,
     searchTriggerHandler,
     exportHandler,
-
+    searchTextHandler,
+    searchTableTriggerHandler,
     // DATA TABLE
     lgaPerformanceColumns,
 

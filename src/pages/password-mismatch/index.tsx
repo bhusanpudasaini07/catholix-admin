@@ -52,6 +52,8 @@ const PasswordMismatch: NextPageWithLayout = () => {
     exportHandler,
     searchTextHandler,
     searchTableTriggerHandler,
+    zoomLevel,
+    setZoomLevel,
   } = usePasswordMismatch();
 
   return (
@@ -106,9 +108,13 @@ const PasswordMismatch: NextPageWithLayout = () => {
           <div>
             <PasswordMisMatchMapContent
               loading={passwordMisMatchMapLoading}
+              southWest={southWest}
+              northEast={northEast}
               setSouthWest={setSouthWest}
               setNorthEast={setNorthEast}
               passwordMisMatchMap={passwordMisMatchMap}
+              zoomLevel={zoomLevel}
+              setZoomLevel={setZoomLevel}
             />
           </div>
           {/* Table Filters */}

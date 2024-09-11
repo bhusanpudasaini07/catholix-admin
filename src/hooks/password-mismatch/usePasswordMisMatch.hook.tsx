@@ -43,6 +43,7 @@ const usePasswordMismatch = () => {
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
 
   const debouncedValue = useDebounce(searchText, 300);
 
@@ -91,7 +92,8 @@ const usePasswordMismatch = () => {
             southWest,
             northEast,
             moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD")
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            zoomLevel
           );
           const reader = body?.getReader();
           return await parseStreamedData(reader!);
@@ -280,6 +282,8 @@ const usePasswordMismatch = () => {
     setSouthWest,
     northEast,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
 
     // FUNCTIONS
     perPageHandler,

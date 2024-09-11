@@ -139,12 +139,13 @@ const fetchNoHeartbeatDevicesMap = async (
   southWest: string,
   northEast: string,
   startDate: string,
-  endDate: string
+  endDate: string,
+  zoom_level: number
 ) => {
   const response = await fetch(
     `${API_BASE_URL}/devices/noheartbeat-devices-map?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
-    }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}`,
+    }&southwest=${southWest}&northeast=${northEast}&timeframe=${timeframe}&zoom_level=${zoom_level}`,
     {
       method: "GET",
       credentials: "include",

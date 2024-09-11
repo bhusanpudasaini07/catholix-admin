@@ -46,7 +46,7 @@ const useNoHeartbeatDevices = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [searchText, setSearchText] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
-
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
   // API
 
   const { data: regionsList, isLoading: regionsLoading } =
@@ -106,7 +106,8 @@ const useNoHeartbeatDevices = () => {
           southWest,
           northEast,
           moment(dateRange?.from).format("YYYY-MM-DD"),
-          moment(dateRange?.to).format("YYYY-MM-DD")
+          moment(dateRange?.to).format("YYYY-MM-DD"),
+          zoomLevel
         );
         const reader = body?.getReader();
         return await parseStreamedData(reader!);
@@ -753,6 +754,7 @@ const useNoHeartbeatDevices = () => {
     perPage,
     page,
     searchText,
+    zoomLevel,
     setRegionId,
     setStateId,
     setLga,
@@ -762,6 +764,7 @@ const useNoHeartbeatDevices = () => {
     setTimeFrame,
     setPage,
     setPerPage,
+    setZoomLevel,
 
     // FUNCTIONS
     searchTriggerHandler,

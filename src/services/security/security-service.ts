@@ -37,12 +37,13 @@ const getImeiMisMatchMapData = async (
   southWest: string,
   northEast: string,
   startDate: string,
-  endDate: string
+  endDate: string,
+  zoom_level: number
 ) => {
   const response = await fetch(
     `${API_BASE_URL}/security/imei-mismatch/map-data?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
-    }&southwest=${southWest}&northeast=${northEast}`,
+    }&southwest=${southWest}&northeast=${northEast}&zoom_level=${zoom_level}`,
     {
       method: "GET",
       credentials: "include",
@@ -106,12 +107,13 @@ const getPasswordMisMatchMapData = async (
   southWest: string,
   northEast: string,
   startDate: string,
-  endDate: string
+  endDate: string,
+  zoom_level: number
 ) => {
   const response = await fetch(
     `${API_BASE_URL}/security/password-mismatch/map-data?startDate=${startDate}&endDate=${endDate}&region=${regionId}&state=${stateId}&lga=${
       lga.length > 0 ? lga.join(",") : "all"
-    }&southwest=${southWest}&northeast=${northEast}`,
+    }&southwest=${southWest}&northeast=${northEast}&zoom_level=${zoom_level}`,
     {
       method: "GET",
       credentials: "include",

@@ -61,6 +61,8 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
     noHeartbeatDevicesMapLoading,
     exportHandler,
     exportNoHeartbeatDeviceMutation,
+    zoomLevel,
+    setZoomLevel,
   } = useNoHeartbeatDevices();
   const timeFrameOptions = [
     { value: "all", label: "All" },
@@ -144,6 +146,8 @@ const NoHeartBeatDevices: NextPageWithLayout = () => {
             setSouthWest={setSouthWest}
             setNorthEast={setNorthEast}
             inactiveDeviceData={noHeartbeatDevicesMap}
+            zoomLevel={zoomLevel}
+            setZoomLevel={setZoomLevel}
           />
         </div>
         <div className="col-span-5">

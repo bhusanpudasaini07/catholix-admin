@@ -45,7 +45,7 @@ const DashboardHeaderCards = () => {
       title: "Total Device",
       value: deviceStats?.data?.total_device_count ?? 0,
       icon: dashboard?.totalDevices,
-      footerText: "All Deployed 6:00am",
+      footerText: "Live Devices 6:00am",
       footerIconColor: "text-purple-500",
       tooltipText: "Number of all devices deployed since 6:00am",
     },

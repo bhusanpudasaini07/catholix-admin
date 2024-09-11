@@ -21,6 +21,7 @@ import config from "../../../config";
 import { parseStreamedData } from "@/shared/utils/streamed-data-parse-utils";
 import { exportToCsv } from "@/shared/utils/export-utils/export-util";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
+import { z } from "zod";
 
 const useImeiMismatch = () => {
   const { profileData } = useCommonStore();
@@ -42,6 +43,7 @@ const useImeiMismatch = () => {
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
 
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
@@ -87,7 +89,8 @@ const useImeiMismatch = () => {
             southWest,
             northEast,
             moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD")
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            zoomLevel
           );
           const reader = body?.getReader();
           return await parseStreamedData(reader!);
@@ -259,6 +262,8 @@ const useImeiMismatch = () => {
     setSouthWest,
     northEast,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
 
     // FUNCTIONS
     perPageHandler,

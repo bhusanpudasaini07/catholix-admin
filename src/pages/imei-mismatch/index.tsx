@@ -54,6 +54,8 @@ const ImeiMismatch: NextPageWithLayout = () => {
     exportHandler,
     searchTextHandler,
     searchTableTriggerHandler,
+    zoomLevel,
+    setZoomLevel,
   } = useImeiMismatch();
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
@@ -107,9 +109,13 @@ const ImeiMismatch: NextPageWithLayout = () => {
           <div>
             <ImeiMisMatchMapContent
               loading={imeiMisMatchMapLoading}
+              southWest={southWest}
               setSouthWest={setSouthWest}
+              northEast={northEast}
               setNorthEast={setNorthEast}
               imeiMisMatchMap={imeiMisMatchMap}
+              zoomLevel={zoomLevel}
+              setZoomLevel={setZoomLevel}
             />
           </div>
           {/* Table Filters */}

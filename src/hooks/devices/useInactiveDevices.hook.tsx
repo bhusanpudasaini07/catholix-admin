@@ -46,6 +46,7 @@ const useInactiveDevices = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [searchText, setSearchText] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
 
   // API
 
@@ -69,7 +70,7 @@ const useInactiveDevices = () => {
         columns,
       ],
       queryFn: async () => {
-        if ( regionId && stateId && columns) {
+        if (regionId && stateId && columns) {
           const response = await getInactiveDevices(
             moment(dateRange?.from).format("YYYY-MM-DD"),
             moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -94,7 +95,7 @@ const useInactiveDevices = () => {
     useQuery<any>({
       queryKey: ["inactive-devices-map", southWest, northEast, searchTrigger],
       queryFn: async () => {
-        if ( regionId && stateId && southWest && northEast) {
+        if (regionId && stateId && southWest && northEast) {
           //   const response = await getInactiveDevicesMap(
           //     moment(dateRange?.from).format("YYYY-MM-DD"),
           //     moment(dateRange?.to).format("YYYY-MM-DD"),
@@ -115,7 +116,8 @@ const useInactiveDevices = () => {
             southWest,
             northEast,
             moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD")
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            zoomLevel
           );
           const reader = body?.getReader();
           return await parseStreamedData(reader!);
@@ -760,6 +762,7 @@ const useInactiveDevices = () => {
     perPage,
     page,
     searchText,
+    zoomLevel,
     setRegionId,
     setStateId,
     setLga,
@@ -769,6 +772,7 @@ const useInactiveDevices = () => {
     setTimeFrame,
     setPage,
     setPerPage,
+    setZoomLevel,
 
     // FUNCTIONS
     searchTriggerHandler,

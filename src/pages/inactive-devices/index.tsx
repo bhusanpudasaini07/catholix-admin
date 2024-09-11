@@ -61,6 +61,8 @@ const InactiveDevices: NextPageWithLayout = () => {
     inactiveDevicesMapLoading,
     exportHandler,
     exportInactiveDeviceMutation,
+    zoomLevel,
+    setZoomLevel,
   } = useInactiveDevices();
 
   const timeFrameOptions = [
@@ -146,6 +148,8 @@ const InactiveDevices: NextPageWithLayout = () => {
             setSouthWest={setSouthWest}
             setNorthEast={setNorthEast}
             inactiveDeviceData={inactiveDevicesMap}
+            zoomLevel={zoomLevel}
+            setZoomLevel={setZoomLevel}
           />
         </div>
         <div className="col-span-5">

@@ -11,7 +11,7 @@
 
     "side_nav": {
       "dashboard": "Dashboard",
-      "dlcm_data": "DLCM Data",
+      "dlcm_data": "Agent Information",
       "ssp_data": "SSP Data",
       "devices_data": "Devices Data",
       "admins": "Admins",

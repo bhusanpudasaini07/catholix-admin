@@ -51,6 +51,7 @@ const RegionalFilter = ({
 }: IProps) => {
   const { profileData } = useCommonStore();
   const [localGovernments, setLocalGovernments] = useState<ILGA[]>([]);
+  const [initialLoadDone, setInitialLoadDone] = useState(false);
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
       queryKey: ["regions"],
@@ -76,6 +77,7 @@ const RegionalFilter = ({
 
   useEffect(() => {
     if (
+      !initialLoadDone &&
       profileData &&
       profileData?.regionId !== null &&
       regionsList !== undefined &&
@@ -102,22 +104,23 @@ const RegionalFilter = ({
         setLocalGovernments([]);
         setLga([]);
       }
-      // searchTriggerHandler && searchTriggerHandler();
+      setInitialLoadDone(true);
+      searchTriggerHandler && searchTriggerHandler();
     }
-  }, [profileData, regionsList]);
+  }, [profileData, regionsList, initialLoadDone]);
 
   // Debounced function to set search trigger
-  const debouncedSearchTriggerHandler = useMemo(() => {
-    if (searchTriggerHandler) {
-      return debounce(searchTriggerHandler, 100);
-    }
-  }, [searchTriggerHandler]);
+  // const debouncedSearchTriggerHandler = useMemo(() => {
+  //   if (searchTriggerHandler) {
+  //     return debounce(searchTriggerHandler, 100);
+  //   }
+  // }, [searchTriggerHandler]);
 
-  useEffect(() => {
-    if (debouncedSearchTriggerHandler) {
-      debouncedSearchTriggerHandler();
-    }
-  }, [regionId, stateId]);
+  // useEffect(() => {
+  //   if (debouncedSearchTriggerHandler) {
+  //     debouncedSearchTriggerHandler();
+  //   }
+  // }, []);
 
   return (
     <div className="flex gap-2 items-center">

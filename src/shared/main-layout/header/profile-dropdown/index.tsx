@@ -131,10 +131,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
           <div className="flex gap-4 items-start p-4">
             <div className="w-[40px] h-[40px] shrink-0">
               <CustomImage
-                fallbackText={
-                  `${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}` ??
-                  ""
-                }
+                fallbackText={`${profile?.data?.firstName[0]} ${profile?.data?.lastName[0]}`}
                 loading={isLoading}
                 src={profile?.data?.avatar || dummyUser}
                 width={40}

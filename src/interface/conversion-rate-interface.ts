@@ -56,3 +56,34 @@ export interface IConversionRateDealer {
     results: IConversionRateDealerResponse[];
   };
 }
+
+// Agent Performance
+
+export interface IAgentPerformanceHeader {
+  display_name: string;
+  access_key: string;
+  order: number;
+  type: string;
+}
+
+export interface IAgentPerformanceResponse {
+  agent_msisdn: string;
+  agent_name: string;
+  ga: number;
+  gc: number;
+  conversion_rate: number;
+  region_code: string | null;
+  state_code: string | null;
+  lg_code: string | null;
+  lga: string | null;
+  state: string | null;
+  region: string | null;
+}
+
+export interface IAgentPerformance {
+  headers: IAgentPerformanceHeader[];
+  data: {
+    high_conversion_agent: IAgentPerformanceResponse[];
+    less_conversion_agent: IAgentPerformanceResponse[];
+  };
+}

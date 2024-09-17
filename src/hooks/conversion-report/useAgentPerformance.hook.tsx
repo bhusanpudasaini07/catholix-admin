@@ -1,31 +1,32 @@
-import { IRegionProps } from "@/interface/common-interface";
+import { useState } from "react";
+import { useQuery, useMutation } from "react-query";
+import moment from "moment";
+import { DateRange } from "react-day-picker";
+import { ColumnDef } from "@tanstack/react-table";
+
 import {
-  IPerformanceReport,
-  IPerformanceReportHeader,
-  IPerformanceReportResult,
-} from "@/interface/report-interface";
-import { getRegions } from "@/services/admin/admin-service";
+  IAgentPerformance,
+  IAgentPerformanceResponse,
+  IAgentPerformanceHeader,
+} from "@/interface/conversion-rate-interface";
 import {
-  exportAgentPerformanceByGC,
-  getAgentPerformanceByGC,
-} from "@/services/report/report-service";
+  getAgentPerformance,
+  exportAgentPerformance,
+} from "@/services/conversion-rate/conversion-rate-service";
+import { useCommonStore } from "@/store/common-store";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
-import { exportToCsv } from "@/shared/utils/export-utils/export-util";
-import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
-import { useCommonStore } from "@/store/common-store";
-import { ColumnDef } from "@tanstack/react-table";
-import moment from "moment";
-import React, { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { useMutation, useQuery } from "react-query";
+import { IRegionProps } from "@/interface/common-interface";
+import { getRegions } from "@/services/admin/admin-service";
 
 interface IProps {
-  data: IPerformanceReport;
+  data: IAgentPerformance;
 }
-const usePerformanceReport = () => {
+
+const useAgentPerformance = () => {
   const { profileData } = useCommonStore();
-  // STATES
   const [perPage, setPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [regionId, setRegionId] = useState<string>("");
@@ -36,18 +37,19 @@ const usePerformanceReport = () => {
     from: moment().subtract(1, "months").toDate(),
     to: moment().toDate(),
   });
+
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({
       queryKey: ["regions"],
       queryFn: () => getRegions(),
     });
 
-  const { data: performanceReportData, isLoading: performanceReportLoading } =
+  const { data: agentPerformanceData, isLoading: agentPerformanceLoading } =
     useQuery<IProps>({
-      queryKey: ["performanceReport", searchTrigger, page, perPage],
+      queryKey: ["agentPerformance", searchTrigger, page, perPage],
       queryFn: async () => {
         if (regionId && stateId) {
-          return await getAgentPerformanceByGC(
+          return await getAgentPerformance(
             page,
             perPage,
             moment(dateRange.from).format("YYYY-MM-DD"),
@@ -64,11 +66,11 @@ const usePerformanceReport = () => {
     setSearchTrigger(!searchTrigger);
   };
 
-  // Functions
   const perPageHandler = (value: number) => {
     setPerPage(value);
     setPage(1);
   };
+
   const pageChangeHandler = (value: number) => {
     setPage(value);
   };
@@ -90,7 +92,7 @@ const usePerformanceReport = () => {
         setRegionId(region?.code!);
         setStateId(profileData?.stateId !== 0 ? state?.code! : "all");
         setLga(localGovs || []);
-        searchHandler();
+        searchHandler && searchHandler();
       } else {
         setRegionId("all");
         setStateId("all");
@@ -104,7 +106,7 @@ const usePerformanceReport = () => {
 
   const exportMutation = useMutation({
     mutationFn: () =>
-      exportAgentPerformanceByGC(
+      exportAgentPerformance(
         moment(dateRange?.from).format("YYYY-MM-DD"),
         moment(dateRange?.to).format("YYYY-MM-DD"),
         regionId,
@@ -113,7 +115,7 @@ const usePerformanceReport = () => {
       ),
 
     onSuccess: (data) => {
-      const fileName = `agent_performance_by_gc_${moment(new Date()).format(
+      const fileName = `agent_performance_${moment(new Date()).format(
         "YYYY-MM-DD"
       )}.csv`;
       exportToCsv(fileName, data?.data);
@@ -125,32 +127,37 @@ const usePerformanceReport = () => {
     showToast(TOAST_TYPES.success, "Download will start shortly!");
   };
 
-  // Columns
-  const generateColumns = (): ColumnDef<IPerformanceReportResult>[] => {
-    const columns: ColumnDef<IPerformanceReportResult>[] = [
+  const generateColumns = (
+    type: "high" | "low"
+  ): ColumnDef<IAgentPerformanceResponse>[] => {
+    const columns: ColumnDef<IAgentPerformanceResponse>[] = [
       {
-        id: "ranking",
-        header: "Ranking",
+        id: "sn",
+        header: "S.N",
         cell: ({ row }) => (
           <SerialNumberCell row={row} pageNumber={page} perPage={perPage} />
         ),
       },
     ];
 
-    if (performanceReportData?.data?.headers) {
-      performanceReportData.data.headers.forEach(
-        (header: IPerformanceReportHeader) => {
+    if (agentPerformanceData?.data?.headers) {
+      agentPerformanceData.data?.headers.forEach(
+        (header: IAgentPerformanceHeader) => {
           columns.push({
-            id: header.access_key,
-            accessorKey: header.access_key,
-            header: header.display_name,
+            id: header?.access_key,
+            accessorKey: header?.access_key,
+            header: header?.display_name,
             cell: ({ row }: any) => {
-              const value = row.original[header.access_key];
+              const value = row.original[header?.access_key];
               if (
-                header.type === "number" &&
-                header.access_key === "conversion_rate"
+                header?.type === "number" &&
+                header?.access_key === "conversion_rate"
               ) {
-                return <Badge variant="warning">{value}%</Badge>;
+                return (
+                  <Badge variant={type === "high" ? "success" : "warning"}>
+                    {value}%
+                  </Badge>
+                );
               }
               return <p>{value || "-"}</p>;
             },
@@ -162,10 +169,10 @@ const usePerformanceReport = () => {
     return columns;
   };
 
-  const columns = generateColumns();
+  const highColumns = generateColumns("high");
+  const lowColumns = generateColumns("low");
 
   return {
-    // STATES
     perPage,
     page,
     setPerPage,
@@ -178,22 +185,17 @@ const usePerformanceReport = () => {
     setLga,
     dateRange,
     setDateRange,
-
-    // FUNCTIONS
     exportHandler,
     resetHandler,
     searchHandler,
     perPageHandler,
     pageChangeHandler,
-
-    // COLUMNS
-    columns,
-
-    // API
-    performanceReportData,
-    performanceReportLoading,
+    highColumns,
+    lowColumns,
+    agentPerformanceData,
+    agentPerformanceLoading,
     exportMutation,
   };
 };
 
-export default usePerformanceReport;
+export default useAgentPerformance;

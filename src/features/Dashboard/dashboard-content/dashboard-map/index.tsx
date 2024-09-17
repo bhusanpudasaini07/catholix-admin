@@ -217,8 +217,9 @@ const DashboardMapContent = ({
     });
   };
   const agentCustomClusterIcon = (cluster: any) => {
+    const totalValue = sumClusterValues(cluster);
     return divIcon({
-      html: `<div class="agent-cluster-icon-wrapper"><div class="cluster-icon">${cluster.getChildCount()}</div></div>`,
+      html: `<div class="agent-cluster-icon-wrapper"><div class="cluster-icon">${totalValue}</div></div>`,
       className: "device-custom-cluster-icon",
       iconSize: [20, 20],
     });
@@ -412,15 +413,43 @@ const DashboardMapContent = ({
             </>
           )}
 
-          {mapType === "agent" && (
+          {mapType === "agent" && zoomLevel <= 12 && (
             <MarkerClusterGroup
               chunkedLoading={true}
               iconCreateFunction={agentCustomClusterIcon}
             >
-              {/* Agents */}
               {agentData &&
                 agentData
-                  ?.filter((agent) =>
+                  .filter((agent) =>
+                    isValidLatLng(
+                      Number(agent?.avg_latitude),
+                      Number(agent?.avg_longitude)
+                    )
+                  )
+                  .map((agent, index) => (
+                    <ZoomableMarker
+                      key={agent?.agent_msisdn}
+                      position={[
+                        Number(agent?.avg_latitude),
+                        Number(agent?.avg_longitude),
+                      ]}
+                      icon={L.divIcon({
+                        className: "agent-custom-cluster-icon",
+                        html: `<div class="agent-cluster-icon-wrapper"><div class="cluster-icon">${agent?.total_agents}</div></div>`,
+                        iconSize: [30, 42],
+                        iconAnchor: [15, 42],
+                        text: agent?.total_agents, // Assuming each agent represents 1 count
+                      } as L.DivIconOptions)}
+                    />
+                  ))}
+            </MarkerClusterGroup>
+          )}
+
+          {mapType === "agent" && zoomLevel > 12 && (
+            <>
+              {agentData &&
+                agentData
+                  .filter((agent) =>
                     isValidLatLng(
                       Number(agent?.latitude),
                       Number(agent?.longitude)
@@ -428,7 +457,7 @@ const DashboardMapContent = ({
                   )
                   .map((agent, index) => (
                     <Marker
-                      key={index}
+                      key={agent?.agent_msisdn}
                       position={[
                         Number(agent?.latitude),
                         Number(agent?.longitude),
@@ -463,39 +492,6 @@ const DashboardMapContent = ({
                               {agent?.code ?? "N/A"}
                             </Badge>
                           </div>
-                          {/* <div className="flex justify-between items-center mt-2 ml-1">
-                            <div className="flex gap-2 items-center">
-                              <Image
-                                src={marker?.popup?.phone}
-                                alt="User"
-                                width={20}
-                                height={20}
-                              />
-                              <span className="text-sm">
-                                {agent?.alter_mobile_num ?? "N/A"}
-                              </span>
-                            </div>
-                            <div className="flex gap-2 items-center">
-                              <Image
-                                src={marker?.popup?.chart}
-                                alt="User"
-                                width={16}
-                                height={16}
-                              />
-                              <span className="text-sm text-zinc-700">0</span>
-                            </div>
-                          </div> */}
-                          {/* <div className="flex gap-2 items-center mt-2 ml-1">
-                            <Image
-                              src={marker?.popup?.roundUserAdd}
-                              alt="User"
-                              width={20}
-                              height={20}
-                            />
-                            <span className="text-sm">
-                              {agent?.address1 ?? "N/A"}
-                            </span>
-                          </div> */}
                           <Link
                             href={`/agent/${agent?.agent_msisdn}`}
                             className={cn(
@@ -512,8 +508,9 @@ const DashboardMapContent = ({
                       </Popup>
                     </Marker>
                   ))}
-            </MarkerClusterGroup>
+            </>
           )}
+
           {mapType === "dealer" &&
             // <MarkerClusterGroup
             //   chunkedLoading={true}

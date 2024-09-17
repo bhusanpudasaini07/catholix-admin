@@ -23,7 +23,7 @@ const DashboardHeaderCards = () => {
     {
       id: "connectedDevices",
       title: "Gross Connections",
-      value: deviceStats?.data?.connected_device_gc_count ?? 0,
+      value: deviceStats?.data?.connected_device_gc_count || "0/0",
       icon: dashboard?.connectedDevices,
       footerText: "GC 6:00am",
       footerIconColor: "text-blue-500",
@@ -33,7 +33,7 @@ const DashboardHeaderCards = () => {
     {
       id: "registeredDevices",
       title: "Gross Activated Count",
-      value: deviceStats?.data?.registered_device_ga_count ?? 0,
+      value: deviceStats?.data?.registered_device_ga_count || 0,
       icon: dashboard?.registeredDevices,
       footerText: "GA 6:00am",
       footerIconColor: "text-green-500",
@@ -43,7 +43,7 @@ const DashboardHeaderCards = () => {
     {
       id: "totalDevices",
       title: "Total Device",
-      value: deviceStats?.data?.total_device_count ?? 0,
+      value: deviceStats?.data?.total_device_count || 0,
       icon: dashboard?.totalDevices,
       footerText: "Live Devices 6:00am",
       footerIconColor: "text-purple-500",
@@ -53,7 +53,7 @@ const DashboardHeaderCards = () => {
     {
       id: "heartbeatDevices",
       title: "Heartbeat Devices",
-      value: deviceStats?.data?.heartbeat_device_count ?? 0,
+      value: deviceStats?.data?.heartbeat_device_count || 0,
       icon: dashboard?.heartbeatDevices,
       footerText: "6:00am Prepared",
       footerIconColor: "text-red-500",
@@ -63,7 +63,7 @@ const DashboardHeaderCards = () => {
     {
       id: "inactiveDevices",
       title: "Inactive Devices",
-      value: deviceStats?.data?.inactive_device_count ?? 0,
+      value: deviceStats?.data?.inactive_device_count || 0,
       icon: dashboard?.inactiveDevices,
       pageUrl: "/inactive-devices",
       footerText: "6:00am Ideal",
@@ -74,7 +74,7 @@ const DashboardHeaderCards = () => {
     {
       id: "noHeartbeatDevices",
       title: "No Heartbeat Devices",
-      value: deviceStats?.data?.noheartbeat_device_count ?? 0,
+      value: deviceStats?.data?.noheartbeat_device_count || 0,
       icon: dashboard?.noHeartbeatDevices,
       pageUrl: "/no-heartbeat-devices",
       footerText: "6:00am Offline",
@@ -85,7 +85,7 @@ const DashboardHeaderCards = () => {
     {
       id: "activeUsers",
       title: "Active Agent Users",
-      value: deviceStats?.data?.active_users ?? 0,
+      value: deviceStats?.data?.active_users || 0,
       icon: dashboard?.activeUsers,
       footerText: "6:00am Registered",
       footerIconColor: "text-blue-500",

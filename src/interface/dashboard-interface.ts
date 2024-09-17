@@ -134,4 +134,7 @@ export interface IAgentDetail {
   latitude: string;
   longitude: string;
   name: string;
+  total_agents: number;
+  avg_latitude: number;
+  avg_longitude: number;
 }

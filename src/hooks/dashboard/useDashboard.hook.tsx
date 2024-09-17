@@ -222,7 +222,8 @@ const useDashboard = () => {
             stateId,
             lga?.length > 0 ? lga.map((l) => l).join(",") : "all",
             southWest,
-            northEast
+            northEast,
+            zoomLevel
           );
         }
       },

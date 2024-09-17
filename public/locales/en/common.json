@@ -22,7 +22,15 @@
       "lga_performance": "Performance By LG",
       "security": "Security",
       "imei_mismatch": "IMEI Mismatch",
-      "password_mismatch": "Password Mismatch"
+      "password_mismatch": "Password Mismatch",
+      "conversion_report": "Conversion Report",
+      "conversion_rate_agents": "Conversion Rate Agents",
+      "conversion_rate_dealers": "Conversion Rate Dealers",
+      "conversion_performance": "Conversion Performance",
+      "report": "Report",
+      "agent_report": "Agent Report",
+      "performance_report": "Performance Report",
+      "dashboard_report": "Dashboard Report"
     },
 
     "search": "Input here to search"

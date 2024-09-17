@@ -90,9 +90,55 @@ const exportDealerConversionRate = async (
   });
 };
 
+const getAgentPerformance = async (
+  page: number,
+  pageSize: number,
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  searchTerm?: string
+) => {
+  return httpRequest("/conversion-rate/agent-performance", httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      ...(searchTerm && { searchTerm }),
+    },
+  });
+};
+
+const exportAgentPerformance = async (
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string,
+  searchTerm?: string
+) => {
+  return httpRequest("/conversion-rate/agent-performance/export", httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
+      ...(searchTerm && { searchTerm }),
+    },
+  });
+};
+
 export {
   getAgentConversionRate,
   exportAgentConversionRate,
   getDealerConversionRate,
   exportDealerConversionRate,
+  getAgentPerformance,
+  exportAgentPerformance,
 };

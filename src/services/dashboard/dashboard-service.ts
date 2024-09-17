@@ -38,7 +38,8 @@ const getAgentMapData = (
   state: string,
   lga: string,
   southwest: string,
-  northeast: string
+  northeast: string,
+  zoom_level: number
 ) => {
   return httpRequest("/dashboard/agent-map-data", httpMethods.GET, {
     params: {
@@ -47,6 +48,7 @@ const getAgentMapData = (
       lga,
       southwest,
       northeast,
+      zoom_level,
     },
   });
 };

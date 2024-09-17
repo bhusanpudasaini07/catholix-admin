@@ -13,6 +13,7 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
+import FullTableSkeleton from "@/shared/components/skeleton-loading/dynamic-header-table-skeleton";
 
 const ConversionRateDealers: NextPageWithLayout = () => {
   const {
@@ -87,15 +88,19 @@ const ConversionRateDealers: NextPageWithLayout = () => {
       </PageHeader>
 
       <div className="overflow-y-auto grow no-scrollbar">
-        <DataTable
-          columns={columns}
-          data={conversionRateData?.data?.data?.results ?? []}
-          loading={conversionRateLoading}
-          loadingDataNum={10}
-          headerSticky
-          border
-          height="max-h-[calc(100vh-230px)]"
-        />
+        {conversionRateLoading ? (
+          <FullTableSkeleton />
+        ) : (
+          <DataTable
+            columns={columns}
+            data={conversionRateData?.data?.data?.results ?? []}
+            loading={conversionRateLoading}
+            loadingDataNum={10}
+            headerSticky
+            border
+            height="max-h-[calc(100vh-230px)]"
+          />
+        )}
         <div className="flex justify-between items-center">
           <Button
             variant={"white"}

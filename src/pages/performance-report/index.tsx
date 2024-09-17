@@ -13,6 +13,9 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "../_app";
+import { Skeleton } from "@/shared/components/ui/skeleton";
+import TableSkeleton from "@/shared/components/skeleton-loading/table-skeleton";
+import FullTableSkeleton from "@/shared/components/skeleton-loading/dynamic-header-table-skeleton";
 
 const PerformanceReport: NextPageWithLayout = () => {
   const {
@@ -31,6 +34,10 @@ const PerformanceReport: NextPageWithLayout = () => {
     setLga,
     dateRange,
     setDateRange,
+    performanceReportData,
+    performanceReportLoading,
+    exportMutation,
+    exportHandler,
   } = usePerformanceReport();
 
   return (
@@ -83,26 +90,38 @@ const PerformanceReport: NextPageWithLayout = () => {
       </PageHeader>
 
       <div className="overflow-y-auto grow no-scrollbar">
-        <DataTable
-          columns={columns}
-          data={[]}
-          headerSticky
-          border
-          height="max-h-[calc(100vh-230px)]"
-        />
+        {performanceReportLoading ? (
+          <FullTableSkeleton />
+        ) : (
+          <DataTable
+            columns={columns}
+            data={performanceReportData?.data?.data?.results || []}
+            headerSticky
+            border
+            height="max-h-[calc(100vh-250px)]"
+            loading={performanceReportLoading}
+            loadingDataNum={10}
+          />
+        )}
         <div className="flex justify-between items-center">
           <Button
             variant={"white"}
             size={"md"}
+            onClick={exportHandler}
+            disabled={
+              exportMutation.isLoading ||
+              performanceReportData?.data?.data?.results?.length === 0 ||
+              performanceReportLoading
+            }
             className="py-2.5 h-auto text-sm gap-2 mt-6 "
           >
             <ExternalLink size={20} />
             Export
           </Button>
           <DataTablePagination
-            currentPage={page}
+            currentPage={performanceReportData?.data?.data?.currentPage || 1}
             pageChange={pageChangeHandler}
-            totalPages={1}
+            totalPages={performanceReportData?.data?.data?.totalPages || 1}
             perPage={perPage}
             setPerPage={perPageHandler}
           />

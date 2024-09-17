@@ -3,6 +3,8 @@ import {
   FileBadge2,
   FileBarChart,
   FileLineChart,
+  FileStack,
+  Layers3,
   LayoutDashboard,
   LayoutGrid,
   ScrollText,
@@ -23,6 +25,108 @@ export const permissionConfig = {
           menuName: "common.side_nav.dashboard",
           menuSlug: "/",
           icon: <LayoutDashboard width={20} height={20} />,
+        },
+      ],
+    },
+    // Conversion Report
+    {
+      menuName: "common.side_nav.conversion_report",
+      menuSlug: "",
+      icon: <Layers3 width={20} height={20} />,
+      hasChildren: true,
+      // permissions: [],
+      subMenu: [
+        {
+          menuName: "common.side_nav.conversion_report",
+          menuSlug: "/conversion-report",
+          icon: <Layers3 width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "common.side_nav.conversion_rate_agents",
+              itemSlug: "/conversion-rate-agents",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/comparison",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+            {
+              itemName: "common.side_nav.conversion_rate_dealers",
+              itemSlug: "/conversion-rate-dealers",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance-by-lg",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+            {
+              itemName: "common.side_nav.conversion_performance",
+              itemSlug: "/conversion-performance",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    // Report
+    {
+      menuName: "common.side_nav.report",
+      menuSlug: "",
+      icon: <FileStack width={20} height={20} />,
+      hasChildren: true,
+      // permissions: [],
+      subMenu: [
+        {
+          menuName: "common.side_nav.report",
+          menuSlug: "/report",
+          icon: <FileStack width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "common.side_nav.agent_report",
+              itemSlug: "/agent-report",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/comparison",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+            {
+              itemName: "common.side_nav.performance_report",
+              itemSlug: "/performance-report",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance-by-lg",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+            {
+              itemName: "common.side_nav.dashboard_report",
+              itemSlug: "/dashboard-report",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
+          ],
         },
       ],
     },

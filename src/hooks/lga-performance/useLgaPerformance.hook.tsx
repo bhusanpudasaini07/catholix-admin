@@ -46,6 +46,7 @@ const useLgaPerformance = () => {
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(12);
 
   // FUNCTIONS
   const perPageHandler = (value: number) => {
@@ -136,7 +137,8 @@ const useLgaPerformance = () => {
             southWest,
             northEast,
             moment(dateRange?.from).format("YYYY-MM-DD"),
-            moment(dateRange?.to).format("YYYY-MM-DD")
+            moment(dateRange?.to).format("YYYY-MM-DD"),
+            zoomLevel
           );
           const reader = body?.getReader();
           return await parseStreamedData(reader!);
@@ -225,6 +227,8 @@ const useLgaPerformance = () => {
     setSouthWest,
     northEast,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
 
     // FUNCTIONS
     perPageHandler,

@@ -43,6 +43,8 @@ const LGAPerformance: NextPageWithLayout = () => {
     setSearchText,
     setSouthWest,
     setNorthEast,
+    zoomLevel,
+    setZoomLevel,
 
     searchTriggerHandler,
     lgaPerformanceData,
@@ -112,6 +114,8 @@ const LGAPerformance: NextPageWithLayout = () => {
               lgaPerformanceMap={lgaPerformanceMap}
               setSouthWest={setSouthWest}
               setNorthEast={setNorthEast}
+              zoomLevel={zoomLevel}
+              setZoomLevel={setZoomLevel}
             />
           </div>
           {/* Table Filters */}

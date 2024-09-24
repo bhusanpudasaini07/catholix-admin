@@ -44,6 +44,7 @@ const useDeviceComparison = () => {
       queryKey: ["regions"],
       queryFn: () => getRegions(),
     });
+
   // FUNCTIONS
   const perPageHandler = (value: number) => {
     setPerPage(value);
@@ -95,8 +96,8 @@ const useDeviceComparison = () => {
           return await getDeviceComparison(
             page,
             perPage,
-            moment(from).format("YYYY-MM-15"),
-            moment(to).format("YYYY-MM-15"),
+            moment(from, "MMM YYYY").format("YYYY-MM-15"),
+            moment(to, "MMM YYYY").format("YYYY-MM-15"),
             regionId,
             stateId,
             lga.length > 0 ? lga.join(",") : "all"
@@ -113,8 +114,8 @@ const useDeviceComparison = () => {
     queryFn: async () => {
       if (regionId && stateId) {
         return await getDeviceComparisonChart(
-          moment(from).format("YYYY-MM-15"),
-          moment(to).format("YYYY-MM-15"),
+          moment(from, "MMM YYYY").format("YYYY-MM-15"),
+          moment(to, "MMM YYYY").format("YYYY-MM-15"),
           regionId,
           stateId,
           lga.length > 0 ? lga.join(",") : "all"
@@ -128,8 +129,8 @@ const useDeviceComparison = () => {
       queryFn: async () => {
         if (regionId && stateId) {
           return await getDeviceComparisonGCChart(
-            moment(from).format("YYYY-MM-15"),
-            moment(to).format("YYYY-MM-15"),
+            moment(from, "MMM YYYY").format("YYYY-MM-15"),
+            moment(to, "MMM YYYY").format("YYYY-MM-15"),
             regionId,
             stateId,
             lga.length > 0 ? lga.join(",") : "all"
@@ -174,8 +175,9 @@ const useDeviceComparison = () => {
         });
       });
 
-      const allDays = Array.from({ length: moment(to).daysInMonth() }, (_, i) =>
-        (i + 1).toString().padStart(2, "0")
+      const allDays = Array.from(
+        { length: moment(to, "MMM YYYY").daysInMonth() },
+        (_, i) => (i + 1).toString().padStart(2, "0")
       );
 
       allDays.forEach((day) => {

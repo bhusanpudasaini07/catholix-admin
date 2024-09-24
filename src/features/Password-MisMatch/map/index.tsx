@@ -20,8 +20,8 @@ import { PasswordMismatchDetails } from "@/interface/security-interface";
 import { isValidLatLng } from "@/shared/utils/map-utils/lat-lng-utils";
 
 const nigeriaBounds: LatLngBoundsExpression = [
-  [4.272, 2.676], // Southwest coordinates
-  [13.892, 14.678], // Northeast coordinates
+  [2.0, 0.0], // Southwest coordinates
+  [16.0, 16.0], // Northeast coordinates
 ];
 
 interface IProps {
@@ -171,6 +171,7 @@ const PasswordMisMatchMap = ({
           className="w-full h-full rounded-lg my-custom-map"
           zoomControl={false}
           minZoom={5}
+          maxBounds={nigeriaBounds}
         >
           <MapComponent
             setSouthWest={setSouthWest}

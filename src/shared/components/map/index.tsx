@@ -13,8 +13,8 @@ import ZoomControls from "./zoom-controls";
 import DashboardContent from "@/features/Dashboard/dashboard-content";
 
 const nigeriaBounds: LatLngBoundsExpression = [
-  [4.272, 2.676], // Southwest coordinates
-  [13.892, 14.678], // Northeast coordinates
+  [2.0, 0.0], // Southwest coordinates
+  [16.0, 16.0], // Northeast coordinates
 ];
 
 interface IProps {
@@ -32,7 +32,7 @@ const MapContent = ({ children }: IProps) => {
         zoom={13}
         scrollWheelZoom={true}
         className="w-full h-full my-custom-map"
-        bounds={nigeriaBounds}
+        // bounds={nigeriaBounds}
         maxBounds={nigeriaBounds}
         zoomControl={false}
       >

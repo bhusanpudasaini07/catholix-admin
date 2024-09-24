@@ -46,7 +46,7 @@ const useLgaPerformance = () => {
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
-  const [zoomLevel, setZoomLevel] = useState<number>(12);
+  const [zoomLevel, setZoomLevel] = useState<number>(7);
 
   // FUNCTIONS
   const perPageHandler = (value: number) => {

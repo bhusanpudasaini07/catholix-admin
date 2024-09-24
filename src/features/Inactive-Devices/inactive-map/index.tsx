@@ -186,6 +186,7 @@ const InactiveMapContent = ({
           // bounds={nigeriaBounds}
           // maxBounds={nigeriaBounds}
           zoomControl={false}
+          minZoom={5}
         >
           <MapComponent
             setSouthWest={setSouthWest}

@@ -43,7 +43,7 @@ const useImeiMismatch = () => {
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
-  const [zoomLevel, setZoomLevel] = useState<number>(12);
+  const [zoomLevel, setZoomLevel] = useState<number>(7);
 
   const { data: regionsList, isLoading: regionsLoading } =
     useQuery<IRegionProps>({

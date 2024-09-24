@@ -48,6 +48,7 @@ interface DataTableProps<TData, TValue> {
   children?: React.ReactNode;
   module?: string;
   applyColumns?: (arg: string) => void;
+  headerBgClass?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -67,6 +68,7 @@ export function DataTable<TData, TValue>({
   children,
   module,
   applyColumns,
+  headerBgClass,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -182,7 +184,8 @@ export function DataTable<TData, TValue>({
                           : "",
                         headerSticky &&
                           "sticky top-[0px] z-[10] bg-light-white",
-                        "whitespace-nowrap"
+                        "whitespace-nowrap",
+                        headerBgClass && headerBgClass
                       )}
                       key={header.id}
                     >
@@ -204,7 +207,7 @@ export function DataTable<TData, TValue>({
               Array.from(
                 { length: loadingDataNum ? loadingDataNum : 1 },
                 (_, index) => (
-                  <TableRow key={index}>
+                  <TableRow className="[&>*]:last:border-b-0" key={index}>
                     {Array.from(
                       {
                         length: columns.filter(

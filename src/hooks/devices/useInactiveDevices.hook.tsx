@@ -46,7 +46,7 @@ const useInactiveDevices = () => {
   const [perPage, setPerPage] = useState<number>(10);
   const [searchText, setSearchText] = useState<string>("");
   const [searchTableTrigger, setSearchTableTrigger] = useState<boolean>(false);
-  const [zoomLevel, setZoomLevel] = useState<number>(12);
+  const [zoomLevel, setZoomLevel] = useState<number>(7);
 
   // API
 

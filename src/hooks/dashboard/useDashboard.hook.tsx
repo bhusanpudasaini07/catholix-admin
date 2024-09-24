@@ -39,7 +39,7 @@ const useDashboard = () => {
   const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [southWest, setSouthWest] = useState<string>("");
   const [northEast, setNorthEast] = useState<string>("");
-  const [zoomLevel, setZoomLevel] = useState<number>(12);
+  const [zoomLevel, setZoomLevel] = useState<number>(7);
   // FUNCTION
   const searchTriggerHandler = () => {
     setSearchTrigger(!searchTrigger);

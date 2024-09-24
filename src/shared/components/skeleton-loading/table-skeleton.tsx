@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import { Skeleton } from '../ui/skeleton';
-import { TableCell } from '../ui/table';
+import { Skeleton } from "../ui/skeleton";
+import { TableCell } from "../ui/table";
 
 const TableSkeleton = () => {
   return (
-    <TableCell className="border-2 border-slate-100">
+    <TableCell className="border-r-2 border-b-2 border-slate-100 last:border-r-0">
       <Skeleton className="w-[110px] h-3 mb-2" />
     </TableCell>
   );

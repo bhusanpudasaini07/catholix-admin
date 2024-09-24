@@ -177,6 +177,7 @@ const ImeiMisMatchMap = ({
           scrollWheelZoom={true}
           className="w-full h-full rounded-lg my-custom-map"
           zoomControl={false}
+          minZoom={5}
         >
           <MapComponent
             setSouthWest={setSouthWest}

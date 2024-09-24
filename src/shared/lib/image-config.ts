@@ -48,6 +48,13 @@ const devices = {
   // active: "/devices/active.svg",
 };
 
+const report = {
+  gaCount: "/report/simcard.svg",
+  gcCount: "/report/bookmark.svg",
+  conversionRate: "/report/graph.svg",
+  opportunityLost: "/report/home-trend-down.svg",
+};
+
 export {
   favIcon,
   AuthImage,
@@ -62,4 +69,5 @@ export {
   misMatched,
   userBriefcase,
   devices,
+  report,
 };

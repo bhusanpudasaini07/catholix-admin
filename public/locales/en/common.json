@@ -30,7 +30,8 @@
       "report": "Report",
       "agent_report": "Agent Report",
       "performance_report": "Performance Report",
-      "dashboard_report": "Dashboard Report"
+      "dashboard_report": "Dashboard Report",
+      "summary_report": "Summary Report"
     },
 
     "search": "Input here to search"

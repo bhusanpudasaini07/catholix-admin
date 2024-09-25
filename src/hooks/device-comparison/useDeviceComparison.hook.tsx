@@ -443,8 +443,8 @@ const useDeviceComparison = () => {
   const exportDeviceComparisonMutation = useMutation({
     mutationFn: () =>
       exportDevicesComparison(
-        moment(from).format("YYYY-MM-15"),
-        moment(to).format("YYYY-MM-15"),
+        moment(from, "MMM YYYY").format("YYYY-MM-15"),
+        moment(to, "MMM YYYY").format("YYYY-MM-15"),
         regionId,
         stateId,
         lga.length > 0 ? lga.join(",") : "all"

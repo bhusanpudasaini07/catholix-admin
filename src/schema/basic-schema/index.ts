@@ -3,11 +3,17 @@ const basicFieldsValidation = {
   firstName: z
     .string({ required_error: "Firstname is required." })
     .min(1, "First name is required.")
-    .max(16, "First name must not exceed 16 characters."),
+    .max(16, "First name must not exceed 16 characters.")
+    .refine((value) => !value.startsWith(" "), {
+      message: "First name cannot start with a space",
+    }),
   lastName: z
     .string({ required_error: "Lastname is required." })
     .min(1, "Last name is required.")
-    .max(16, "Last name must not exceed 16 characters."),
+    .max(16, "Last name must not exceed 16 characters.")
+    .refine((value) => !value.startsWith(" "), {
+      message: "Last name cannot start with a space",
+    }),
   contact: z
     .string({ required_error: "Contact number is required." })
     .min(9, "Mobile number must be atleast 9 numbers.")

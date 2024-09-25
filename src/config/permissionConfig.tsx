@@ -93,17 +93,17 @@ export const permissionConfig = {
           icon: <FileStack width={20} height={20} />,
           hasAccordion: true,
           accordionItem: [
-            {
-              itemName: "common.side_nav.agent_report",
-              itemSlug: "/agent-report",
-              permissions: [
-                // {
-                //   path: "/devices/device_analytics/comparison",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
-              ],
-            },
+            // {
+            //   itemName: "common.side_nav.agent_report",
+            //   itemSlug: "/agent-report",
+            //   permissions: [
+            //     // {
+            //     //   path: "/devices/device_analytics/comparison",
+            //     //   method: "get",
+            //     //   resource: "deviceAnalytics",
+            //     // },
+            //   ],
+            // },
             {
               itemName: "common.side_nav.performance_report",
               itemSlug: "/performance-report",

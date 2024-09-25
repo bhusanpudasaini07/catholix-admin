@@ -7,6 +7,8 @@ import { cn } from "@/shared/utils/utils";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import moment from "moment";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 
 interface IProps {
   dateRange: string | any;
@@ -15,6 +17,7 @@ interface IProps {
   placeholder?: string;
   buttonClassName?: string;
   disabled?: boolean;
+  beforeDisabled?: number;
 }
 
 const DateRangeFilter = ({
@@ -25,6 +28,7 @@ const DateRangeFilter = ({
   placeholder,
   buttonClassName,
   disabled,
+  beforeDisabled = 365,
 }: IProps) => {
   return (
     <Popover>
@@ -82,9 +86,24 @@ const DateRangeFilter = ({
           mode="range"
           defaultMonth={dateRange?.from}
           selected={dateRange}
-          onSelect={setDateRange}
+          // onSelect={setDateRange}
           numberOfMonths={2}
           disabled={{ after: new Date() }}
+          onSelect={(range) => {
+            if (range?.from && range?.to) {
+              const diff = moment(range.to).diff(moment(range.from), "days");
+              const maxDays = beforeDisabled ? beforeDisabled : 365; // Use beforeDisabled if provided, otherwise default to 365
+
+              if (diff > maxDays) {
+                showToast(
+                  TOAST_TYPES.error,
+                  `You cannot select a range longer than ${maxDays} days.`
+                );
+                return;
+              }
+            }
+            setDateRange(range);
+          }}
         />
       </PopoverContent>
     </Popover>

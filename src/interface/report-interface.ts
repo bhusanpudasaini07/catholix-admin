@@ -34,3 +34,19 @@ export interface IPerformanceReport {
   headers: IPerformanceReportHeader[];
   data: IPerformanceReportData;
 }
+
+export interface IReportItem {
+  count: number;
+  date: string;
+}
+
+export interface IDashboardReport {
+  activeDevices: IReportItem[];
+  gaCount: IReportItem[];
+  gcCount: IReportItem[];
+  gcDeviceCount: IReportItem[];
+  heartbeatDevice: IReportItem[];
+  inactiveDevice: IReportItem[];
+  noHeartbeatDevice: IReportItem[];
+  totalDevice: IReportItem[];
+}

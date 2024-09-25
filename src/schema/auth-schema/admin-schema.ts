@@ -2,9 +2,9 @@ import { z } from "zod";
 import { basicFieldsValidation } from "../basic-schema";
 
 const AdminFormSchema = z.object({
-  firstName: basicFieldsValidation?.firstName,
-  lastName: basicFieldsValidation?.lastName,
-  email: basicFieldsValidation?.email,
+  firstName: basicFieldsValidation.firstName,
+  lastName: basicFieldsValidation.lastName,
+  email: basicFieldsValidation.email,
   contact: z
     .string()
     .regex(/^[\+\-0-9 ]*$/, "Only numbers are allowed.")

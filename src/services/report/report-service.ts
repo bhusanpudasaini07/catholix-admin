@@ -11,18 +11,22 @@ const getAgentPerformanceByGC = async (
   lga: string,
   searchTerm?: string
 ) => {
-  return httpRequest("/conversion-rate/agent-performance-by-gc", httpMethods.GET, {
-    params: {
-      page,
-      pageSize,
-      startDate,
-      endDate,
-      region,
-      state,
-      lga,
-      ...(searchTerm && { searchTerm }),
-    },
-  });
+  return httpRequest(
+    "/conversion-rate/agent-performance-by-gc",
+    httpMethods.GET,
+    {
+      params: {
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        ...(searchTerm && { searchTerm }),
+      },
+    }
+  );
 };
 
 const exportAgentPerformanceByGC = async (
@@ -33,16 +37,32 @@ const exportAgentPerformanceByGC = async (
   lga: string,
   searchTerm?: string
 ) => {
-  return httpRequest("/conversion-rate/agent-performance-by-gc/export", httpMethods.GET, {
+  return httpRequest(
+    "/conversion-rate/agent-performance-by-gc/export",
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+        region,
+        state,
+        lga,
+        ...(searchTerm && { searchTerm }),
+      },
+    }
+  );
+};
+
+const getDashboardReport = async (startDate: string, endDate: string) => {
+  return httpRequest("/conversion-rate/dashboard-report", httpMethods.GET, {
     params: {
       startDate,
       endDate,
-      region,
-      state,
-      lga,
-      ...(searchTerm && { searchTerm }),
     },
   });
 };
-
-export { getAgentPerformanceByGC, exportAgentPerformanceByGC };
+export {
+  getAgentPerformanceByGC,
+  exportAgentPerformanceByGC,
+  getDashboardReport,
+};

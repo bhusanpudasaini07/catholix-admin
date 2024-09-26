@@ -50,3 +50,42 @@ export interface IDashboardReport {
   noHeartbeatDevice: IReportItem[];
   totalDevice: IReportItem[];
 }
+
+export interface IGAAndGC {
+  ga_count: string;
+  gc_count: string;
+  conversion_rate: number | null;
+  opportunity_lost: number | null;
+  ga_change_percent: number;
+  gc_change_percent: number;
+  conversion_rate_change_percent: number;
+  opportunity_lost_change_percent: number;
+}
+
+export interface ISummaryDevice {
+  type: string;
+  current_count: string;
+  previous_count: string;
+  change_percent: number;
+}
+
+export interface IReportData {
+  gaAndGc: IGAAndGC;
+  devices: ISummaryDevice[];
+}
+
+export interface ITopDataDetail {
+  category: string;
+  change_percent: number;
+  current_count: string;
+  name: string;
+  previous_count: string;
+}
+
+export interface ITopData {
+  topAgents: ITopDataDetail[];
+  topDealers: ITopDataDetail[];
+  topRegions: ITopDataDetail[];
+  topStates: ITopDataDetail[];
+  topLgas: ITopDataDetail[];
+}

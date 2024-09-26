@@ -61,8 +61,31 @@ const getDashboardReport = async (startDate: string, endDate: string) => {
     },
   });
 };
+
+const getSummaryReport = async (timeframe: string) => {
+  return httpRequest("/conversion-rate/summary-report", httpMethods.GET, {
+    params: {
+      timeframe,
+    },
+  });
+};
+
+const getSummaryTopData = async (timeframe: string) => {
+  return httpRequest(
+    "/conversion-rate/summary-report-top-data",
+    httpMethods.GET,
+    {
+      params: {
+        timeframe,
+      },
+    }
+  );
+};
+
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
   getDashboardReport,
+  getSummaryReport,
+  getSummaryTopData,
 };

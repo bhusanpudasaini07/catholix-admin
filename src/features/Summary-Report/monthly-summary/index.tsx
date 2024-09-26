@@ -1,4 +1,4 @@
-import { ArrowDown } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
@@ -10,45 +10,82 @@ import {
   TabsTrigger,
 } from "@/shared/components/ui/report-tabs";
 import { report } from "@/shared/lib/image-config";
+import { IGAAndGC } from "@/interface/report-interface";
+import { Skeleton } from "@/shared/components/ui/skeleton";
 
-const MonthlySummary = () => {
-  const monthlySummary = [
+interface IProps {
+  tabValue: string;
+  setTabValue: (value: string) => void;
+  gaGcData: IGAAndGC | undefined;
+  summaryLoading: boolean;
+}
+const MonthlySummary = ({
+  tabValue,
+  setTabValue,
+  gaGcData,
+  summaryLoading,
+}: IProps) => {
+  const summary = [
     {
       title: "GA Count",
-      value: 60210,
-      percentage: 26,
-      label: "Vs Last Month",
+      value: gaGcData?.ga_count || 0,
+      percentage: gaGcData?.ga_change_percent || 0,
+      label: `Vs ${
+        tabValue === "yesterday"
+          ? "Previous Day"
+          : tabValue === "weekly"
+          ? "Previous Week"
+          : "Previous Month"
+      }`,
       icon: report?.gaCount,
     },
     {
       title: "GC Count",
-      value: 60210,
-      percentage: 26,
-      label: "Vs Last Month",
+      value: gaGcData?.gc_count || 0,
+      percentage: gaGcData?.gc_change_percent || 0,
+      label: `Vs ${
+        tabValue === "yesterday"
+          ? "Previous Day"
+          : tabValue === "weekly"
+          ? "Previous Week"
+          : "Previous Month"
+      }`,
       icon: report?.gcCount,
     },
     {
       title: "Conversion Rate",
-      value: 60210,
-      percentage: 26,
-      label: "Vs Last Month",
+      value: `${gaGcData?.conversion_rate || 0}%`,
+      percentage: gaGcData?.conversion_rate_change_percent || 0,
+      label: `Vs ${
+        tabValue === "yesterday"
+          ? "Previous Day"
+          : tabValue === "weekly"
+          ? "Previous Week"
+          : "Previous Month"
+      }`,
       icon: report?.conversionRate,
     },
     {
       title: "Opportunity Lost",
-      value: 60210,
-      percentage: 26,
-      label: "Vs Last Month",
+      value: `${gaGcData?.opportunity_lost || 0}%`,
+      percentage: gaGcData?.opportunity_lost_change_percent || 0,
+      label: `Vs ${
+        tabValue === "yesterday"
+          ? "Previous Day"
+          : tabValue === "weekly"
+          ? "Previous Week"
+          : "Previous Month"
+      }`,
       icon: report?.opportunityLost,
     },
   ];
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center">
         <p className="font-medium">Monthly Summary</p>
 
-        <div className="flex items-center gap-4">
-          <Tabs defaultValue="monthly">
+        <div className="flex gap-4 items-center">
+          <Tabs defaultValue={tabValue} onValueChange={setTabValue}>
             <TabsList>
               <TabsTrigger value="yesterday">Yesterday</TabsTrigger>
               <TabsTrigger value="weekly">Weekly</TabsTrigger>
@@ -58,10 +95,10 @@ const MonthlySummary = () => {
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 mt-4">
-        {monthlySummary.map((item) => (
+        {summary.map((item) => (
           <Card key={item.title}>
             <CardContent className="!p-3">
-              <div className="flex items-center gap-2">
+              <div className="flex gap-2 items-center">
                 <Image
                   src={item.icon}
                   width={45}
@@ -69,20 +106,32 @@ const MonthlySummary = () => {
                   alt={item.title}
                 />
                 <div className="flex flex-col gap-2">
-                  <p className="text-color text-sm font-semibold">
+                  <p className="text-sm font-semibold text-color">
                     {item.title}
                   </p>
-                  <p className="font-bold text-color text-2xl leading-5">
-                    {item.value}
-                  </p>
+                  {summaryLoading ? (
+                    <Skeleton className="w-10 h-5" />
+                  ) : (
+                    <p className="text-2xl font-bold leading-5 text-color">
+                      {item.value}
+                    </p>
+                  )}
                 </div>
               </div>
-              <div className="flex items-center gap-2 justify-end mt-4">
-                <Badge variant={"destructiveLight"}>
-                  <ArrowDown size={14} />
-                  {item.percentage}%
+              <div className="flex gap-2 justify-end items-center mt-4">
+                <Badge
+                  variant={
+                    item?.percentage < 0 ? "destructiveLight" : "success"
+                  }
+                >
+                  {item?.percentage < 0 ? (
+                    <ArrowDown size={14} />
+                  ) : (
+                    <ArrowUp size={14} />
+                  )}
+                  {Math.abs(item?.percentage)}%
                 </Badge>
-                <p className="text-gray-260 text-sm">{item.label}</p>
+                <p className="text-sm text-gray-260">{item.label}</p>
               </div>
             </CardContent>
           </Card>

@@ -18,7 +18,7 @@ const SummaryTopTable = ({
 }: SummaryTopTableProps) => {
   return (
     <div>
-      <p className="font-medium -mb-2">{title}</p>
+      <p className="-mb-2 font-medium">{title}</p>
 
       <DataTable
         data={data}
@@ -26,7 +26,10 @@ const SummaryTopTable = ({
         border
         headerBgClass="bg-gray-100"
         loading={loading}
-        loadingDataNum={3}
+        loadingDataNum={5}
+        headerSticky
+        height="max-h-[350px]"
+        lottieHeight={150}
       />
     </div>
   );

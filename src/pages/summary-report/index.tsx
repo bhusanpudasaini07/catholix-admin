@@ -5,42 +5,23 @@ import PageHeader from "@/shared/components/page-header";
 import MonthlySummary from "@/features/Summary-Report/monthly-summary";
 import DevicesSummary from "@/features/Summary-Report/devices";
 import SummaryTopTable from "@/features/Summary-Report/top-table";
-import { Badge } from "@/shared/components/ui/badge";
-import { ArrowDown } from "lucide-react";
+import useSummaryReport from "@/hooks/report/useSummaryReport.hook";
 
 const SummaryReport = () => {
-  const columns = [
-    {
-      id: "sn",
-      header: "SN",
-      accessorKey: "sn",
-    },
-    {
-      id: "name",
-      header: "Dealer Name",
-      accessorKey: "name",
-    },
-    {
-      id: "gc",
-      header: "GC",
-      accessorKey: "gc",
-      cell: ({ row }: any) => {
-        return (
-          <div className="flex items-center justify-between">
-            <p>{row.original.gc}</p>
-            <Badge variant={"destructiveLight"}>
-              <ArrowDown size={14} />
-            </Badge>
-          </div>
-        );
-      },
-    },
-  ];
-  const dummyData = [
-    { sn: 1, name: "CHRIS GLASSER", gc: 8904 },
-    { sn: 2, name: "FRANCES SWANN", gc: 4574 },
-    { sn: 3, name: "DENNIS CALLIS", gc: 3435 },
-  ];
+  const {
+    dealerColumns,
+    agentColumns,
+    regionColumns,
+    stateColumns,
+    lgaColumns,
+    dummyData,
+    tabValue,
+    setTabValue,
+    summaryData,
+    summaryLoading,
+    topData,
+    topLoading,
+  } = useSummaryReport();
   return (
     <>
       <div className="px-8 pt-8 border-b">
@@ -48,40 +29,49 @@ const SummaryReport = () => {
       </div>
 
       <div className="px-8 py-4">
-        <MonthlySummary />
+        <MonthlySummary
+          tabValue={tabValue}
+          setTabValue={setTabValue}
+          gaGcData={summaryData?.data?.gaAndGc}
+          summaryLoading={summaryLoading}
+        />
 
-        <div className="grid grid-cols-2 2xl:grid-cols-3 gap-4 mt-6">
-          <DevicesSummary />
+        <div className="grid grid-cols-2 gap-4 mt-6 2xl:grid-cols-3">
+          <DevicesSummary
+            devices={summaryData?.data?.devices}
+            loading={summaryLoading}
+            tabValue={tabValue}
+          />
 
           <SummaryTopTable
-            data={dummyData}
-            title={"Top 3 Dealer"}
-            columns={columns}
-            loading={false}
+            data={topData?.data?.topDealers || []}
+            title={"Top 5 Dealer"}
+            columns={dealerColumns}
+            loading={topLoading}
           />
           <SummaryTopTable
-            data={dummyData}
-            title={"Top 3 Agent"}
-            columns={columns}
-            loading={false}
+            data={topData?.data?.topAgents || []}
+            title={"Top 5 Agent"}
+            columns={agentColumns}
+            loading={topLoading}
           />
           <SummaryTopTable
-            data={dummyData}
-            title={"Top 3 Region"}
-            columns={columns}
-            loading={false}
+            data={topData?.data?.topRegions || []}
+            title={"Top 5 Region"}
+            columns={regionColumns}
+            loading={topLoading}
           />
           <SummaryTopTable
-            data={dummyData}
-            title={"Top 3 State"}
-            columns={columns}
-            loading={false}
+            data={topData?.data?.topStates || []}
+            title={"Top 5 State"}
+            columns={stateColumns}
+            loading={topLoading}
           />
           <SummaryTopTable
-            data={dummyData}
-            title={"Top 3 LGA"}
-            columns={columns}
-            loading={false}
+            data={topData?.data?.topLgas || []}
+            title={"Top 5 LGA"}
+            columns={lgaColumns}
+            loading={topLoading}
           />
         </div>
       </div>

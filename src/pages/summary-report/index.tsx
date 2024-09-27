@@ -23,12 +23,12 @@ const SummaryReport = () => {
     topLoading,
   } = useSummaryReport();
   return (
-    <>
+    <div className="flex flex-col h-screen">
       <div className="px-8 pt-8 border-b">
         <PageHeader title={"Summary Report"} />
       </div>
 
-      <div className="px-8 py-4">
+      <div className="overflow-auto px-8 py-4 grow">
         <MonthlySummary
           tabValue={tabValue}
           setTabValue={setTabValue}
@@ -75,7 +75,7 @@ const SummaryReport = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

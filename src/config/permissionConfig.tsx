@@ -137,6 +137,17 @@ export const permissionConfig = {
                 // },
               ],
             },
+            {
+              itemName: "common.side_nav.overall_performance",
+              itemSlug: "/overall-performance",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
           ],
         },
       ],

@@ -1,36 +1,45 @@
 import { ExternalLink, ListRestart, Search } from "lucide-react";
 import React from "react";
 
-import useDashboardReport from "@/hooks/report/useDashboardReport.hook";
+import useOverallPerformanceHook from "@/hooks/overall-performance/useOverallPerformance.hook";
 import { DataTable } from "@/shared/components/data-table/data-table";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 import DateRangeFilter from "@/shared/components/date-range-filter";
 import PageHeader from "@/shared/components/page-header";
+import RegionalFilter from "@/shared/components/regional-filter";
 import FullTableSkeleton from "@/shared/components/skeleton-loading/dynamic-header-table-skeleton";
 import { Button } from "@/shared/components/ui/button";
 import { Label } from "@/shared/components/ui/label";
 import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
-const DashboardReport = () => {
+import { NextPageWithLayout } from "../_app";
+
+const OverallPerformance: NextPageWithLayout = () => {
   const {
+    columns,
     perPage,
-    page,
-    setPerPage,
-    setPage,
-    dateRange,
-    setDateRange,
+    perPageHandler,
+    pageChangeHandler,
     searchHandler,
     resetHandler,
-    exportHandler,
-    pageChangeHandler,
-    perPageHandler,
-    dashboardReportLoading,
-    transformedData,
+    regionId,
+    stateId,
+    setRegionId,
+    setStateId,
+    lga,
+    setLga,
+    dateRange,
+    setDateRange,
+    overallPerformanceData,
+    overallPerformanceLoading,
     exportMutation,
-  } = useDashboardReport();
+    exportHandler,
+  } = useOverallPerformanceHook();
+
   return (
     <div className="flex flex-col px-8 py-6 h-screen">
-      <PageHeader title="Dashboard Report">
+      <PageHeader title="Overall Performance">
         {/* Filters */}
         <div className="flex gap-2 items-end px-5 py-2 rounded-lg bg-zinc-200">
           <div className="max-w-[250px]">
@@ -40,10 +49,19 @@ const DashboardReport = () => {
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
-              beforeDisabled={7}
               disabled
             />
           </div>
+
+          <RegionalFilter
+            regionId={regionId}
+            stateId={stateId}
+            setRegionId={setRegionId}
+            setStateId={setStateId}
+            lga={lga}
+            setLga={setLga}
+            searchTriggerHandler={searchHandler}
+          />
 
           {/* reset */}
           <Button
@@ -67,45 +85,53 @@ const DashboardReport = () => {
           </Button>
         </div>
       </PageHeader>
+
       <div className="overflow-y-auto grow no-scrollbar">
+        {overallPerformanceLoading ? (
+          <FullTableSkeleton />
+        ) : (
+          <DataTable
+            columns={columns}
+            data={overallPerformanceData?.data?.data?.results || []}
+            headerSticky
+            border
+            height="max-h-[calc(100vh-230px)]"
+            loading={overallPerformanceLoading}
+            loadingDataNum={10}
+          />
+        )}
         <div className="flex justify-between items-center">
           <Button
             variant={"white"}
             size={"md"}
-            className="py-2.5 h-auto text-sm gap-2"
             onClick={exportHandler}
             disabled={
               exportMutation.isLoading ||
-              transformedData?.data?.length === 0 ||
-              dashboardReportLoading
+              overallPerformanceData?.data?.data?.results?.length === 0 ||
+              overallPerformanceLoading
             }
+            className="py-2.5 h-auto text-sm gap-2 mt-6 "
           >
             <ExternalLink size={20} />
             Export
           </Button>
-        </div>
-        {dashboardReportLoading ? (
-          <FullTableSkeleton />
-        ) : (
-          <DataTable
-            columns={transformedData?.columns}
-            data={transformedData?.data || []}
-            loading={dashboardReportLoading}
-            loadingDataNum={10}
-            headerSticky
-            border
-            height="max-h-[calc(100vh-230px)]"
+          <DataTablePagination
+            currentPage={overallPerformanceData?.data?.data?.currentPage || 1}
+            pageChange={pageChangeHandler}
+            totalPages={overallPerformanceData?.data?.data?.totalPages || 1}
+            perPage={perPage}
+            setPerPage={perPageHandler}
           />
-        )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default DashboardReport;
+export default OverallPerformance;
 
 export const getStaticProps = getI18nProps;
 
-DashboardReport.getLayout = (page: React.ReactNode) => (
-  <MainLayout>{page}</MainLayout>
-);
+OverallPerformance.getLayout = (page) => {
+  return <MainLayout>{page}</MainLayout>;
+};

@@ -1,14 +1,19 @@
 import { IDashboardReport } from "@/interface/report-interface";
-import { getDashboardReport } from "@/services/report/report-service";
+import {
+  exportDashboardReport,
+  getDashboardReport,
+} from "@/services/report/report-service";
 import { Badge } from "@/shared/components/ui/badge";
 import { dashboard } from "@/shared/lib/image-config";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { id } from "date-fns/locale";
 import moment from "moment";
 import Image from "next/image";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 interface TransformedData {
   columns: Array<{ Header: string; accessor: string }>;
@@ -202,6 +207,26 @@ const useDashboardReport = () => {
 
   const transformedData = transformData(dashboardReport?.data);
 
+  const exportMutation = useMutation({
+    mutationFn: () =>
+      exportDashboardReport(
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD")
+      ),
+
+    onSuccess: (data) => {
+      const fileName = `dashboard_report_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
+
   return {
     // States
     perPage,
@@ -216,11 +241,13 @@ const useDashboardReport = () => {
     perPageHandler,
     pageChangeHandler,
     resetHandler,
+    exportHandler,
 
     // API
     dashboardReport,
     dashboardReportLoading,
     transformedData,
+    exportMutation,
   };
 };
 

@@ -62,6 +62,19 @@ const getDashboardReport = async (startDate: string, endDate: string) => {
   });
 };
 
+const exportDashboardReport = async (startDate: string, endDate: string) => {
+  return httpRequest(
+    "/conversion-rate/dashboard-report/export",
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+      },
+    }
+  );
+};
+
 const getSummaryReport = async (timeframe: string) => {
   return httpRequest("/conversion-rate/summary-report", httpMethods.GET, {
     params: {
@@ -88,4 +101,5 @@ export {
   getDashboardReport,
   getSummaryReport,
   getSummaryTopData,
+  exportDashboardReport,
 };

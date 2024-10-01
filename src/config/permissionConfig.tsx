@@ -7,6 +7,7 @@ import {
   Layers3,
   LayoutDashboard,
   LayoutGrid,
+  ListOrdered,
   ScrollText,
   Server,
   SquareKanban,
@@ -140,17 +141,6 @@ export const permissionConfig = {
             {
               itemName: "common.side_nav.overall_performance",
               itemSlug: "/overall-performance",
-              permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
-              ],
-            },
-            {
-              itemName: "common.side_nav.activity_log",
-              itemSlug: "/user-activity-log",
               permissions: [
                 // {
                 //   path: "/devices/device_analytics/performance",
@@ -373,6 +363,17 @@ export const permissionConfig = {
           path: "/roles",
           method: "get",
           resource: "role",
+        },
+      ],
+    },
+    {
+      menuName: "common.side_nav.activity_log",
+      icon: <ListOrdered width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: "common.side_nav.activity_log",
+          menuSlug: "/user-activity-log",
+          icon: <ListOrdered width={20} height={20} />,
         },
       ],
     },

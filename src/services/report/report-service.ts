@@ -95,6 +95,21 @@ const getSummaryTopData = async (timeframe: string) => {
   );
 };
 
+const getActivityLogData = async (
+  page: number,
+  pageSize: number,
+  searchText: string
+  // columns: string
+) => {
+  return httpRequest("/activity_log", httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      ...(searchText && { searchText }),
+      // columns,
+    },
+  });
+};
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
@@ -102,4 +117,5 @@ export {
   getSummaryReport,
   getSummaryTopData,
   exportDashboardReport,
+  getActivityLogData,
 };

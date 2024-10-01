@@ -32,7 +32,8 @@
       "performance_report": "Performance Report",
       "dashboard_report": "Dashboard Report",
       "summary_report": "Summary Report",
-      "overall_performance": "Overall Performance"
+      "overall_performance": "Overall Performance",
+      "activity_log": "Activity Log"
     },
 
     "search": "Input here to search"

@@ -148,6 +148,17 @@ export const permissionConfig = {
                 // },
               ],
             },
+            {
+              itemName: "common.side_nav.activity_log",
+              itemSlug: "/user-activity-log",
+              permissions: [
+                // {
+                //   path: "/devices/device_analytics/performance",
+                //   method: "get",
+                //   resource: "deviceAnalytics",
+                // },
+              ],
+            },
           ],
         },
       ],

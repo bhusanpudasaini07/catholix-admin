@@ -89,3 +89,20 @@ export interface ITopData {
   topStates: ITopDataDetail[];
   topLgas: ITopDataDetail[];
 }
+
+export interface IActivityLog {
+  timestamp: string;
+  user_name: string;
+  description: string;
+  response_code: number;
+}
+
+export interface IActivityLogResponse {
+  results: IActivityLog[];
+  currentPage: number;
+  pageSize: number;
+  totalItems: string;
+  next: number | null;
+  previous: number | null;
+  totalPages: number;
+}

@@ -106,3 +106,34 @@ export interface IActivityLogResponse {
   previous: number | null;
   totalPages: number;
 }
+
+export interface ISummaryReportDetail {
+  data: {
+    currentPage: number;
+    next: number | null;
+    pageSize: number;
+    previous: number | null;
+    results: ISummaryReportDetailResult[];
+    totalItems: number;
+    totalPages: number;
+  };
+  headers: ISummaryReportDetailHeader[];
+}
+
+export interface ISummaryReportDetailResult {
+  action_code_v: string;
+  agent_msisdn_v: string;
+  device_user_id: string;
+  imei1: string;
+  simreg_kit_num_v: string;
+  status_v: string;
+  updated_dt: string;
+  vendor_channel: string;
+}
+
+export interface ISummaryReportDetailHeader {
+  display_name: string;
+  access_key: string;
+  type: string;
+  order: number;
+}

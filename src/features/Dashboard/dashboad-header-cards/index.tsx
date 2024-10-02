@@ -19,35 +19,19 @@ const DashboardHeaderCards = () => {
   const { deviceStats, deviceStatsLoading } = useDashboard();
 
   const dashboardData = [
-    // GC
-    {
-      id: "connectedDevices",
-      title: "Gross Connections",
-      value: deviceStats?.data?.connected_device_gc_count || "0/0",
-      icon: dashboard?.connectedDevices,
-      footerText: "GC 6:00am",
-      footerIconColor: "text-blue-500",
-      tooltipText: "Gross connected devices since 6:00am",
-    },
-    // GA
-    {
-      id: "registeredDevices",
-      title: "Gross Activated Count",
-      value: deviceStats?.data?.registered_device_ga_count || 0,
-      icon: dashboard?.registeredDevices,
-      footerText: "GA 6:00am",
-      footerIconColor: "text-green-500",
-      tooltipText: "No. of registrations done since 6:00am",
-    },
     // Total Devices
     {
       id: "totalDevices",
       title: "Total Device",
       value: deviceStats?.data?.total_device_count || 0,
       icon: dashboard?.totalDevices,
-      footerText: "Live Devices 6:00am",
+      footerText: "All Deployed 6:00am",
       footerIconColor: "text-purple-500",
       tooltipText: "Number of all devices deployed since 6:00am",
+      child: {
+        childLabel: "Live Devices",
+        childValue: deviceStats?.data?.total_live_device_count || 0,
+      },
     },
     // Heartbeat Devices
     {
@@ -62,24 +46,13 @@ const DashboardHeaderCards = () => {
     // Inactive Devices
     {
       id: "inactiveDevices",
-      title: "Inactive Devices",
+      title: "Idle Devices",
       value: deviceStats?.data?.inactive_device_count || 0,
       icon: dashboard?.inactiveDevices,
       pageUrl: "/inactive-devices",
       footerText: "6:00am Ideal",
       footerIconColor: "text-orange-500",
       tooltipText: "Devices yet to compute any registration since 6:00am",
-    },
-    // No Heartbeat Devices
-    {
-      id: "noHeartbeatDevices",
-      title: "No Heartbeat Devices",
-      value: deviceStats?.data?.noheartbeat_device_count || 0,
-      icon: dashboard?.noHeartbeatDevices,
-      pageUrl: "/no-heartbeat-devices",
-      footerText: "6:00am Offline",
-      footerIconColor: "text-gray-500",
-      tooltipText: "Devices that are offline",
     },
     // Active Users
     {
@@ -90,6 +63,49 @@ const DashboardHeaderCards = () => {
       footerText: "6:00am Registered",
       footerIconColor: "text-blue-500",
       tooltipText: "Number of devices that have registered since 6:00am",
+      child: {
+        childLabel: "Offline Agents",
+        childValue: deviceStats?.data?.offline_users || 0,
+      },
+    },
+    // GA
+    {
+      id: "registeredDevices",
+      title: "GA Count",
+      value: deviceStats?.data?.registered_ga_count || 0,
+      icon: dashboard?.registeredDevices,
+      footerText: "GA 6:00am",
+      footerIconColor: "text-green-500",
+      tooltipText: "No. of registrations done since 6:00am",
+      child: {
+        childLabel: "Devices",
+        childValue: deviceStats?.data?.registered_device_ga_count || 0,
+      },
+    },
+    // GC
+    {
+      id: "connectedDevices",
+      title: "GC Count",
+      value: deviceStats?.data?.connected_gc_count || "0",
+      icon: dashboard?.connectedDevices,
+      footerText: "GC 6:00am",
+      footerIconColor: "text-blue-500",
+      tooltipText: "Gross connected devices since 6:00am",
+      child: {
+        childLabel: "Devices",
+        childValue: deviceStats?.data?.connected_device_gc_count || 0,
+      },
+    },
+    // No Heartbeat Devices
+    {
+      id: "noHeartbeatDevices",
+      title: "Inactive Devices",
+      value: deviceStats?.data?.noheartbeat_device_count || 0,
+      icon: dashboard?.noHeartbeatDevices,
+      pageUrl: "/no-heartbeat-devices",
+      footerText: "6:00am Offline",
+      footerIconColor: "text-gray-500",
+      tooltipText: "Devices that are offline",
     },
   ];
 
@@ -110,7 +126,7 @@ const DashboardHeaderCards = () => {
                   <ChevronRight size={14} />
                 </Link>
               )}
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-start">
                 {item.icon && (
                   <div className="shrink-0 size-[32px] 2xl:size-[44px]">
                     <Image
@@ -122,15 +138,27 @@ const DashboardHeaderCards = () => {
                   </div>
                 )}
                 <div>
-                  <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">
-                    {item.value}
-                  </h3>
-                  <p className="text-[10px] 2xl:text-xs 3xl:text-sm text-zinc-500">
-                    {item.title}
-                  </p>
+                  <div>
+                    <p className="text-[10px] 2xl:text-xs 3xl:text-sm text-zinc-500">
+                      {item.title}
+                    </p>
+                    <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">
+                      {item.value}
+                    </h3>
+                  </div>
+                  {item.child && (
+                    <div className="mt-1">
+                      <p className="text-[10px] 2xl:text-xs 3xl:text-sm text-zinc-500">
+                        {item.child.childLabel}
+                      </p>
+                      <h3 className="text-xl font-semibold 2xl:text-2xl text-zinc-700">
+                        {item.child.childValue}
+                      </h3>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="flex justify-between p-1 mt-4 rounded-lg bg-slate-100">
+              <div className="flex justify-between p-1 mt-1 rounded-lg bg-slate-100">
                 <div className="flex gap-1 items-center">
                   <div className={`${item.footerIconColor}`}>
                     <Clock size={18} />

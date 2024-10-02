@@ -8,6 +8,10 @@ export interface IDeviceStats {
     total_device_count: number;
     registered_device_ga_count: number;
     connected_device_gc_count: number;
+    connected_gc_count: number;
+    total_live_device_count: number;
+    offline_users: number;
+    registered_ga_count: number;
   };
 }
 

@@ -6,6 +6,7 @@ import { dashboard } from "@/shared/lib/image-config";
 import { cn } from "@/shared/utils/utils";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 
 interface IProps {
@@ -15,6 +16,7 @@ interface IProps {
 }
 
 const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
+  const router = useRouter();
   const findEachDevice = (type: string) => {
     return devices?.find((item) => item.type === type);
   };
@@ -24,6 +26,7 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       value: findEachDevice("total_devices")?.current_count || 0,
       percentage: findEachDevice("total_devices")?.change_percent || 0,
       title: "Total Devices",
+      slug: "total_devices",
       icon: dashboard?.totalDevices,
       label: `Vs ${
         tabValue === "yesterday"
@@ -37,6 +40,7 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       value: findEachDevice("active_devices")?.current_count || 0,
       percentage: findEachDevice("active_devices")?.change_percent || 0,
       title: "Active Devices",
+      slug: "active_devices",
       icon: dashboard?.activeDevices,
       label: `Vs ${
         tabValue === "yesterday"
@@ -50,6 +54,7 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       value: findEachDevice("active_agents")?.current_count || 0,
       percentage: findEachDevice("active_agents")?.change_percent || 0,
       title: "Active Agents",
+      slug: "active_agents",
       icon: dashboard?.activeUsers,
       label: `Vs ${
         tabValue === "yesterday"
@@ -63,6 +68,7 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       value: findEachDevice("gc_devices")?.current_count || 0,
       percentage: findEachDevice("gc_devices")?.change_percent || 0,
       title: "Devices that have done GC",
+      slug: "gc_devices",
       icon: dashboard?.connectedDevices,
       label: `Vs ${
         tabValue === "yesterday"
@@ -76,6 +82,7 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       value: findEachDevice("inactive_devices")?.current_count || 0,
       percentage: findEachDevice("inactive_devices")?.change_percent || 0,
       title: "Inactive Devices",
+      slug: "inactive_devices",
       icon: dashboard?.noHeartbeatDevices,
       label: `Vs ${
         tabValue === "yesterday"
@@ -94,11 +101,14 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
           <Card
             key={index}
             className={cn(
-              "col-span-2",
+              "col-span-2 cursor-pointer",
               (item?.title === "Devices that have done GC" ||
                 item?.title === "Inactive Devices") &&
                 "col-span-3"
             )}
+            onClick={() => {
+              router.push(`/summary-report/${item.slug}?timeframe=${tabValue}`);
+            }}
           >
             <CardContent className="!p-3">
               <div className="flex gap-2 items-center">
@@ -122,17 +132,17 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
                     variant={
                       item?.percentage < 0 ? "destructiveLight" : "success"
                     }
-                    className="p-1 text-xs"
+                    className="p-1 text-[10px]"
                   >
                     {item?.percentage < 0 ? (
-                      <ArrowDown size={14} />
+                      <ArrowDown size={12} />
                     ) : (
-                      <ArrowUp size={14} />
+                      <ArrowUp size={12} />
                     )}
                     {Math.abs(item?.percentage)}%
                   </Badge>
                 )}
-                <p className="text-xs whitespace-nowrap text-gray-260">
+                <p className="text-[11px] whitespace-nowrap text-gray-260">
                   {item.label}
                 </p>
               </div>

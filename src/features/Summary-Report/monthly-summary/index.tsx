@@ -12,6 +12,8 @@ import {
 import { report } from "@/shared/lib/image-config";
 import { IGAAndGC } from "@/interface/report-interface";
 import { Skeleton } from "@/shared/components/ui/skeleton";
+import { useRouter } from "next/router";
+import { cn } from "@/shared/utils/utils";
 
 interface IProps {
   tabValue: string;
@@ -25,9 +27,11 @@ const MonthlySummary = ({
   gaGcData,
   summaryLoading,
 }: IProps) => {
+  const router = useRouter();
   const summary = [
     {
       title: "GA Count",
+      slug: "ga",
       value: gaGcData?.ga_count || 0,
       percentage: gaGcData?.ga_change_percent || 0,
       label: `Vs ${
@@ -41,6 +45,7 @@ const MonthlySummary = ({
     },
     {
       title: "GC Count",
+      slug: "gc",
       value: gaGcData?.gc_count || 0,
       percentage: gaGcData?.gc_change_percent || 0,
       label: `Vs ${
@@ -54,6 +59,7 @@ const MonthlySummary = ({
     },
     {
       title: "Conversion Rate",
+      slug: "",
       value: `${gaGcData?.conversion_rate || 0}%`,
       percentage: gaGcData?.conversion_rate_change_percent || 0,
       label: `Vs ${
@@ -67,6 +73,7 @@ const MonthlySummary = ({
     },
     {
       title: "Opportunity Lost",
+      slug: "",
       value: `${gaGcData?.opportunity_lost || 0}%`,
       percentage: gaGcData?.opportunity_lost_change_percent || 0,
       label: `Vs ${
@@ -96,7 +103,16 @@ const MonthlySummary = ({
       </div>
       <div className="grid grid-cols-4 gap-4 mt-4">
         {summary.map((item) => (
-          <Card key={item.title}>
+          <Card
+            key={item.title}
+            className={cn(item?.slug !== "" && "cursor-pointer")}
+            onClick={() => {
+              item?.slug !== "" &&
+                router.push(
+                  `/summary-report/${item.slug}?timeframe=${tabValue}`
+                );
+            }}
+          >
             <CardContent className="!p-3">
               <div className="flex gap-2 items-center">
                 <Image

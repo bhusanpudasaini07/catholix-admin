@@ -110,6 +110,22 @@ const getActivityLogData = async (
     },
   });
 };
+
+const getSummaryReportDetail = async (
+  page: number,
+  pageSize: number,
+  timeframe: string,
+  type: string
+) => {
+  return httpRequest("/conversion-rate/report-detail-data", httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      timeframe,
+      type,
+    },
+  });
+};
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
@@ -118,4 +134,5 @@ export {
   getSummaryTopData,
   exportDashboardReport,
   getActivityLogData,
+  getSummaryReportDetail,
 };

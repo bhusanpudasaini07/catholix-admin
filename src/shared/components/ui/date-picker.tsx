@@ -43,7 +43,13 @@ const DatePicker: React.FC<IProps> = ({
         className={`w-auto p-0 ${contentClassName && contentClassName}`}
         align="start"
       >
-        <Calendar mode={mode} selected={date} onSelect={setDate} />
+        <Calendar
+          mode={mode}
+          selected={date}
+          onSelect={setDate}
+          initialFocus
+          disabled={{ after: new Date() }}
+        />
       </PopoverContent>
     </Popover>
   );

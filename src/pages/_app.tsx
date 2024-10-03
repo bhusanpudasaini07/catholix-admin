@@ -17,6 +17,7 @@ import { ThemeProvider } from "@/shared/components/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 
 import type { AppProps } from "next/app";
+import InactivePopup from "@/shared/components/inactive-popup";
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -61,6 +62,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
             />
 
             <Component {...pageProps} />
+            <InactivePopup />
           </>
         )}
       </TooltipProvider>

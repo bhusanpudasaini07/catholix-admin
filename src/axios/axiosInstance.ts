@@ -48,7 +48,7 @@ createAuthRefreshInterceptor(axiosInstance, refreshAuthLogic, {
   },
 });
 
-const clearAllSessionAndLocalStates = () => {
+export const clearAllSessionAndLocalStates = () => {
   toast.error(SESSION_EXPIRED, {
     id: "session",
   });

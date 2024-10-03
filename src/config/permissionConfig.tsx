@@ -366,14 +366,55 @@ export const permissionConfig = {
         },
       ],
     },
+
+    // Logs
     {
-      menuName: "common.side_nav.activity_log",
+      menuName: "common.side_nav.log",
+      menuSlug: "",
       icon: <ListOrdered width={20} height={20} />,
+      hasChildren: true,
+      // permissions: [
+      //   {
+      //     path: "/security/imei-mismatch",
+      //     method: "get",
+      //     resource: "deviceSecurity",
+      //   },
+      //   {
+      //     path: "/security/password-mismatch/",
+      //     method: "get",
+      //     resource: "deviceSecurity",
+      //   },
+      // ],
       subMenu: [
         {
-          menuName: "common.side_nav.activity_log",
-          menuSlug: "/user-activity-log",
+          menuName: "common.side_nav.log",
+          menuSlug: "/device-analytics",
           icon: <ListOrdered width={20} height={20} />,
+          hasAccordion: true,
+          accordionItem: [
+            {
+              itemName: "common.side_nav.activity_log",
+              itemSlug: "/user-activity-log",
+              // permissions: [
+              //   {
+              //     path: "/security/imei-mismatch",
+              //     method: "get",
+              //     resource: "deviceSecurity",
+              //   },
+              // ],
+            },
+            {
+              itemName: "common.side_nav.usage_time_log",
+              itemSlug: "/usage-time-log",
+              // permissions: [
+              //   {
+              //     path: "/security/password-mismatch/",
+              //     method: "get",
+              //     resource: "deviceSecurity",
+              //   },
+              // ],
+            },
+          ],
         },
       ],
     },

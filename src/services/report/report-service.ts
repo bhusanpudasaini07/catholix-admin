@@ -126,6 +126,22 @@ const getSummaryReportDetail = async (
     },
   });
 };
+
+const getUserUsageTime = async (
+  page: number,
+  pageSize: number,
+  searchTerm: string,
+  date: string
+) => {
+  return httpRequest("/user-usage-time", httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      ...(searchTerm && { searchTerm }),
+      date,
+    },
+  });
+};
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
@@ -135,4 +151,5 @@ export {
   exportDashboardReport,
   getActivityLogData,
   getSummaryReportDetail,
+  getUserUsageTime,
 };

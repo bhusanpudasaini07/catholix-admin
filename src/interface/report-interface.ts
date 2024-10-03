@@ -137,3 +137,22 @@ export interface ISummaryReportDetailHeader {
   type: string;
   order: number;
 }
+
+export interface IUsageTimeLog {
+  user_id: number;
+  user_name: string;
+  date: string;
+  last_activity: string;
+  minutes: number;
+  seconds: number;
+}
+
+export interface IUsageTimeLogResponse {
+  results: IUsageTimeLog[];
+  currentPage: number;
+  pageSize: number;
+  totalItems: string;
+  next: number | null;
+  previous: number | null;
+  totalPages: number;
+}

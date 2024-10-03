@@ -42,6 +42,8 @@ import ChevronRight from "@/shared/svg/chevron-right";
 import { useCommonStore } from "@/store/common-store";
 import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
 import { permissionConfig } from "@/config/permissionConfig";
+import { useQuery } from "react-query";
+import { getHeartbeat } from "@/services/dashboard/dashboard-service";
 interface ISidebarProps {
   sidebarWidth: string;
   isExpanded: boolean;
@@ -54,6 +56,7 @@ const Sidebar = ({
   setIsExpanded,
 }: ISidebarProps) => {
   const router = useRouter();
+  const heartbeatInterval = process.env.NEXT_PUBLIC_HEARTBEAT_INTERVAL;
   const { profileData } = useCommonStore();
 
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -82,6 +85,12 @@ const Sidebar = ({
     const result = router.pathname.startsWith(tabRoute);
     return result;
   };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["heartbeat"],
+    queryFn: getHeartbeat,
+    refetchInterval: heartbeatInterval ? parseInt(heartbeatInterval) : false,
+  });
 
   return (
     <div

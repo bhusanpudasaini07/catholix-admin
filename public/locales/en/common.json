@@ -33,7 +33,9 @@
       "dashboard_report": "Dashboard Report",
       "summary_report": "Summary Report",
       "overall_performance": "Overall Performance",
-      "activity_log": "Activity Log"
+      "log": "Logs",
+      "activity_log": "Activity Log",
+      "usage_time_log": "Usage Time Log"
     },
 
     "search": "Input here to search"

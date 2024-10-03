@@ -53,4 +53,14 @@ const getAgentMapData = (
   });
 };
 
-export { getDeviceStats, getDeviceMapData, getDealerMapData, getAgentMapData };
+const getHeartbeat = () => {
+  return httpRequest("/heartbeat", httpMethods.GET);
+};
+
+export {
+  getDeviceStats,
+  getDeviceMapData,
+  getDealerMapData,
+  getAgentMapData,
+  getHeartbeat,
+};

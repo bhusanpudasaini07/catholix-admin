@@ -460,6 +460,102 @@ const RoleForm = ({ form, loading, isViewModule }: IProps) => {
           </CardContent>
         </Card> */}
 
+        {/* Report */}
+        <Card>
+          <CardContent>
+            <div className="flex justify-between items-center mb-6">
+              <h5 className="text-base font-bold text-zinc-900">Report</h5>
+            </div>
+            <div className="grid grid-cols-3 gap-10 items-center 2xl:gap-0 2xl:grid-cols-6">
+              {groupedPermissionsByResource?.report?.map((permission) => (
+                <FormField
+                  key={permission.id}
+                  control={form.control}
+                  name="permissions"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-2 items-center">
+                      <FormControl>
+                        <Checkbox
+                          id={permission.id.toString()}
+                          variant="primary"
+                          className="border-zinc-700"
+                          checked={field.value?.includes(
+                            permission.id.toString()
+                          )}
+                          disabled={isViewModule}
+                          onCheckedChange={(checked) => {
+                            handleCheckedChange(
+                              permission.id.toString(),
+                              checked as boolean,
+                              permission
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        className="!mt-0"
+                        htmlFor={permission.id.toString()}
+                      >
+                        {permission.description}
+                      </FormLabel>
+                    </FormItem>
+                  )}
+                />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Conversion Report */}
+        <Card>
+          <CardContent>
+            <div className="flex justify-between items-center mb-6">
+              <h5 className="text-base font-bold text-zinc-900">
+                Conversion Report
+              </h5>
+            </div>
+            <div className="grid grid-cols-3 gap-10 items-center 2xl:gap-0 2xl:grid-cols-6">
+              {groupedPermissionsByResource?.consversion_report?.map(
+                (permission) => (
+                  <FormField
+                    key={permission.id}
+                    control={form.control}
+                    name="permissions"
+                    render={({ field }) => (
+                      <FormItem className="flex gap-2 items-center">
+                        <FormControl>
+                          <Checkbox
+                            id={permission.id.toString()}
+                            variant="primary"
+                            className="border-zinc-700"
+                            checked={field.value?.includes(
+                              permission.id.toString()
+                            )}
+                            disabled={isViewModule}
+                            onCheckedChange={(checked) => {
+                              handleCheckedChange(
+                                permission.id.toString(),
+                                checked as boolean,
+                                permission
+                              );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel
+                          className="!mt-0"
+                          htmlFor={permission.id.toString()}
+                        >
+                          {permission.description}
+                        </FormLabel>
+                      </FormItem>
+                    )}
+                  />
+                )
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Admins */}
         <Card>
           <CardContent>

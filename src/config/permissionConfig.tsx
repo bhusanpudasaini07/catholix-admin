@@ -35,7 +35,23 @@ export const permissionConfig = {
       menuSlug: "",
       icon: <Layers3 width={20} height={20} />,
       hasChildren: true,
-      // permissions: [],
+      permissions: [
+        {
+          path: "/conversion-rate/agent",
+          method: "get",
+          resource: "consversion_report",
+        },
+        {
+          path: "/conversion-rate/dealer",
+          method: "get",
+          resource: "consversion_report",
+        },
+        {
+          path: "/conversion-rate/agent-performance",
+          method: "get",
+          resource: "consversion_report",
+        },
+      ],
       subMenu: [
         {
           menuName: "common.side_nav.conversion_report",
@@ -47,33 +63,33 @@ export const permissionConfig = {
               itemName: "common.side_nav.conversion_rate_agents",
               itemSlug: "/conversion-rate-agents",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/comparison",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/agent",
+                  method: "get",
+                  resource: "consversion_report",
+                },
               ],
             },
             {
               itemName: "common.side_nav.conversion_rate_dealers",
               itemSlug: "/conversion-rate-dealers",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance-by-lg",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/dealer",
+                  method: "get",
+                  resource: "consversion_report",
+                },
               ],
             },
             {
               itemName: "common.side_nav.conversion_performance",
               itemSlug: "/conversion-performance",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/agent-performance",
+                  method: "get",
+                  resource: "consversion_report",
+                },
               ],
             },
           ],
@@ -86,7 +102,28 @@ export const permissionConfig = {
       menuSlug: "",
       icon: <FileStack width={20} height={20} />,
       hasChildren: true,
-      // permissions: [],
+      permissions: [
+        {
+          path: "/conversion-rate/dashboard-report",
+          method: "get",
+          resource: "report",
+        },
+        {
+          path: "/conversion-rate/summary-report",
+          method: "get",
+          resource: "report",
+        },
+        {
+          path: "/conversion-rate/agent-performance-by-gc-cr",
+          method: "get",
+          resource: "report",
+        },
+        {
+          path: "/conversion-rate/agent-performance-by-gc",
+          method: "get",
+          resource: "report",
+        },
+      ],
       subMenu: [
         {
           menuName: "common.side_nav.report",
@@ -109,44 +146,44 @@ export const permissionConfig = {
               itemName: "common.side_nav.performance_report",
               itemSlug: "/performance-report",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance-by-lg",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/agent-performance-by-gc",
+                  method: "get",
+                  resource: "report",
+                },
               ],
             },
             {
               itemName: "common.side_nav.dashboard_report",
               itemSlug: "/dashboard-report",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/dashboard-report",
+                  method: "get",
+                  resource: "report",
+                },
               ],
             },
             {
               itemName: "common.side_nav.summary_report",
               itemSlug: "/summary-report",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/summary-report",
+                  method: "get",
+                  resource: "report",
+                },
               ],
             },
             {
               itemName: "common.side_nav.overall_performance",
               itemSlug: "/overall-performance",
               permissions: [
-                // {
-                //   path: "/devices/device_analytics/performance",
-                //   method: "get",
-                //   resource: "deviceAnalytics",
-                // },
+                {
+                  path: "/conversion-rate/agent-performance-by-gc-cr",
+                  method: "get",
+                  resource: "report",
+                },
               ],
             },
           ],

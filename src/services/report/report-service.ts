@@ -131,14 +131,22 @@ const getUserUsageTime = async (
   page: number,
   pageSize: number,
   searchTerm: string,
-  date: string
+  startDate: string,
+  endDate: string,
+  region: string,
+  state: string,
+  lga: string
 ) => {
   return httpRequest("/user-usage-time", httpMethods.GET, {
     params: {
       page,
       pageSize,
+      startDate,
+      endDate,
+      region,
+      state,
+      lga,
       ...(searchTerm && { searchTerm }),
-      date,
     },
   });
 };

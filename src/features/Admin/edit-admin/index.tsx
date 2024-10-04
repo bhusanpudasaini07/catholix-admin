@@ -106,8 +106,8 @@ const EditAdminForm = () => {
         contact: adminDetail?.data?.contact,
         status: adminDetail?.data?.status === "active" ? true : false,
         roleId: adminDetail?.data?.role?.id.toString(),
-        regionId: adminDetail?.data?.regionId?.toString(),
-        stateId: adminDetail?.data?.stateId?.toString(),
+        regionId: adminDetail?.data?.regionId?.toString() || "0",
+        stateId: adminDetail?.data?.stateId?.toString() || "0",
       });
     }
   }, [adminDetail]);

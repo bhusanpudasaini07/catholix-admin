@@ -694,11 +694,7 @@ const RoleForm = ({ form, loading, isViewModule }: IProps) => {
       </div>
       {!isViewModule && (
         <div className="flex gap-2 justify-start items-center mt-6">
-          <Button
-            variant={"primary"}
-            disabled={loading || router.query.id === "1"}
-            className="gap-2"
-          >
+          <Button variant={"primary"} disabled={loading} className="gap-2">
             {loading && <ButtonLoader />}
             {id ? "Update" : "Create"}
           </Button>

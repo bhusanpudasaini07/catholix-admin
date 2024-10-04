@@ -90,6 +90,10 @@ const useUsageTimeLog = () => {
       }
     }
     setSearchTerm("");
+    setDateRange({
+      from: moment().subtract(15, "days").toDate(),
+      to: moment().toDate(),
+    });
     setSearchTrigger(!searchTrigger);
     setPage(1);
   };
@@ -242,7 +246,7 @@ const useUsageTimeLog = () => {
     const dateColumns = generateDateColumns(dateRange);
 
     return [...staticColumns, ...dateColumns];
-  }, [dateRange, page, perPage]);
+  }, [page, perPage, usageTimeLogList]);
 
   return {
     // STATES

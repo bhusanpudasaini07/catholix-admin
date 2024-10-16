@@ -21,6 +21,7 @@ import { Input } from "@/shared/components/ui/input";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import PasswordInput from "@/shared/components/password-input";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
@@ -66,12 +67,13 @@ const ResetPasswordForm = () => {
                   <span className="ml-1 text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  {/* <Input
                     type="password"
                     className="placeholder:text-gray-270"
                     placeholder="New Password"
                     {...field}
-                  />
+                  /> */}
+                  <PasswordInput placeholder="New Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -89,12 +91,13 @@ const ResetPasswordForm = () => {
                   <span className="ml-1 text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  {/* <Input
                     type="password"
                     className="placeholder:text-gray-270"
                     placeholder="Confirm Password"
                     {...field}
-                  />
+                  /> */}
+                  <PasswordInput placeholder="Confirm Password" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -150,6 +150,28 @@ const getUserUsageTime = async (
     },
   });
 };
+
+const getCorporateEBReport = async (startDate: string, endDate: string) => {
+  return httpRequest("/conversion-rate/carporate-eb-report", httpMethods.GET, {
+    params: {
+      startDate,
+      endDate,
+    },
+  });
+};
+
+const exportCorporateEBReport = async (startDate: string, endDate: string) => {
+  return httpRequest(
+    "/conversion-rate/carporate-eb-report/export",
+    httpMethods.GET,
+    {
+      params: {
+        startDate,
+        endDate,
+      },
+    }
+  );
+};
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
@@ -160,4 +182,6 @@ export {
   getActivityLogData,
   getSummaryReportDetail,
   getUserUsageTime,
+  getCorporateEBReport,
+  exportCorporateEBReport,
 };

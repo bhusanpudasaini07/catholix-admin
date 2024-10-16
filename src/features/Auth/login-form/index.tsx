@@ -109,14 +109,14 @@ const LoginForm = () => {
                   <span className="ml-1 text-destructive">*</span>
                 </FormLabel>
                 <FormControl>
-                  <Input
+                  {/* <Input
                     className="placeholder:text-gray-270"
                     placeholder="Your Password"
                     type="password"
                     {...field}
-                  />
+                  /> */}
+                  <PasswordInput placeholder="Your Password" {...field} />
                 </FormControl>
-                {/* <PasswordInput placeholder="Your Password" {...field} /> */}
                 <FormMessage />
               </FormItem>
             )}

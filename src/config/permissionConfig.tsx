@@ -165,6 +165,17 @@ export const permissionConfig = {
               ],
             },
             {
+              itemName: "common.side_nav.corporate_eb_report",
+              itemSlug: "/corporate-eb-report",
+              permissions: [
+                {
+                  path: "/conversion-rate/dashboard-report",
+                  method: "get",
+                  resource: "report",
+                },
+              ],
+            },
+            {
               itemName: "common.side_nav.summary_report",
               itemSlug: "/summary-report",
               permissions: [

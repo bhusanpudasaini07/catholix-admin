@@ -35,7 +35,8 @@
       "overall_performance": "Overall Performance",
       "log": "Logs",
       "activity_log": "Activity Log",
-      "usage_time_log": "Usage Time Log"
+      "usage_time_log": "Usage Time Log",
+      "corporate_eb_report": "Corporate EB Report"
     },
 
     "search": "Input here to search"

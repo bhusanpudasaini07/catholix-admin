@@ -22,6 +22,7 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PasswordInput from "@/shared/components/password-input";
 
 interface IProps {
   name: string;
@@ -78,12 +79,13 @@ const AdminResetPasswordModal = ({ name, id, open, setOpen }: IProps) => {
                         New Password
                       </FormLabel>
                       <FormControl>
-                        <Input
+                        {/* <Input
                           type="password"
                           className="placeholder:text-gray-270"
                           placeholder="New Password"
                           {...field}
-                        />
+                        /> */}
+                        <PasswordInput placeholder="New Password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -100,9 +102,13 @@ const AdminResetPasswordModal = ({ name, id, open, setOpen }: IProps) => {
                         Confirm Password
                       </FormLabel>
                       <FormControl>
-                        <Input
+                        {/* <Input
                           type="password"
                           className="placeholder:text-gray-270"
+                          placeholder="Confirm Password"
+                          {...field}
+                        /> */}
+                        <PasswordInput
                           placeholder="Confirm Password"
                           {...field}
                         />

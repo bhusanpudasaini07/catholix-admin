@@ -97,7 +97,7 @@ const Sidebar = ({
       style={{
         width: sidebarWidth,
       }}
-      className={`overflow-y-auto border-r border-black border-opacity-10 bg-light-white shrink-0 sidebar max-h-[calc(100vh)]`}
+      className={`h-screen border-r border-black border-opacity-10 bg-light-white shrink-0 sidebar`}
     >
       <div
         style={{
@@ -146,7 +146,7 @@ const Sidebar = ({
           <GlobalSearch isExpanded={isExpanded} />
         </div> */}
       </div>
-      <div className="flex flex-col gap-2 px-4 pt-24 pb-9">
+      <div className="flex flex-col gap-2 px-4 pt-24 pb-12 h-[calc(100vh-40px)] overflow-y-auto no-scrollbar">
         {menuItems
           ?.filter((item) =>
             item?.permissions

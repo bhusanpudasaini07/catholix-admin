@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import {
+  exportDeviceDetail,
   getDeviceChartData,
   getDeviceDetail,
   getDeviceDetailTable,
@@ -18,6 +19,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import SerialNumberCell from "@/shared/components/data-table/column-serial-number";
 import { Badge } from "@/shared/components/ui/badge";
 import moment from "moment";
+import { exportToCsv } from "@/shared/utils/export-utils/export-util";
+import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 
 interface IProps {
   data: IDeviceDetail;
@@ -313,6 +316,28 @@ const useDeviceDetail = () => {
   //   };
   // }, [deviceChartData]);
 
+  const exportMutation = useMutation({
+    mutationFn: () =>
+      exportDeviceDetail(
+        router.query.id as string,
+        moment(dateRange?.from).format("YYYY-MM-DD"),
+        moment(dateRange?.to).format("YYYY-MM-DD"),
+        searchText
+      ),
+
+    onSuccess: (data) => {
+      const fileName = `device_detail_${moment(new Date()).format(
+        "YYYY-MM-DD"
+      )}.csv`;
+      exportToCsv(fileName, data?.data);
+    },
+  });
+
+  const exportHandler = () => {
+    exportMutation.mutate();
+    showToast(TOAST_TYPES.success, "Download will start shortly!");
+  };
+
   return {
     // States
     searchText,
@@ -338,6 +363,7 @@ const useDeviceDetail = () => {
     pageChangeHandler,
     searchTriggerHandler,
     headerSearchTriggerHandler,
+    exportHandler,
 
     // API CALLS
     deviceDetail,
@@ -349,6 +375,7 @@ const useDeviceDetail = () => {
     deviceDetailColumns,
     // Chart Option
     chartOption,
+    exportMutation,
   };
 };
 

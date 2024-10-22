@@ -242,6 +242,17 @@ const getDeviceChartData = async (
   });
 };
 
+const exportDeviceDetail = async (
+  id: string,
+  startDate: string,
+  endDate: string,
+  searchTerm?: string
+) => {
+  return httpRequest(`/devices/registered/${id}/export`, httpMethods.GET, {
+    params: { startDate, endDate, ...(searchTerm && { searchTerm }) },
+  });
+};
+
 // ________________DEVICE PERFORMANCE __________________
 const getDevicePerformance = async (
   page: number,
@@ -517,6 +528,7 @@ export {
   getDeviceDetail,
   getDeviceDetailTable,
   getDeviceChartData,
+  exportDeviceDetail,
 
   // Device Performance
   getDevicePerformance,

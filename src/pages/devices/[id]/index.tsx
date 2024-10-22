@@ -31,6 +31,8 @@ const DeviceDetail: NextPageWithLayout = () => {
     perPage,
     chartOption,
     deviceChartDataLoading,
+    exportHandler,
+    exportMutation,
   } = useDeviceDetail();
   return (
     <div className="px-8 py-6">
@@ -82,6 +84,8 @@ const DeviceDetail: NextPageWithLayout = () => {
             />
 
             <DeviceModelsList
+              exportHandler={exportHandler}
+              exportLoading={exportMutation.isLoading}
               searchText={searchText}
               searchTextHandler={searchTextHandler}
               searchTriggerHandler={searchTriggerHandler}

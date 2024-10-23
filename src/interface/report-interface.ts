@@ -156,3 +156,27 @@ export interface IUsageTimeLogResponse {
   previous: number | null;
   totalPages: number;
 }
+
+export interface IDashboardReportDetailHeader {
+  display_name: string;
+  access_key: string;
+  type: string;
+  order: number;
+}
+
+export interface IDashboardReportDetailResult {
+  [key: string]: string | number; // This allows for dynamic fields
+}
+
+export interface IDashboardReportDetail {
+  data: {
+    currentPage: number;
+    next: number | null;
+    pageSize: number;
+    previous: number | null;
+    results: IDashboardReportDetailResult[];
+    totalItems: number;
+    totalPages: number;
+  };
+  headers: IDashboardReportDetailHeader[];
+}

@@ -123,6 +123,11 @@ export const permissionConfig = {
           method: "get",
           resource: "report",
         },
+        {
+          path: "/conversion-rate/carporate-eb-report",
+          method: "get",
+          resource: "report",
+        },
       ],
       subMenu: [
         {
@@ -169,7 +174,7 @@ export const permissionConfig = {
               itemSlug: "/corporate-eb-report",
               permissions: [
                 {
-                  path: "/conversion-rate/dashboard-report",
+                  path: "/conversion-rate/carporate-eb-report",
                   method: "get",
                   resource: "report",
                 },

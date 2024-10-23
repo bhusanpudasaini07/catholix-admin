@@ -172,6 +172,25 @@ const exportCorporateEBReport = async (startDate: string, endDate: string) => {
     }
   );
 };
+
+// Add this new function to the existing file
+
+const getDashboardReportDetail = async (
+  page: number,
+  pageSize: number,
+  date: string,
+  type: string
+) => {
+  return httpRequest("/conversion-rate/dashboard-report-detail-data", httpMethods.GET, {
+    params: {
+      page,
+      pageSize,
+      date,
+      type,
+    },
+  });
+};
+
 export {
   getAgentPerformanceByGC,
   exportAgentPerformanceByGC,
@@ -184,4 +203,5 @@ export {
   getUserUsageTime,
   getCorporateEBReport,
   exportCorporateEBReport,
+  getDashboardReportDetail,
 };

@@ -11,6 +11,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { id } from "date-fns/locale";
 import moment from "moment";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useMutation, useQuery } from "react-query";
@@ -25,6 +26,7 @@ interface IProps {
 }
 
 const useDashboardReport = () => {
+  const router = useRouter();
   const [perPage, setPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const [searchTrigger, setSearchTrigger] = useState(false);
@@ -175,14 +177,41 @@ const useDashboardReport = () => {
           if (original.title === "gcCount") {
             return (
               <div>
-                <Badge variant={"info"}>{original[date]}</Badge> /{" "}
-                <Badge variant={"info"}>
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/${original.title}?date=${date}`
+                    );
+                  }}
+                >
+                  {original[date]}
+                </Badge>{" "}
+                /{" "}
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(`${router.asPath}/gcDeviceCount?date=${date}`);
+                  }}
+                >
                   {original[`gcDeviceCount_${date}`]}
                 </Badge>
               </div>
             );
           }
-          return <Badge variant={"info"}>{original[date]}</Badge>;
+          return (
+            <Badge
+              variant={"info"}
+              className="cursor-pointer"
+              onClick={() => {
+                router.push(`${router.asPath}/${original.title}?date=${date}`);
+              }}
+            >
+              {original[date]}
+            </Badge>
+          );
         },
       })),
     ];

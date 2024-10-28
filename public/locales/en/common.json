@@ -12,7 +12,7 @@
     "side_nav": {
       "dashboard": "Dashboard",
       "dlcm_data": "Agent Information",
-      "ssp_data": "SSP Data",
+      "ssp_data": "SIM Reg",
       "devices_data": "Devices Data",
       "admins": "Admins",
       "roles": "Roles",

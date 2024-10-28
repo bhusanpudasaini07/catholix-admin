@@ -30,7 +30,7 @@ const SSPData: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
       {/* Header */}
-      <PageHeader title="SSP Data" />
+      <PageHeader title="SIM Reg" />
 
       <DataTable
         columns={sspColumns}

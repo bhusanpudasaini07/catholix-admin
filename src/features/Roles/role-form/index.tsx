@@ -171,7 +171,9 @@ const RoleForm = ({ form, loading, isViewModule }: IProps) => {
           <Card className="col-span-3 xl:col-span-1">
             <CardContent>
               <div className="flex justify-between items-center mb-6">
-                <h5 className="text-base font-bold text-zinc-900">SSP Data</h5>
+                <h5 className="text-base font-bold text-zinc-900">
+                  SIM Reg Data
+                </h5>
               </div>
               <div className="grid grid-cols-1 items-center">
                 {groupedPermissionsByResource?.ssp?.map((permission) => (

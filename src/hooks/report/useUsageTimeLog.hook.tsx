@@ -165,11 +165,14 @@ const useUsageTimeLog = () => {
     const groupedData: Record<string, any> = {};
 
     data?.forEach((entry: any) => {
-      if (!groupedData[entry?.user_name]) {
-        groupedData[entry?.user_name] = { user_name: entry?.user_name };
+      if (!groupedData[entry?.user_id]) {
+        groupedData[entry?.user_id] = {
+          user_id: entry?.user_id,
+          user_name: entry?.user_name,
+        };
       }
       entry.data.forEach((dateEntry: any) => {
-        groupedData[entry?.user_name][dateEntry?.date] = {
+        groupedData[entry?.user_id][dateEntry?.date] = {
           minutes: dateEntry?.minutes,
           seconds: dateEntry?.seconds,
         };

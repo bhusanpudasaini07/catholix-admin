@@ -51,7 +51,7 @@ const SummaryReportType = () => {
           <Skeleton className="w-40 h-10" />
         </div>
       ) : (
-        <PageHeader title={pageTitle} />
+        <PageHeader title={pageTitle} back backUrl={"/summary-report"} />
       )}
 
       {summaryReportDetailLoading ? (

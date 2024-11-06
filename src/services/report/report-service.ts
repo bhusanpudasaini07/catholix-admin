@@ -75,21 +75,23 @@ const exportDashboardReport = async (startDate: string, endDate: string) => {
   );
 };
 
-const getSummaryReport = async (timeframe: string) => {
+const getSummaryReport = async (startDate: string, endDate: string) => {
   return httpRequest("/conversion-rate/summary-report", httpMethods.GET, {
     params: {
-      timeframe,
+      startDate,
+      endDate,
     },
   });
 };
 
-const getSummaryTopData = async (timeframe: string) => {
+const getSummaryTopData = async (startDate: string, endDate: string) => {
   return httpRequest(
     "/conversion-rate/summary-report-top-data",
     httpMethods.GET,
     {
       params: {
-        timeframe,
+        startDate,
+        endDate,
       },
     }
   );
@@ -114,14 +116,16 @@ const getActivityLogData = async (
 const getSummaryReportDetail = async (
   page: number,
   pageSize: number,
-  timeframe: string,
+  startDate: string,
+  endDate: string,
   type: string
 ) => {
   return httpRequest("/conversion-rate/report-detail-data", httpMethods.GET, {
     params: {
       page,
       pageSize,
-      timeframe,
+      startDate,
+      endDate,
       type,
     },
   });
@@ -181,14 +185,18 @@ const getDashboardReportDetail = async (
   date: string,
   type: string
 ) => {
-  return httpRequest("/conversion-rate/dashboard-report-detail-data", httpMethods.GET, {
-    params: {
-      page,
-      pageSize,
-      date,
-      type,
-    },
-  });
+  return httpRequest(
+    "/conversion-rate/dashboard-report-detail-data",
+    httpMethods.GET,
+    {
+      params: {
+        page,
+        pageSize,
+        date,
+        type,
+      },
+    }
+  );
 };
 
 export {

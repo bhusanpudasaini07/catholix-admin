@@ -18,7 +18,7 @@ interface IProps {
 
 const useSummaryReportDetail = () => {
   const router = useRouter();
-  const { type, timeframe } = router.query;
+  const { type, startDate, endDate } = router.query;
 
   // STATES
   const [perPage, setPerPage] = useState<number>(10);
@@ -38,11 +38,12 @@ const useSummaryReportDetail = () => {
   } = useQuery<IProps>({
     queryKey: ["summaryReportDetail", page, perPage],
     queryFn: async () => {
-      if (type && timeframe) {
+      if (type && startDate && endDate) {
         const response = await getSummaryReportDetail(
           page,
           perPage,
-          timeframe as string, //timeframe
+          startDate as string,
+          endDate as string,
           type as string
         );
         return response;

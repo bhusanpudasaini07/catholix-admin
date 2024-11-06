@@ -13,6 +13,8 @@ import {
   ITopDataDetail,
 } from "@/interface/report-interface";
 import { ColumnDef } from "@tanstack/react-table";
+import { DateRange } from "react-day-picker";
+import moment from "moment";
 
 interface IProps {
   data: IReportData;
@@ -22,18 +24,37 @@ interface ITopDataProps {
 }
 
 const useSummaryReport = () => {
-  const [tabValue, setTabValue] = useState<string>("yesterday");
+  const [dateRange, setDateRange] = useState<DateRange>({
+    from: new Date(new Date().setMonth(new Date().getMonth() - 1)),
+    to: new Date(),
+  });
+  const [searchTrigger, setSearchTrigger] = useState(false);
 
   const { data: summaryData, isLoading: summaryLoading } = useQuery<IProps>({
-    queryKey: ["summary-report", tabValue],
-    queryFn: () => getSummaryReport(tabValue),
+    queryKey: ["summary-report", searchTrigger],
+    queryFn: () =>
+      getSummaryReport(
+        moment(dateRange.from).format("YYYY-MM-DD"),
+        moment(dateRange.to).format("YYYY-MM-DD")
+      ),
   });
 
   const { data: topData, isLoading: topLoading } = useQuery<ITopDataProps>({
-    queryKey: ["summary-report-top", tabValue],
-    queryFn: () => getSummaryTopData(tabValue),
+    queryKey: ["summary-report-top", searchTrigger],
+    queryFn: () =>
+      getSummaryTopData(
+        moment(dateRange.from).format("YYYY-MM-DD"),
+        moment(dateRange.to).format("YYYY-MM-DD")
+      ),
   });
 
+  const changeDateRange = (date: DateRange) => {
+    setDateRange(date);
+  };
+
+  const searchTriggerHandler = () => {
+    setSearchTrigger(!searchTrigger);
+  };
   //   Dealer Column
   const dealerColumns: ColumnDef<ITopDataDetail>[] = [
     {
@@ -243,9 +264,9 @@ const useSummaryReport = () => {
   ];
   return {
     // STATES
-    tabValue,
-    setTabValue,
-
+    dateRange,
+    changeDateRange,
+    searchTriggerHandler,
     // COLUMNS
     dealerColumns,
     agentColumns,

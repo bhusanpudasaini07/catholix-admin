@@ -5,17 +5,19 @@ import { Skeleton } from "@/shared/components/ui/skeleton";
 import { dashboard } from "@/shared/lib/image-config";
 import { cn } from "@/shared/utils/utils";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import moment from "moment";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
+import { DateRange } from "react-day-picker";
 
 interface IProps {
   devices: ISummaryDevice[] | undefined;
   loading: boolean;
-  tabValue: string;
+  dateRange: DateRange | undefined;
 }
 
-const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
+const DevicesSummary = ({ devices, loading, dateRange }: IProps) => {
   const router = useRouter();
   const findEachDevice = (type: string) => {
     return devices?.find((item) => item.type === type);
@@ -28,13 +30,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       title: "Total Devices",
       slug: "total_devices",
       icon: dashboard?.totalDevices,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
     },
     {
       value: findEachDevice("active_devices")?.current_count || 0,
@@ -42,13 +44,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       title: "Active Devices",
       slug: "active_devices",
       icon: dashboard?.activeDevices,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
     },
     {
       value: findEachDevice("active_agents")?.current_count || 0,
@@ -56,13 +58,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       title: "Active Agents",
       slug: "active_agents",
       icon: dashboard?.activeUsers,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
     },
     {
       value: findEachDevice("gc_devices")?.current_count || 0,
@@ -70,13 +72,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       title: "Devices that have done GC",
       slug: "gc_devices",
       icon: dashboard?.connectedDevices,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
     },
     {
       value: findEachDevice("inactive_devices")?.current_count || 0,
@@ -84,13 +86,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
       title: "Inactive Devices",
       slug: "inactive_devices",
       icon: dashboard?.noHeartbeatDevices,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
     },
   ];
   return (
@@ -107,7 +109,13 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
                 "col-span-3"
             )}
             onClick={() => {
-              router.push(`/summary-report/${item.slug}?timeframe=${tabValue}`);
+              router.push(
+                `/summary-report/${item.slug}?startDate=${moment(
+                  dateRange?.from
+                ).format("YYYY-MM-DD")}&endDate=${moment(dateRange?.to).format(
+                  "YYYY-MM-DD"
+                )}`
+              );
             }}
           >
             <CardContent className="!p-3">
@@ -142,9 +150,9 @@ const DevicesSummary = ({ devices, loading, tabValue }: IProps) => {
                     {Math.abs(item?.percentage)}%
                   </Badge>
                 )}
-                <p className="text-[11px] whitespace-nowrap text-gray-260">
+                {/* <p className="text-[11px] whitespace-nowrap text-gray-260">
                   {item.label}
-                </p>
+                </p> */}
               </div>
             </CardContent>
           </Card>

@@ -15,12 +15,13 @@ const SummaryReport = () => {
     stateColumns,
     lgaColumns,
     dummyData,
-    tabValue,
-    setTabValue,
     summaryData,
     summaryLoading,
     topData,
     topLoading,
+    dateRange,
+    changeDateRange,
+    searchTriggerHandler,
   } = useSummaryReport();
   return (
     <div className="flex flex-col h-screen">
@@ -30,17 +31,18 @@ const SummaryReport = () => {
 
       <div className="overflow-auto px-8 py-4 grow">
         <MonthlySummary
-          tabValue={tabValue}
-          setTabValue={setTabValue}
+          dateRange={dateRange}
+          changeDateRange={changeDateRange}
           gaGcData={summaryData?.data?.gaAndGc}
           summaryLoading={summaryLoading}
+          searchTriggerHandler={searchTriggerHandler}
         />
 
         <div className="grid grid-cols-2 gap-4 mt-6 2xl:grid-cols-3">
           <DevicesSummary
             devices={summaryData?.data?.devices}
             loading={summaryLoading}
-            tabValue={tabValue}
+            dateRange={dateRange}
           />
 
           <SummaryTopTable

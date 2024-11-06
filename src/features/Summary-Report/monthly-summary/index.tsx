@@ -14,18 +14,24 @@ import { IGAAndGC } from "@/interface/report-interface";
 import { Skeleton } from "@/shared/components/ui/skeleton";
 import { useRouter } from "next/router";
 import { cn } from "@/shared/utils/utils";
+import { DateRange } from "react-day-picker";
+import moment from "moment";
+import DateRangeFilter from "@/shared/components/date-range-filter";
+import { Button } from "@/shared/components/ui/button";
 
 interface IProps {
-  tabValue: string;
-  setTabValue: (value: string) => void;
+  dateRange: DateRange | undefined;
+  changeDateRange: (date: DateRange) => void;
   gaGcData: IGAAndGC | undefined;
   summaryLoading: boolean;
+  searchTriggerHandler: () => void;
 }
 const MonthlySummary = ({
-  tabValue,
-  setTabValue,
+  dateRange,
+  changeDateRange,
   gaGcData,
   summaryLoading,
+  searchTriggerHandler,
 }: IProps) => {
   const router = useRouter();
   const summary = [
@@ -34,13 +40,13 @@ const MonthlySummary = ({
       slug: "ga",
       value: gaGcData?.ga_count || 0,
       percentage: gaGcData?.ga_change_percent || 0,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
       icon: report?.gaCount,
     },
     {
@@ -48,13 +54,13 @@ const MonthlySummary = ({
       slug: "gc",
       value: gaGcData?.gc_count || 0,
       percentage: gaGcData?.gc_change_percent || 0,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
       icon: report?.gcCount,
     },
     {
@@ -62,13 +68,13 @@ const MonthlySummary = ({
       slug: "",
       value: `${gaGcData?.conversion_rate || 0}%`,
       percentage: gaGcData?.conversion_rate_change_percent || 0,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
       icon: report?.conversionRate,
     },
     {
@@ -76,29 +82,33 @@ const MonthlySummary = ({
       slug: "",
       value: `${gaGcData?.opportunity_lost || 0}%`,
       percentage: gaGcData?.opportunity_lost_change_percent || 0,
-      label: `Vs ${
-        tabValue === "yesterday"
-          ? "Previous Day"
-          : tabValue === "weekly"
-          ? "Previous Week"
-          : "Previous Month"
-      }`,
+      // label: `Vs ${
+      //   tabValue === "yesterday"
+      //     ? "Previous Day"
+      //     : tabValue === "weekly"
+      //     ? "Previous Week"
+      //     : "Previous Month"
+      // }`,
       icon: report?.opportunityLost,
     },
   ];
   return (
     <>
-      <div className="flex justify-between items-center">
-        <p className="font-medium">Monthly Summary</p>
-
+      <div className="flex justify-end items-center">
         <div className="flex gap-4 items-center">
-          <Tabs defaultValue={tabValue} onValueChange={setTabValue}>
-            <TabsList>
-              <TabsTrigger value="yesterday">Yesterday</TabsTrigger>
-              <TabsTrigger value="weekly">Weekly</TabsTrigger>
-              <TabsTrigger value="monthly">Monthly</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          <DateRangeFilter
+            dateRange={dateRange}
+            setDateRange={changeDateRange}
+            disabled={true}
+            beforeDisabled={moment(dateRange?.from).daysInMonth()}
+          />
+          <Button
+            variant={"primary"}
+            className="h-10"
+            onClick={searchTriggerHandler}
+          >
+            Search
+          </Button>
         </div>
       </div>
       <div className="grid grid-cols-4 gap-4 mt-4">
@@ -109,7 +119,11 @@ const MonthlySummary = ({
             onClick={() => {
               item?.slug !== "" &&
                 router.push(
-                  `/summary-report/${item.slug}?timeframe=${tabValue}`
+                  `/summary-report/${item.slug}?startDate=${moment(
+                    dateRange?.from
+                  ).format("YYYY-MM-DD")}&endDate=${moment(
+                    dateRange?.to
+                  ).format("YYYY-MM-DD")}`
                 );
             }}
           >
@@ -147,7 +161,7 @@ const MonthlySummary = ({
                   )}
                   {Math.abs(item?.percentage)}%
                 </Badge>
-                <p className="text-sm text-gray-260">{item.label}</p>
+                {/* <p className="text-sm text-gray-260">{item.label}</p> */}
               </div>
             </CardContent>
           </Card>

@@ -196,6 +196,8 @@ export interface IDeviceComparisonData {
   active_with_min_1gc_percent_range2: number;
   active_with_min_1gc_range1: string;
   active_with_min_1gc_range2: string;
+  devices_performing_more_than_4_gc_daily1: string;
+  devices_performing_more_than_4_gc_daily2: string;
   deployed_range1: string;
   deployed_range2: string;
   gc_count_range1: string;

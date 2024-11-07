@@ -48,6 +48,10 @@ const useDashboardReportDetail = () => {
         return "gc";
       case "gcDeviceCount":
         return "gc_devices";
+      case "totalLiveDevice":
+        return "total_live_devices";
+      case "gaDeviceCount":
+        return "ga_devices";
     }
   };
 

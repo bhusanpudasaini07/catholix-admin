@@ -77,7 +77,7 @@ const useDashboardReport = () => {
               width={44}
               height={44}
             />
-            <span>GC Count/Devices</span>
+            <span>GC Count / Devices</span>
           </div>
         );
       case "gaCount":
@@ -89,7 +89,7 @@ const useDashboardReport = () => {
               width={44}
               height={44}
             />
-            <span>Registered Devices</span>
+            <span>GA Count / Devices</span>
           </div>
         );
       case "totalDevice":
@@ -101,7 +101,7 @@ const useDashboardReport = () => {
               width={44}
               height={44}
             />
-            <span>Total Device</span>
+            <span>Total Device / Live Device</span>
           </div>
         );
       case "inactiveDevice":
@@ -113,7 +113,7 @@ const useDashboardReport = () => {
               width={44}
               height={44}
             />
-            <span>Inactive Device</span>
+            <span>Idle Device</span>
           </div>
         );
       case "noHeartbeatDevice":
@@ -149,7 +149,7 @@ const useDashboardReport = () => {
               width={44}
               height={44}
             />
-            <span>Active Users</span>
+            <span>Active Agent Users</span>
           </div>
         );
       default:
@@ -200,6 +200,60 @@ const useDashboardReport = () => {
                 </Badge>
               </div>
             );
+          } else if (original.title === "totalDevice") {
+            return (
+              <div>
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/${original.title}?date=${date}`
+                    );
+                  }}
+                >
+                  {original[date]}
+                </Badge>{" "}
+                /{" "}
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/totalLiveDevice?date=${date}`
+                    );
+                  }}
+                >
+                  {original[`totalLiveDevice${date}`]}
+                </Badge>
+              </div>
+            );
+          } else if (original.title === "gaCount") {
+            return (
+              <div>
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(
+                      `${router.asPath}/${original.title}?date=${date}`
+                    );
+                  }}
+                >
+                  {original[date]}
+                </Badge>{" "}
+                /{" "}
+                <Badge
+                  variant={"info"}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    router.push(`${router.asPath}/gaDeviceCount?date=${date}`);
+                  }}
+                >
+                  {original[`gaDeviceCount${date}`]}
+                </Badge>
+              </div>
+            );
           }
           return (
             <Badge
@@ -217,7 +271,12 @@ const useDashboardReport = () => {
     ];
 
     const categories = (Object.keys(data) as (keyof IDashboardReport)[])
-      .filter((key) => key !== "gcDeviceCount")
+      .filter(
+        (key) =>
+          key !== "gcDeviceCount" &&
+          key !== "totalLiveDevice" &&
+          key !== "gaDeviceCount"
+      )
       .map((key) => {
         const row: { title: string; [key: string]: any } = { title: key };
         data[key]?.forEach((item) => {
@@ -225,6 +284,17 @@ const useDashboardReport = () => {
           if (key === "gcCount") {
             row[`gcDeviceCount_${item?.date}`] =
               data?.gcDeviceCount?.find((gcItem) => gcItem?.date === item?.date)
+                ?.count || 0;
+          }
+          if (key === "totalDevice") {
+            row[`totalLiveDevice${item?.date}`] =
+              data?.totalLiveDevice?.find(
+                (gcItem) => gcItem?.date === item?.date
+              )?.count || 0;
+          }
+          if (key === "gaCount") {
+            row[`gaDeviceCount${item?.date}`] =
+              data?.gaDeviceCount?.find((gcItem) => gcItem?.date === item?.date)
                 ?.count || 0;
           }
         });

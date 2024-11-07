@@ -49,6 +49,8 @@ export interface IDashboardReport {
   inactiveDevice: IReportItem[];
   noHeartbeatDevice: IReportItem[];
   totalDevice: IReportItem[];
+  totalLiveDevice: IReportItem[];
+  gaDeviceCount: IReportItem[];
 }
 
 export interface IGAAndGC {

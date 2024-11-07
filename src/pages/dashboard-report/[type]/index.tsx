@@ -38,6 +38,10 @@ const DashboardReportDetail: NextPageWithLayout = () => {
         return "Heartbeat Devices Report";
       case "noHeartbeatDevice":
         return "No Heartbeat Devices Report";
+      case "totalLiveDevice":
+        return "Total Live Devices Report";
+      case "gaDeviceCount":
+        return "GA Devices Report";
       default:
         return "Dashboard Report Detail";
     }
@@ -52,7 +56,7 @@ const DashboardReportDetail: NextPageWithLayout = () => {
           <Skeleton className="w-40 h-10" />
         </div>
       ) : (
-        <PageHeader title={pageTitle} />
+        <PageHeader title={pageTitle} back backUrl="/dashboard-report" />
       )}
 
       {dashboardReportDetailLoading ? (

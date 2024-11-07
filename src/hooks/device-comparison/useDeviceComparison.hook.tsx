@@ -349,7 +349,33 @@ const useDeviceComparison = () => {
           Device Performing <br /> Greater than 4 GCs <br /> Daily
         </div>
       ),
-      cell: ({ row }) => <div>{"-"}</div>,
+      cell: ({ row }) => (
+        <div className="flex gap-3 items-center">
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row?.original?.devices_performing_more_than_4_gc_daily1 >
+              row?.original?.devices_performing_more_than_4_gc_daily2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.devices_performing_more_than_4_gc_daily1 || 0}
+          </Badge>
+          <span>-</span>
+          <Badge
+            className="w-[85px] justify-center"
+            variant={
+              row.original.devices_performing_more_than_4_gc_daily1 <
+              row.original.devices_performing_more_than_4_gc_daily2
+                ? "success"
+                : "destructiveLight"
+            }
+          >
+            {row.original.devices_performing_more_than_4_gc_daily2 || 0}
+          </Badge>
+        </div>
+      ),
     },
     // Inactive Onboarded
     {

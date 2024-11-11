@@ -31,7 +31,7 @@ const useDashboardReport = () => {
   const [page, setPage] = useState(1);
   const [searchTrigger, setSearchTrigger] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange>({
-    from: moment().subtract(1, "week").toDate(),
+    from: moment().subtract(1, "month").toDate(),
     to: moment().toDate(),
   });
 
@@ -59,7 +59,7 @@ const useDashboardReport = () => {
 
   const resetHandler = () => {
     setDateRange({
-      from: moment().subtract(1, "week").toDate(),
+      from: moment().subtract(1, "month").toDate(),
       to: moment().toDate(),
     });
     setSearchTrigger(!searchTrigger);
@@ -166,10 +166,14 @@ const useDashboardReport = () => {
         header: "Title",
         accessorKey: "title",
         id: "title",
-        cell: ({ row }: any) => titleRenderer(row?.original?.title),
+        cell: ({ row }: any) => (
+          <div className="w-[200px]">{titleRenderer(row?.original?.title)}</div>
+        ),
       },
       ...dates.map((date) => ({
-        header: date,
+        header: () => (
+          <div className="min-w-[75px]">{moment(date).format("DD MMM")}</div>
+        ),
         accessorKey: date,
         id: date,
         cell: ({ row }: any) => {

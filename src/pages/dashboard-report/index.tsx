@@ -40,7 +40,7 @@ const DashboardReport = () => {
             <DateRangeFilter
               dateRange={dateRange}
               setDateRange={setDateRange}
-              beforeDisabled={7}
+              beforeDisabled={30} // Assuming an average month length
               disabled
             />
           </div>

@@ -63,10 +63,10 @@ const DashboardHeaderCards = () => {
       footerText: "6:00am Registered",
       footerIconColor: "text-blue-500",
       tooltipText: "Number of devices that have registered since 6:00am",
-      child: {
-        childLabel: "Offline Agents",
-        childValue: deviceStats?.data?.offline_users || 0,
-      },
+      // child: {
+      //   childLabel: "Offline Agents",
+      //   childValue: deviceStats?.data?.offline_users || 0,
+      // },
     },
     // GA
     {

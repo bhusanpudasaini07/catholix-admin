@@ -175,7 +175,7 @@ export function DataTable<TData, TValue>({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map((header: any) => {
                   return (
                     <TableHead
                       className={cn(
@@ -185,7 +185,9 @@ export function DataTable<TData, TValue>({
                         headerSticky &&
                           "sticky top-[0px] z-[10] bg-light-white",
                         "whitespace-nowrap",
-                        headerBgClass && headerBgClass
+                        headerBgClass && headerBgClass,
+                        header.column.columnDef.meta?.sticky &&
+                          `sticky ${header.column.columnDef.meta?.sticky} z-[20]`
                       )}
                       key={header.id}
                     >
@@ -231,19 +233,21 @@ export function DataTable<TData, TValue>({
                       hover ? "group cursor-pointer" : ""
                     }`}
                   >
-                    {row?.getVisibleCells().map((cell) => (
+                    {row?.getVisibleCells().map((cell: any) => (
                       <TableCell
                         key={cell.id}
                         className={`${
                           border
                             ? "border-r-2 border-b-2 border-slate-100 last:border-r-0"
                             : ""
-                        } 
-                      ${
-                        hover
-                          ? "group-hover:bg-blue-50 group-hover:border-r-blue-100 group-hover:border-l-blue-100"
-                          : ""
-                      }`}
+                        } ${
+                          cell.column.columnDef.meta?.sticky &&
+                          `sticky ${cell.column.columnDef.meta?.sticky} z-[10] bg-white`
+                        } ${
+                          hover
+                            ? "group-hover:bg-blue-50 group-hover:border-r-blue-100 group-hover:border-l-blue-100"
+                            : ""
+                        }`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

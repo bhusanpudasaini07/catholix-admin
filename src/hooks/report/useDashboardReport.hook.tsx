@@ -166,6 +166,9 @@ const useDashboardReport = () => {
         header: "Title",
         accessorKey: "title",
         id: "title",
+        meta: {
+          sticky: "left-0",
+        },
         cell: ({ row }: any) => (
           <div className="w-[200px]">{titleRenderer(row?.original?.title)}</div>
         ),

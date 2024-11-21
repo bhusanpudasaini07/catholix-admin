@@ -145,6 +145,36 @@ const exportPasswordMismatchData = async (
   });
 };
 
+const getInactiveDevicesSFData = async (
+  page: number,
+  pageSize: number,
+  date: string,
+  searchTerm?: string
+) => {
+  return httpRequest(
+    "/conversion-rate/inactive-device-ga-report",
+    httpMethods.GET,
+    {
+      params: { page, pageSize, date, ...(searchTerm && { searchTerm }) },
+    }
+  );
+};
+
+const getMultipleLocationsData = async (
+  page: number,
+  pageSize: number,
+  date: string,
+  searchTerm?: string
+) => {
+  return httpRequest(
+    "/conversion-rate/device-ga-multiple-locationreport",
+    httpMethods.GET,
+    {
+      params: { page, pageSize, date, ...(searchTerm && { searchTerm }) },
+    }
+  );
+};
+
 export {
   getImeiMisMatchData,
   getImeiMisMatchMapData,
@@ -152,4 +182,6 @@ export {
   getPasswordMisMatchData,
   getPasswordMisMatchMapData,
   exportPasswordMismatchData,
+  getInactiveDevicesSFData,
+  getMultipleLocationsData,
 };

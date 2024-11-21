@@ -377,6 +377,28 @@ export const permissionConfig = {
                 },
               ],
             },
+            {
+              itemName: "common.side_nav.inactive_devices_summary",
+              itemSlug: "/inactive-devices-sf",
+              permissions: [
+                {
+                  path: "/security/imei-mismatch",
+                  method: "get",
+                  resource: "deviceSecurity",
+                },
+              ],
+            },
+            {
+              itemName: "common.side_nav.multiple_locations",
+              itemSlug: "/multiple-locations",
+              permissions: [
+                {
+                  path: "/security/imei-mismatch",
+                  method: "get",
+                  resource: "deviceSecurity",
+                },
+              ],
+            },
           ],
         },
       ],

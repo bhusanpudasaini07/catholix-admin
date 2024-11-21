@@ -23,6 +23,8 @@
       "security": "Security",
       "imei_mismatch": "IMEI Mismatch",
       "password_mismatch": "Password Mismatch",
+      "inactive_devices_summary": "Inactive Devices",
+      "multiple_locations": "Multiple Locations",
       "conversion_report": "Conversion Report",
       "conversion_rate_agents": "Conversion Rate Agents",
       "conversion_rate_dealers": "Conversion Rate Dealers",

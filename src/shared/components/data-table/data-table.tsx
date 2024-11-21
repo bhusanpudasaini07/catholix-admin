@@ -187,7 +187,9 @@ export function DataTable<TData, TValue>({
                         "whitespace-nowrap",
                         headerBgClass && headerBgClass,
                         header.column.columnDef.meta?.sticky &&
-                          `sticky ${header.column.columnDef.meta?.sticky} z-[20]`
+                          `sticky ${header.column.columnDef.meta?.sticky} z-[20]`,
+                        header.column.columnDef.size &&
+                          `max-w-[${header.column.columnDef.size}px] w-[${header.column.columnDef.size}px] min-w-[${header.column.columnDef.size}px]`
                       )}
                       key={header.id}
                     >

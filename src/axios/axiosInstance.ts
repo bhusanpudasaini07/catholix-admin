@@ -56,7 +56,7 @@ export const clearAllSessionAndLocalStates = () => {
   clearCookie(REMEMBER_ME);
 
   setTimeout(() => {
-    window.location.href = "/login";
+    window.location.href = "/dashboard";
   }, 1000);
 };
 

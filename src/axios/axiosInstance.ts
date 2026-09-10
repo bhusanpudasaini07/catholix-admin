@@ -3,13 +3,10 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 import config from "../../config";
 import { httpMethods } from "../enums";
-import { logout } from "@/services/auth/auth-service";
 import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import toast from "react-hot-toast";
-import { getCookie } from "cookies-next";
-import { useCommonStore } from "@/store/common-store";
-import { TOAST_TYPES, showToast } from "@/shared/utils/toast-utils/toast.utils";
+
 
 const { SESSION_EXPIRED, TIMEOUT } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY, REMEMBER_ME } = config;
@@ -56,7 +53,7 @@ export const clearAllSessionAndLocalStates = () => {
   clearCookie(REMEMBER_ME);
 
   setTimeout(() => {
-    window.location.href = "/dashboard";
+    window.location.href = "/login";
   }, 1000);
 };
 

@@ -5,7 +5,7 @@ import { match } from "path-to-regexp";
 
 const { LOGGED_IN_KEY } = appConfig;
 
-const authRoutes = ["/login", "/forgot-password", "/reset"];
+const authRoutes = ["/login", "/forgot-password", "/reset", "/"];
 
 export async function middleware(req: NextRequest) {
   const verify = req.cookies.get(LOGGED_IN_KEY)?.value;

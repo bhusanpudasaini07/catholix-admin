@@ -79,6 +79,7 @@ const httpRequest = async (
   try {
     const response = await axiosInstance[method](`${url}`, data, {
       headers,
+      withCredentials: true,
     });
     return {
       ...(response?.data?.pagination && {
@@ -92,6 +93,7 @@ const httpRequest = async (
         id: "timeout",
       });
     } else {
+      debugger;
       error?.response?.status === 404
         ? (window.location.href = "/not-found")
         : error?.response?.status === 403 &&

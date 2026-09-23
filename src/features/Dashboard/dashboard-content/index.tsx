@@ -40,31 +40,7 @@ const DashboardContent = () => {
     },
   ];
 
-  const {
-    mapType,
-    setMapType,
-    regionId,
-    stateId,
-    setRegionId,
-    setStateId,
-    lga,
-    setLga,
-    deviceMapData,
-    deviceMapLoading,
-    searchTriggerHandler,
-    resetHandler,
-    dealerMapData,
-    dealerMapLoading,
-    agentMapData,
-    agentMapLoading,
-    southWest,
-    setSouthWest,
-    northEast,
-    changeMapType,
-    setNorthEast,
-    zoomLevel,
-    setZoomLevel,
-  } = useDashboard();
+
 
   return (
     <div className=" w-full h-full">

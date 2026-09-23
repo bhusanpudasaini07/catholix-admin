@@ -32,10 +32,10 @@ import { cn } from "@/shared/utils/utils";
 import ProfileDropdown from "../header/profile-dropdown";
 import ChevronRight from "@/shared/svg/chevron-right";
 import { useCommonStore } from "@/store/common-store";
-import { checkPermissions } from "@/shared/utils/permission-utils/check-permission-utils";
+
 import { permissionConfig } from "@/config/permissionConfig";
 import { useQuery } from "react-query";
-import { getHeartbeat } from "@/services/dashboard/dashboard-service";
+
 interface ISidebarProps {
   sidebarWidth: string;
   isExpanded: boolean;
@@ -78,11 +78,6 @@ const Sidebar = ({
     return result;
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["heartbeat"],
-    queryFn: getHeartbeat,
-    refetchInterval: heartbeatInterval ? parseInt(heartbeatInterval) : false,
-  });
 
   return (
     <div

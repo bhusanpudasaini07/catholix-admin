@@ -4,8 +4,7 @@ import Image from "next/image";
 import { AuthImage, favIcon } from "../lib/image-config";
 
 import authImage from "../../../public/auth-img.jpg";
-import Logo from "../../../public/Logo.svg";
-import LogoLight from "../../../public/Logo-light.svg";
+import Logo from "../../../public/logo.png";
 const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
@@ -22,7 +21,6 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             fill
           />
           <div className="flex absolute top-8 left-8 flex-col items-start p-10 w-full h-full text-white bg-opacity-50 2xl:top-10 2xl:left-10">
-            <Image alt="MTN Logo" width={130} height={50} src={LogoLight} />
             <h1 className="mt-4 text-4xl 2xl:text-6xl font-bold  2xl:leading-[78px] tracking-wide">
               Intelligence
             </h1>

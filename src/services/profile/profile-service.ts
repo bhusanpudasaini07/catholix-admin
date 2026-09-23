@@ -3,11 +3,11 @@ import { httpMethods } from "@/enums";
 import { IProfile } from "@/interface/profile-interface";
 
 const getProfile = () => {
-  return httpRequest("/auth/profile", httpMethods.GET);
+  return httpRequest("/users/me", httpMethods.GET);
 };
 
 const updateProfile = (data: any) => {
-  return httpRequest("/auth/profile", httpMethods.PUT, data);
+  return httpRequest("/users/me", httpMethods.PUT, data);
 };
 
 const updateProfilePicture = (file: any) => {

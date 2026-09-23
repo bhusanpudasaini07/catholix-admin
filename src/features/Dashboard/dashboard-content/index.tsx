@@ -67,23 +67,12 @@ const DashboardContent = () => {
   } = useDashboard();
 
   return (
-    <div className="relative w-full h-full">
-      <MapContent
-        mapType={mapType}
-        loading={deviceMapLoading || dealerMapLoading || agentMapLoading}
-        deviceData={deviceMapData}
-        dealerData={dealerMapData?.data ?? []}
-        agentData={agentMapData?.data ?? []}
-        southWest={southWest}
-        setSouthWest={setSouthWest}
-        northEast={northEast}
-        setNorthEast={setNorthEast}
-        zoomLevel={zoomLevel}
-        setZoomLevel={setZoomLevel}
-      />
+    <div className=" w-full h-full">
+     
+     <DashboardTime />
 
       {/* Options */}
-      <div className="absolute z-[400] top-6 left-6 flex flex-col gap-4">
+      {/* <div className=" top-6 left-6 flex flex-col gap-4">
         {mapOptions.map((option) => (
           <Button
             key={option.id}
@@ -96,55 +85,9 @@ const DashboardContent = () => {
             {option.title}
           </Button>
         ))}
-      </div>
+      </div> */}
 
-      {/* Filter */}
-      <div
-        className="absolute bottom-6 left-6 bg-white z-[400] rounded-lg flex items-end gap-3
-       py-3 px-4 shadow"
-      >
-        <RegionalFilter
-          regionId={regionId}
-          stateId={stateId}
-          setRegionId={setRegionId}
-          setStateId={setStateId}
-          lga={lga}
-          setLga={setLga}
-          searchTriggerHandler={searchTriggerHandler}
-        />
-        {/* Reset */}
-        <Button
-          variant={"white"}
-          size={"icon"}
-          className="gap-1 p-2 h-9"
-          onClick={resetHandler}
-          disabled={
-            profileData &&
-            profileData.regionId !== 0 &&
-            profileData.stateId !== 0 &&
-            profileData.localGovId.length > 0
-          }
-        >
-          <ListRestart size={20} />
-        </Button>
-        {/* Search */}
-        <Button
-          variant={"primary"}
-          size={"icon"}
-          className="gap-1 p-2 h-9"
-          onClick={searchTriggerHandler}
-          disabled={
-            profileData &&
-            profileData.regionId !== 0 &&
-            profileData.stateId !== 0 &&
-            profileData.localGovId.length > 0
-          }
-        >
-          <Search size={20} />
-        </Button>
-      </div>
-
-      <DashboardTime />
+     
     </div>
   );
 };

@@ -1,8 +1,8 @@
-const favIcon = "/favicon.svg";
+const favIcon = "/favicon.png";
 const AuthImage = "/auth-img.jpg";
 const dummyUser = "/dummy.png";
 
-const Logo = "/Logo.svg";
+const Logo = "/logo.png";
 const LogoLight = "/Logo-light.svg";
 const PageNotFound = "/not-found.svg";
 const PermissionDenied = "/permission-denied.svg";

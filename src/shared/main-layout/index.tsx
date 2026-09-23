@@ -55,7 +55,7 @@ const MainLayout: React.FC<{ children: React.ReactNode; title?: string }> = ({
     <>
       <Head>
         <link rel="icon" type="image/x-icon" href={favIcon} />
-        <title>MTN</title>
+        <title>Catholic</title>
       </Head>
 
       {/* Body Content */}

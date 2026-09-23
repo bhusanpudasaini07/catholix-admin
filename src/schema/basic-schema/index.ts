@@ -1,5 +1,12 @@
 import { z } from "zod";
 const basicFieldsValidation = {
+  categoryName: z
+    .string({ required_error: "Firstname is required." })
+    .min(1, "First name is required.")
+    .max(16, "First name must not exceed 16 characters.")
+    .refine((value) => !value.startsWith(" "), {
+      message: "First name cannot start with a space",
+    }),
   firstName: z
     .string({ required_error: "Firstname is required." })
     .min(1, "First name is required.")

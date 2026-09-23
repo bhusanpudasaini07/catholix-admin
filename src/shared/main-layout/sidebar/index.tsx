@@ -1,12 +1,4 @@
-import {
-  LayoutDashboard,
-  LayoutGrid,
-  ScrollText,
-  Server,
-  SquareKanban,
-  UserCircle2,
-  UserCog,
-} from "lucide-react";
+
 import moment from "moment";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
@@ -78,7 +70,7 @@ const Sidebar = ({
       icon: subItem.icon,
       permissions: subItem.permissions,
     })),
-    permissions: item.permissions,
+    // permissions: item.permissions,
   }));
 
   const isActive = (tabRoute: string) => {
@@ -122,15 +114,15 @@ const Sidebar = ({
               src={Logo}
               alt="Logo"
               priority={true}
-              width={58}
-              height={30}
+              width={100}
+              height={100}
               quality={100}
               style={{ width: "auto", height: "auto" }}
               className="max-w-[60px]"
             />
-            {isExpanded && (
+            {/* {isExpanded && (
               <span className="font-medium text-zinc-700">Data Sights</span>
-            )}
+            )} */}
           </Link>
           <button
             title="menu"
@@ -147,223 +139,188 @@ const Sidebar = ({
         </div> */}
       </div>
       <div className="flex flex-col gap-2 px-4 pt-24 pb-12 h-[calc(100vh-40px)] overflow-y-auto no-scrollbar">
-        {menuItems
-          ?.filter((item) =>
-            item?.permissions
-              ? item?.permissions.some((perm) =>
-                  checkPermissions(profileData, perm.path, perm.method)
-                )
-              : true
-          )
-          ?.map((item: any, index) => (
-            <div key={index} className="flex flex-col gap-2">
-              {/* {isExpanded && (
-              <h2 className="px-8 py-[2px] text-xs font-semibold uppercase text-zinc-600">
-                {item?.menuName}
-              </h2>
-            )} */}
-              {item?.subMenu?.map((subItem: any, subIndex: number) =>
-                subItem?.hasAccordion ? (
-                  <React.Fragment key={subIndex}>
-                    {isExpanded ? (
-                      <Accordion
-                        type="single"
-                        collapsible
-                        defaultValue={
-                          router?.pathname.startsWith(subItem?.menuSlug)
-                            ? "item-1"
-                            : ""
-                        }
+  {menuItems?.map((item: any, index) => (
+    <div key={index} className="flex flex-col gap-2">
+      {item?.subMenu?.map((subItem: any, subIndex: number) =>
+        subItem?.hasAccordion ? (
+          <React.Fragment key={subIndex}>
+            {isExpanded ? (
+              <Accordion
+                type="single"
+                collapsible
+                defaultValue={
+                  router?.pathname.startsWith(subItem?.menuSlug)
+                    ? "item-1"
+                    : ""
+                }
+              >
+                <AccordionItem value="item-1" className="border-0">
+                  <AccordionTrigger
+                    className={`btn-primary min-w-0 !shadow-none rounded-none w-full ${
+                      isExpanded ? "justify-start" : "justify-center"
+                    } ${isActive(subItem?.menuSlug) && "active"}`}
+                  >
+                    <div className="flex w-full font-medium">
+                      <span
+                        className="flex justify-center min-w-[20px] h-[20px] me-3"
                       >
-                        <AccordionItem value="item-1" className="border-0">
-                          <AccordionTrigger
-                            className={`btn-primary min-w-0 !shadow-none rounded-none w-full ${
-                              isExpanded ? "justify-start" : "justify-center"
-                            } ${isActive(subItem?.menuSlug) && "active"}`}
-                          >
-                            <div className={`flex w-full font-medium`}>
-                              <span
-                                className={`flex justify-center min-w-[20px] h-[20px] me-3`}
-                              >
-                                {subItem?.icon}
-                              </span>
+                        {subItem?.icon}
+                      </span>
 
-                              <span
-                                className={cn(
-                                  isExpanded ? "" : "hidden",
-                                  "truncate max-w-[150px]"
-                                )}
-                              >
-                                {subItem.menuName}
-                              </span>
-                            </div>
-                          </AccordionTrigger>
-                          <AccordionContent className="[&>div]:pb-0">
-                            <ul className={`w-full sidebarList`}>
-                              {subItem?.accordionItem
-                                ?.filter((accordionItem: any) =>
-                                  accordionItem?.permissions
-                                    ? accordionItem?.permissions.every(
-                                        (perm: any) =>
-                                          checkPermissions(
-                                            profileData,
-                                            perm.path,
-                                            perm.method
-                                          )
-                                      )
-                                    : true
-                                )
-                                .map(
-                                  (
-                                    accordionItem: any,
-                                    accordionItemIndex: number
-                                  ) => (
-                                    // <li
-                                    //   key={`accordion-item-${accordionItemIndex}`}
-                                    //   onClick={() =>
-                                    //     router?.push(accordionItem?.itemSlug)
-                                    //   }
-                                    //   className={`mb-1 font-medium ${
-                                    //     isActive(accordionItem?.itemSlug)
-                                    //       ? "text-yellow-600"
-                                    //       : "text-zinc-600 "
-                                    //   }`}
-                                    // >
-                                    //   {t(accordionItem?.itemName)}
-                                    // </li>
-                                    <Button
-                                      key={`accordion-item-${accordionItemIndex}`}
-                                      className={`
-                                      btn-primary h-[44px] !pl-11 w-full !shadow-none rounded-none  ${
-                                        isExpanded
-                                          ? "justify-start"
-                                          : "justify-center"
-                                      } ${
-                                        isActive(accordionItem?.itemSlug) &&
-                                        "active"
-                                      }
-                                      `}
-                                      onClick={() =>
-                                        router?.push(accordionItem?.itemSlug)
-                                      }
-                                    >
-                                      <span
-                                        className={isExpanded ? "" : "hidden"}
-                                      >
-                                        {t(accordionItem?.itemName)}
-                                      </span>
-                                    </Button>
-                                  )
-                                )}
-                            </ul>
-                          </AccordionContent>
-                        </AccordionItem>
-                      </Accordion>
-                    ) : (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          className={`btn-primary !shadow-none rounded-none w-full ${
-                            isExpanded
-                              ? "justify-start pl-8"
-                              : "justify-center pl-4"
-                          } ${
-                            (router.pathname === subItem?.menuSlug ||
-                              (router.pathname.startsWith(subItem?.menuSlug) &&
-                                subItem?.menuSlug !== "/")) &&
-                            "active"
-                          }`}
-                        >
-                          {subItem?.icon}
-                        </DropdownMenuTrigger>
-                        {subItem?.accordionItem?.length > 0 && (
-                          <DropdownMenuContent align="start" side="left">
-                            {subItem?.accordionItem?.map(
-                              (
-                                accordionItem: any,
-                                accordionItemIndex: number
-                              ) => (
-                                <DropdownMenuItem
-                                  onClick={() =>
-                                    router?.push(accordionItem?.itemSlug)
-                                  }
-                                  className={
-                                    isActive(accordionItem?.itemSlug)
-                                      ? "bg-primary"
-                                      : ""
-                                  }
-                                  key={`accordion-item-${accordionItemIndex}`}
-                                >
-                                  {t(accordionItem?.itemName)}
-                                </DropdownMenuItem>
-                              )
-                            )}
-                          </DropdownMenuContent>
+                      <span
+                        className={cn(
+                          isExpanded ? "" : "hidden",
+                          "truncate max-w-[150px]"
                         )}
-                      </DropdownMenu>
-                    )}
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment key={subIndex}>
-                    {isExpanded ? (
-                      <Button
-                        key={subIndex}
-                        className={`
-                      btn-primary h-[44px] !shadow-none rounded-none  ${
-                        isExpanded ? "justify-start" : "justify-center"
-                      } ${
-                          (router.pathname === subItem?.menuSlug ||
-                            (router.pathname.startsWith(subItem?.menuSlug) &&
-                              subItem?.menuSlug !== "/")) &&
-                          "active"
-                        }
-                      `}
-                        onClick={() => router?.push(subItem?.menuSlug)}
                       >
-                        <span
-                          className={`min-w-[20px] [&>svg]:max-w-[20px]   h-[20px] flex justify-center `}
-                        >
-                          {subItem?.icon}
-                        </span>
-                        <span className={isExpanded ? "" : "hidden"}>
-                          {subItem.menuName}
-                        </span>
-                      </Button>
-                    ) : (
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger
-                            onClick={() => router?.push(subItem?.menuSlug)}
-                            asChild
+                        {subItem.menuName}
+                      </span>
+                    </div>
+                  </AccordionTrigger>
+
+                  <AccordionContent className="[&>div]:pb-0">
+                    <ul className="w-full sidebarList">
+                      {subItem?.accordionItem?.map(
+                        (
+                          accordionItem: any,
+                          accordionItemIndex: number
+                        ) => (
+                          <Button
+                            key={`accordion-item-${accordionItemIndex}`}
+                            className={`
+                              btn-primary h-[44px] !pl-11 w-full !shadow-none rounded-none ${
+                                isExpanded
+                                  ? "justify-start"
+                                  : "justify-center"
+                              } ${
+                                isActive(accordionItem?.itemSlug) &&
+                                "active"
+                              }
+                            `}
+                            onClick={() =>
+                              router?.push(accordionItem?.itemSlug)
+                            }
                           >
                             <span
-                              className={`min-w-[20px]  flex justify-center ps-3  btn-primary !shadow-none rounded-none ${
-                                (router.pathname === subItem?.menuSlug ||
-                                  (router.pathname.startsWith(
-                                    subItem?.menuSlug
-                                  ) &&
-                                    subItem?.menuSlug !== "/")) &&
-                                "active"
-                              }`}
+                              className={isExpanded ? "" : "hidden"}
                             >
-                              {subItem?.icon}
+                              {t(accordionItem?.itemName)}
                             </span>
-                          </TooltipTrigger>
-                          <TooltipContent
-                            side="right"
-                            sideOffset={25}
-                            className=""
-                          >
-                            <p>{subItem.menuName}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                          </Button>
+                        )
+                      )}
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  className={`btn-primary !shadow-none rounded-none w-full ${
+                    isExpanded
+                      ? "justify-start pl-8"
+                      : "justify-center pl-4"
+                  } ${
+                    (router.pathname === subItem?.menuSlug ||
+                      (router.pathname.startsWith(subItem?.menuSlug) &&
+                        subItem?.menuSlug !== "/")) &&
+                    "active"
+                  }`}
+                >
+                  {subItem?.icon}
+                </DropdownMenuTrigger>
+
+                {subItem?.accordionItem?.length > 0 && (
+                  <DropdownMenuContent align="start" side="left">
+                    {subItem?.accordionItem?.map(
+                      (
+                        accordionItem: any,
+                        accordionItemIndex: number
+                      ) => (
+                        <DropdownMenuItem
+                          onClick={() =>
+                            router?.push(accordionItem?.itemSlug)
+                          }
+                          className={
+                            isActive(accordionItem?.itemSlug)
+                              ? "bg-primary"
+                              : ""
+                          }
+                          key={`accordion-item-${accordionItemIndex}`}
+                        >
+                          {t(accordionItem?.itemName)}
+                        </DropdownMenuItem>
+                      )
                     )}
-                  </React.Fragment>
-                )
-              )}
-            </div>
-          ))}
-      </div>
+                  </DropdownMenuContent>
+                )}
+              </DropdownMenu>
+            )}
+          </React.Fragment>
+        ) : (
+          <React.Fragment key={subIndex}>
+            {isExpanded ? (
+              <Button
+                key={subIndex}
+                className={`
+                  btn-primary h-[44px] !shadow-none rounded-none ${
+                    isExpanded ? "justify-start" : "justify-center"
+                  } ${
+                    (router.pathname === subItem?.menuSlug ||
+                      (router.pathname.startsWith(subItem?.menuSlug) &&
+                        subItem?.menuSlug !== "/")) &&
+                    "active"
+                  }
+                `}
+                onClick={() => router?.push(subItem?.menuSlug)}
+              >
+                <span
+                  className="min-w-[20px] [&>svg]:max-w-[20px] h-[20px] flex justify-center"
+                >
+                  {subItem?.icon}
+                </span>
+
+                <span className={isExpanded ? "" : "hidden"}>
+                  {subItem.menuName}
+                </span>
+              </Button>
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    onClick={() => router?.push(subItem?.menuSlug)}
+                    asChild
+                  >
+                    <span
+                      className={`min-w-[20px] flex justify-center ps-3 btn-primary !shadow-none rounded-none ${
+                        (router.pathname === subItem?.menuSlug ||
+                          (router.pathname.startsWith(
+                            subItem?.menuSlug
+                          ) &&
+                            subItem?.menuSlug !== "/")) &&
+                        "active"
+                      }`}
+                    >
+                      {subItem?.icon}
+                    </span>
+                  </TooltipTrigger>
+
+                  <TooltipContent
+                    side="right"
+                    sideOffset={25}
+                    className=""
+                  >
+                    <p>{subItem.menuName}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </React.Fragment>
+        )
+      )}
+    </div>
+  ))}
+</div>
 
       <div
         style={{

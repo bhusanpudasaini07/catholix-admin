@@ -13,20 +13,20 @@ export async function middleware(req: NextRequest) {
   const isAuthRoute = authRoutes.includes(url);
 
   // Check if the route is specifically the orders route and bypass further checks
-  if (!verify && match("/reset/:path*")(url)) {
-    return NextResponse.next();
-  }
-  if (verify && match("/reset/:path*")(url)) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+  // if (!verify && match("/reset/:path*")(url)) {
+  //   return NextResponse.next();
+  // }
+  // if (verify && match("/reset/:path*")(url)) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
 
-  if (!verify && !isAuthRoute) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
+  // if (!verify && !isAuthRoute) {
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  // }
 
-  if (verify && isAuthRoute) {
-    return NextResponse.redirect(new URL("/", req.url));
-  }
+  // if (verify && isAuthRoute) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
 
   return NextResponse.next();
 }

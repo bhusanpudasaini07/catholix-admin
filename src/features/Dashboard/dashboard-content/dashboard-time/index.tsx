@@ -14,7 +14,7 @@ const DashboardTime = () => {
   }, []);
 
   return (
-    <Card className="h-auto shadow-sm flex border border-primary flex-col justify-center w-[150px] absolute z-[400] top-3 right-6">
+    <Card className="h-auto shadow-sm flex border border-primary flex-col justify-center w-[150px] ">
       <CardContent className="p-3 xl:py-4 xl:px-5">
         <p className="text-sm text-nowrap text-zinc-500">
           {watTime.format("ll")}

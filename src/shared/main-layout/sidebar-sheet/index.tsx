@@ -41,100 +41,29 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
       ],
     },
     {
-      menuName: "Projects",
-      icon: <User2 />,
+      menuName: t("side_nav.category"),
+      icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: t("side_nav.projects"),
-          menuSlug: "/projects",
-          icon: <Folder width={20} height={20} />,
-        },
-        {
-          menuName: "Reports",
-          menuSlug: "/reports",
-          icon: <File width={20} height={20} />,
-          hasAccordion: true,
-          accordionItem: [
-            {
-              itemName: "Test",
-              itemSlug: "/test",
-            },
-            {
-              itemName: "Test",
-              itemSlug: "/test",
-            },
-          ],
-        },
-        {
-          menuName: "Time Spent Reports",
-          menuSlug: "/time-spent-reports",
-          icon: <Clock width={20} height={20} />,
-          hasAccordion: true,
+          menuName: t("side_nav.category"),
+          menuSlug: "/",
+          icon: <LayoutGrid width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "Team",
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
+      menuName: t("side_nav.product"),
+      icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: "Team Leads",
-          menuSlug: "/team-leads",
-          icon: <Users width={20} height={20} />,
-        },
-        {
-          menuName: "Staff Groups",
-          menuSlug: "/reports",
-          icon: <Users width={20} height={20} />,
+          menuName: t("side_nav.product"),
+          menuSlug: "/",
+          icon: <LayoutGrid width={20} height={20} />,
         },
       ],
     },
-    {
-      menuName: "Calculator",
-      menuSlug: "/calculator",
-      icon: <Calculator width={20} height={20} />,
-      hasChildren: false,
-      subMenu: [
-        {
-          menuName: "Calculator",
-          menuSlug: "/calculator",
-          icon: <Calculator width={20} height={20} />,
-        },
-      ],
-    },
-    {
-      menuName: "Feedback",
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
-      subMenu: [
-        {
-          menuName: "PL Feedback",
-          menuSlug: "/team-leads",
-          icon: <Users width={20} height={20} />,
-        },
-        {
-          menuName: "Feedback Report",
-          menuSlug: "/feedback-report",
-          icon: <Users width={20} height={20} />,
-        },
-      ],
-    },
-    {
-      menuName: "Other",
-      menuSlug: "",
-      icon: <User2 />,
-      hasChildren: true,
-      subMenu: [
-        {
-          menuName: "GitLab Hooks",
-          menuSlug: "/gitlab-hooks",
-          icon: <Gitlab width={20} height={20} />,
-        },
-      ],
-    },
+    
+    
   ];
   const changeRoute = (route: string) => {
     setOpenSheet(false);
@@ -162,7 +91,7 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
             </Button>
           </div>
 
-          <div className="flex flex-col gap-6">
+          {/* <div className="flex flex-col gap-6">
             {menuItems?.map((item: any, index) => (
               <div key={index} className="flex flex-col gap-3">
                 <h2 className="text-xs uppercase text-gray-150">
@@ -213,7 +142,7 @@ const SidebarSheet = ({ openSheet, setOpenSheet }: IProps) => {
                 )}
               </div>
             ))}
-          </div>
+          </div> */}
         </SheetContent>
       </Sheet>
     </div>

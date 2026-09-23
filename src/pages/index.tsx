@@ -2,14 +2,13 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 
 import { NextPageWithLayout } from "./_app";
-import DashboardHeaderCards from "@/features/Dashboard/dashboad-header-cards";
 import DashboardContent from "@/features/Dashboard/dashboard-content";
 
 const Home: NextPageWithLayout = () => {
   return (
     <>
       <div className="flex flex-col px-4 py-6 h-screen">
-        <DashboardHeaderCards />
+        {/* <DashboardHeaderCards /> */}
 
         <div className="mt-4 grow">
           <div className="relative w-full h-full">

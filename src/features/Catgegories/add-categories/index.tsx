@@ -12,11 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { constants } from "@/constants";
 import CategoriesFormContent from "../form-content";
+import { useCategory } from "../../../hooks/categories/useCategory.hook";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const AddCategoriesForm = () => {
-  const router = useRouter();
+  const { addAdminMutation } = useCategory();
+
   const [selectedLocalGovs, setSelectedLocalGovs] = useState<
     { id: number; name: string }[]
   >([]);
@@ -27,25 +29,6 @@ const AddCategoriesForm = () => {
     reValidateMode: "onChange",
     defaultValues: {
       categoryName: "",
-    },
-  });
-
-  const addAdminMutation = useMutation({
-    mutationFn: addCategory,
-    onSuccess: () => {
-      showToast(TOAST_TYPES.success, "Category added successfully");
-      router.push("/admins");
-    },
-    onError: (error: any) => {
-      if (error) {
-        error?.message.map((err: any) => {
-          form.setError(err?.name, {
-            message: err?.errors[0],
-          });
-        });
-      } else {
-        showToast(TOAST_TYPES.error, SOMETHING_WENT_WRONG);
-      }
     },
   });
 

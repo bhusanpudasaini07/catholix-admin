@@ -168,7 +168,7 @@ const useAdmin = () => {
           {checkPermissions(
             profileData,
             "/users/reset-password/:id",
-            "put"
+            "put",
           ) && (
             <Button
               size={"base"}
@@ -177,7 +177,7 @@ const useAdmin = () => {
               onClick={() =>
                 openResetPasswordModal(
                   row.original.id.toString(),
-                  `${row.original.firstName} ${row.original.lastName}`
+                  `${row.original.firstName} ${row.original.lastName}`,
                 )
               }
             >
@@ -192,7 +192,7 @@ const useAdmin = () => {
                 deleteHandler(
                   row.original.id.toString(),
                   row.original.firstName,
-                  row.original.lastName
+                  row.original.lastName,
                 )
               }
               disabled={row.original.id === 1}

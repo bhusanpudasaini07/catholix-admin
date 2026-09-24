@@ -18,7 +18,7 @@ import {
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { useCommonStore } from "@/store/common-store";
 
-import { version } from "../../../../../version";
+// import { version } from "../../../../../version";
 import { FC } from "react";
 import { cn } from "@/shared/utils/utils";
 import { deleteCookie, getCookie } from "cookies-next";
@@ -37,6 +37,7 @@ interface IProps {
 const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
 
 const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
+  const version = "1";
   const router = useRouter();
   const queryClient = useQueryClient();
   const authCookie = getCookie(LOGGED_IN_KEY);
@@ -57,7 +58,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
       },
       enabled: !!authCookie,
       refetchOnWindowFocus: false,
-    }
+    },
   );
 
   const changeRoute = (route: string) => {
@@ -76,7 +77,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
     onError: (error: any) => {
       showToast(
         TOAST_TYPES.error,
-        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG
+        error?.message[0]?.errors[0] || SOMETHING_WENT_WRONG,
       );
     },
   });

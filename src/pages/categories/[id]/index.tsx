@@ -9,10 +9,10 @@ const EditCategories: NextPageWithLayout = () => {
   return (
     <div className="page">
       <PageHeader
-        title="Categories List"
-        subTitle="Mange And view Categories"
+        title="Categories"
+        subTitle="Edit Categories"
         back
-        backUrl="/"
+        backUrl="/categories"
       />
 
       <div className="page-body px-8">

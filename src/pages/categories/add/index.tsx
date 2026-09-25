@@ -11,7 +11,7 @@ const CreateCategory: NextPageWithLayout = () => {
     <div className="page">
         <PageHeader
           title="Category"
-          subTitle="Manage Data of categories"
+          subTitle="Add Categories"
           back
           backUrl="/categories"
         />

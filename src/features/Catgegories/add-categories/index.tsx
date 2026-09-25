@@ -30,11 +30,10 @@ const AddCategoriesForm = () => {
     },
   });
 
-  const addAdminMutation = useMutation({
+  const addCategoryMutation = useMutation({
     mutationFn: addCategory,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Category added successfully");
-      router.push("/admins");
     },
     onError: (error: any) => {
       if (error) {
@@ -50,14 +49,14 @@ const AddCategoriesForm = () => {
   });
 
   const onSubmit: SubmitHandler<ICategoryPost> = (data) => {
-    addAdminMutation.mutate(data);
+    addCategoryMutation.mutate(data);
   };
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
         <CategoriesFormContent
           form={form}
-          loading={addAdminMutation.isLoading}
+          loading={addCategoryMutation.isLoading}
           selected={selectedLocalGovs}
           setSelected={setSelectedLocalGovs}
           showSkeleton={false}

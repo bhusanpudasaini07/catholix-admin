@@ -3,51 +3,47 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation, useQuery } from "react-query";
 
-import { IAdminDetail, IAdminForm } from "@/interface/admin-interface";
-import { AdminFormSchema } from "@/schema/auth-schema/admin-schema";
-import {
-  addAdmin,
-  editAdmin,
-  getAdminDetail,
-} from "@/services/admin/admin-service";
+
 import { Form } from "@/shared/components/ui/form";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import AdminFormContent from "../form-content";
-import { ILocalGovernment } from "@/interface/common-interface";
 import { constants } from "@/constants";
+import { ICategoryList, ICategoryPost } from "@/interface/category-interface";
+import CategoriesFormContent from "../form-content";
+import { CategoryFormSchema } from "@/schema/category-schema";
+import { editCategory, getCategoryDetail } from "@/services/category/category-service";
 
 interface IProps {
-  data: IAdminDetail;
+  data: ICategoryList;
 }
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
-const EditAdminForm = () => {
+const EditCategoryForm = () => {
   const router = useRouter();
-  const form = useForm<IAdminForm>({
-    resolver: zodResolver(AdminFormSchema),
+  const form = useForm<ICategoryPost>({
+    resolver: zodResolver(CategoryFormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
   });
 
-  const [selectedLocalGovs, setSelectedLocalGovs] = useState<
+  const [selectedCategory, setSelectedCategory] = useState<
     { id: number; name: string }[]
   >([]);
 
-  const { data: adminDetail, isLoading: adminDetailLoading } = useQuery<IProps>(
+  const { data: categoryDetail, isLoading: categoryDetailLoading } = useQuery<IProps>(
     {
-      queryKey: ["adminDetail", router.query?.id],
+      queryKey: ["categoryDetail", router.query?.id],
       queryFn: async () => {
         if (router?.query?.id) {
-          const response = await getAdminDetail(router.query?.id);
+          const response = await getCategoryDetail(router.query?.id);
           return response;
         }
       },
       // onSuccess: (data) => {
       //   if (data?.data) {
-      //     setSelectedLocalGovs(data?.data?.localGovernments);
+      //     setSelectedCategory(data?.data?.localGovernments);
       //     form.reset({
       //       firstName: data?.data?.firstName,
       //       lastName: data?.data?.lastName,
@@ -63,12 +59,12 @@ const EditAdminForm = () => {
     }
   );
 
-  const editAdminMutation = useMutation({
-    mutationFn: (data: IAdminForm) =>
-      editAdmin(router.query?.id as string, data),
+  const editCategoryMutation = useMutation({
+    mutationFn: (data: ICategoryPost) =>
+      editCategory(router.query?.id as string, data),
     onSuccess: () => {
-      showToast(TOAST_TYPES.success, "Admin edited successfully");
-      router.push("/admins");
+      showToast(TOAST_TYPES.success, "Category edited successfully");
+      router.push("/category");
     },
     onError: (error: any) => {
       if (error) {
@@ -83,43 +79,28 @@ const EditAdminForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<IAdminForm> = (data) => {
-    const { email, ...restPayload } = data;
-    const payload: any = {
-      ...restPayload,
-      status: data.status ? "active" : "inactive",
-      roleId: Number(data?.roleId),
-      localGovId: data?.localGovId?.map((lg) => Number(lg)),
-      regionId: Number(data?.regionId),
-      stateId: Number(data?.stateId),
-    };
-    editAdminMutation.mutate(payload);
+  const onSubmit: SubmitHandler<ICategoryPost> = (data) => {
+    editCategoryMutation.mutate(data);
   };
 
   useEffect(() => {
-    if (router?.query?.id && adminDetail) {
-      setSelectedLocalGovs(adminDetail?.data?.localGovernments);
+    if (router?.query?.id && categoryDetail) {
+      setSelectedCategory(categoryDetail?.data);
       form.reset({
-        firstName: adminDetail?.data?.firstName,
-        lastName: adminDetail?.data?.lastName,
-        email: adminDetail?.data?.email,
-        contact: adminDetail?.data?.contact,
-        status: adminDetail?.data?.status === "active" ? true : false,
-        roleId: adminDetail?.data?.role?.id.toString(),
-        regionId: adminDetail?.data?.regionId?.toString() || "0",
-        stateId: adminDetail?.data?.stateId?.toString() || "0",
+        categoryName: categoryDetail?.categoryName,
+       
       });
     }
-  }, [adminDetail]);
+  }, [categoryDetail]);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
-        <AdminFormContent
+        <CategoriesFormContent
           form={form}
-          loading={editAdminMutation.isLoading}
-          selected={selectedLocalGovs}
-          setSelected={setSelectedLocalGovs}
+          loading={editCategoryMutation.isLoading}
+          selected={selectedCategory}
+          setSelected={setSelectedCategory}
           showSkeleton={adminDetailLoading}
         />
       </form>
@@ -127,4 +108,4 @@ const EditAdminForm = () => {
   );
 };
 
-export default EditAdminForm;
+export default EditCategoryForm;

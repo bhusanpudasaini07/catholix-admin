@@ -7,7 +7,6 @@ import { constants } from "@/constants/index";
 import { clearCookie } from "@/shared/utils/utils";
 import toast from "react-hot-toast";
 
-
 const { SESSION_EXPIRED, TIMEOUT } = constants.messages;
 const { API_BASE_URL, LOGGED_IN_KEY, REMEMBER_ME } = config;
 
@@ -73,7 +72,7 @@ const httpRequest = async (
   data?: Record<string, any>,
   headers = {
     "Content-Type": "application/json",
-  }
+  },
 ) => {
   // setAuthorizationHeader();
   try {
@@ -96,9 +95,9 @@ const httpRequest = async (
       error?.response?.status === 404
         ? (window.location.href = "/not-found")
         : error?.response?.status === 403 &&
-          error?.response?.data?.code === 1010
-        ? (window.location.href = "/forbidden")
-        : null;
+            error?.response?.data?.code === 1010
+          ? (window.location.href = "/forbidden")
+          : null;
       throw error?.response?.data;
     }
   }

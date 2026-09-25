@@ -12,11 +12,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { constants } from "@/constants";
 import CategoriesFormContent from "../form-content";
+import { useCategory } from "../../../hooks/categories/useCategory.hook";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const AddCategoriesForm = () => {
-  const router = useRouter();
+  const { addAdminMutation } = useCategory();
+
   const [selectedLocalGovs, setSelectedLocalGovs] = useState<
     { id: number; name: string }[]
   >([]);

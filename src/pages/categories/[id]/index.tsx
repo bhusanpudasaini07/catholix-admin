@@ -7,17 +7,17 @@ import React from "react";
 
 const EditCategories: NextPageWithLayout = () => {
   return (
-    <div className="px-8 py-6">
-      <div className="flex justify-between items-center mb-8">
-        <PageHeader
-          title="Admin"
-          subTitle="Manage data access for admin: Give or revoke admin regional and cms data access permissions."
-          back
-          backUrl="/admins"
-        />
-      </div>
+    <div className="page">
+      <PageHeader
+        title="Categories List"
+        subTitle="Mange And view Categories"
+        back
+        backUrl="/"
+      />
 
-      <EditCategoryForm />
+      <div className="page-body px-8">
+        <EditCategoryForm />
+      </div>
     </div>
   );
 };

@@ -28,6 +28,7 @@ interface IProps {
 const CategoriesFormContent = ({
   form,
   showSkeleton,
+  loading
 }: IProps) => {
   const router = useRouter();
   const { id } = router.query;
@@ -41,10 +42,8 @@ const CategoriesFormContent = ({
           <div className="flex justify-between items-center mb-6">
             <h5 className="text-xl font-bold text-zinc-900">
             
-              {router.asPath.includes("/edit")
+              {id
                 ? "Edit"
-                : id
-                ? "View"
                 : "Add"}{" "}
               Categories
             </h5>
@@ -66,9 +65,7 @@ const CategoriesFormContent = ({
                       <Skeleton className="w-full h-11" />
                     ) : (
                       <Input
-                        disabled={
-                          !router.asPath.includes("edit") && id ? true : false
-                        }
+                        disabled={loading }
                         className="placeholder:text-gray-270"
                         placeholder="Category Name"
                         {...field}
@@ -86,8 +83,8 @@ const CategoriesFormContent = ({
           <div className="flex gap-2 justify-start mt-6">
               <Button
                 variant={"primary"}
-                // loading={loading}
-                // disabled={loading}
+                loading={loading}
+                disabled={loading}
                 className="gap-2"
               >
                 {id ? "Update" : "Create"}

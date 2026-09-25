@@ -51,7 +51,7 @@ export const useCategory = () => {
 
   // Get Category By id Function
   const { data: categoryDetail, isLoading: categoryDetailLoading } =
-  useQuery<ICategory>({
+  useQuery<any>({
     queryFn: () => getCategoryDetail(router?.query?.id),
     queryKey: ["categoriesbyId"],
     enabled: !!router.query.id

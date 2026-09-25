@@ -16,7 +16,6 @@ import { useCategory } from "@/hooks/categories/useCategory.hook";
 
 const EditCategoryForm = () => {
   const router = useRouter();
-  const { id } = router.query;
   const {editCategoryMutation, categoryDetail, categoryDetailLoading } = useCategory();
 
   const form = useForm<ICategoryPost>({
@@ -25,9 +24,7 @@ const EditCategoryForm = () => {
     reValidateMode: "onChange",
   });
 
-  const [selectedCategory, setSelectedCategory] = useState<
-    { id: number; name: string }[]
-  >([]);
+  const [selectedCategory, setSelectedCategory] = useState<any>();
 
 
   
@@ -36,16 +33,14 @@ const EditCategoryForm = () => {
     editCategoryMutation.mutate(data);
   };
 
-  // useEffect(() => {
-  //   if (router?.query?.id) {
-  //     console.log("asdasda", categoryDetail)
-  //     // setSelectedCategory(categoryDetail?.data);
-  //     // form.reset({
-  //     //   categoryName: categoryDetail?.categoryName,
-       
-  //     // });
-  //   }
-  // }, [categoryDetail]);
+  useEffect(() => {
+    if (router?.query?.id) {
+      setSelectedCategory(categoryDetail);
+      form.reset({
+        categoryName: categoryDetail?.data?.categoryName,
+      });
+    }
+  }, [categoryDetail]);
 
   return (
     <Form {...form}>

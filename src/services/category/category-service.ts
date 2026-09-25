@@ -24,7 +24,7 @@ const getAllCategory = () => {
 
 
 const deleteCategory = (id: string) => {
-  return httpRequest(`/users/${id}`, httpMethods.DELETE);
+  return httpRequest(`/categories/${id}`, httpMethods.DELETE);
 };
 
 const addCategory = (data: ICategoryPost) => {

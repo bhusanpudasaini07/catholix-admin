@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 const CategoryTable: NextPageWithLayout = () => {
   const router = useRouter();
   //category list Api
-  const { categoryList, categoryLoading, categoryColumns } = useCategory();
+  const { categoryList, categoryLoading, categoryColumns, categoryId, categoryName,deleteModalOpen, setDeleteModalOpen, deleteCategoryMutation  } = useCategory();
 
   return (
     <div className="page">
@@ -38,6 +38,11 @@ const CategoryTable: NextPageWithLayout = () => {
           categoryList={categoryList}
           loading={categoryLoading}
           columns={categoryColumns}
+          categoryId={categoryId}
+          categoryName={categoryName}
+          deleteModalOpen={deleteModalOpen}
+          setDeleteModalOpen={setDeleteModalOpen}
+          deleteCategoryMutation={deleteCategoryMutation}
           />
         </div>
    

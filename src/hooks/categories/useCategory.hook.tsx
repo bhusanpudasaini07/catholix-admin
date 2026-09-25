@@ -29,7 +29,6 @@ const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useCategory = () => {
   const router = useRouter();
- console.log("sadasd",  router.query)
   
   const queryClient = useQueryClient();
   const form = useForm<ICategoryPost>({
@@ -41,6 +40,7 @@ export const useCategory = () => {
   //Categories State
   const [categoryId,  setCategoryId] = useState<string>("");
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [categoryName, setCategoryName] = useState<string>("false");
 
   // Get all  Category Function
   const { data: categoryList, isLoading: categoryLoading } =
@@ -101,7 +101,7 @@ export const useCategory = () => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Category deleted successfully");
       setDeleteModalOpen(false);
-      queryClient.invalidateQueries("adminList");
+      queryClient.invalidateQueries("categories");
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
@@ -109,8 +109,10 @@ export const useCategory = () => {
   });
 
   // Buttons Handler 
-  const deleteHandler = (id: string) => {
+  const deleteHandler = (id: string, name:string) => {
+
     setCategoryId(id);
+    setCategoryName(name)
     setDeleteModalOpen(true);
   };
 
@@ -148,6 +150,7 @@ export const useCategory = () => {
               onClick={() =>
                 deleteHandler(
                   row.original.id.toString(),
+                  row.original.categoryName,
                 )
               }
             size={"base"}
@@ -163,6 +166,8 @@ export const useCategory = () => {
   return {
      // STATES
      categoryId,
+     categoryName,
+     setCategoryName,
      deleteModalOpen,
      setDeleteModalOpen,
 

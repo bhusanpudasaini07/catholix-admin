@@ -1,27 +1,29 @@
-import EditRoleContent from "@/features/Roles/edit-role";
+import EditCategoryForm from "@/features/Catgegories/edit-categories";
+import { NextPageWithLayout } from "@/pages/_app";
 import PageHeader from "@/shared/components/page-header";
 import MainLayout from "@/shared/main-layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import React from "react";
 
-const ViewRole = () => {
+const EditCategories: NextPageWithLayout = () => {
   return (
     <div className="px-8 py-6">
-      {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <PageHeader
-          title="View Role"
-          subTitle="CMS permissions, and setting their status as active"
+          title="Admin"
+          subTitle="Manage data access for admin: Give or revoke admin regional and cms data access permissions."
           back
-          backUrl="/roles"
+          backUrl="/admins"
         />
       </div>
-      <EditRoleContent />
+
+      <EditCategoryForm />
     </div>
   );
 };
 
-export default ViewRole;
+export default EditCategories;
+
 export const getServerSideProps = async ({ query, locale }: any) => {
   const paths = [
     {
@@ -43,6 +45,6 @@ export const getServerSideProps = async ({ query, locale }: any) => {
   };
 };
 
-ViewRole.getLayout = (page: React.ReactNode) => {
+EditCategories.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

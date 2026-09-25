@@ -10,7 +10,11 @@ import {
 const { LOGGED_IN_KEY } = appConfig;
 
 const login = (loginPayload: ILoginFormInput) => {
-  return httpRequest("/auth/login", httpMethods.POST, loginPayload);
+  const payload ={
+    email: loginPayload.email,
+    password: loginPayload.password
+  }
+  return httpRequest("/auth/login", httpMethods.POST, payload);
 };
 
 const logout = () => {

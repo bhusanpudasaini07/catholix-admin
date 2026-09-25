@@ -26,7 +26,7 @@ const PageHeader = ({
 }: IProps) => {
   const router = useRouter();
   return (
-    <div className="flex flex-wrap gap-3 justify-between items-start mb-8">
+    <div className="flex flex-wrap gap-3 justify-between items-start mb-8 bg-slate-100 p-4">
       <div className="flex gap-6 items-center">
         {back && (
           <Button

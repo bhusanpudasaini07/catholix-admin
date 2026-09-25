@@ -80,6 +80,9 @@ const CategoriesFormContent = ({
               )}
             />
           
+         
+            
+          </div>
           <div className="flex gap-2 justify-start mt-6">
               <Button
                 variant={"primary"}
@@ -92,7 +95,7 @@ const CategoriesFormContent = ({
               <Button
                 type="button"
                 onClick={() => {
-                  router.push("/admins");
+                  router.push("/categories");
                   form.reset();
                 }}
                 variant={"secondary"}
@@ -101,8 +104,6 @@ const CategoriesFormContent = ({
                 Cancel
               </Button>
             </div>
-            
-          </div>
 
         </CardContent>
       </Card>

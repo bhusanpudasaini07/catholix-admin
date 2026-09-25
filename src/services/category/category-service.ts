@@ -1,6 +1,5 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
-import { IAdminForm } from "@/interface/admin-interface";
 import { ICategoryPost } from "@/interface/category-interface";
 
 // const getAllCategory = (
@@ -19,23 +18,10 @@ import { ICategoryPost } from "@/interface/category-interface";
 //   return httpRequest(finalUrl, httpMethods.GET);
 // };
 
-const getAllCategory = (id: any) => {
+const getAllCategory = () => {
   return httpRequest(`/categories`, httpMethods.GET);
 };
 
-// const getAllCategory = () =>
-  // page: number,
-  // limit: number,
-  // keywords?: string,
-  // roleId?: string
-  // {
-    // const queryParams = [];
-    // if (keywords) queryParams.push(`keywords=${keywords}`);
-    // if (roleId) queryParams.push(`roleId=${roleId}`);
-    // const queryString = queryParams.join("&");
-    // const finalUrl = `/categories`;
-    // return httpRequest(finalUrl, httpMethods.GET);
-  // };
 
 const deleteCategory = (id: string) => {
   return httpRequest(`/users/${id}`, httpMethods.DELETE);

@@ -3,41 +3,52 @@ import { NextPageWithLayout } from "../_app";
 import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import PageHeader from "@/shared/components/page-header";
-import AddCategoriesForm from "@/features/Catgegories/add-categories";
 import { useCategory } from "../../hooks/categories/useCategory.hook";
-import { DataTable } from "../../shared/components/data-table/data-table";
+import ViewCategories from "@/features/Catgegories/view-categories";
+import { Button } from "@/shared/components/ui/button";
+import { Plus } from "lucide-react";
+import { useRouter } from "next/router";
 
-const CMSPermissions: NextPageWithLayout = () => {
+const CategoryTable: NextPageWithLayout = () => {
+  const router = useRouter();
+  //category list Api
   const { categoryList, categoryLoading, categoryColumns } = useCategory();
-  console.log(categoryList);
+
   return (
-    <div className="px-8 py-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="page">
         <PageHeader
-          title="Categories"
-          subTitle="Manage Categories"
+          title="Categories List"
+          subTitle="Mange And view Categories"
           back
           backUrl="/"
         />
-      </div>
-      <AddCategoriesForm />
-      <DataTable
-        data={categoryList?.data ?? []}
-        columns={categoryColumns}
-        loading={categoryLoading}
-        loadingDataNum={10}
-        border
-        height="max-h-[calc(100vh-270px)]"
-        headerSticky
-      ></DataTable>
+        <div className="page-body px-8">
+          <div className="flex justify-between">
+            <div className="flex">
+              search
+            </div>
+            <Button 
+            onClick={() => router.push("/categories/add")}
+            >
+              <Plus />
+              Add Category
+            </Button>
+          </div>
+          <ViewCategories 
+          categoryList={categoryList}
+          loading={categoryLoading}
+          columns={categoryColumns}
+          />
+        </div>
+   
     </div>
   );
 };
 
-export default CMSPermissions;
+export default CategoryTable;
 
 export const getStaticProps = getI18nProps;
 
-CMSPermissions.getLayout = (page) => {
+CategoryTable.getLayout = (page) => {
   return <MainLayout>{page}</MainLayout>;
 };

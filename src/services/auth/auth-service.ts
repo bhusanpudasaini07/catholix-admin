@@ -18,7 +18,7 @@ const login = (loginPayload: ILoginFormInput) => {
 };
 
 const logout = () => {
-  return httpRequest("/logout", httpMethods.POST);
+  return httpRequest("/auth/sign-out", httpMethods.POST);
 };
 
 const forgotPassword = (forgotPasswordPayload: IForgotPasswordFormInput) => {

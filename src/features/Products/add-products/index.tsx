@@ -20,11 +20,11 @@ const {addProductMutation } = useProducts();
     resolver: zodResolver(ProductFormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    
   });
 
 
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
+    console.log("===> data to submit", data);
     const formData = new FormData();
     formData.append("productName", data.productName);
     formData.append("productDescription", data.productDescription);

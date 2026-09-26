@@ -28,7 +28,7 @@ export const getServerSideProps = async ({ query, locale }: any) => {
   const paths = [
     {
       params: {
-        id: query?.id,
+        id: query?.catId,
       },
       locale,
     },

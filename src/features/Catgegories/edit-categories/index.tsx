@@ -34,7 +34,7 @@ const EditCategoryForm = () => {
   };
 
   useEffect(() => {
-    if (router?.query?.id) {
+    if (router?.query?.catId) {
       setSelectedCategory(categoryDetail);
       form.reset({
         categoryName: categoryDetail?.data?.categoryName,

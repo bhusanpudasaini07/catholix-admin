@@ -31,7 +31,7 @@ const CategoriesFormContent = ({
   loading
 }: IProps) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id  = router.query.catId;
 
 
 

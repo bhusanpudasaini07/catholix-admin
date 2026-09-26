@@ -29,7 +29,7 @@ const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useCategory = () => {
   const router = useRouter();
-  const routeCategoryId = router.query.categoryId;
+  const routeCategoryId = router.query.catId;
   
   const queryClient = useQueryClient();
   const form = useForm<ICategoryPost>({

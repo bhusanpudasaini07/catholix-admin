@@ -12,17 +12,16 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addProducts, deleteProducts, editProducts, getAllProducts, getProductsDetail } from "@/services/products/product-service";
+import { addProducts, deleteProducts, editProducts, generateAiListing, getAllProducts, getProductsDetail } from "@/services/products/product-service";
 import {  IProducts, IProductsList, IProductsPost } from "@/interface/products-interface";
 import { ProductFormSchema } from "@/schema/product-schema";
+import Image from "next/image";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useProducts = () => {
   const router = useRouter();
   const routeProductId = router.query.productId;
-  // console.log(product_id);
-  console.log(router.query);
   const queryClient = useQueryClient();
   const form = useForm<IProductsPost>({
     resolver: zodResolver(ProductFormSchema),
@@ -35,6 +34,13 @@ export const useProducts = () => {
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [productId,  setProductId] = useState<string>("");
   const [productName, setProductName] = useState<string>("false");
+
+
+ // Generate Listing Mutation
+
+
+
+
 
   // Get all  Products Function
   const { data: productList, isLoading: productLoading } =
@@ -57,7 +63,7 @@ export const useProducts = () => {
     onSuccess: () => {
       debugger;
       showToast(TOAST_TYPES.success, "Product added successfully");
-      // router.push('/products')
+      router.push('/products')
       queryClient.invalidateQueries("products");
     },
     onError: (error: any) => {
@@ -110,6 +116,8 @@ export const useProducts = () => {
     setProductName(name)
     setDeleteModalOpen(true);
   };
+
+
 
   const productColumns: ColumnDef<IProducts>[] = [
     {
@@ -164,14 +172,14 @@ export const useProducts = () => {
       ),
     },
     {
-      accessorKey: "productImage",
+      accessorKey: "productImageUrl",
       header: "Product Image",
       minSize: 20,
       size: 20,
       maxSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
-          {row?.original?.productImage}
+          <Image src={row?.original?.productImageUrl || ""} alt={row?.original?.productName} width={100} height={100} />
         </div>
       ),
     },
@@ -235,7 +243,6 @@ export const useProducts = () => {
     productDetailLoading,
     addProductMutation,
     deleteProductMutation,
-    editProductMutation
-
+    editProductMutation,
   };
 };

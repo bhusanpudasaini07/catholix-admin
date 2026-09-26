@@ -14,6 +14,7 @@ export interface IProducts {
     productDescription: string,
     productPrice: number,
     productImage: string,
+    productImageUrl?: string,
     category: ICategoryList,
     categoryId: any,
  }

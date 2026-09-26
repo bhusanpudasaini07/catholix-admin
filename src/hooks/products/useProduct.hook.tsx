@@ -29,8 +29,9 @@ export const useProducts = () => {
   });
 
   //Product State
-  const [productId,  setProductId] = useState<string>("");
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+  const [productId,  setProductId] = useState<string>("");
   const [productName, setProductName] = useState<string>("false");
 
   // Get all  Products Function
@@ -53,7 +54,7 @@ export const useProducts = () => {
     mutationFn: addProducts,
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Product added successfully");
-      router.push('/categories')
+      router.push('/products')
       queryClient.invalidateQueries("products");
     },
     onError: (error: any) => {
@@ -110,6 +111,7 @@ export const useProducts = () => {
     {
       accessorKey: "id",
       header: "S.N.",
+      size: 100,
       cell: ({ row }) => <div>{row.index + 1}</div>,
     },
     {
@@ -117,19 +119,56 @@ export const useProducts = () => {
       header: "Product Name",
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
-    productName: string
-    productName: string
           {row?.original.productName}
         </div>
       ),
     },
+    {
+      accessorKey: "categoryName",
+      header: "Category Name",
+      cell: ({ row }) => (
+        <div className="font-medium w-[400px]">
+          {row?.original?.categoryId}
+        </div>
+      ),
+    }, 
+    {
+      accessorKey: "productDescription",
+      header: "Product Description",
+      cell: ({ row }) => (
+        <div className="font-medium w-[400px]">
+          {row?.original?.productDescription}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "productPrice",
+      header: "Product Price",
+      size: 50,
+      cell: ({ row }) => (
+        <div className="font-medium w-[400px]">
+          {row?.original?.productPrice}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "productImage",
+      header: "Product Image",
+      size: 100,
+      cell: ({ row }) => (
+        <div className="font-medium w-[400px]">
+          {row?.original?.productImage}
+        </div>
+      ),
+    },
+   
     {
       accessorKey: "actions",
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
           <Button
-            onClick={() => router.push(`/categories/${row.original.id}`)}
+            onClick={() => router.push(`/products/${row.original.id}`)}
             size={"base"}
             variant={"white"}
             className="gap-2"
@@ -160,6 +199,8 @@ export const useProducts = () => {
      productId,
      productName,
      setProductName,
+     addModalOpen,
+     setAddModalOpen,
      deleteModalOpen,
      setDeleteModalOpen,
 

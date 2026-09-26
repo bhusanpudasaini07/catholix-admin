@@ -38,8 +38,9 @@ export const useCategory = () => {
   });
 
   //Categories State
-  const [categoryId,  setCategoryId] = useState<string>("");
   const [deleteModalOpen, setDeleteModalOpen] = useState<boolean>(false);
+  const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+  const [categoryId,  setCategoryId] = useState<string>("");
   const [categoryName, setCategoryName] = useState<string>("false");
 
   // Get all  Category Function
@@ -168,8 +169,11 @@ export const useCategory = () => {
      categoryId,
      categoryName,
      setCategoryName,
+     addModalOpen,
+     setAddModalOpen,
      deleteModalOpen,
      setDeleteModalOpen,
+
 
     //columns
     categoryColumns,

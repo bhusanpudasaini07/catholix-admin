@@ -2,17 +2,17 @@ import React from "react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
-import { useCategory } from "@/hooks/categories/useCategory.hook";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 
 interface IProps {
   list: any,
-  loading:boolean
+  loading: boolean
   dataId: string,
-  dataName:string,
+  dataName: string,
   deleteModalOpen: boolean,
   setDeleteModalOpen: any,
-  deleteCategoryMutation: any
-  columns:any
+  deleteProductMutation: any
+  columns: any
 }
 
 const ViewProduct = ({
@@ -21,17 +21,19 @@ const ViewProduct = ({
   dataName,
   deleteModalOpen,
   setDeleteModalOpen,
-  deleteCategoryMutation,
+  deleteProductMutation,
   loading,
   columns
 
- 
+
 }: IProps) => {
 
   return (
 
     <>
-   <DataTable
+   
+    
+      <DataTable
         data={list?.data ?? []}
         columns={columns}
         loading={loading}
@@ -39,7 +41,7 @@ const ViewProduct = ({
         border
         height="max-h-[calc(100vh-270px)]"
         headerSticky
-      ></DataTable> 
+      ></DataTable>
 
       {/* <DataTablePagination
         perPage={perPage}
@@ -49,17 +51,17 @@ const ViewProduct = ({
         setPerPage={perPageHandler}
       /> */}
 
-       {/* Delete Confirmation modal */}
-       <ConfirmationModal
+      {/* Delete Confirmation modal */}
+      <ConfirmationModal
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
-        title="Delete Category"
+        title="Delete Product"
         description={`Are you sure you want to delete user ${dataName}?`}
         btnName="Delete"
         variant={"destructive"}
         key={`delete- ${dataId}`}
-        btnFuntion={deleteCategoryMutation.mutate}
-        disabled={deleteCategoryMutation.isLoading}
+        btnFuntion={deleteProductMutation.mutate}
+        disabled={deleteProductMutation.isLoading}
       />
     </>
   );

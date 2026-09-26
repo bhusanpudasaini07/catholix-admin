@@ -25,7 +25,14 @@ const {addProductMutation } = useProducts();
 
 
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
-    addProductMutation.mutate(data);
+    console.log("data======>", data);
+    const formData = new FormData();
+    formData.append("productName", data.productName);
+    formData.append("productDescription", data.productDescription);
+    formData.append("productPrice", data.productPrice.toString());
+    formData.append("productImage", data.productImage);
+    formData.append("categoryId", data.categoryId);
+    addProductMutation.mutate(formData as unknown as IProductsPost);
   };
   return (
     <Form {...form}>
@@ -37,6 +44,8 @@ const {addProductMutation } = useProducts();
           setSelected={setSelectedLocalGovs}
           showSkeleton={false}
         />
+       
+   
       </form>
     </Form>
   );

@@ -7,11 +7,15 @@ export interface IProductsList {
   data: IProducts[];
 }
 export interface IProducts {
-    id: any,
+    id: number,
     createdAt: string,
     updatedAt: string,
-    productName: string
-  }
+    productName: string,
+    productDescription: string,
+    productPrice: number,
+    productImage: string,
+    categoryId: any,
+ }
 
 export interface IProductsPost extends z.infer<typeof ProductFormSchema> {}
 

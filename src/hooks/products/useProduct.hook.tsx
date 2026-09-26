@@ -128,7 +128,7 @@ export const useProducts = () => {
       header: "Category Name",
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
-          {row?.original?.categoryId}
+          {row?.original?.category.categoryName}
         </div>
       ),
     }, 

@@ -25,7 +25,6 @@ const {addProductMutation } = useProducts();
 
 
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
-    console.log("data======>", data);
     const formData = new FormData();
     formData.append("productName", data.productName);
     formData.append("productDescription", data.productDescription);

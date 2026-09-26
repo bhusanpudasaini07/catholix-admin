@@ -31,7 +31,7 @@ const ProductViewTable: NextPageWithLayout = () => {
             search
           </div>
           <Button
-            onClick={() => setAddModalOpen(true)}
+            onClick={() => router.push("/products/add")}
           >
             <Plus />
             Add product
@@ -48,14 +48,14 @@ const ProductViewTable: NextPageWithLayout = () => {
           deleteProductMutation={deleteProductMutation}
         />
       </div>
-      <CommonModal
+      {/* <CommonModal
         open={addModalOpen}
         onClose={setAddModalOpen}
         className="max-w-2xl"
       >
         <AddProductForm
         />
-      </CommonModal>
+      </CommonModal> */}
 
     </div>
   );

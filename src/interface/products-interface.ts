@@ -1,6 +1,6 @@
-import { CategoryFormSchema } from "@/schema/category-schema";
 import { ProductFormSchema } from "@/schema/product-schema";
 import { z } from "zod";
+import {  ICategoryList } from "./category-interface";
 
 
 export interface IProductsList {
@@ -14,6 +14,7 @@ export interface IProducts {
     productDescription: string,
     productPrice: number,
     productImage: string,
+    category: ICategoryList,
     categoryId: any,
  }
 

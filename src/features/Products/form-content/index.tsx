@@ -96,7 +96,6 @@ const ProductFormContent = ({
     formData.append("productImage", image);
     generateListingMutation.mutate(formData);
   };
-  console.log("===> form", form.getValues());
   return (
     <>
       <Card>

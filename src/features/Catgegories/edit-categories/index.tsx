@@ -27,8 +27,6 @@ const EditCategoryForm = () => {
   const [selectedCategory, setSelectedCategory] = useState<any>();
 
 
-  
-
   const onSubmit: SubmitHandler<ICategoryPost> = (data) => {
     editCategoryMutation.mutate(data);
   };

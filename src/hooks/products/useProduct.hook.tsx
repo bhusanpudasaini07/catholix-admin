@@ -61,7 +61,6 @@ export const useProducts = () => {
   const addProductMutation = useMutation({
     mutationFn: addProducts,
     onSuccess: () => {
-      debugger;
       showToast(TOAST_TYPES.success, "Product added successfully");
       router.push('/products')
       queryClient.invalidateQueries("products");

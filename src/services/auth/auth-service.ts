@@ -2,14 +2,10 @@ import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 import appConfig from "../../../config";
 import { getCookie } from "cookies-next";
-import {
-  IForgotPasswordFormInput,
-  ILoginFormInput,
-  IResetPasswordFormInput,
-} from "@/interface/auth-interface";
+
 const { LOGGED_IN_KEY } = appConfig;
 
-const login = (loginPayload: ILoginFormInput) => {
+const login = (loginPayload: any) => {
   const payload ={
     email: loginPayload.email,
     password: loginPayload.password
@@ -21,7 +17,7 @@ const logout = () => {
   return httpRequest("/auth/sign-out", httpMethods.POST);
 };
 
-const forgotPassword = (forgotPasswordPayload: IForgotPasswordFormInput) => {
+const forgotPassword = (forgotPasswordPayload: any) => {
   return httpRequest(
     "/auth/forgot-password",
     httpMethods.PUT,

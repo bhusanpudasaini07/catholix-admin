@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 
-import { AuthImage, favIcon } from "../lib/image-config";
+import {  favIcon } from "../lib/image-config";
 
 import authImage from "../../../public/auth-img.jpg";
 import Logo from "../../../public/logo.png";
@@ -9,7 +9,7 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <>
       <Head>
-        <title>{`MTN`}</title>
+        <title>{`Catholic Admin`}</title>
         <link rel="icon" type="image/x-icon" href={favIcon} />
       </Head>
       <div className="flex flex-row items-center w-full h-screen">

@@ -33,10 +33,14 @@ const EditCProductForm = () => {
   };
 
   useEffect(() => {
-    if (router?.query?.id) {
+    if (router.query.productId) {
       setSelectedCProduct(productDetail);
       form.reset({
         productName: productDetail?.data?.productName,
+        productDescription: productDetail?.data?.productDescription,
+        productPrice: productDetail?.data?.productPrice,
+        productImage: productDetail?.data?.productImage,
+        categoryId: productDetail?.data?.categoryId,
       });
     }
   }, [productDetail]);

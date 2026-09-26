@@ -29,6 +29,7 @@ const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useCategory = () => {
   const router = useRouter();
+  const routeCategoryId = router.query.categoryId;
   
   const queryClient = useQueryClient();
   const form = useForm<ICategoryPost>({
@@ -53,9 +54,9 @@ export const useCategory = () => {
   // Get Category By id Function
   const { data: categoryDetail, isLoading: categoryDetailLoading } =
   useQuery<any>({
-    queryFn: () => getCategoryDetail(router?.query?.id),
-    queryKey: ["categoriesbyId"],
-    enabled: !!router.query.id
+    queryFn: () => getCategoryDetail(routeCategoryId),
+    queryKey: ["categoriesbyId", routeCategoryId],
+    enabled: !!routeCategoryId
   });
 
   // Add Category Function
@@ -78,7 +79,7 @@ export const useCategory = () => {
   // Edit Category Function
   const editCategoryMutation = useMutation({
     mutationFn: (data: ICategoryPost) =>
-      editCategory(router.query?.id as string, data),
+      editCategory(routeCategoryId as string, data),
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Category edited successfully");
       router.push("/categories");
@@ -126,6 +127,7 @@ export const useCategory = () => {
     {
       accessorKey: "categoryName",
       header: "Category Name",
+      minSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
           {row?.original.categoryName}

@@ -20,7 +20,9 @@ const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useProducts = () => {
   const router = useRouter();
-  
+  const routeProductId = router.query.productId;
+  // console.log(product_id);
+  console.log(router.query);
   const queryClient = useQueryClient();
   const form = useForm<IProductsPost>({
     resolver: zodResolver(ProductFormSchema),
@@ -44,20 +46,22 @@ export const useProducts = () => {
   // Get Product By id Function
   const { data: productDetail, isLoading: productDetailLoading } =
   useQuery<any>({
-    queryFn: () => getProductsDetail(router?.query?.id),
-    queryKey: ["productsbyId"],
-    enabled: !!router.query.id
+    queryFn: () => getProductsDetail(routeProductId),
+    queryKey: ["productsbyId", routeProductId],
+    enabled: !!routeProductId,
   });
 
   // Add Product Function
   const addProductMutation = useMutation({
     mutationFn: addProducts,
     onSuccess: () => {
+      debugger;
       showToast(TOAST_TYPES.success, "Product added successfully");
-      router.push('/products')
+      // router.push('/products')
       queryClient.invalidateQueries("products");
     },
     onError: (error: any) => {
+      debugger;
       if (error) {
         showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
       } else {
@@ -69,7 +73,7 @@ export const useProducts = () => {
   // Edit Product Function
   const editProductMutation = useMutation({
     mutationFn: (data: IProductsPost) =>
-      editProducts(router.query?.id as string, data),
+      editProducts(routeProductId, data),
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Product edited successfully");
       router.push("/products");
@@ -111,7 +115,7 @@ export const useProducts = () => {
     {
       accessorKey: "id",
       header: "S.N.",
-      size: 100,
+      size: 20,
       cell: ({ row }) => <div>{row.index + 1}</div>,
     },
     {
@@ -126,6 +130,9 @@ export const useProducts = () => {
     {
       accessorKey: "categoryName",
       header: "Category Name",
+       minSize: 20,
+      size: 20,
+      maxSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
           {row?.original?.category.categoryName}
@@ -135,6 +142,9 @@ export const useProducts = () => {
     {
       accessorKey: "productDescription",
       header: "Product Description",
+      minSize: 20,
+      size: 20,
+      maxSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
           {row?.original?.productDescription}
@@ -144,7 +154,9 @@ export const useProducts = () => {
     {
       accessorKey: "productPrice",
       header: "Product Price",
-      size: 50,
+      minSize: 20,
+      size: 20,
+      maxSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
           {row?.original?.productPrice}
@@ -154,7 +166,9 @@ export const useProducts = () => {
     {
       accessorKey: "productImage",
       header: "Product Image",
-      size: 100,
+      minSize: 20,
+      size: 20,
+      maxSize: 20,
       cell: ({ row }) => (
         <div className="font-medium w-[400px]">
           {row?.original?.productImage}
@@ -165,6 +179,13 @@ export const useProducts = () => {
     {
       accessorKey: "actions",
       header: "Actions",
+      minSize: 20,
+      size: 20,
+      maxSize: 20,
+      meta: {
+        sticky: "left",
+     
+      },
       cell: ({ row }) => (
         <div className="flex gap-2 items-center">
           <Button

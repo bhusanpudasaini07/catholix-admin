@@ -92,12 +92,12 @@ const httpRequest = async (
         id: "timeout",
       });
     } else {
-      error?.response?.status === 404
-        ? (window.location.href = "/not-found")
-        : error?.response?.status === 403 &&
-            error?.response?.data?.code === 1010
-          ? (window.location.href = "/forbidden")
-          : null;
+      // error?.response?.status === 404
+      //   ? (window.location.href = "/not-found")
+      //   : error?.response?.status === 403 &&
+      //       error?.response?.data?.code === 1010
+      //     ? (window.location.href = "/forbidden")
+      //     : null;
       throw error?.response?.data;
     }
   }

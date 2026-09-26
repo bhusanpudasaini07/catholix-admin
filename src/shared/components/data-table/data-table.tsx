@@ -171,7 +171,7 @@ export function DataTable<TData, TValue>({
           height && height
         )}
       >
-        <Table className="rounded-md bg-light-white">
+        <Table className="rounded-md bg-light-white relative">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
                     <TableHead
                       className={cn(
                         border
-                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0 text-zinc-800 font-medium "
+                          ? "border-b-2 border-r-2 border-slate-100 last:border-r-0 text-zinc-800 font-medium bg-blue-500"
                           : "",
                         headerSticky &&
                           "sticky top-[0px] z-[10] bg-light-white",

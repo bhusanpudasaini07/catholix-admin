@@ -38,7 +38,7 @@ const ProductFormContent = ({
   loading
 }: IProps) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.productId;
 
   const { categoryList, categoryLoading,  } = useCategory();
 

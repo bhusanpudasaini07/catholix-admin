@@ -24,23 +24,10 @@ const EditProducts: NextPageWithLayout = () => {
 
 export default EditProducts;
 
-export const getServerSideProps = async ({ query, locale }: any) => {
-  const paths = [
-    {
-      params: {
-        id: query?.id,
-      },
-      locale,
-    },
-  ];
-
-  const translations = await serverSideTranslations(locale, ["common"]); // Pass the locale argument to serverSideTranslations
-
+export const getServerSideProps = async ({ locale }: any) => {
   return {
     props: {
-      ...translations,
-      paths,
-      fallback: false,
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 };

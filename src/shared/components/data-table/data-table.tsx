@@ -31,6 +31,22 @@ interface TotalColumn<TData> {
   columnId: keyof TData;
   format?: (value: number) => React.ReactNode;
 }
+function stickyColumnClass(sticky?: string, isHeader?: boolean) {
+  if (sticky !== "left" && sticky !== "left-0" && sticky !== "right" && sticky !== "right-0") {
+    return "";
+  }
+
+  const stickRight = sticky === "right" || sticky === "right-0";
+
+  return cn(
+    "sticky z-20 bg-white",
+    stickRight
+      ? "right-0 shadow-[-8px_0_8px_-8px_rgba(0,0,0,0.15)]"
+      : "left-0 shadow-[8px_0_8px_-8px_rgba(0,0,0,0.15)]",
+    isHeader && "z-30 bg-light-white"
+  );
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | any;
@@ -140,6 +156,12 @@ export function DataTable<TData, TValue>({
     }
   };
   const totals = total ? calculateTotals(data, total) : [];
+  const hasStickyColumn = columns.some(
+    (column) =>
+      column.meta &&
+      "sticky" in column.meta &&
+      Boolean((column.meta as { sticky?: string }).sticky)
+  );
 
   // Load column visibility from localStorage
   useEffect(() => {
@@ -171,7 +193,14 @@ export function DataTable<TData, TValue>({
           height && height
         )}
       >
-        <Table className="rounded-md bg-light-white relative">
+        <Table
+          className={cn(
+            "rounded-md bg-light-white",
+            hasStickyColumn
+              ? "border-separate border-spacing-0 [&_tbody_tr]:!static"
+              : "relative"
+          )}
+        >
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -186,8 +215,10 @@ export function DataTable<TData, TValue>({
                           "sticky top-[0px] z-[10] bg-light-white",
                         "whitespace-nowrap",
                         headerBgClass && headerBgClass,
-                        header.column.columnDef.meta?.sticky &&
-                          `sticky ${header.column.columnDef.meta?.sticky} z-[20]`,
+                        stickyColumnClass(
+                          header.column.columnDef.meta?.sticky,
+                          true
+                        ),
                         header.column.columnDef.size &&
                           `max-w-[${header.column.columnDef.size}px] w-[${header.column.columnDef.size}px] min-w-[${header.column.columnDef.size}px]`
                       )}
@@ -243,8 +274,7 @@ export function DataTable<TData, TValue>({
                             ? "border-r-2 border-b-2 border-slate-100 last:border-r-0"
                             : ""
                         } ${
-                          cell.column.columnDef.meta?.sticky &&
-                          `sticky ${cell.column.columnDef.meta?.sticky} z-[10] bg-white`
+                          stickyColumnClass(cell.column.columnDef.meta?.sticky)
                         } ${
                           hover
                             ? "group-hover:bg-blue-50 group-hover:border-r-blue-100 group-hover:border-l-blue-100"

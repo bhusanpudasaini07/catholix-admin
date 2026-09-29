@@ -129,7 +129,7 @@ export const useProducts = () => {
       accessorKey: "productName",
       header: "Product Name",
       cell: ({ row }) => (
-        <div className="font-medium w-[400px]">
+        <div className="text-xs font-medium leading-4 w-[180px]">
           {row?.original.productName}
         </div>
       ),
@@ -141,7 +141,7 @@ export const useProducts = () => {
       size: 20,
       maxSize: 20,
       cell: ({ row }) => (
-        <div className="font-medium w-[400px]">
+        <div >
           {row?.original?.category.categoryName}
         </div>
       ),
@@ -165,7 +165,7 @@ export const useProducts = () => {
       size: 20,
       maxSize: 20,
       cell: ({ row }) => (
-        <div className="font-medium w-[400px]">
+        <div className="font-medium">
           {row?.original?.productPrice}
         </div>
       ),
@@ -177,8 +177,8 @@ export const useProducts = () => {
       size: 20,
       maxSize: 20,
       cell: ({ row }) => (
-        <div className="font-medium w-[400px]">
-          <Image src={row?.original?.productImageUrl || ""} alt={row?.original?.productName} width={100} height={100} />
+        <div className="font-medium w-[200px]">
+          {/* <Image src={row?.original?.productImageUrl || ""} alt={row?.original?.productName} width={100} height={100} placeholder="blur" blurDataURL="/images/placeholder.png" /> */}
         </div>
       ),
     },
@@ -186,15 +186,11 @@ export const useProducts = () => {
     {
       accessorKey: "actions",
       header: "Actions",
-      minSize: 20,
-      size: 20,
-      maxSize: 20,
       meta: {
-        sticky: "left",
-     
+        sticky: "right-0",
       },
       cell: ({ row }) => (
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center whitespace-nowrap">
           <Button
             onClick={() => router.push(`/products/${row.original.id}`)}
             size={"base"}

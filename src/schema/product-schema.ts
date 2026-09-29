@@ -21,6 +21,10 @@ const ProductFormSchema = z.object({
     (value) => typeof File !== "undefined" && value instanceof File,
     { message: "Please upload a product image." }
   ),
-});
+  discountPercentage: z.coerce.number({ required_error: "Enter a valid discount percentage." }).positive("Discount percentage must be greater than zero."),
+  hasDiscount: z.boolean({ required_error: "Please select a discount status." }).default(false),
+  isFeatured: z.boolean({ required_error: "Please select a feature status." }).default(false),
+  isOffer: z.boolean({ required_error: "Please select a offer status." }).default(false),
+}); 
 
 export { ProductFormSchema };

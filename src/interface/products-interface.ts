@@ -17,6 +17,10 @@ export interface IProducts {
     productImageUrl?: string,
     category: ICategoryList,
     categoryId: any,
+    discountPercentage: number,
+    hasDiscount: boolean,
+    isFeatured: boolean,
+    isOffer: boolean,
  }
 
 export interface IProductsPost extends z.infer<typeof ProductFormSchema> {}

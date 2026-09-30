@@ -9,13 +9,7 @@ import React from "react";
 const CreateProduct: NextPageWithLayout = () => {
   return (
     <div className="page">
-        <PageHeader
-          title="Product"
-          subTitle="Add Products"
-          back
-          backUrl="/products"
-        />
-         <div className="page-body px-8">
+         <div className="">
               <AddProductForm />
          </div>
 

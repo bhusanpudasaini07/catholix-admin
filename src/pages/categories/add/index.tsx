@@ -1,4 +1,4 @@
-import AddCategoriesForm from "@/features/Catgegories/add-categories";
+import AddCategoriesForm from "@/features/Categories/add-categories";
 import { NextPageWithLayout } from "@/pages/_app";
 import PageHeader from "@/shared/components/page-header";
 

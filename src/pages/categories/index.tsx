@@ -4,7 +4,7 @@ import MainLayout from "@/shared/main-layout";
 import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import PageHeader from "@/shared/components/page-header";
 import { useCategory } from "../../hooks/categories/useCategory.hook";
-import ViewCategories from "@/features/Catgegories/view-categories";
+import ViewCategories from "@/features/Categories/view-categories";
 import { Button } from "@/shared/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/router";

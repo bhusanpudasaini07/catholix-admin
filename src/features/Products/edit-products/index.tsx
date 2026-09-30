@@ -41,9 +41,17 @@ const EditCProductForm = () => {
         productPrice: productDetail?.data?.productPrice,
         productImage: productDetail?.data?.productImage,
         categoryId: productDetail?.data?.categoryId,
+        quantity: productDetail?.data?.quantity,
+        discountPercentage: productDetail?.data?.discountPercentage,
+        hasDiscount: productDetail?.data?.hasDiscount,
+        isFeatured: productDetail?.data?.isFeatured,
+        isOffer: productDetail?.data?.isOffer,
+        productImageUrl: productDetail?.data?.productImageUrl,
+        
       });
     }
   }, [productDetail]);
+
 
   return (
     <Form {...form}>

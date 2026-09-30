@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 
@@ -23,7 +23,7 @@ import { ICategoryList } from "@/interface/category-interface";
 import { Select } from "@/shared/components/ui/select";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import Image from "next/image";
-import { Sparkles, X } from "lucide-react";
+import { ChevronLeft, Sparkles, X } from "lucide-react";
 import { useProducts } from "@/hooks/products/useProduct.hook";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
 import { useMutation } from "react-query";
@@ -97,11 +97,30 @@ const ProductFormContent = ({
     formData.append("productImage", image);
     generateListingMutation.mutate(formData);
   };
+
+  useEffect(() => {
+    if (form.getValues("productImageUrl")) {
+      setPreview(form.getValues("productImageUrl") || "");
+    }
+  }, [form.getValues("productImageUrl")]);
+  
+  console.log("categoryList", categoryList);
   return (
     <>
       <Card>
         <CardContent>
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex  items-center mb-6 gap-2">
+          <Button
+          type="button"
+            variant="outline_secondary"
+            size="sm"
+            className="gap-2 p-0 rounded-full !size-7 2xl:size-8 shrink-0"
+            onClick={() => {
+              router.push("/products");
+            }}
+          >
+            <ChevronLeft size={18} />
+          </Button>
             <h5 className="text-xl font-bold text-zinc-900">
 
               {id
@@ -109,7 +128,6 @@ const ProductFormContent = ({
                 : "Add"}{" "}
               Product
             </h5>
-
           </div>
           {/* Product Image */}
           <FormField
@@ -213,7 +231,7 @@ const ProductFormContent = ({
             )}
           />
           <div className="space-y-4 mt-4">
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
 
               {/* Product Name name */}
               <FormField
@@ -264,8 +282,8 @@ const ProductFormContent = ({
                             <SelectValue placeholder="Select Category" />
                           </SelectTrigger>
                           <SelectContent className="bg-white z-[999999]">
-                            {Array.isArray(categoryList?.data) && categoryList?.data?.length > 0 ? (
-                              categoryList?.data.map((category: ICategoryList) => (
+                            {Array.isArray(categoryList?.items) && categoryList?.items?.length > 0 ? (
+                              categoryList?.items?.map((category: ICategoryList) => (
                                 <SelectItem
                                   key={category?.id}
                                   value={String(category?.id)}
@@ -286,10 +304,26 @@ const ProductFormContent = ({
                   </FormItem>
                 )}
               />
+              {/* Product quantity */}
+              <FormField
+                control={form.control}
+                name="quantity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-normal">
+                       Quantity
+                      <span className="text-destructive">*</span>
+                    </FormLabel>
+                    <Input type="number" placeholder="Quantity" disabled={loading} className="placeholder:text-gray-270" {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
 
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+               
                 {/* Product Price */}
                 <FormField
                 control={form.control}
@@ -332,17 +366,21 @@ const ProductFormContent = ({
                   <FormItem>
                     <FormLabel className="font-normal">
                       Product Discount Percentage
-                      <span className="text-destructive">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         placeholder="Product Discount Percentage"
                         disabled={loading || !form.watch("isOffer")}
-                   
-                        className="placeholder:text-gray-270"
-                        {...field}
+                        value={field.value !== undefined && field.value !== null ? String(field.value) : ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          // Allow empty string to clear the field, otherwise parse to number
+                          field.onChange(value === "" ? undefined : Number(value));
+                        }}
                       />
+               
+                      
                     </FormControl>
                     <FormMessage />
                   </FormItem>

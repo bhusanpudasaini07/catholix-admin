@@ -1,4 +1,4 @@
-import EditCategoryForm from "@/features/Catgegories/edit-categories";
+import EditCategoryForm from "@/features/Categories/edit-categories";
 import { NextPageWithLayout } from "@/pages/_app";
 import PageHeader from "@/shared/components/page-header";
 import MainLayout from "@/shared/main-layout";

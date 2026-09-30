@@ -16,6 +16,7 @@ export interface IProducts {
     productImage: string,
     productImageUrl?: string,
     category: ICategoryList,
+    quantity: number,
     categoryId: any,
     discountPercentage: number,
     hasDiscount: boolean,

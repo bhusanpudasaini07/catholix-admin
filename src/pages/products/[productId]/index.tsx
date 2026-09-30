@@ -8,16 +8,7 @@ import React from "react";
 const EditProducts: NextPageWithLayout = () => {
   return (
     <div className="page">
-      <PageHeader
-        title="Products"
-        subTitle="Edit Products"
-        back
-        backUrl="/products"
-      />
-
-      <div className="page-body px-8">
         <EditCProductForm />
-      </div>
     </div>
   );
 };

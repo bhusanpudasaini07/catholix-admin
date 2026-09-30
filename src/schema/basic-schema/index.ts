@@ -3,7 +3,7 @@ const basicFieldsValidation = {
   categoryName: z
     .string({ required_error: "Category name is required." })
     .min(1, "Category name is required.")
-    .max(16, "Category name must not exceed 16 characters."),
+    .max(100, "Category name must not exceed 100 characters."),
   firstName: z
     .string({ required_error: "Firstname is required." })
     .min(1, "First name is required.")

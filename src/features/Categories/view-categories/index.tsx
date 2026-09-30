@@ -32,7 +32,7 @@ const ViewCategories = ({
 
     <>
    <DataTable
-        data={categoryList?.data ?? []}
+        data={categoryList?.items ?? []}
         columns={columns}
         loading={loading}
         loadingDataNum={10}
@@ -54,7 +54,7 @@ const ViewCategories = ({
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
         title="Delete Category"
-        description={`Are you sure you want to delete user ${categoryName}?`}
+        description={`Are you sure you want to delete category ${categoryName}?`}
         btnName="Delete"
         variant={"destructive"}
         key={`delete- ${categoryId}`}

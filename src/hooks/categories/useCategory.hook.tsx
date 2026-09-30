@@ -83,6 +83,7 @@ export const useCategory = () => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Category edited successfully");
       router.push("/categories");
+       queryClient.invalidateQueries("categories");
     },
     onError: (error: any) => {
       if (error) {
@@ -103,7 +104,7 @@ export const useCategory = () => {
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Category deleted successfully");
       setDeleteModalOpen(false);
-      queryClient.invalidateQueries("categories");
+     queryClient.invalidateQueries("categories");
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);

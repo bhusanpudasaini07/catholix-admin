@@ -18,8 +18,9 @@ import { ICategoryPost } from "@/interface/category-interface";
 //   return httpRequest(finalUrl, httpMethods.GET);
 // };
 
-const getAllCategory = () => {
-  return httpRequest(`/categories`, httpMethods.GET);
+const getAllCategory = async () => {
+  const response = await httpRequest(`/categories`, httpMethods.GET);
+  return response.data;
 };
 
 

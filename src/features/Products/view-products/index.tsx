@@ -34,7 +34,7 @@ const ViewProduct = ({
    
     
       <DataTable
-        data={list?.data ?? []}
+        data={list?.data?.items ?? []}
         columns={columns}
         loading={loading}
         loadingDataNum={10}
@@ -56,7 +56,7 @@ const ViewProduct = ({
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
         title="Delete Product"
-        description={`Are you sure you want to delete user ${dataName}?`}
+        description={`Are you sure you want to delete product ${dataName}?`}
         btnName="Delete"
         variant={"destructive"}
         key={`delete- ${dataId}`}

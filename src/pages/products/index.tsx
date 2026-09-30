@@ -48,15 +48,6 @@ const ProductViewTable: NextPageWithLayout = () => {
           deleteProductMutation={deleteProductMutation}
         />
       </div>
-      {/* <CommonModal
-        open={addModalOpen}
-        onClose={setAddModalOpen}
-        className="max-w-2xl"
-      >
-        <AddProductForm
-        />
-      </CommonModal> */}
-
     </div>
   );
 };

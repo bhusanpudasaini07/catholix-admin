@@ -101,8 +101,8 @@ export const useProducts = () => {
     mutationFn: () => deleteProducts(productId),
     onSuccess: () => {
       showToast(TOAST_TYPES.success, "Product deleted successfully");
-      setDeleteModalOpen(false);
       queryClient.invalidateQueries("products");
+      setDeleteModalOpen(false);
     },
     onError: (error: any) => {
       showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
@@ -177,8 +177,13 @@ export const useProducts = () => {
       size: 20,
       maxSize: 20,
       cell: ({ row }) => (
-        <div className="font-medium w-[200px]">
-          {/* <Image src={row?.original?.productImageUrl || ""} alt={row?.original?.productName} width={100} height={100} placeholder="blur" blurDataURL="/images/placeholder.png" /> */}
+        <div className="font-medium w-[200px]">{
+          row?.original?.productImageUrl ? (
+            <Image src={row?.original?.productImageUrl || "/images/placeholder.png"} alt={row?.original?.productName} width={100} height={100} placeholder="blur" blurDataURL="/images/placeholder.png" />
+          ) : (
+            <Image src="/images/placeholder.png" alt="placeholder" width={100} height={100} placeholder="blur" blurDataURL="/images/placeholder.png" />
+          )
+        }
         </div>
       ),
     },

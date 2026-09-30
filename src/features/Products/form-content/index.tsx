@@ -104,7 +104,6 @@ const ProductFormContent = ({
     }
   }, [form.getValues("productImageUrl")]);
   
-  console.log("categoryList", categoryList);
   return (
     <>
       <Card>
@@ -386,7 +385,7 @@ const ProductFormContent = ({
                   </FormItem>
                 )}
               />
-               {/* OFeatured */}
+               {/*  */}
                <FormField
                 control={form.control}
                 name="isFeatured"

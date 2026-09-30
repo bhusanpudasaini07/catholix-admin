@@ -66,7 +66,6 @@ export const useProducts = () => {
       queryClient.invalidateQueries("products");
     },
     onError: (error: any) => {
-      debugger;
       if (error) {
         showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
       } else {

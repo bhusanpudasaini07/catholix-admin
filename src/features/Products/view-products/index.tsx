@@ -2,7 +2,6 @@ import React from "react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 
 interface IProps {
   list: any,
@@ -45,8 +44,8 @@ const ViewProduct = ({
 
       {/* <DataTablePagination
         perPage={perPage}
-        currentPage={agentDetailTable?.data?.currentPage || 1}
-        totalPages={agentDetailTable?.data?.totalPages || 1}
+        currentPage={list?.data?.currentPage || 1}
+        totalPages={list?.data?.totalPages || 1}
         pageChange={pageChangeHandler}
         setPerPage={perPageHandler}
       /> */}

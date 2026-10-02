@@ -9,13 +9,12 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/router";
 import { useProducts } from "@/hooks/products/useProduct.hook";
 import ViewProduct from "@/features/Products/view-products";
-import CommonModal from "@/shared/components/common-modal";
-import AddProductForm from "@/features/Products/add-products";
+import { Input } from "@/shared/components/ui/input";
 
 const ProductViewTable: NextPageWithLayout = () => {
   const router = useRouter();
   //products list Api
-  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, addModalOpen, setAddModalOpen } = useProducts();
+  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, pageChangeHandler, perPageHandler ,handleSearch, search} = useProducts();
 
   return (
     <div className="page">
@@ -28,7 +27,12 @@ const ProductViewTable: NextPageWithLayout = () => {
       <div className="page-body px-8">
         <div className="flex justify-between">
           <div className="flex">
-            search
+            <Input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => handleSearch(e.target.value)}
+            />
           </div>
           <Button
             onClick={() => router.push("/products/add")}
@@ -46,6 +50,8 @@ const ProductViewTable: NextPageWithLayout = () => {
           deleteModalOpen={deleteModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
           deleteProductMutation={deleteProductMutation}
+          pageChangeHandler={pageChangeHandler}
+          perPageHandler={perPageHandler}
         />
       </div>
     </div>

@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addProducts, deleteProducts, editProducts, generateAiListing, getAllProducts, getProductsDetail } from "@/services/products/product-service";
+import { addProducts, deleteProducts, editProducts, getAllProducts, getProductsDetail } from "@/services/products/product-service";
 import {  IProducts, IProductsList, IProductsPost } from "@/interface/products-interface";
 import { ProductFormSchema } from "@/schema/product-schema";
 import Image from "next/image";
@@ -34,7 +34,9 @@ export const useProducts = () => {
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [productId,  setProductId] = useState<string>("");
   const [productName, setProductName] = useState<string>("false");
-
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(10);
+  const [search, setSearch] = useState<string>("");
 
  // Generate Listing Mutation
 
@@ -45,8 +47,8 @@ export const useProducts = () => {
   // Get all  Products Function
   const { data: productList, isLoading: productLoading } =
     useQuery<IProductsList>({
-      queryFn: () => getAllProducts(),
-      queryKey: ["products"],
+      queryFn: () => getAllProducts(search, page, perPage),
+      queryKey: ["products", search, page, perPage],
     });
 
   // Get Product By id Function
@@ -115,6 +117,18 @@ export const useProducts = () => {
     setDeleteModalOpen(true);
   };
 
+  // FUNCTIONS
+  const perPageHandler = (value: number) => {
+    setPerPage(value);
+    setPage(1);
+  };
+  const pageChangeHandler = (value: number) => {
+    setPage(value);
+  };
+
+  const handleSearch = (value: string) => {
+    setSearch(value);
+  };
 
 
   const productColumns: ColumnDef<IProducts>[] = [
@@ -231,6 +245,14 @@ export const useProducts = () => {
      setAddModalOpen,
      deleteModalOpen,
      setDeleteModalOpen,
+     page,
+     setPage,
+     perPage,
+     setPerPage,
+     pageChangeHandler,
+     perPageHandler,
+     handleSearch,
+     search,
 
     //columns
     productColumns,

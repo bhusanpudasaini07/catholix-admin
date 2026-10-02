@@ -2,6 +2,7 @@ import React from "react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 
 interface IProps {
   list: any,
@@ -12,6 +13,8 @@ interface IProps {
   setDeleteModalOpen: any,
   deleteProductMutation: any
   columns: any
+  pageChangeHandler: (page: number) => void
+  perPageHandler: (perPage: number) => void
 }
 
 const ViewProduct = ({
@@ -22,8 +25,9 @@ const ViewProduct = ({
   setDeleteModalOpen,
   deleteProductMutation,
   loading,
-  columns
-
+  columns,
+  pageChangeHandler,
+  perPageHandler
 
 }: IProps) => {
 
@@ -42,13 +46,13 @@ const ViewProduct = ({
         headerSticky
       ></DataTable>
 
-      {/* <DataTablePagination
-        perPage={perPage}
-        currentPage={list?.data?.currentPage || 1}
-        totalPages={list?.data?.totalPages || 1}
+      <DataTablePagination
+        currentPage={list?.data?.page || 1}
         pageChange={pageChangeHandler}
+        totalPages={list?.data?.totalPages || 1}
+        perPage={list?.data?.perPage || 10}
         setPerPage={perPageHandler}
-      /> */}
+      />
 
       {/* Delete Confirmation modal */}
       <ConfirmationModal

@@ -1,7 +1,6 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 import { IProductsPost } from "@/interface/products-interface";
-import axios from "axios";
 
 
 // /api/products/generate-listing
@@ -11,8 +10,8 @@ const generateAiListing = async (data: FormData) => {
   });
 };
 
-const getAllProducts = () => {
-  return httpRequest(`/products`, httpMethods.GET);
+const getAllProducts = (search: string, page: number, perPage: number) => {
+  return httpRequest(`/products?search=${search}&page=${page}&limit=${perPage}`, httpMethods.GET);
 };
 
 

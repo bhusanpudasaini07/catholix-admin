@@ -2,7 +2,7 @@ import React from "react";
 
 import { DataTable } from "@/shared/components/data-table/data-table";
 import ConfirmationModal from "@/shared/components/confirmation-modal";
-import { useCategory } from "@/hooks/categories/useCategory.hook";
+import { DataTablePagination } from "@/shared/components/data-table/data-table-pagination";
 
 interface IProps {
   categoryList: any,
@@ -13,6 +13,14 @@ interface IProps {
   deleteCategoryMutation: any
   loading:boolean
   columns:any
+  pageChangeHandler: (page: number) => void
+  perPageHandler: (perPage: number) => void
+  page: number
+  setPage: (page: number) => void
+  perPage: number
+  setPerPage: (perPage: number) => void
+  search: string
+  handleSearch: (search: string) => void
 }
 
 const ViewCategories = ({
@@ -23,8 +31,15 @@ const ViewCategories = ({
   setDeleteModalOpen,
   deleteCategoryMutation,
   loading,
-  columns
-
+  columns,
+  pageChangeHandler,
+  perPageHandler,
+  page,
+  setPage,
+  perPage,
+  setPerPage,
+  search,
+  handleSearch,
  
 }: IProps) => {
 
@@ -41,15 +56,15 @@ const ViewCategories = ({
         headerSticky
       ></DataTable> 
 
-      {/* <DataTablePagination
-        perPage={perPage}
-        currentPage={agentDetailTable?.data?.currentPage || 1}
-        totalPages={agentDetailTable?.data?.totalPages || 1}
-        pageChange={pageChangeHandler}
-        setPerPage={perPageHandler}
-      /> */}
+      <DataTablePagination
+       currentPage={categoryList?.data?.page || 1}
+       pageChange={pageChangeHandler}
+       totalPages={categoryList?.data?.totalPages || 1}
+       perPage={categoryList?.data?.perPage || 10}
+       setPerPage={perPageHandler}
+      />
 
-       {/* Delete Confirmation modal */}
+      {/* Delete Confirmation modal */}
        <ConfirmationModal
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}

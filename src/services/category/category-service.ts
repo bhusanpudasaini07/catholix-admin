@@ -18,8 +18,8 @@ import { ICategoryPost } from "@/interface/category-interface";
 //   return httpRequest(finalUrl, httpMethods.GET);
 // };
 
-const getAllCategory = async () => {
-  const response = await httpRequest(`/categories`, httpMethods.GET);
+const getAllCategory = async (search: string, page: number, perPage: number) => {
+  const response = await httpRequest(`/categories?search=${search}&page=${page}&limit=${perPage}`, httpMethods.GET);
   return response.data;
 };
 

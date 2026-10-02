@@ -8,11 +8,12 @@ import ViewCategories from "@/features/Categories/view-categories";
 import { Button } from "@/shared/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/router";
+import { Input } from "@/shared/components/ui/input";
 
 const CategoryTable: NextPageWithLayout = () => {
   const router = useRouter();
   //category list Api
-  const { categoryList, categoryLoading, categoryColumns, categoryId, categoryName,deleteModalOpen, setDeleteModalOpen, deleteCategoryMutation  } = useCategory();
+  const { categoryList, categoryLoading, categoryColumns, categoryId, categoryName,deleteModalOpen, setDeleteModalOpen, deleteCategoryMutation, page, setPage, perPage, setPerPage, pageChangeHandler, perPageHandler, handleSearch, search } = useCategory();
 
   return (
     <div className="page">
@@ -25,7 +26,12 @@ const CategoryTable: NextPageWithLayout = () => {
         <div className="page-body px-8">
           <div className="flex justify-between">
             <div className="flex">
-              search
+              <Input
+                type="text"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
             </div>
             <Button 
             onClick={() => router.push("/categories/add")}
@@ -43,6 +49,14 @@ const CategoryTable: NextPageWithLayout = () => {
           deleteModalOpen={deleteModalOpen}
           setDeleteModalOpen={setDeleteModalOpen}
           deleteCategoryMutation={deleteCategoryMutation}
+          pageChangeHandler={pageChangeHandler}
+          perPageHandler={perPageHandler}
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          search={search}
+          handleSearch={handleSearch}
           />
         </div>
    

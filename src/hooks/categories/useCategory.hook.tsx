@@ -43,12 +43,14 @@ export const useCategory = () => {
   const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
   const [categoryId,  setCategoryId] = useState<string>("");
   const [categoryName, setCategoryName] = useState<string>("false");
-
+  const [search, setSearch] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<number>(10);
   // Get all  Category Function
   const { data: categoryList, isLoading: categoryLoading } =
     useQuery<ICategory>({
-      queryFn: () => getAllCategory(),
-      queryKey: ["categories"],
+      queryFn: () => getAllCategory(search, page, perPage),
+      queryKey: ["categories", search, page, perPage],
     });
 
   // Get Category By id Function
@@ -119,6 +121,20 @@ export const useCategory = () => {
     setDeleteModalOpen(true);
   };
 
+  // FUNCTIONS
+  const perPageHandler = (value: number) => {
+    setPerPage(value);
+    setPage(1);
+  };
+  const pageChangeHandler = (value: number) => {
+    setPage(value);
+  };
+
+  const handleSearch = (value: string) => {
+    setSearch(value);
+  };
+
+
   const categoryColumns: ColumnDef<ICategoryList>[] = [
     {
       accessorKey: "id",
@@ -176,6 +192,14 @@ export const useCategory = () => {
      setAddModalOpen,
      deleteModalOpen,
      setDeleteModalOpen,
+     page,
+     setPage,
+     perPage,
+     setPerPage,
+     pageChangeHandler,
+     perPageHandler,
+     handleSearch,
+     search,
 
 
     //columns

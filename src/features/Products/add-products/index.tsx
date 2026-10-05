@@ -24,7 +24,7 @@ const {addProductMutation } = useProducts();
 
 
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
-    const { isFeatured, isOffer, discountPercentage, hasDiscount, ...rest } = data;
+    const { isFeatured, hasOffer, discountPercentage, hasDiscount, ...rest } = data;
     const formData = new FormData();
     formData.append("productName", data.productName);
     formData.append("productDescription", data.productDescription);
@@ -35,7 +35,7 @@ const {addProductMutation } = useProducts();
     formData.append("discountPercentage", data.discountPercentage?.toString() || "0");
     formData.append("hasDiscount", discountPercentage ? "true" : "false");
     formData.append("isFeatured", data.isFeatured.toString());
-    formData.append("isOffer", data.isOffer.toString());
+    formData.append("hasOffer", data.hasOffer.toString());
     addProductMutation.mutate(formData as unknown as IProductsPost);
   };
   return (

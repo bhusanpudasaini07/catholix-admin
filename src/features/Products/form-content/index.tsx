@@ -341,7 +341,7 @@ const ProductFormContent = ({
                {/* Offer Status */}
                <FormField
                 control={form.control}
-                name="isOffer"
+                name="hasOffer"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-normal">
@@ -370,7 +370,7 @@ const ProductFormContent = ({
                       <Input
                         type="number"
                         placeholder="Product Discount Percentage"
-                        disabled={loading || !form.watch("isOffer")}
+                        disabled={loading || !form.watch("hasOffer")}
                         value={field.value !== undefined && field.value !== null ? String(field.value) : ""}
                         onChange={(e) => {
                           const value = e.target.value;

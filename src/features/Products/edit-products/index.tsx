@@ -45,7 +45,7 @@ const EditCProductForm = () => {
         discountPercentage: productDetail?.data?.discountPercentage,
         hasDiscount: productDetail?.data?.hasDiscount,
         isFeatured: productDetail?.data?.isFeatured,
-        isOffer: productDetail?.data?.isOffer,
+        hasOffer: productDetail?.data?.hasOffer,
         productImageUrl: productDetail?.data?.productImageUrl,
         
       });

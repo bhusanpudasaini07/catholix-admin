@@ -160,6 +160,15 @@ export const useProducts = () => {
       ),
     }, 
     {
+      accessorKey: "hasOffer",
+      header: "Offer",
+      cell: ({ row }) => (
+        <div >
+          {row?.original?.hasOffer ? "Yes" : "No"}
+        </div>
+      ),
+    },
+    {
       accessorKey: "productDescription",
       header: "Product Description",
       minSize: 20,

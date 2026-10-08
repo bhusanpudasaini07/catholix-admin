@@ -29,8 +29,15 @@ const EditCProductForm = () => {
   
 
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
-    editProductMutation.mutate(data);
+    const values = {
+      ...data,
+      categoryId: data.categoryId.toString(),
+      productPrice: data.productPrice.toString(),
+    };
+    editProductMutation.mutate(values);
   };
+
+
 
   useEffect(() => {
     if (router.query.productId) {
@@ -39,15 +46,14 @@ const EditCProductForm = () => {
         productName: productDetail?.data?.productName,
         productDescription: productDetail?.data?.productDescription,
         productPrice: productDetail?.data?.productPrice,
-        productImage: productDetail?.data?.productImage,
-        categoryId: productDetail?.data?.categoryId,
-        quantity: productDetail?.data?.quantity,
-        discountPercentage: productDetail?.data?.discountPercentage,
+        categoryId: productDetail?.data?.categoryId.toString(),
+        quantity: productDetail?.data?.quantity || 0,
         hasDiscount: productDetail?.data?.hasDiscount,
         isFeatured: productDetail?.data?.isFeatured,
         hasOffer: productDetail?.data?.hasOffer,
+        discountPercentage: productDetail?.data?.hasOffer ? productDetail?.data?.discountPercentage : undefined,
         productImageUrl: productDetail?.data?.productImageUrl,
-        
+        productImage: productDetail?.data?.productImageUrl,
       });
     }
   }, [productDetail]);

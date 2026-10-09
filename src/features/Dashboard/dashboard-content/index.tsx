@@ -1,16 +1,11 @@
 import {
   AreaChart,
-  ListRestart,
-  Search,
   Smartphone,
   User2,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import React from "react";
 
-import useDashboard from "@/hooks/dashboard/useDashboard.hook";
-import RegionalFilter from "@/shared/components/regional-filter";
-import { Button } from "@/shared/components/ui/button";
 import { useCommonStore } from "@/store/common-store";
 import DashboardTime from "./dashboard-time";
 
@@ -22,23 +17,6 @@ const MapContent = dynamic(import("./dashboard-map"), {
 const DashboardContent = () => {
   const { profileData } = useCommonStore();
 
-  const mapOptions = [
-    {
-      id: "device",
-      title: "Device",
-      icon: <Smartphone size={20} />,
-    },
-    {
-      id: "dealer",
-      title: "Dealer",
-      icon: <AreaChart size={20} />,
-    },
-    {
-      id: "agent",
-      title: "Agent",
-      icon: <User2 size={20} />,
-    },
-  ];
 
 
 

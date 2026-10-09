@@ -5,12 +5,19 @@ import { getCookie } from "cookies-next";
 
 const { LOGGED_IN_KEY } = appConfig;
 
-const login = (loginPayload: any) => {
+const login = async (loginPayload: any) => {
   const payload ={
     email: loginPayload.email,
     password: loginPayload.password
   }
-  return httpRequest("/auth/login", httpMethods.POST, payload);
+  const data = await httpRequest("/auth/login", httpMethods.POST, payload)
+  if(data.data.role === "admin"){
+    return data
+  }
+  else{
+    throw new Error("You are not allowed to login with this credentials");
+  }
+ 
 };
 
 const logout = () => {

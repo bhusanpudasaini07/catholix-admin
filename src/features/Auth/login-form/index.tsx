@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 
 import { constants } from "@/constants";
-import { ILoginFormInput } from "@/interface/auth-interface";
+
 import { LoginSchema } from "@/schema/auth-schema/login-schema";
 import { login } from "@/services/auth/auth-service";
 import ButtonLoader from "@/shared/components/loader/button-loader";
@@ -38,7 +38,7 @@ const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(true);
   const { setLoggedInState } = useLoggedInStore();
 
-  const form = useForm<ILoginFormInput>({
+  const form = useForm<any>({
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
     reValidateMode: "onChange",
@@ -67,7 +67,7 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ILoginFormInput> = (data) => {
+  const onSubmit: SubmitHandler<any> = (data) => {
     const payload = {
       ...data,
     };

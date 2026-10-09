@@ -11,7 +11,7 @@ const login = async (loginPayload: any) => {
     password: loginPayload.password
   }
   const data = await httpRequest("/auth/login", httpMethods.POST, payload)
-  if(data.data.role === "admin"){
+  if(data.data.role === "Admin"){
     return data
   }
   else{

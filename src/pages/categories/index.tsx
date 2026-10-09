@@ -13,7 +13,7 @@ import { Input } from "@/shared/components/ui/input";
 const CategoryTable: NextPageWithLayout = () => {
   const router = useRouter();
   //category list Api
-  const { categoryList, categoryLoading, categoryColumns, categoryId, categoryName,deleteModalOpen, setDeleteModalOpen, deleteCategoryMutation, page, setPage, perPage, setPerPage, pageChangeHandler, perPageHandler, handleSearch, search } = useCategory();
+  const { categoryList, categoryLoading, categoryColumns, categoryId, categoryName,deleteModalOpen, setDeleteModalOpen, deleteCategoryMutation, page, setPage, perPage, setPerPage, pageChangeHandler, perPageHandler, handleSearch, search, handleReset } = useCategory();
 
   return (
     <div className="page">
@@ -25,13 +25,14 @@ const CategoryTable: NextPageWithLayout = () => {
         />
         <div className="page-body px-8">
           <div className="flex justify-between">
-            <div className="flex">
+            <div className="flex space-x-2">
               <Input
                 type="text"
                 placeholder="Search"
                 value={search}
                 onChange={(e) => handleSearch(e.target.value)}
               />
+              <Button onClick={handleReset}>Reset</Button>
             </div>
             <Button 
             onClick={() => router.push("/categories/add")}

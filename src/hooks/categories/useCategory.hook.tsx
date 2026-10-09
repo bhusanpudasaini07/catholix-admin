@@ -132,6 +132,11 @@ export const useCategory = () => {
 
   const handleSearch = (value: string) => {
     setSearch(value);
+    setPage(1);
+  };
+  const handleReset = () => {
+    setPage(1);
+    setSearch("");
   };
 
 
@@ -200,7 +205,7 @@ export const useCategory = () => {
      perPageHandler,
      handleSearch,
      search,
-
+     handleReset,
 
     //columns
     categoryColumns,

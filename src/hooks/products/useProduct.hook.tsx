@@ -126,9 +126,14 @@ export const useProducts = () => {
   };
 
   const handleSearch = (value: string) => {
+    setPage(1);
     setSearch(value);
   };
 
+  const handleReset = () => {
+    setPage(1);
+    setSearch("");
+  };
 
   const productColumns: ColumnDef<IProducts>[] = [
     {
@@ -261,6 +266,7 @@ export const useProducts = () => {
      perPageHandler,
      handleSearch,
      search,
+     handleReset,
 
     //columns
     productColumns,

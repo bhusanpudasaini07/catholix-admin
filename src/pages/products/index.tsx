@@ -5,7 +5,7 @@ import { getI18nProps } from "@/shared/utils/i18n-utils/i18n.util";
 import PageHeader from "@/shared/components/page-header";
 
 import { Button } from "@/shared/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, RefreshCcw } from "lucide-react";
 import { useRouter } from "next/router";
 import { useProducts } from "@/hooks/products/useProduct.hook";
 import ViewProduct from "@/features/Products/view-products";
@@ -14,7 +14,7 @@ import { Input } from "@/shared/components/ui/input";
 const ProductViewTable: NextPageWithLayout = () => {
   const router = useRouter();
   //products list Api
-  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, pageChangeHandler, perPageHandler ,handleSearch, search, perPage} = useProducts();
+  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, pageChangeHandler, perPageHandler ,handleSearch, search, perPage, handleReset} = useProducts();
 
   return (
     <div className="page">
@@ -26,13 +26,16 @@ const ProductViewTable: NextPageWithLayout = () => {
       />
       <div className="page-body px-8">
         <div className="flex justify-between">
-          <div className="flex">
+          <div className="flex space-x-2">
             <Input
               type="text"
               placeholder="Search"
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
             />
+            <Button onClick={handleReset}>
+              Reset
+            </Button>
           </div>
           <Button
             onClick={() => router.push("/products/add")}

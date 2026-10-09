@@ -34,13 +34,7 @@ const ViewCategories = ({
   columns,
   pageChangeHandler,
   perPageHandler,
-  page,
-  setPage,
-  perPage,
-  setPerPage,
-  search,
-  handleSearch,
- 
+  perPage
 }: IProps) => {
 
   return (
@@ -60,7 +54,7 @@ const ViewCategories = ({
        currentPage={categoryList?.data?.page || 1}
        pageChange={pageChangeHandler}
        totalPages={categoryList?.data?.totalPages || 1}
-       perPage={categoryList?.data?.perPage || 10}
+       perPage={categoryList?.data?.perPage || perPage}
        setPerPage={perPageHandler}
       />
 

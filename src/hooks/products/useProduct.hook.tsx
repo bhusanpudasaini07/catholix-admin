@@ -120,7 +120,6 @@ export const useProducts = () => {
   // FUNCTIONS
   const perPageHandler = (value: number) => {
     setPerPage(value);
-    setPage(1);
   };
   const pageChangeHandler = (value: number) => {
     setPage(value);

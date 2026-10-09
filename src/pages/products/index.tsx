@@ -14,7 +14,7 @@ import { Input } from "@/shared/components/ui/input";
 const ProductViewTable: NextPageWithLayout = () => {
   const router = useRouter();
   //products list Api
-  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, pageChangeHandler, perPageHandler ,handleSearch, search} = useProducts();
+  const { productList, productLoading, productColumns, productId, productName, setProductName, deleteModalOpen, setDeleteModalOpen, deleteProductMutation, pageChangeHandler, perPageHandler ,handleSearch, search, perPage} = useProducts();
 
   return (
     <div className="page">
@@ -42,6 +42,7 @@ const ProductViewTable: NextPageWithLayout = () => {
           </Button>
         </div>
         <ViewProduct
+          perPage={perPage}
           list={productList}
           loading={productLoading}
           columns={productColumns}

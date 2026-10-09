@@ -13,6 +13,7 @@ interface IProps {
   setDeleteModalOpen: any,
   deleteProductMutation: any
   columns: any
+  perPage: number
   pageChangeHandler: (page: number) => void
   perPageHandler: (perPage: number) => void
 }
@@ -27,7 +28,8 @@ const ViewProduct = ({
   loading,
   columns,
   pageChangeHandler,
-  perPageHandler
+  perPageHandler,
+  perPage
 
 }: IProps) => {
 
@@ -50,7 +52,7 @@ const ViewProduct = ({
         currentPage={list?.data?.page || 1}
         pageChange={pageChangeHandler}
         totalPages={list?.data?.totalPages || 1}
-        perPage={list?.data?.perPage || 10}
+        perPage={list?.data?.perPage || perPage}
         setPerPage={perPageHandler}
       />
 

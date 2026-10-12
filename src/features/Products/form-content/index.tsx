@@ -370,7 +370,7 @@ const ProductFormContent = ({
                       <Input
                         type="number"
                         placeholder="Product Discount Percentage"
-                        disabled={loading || !form.watch("hasOffer")}
+                        disabled={loading || !form.watch("hasOffer") || !form.watch("hasDiscount") === false}
                         value={field.value !== undefined && field.value !== null ? String(field.value) : ""}
                         onChange={(e) => {
                           const value = e.target.value;

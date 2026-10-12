@@ -31,6 +31,7 @@ const EditCProductForm = () => {
   const onSubmit: SubmitHandler<IProductsPost> = (data) => {
     const values = {
       ...data,
+      hasDiscount: data.hasOffer ? true : false,
       categoryId: data.categoryId.toString(),
       productPrice: data.productPrice.toString(),
     };

@@ -18,7 +18,6 @@ export function DownloadExcel(
   filename: string
 ): void {
   if (!data || data.length === 0) {
-    console.error("No data to export");
     return;
   }
 

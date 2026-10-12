@@ -37,6 +37,7 @@ const ViewCategories = ({
   perPage
 }: IProps) => {
 
+  console.log(categoryList);
   return (
 
     <>
@@ -51,10 +52,10 @@ const ViewCategories = ({
       ></DataTable> 
 
       <DataTablePagination
-       currentPage={categoryList?.data?.page || 1}
+       currentPage={categoryList?.page || 1}
        pageChange={pageChangeHandler}
-       totalPages={categoryList?.data?.totalPages || 1}
-       perPage={categoryList?.data?.perPage || perPage}
+       totalPages={categoryList?.totalPages || 1}
+       perPage={categoryList?.perPage || perPage}
        setPerPage={perPageHandler}
       />
 

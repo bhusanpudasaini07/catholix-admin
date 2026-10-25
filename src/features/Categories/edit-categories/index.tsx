@@ -27,8 +27,12 @@ const EditCategoryForm = () => {
   const [selectedCategory, setSelectedCategory] = useState<any>();
 
 
-  const onSubmit: SubmitHandler<ICategoryPost> = (data) => {
-    editCategoryMutation.mutate(data);
+  const onSubmit: SubmitHandler<any> = (data) => {
+    const formData = new FormData();
+    formData.append("categoryName", data.categoryName);
+    formData.append("categoryDescription", data.categoryDescription);
+    formData.append("categoryImage", data.categoryImage);
+    editCategoryMutation.mutate(formData as any);
   };
 
   useEffect(() => {
@@ -36,6 +40,9 @@ const EditCategoryForm = () => {
       setSelectedCategory(categoryDetail);
       form.reset({
         categoryName: categoryDetail?.data?.categoryName,
+        categoryDescription: categoryDetail?.data?.categoryDescription,
+        categoryImage:  new File([], "categoryImage.jpg"),
+        categoryImagePreview: categoryDetail?.data?.categoryImageUrl || "",
       });
     }
   }, [categoryDetail]);

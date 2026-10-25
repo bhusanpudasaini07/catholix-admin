@@ -7,6 +7,8 @@ export interface ICategoryList {
     updatedAt: string,
     categoryName: string,
     isActive: boolean
+    categoryDescription: string,
+    categoryImage: string,
   }
 
 export interface ICategoryPost extends z.infer<typeof CategoryFormSchema> {}

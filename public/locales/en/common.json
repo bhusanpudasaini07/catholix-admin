@@ -12,9 +12,8 @@
     "side_nav": {
       "dashboard": "Dashboard",
       "category": "Categories",
-      "products": "Products"
-
-      
+      "products": "Products",
+      "orders": "Orders"
     },
 
     "search": "Input here to search"

@@ -10,7 +10,6 @@ import { constants } from "@/constants";
 import CategoriesFormContent from "../form-content";
 import { useCategory } from "../../../hooks/categories/useCategory.hook";
 
-const { SOMETHING_WENT_WRONG } = constants.messages;
 
 const AddCategoriesForm = () => {
 const {addCategoryMutation } = useCategory();
@@ -24,12 +23,17 @@ const {addCategoryMutation } = useCategory();
     reValidateMode: "onChange",
     defaultValues: {
       categoryName: "",
+      categoryDescription: "",
     },
   });
 
 
-  const onSubmit: SubmitHandler<ICategoryPost> = (data) => {
-    addCategoryMutation.mutate(data);
+  const onSubmit: SubmitHandler<any> = (data) => {
+    const formData = new FormData();
+    formData.append("categoryName", data.categoryName);
+    formData.append("categoryDescription", data.categoryDescription);
+    formData.append("categoryImage", data.categoryImage);
+    addCategoryMutation.mutate(formData as any);
   };
   return (
     <Form {...form}>

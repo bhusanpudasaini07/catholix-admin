@@ -13,7 +13,6 @@ import { ReactElement, ReactNode } from "react";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-import { ThemeProvider } from "@/shared/components/theme-provider";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 
 import type { AppProps } from "next/app";

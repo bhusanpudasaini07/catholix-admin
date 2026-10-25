@@ -29,7 +29,9 @@ const deleteCategory = (id: string) => {
 };
 
 const addCategory = (data: ICategoryPost) => {
-  return httpRequest("/categories", httpMethods.POST, data);
+  return httpRequest("/categories", httpMethods.POST, data, {
+    "Content-Type": "multipart/form-data",
+  });
 };
 
 const getCategoryDetail = (id: any) => {
@@ -37,7 +39,9 @@ const getCategoryDetail = (id: any) => {
 };
 
 const editCategory = (id: any, data: ICategoryPost) => {
-  return httpRequest(`/categories/${id}`, httpMethods.PATCH, data);
+  return httpRequest(`/categories/${id}`, httpMethods.PATCH, data, {
+    "Content-Type": "multipart/form-data",
+  });
 };
 
 export {

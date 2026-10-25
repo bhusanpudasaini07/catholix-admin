@@ -1,20 +1,10 @@
 import {
   Box,
-  FileBadge,
-  FileBadge2,
-  FileBarChart,
-  FileLineChart,
-  FileStack,
-  Layers3,
   LayoutDashboard,
   LayoutGrid,
+  ListOrderedIcon,
   LucideLibrary,
-  ListOrdered,
-  ScrollText,
-  Server,
-  SquareKanban,
-  UserCircle2,
-  UserCog,
+
 } from "lucide-react";
 
 export const permissionConfig = {
@@ -54,6 +44,16 @@ export const permissionConfig = {
       ],
     },
 
-   
+    {
+      menuName: "common.side_nav.orders",
+      icon: <ListOrderedIcon width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: "common.side_nav.orders",
+          menuSlug: "/orders",
+          icon: <ListOrderedIcon width={20} height={20} />
+        },
+      ],
+    },
   ],
 };

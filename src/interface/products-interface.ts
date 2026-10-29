@@ -22,6 +22,8 @@ export interface IProducts {
     hasDiscount: boolean,
     isFeatured: boolean,
     hasOffer: boolean,
+    colors: string,
+    sizes: string,
  }
 
 export interface IProductsPost extends z.infer<typeof ProductFormSchema> {}

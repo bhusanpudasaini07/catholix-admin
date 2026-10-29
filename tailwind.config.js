@@ -89,7 +89,10 @@ module.exports = {
           DEFAULT: "var(--separator)",
           // foreground: "var(--white-foreground)",
         },
-
+        primary: {
+          DEFAULT: "#682C3E",
+          foreground: "#FFFFFF",
+        },
         purple: {
           50: "#4834D4",
           60: "#5947B3",

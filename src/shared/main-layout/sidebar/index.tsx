@@ -48,13 +48,7 @@ const Sidebar = ({
   setIsExpanded,
 }: ISidebarProps) => {
   const router = useRouter();
-  const heartbeatInterval = process.env.NEXT_PUBLIC_HEARTBEAT_INTERVAL;
-  const { profileData } = useCommonStore();
-
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: moment().subtract(1, "years").toDate(),
-    to: moment().toDate(),
-  });
+  
 
   const { t } = useTranslation("common");
 

@@ -21,16 +21,17 @@ const EditCProductForm = () => {
     resolver: zodResolver(ProductFormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      colors: [],
+      sizes: [],
+    },
   });
 
-  const [selectedProduct, setSelectedCProduct] = useState<any>();
 
-
-  
-
-  const onSubmit: SubmitHandler<IProductsPost> = (data) => {
+  const onSubmit: SubmitHandler<IProductsPost> = (data:any) => {
     const values = {
       ...data,
+      discountPercentage: data.hasOffer ? data.discountPercentage : 0,
       hasDiscount: data.hasOffer ? true : false,
       categoryId: data.categoryId.toString(),
       productPrice: data.productPrice.toString(),
@@ -42,7 +43,6 @@ const EditCProductForm = () => {
 
   useEffect(() => {
     if (router.query.productId) {
-      setSelectedCProduct(productDetail);
       form.reset({
         productName: productDetail?.data?.productName,
         productDescription: productDetail?.data?.productDescription,
@@ -55,6 +55,12 @@ const EditCProductForm = () => {
         discountPercentage: productDetail?.data?.hasOffer ? productDetail?.data?.discountPercentage : undefined,
         productImageUrl: productDetail?.data?.productImageUrl,
         productImage: productDetail?.data?.productImageUrl,
+        colors: Array.isArray(productDetail?.data?.colors)
+          ? productDetail.data.colors
+          : [],
+        sizes: Array.isArray(productDetail?.data?.sizes)
+          ? productDetail.data.sizes
+          : [],
       });
     }
   }, [productDetail]);
@@ -66,8 +72,6 @@ const EditCProductForm = () => {
         <ProductFormContent
           form={form}
           loading={editProductMutation.isLoading}
-          selected={selectedProduct}
-          setSelected={setSelectedCProduct}
           showSkeleton={productDetailLoading}
         />
       </form>

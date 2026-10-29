@@ -12,18 +12,20 @@ import { ProductFormSchema } from "@/schema/product-schema";
 
 const AddProductForm = () => {
 const {addProductMutation } = useProducts();
-  const [selectedLocalGovs, setSelectedLocalGovs] = useState<
-    { id: number; name: string }[]
-  >([]);
+
 
   const form = useForm<IProductsPost>({
     resolver: zodResolver(ProductFormSchema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      colors: [],
+      sizes: [],
+    },
   });
 
 
-  const onSubmit: SubmitHandler<IProductsPost> = (data) => {
+  const onSubmit: SubmitHandler<IProductsPost> = (data:any) => {
     const { isFeatured, hasOffer, discountPercentage, hasDiscount, ...rest } = data;
     const formData = new FormData();
     formData.append("productName", data.productName);
@@ -36,6 +38,8 @@ const {addProductMutation } = useProducts();
     formData.append("hasDiscount", discountPercentage ? "true" : "false");
     formData.append("isFeatured", data.isFeatured.toString());
     formData.append("hasOffer", data.hasOffer.toString());
+    data && data?.colors.forEach((color:string) => formData.append("colors", color));
+    data.sizes.forEach((size:string) => formData.append("sizes", size));
     addProductMutation.mutate(formData as unknown as IProductsPost);
   };
   return (
@@ -44,8 +48,6 @@ const {addProductMutation } = useProducts();
         <ProductFormContent
           form={form}
           loading={addProductMutation.isLoading}
-          selected={selectedLocalGovs}
-          setSelected={setSelectedLocalGovs}
           showSkeleton={false}
         />
        

@@ -18,24 +18,21 @@ import { Skeleton } from "@/shared/components/ui/skeleton";
 import { Button } from "@/shared/components/ui/button";
 import { IProductsPost } from "@/interface/products-interface";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { useCategory } from "@/hooks/categories/useCategory.hook";
 import { ICategoryList } from "@/interface/category-interface";
 import { Select } from "@/shared/components/ui/select";
 import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/components/ui/select";
 import Image from "next/image";
 import { ChevronLeft, Sparkles, X } from "lucide-react";
-import { useProducts } from "@/hooks/products/useProduct.hook";
 import { showToast, TOAST_TYPES } from "@/shared/utils/toast-utils/toast.utils";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { generateAiListing } from "@/services/products/product-service";
 import { Switch } from "@/shared/components/ui/switch";
+import { getAllCategory } from "@/services/category/category-service";
 
 
 interface IProps {
   form: UseFormReturn<IProductsPost>;
   loading: boolean;
-  selected: { id: number; name: string }[];
-  setSelected: (selected: { id: number; name: string }[]) => void;
   showSkeleton: boolean;
 }
 
@@ -47,7 +44,33 @@ const ProductFormContent = ({
   const router = useRouter();
   const id = router.query.productId;
 
-  const { categoryList, categoryLoading, } = useCategory();
+  const PRODUCT_COLORS = [
+    { name: "Black", hex: "#111827" },
+    { name: "White", hex: "#FFFFFF" },
+    { name: "Burgundy", hex: "#682C3E" },
+    { name: "Red", hex: "#DC2626" },
+    { name: "Blue", hex: "#2563EB" },
+    { name: "Green", hex: "#16A34A" },
+    { name: "Gold", hex: "#D4AF37" },
+    { name: "Silver", hex: "#C0C0C0" },
+    { name: "Brown", hex: "#92400E" },
+  ];
+
+  const PRODUCT_SIZES = [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL",
+    "One Size",
+  ];
+
+  const { data: categoryList, isLoading: categoryLoading } =
+    useQuery<any>({
+      queryFn: () => getAllCategory("", 1, 100),
+      queryKey: ["categories", 1, 100],
+    });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -103,23 +126,23 @@ const ProductFormContent = ({
       setPreview(form.getValues("productImageUrl") || "");
     }
   }, [form.getValues("productImageUrl")]);
-  
+
   return (
     <>
       <Card>
         <CardContent>
           <div className="flex  items-center mb-6 gap-2">
-          <Button
-          type="button"
-            variant="outline_secondary"
-            size="sm"
-            className="gap-2 p-0 rounded-full !size-7 2xl:size-8 shrink-0"
-            onClick={() => {
-              router.push("/products");
-            }}
-          >
-            <ChevronLeft size={18} />
-          </Button>
+            <Button
+              type="button"
+              variant="outline_secondary"
+              size="sm"
+              className="gap-2 p-0 rounded-full !size-7 2xl:size-8 shrink-0"
+              onClick={() => {
+                router.push("/products");
+              }}
+            >
+              <ChevronLeft size={18} />
+            </Button>
             <h5 className="text-xl font-bold text-zinc-900">
 
               {id
@@ -230,7 +253,7 @@ const ProductFormContent = ({
             )}
           />
           <div className="space-y-4 mt-4">
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
               {/* Product Name name */}
               <FormField
@@ -310,7 +333,7 @@ const ProductFormContent = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-normal">
-                       Quantity
+                      Quantity
                       <span className="text-destructive">*</span>
                     </FormLabel>
                     <Input type="number" placeholder="Quantity" disabled={loading} className="placeholder:text-gray-270" {...field} />
@@ -319,12 +342,10 @@ const ProductFormContent = ({
                 )}
               />
             </div>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
-
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-               
-                {/* Product Price */}
-                <FormField
+              {/* Product Price */}
+              <FormField
                 control={form.control}
                 name="productPrice"
                 render={({ field }) => (
@@ -338,8 +359,10 @@ const ProductFormContent = ({
                   </FormItem>
                 )}
               />
-               {/* Offer Status */}
-               <FormField
+
+              {/* Offer Status */}
+              <div className="col-span-1 flex gap-20">
+              <FormField
                 control={form.control}
                 name="hasOffer"
                 render={({ field }) => (
@@ -349,13 +372,33 @@ const ProductFormContent = ({
                     </FormLabel>
                     <FormControl className="border-none">
                       <div>
-                      <Switch disabled={loading} checked={field.value} onCheckedChange={field.onChange} />
+                        <Switch disabled={loading} checked={field.value} onCheckedChange={field.onChange} />
                       </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+               {/*  */}
+               <FormField
+                control={form.control}
+                name="isFeatured"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-normal">
+                      Product Featured
+                    </FormLabel>
+                    <FormControl className="border-none">
+                      <div>
+                        <Switch disabled={loading} checked={field.value} onCheckedChange={field.onChange} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              </div>
 
               {/* Product Discount Percentage */}
               <FormField
@@ -378,31 +421,133 @@ const ProductFormContent = ({
                           field.onChange(value === "" ? undefined : Number(value));
                         }}
                       />
-               
-                      
+
+
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-               {/*  */}
-               <FormField
+             
+              {/* Product Colors and Sizes */}
+              <FormField
                 control={form.control}
-                name="isFeatured"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-normal">
-                     Product Featured 
-                    </FormLabel>
-                    <FormControl className="border-none">
-                      <div>
-                      <Switch disabled={loading} checked={field.value} onCheckedChange={field.onChange} />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                name="colors"
+                render={({ field }) => {
+                  const selectedColors = field.value ?? [];
+                  return (
+                    <FormItem>
+                      <FormLabel>Available Colours</FormLabel>
+
+                      {showSkeleton ? (
+                        <Skeleton className="h-24 w-full" />
+                      ) : (
+                        <div className="flex flex-wrap gap-2 rounded-md border p-3">
+                          {PRODUCT_COLORS.map((color) => {
+                            const selected = selectedColors.includes(color.name);
+                            return (
+                              <button
+                                key={color.name}
+                                type="button"
+                                disabled={loading}
+                                aria-pressed={selected}
+                                onBlur={field.onBlur}
+                                onClick={() => {
+                                  field.onChange(
+                                    selected
+                                      ? selectedColors.filter(
+                                        (name) => name !== color.name
+                                      )
+                                      : [...selectedColors, color.name]
+                                  );
+                                }}
+                                className={`inline-flex items-center gap-2 rounded-md
+                      border px-3 py-2 text-sm transition-colors
+                      disabled:cursor-not-allowed disabled:opacity-50 ${selected
+                                    ? "border-[#682C3E] bg-[#682C3E]/10 text-[#682C3E]"
+                                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                                  }`}
+                              >
+                                <span
+                                  aria-hidden="true"
+                                  className="h-4 w-4 rounded-full border border-gray-300"
+                                  style={{ backgroundColor: color.hex }}
+                                />
+
+                                {color.name}
+
+                                {selected && <span aria-hidden="true">✓</span>}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-500">
+                        Select all colours available for this product.
+                      </p>
+
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
+
+              <FormField
+                control={form.control}
+                name="sizes"
+                render={({ field }) => {
+                  const selectedSizes = field.value ?? [];
+
+                  return (
+                    <FormItem>
+                      <FormLabel>Available Sizes</FormLabel>
+
+                      {showSkeleton ? (
+                        <Skeleton className="h-24 w-full" />
+                      ) : (
+                        <div className="flex flex-wrap gap-2 rounded-md border p-3">
+                          {PRODUCT_SIZES.map((size) => {
+                            const selected = selectedSizes.includes(size);
+
+                            return (
+                              <button
+                                key={size}
+                                type="button"
+                                disabled={loading}
+                                aria-pressed={selected}
+                                onBlur={field.onBlur}
+                                onClick={() => {
+                                  field.onChange(
+                                    selected
+                                      ? selectedSizes.filter((value) => value !== size)
+                                      : [...selectedSizes, size]
+                                  );
+                                }}
+                                className={`min-w-[44px] rounded-md border px-3 py-2
+                      text-sm font-medium transition-colors
+                      disabled:cursor-not-allowed disabled:opacity-50 ${selected
+                                    ? "border-[#682C3E] bg-[#682C3E] text-white"
+                                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-50"
+                                  }`}
+                              >
+                                {size}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      <p className="text-xs text-gray-500">
+                        Select all available sizes. Leave empty if not applicable.
+                      </p>
+
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
+              
             </div>
 
             {/* Product Description */}

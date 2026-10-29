@@ -54,7 +54,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         {getLayout(
           <>
             <NextNProgress
-              color={"#0a82fd"}
+              color={"#682C3E"}
               options={{ showSpinner: false }}
               showOnShallow
               height={5}

@@ -35,16 +35,12 @@ const { LOGGED_IN_KEY, REMEMBER_ME } = appConfig;
 
 const LoginForm = () => {
   const router = useRouter();
-  const [rememberMe, setRememberMe] = useState<boolean>(true);
   const { setLoggedInState } = useLoggedInStore();
 
   const form = useForm<any>({
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
     reValidateMode: "onChange",
-    defaultValues: {
-      remember: true,
-    },
   });
 
   //FUNCTIONS
@@ -53,7 +49,6 @@ const LoginForm = () => {
     onSuccess: () => {
       form.reset();
       setCookie(LOGGED_IN_KEY, true, { maxAge: 60 * 60 * 24 });
-      setCookie(REMEMBER_ME, rememberMe);
       setLoggedInState(true);
       showToast(TOAST_TYPES.success, "Logged in Successfully.");
       router.push("/");
@@ -123,43 +118,6 @@ const LoginForm = () => {
           />
         </div>
 
-        <div className="flex justify-between items-center">
-          <FormField
-            control={form.control}
-            name="remember"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl className="!border-0">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(value) => {
-                        field.onChange(value);
-                        setRememberMe(value === true);
-                      }}
-                      variant="primary"
-                      id="terms"
-                    />
-                    <label
-                      htmlFor="terms"
-                      className="text-sm font-medium cursor-pointer text-zinc-700"
-                    >
-                      Remember Me
-                    </label>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Link
-            href={"/forgot-password"}
-            className="text-sm font-semibold text-gray-600 hover:text-primary"
-          >
-            Forgot Password?
-          </Link>
-        </div>
 
         <Button
           size={"lg"}

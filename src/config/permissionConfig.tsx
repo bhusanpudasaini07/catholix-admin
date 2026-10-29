@@ -1,9 +1,11 @@
 import {
   Box,
+  GiftIcon,
   LayoutDashboard,
   LayoutGrid,
   ListOrderedIcon,
   LucideLibrary,
+  Presentation,
 
 } from "lucide-react";
 
@@ -11,45 +13,68 @@ export const permissionConfig = {
   sidebarItems: [
     // Dashboard
     {
-      menuName: "common.side_nav.dashboard",
+      menuName: "Dashboard",
       icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: "common.side_nav.dashboard",
+          menuName: "Dashboard",
           menuSlug: "/",
           icon: <LayoutDashboard width={20} height={20} />,
         },
       ],
     },
     {
-      menuName: "common.side_nav.category",
+      menuName: "Banner",
+      icon: <Presentation width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: "Banner",
+          menuSlug: "/banner",
+          icon: <Presentation  width={20} height={20}/>
+        }
+      ],
+    },
+    {
+      menuName: "Category",
       icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: "common.side_nav.category",
+          menuName: "Category",
           menuSlug: "/categories",
           icon: <LucideLibrary  width={20} height={20}/>
         }
       ],
     },
+   
     {
-      menuName: "common.side_nav.products",
+      menuName: "Products",
       icon: <LayoutGrid width={20} height={20} />,
       subMenu: [
         {
-          menuName: "common.side_nav.products",
+          menuName: "Products",
           menuSlug: "/products",
           icon: <Box  width={20} height={20} />
         },
       ],
     },
+    {
+      menuName: "Bundles",
+      icon: <LayoutGrid width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: "Bundles",
+          menuSlug: "/bundles",
+          icon: <GiftIcon width={20} height={20} />
+        },
+      ],
+    },
 
     {
-      menuName: "common.side_nav.orders",
+      menuName: "Orders",
       icon: <ListOrderedIcon width={20} height={20} />,
       subMenu: [
         {
-          menuName: "common.side_nav.orders",
+          menuName: "Orders",
           menuSlug: "/orders",
           icon: <ListOrderedIcon width={20} height={20} />
         },

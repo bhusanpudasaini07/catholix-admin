@@ -47,6 +47,8 @@ const ProductFormSchema = z.object({
   hasDiscount: z.boolean({ required_error: "Please select a discount status." }).default(false),
   isFeatured: z.boolean({ required_error: "Please select a feature status." }).default(false),
   hasOffer: z.boolean({ required_error: "Please select a offer status." }).default(false),
+  colors: z.array(z.string()).default([]).optional(),
+  sizes: z.array(z.string()).default([]),
 }); 
 
 export { ProductFormSchema };

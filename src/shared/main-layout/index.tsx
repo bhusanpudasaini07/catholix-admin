@@ -1,10 +1,8 @@
 import Head from "next/head";
 import React, { useEffect, useState } from "react";
 
-import Header from "./header";
 import Sidebar from "./sidebar";
 import SidebarSheet from "./sidebar-sheet";
-import { cn } from "../utils/utils";
 import { AlertDialog, AlertDialogContent } from "../components/ui/alert-dialog";
 import { favIcon } from "../lib/image-config";
 

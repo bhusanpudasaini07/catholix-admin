@@ -6,7 +6,7 @@
       @apply transition-none;
     }
     &.active {
-      @apply bg-yellow-500 border-yellow-500 text-zinc-900;
+      @apply bg-primary border-primary text-white;
 
       // &::before {
       //   content: "";

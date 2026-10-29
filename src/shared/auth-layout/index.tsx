@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import {  favIcon } from "../lib/image-config";
 
-import authImage from "../../../public/auth-img.jpg";
+import authImage from "../../../public/auth-img.png";
 import Logo from "../../../public/logo.png";
 const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
@@ -22,13 +22,13 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           />
           <div className="flex absolute top-8 left-8 flex-col items-start p-10 w-full h-full text-white bg-opacity-50 2xl:top-10 2xl:left-10">
             <h1 className="mt-4 text-4xl 2xl:text-6xl font-bold  2xl:leading-[78px] tracking-wide">
-              Intelligence
+              That's the Spirit
             </h1>
             <h2 className="text-4xl 2xl:text-6xl font-bold leading-[80px] 2xl:leading-[120px] tracking-wide">
               Dashboard
             </h2>
             <p className="text-4xl font-medium tracking-wide 2xl:text-4xl">
-              By MDM
+              By Catholic
             </p>
           </div>
         </div>

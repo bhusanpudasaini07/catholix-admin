@@ -19,7 +19,7 @@ import { httpMethods } from "@/enums";
   };
 
   const updateBanner = (id: string, banner: any) => {
-    return httpRequest(`/banners/${id}`, httpMethods.PUT, banner, {
+    return httpRequest(`/banners/${id}`, httpMethods.PATCH, banner, {
       "Content-Type": "multipart/form-data",
     });
   };

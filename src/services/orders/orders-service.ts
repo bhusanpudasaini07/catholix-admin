@@ -18,9 +18,14 @@ const getOrderDetail = (id: any) => {
   return httpRequest(`/orders/${id}`, httpMethods.GET);
 };
 
+const updateOrderStatus = (id: string, status: string) => {
+  return httpRequest(`/orders/${id}/status`, httpMethods.PATCH, { status });
+};
+
 
 export {
   getAllOrders,
   deleteOrder,
   getOrderDetail,
+  updateOrderStatus,
 };

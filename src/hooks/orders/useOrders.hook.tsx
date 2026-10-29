@@ -2,7 +2,14 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../../shared/components/ui/button";
-import { Eye, PencilLine, Trash2 } from "lucide-react";
+import { Eye } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select";
 import {
   showToast,
   TOAST_TYPES,
@@ -10,14 +17,17 @@ import {
 import { constants } from "../../constants";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { deleteOrder, getAllOrders, getOrderDetail } from "@/services/orders/orders-service";
+import { deleteOrder, getAllOrders, getOrderDetail, updateOrderStatus } from "@/services/orders/orders-service";
 import moment from "moment";
+import { STATUS_OPTIONS } from "@/features/Orders/order-details/order-details";
 
 const { SOMETHING_WENT_WRONG } = constants.messages;
 
 export const useOrders = () => {
   const router = useRouter();
-  const routeOrderId = router.query.ordersId;
+  const routeOrderId = Array.isArray(router.query.ordersId)
+    ? router.query.ordersId[0]
+    : router.query.ordersId;
 
   const queryClient = useQueryClient();
 
@@ -49,6 +59,30 @@ export const useOrders = () => {
     queryKey: ["ordersbyId", routeOrderId],
     enabled: !!routeOrderId,
   });
+
+  const updateOrderStatusMutation = useMutation({
+    mutationFn: (data: any) =>
+      updateOrderStatus(data.id || routeOrderId, data.status),
+    onSuccess: () => {
+      showToast(TOAST_TYPES.success, "Order status updated");
+      queryClient.invalidateQueries(["ordersbyId", routeOrderId]);
+      queryClient.invalidateQueries("orders");
+    },
+    onError: (error: any) => {
+      const message = Array.isArray(error?.message)
+        ? error.message.join(", ")
+        : error?.message;
+      showToast(TOAST_TYPES.error, message || SOMETHING_WENT_WRONG);
+    },
+  });
+
+  const handleUpdateOrderStatus = (id: string, status: string) => {
+    const payload = {
+      id,
+      status,
+    };
+    updateOrderStatusMutation.mutate(payload);
+  };
 
   
 
@@ -118,7 +152,24 @@ export const useOrders = () => {
       maxSize: 20,
       cell: ({ row }) => (
         <div >
-          {row?.original?.orderStatus}
+           <Select
+                    value={row?.original?.orderStatus}
+                    onValueChange={(value) =>
+                      handleUpdateOrderStatus(row?.original?.id, value)
+                    }
+                    disabled={updateOrderStatusMutation.isLoading}
+                  >
+                    <SelectTrigger className="h-9 w-[180px]">
+                      <SelectValue placeholder="Update status" />
+                    </SelectTrigger>
+                    <SelectContent className="z-[999999] bg-white">
+                      {STATUS_OPTIONS.map((option: any) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
         </div>
       ),
     }, 
@@ -205,5 +256,6 @@ deleteOrderMutation,
     orderLoading,
     orderDetail,
     orderDetailLoading,
+    updateOrderStatusMutation,
   };
 };

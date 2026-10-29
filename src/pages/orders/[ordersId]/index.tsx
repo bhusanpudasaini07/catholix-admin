@@ -1,5 +1,4 @@
 import ViewOrderDetails from "@/features/Orders/order-details/order-details";
-import { useOrders } from "@/hooks/orders/useOrders.hook";
 import { NextPageWithLayout } from "@/pages/_app";
 import MainLayout from "@/shared/main-layout";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

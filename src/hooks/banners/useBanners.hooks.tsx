@@ -33,7 +33,9 @@ export interface IBanner {
 
 export const useBanners = () => {
   const router = useRouter();
-  const routeBannerId = router.query.bannerId;
+  const routeBannerId = Array.isArray(router.query.bannerId)
+    ? router.query.bannerId[0]
+    : router.query.bannerId;
   const queryClient = useQueryClient();
   const form = useForm<any>({
     resolver: zodResolver(BannerFormSchema),
@@ -74,15 +76,10 @@ export const useBanners = () => {
       queryClient.invalidateQueries("banners");
     },
     onError: (error: any) => {
-      if (error?.message?.map) {
-        error.message.map((err: any) => {
-          form.setError(err?.name, {
-            message: err?.errors[0],
-          });
-        });
-      } else {
-        showToast(TOAST_TYPES.error, error?.message || SOMETHING_WENT_WRONG);
-      }
+      const message = Array.isArray(error?.message)
+        ? error.message.join(", ")
+        : error?.message;
+      showToast(TOAST_TYPES.error, message || SOMETHING_WENT_WRONG);
     },
   });
 

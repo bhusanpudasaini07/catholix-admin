@@ -37,7 +37,6 @@ const ViewCategories = ({
   perPage
 }: IProps) => {
 
-  console.log(categoryList);
   return (
 
     <>

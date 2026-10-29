@@ -69,7 +69,7 @@ export const clearAllSessionAndLocalStates = () => {
 const httpRequest = async (
   url: string,
   method: httpMethods,
-  data?: Record<string, any>,
+  data?: Record<string, any> | FormData,
   headers = {
     "Content-Type": "application/json",
   },

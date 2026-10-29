@@ -2,9 +2,11 @@ import { useQuery } from "react-query";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+import { Upload } from "lucide-react";
 
 import { IBundlePayload } from "@/interface/bundle-interface";
 import { BundleFormValues } from "@/schema/bundle-schema";
+import { uploadImage } from "@/services/bundles/bundle-service";
 import { getAllProducts } from "@/services/products/product-service";
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent } from "@/shared/components/ui/card";
@@ -72,7 +74,36 @@ const BundleFormContent = ({
 }: IProps) => {
   const router = useRouter();
   const [productSearch, setProductSearch] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadError, setUploadError] = useState("");
   const imageUrl = form.watch("imageUrl");
+  const busy = loading || uploadingImage;
+
+  const handleImageUpload = async (file?: File) => {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    setUploadingImage(true);
+    setUploadError("");
+
+    try {
+      const result = await uploadImage(formData);
+      const url = result?.imageUrl || result?.data?.imageUrl || "";
+      if (!url) {
+        setUploadError("Image upload did not return a URL.");
+        return;
+      }
+      form.setValue("imageUrl", url, { shouldValidate: true, shouldDirty: true });
+    } catch (error: any) {
+      const message = Array.isArray(error?.message)
+        ? error.message.join(", ")
+        : error?.message;
+      setUploadError(message || "Could not upload the image.");
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const { data: productResponse, isLoading: productsLoading } = useQuery({
     queryKey: ["products-for-bundles"],
@@ -222,17 +253,28 @@ const BundleFormContent = ({
             <FormField
               control={form.control}
               name="imageUrl"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
-                  <FormLabel className="font-normal">Image URL</FormLabel>
+                  <FormLabel className="font-normal">Bundle image</FormLabel>
                   <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="https://example.com/bundle.jpg"
-                      {...field}
-                      value={field.value ?? ""}
-                    />
+                    <label className="flex h-11 cursor-pointer items-center gap-2 rounded-md border px-3 text-sm text-zinc-600">
+                      <Upload className="h-4 w-4" />
+                      {uploadingImage ? "Uploading..." : "Choose an image"}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/jpg,image/webp,image/gif"
+                        className="hidden"
+                        disabled={busy}
+                        onChange={(event) => {
+                          void handleImageUpload(event.target.files?.[0]);
+                          event.target.value = "";
+                        }}
+                      />
+                    </label>
                   </FormControl>
+                  {uploadError ? (
+                    <p className="text-sm text-destructive">{uploadError}</p>
+                  ) : null}
                   <FormMessage />
                 </FormItem>
               )}
@@ -341,8 +383,8 @@ const BundleFormContent = ({
               <Button
                 type="submit"
                 variant="primary"
-                loading={loading}
-                disabled={loading}
+                loading={busy}
+                disabled={busy}
               >
                 {submitLabel}
               </Button>
@@ -350,7 +392,7 @@ const BundleFormContent = ({
                 type="button"
                 variant="secondary"
                 onClick={() => router.push("/bundles")}
-                disabled={loading}
+                disabled={busy}
               >
                 Cancel
               </Button>

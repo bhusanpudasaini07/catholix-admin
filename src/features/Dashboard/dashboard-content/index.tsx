@@ -13,8 +13,8 @@ import { useRouter } from "next/router";
 import React from "react";
 
 import { useCommonStore } from "@/store/common-store";
-import DashboardTime from "./dashboard-time";
 import { Card } from "@/shared/components/ui/card";
+import { useDashboard } from "@/hooks/dashboard/useDashboard.hook";
 
 const MapContent = dynamic(import("./dashboard-map"), {
   ssr: false,
@@ -24,28 +24,28 @@ const MapContent = dynamic(import("./dashboard-map"), {
 const DashboardContent = () => {
   const router = useRouter();
   const { profileData } = useCommonStore();
+  const { dashboardData, dashboardLoading } = useDashboard();
 
-  console.log(profileData);
 
   const dashboardCards = [
     {
       title: "Products",
-      value: 45,
+      value: dashboardData?.data?.totalProducts,
       icon: <ShoppingBag className="w-20 h-20" />,
     },
     {
       title: "Categories",
-      value: 10,
+      value: dashboardData?.data?.totalCategories,
       icon: <Library className="w-20 h-20" />,
     },
     {
       title: "Bundles",
-      value: 2,
+      value: dashboardData?.data?.totalBundles || 0,
       icon: <Gift className="w-20 h-20" />,
     },
     {
       title: "Orders",
-      value: 11,
+      value: dashboardData?.data?.totalOrders,
       icon: <ShoppingCart className="w-20 h-20" />,
     },
 

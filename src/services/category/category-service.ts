@@ -2,21 +2,6 @@ import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 import { ICategoryPost } from "@/interface/category-interface";
 
-// const getAllCategory = (
-//   page: number,
-//   limit: number,
-//   keywords?: string,
-//   roleId?: string
-// ) => {
-//   const queryParams = [];
-//   if (keywords) queryParams.push(`keywords=${keywords}`);
-//   if (roleId) queryParams.push(`roleId=${roleId}`);
-//   const queryString = queryParams.join("&");
-//   const finalUrl = `/categories?page=${page}&limit=${limit}${
-//     queryString ? `&${queryString}` : ""
-//   }`;
-//   return httpRequest(finalUrl, httpMethods.GET);
-// };
 
 const getAllCategory = async (search: string, page: number, perPage: number) => {
   const response = await httpRequest(`/categories?search=${search}&page=${page}&limit=${perPage}`, httpMethods.GET);

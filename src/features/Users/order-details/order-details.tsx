@@ -9,7 +9,6 @@ const ViewOrderDetails = () => {
 
     const router = useRouter();
     const { orderDetail } = useOrders();
-    console.log("orderDetail", orderDetail);
     return (
         <Card>
             <CardContent>

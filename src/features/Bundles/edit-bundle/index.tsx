@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/router";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 
@@ -31,6 +31,7 @@ const EditBundleForm = () => {
     queryKey: ["bundleById", bundleId],
     queryFn: () => getBundleDetail(bundleId as string),
     enabled: !!bundleId,
+    refetchOnWindowFocus: false,
   });
 
   const form = useForm<BundleFormValues>({
@@ -49,13 +50,18 @@ const EditBundleForm = () => {
   });
 
   const bundle = getBundleRecord(bundleDetail);
+  const loadedBundleId = useRef("");
 
   useEffect(() => {
     if (!bundle?.id && !bundle?.name) return;
+    const nextId = String(bundle.id ?? bundleId ?? "");
+    if (!nextId || loadedBundleId.current === nextId) return;
+
     const status = ["draft", "active", "inactive"].includes(bundle.status)
       ? (bundle.status as BundleStatus)
       : "draft";
 
+    loadedBundleId.current = nextId;
     form.reset({
       name: bundle.name || "",
       description: bundle.description ?? "",
@@ -70,7 +76,7 @@ const EditBundleForm = () => {
           }))
         : [],
     });
-  }, [bundleDetail, form]);
+  }, [bundle, bundleId, form]);
 
   const onSubmit: SubmitHandler<BundleFormValues> = (data) => {
     editBundleMutation.mutate(toBundlePayload(data));

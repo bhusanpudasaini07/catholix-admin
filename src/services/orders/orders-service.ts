@@ -3,6 +3,9 @@ import { httpMethods } from "@/enums";
 
 
 
+const getAllDashboard = ()=> {
+  return httpRequest(`/dashboard/summary`, httpMethods.GET);
+};
 const getAllOrders = (search: string, page: number, perPage: number) => {
   return httpRequest(`/orders?search=${search}&page=${page}&limit=${perPage}`, httpMethods.GET);
 };
@@ -28,4 +31,5 @@ export {
   deleteOrder,
   getOrderDetail,
   updateOrderStatus,
+  getAllDashboard
 };

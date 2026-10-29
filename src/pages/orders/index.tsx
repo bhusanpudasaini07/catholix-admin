@@ -17,7 +17,6 @@ const OrdersTable: NextPageWithLayout = () => {
   //products list Api
   const { orderList, orderLoading, orderColumns, orderId, deleteModalOpen, setDeleteModalOpen, deleteOrderMutation, pageChangeHandler, perPageHandler ,handleSearch, search, perPage, handleReset} = useOrders();
 
-  console.log(orderList?.data);
   return (
     <div className="page">
       <PageHeader

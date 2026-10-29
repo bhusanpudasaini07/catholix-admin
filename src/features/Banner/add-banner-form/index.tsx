@@ -92,7 +92,6 @@ const AddBannerForm = () => {
       image.onload = () => {
         const { naturalWidth, naturalHeight } = image;
         URL.revokeObjectURL(objectUrl);
-        console.log(naturalWidth, naturalWidth > BANNER_WIDTH && naturalHeight > BANNER_HEIGHT);
         if (naturalWidth < BANNER_WIDTH && naturalHeight < BANNER_HEIGHT) {
           resolve(
             `Banner must be greater than ${BANNER_WIDTH} × ${BANNER_HEIGHT} pixels. `

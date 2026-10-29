@@ -39,7 +39,6 @@ const CategoriesFormContent = ({
   const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
   const maxSize = 5;
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
     const file: any = event.target.files?.[0];
     let newErrorMessage: string = "";
 

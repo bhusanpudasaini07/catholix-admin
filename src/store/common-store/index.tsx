@@ -1,5 +1,4 @@
 // import { IProfile } from "@/interface/profile-interface";
-import { IFilterConfig } from "@/interface/common-interface";
 import { create } from "zustand";
 
 interface ICommonStoreProps {
@@ -21,10 +20,6 @@ export const useCommonStore = create<ICommonStoreProps>((set, get) => ({
     lastName: "",
     contact: null,
     avatar: null,
-    isTwoFAEnabled: false,
-    regionId: null,
-    stateId: null,
-    localGovId: [],
     role: {
       id: null,
       name: "",

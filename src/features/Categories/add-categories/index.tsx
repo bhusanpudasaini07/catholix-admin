@@ -6,7 +6,6 @@ import { CategoryFormSchema } from "@/schema/category-schema";
 import { Form } from "@/shared/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { constants } from "@/constants";
 import CategoriesFormContent from "../form-content";
 import { useCategory } from "../../../hooks/categories/useCategory.hook";
 

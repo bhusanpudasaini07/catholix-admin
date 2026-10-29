@@ -1,64 +1,42 @@
 import httpRequest from "@/axios/axiosInstance";
 import { httpMethods } from "@/enums";
 
-const getDeviceStats = () => {
-  return httpRequest("/dashboard/device-stats", httpMethods.GET);
-};
+  const getDeviceStats = () => {
+    return httpRequest("/dashboard/device-stats", httpMethods.GET);
+  };
+  const getBanner = async (search: string, page: number, perPage: number) => {
+    const response = await httpRequest(
+      `/banners?search=${search}&page=${page}&limit=${perPage}`,
+      httpMethods.GET,
+    );
+    return response?.data;
+  };
 
-const getDeviceMapData = (region: string, state: string, lga: string) => {
-  return httpRequest("/dashboard/device-map-data", httpMethods.GET, {
-    params: {
-      region,
-      state,
-      lga,
-    },
-  });
-};
+  const createBanner = (banner: any) => {
+    return httpRequest("/banners", httpMethods.POST, banner, {
+      "Content-Type": "multipart/form-data",
+    });
+  };
 
-const getDealerMapData = (
-  region: string,
-  state: string,
-  lga: string,
-  southwest: string,
-  northeast: string
-) => {
-  return httpRequest("/dashboard/dealer-map-data", httpMethods.GET, {
-    params: {
-      region,
-      state,
-      lga,
-      southwest,
-      northeast,
-    },
-  });
-};
+  const updateBanner = (id: string, banner: any) => {
+    return httpRequest(`/banners/${id}`, httpMethods.PUT, banner, {
+      "Content-Type": "multipart/form-data",
+    });
+  };
 
-const getAgentMapData = (
-  region: string,
-  state: string,
-  lga: string,
-  southwest: string,
-  northeast: string,
-  zoom_level: number
-) => {
-  return httpRequest("/dashboard/agent-map-data", httpMethods.GET, {
-    params: {
-      region,
-      state,
-      lga,
-      southwest,
-      northeast,
-      zoom_level,
-    },
-  });
-};
+  const getBannerById = (id: string) => {
+    return httpRequest(`/banners/${id}`, httpMethods.GET);
+  };
 
-
-
+  const deleteBanner = (id: string) => {
+    return httpRequest(`/banners/${id}`, httpMethods.DELETE);
+  };
 export {
+ 
   getDeviceStats,
-  getDeviceMapData,
-  getDealerMapData,
-  getAgentMapData,
-
+  getBanner,
+  createBanner,
+  updateBanner,
+  deleteBanner,
+  getBannerById
 };

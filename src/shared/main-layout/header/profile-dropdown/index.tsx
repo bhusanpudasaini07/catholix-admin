@@ -152,7 +152,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
           </div>
         </DropdownMenuGroup>
 
-        <DropdownMenuGroup className="px-3">
+        {/* <DropdownMenuGroup className="px-3">
           <DropdownMenuItem
             onClick={() => changeRoute("/profile")}
             className="flex items-center gap-2 px-3 py-2.5 cursor-pointer text-zinc-700"
@@ -175,7 +175,7 @@ const ProfileDropdown: FC<IProps> = ({ IsExpanded }) => {
             <LogOutIcon size={16} />
             Logout
           </DropdownMenuItem>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );

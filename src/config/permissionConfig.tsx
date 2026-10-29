@@ -6,7 +6,7 @@ import {
   ListOrderedIcon,
   LucideLibrary,
   Presentation,
-
+  Users,
 } from "lucide-react";
 
 export const permissionConfig = {
@@ -77,6 +77,17 @@ export const permissionConfig = {
           menuName: "Orders",
           menuSlug: "/orders",
           icon: <ListOrderedIcon width={20} height={20} />
+        },
+      ],
+    },
+    {
+      menuName: "Users",
+      icon: <Users width={20} height={20} />,
+      subMenu: [
+        {
+          menuName: "Users",
+          menuSlug: "/users",
+          icon: <Users width={20} height={20} />
         },
       ],
     },
